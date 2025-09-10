@@ -5,14 +5,13 @@ tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 addr = ('localhost', 9999)
 
 try:
-    tcp_socket.connect(addr)
-    print(f"Успешно подключено")
-
     a = input("Введите длину первого катета (a): ")
     b = input("Введите длину второго катета (b): ")
 
+    tcp_socket.connect(addr)
+    print(f"Успешно подключено")
     message = f"{a},{b}"
-    tcp_socket.send(message.encode('utf-8'))
+    tcp_socket.sendall(message.encode('utf-8'))
 
     result = tcp_socket.recv(1024).decode('utf-8')
     print(f"Результат от сервера: {result}")

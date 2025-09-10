@@ -25,7 +25,7 @@ while True:
         result = str(c)
         print(f"Вычислен результат: {result}")
 
-        client_socket.send(result.encode('utf-8'))
+        client_socket.sendall(result.encode('utf-8'))
 
     except ValueError:
         error_message = "Ошибка: Неверный формат данных. Ожидались два числа через запятую."
