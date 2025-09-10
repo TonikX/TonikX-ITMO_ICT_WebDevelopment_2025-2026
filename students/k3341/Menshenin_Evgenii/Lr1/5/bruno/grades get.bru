@@ -1,0 +1,15 @@
+meta {
+  name: grades get
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8081/grades
+  body: json
+  auth: none
+}
+
+settings {
+  encodeUrl: true
+}
