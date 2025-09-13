@@ -5,8 +5,8 @@ from utils import server_address
 clients = []  # Список для хранения сокетов всех клиентов
 
 
-# Функция для рассылки сообщений всем клиентам, кроме отправителя
 def broadcast(message, sender_connection):
+    """Функция для рассылки сообщений всем клиентам, кроме отправителя"""
     for client_conn in clients:
         try:
             if sender_connection is not client_conn:
@@ -17,8 +17,8 @@ def broadcast(message, sender_connection):
             client_conn.close()
 
 
-# Функция для обработки сообщений от одного клиента
 def handle_client(connection, address):
+    """Функция для обработки сообщений от клиента"""
     print(f'[НОВОЕ ПОДКЛЮЧЕНИЕ] {address} подключился.')
 
     while True:
@@ -44,6 +44,8 @@ def handle_client(connection, address):
 
 # Основная часть сервера
 def start_server():
+    """Функция для создания TCP сокета сервера, к которому происходит подключение,
+    и запуска обработки новых клиентов в отдельных потоках"""
     # Создаем TCP сокет
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(server_address)

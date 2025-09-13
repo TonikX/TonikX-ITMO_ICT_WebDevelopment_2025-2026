@@ -1,10 +1,9 @@
 import socket
-import sys
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs
 
 
 class MyHTTPServer:
-    # Параметры сервера
+    """Класс для создания веб-сервера для обработки GET и POST HTTP-запросов"""
 
     def __init__(self, host='localhost', port=8080):
         self.host = host
@@ -15,34 +14,32 @@ class MyHTTPServer:
         """1. Запуск сервера на сокете, обработка входящих соединений"""
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            server_socket.bind((self.host, self.port))
+            server_socket.listen(1)
+            print(f'Сервер запущен на http://{self.host}:{self.port}')
 
-        # try:
-        server_socket.bind((self.host, self.port))
-        server_socket.listen(1)
-        print(f'Сервер запущен на http://{self.host}:{self.port}')
-
-        while True:
-            # Ожидаем клиентское подключение
-            connection, client_address = server_socket.accept()
-            print(f"Подключен клиент: {client_address}")
-            # try:
-            self.serve_client(connection)
-            # except Exception as e:
-            #     print(f"Ошибка при обработке клиента: {e}")
-            # finally:
-            connection.close()
-        # finally:
-        server_socket.close()
+            while True:
+                connection, client_address = server_socket.accept()
+                print(f"Подключен клиент: {client_address}")
+                try:
+                    self.serve_client(connection)
+                except Exception as e:
+                    print(f"Ошибка при обработке клиента: {e}")
+                finally:
+                    connection.close()
+        finally:
+            server_socket.close()
 
     def serve_client(self, connection):
         """2. Обработка клиентского подключения"""
         # Используем makefile для удобного чтения данных из сокета
         rfile = connection.makefile('rb')
 
-        # 3. Парсим первую строку запроса (метод, URL, версия)
+        # Парсим первую строку запроса (метод, URL, версия)
         method, path, version = self.parse_request(rfile)
 
-        # 4. Парсим заголовки
+        # Парсим заголовки
         headers = self.parse_headers(rfile)
 
         # Читаем тело запроса, если оно есть (для POST)
@@ -54,10 +51,10 @@ class MyHTTPServer:
             except (ValueError, TypeError):
                 print("Неверное значение Content-Length")
 
-        # 5. Обрабатываем запрос и получаем компоненты ответа
+        # Обрабатываем запрос и получаем компоненты ответа
         response_code, response_reason, response_headers, response_body = self.handle_request(method, path, body)
 
-        # 6. Отправляем ответ клиенту
+        # Отправляем ответ клиенту
         self.send_response(connection, response_code, response_reason, response_headers, response_body)
 
     def parse_request(self, rfile):
@@ -99,7 +96,6 @@ class MyHTTPServer:
         В случае данной работы, нужно будет создать набор условий,
         который обрабатывает GET или POST запрос. GET запрос должен возвращать данные.
         POST запрос должен записывать данные на основе переданных параметров."""
-        # GET-запрос на главную страницу
         if method == 'GET' and path == '/':
             html_content = self._generate_html_page()
             body_bytes = html_content.encode('utf-8')
@@ -109,9 +105,7 @@ class MyHTTPServer:
             }
             return 200, 'OK', headers, body_bytes
 
-        # POST-запрос на добавление оценки
         elif method == 'POST' and path == '/add_grade':
-            # Парсим тело POST-запроса
             data_str = body.decode('utf-8')
             parsed_data = parse_qs(data_str)
 
@@ -125,8 +119,6 @@ class MyHTTPServer:
             # Делаем редирект на главную страницу
             headers = {'Location': '/'}
             return 303, 'See Other', headers, b''
-
-        # Если страница не найдена
         else:
             body_bytes = b"404 Not Found"
             headers = {
