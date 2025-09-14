@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Документация с отчётом по лабораторной работе 1">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Отчёт — Лабораторная работа 1</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Отчёт — Лабораторная работа 1</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#1" class="nav-link">Отчёт по лабораторной работе 1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#1-task1py" class="nav-link">Задание 1 — task1.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-task2py" class="nav-link">Задание 2 — task2.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-task3py-indexhtml" class="nav-link">Задание 3 — task3.py и index.html</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4-task4py" class="nav-link">Задание 4 — task4.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5-task5py" class="nav-link">Задание 5 — task5.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#_1" class="nav-link">Вывод</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="1">Отчёт по лабораторной работе 1</h1>
+<p>Ниже приведены исходные коды заданий и краткие описания реализации (по каждому файлу в папке <code>laboratory_work_1</code>). Код вставлен полностью.</p>
+<hr />
+<h2 id="1-task1py">Задание 1 — <code>task1.py</code></h2>
+<p>Код задания:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Как использовать (в двух терминалах):
+
+Запустить сервер:
+   python3 task1.py --server
+
+В другом терминале запустить клиент:
+   python3 task1.py --client
+
+Остальные команды описаны в python task1.py --help
+&quot;&quot;&quot;
+
+import argparse
+import socket
+import sys
+import time
+
+
+HOST = '127.0.0.1'
+PORT = 9999
+
+
+def run_server(host: str = HOST, port: int = PORT) -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.bind((host, port))
+        print(f&quot;Server listening on {host}:{port}&quot;)
+        try:
+            data, addr = sock.recvfrom(1024)
+            print(f&quot;Received from {addr}: {data.decode()}&quot;)
+            reply = &quot;Hello, client&quot;
+            sock.sendto(reply.encode(), addr)
+            print(f&quot;Sent reply to {addr}: {reply}&quot;)
+        except KeyboardInterrupt:
+            print(&quot;Server interrupted by user&quot;)
+
+
+def run_client(host: str = HOST, port: int = PORT, timeout: float = 5.0) -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(timeout)
+        message = &quot;Hello, server&quot;
+        try:
+            sock.sendto(message.encode(), (host, port))
+            print(f&quot;Sent to {host}:{port}: {message}&quot;)
+            data, addr = sock.recvfrom(1024)
+            print(f&quot;Received from {addr}: {data.decode()}&quot;)
+        except socket.timeout:
+            print(&quot;No response received (timeout)&quot;)
+        except Exception as e:
+            print(f&quot;Client error: {e}&quot;)
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description='UDP client/server demo')
+    group = p.add_mutually_exclusive_group(required=True)
+    group.add_argument('--server', action='store_true', help='Run as server')
+    group.add_argument('--client', action='store_true', help='Run as client')
+    p.add_argument('--host', default=HOST, help='Host to bind/connect (default: 127.0.0.1)')
+    p.add_argument('--port', type=int, default=PORT, help=f'Port (default: {PORT})')
+    return p.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    if args.server:
+        try:
+            run_server(args.host, args.port)
+        except Exception as e:
+            print(f&quot;Server error: {e}&quot;)
+            sys.exit(1)
+    elif args.client:
+        try:
+            # small sleep in case server was just started in another process
+            time.sleep(0.1)
+            run_client(args.host, args.port)
+        except Exception as e:
+            print(f&quot;Client error: {e}&quot;)
+            sys.exit(1)
+
+</code></pre>
+<p>Реализация (кратко):</p>
+<ul>
+<li>Простой демонстрационный UDP-сервер и клиент. Сервер слушает один пакет методом recvfrom и отвечает строкой "Hello, client".</li>
+<li>Клиент отправляет один UDP-пакет и ожидает ответ с таймаутом.</li>
+</ul>
+<hr />
+<h2 id="2-task2py">Задание 2 — <code>task2.py</code></h2>
+<p>Код задания:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Как использовать (в двух терминалах):
+
+Запустить сервер:
+   python3 task2.py --server
+
+В другом терминале запустить клиент:
+   python3 task2.py --client
+
+Остальные команды описаны в python task2.py --help
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import math
+import socket
+from typing import Tuple
+
+HOST = '127.0.0.1'
+PORT = 10000
+BUFFER_SIZE = 1024
+
+
+def parse_pair(s: str) -&gt; Tuple[float, float]:
+    s = s.strip()
+    if not s:
+        raise ValueError(&quot;empty input&quot;)
+    for sep in (',', None):
+        try:
+            parts = s.split(sep) if sep is not None else s.split()
+            if len(parts) != 2:
+                continue
+            a, b = float(parts[0]), float(parts[1])
+            return a, b
+        except Exception:
+            continue
+    raise ValueError(f&quot;could not parse two numbers from: '{s}'&quot;)
+
+
+def run_server(host: str = HOST, port: int = PORT) -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
+        srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        srv.bind((host, port))
+        srv.listen()
+        print(f&quot;Server listening on {host}:{port}&quot;)
+        try:
+            while True:
+                conn, addr = srv.accept()
+                with conn:
+                    print(f&quot;Connection from {addr}&quot;)
+                    data = b&quot;&quot;
+                    try:
+                        data = conn.recv(BUFFER_SIZE)
+                        if not data:
+                            print(&quot;No data received, closing connection&quot;)
+                            continue
+                        line = data.decode().strip()
+                        print(f&quot;Received: {line}&quot;)
+                        try:
+                            a, b = parse_pair(line)
+                            hyp = math.hypot(a, b)
+                            resp = f&quot;{hyp}\n&quot;
+                        except ValueError as e:
+                            resp = f&quot;ERROR: {e}\n&quot;
+                        conn.sendall(resp.encode())
+                        print(f&quot;Sent: {resp.strip()}&quot;)
+                    except Exception as e:
+                        print(f&quot;Error handling client {addr}: {e}&quot;)
+        except KeyboardInterrupt:
+            print(&quot;Server interrupted by user, exiting&quot;)
+
+
+def run_client(host: str = HOST, port: int = PORT, timeout: float = 5.0) -&gt; None:
+    print(&quot;Enter two lengths for a right triangle.&quot;)
+    try:
+        a_str = input(&quot;First lengths (a): &quot;).strip()
+        b_str = input(&quot;Second lengths (b): &quot;).strip()
+        try:
+            a, b = parse_pair(f&quot;{a_str} {b_str}&quot;)
+        except ValueError:
+            try:
+                a, b = parse_pair(a_str)
+            except ValueError:
+                raise
+    except Exception as e:
+        print(f&quot;Input error: {e}&quot;)
+        return
+
+    msg = f&quot;{a} {b}\n&quot;
+    try:
+        with socket.create_connection((host, port), timeout=timeout) as s:
+            s.sendall(msg.encode())
+            print(f&quot;Sent to {host}:{port}: {a} {b}&quot;)
+            data = s.recv(BUFFER_SIZE)
+            if not data:
+                print(&quot;No response from server&quot;)
+                return
+            resp = data.decode().strip()
+            if resp.startswith(&quot;ERROR:&quot;):
+                print(f&quot;Server error: {resp}&quot;)
+            else:
+                try:
+                    val = float(resp)
+                    print(f&quot;Hypotenuse: {val}&quot;)
+                except Exception:
+                    print(f&quot;Unexpected server reply: {resp}&quot;)
+    except Exception as e:
+        print(f&quot;Client error: {e}&quot;)
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description='TCP client/server for Pythagoras theorem')
+    group = p.add_mutually_exclusive_group(required=True)
+    group.add_argument('--server', action='store_true', help='Run as server')
+    group.add_argument('--client', action='store_true', help='Run as client')
+    p.add_argument('--host', default=HOST, help=f'Host (default: {HOST})')
+    p.add_argument('--port', type=int, default=PORT, help=f'Port (default: {PORT})')
+    p.add_argument('--timeout', type=float, default=5.0, help='Client timeout in seconds')
+    return p.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    if args.server:
+        try:
+            run_server(args.host, args.port)
+        except Exception as e:
+            print(f&quot;Server error: {e}&quot;)
+            exit(1)
+    elif args.client:
+        try:
+            run_client(args.host, args.port, timeout=args.timeout)
+        except Exception as e:
+            print(f&quot;Client error: {e}&quot;)
+            exit(1)
+
+</code></pre>
+<p>Реализация (кратко):</p>
+<ul>
+<li>TCP-сервер, принимающий строку с двумя числами (через пробел или запятую), вычисляет гипотенузу (math.hypot) и возвращает результат клиенту.</li>
+<li>Клиент собирает ввод пользователя, отправляет серверу и печатает ответ.</li>
+</ul>
+<hr />
+<h2 id="3-task3py-indexhtml">Задание 3 — <code>task3.py</code> и <code>index.html</code></h2>
+<p>Код задания (<code>task3.py</code>):</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Simple HTTP server
+
+Использование:
+  python3 task3.py --host 127.0.0.1 --port 8000
+
+Остальные команды описаны в python task3.py --help
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import os
+import socket
+from typing import Tuple
+
+HOST = '127.0.0.1'
+PORT = 8000
+BUFFER_SIZE = 4096
+
+
+def build_http_response(body: bytes, status_code: int = 200, content_type: str = 'text/html; charset=utf-8') -&gt; bytes:
+    reason = {200: 'OK', 404: 'Not Found', 400: 'Bad Request'}.get(status_code, 'OK')
+    headers = [
+        f'HTTP/1.1 {status_code} {reason}',
+        f'Content-Type: {content_type}',
+        f'Content-Length: {len(body)}',
+        'Connection: close',
+        '\r\n'
+    ]
+    return '\r\n'.join(headers).encode() + body
+
+
+def handle_request(conn: socket.socket, addr: Tuple[str, int], root_dir: str) -&gt; None:
+    try:
+        data = conn.recv(BUFFER_SIZE)
+        if not data:
+            return
+        text = data.decode(errors='ignore')
+        first_line = text.splitlines()[0] if text.splitlines() else ''
+        parts = first_line.split()
+        if len(parts) &lt; 3:
+            resp = build_http_response(b'Bad Request', status_code=400, content_type='text/plain')
+            conn.sendall(resp)
+            return
+        method, path, _ = parts
+        if method != 'GET':
+            resp = build_http_response(b'Method Not Allowed', status_code=400, content_type='text/plain')
+            conn.sendall(resp)
+            return
+
+        if path == '/':
+            path = '/index.html'
+        # prevent path traversal
+        safe_path = os.path.normpath(path).lstrip('/')
+        full_path = os.path.join(root_dir, safe_path)
+        if not os.path.commonpath([os.path.abspath(full_path), os.path.abspath(root_dir)]) == os.path.abspath(root_dir):
+            resp = build_http_response(b'Not Found', status_code=404, content_type='text/plain')
+            conn.sendall(resp)
+            return
+
+        if not os.path.exists(full_path) or not os.path.isfile(full_path):
+            resp = build_http_response(b'Not Found', status_code=404, content_type='text/plain')
+            conn.sendall(resp)
+            return
+
+        with open(full_path, 'rb') as f:
+            body = f.read()
+        resp = build_http_response(body, status_code=200, content_type='text/html; charset=utf-8')
+        conn.sendall(resp)
+    except Exception:
+        try:
+            conn.sendall(build_http_response(b'Bad Request', status_code=400, content_type='text/plain'))
+        except Exception:
+            pass
+
+
+def run_server(host: str = HOST, port: int = PORT, root_dir: str | None = None) -&gt; None:
+    if root_dir is None:
+        root_dir = os.path.dirname(os.path.abspath(__file__))
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
+        srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        srv.bind((host, port))
+        srv.listen(5)
+        print(f'Serving HTTP on {host}:{port} (root: {root_dir})')
+        try:
+            while True:
+                conn, addr = srv.accept()
+                with conn:
+                    print(f'Connection from {addr}')
+                    handle_request(conn, addr, root_dir)
+        except KeyboardInterrupt:
+            print('\nServer stopped by user')
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description='Minimal HTTP server serving index.html using sockets')
+    p.add_argument('--host', default=HOST, help=f'Host to bind (default: {HOST})')
+    p.add_argument('--port', type=int, default=PORT, help=f'Port (default: {PORT})')
+    p.add_argument('--root', default=None, help='Directory to serve files from (default: script directory)')
+    return p.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    run_server(args.host, args.port, root_dir=args.root)
+
+</code></pre>
+<p>Файл <code>index.html</code> использован как статическая страница при обращении к <code>/</code>:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Лабораторная работа 1 — Задание 3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Привет из index.html&lt;/h1&gt;
+  &lt;p&gt;Это тестовая страница&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+<p>Реализация (кратко):</p>
+<ul>
+<li>Минимальный HTTP-сервер на сокетах. Обрабатывает простые GET-запросы, защищает от обхода пути (path traversal) и отдает <code>index.html</code>.
+<img alt="image" src="image3.png" /></li>
+</ul>
+<hr />
+<h2 id="4-task4py">Задание 4 — <code>task4.py</code></h2>
+<p>Код задания:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Multi-user chat supporting TCP and UDP
+
+Использование
+  TCP server: python3 task4.py --mode server --host 127.0.0.1 --port 12000
+  TCP client: python3 task4.py --mode client --host 127.0.0.1 --port 12000 --name Alice
+
+Остальные команды описаны в python3 task4.py --help
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import socket
+import threading
+from typing import Dict, Tuple
+
+BUFFER_SIZE = 4096
+
+
+def tcp_server(host: str, port: int) -&gt; None:
+    clients: Dict[threading.Thread, socket.socket] = {}
+    clients_lock = threading.Lock()
+
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind((host, port))
+    srv.listen()
+    print(f&quot;TCP server listening on {host}:{port}&quot;)
+
+    def broadcast(message: bytes, exclude: socket.socket | None = None) -&gt; None:
+        with clients_lock:
+            for sock in list(clients.values()):
+                try:
+                    if sock is exclude:
+                        continue
+                    sock.sendall(message)
+                except Exception:
+                    pass
+
+    def handle_client(conn: socket.socket, addr: Tuple[str, int]) -&gt; None:
+        print(f&quot;Client connected: {addr}&quot;)
+        try:
+            while True:
+                data = conn.recv(BUFFER_SIZE)
+                if not data:
+                    break
+                # broadcast received message to other clients
+                broadcast(data, exclude=conn)
+        except Exception as e:
+            print(f&quot;Error with client {addr}: {e}&quot;)
+        finally:
+            with clients_lock:
+                # remove this connection from clients
+                for t, s in list(clients.items()):
+                    if s is conn:
+                        del clients[t]
+                        break
+            try:
+                conn.close()
+            except Exception:
+                pass
+            print(f&quot;Client disconnected: {addr}&quot;)
+
+    try:
+        while True:
+            conn, addr = srv.accept()
+            t = threading.Thread(target=handle_client, args=(conn, addr), daemon=True)
+            with clients_lock:
+                clients[t] = conn
+            t.start()
+    except KeyboardInterrupt:
+        print(&quot;\nTCP server stopped&quot;)
+    finally:
+        srv.close()
+
+
+def tcp_client(host: str, port: int, name: str | None = None) -&gt; None:
+    if not name:
+        name = 'Anonymous'
+
+    def recv_loop(sock: socket.socket) -&gt; None:
+        try:
+            while True:
+                data = sock.recv(BUFFER_SIZE)
+                if not data:
+                    print('Disconnected from server')
+                    break
+                print(data.decode(errors='ignore'))
+        except Exception:
+            pass
+
+    try:
+        with socket.create_connection((host, port)) as s:
+            print(f&quot;Connected to TCP server at {host}:{port}&quot;)
+            rthread = threading.Thread(target=recv_loop, args=(s,), daemon=True)
+            rthread.start()
+            # send loop
+            while True:
+                line = input()
+                if not line:
+                    continue
+                if line.strip().lower() == '/quit':
+                    break
+                msg = f&quot;{name}: {line}\n&quot;.encode()
+                try:
+                    s.sendall(msg)
+                except Exception:
+                    print('Failed to send, exiting')
+                    break
+    except KeyboardInterrupt:
+        print('\nClient stopped')
+    except Exception as e:
+        print(f&quot;Client error: {e}&quot;)
+
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description='Multi-user chat (TCP/UDP) using sockets and threading')
+    p.add_argument('--mode', choices=['server', 'client'], required=True, help='Run as server or client')
+    p.add_argument('--host', default='127.0.0.1', help='Host to bind/connect (default: 127.0.0.1')
+    p.add_argument('--port', type=int, required=True, help='Port to bind/connect')
+    p.add_argument('--name', help='Client name (for clients)')
+    return p.parse_args()
+
+
+def main() -&gt; None:
+    args = parse_args()
+    if args.mode == 'server':
+        tcp_server(args.host, args.port)
+    elif args.mode == 'client':
+        tcp_client(args.host, args.port, name=args.name)
+
+
+if __name__ == '__main__':
+    main()
+
+</code></pre>
+<p>Реализация (кратко):</p>
+<ul>
+<li>TCP-мультиклиентный чат на сокетах и потоках. Сервер принимает подключения и пересылает сообщения всем остальным клиентам. Клиент запускает поток для приёма сообщений и основной цикл для отправки.</li>
+</ul>
+<hr />
+<h2 id="5-task5py">Задание 5 — <code>task5.py</code></h2>
+<p>Код задания:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Minimal HTTP server supporting GET and POST using sockets.
+
+Usage:
+  python3 task5.py --host 127.0.0.1 --port 8001
+
+The server keeps grades in memory. POST to /add with form fields
+`subject` and `grade` to add a record. GET / returns an HTML page
+with a form and the list of stored grades.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import socket
+import urllib.parse
+from typing import Tuple
+
+HOST = '127.0.0.1'
+PORT = 8001
+BUFFER_SIZE = 8192
+
+# in-memory storage: list of (subject, grade)
+grades: list[tuple[str, str]] = []
+
+
+def build_http_response(body: bytes, status_code: int = 200, content_type: str = 'text/html; charset=utf-8') -&gt; bytes:
+    reason = {200: 'OK', 404: 'Not Found', 400: 'Bad Request', 405: 'Method Not Allowed'}.get(status_code, 'OK')
+    headers = [
+        f'HTTP/1.1 {status_code} {reason}',
+        f'Content-Type: {content_type}',
+        f'Content-Length: {len(body)}',
+        'Connection: close',
+        '\r\n'
+    ]
+    return '\r\n'.join(headers).encode('utf-8') + body
+
+
+def render_index_page() -&gt; bytes:
+    rows = '\n'.join(f&quot;&lt;tr&gt;&lt;td&gt;{s}&lt;/td&gt;&lt;td&gt;{g}&lt;/td&gt;&lt;/tr&gt;&quot; for s, g in grades)
+    html = f&quot;&quot;&quot;
+    &lt;!doctype html&gt;
+    &lt;html&gt;
+      &lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Grades&lt;/title&gt;&lt;/head&gt;
+      &lt;body&gt;
+        &lt;h1&gt;Grades&lt;/h1&gt;
+        &lt;form method=&quot;post&quot; action=&quot;/add&quot;&gt;
+          &lt;label&gt;Subject: &lt;input name=&quot;subject&quot; required&gt;&lt;/label&gt;&lt;br&gt;
+          &lt;label&gt;Grade: &lt;input name=&quot;grade&quot; required&gt;&lt;/label&gt;&lt;br&gt;
+          &lt;button type=&quot;submit&quot;&gt;Add&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;h2&gt;All grades&lt;/h2&gt;
+        &lt;table border=&quot;1&quot;&gt;
+          &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Subject&lt;/th&gt;&lt;th&gt;Grade&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+          &lt;tbody&gt;
+            {rows}
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+    &quot;&quot;&quot;
+    return html.encode('utf-8')
+
+
+def parse_headers_and_body(data: bytes) -&gt; tuple[str, dict[str, str], bytes]:
+    # returns request_line(str), headers(dict), body(bytes)
+    text = data.decode('utf-8', errors='ignore')
+    parts = text.split('\r\n\r\n', 1)
+    head = parts[0]
+    body = parts[1].encode('utf-8') if len(parts) &gt; 1 else b''
+    lines = head.split('\r\n')
+    request_line = lines[0] if lines else ''
+    headers: dict[str, str] = {}
+    for line in lines[1:]:
+        if ':' in line:
+            k, v = line.split(':', 1)
+            headers[k.strip().lower()] = v.strip()
+    return request_line, headers, body
+
+
+def handle_request(conn: socket.socket, addr: Tuple[str, int]) -&gt; None:
+    try:
+        data = conn.recv(BUFFER_SIZE)
+        if not data:
+            return
+
+        request_line, headers, body = parse_headers_and_body(data)
+        parts = request_line.split()
+        if len(parts) &lt; 3:
+            conn.sendall(build_http_response(b'Bad Request', status_code=400, content_type='text/plain'))
+            return
+        method, path, _ = parts
+
+        if method == 'GET':
+            if path == '/' or path.startswith('/'):
+                resp = render_index_page()
+                conn.sendall(build_http_response(resp, status_code=200, content_type='text/html; charset=utf-8'))
+                return
+            else:
+                conn.sendall(build_http_response(b'Not Found', status_code=404, content_type='text/plain'))
+                return
+
+        if method == 'POST':
+            # expect POST /add
+            if path != '/add':
+                conn.sendall(build_http_response(b'Not Found', status_code=404, content_type='text/plain'))
+                return
+
+            content_type = headers.get('content-type', '')
+            content_length = int(headers.get('content-length', '0') or '0')
+
+            # If body length may be larger than initial recv, try to read remaining
+            received_len = len(body)
+            while received_len &lt; content_length:
+                more = conn.recv(BUFFER_SIZE)
+                if not more:
+                    break
+                body += more
+                received_len = len(body)
+
+            # parse form data (application/x-www-form-urlencoded)
+            if 'application/x-www-form-urlencoded' in content_type:
+                decoded = body.decode('utf-8', errors='ignore')
+                params = urllib.parse.parse_qs(decoded)
+                subject = params.get('subject', [''])[0].strip()
+                grade = params.get('grade', [''])[0].strip()
+                print(f&quot;Adding grade: subject={subject}, grade={grade}&quot;)
+                if subject and grade:
+                    grades.append((subject, grade))
+                    # after adding, redirect back to /
+                    location_body = b''
+                    headers_resp = [
+                        'HTTP/1.1 303 See Other',
+                        'Location: /',
+                        'Content-Length: 0',
+                        'Connection: close',
+                        '\r\n'
+                    ]
+                    conn.sendall('\r\n'.join(headers_resp).encode('utf-8'))
+                    return
+                else:
+                    conn.sendall(build_http_response(b'Bad Request', status_code=400, content_type='text/plain'))
+                    return
+            else:
+                conn.sendall(build_http_response(b'Unsupported Media Type', status_code=400, content_type='text/plain'))
+                return
+
+        # other methods
+        conn.sendall(build_http_response(b'Method Not Allowed', status_code=405, content_type='text/plain'))
+    except Exception as e: 
+        try:
+            print(f&quot;Error handling request from {e}.&quot;)
+            conn.sendall(build_http_response(b'Internal Server Error', status_code=400, content_type='text/plain'))
+        except Exception:
+            pass
+
+
+def run_server(host: str = HOST, port: int = PORT) -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:
+        srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        srv.bind((host, port))
+        srv.listen(5)
+        print(f'Serving on http://{host}:{port}/ (in-memory storage)')
+        try:
+            while True:
+                conn, addr = srv.accept()
+                with conn:
+                    print(f'Connection from {addr}')
+                    handle_request(conn, addr)
+        except KeyboardInterrupt:
+            print('\nServer stopped')
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description='Minimal HTTP server supporting GET and POST (in-memory grades)')
+    p.add_argument('--host', default=HOST)
+    p.add_argument('--port', type=int, default=PORT)
+    return p.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    run_server(args.host, args.port)
+
+</code></pre>
+<p>Реализация (кратко):</p>
+<ul>
+<li>Минимальный HTTP-сервер, обрабатывающий GET / (возвращает HTML форму и таблицу оценок) и POST /add (принимает form-urlencoded данные и добавляет в in-memory список <code>grades</code>).
+<img alt="image" src="image.png" />
+<img alt="image" src="image2.png" /></li>
+</ul>
+<hr />
+<h1 id="_1">Вывод</h1>
+<p>Выполнены все пять заданий лабораторной работы. Кратко:</p>
+<ul>
+<li>Задания 1 и 2 реализуют сетевые демонстрации: UDP-сервер/клиент и TCP-сервер/клиент для вычисления гипотенузы. Скрипты запускаются локально с параметрами --server/--client и корректно обмениваются сообщениями.</li>
+<li>Задание 3 — минимальный HTTP-сервер, отдающий статический <code>index.html</code> и защищающийся от path traversal.</li>
+<li>Задание 4 — мультиклиентный TCP-чат с потоками: сервер ретранслирует полученные сообщения другим клиентам, клиент имеет поток приёма и цикл отправки.</li>
+<li>Задание 5 — HTTP-сервер с поддержкой GET и POST: хранит оценки в памяти, принимает form-urlencoded POST на <code>/add</code> и показывает таблицу оценок на <code>/</code>.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-09-14 11:14:05.262702+00:00
+-->

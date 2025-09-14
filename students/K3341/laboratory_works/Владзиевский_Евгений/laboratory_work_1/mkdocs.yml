@@ -1,0 +1,5 @@
+site_name: Отчёт — Лабораторная работа 1
+site_description: Документация с отчётом по лабораторной работе 1
+nav:
+  - Главная: index.md
+docs_dir: docs
