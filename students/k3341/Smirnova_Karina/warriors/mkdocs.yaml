@@ -1,0 +1,11 @@
+site_name: My Web Docs
+nav:
+ - Home: "index.md"
+ - Lab 1: "lab1.md"
+ - Lab 2: "lab2.md"
+ - Lab 3: "lab3.md"
+ - Section1:
+   - Subpage1: subpage1.md
+   - Subpage2: subpage2.md
+theme:
+ name: material
