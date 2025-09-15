@@ -8,6 +8,7 @@ class Request:
         self.version = version
         self.headers = headers
         self.rfile = rfile
+        self.form = {}
 
     @property
     def path(self):

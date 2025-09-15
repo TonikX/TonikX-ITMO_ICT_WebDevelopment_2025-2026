@@ -1,4 +1,5 @@
 import socket
+from urllib.parse import parse_qs
 from email.parser import Parser
 from students.k3341.Smirnova_Karina.Lab1.task5.Request import Request
 from students.k3341.Smirnova_Karina.Lab1.task5.Response import Response
@@ -64,10 +65,15 @@ class MyHttpServer:
         if not host:
             raise Exception('Bad request')
 
-        if host not in (self.server_name, f'{self.server_name}:{self.port}'):
+        if host not in (self.host, f'{self.host}:{self.port}', self.server_name, f'{self.server_name}:{self.port}'):
             raise Exception('Not found host')
 
-        return Request(method, target, ver, headers, rfile)
+        request = Request(method, target, ver, headers, rfile)
+        if method == 'POST':
+            form_fields = self.parse_post_form(request)
+            request.form = form_fields
+
+        return request
 
     def parce_request_line(self, rfile):
         """Обработка строки запроса"""
@@ -111,13 +117,22 @@ class MyHttpServer:
 
         return Parser().parsestr(headers_dict)
 
+    def parse_post_form(self, request):
+        """Достаем параметры из формы"""
+
+        content_length = int(request.headers.get('Content-Length', 0))
+        if content_length > 0:
+            body = request.rfile.read(content_length).decode('utf-8')
+            return parse_qs(body)
+        return {}
+
     def handle_request(self, request):
         """Обработка запроса"""
 
         if request.path == '/marks' and request.method == 'GET':
             return self.handle_get_marks(request)
 
-        elif request.path == '/addMark' and request.method == 'POST' and 'sub' in request.query and 'mark' in request.query:
+        elif request.path == '/addMark' and request.method == 'POST':
             return self.handle_post_addMark(request)
 
         else:
@@ -132,9 +147,21 @@ class MyHttpServer:
             body = '<html><head></head><body>'
             body += f'<div>Оценки ({len(self.marks)})</div>'
             body += '<ul>'
-            for sub, mark in self.marks.items():
-                body += f'<li>{sub}: {mark}</li>'
+            for sub, marks in self.marks.items():
+                marks_str = ', '.join(str(m) for m in marks)
+                body += f'<li>{sub}: {marks_str}</li>'
             body += '</ul>'
+
+            # Форма для добавления оценки
+            body += '''
+                    <h3>Добавить оценку</h3>
+                    <form action="/addMark" method="POST">
+                        <label>Предмет: <input type="text" name="sub" required></label><br>
+                        <label>Оценка: <input type="number" name="mark" step="any" required></label><br>
+                        <button type="submit">Добавить</button>
+                    </form>
+                    '''
+
             body += '</body></html>'
 
         else:
@@ -149,8 +176,14 @@ class MyHttpServer:
     def handle_post_addMark(self, request):
         """Добавление предмета и оценки в список"""
 
-        self.marks[request.query['sub'][0]] = float(request.query['mark'][0])
-        return Response(204, 'Created')
+        subject = request.form['sub'][0]
+        mark = float(request.form['mark'][0])
+        if subject not in self.marks:
+            self.marks[subject] = []
+        self.marks[subject].append(mark)
+
+        headers = [('Location', '/marks')]
+        return Response(303, 'Redirect', headers)
 
     def send_response(self, client_socket, response):
         """Формирование HTTP ответа"""
@@ -190,8 +223,8 @@ class MyHttpServer:
         self.send_response(client_socket, resp)
 
 if __name__ == "__main__":
-    host = '127.0.0.1'
-    port = 9090
+    host = 'localhost'
+    port = 8080
     name = 'serverName.com'
 
     server = MyHttpServer(host, port, name)
