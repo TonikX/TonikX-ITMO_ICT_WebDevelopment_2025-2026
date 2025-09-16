@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Оценки</title>
+</head>
+<body>
+  <h1>Оценки по дисциплинам</h1>
+
+<table>
+  <tr><th>Дисциплина</th><th>Оценка</th></tr>
+  {{ROWS}}
+</table>
+
+
+  <p><a href="/download">Скачать страницу (HTML)</a></p>
+
+  <h2>Добавить</h2>
+  <form method="POST" action="/add" accept-charset="UTF-8">
+    <label>
+      Дисциплина:
+      <input name="subject" required>
+    </label>
+    <br><br>
+    <label>
+      Оценка:
+      <input name="grade" required>
+    </label>
+    <br><br>
+    <button type="submit">Сохранить</button>
+  </form>
+</body>
+</html>
