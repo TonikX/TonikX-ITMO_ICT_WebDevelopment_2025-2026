@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Информация об автомобиле</title>
+</head>
+<body>
+    <h2>{{ car.brand }} {{ car.model }}</h2>
+    <p>Гос. номер: {{ car.state_number }}</p>
+    <p>Цвет: {{ car.color }}</p>
+    <a href="{% url 'car_update' car.id %}">Изменить данные</a>
+</body>
+</html>

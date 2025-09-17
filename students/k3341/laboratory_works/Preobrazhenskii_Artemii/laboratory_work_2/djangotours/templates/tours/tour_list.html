@@ -1,0 +1,27 @@
+﻿{% extends "tours/base.html" %}
+
+{% block content %}
+<h2>Список туров</h2>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Агентство</th>
+        <th>Страна</th>
+        <th>Период</th>
+        <th>Цена</th>
+        <th></th>
+    </tr>
+    {% for tour in tours %}
+    <tr>
+        <td>{{ tour.name }}</td>
+        <td>{{ tour.agency }}</td>
+        <td>{{ tour.country }}</td>
+        <td>{{ tour.start_date }} — {{ tour.end_date }}</td>
+        <td>{{ tour.price }}</td>
+        <td><a href="{% url 'tour_detail' tour.id %}">Подробнее</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Нет доступных туров.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+﻿{% extends "tours/base.html" %}
+{% block content %}
+<h2>Проданные туры по странам</h2>
+<table>
+    <tr>
+        <th>Страна</th>
+        <th>Количество проданных туров</th>
+    </tr>
+    {% for item in sold %}
+    <tr>
+        <td>{{ item.tour__country }}</td>
+        <td>{{ item.count }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2">Нет данных</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

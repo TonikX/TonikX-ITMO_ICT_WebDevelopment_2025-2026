@@ -1,0 +1,35 @@
+﻿{% extends "tours/base.html" %}
+{% block content %}
+<h2>Мои бронирования</h2>
+
+{% if reservations %}
+<table>
+    <tr>
+        <th>Тур</th>
+        <th>Агентство</th>
+        <th>Страна</th>
+        <th>Период</th>
+        <th>Цена</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    {% for res in reservations %}
+    <tr>
+        <td>{{ res.tour.name }}</td>
+        <td>{{ res.tour.agency }}</td>
+        <td>{{ res.tour.country }}</td>
+        <td>{{ res.tour.start_date }} — {{ res.tour.end_date }}</td>
+        <td>{{ res.tour.price }}</td>
+        <td>{{ res.status }}</td>
+        <td>
+            <a href="{% url 'tour_detail' res.tour.id %}">Подробнее</a>
+            <a href="{% url 'edit_reservation' res.id %}">Редактировать</a>
+            <a href="{% url 'delete_reservation' res.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>У вас пока нет бронирований. <a href="{% url 'tour_list' %}">Забронировать тур</a>.</p>
+{% endif %}
+{% endblock %}
