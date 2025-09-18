@@ -5,7 +5,7 @@ class Owner(models.Model):
 
     last_name = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
-    birth_date = models.DateTimeField(null=True)
+    birth_date = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.last_name} {self.first_name}"
