@@ -1,4 +1,7 @@
 from django.db import models
+# from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+
 
 class Owner(models.Model):
     """Таблица Автовладелец"""
@@ -6,6 +9,9 @@ class Owner(models.Model):
     last_name = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     birth_date = models.DateField(null=True)
+    # passport_number = models.CharField(max_length=20, default="default")
+    # address = models.CharField(max_length=200, default="not stated")
+    # nationality = models.CharField(max_length=50, default="rus")
 
     def __str__(self):
         return f"{self.last_name} {self.first_name}"
@@ -17,7 +23,7 @@ class Car(models.Model):
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
-    owners = models.ManyToManyField(Owner, through='Ownership')
+    owners = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Ownership')
 
     def __str__(self):
         return self.state_num
@@ -25,7 +31,7 @@ class Car(models.Model):
 class Ownership(models.Model):
     """Таблица владение"""
 
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(null=True)
@@ -33,7 +39,7 @@ class Ownership(models.Model):
 class License(models.Model):
     """Таблица Водительское удостоверение"""
 
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     license_number = models.CharField(max_length=10)
     type = models.CharField(max_length=10)
     date_issued = models.DateTimeField()
