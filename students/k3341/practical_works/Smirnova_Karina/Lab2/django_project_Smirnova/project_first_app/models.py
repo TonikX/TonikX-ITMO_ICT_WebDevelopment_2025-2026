@@ -17,6 +17,7 @@ class Car(models.Model):
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
+    owners = models.ManyToManyField(Owner, through='Ownership')
 
     def __str__(self):
         return self.state_num
