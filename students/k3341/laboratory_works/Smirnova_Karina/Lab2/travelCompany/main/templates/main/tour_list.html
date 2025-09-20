@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load user_filters %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour List</title>
+</head>
+<body>
+  <h2>Все туры</h2>
+  <ul>
+    {% for tour in tours %}
+      <li>
+        <a href="{% url 'tour_detail' pk=tour.pk %}">{{ tour.name }}</a> — {{ tour.country }} — {{ tour.price }} руб.
+      </li>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated and user|is_admin %}
+    <a href="{% url 'create_tour' %}">Создать тур</a>
+  {% endif %}
+</body>
+</html>

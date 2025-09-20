@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load user_filters %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour detail</title>
+</head>
+<body>
+  <h2>{{ tour.name }}</h2>
+  <p>Агентство: {{ tour.agency }}</p>
+  <p>Описание: {{ tour.description }}</p>
+  <p>Страна: {{ tour.country }}</p>
+  <p>Дата начала: {{ tour.start_date }}</p>
+  <p>Дата окончания: {{ tour.end_date }}</p>
+  <p>Стоимость: {{ tour.price }} руб.</p>
+
+  {% if user.is_authenticated %}
+      {% if reserved %}
+          <form action="{% url 'cancel_reservation' pk=tour.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Отменить резервирование</button>
+          </form>
+          {% if reservation and reservation.status %}
+              <p>Заявка подтверждена администратором!</p>
+          {% else %}
+              <p>Заявка на подтверждении.</p>
+          {% endif %}
+      {% else %}
+          <form action="{% url 'reserve_tour' pk=tour.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Зарезервировать</button>
+          </form>
+      {% endif %}
+  {% endif %}
+  {% if user.is_authenticated and user|is_admin %}
+    <a href="{% url 'edit_tour' pk=tour.pk %}">Редактировать</a>
+    <br/>
+    <a href="{% url 'delete_tour' pk=tour.pk %}">Удалить</a>
+  {% endif %}
+</body>
+</html>

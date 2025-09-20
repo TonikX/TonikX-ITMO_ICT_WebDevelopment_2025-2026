@@ -98,7 +98,7 @@ class User(AbstractUser):
 
 После создания моделей были созданы миграции и создан супер пользователь.
 
-#### 3. Написание логики регистрации, авторизации, редактирования и выхода для пользователя
+#### 3. Написание логики регистрации, авторизации, редактирования и выхода для пользователя (users app)
 
 Для работы с пользователями были созданы вот такие пути в users/urls:
 
@@ -215,10 +215,19 @@ user_group, created = Group.objects.get_or_create(name='Пользователь
 admin_group, created = Group.objects.get_or_create(name='Администратор')
 ```
 
-#### 4. Написание логики работы с турами
+#### 4. Написание логики работы с турами (main app)
 
+Для создания тура была создана классическая форма:
 
+```python
+from django import forms
+from .models import Tour
 
+class TourForm(forms.ModelForm):
+    class Meta:
+        model = Tour
+        fields = ['name', 'agency', 'description', 'country', 'start_date', 'end_date', 'price']
+```
 
 
 

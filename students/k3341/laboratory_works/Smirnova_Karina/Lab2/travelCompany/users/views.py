@@ -32,11 +32,15 @@ def login_view(request):
     return render(request, 'users/login.html', {'form': form})
 
 def logout_view(request):
+    """Функция для выхода из аккаунта"""
+
     logout(request)
     return redirect('login')
 
 @login_required
 def edit_profile_view(request):
+    """Функция для редактирования личных данных. Только для авторизированных пользователей."""
+
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -48,5 +52,7 @@ def edit_profile_view(request):
 
 @login_required
 def profile_view(request):
+    """Функция для открытия личного профиля. Только для авторизированных пользователей."""
+
     return render(request, 'users/profile.html')
 
