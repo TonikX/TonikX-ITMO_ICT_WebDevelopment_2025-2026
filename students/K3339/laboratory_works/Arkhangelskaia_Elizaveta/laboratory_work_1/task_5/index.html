@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оценки по дисциплинам</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1, h3{
+            color: #d6336c;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+            margin-top: 20px;
+            padding: 20px 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #f5c2c7;
+        }
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 92%;
+            padding: 8px 10px;
+            margin-top: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #d6336c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background: #b02a50;
+        }
+        .grades {
+            display: inline-block;
+        }
+        .grades li {
+            padding: 5px 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Оценки по дисциплинам</h1>
+    <form method="POST">
+        <label>
+            Дисциплина:
+            <input type="text" name="subject" required>
+        </label>
+
+        <label>
+            Оценка:
+            <input type="text" name="grade" required>
+        </label>
+
+        <input type="submit" value="Добавить">
+    </form>
+
+    <h3>Все оценки:</h3>
+    <ul class="grades">
+
+        <li>Лол</li>
+        <li>Кек</li>
+        <li>Кек</li>
+    </ul>
+</body>
+</html>
