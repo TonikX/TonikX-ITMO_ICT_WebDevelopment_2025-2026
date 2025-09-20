@@ -46,4 +46,7 @@ def edit_profile_view(request):
         form = UserUpdateForm(instance=request.user)
     return render(request, 'users/edit_profile.html', {'form': form})
 
+@login_required
+def profile_view(request):
+    return render(request, 'users/profile.html')
 
