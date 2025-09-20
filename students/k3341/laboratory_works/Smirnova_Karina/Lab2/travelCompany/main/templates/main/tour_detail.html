@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load user_filters %}
+{% load can_reserve_tour %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,35 +8,52 @@
 </head>
 <body>
   <h2>{{ tour.name }}</h2>
+  <p>Страна: {{ tour.country }}</p>
   <p>Агентство: {{ tour.agency }}</p>
   <p>Описание: {{ tour.description }}</p>
-  <p>Страна: {{ tour.country }}</p>
-  <p>Дата начала: {{ tour.start_date }}</p>
-  <p>Дата окончания: {{ tour.end_date }}</p>
+  <p>Даты: {{ tour.start_date }} — {{ tour.end_date }}</p>
   <p>Стоимость: {{ tour.price }} руб.</p>
 
-  {% if user.is_authenticated %}
-      {% if reserved %}
-          <form action="{% url 'cancel_reservation' pk=tour.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Отменить резервирование</button>
-          </form>
-          {% if reservation and reservation.status %}
-              <p>Заявка подтверждена администратором!</p>
-          {% else %}
-              <p>Заявка на подтверждении.</p>
-          {% endif %}
-      {% else %}
-          <form action="{% url 'reserve_tour' pk=tour.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Зарезервировать</button>
-          </form>
-      {% endif %}
-  {% endif %}
   {% if user.is_authenticated and user|is_admin %}
-    <a href="{% url 'edit_tour' pk=tour.pk %}">Редактировать</a>
-    <br/>
-    <a href="{% url 'delete_tour' pk=tour.pk %}">Удалить</a>
+    <p>
+      <a href="{% url 'edit_tour' tour.pk %}">Редактировать тур</a>
+      <br/>
+      <form action="{% url 'delete_tour' tour.pk %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Удалить тур?')">Удалить тур</button>
+      </form>
+    </p>
+  {% endif %}
+
+  {% if user.is_authenticated and not user|is_admin%}
+    <h3>Ваши заявки на этот тур:</h3>
+    {% if reservation %}
+      <ul>
+        {% for res in reservation %}
+          <li>
+            {{ res.reserved_at|date:"d.m.Y H:i" }} —
+            <strong>
+              {% if res.status == "waiting" %} <span style="color:orange;">Ожидает подтверждения</span>
+              {% elif res.status == "approved" %} <span style="color:green;">Подтверждено</span>
+              {% elif res.status == "refused" %} <span style="color:red;">Отклонено</span>
+              {% endif %}
+            </strong>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>У вас нет заявок на этот тур.</p>
+    {% endif %}
+
+    {% if reservation|can_reserve_tour %}
+      <form action="{% url 'reserve_tour' tour.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Забронировать</button>
+      </form>
+    {% endif %}
+
+  {% else %}
+    <p>Войдите как пользователь, чтобы оставить заявку на тур.</p>
   {% endif %}
 </body>
 </html>

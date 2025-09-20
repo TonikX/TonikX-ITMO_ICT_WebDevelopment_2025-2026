@@ -9,4 +9,7 @@ urlpatterns = [
     path('tours/create/', views.create_tour, name='create_tour'),
     path('tours/<int:pk>/edit/', views.edit_tour, name='edit_tour'),
     path('tours/<int:pk>/delete/', views.delete_tour, name='delete_tour'),
+    path('admin/reservations/', views.reservations_admin, name='reservations_admin'),
+    path('admin/reservations/<int:pk>/approve/', views.approve_reservation, name='approve_reservation'),
+    path('admin/reservations/<int:pk>/decline/', views.refuse_reservation, name='decline_reservation'),
 ]

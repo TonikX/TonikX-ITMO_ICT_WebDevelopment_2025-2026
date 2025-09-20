@@ -21,7 +21,7 @@ def tour_detail(request, pk):
 
     # Проверка на авторизованность у пользователя
     if request.user.is_authenticated:
-        reservation = Reservation.objects.filter(user=request.user, tour=tour).first()
+        reservation = Reservation.objects.filter(user=request.user, tour=tour)
         reserved = reservation is not None
     return render(request, 'main/tour_detail.html', {
         'tour': tour,
@@ -34,8 +34,10 @@ def reserve_tour(request, pk):
     """Метод для резервирования тура. Только для авторизированных пользователей."""
 
     tour = get_object_or_404(Tour, pk=pk)
-    if not Reservation.objects.filter(user=request.user, tour=tour).exists():
-        Reservation.objects.create(user=request.user, tour=tour, reserved_at=timezone.now())
+    active_statuses = ['waiting', 'approved']
+    existing = Reservation.objects.filter(user=request.user, tour=tour, status__in=active_statuses).exists()
+    if not existing and request.method == "POST":
+        Reservation.objects.create(user=request.user, tour=tour, status='waiting')
     return redirect('tour_detail', pk=pk)
 
 @login_required
@@ -86,3 +88,29 @@ def delete_tour(request, pk):
         tour.delete()
         return redirect('tour_list')
     return render(request, 'main/tour_delete.html', {'tour': tour})
+
+@user_passes_test(is_admin)
+def reservations_admin(request):
+    """Отображение всех резерваций пользователей"""
+
+    reservations = Reservation.objects.select_related('user', 'tour').order_by('-reserved_at')
+    return render(request, 'main/reservations_admin.html', {'reservations': reservations})
+
+@user_passes_test(is_admin)
+def approve_reservation(request, pk):
+    """Метод подтверждения резервации"""
+
+    reservation = get_object_or_404(Reservation, pk=pk)
+    reservation.status = 'approved'
+    reservation.save()
+    return redirect('reservations_admin')
+
+@user_passes_test(is_admin)
+def refuse_reservation(request, pk):
+    """Метод для отклонения резервирования"""
+
+    reservation = get_object_or_404(Reservation, pk=pk)
+    reservation.status = 'refused'
+    reservation.save()
+    return redirect('reservations_admin')
+
