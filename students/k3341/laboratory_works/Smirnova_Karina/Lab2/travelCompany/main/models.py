@@ -18,10 +18,15 @@ class Tour(models.Model):
 class Reservation(models.Model):
     """Класс для резервирования тура пользователем"""
 
+    STATUS_CHOICES = [
+        ('waiting', 'Ожидает подтверждения'),
+        ('approved', 'Подтверждено'),
+        ('refused', 'Отклонено'),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservations', verbose_name="Пользователь")
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reservations', verbose_name="Тур")
     reserved_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата бронирования")
-    status = models.BooleanField(default=False, verbose_name="Подтверждено администратором")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='waiting', verbose_name="Статус")
 
     def __str__(self):
         return f"{self.user} - {self.tour}"
