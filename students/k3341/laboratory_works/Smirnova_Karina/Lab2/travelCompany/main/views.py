@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
-from main.forms import TourForm
-from main.models import Tour, Reservation
+from main.forms import TourForm, ReviewForm
+from main.models import Tour, Reservation, Review
 
 
 def tour_list(request):
@@ -23,10 +23,14 @@ def tour_detail(request, pk):
     if request.user.is_authenticated:
         reservation = Reservation.objects.filter(user=request.user, tour=tour)
         reserved = reservation is not None
+
+    reviews = Review.objects.filter(tour=tour).select_related('user').order_by('-tour_date')
+
     return render(request, 'main/tour_detail.html', {
         'tour': tour,
         'reserved': reserved,
         'reservation': reservation,
+        'reviews': reviews,
     })
 
 @login_required
@@ -114,3 +118,48 @@ def refuse_reservation(request, pk):
     reservation.save()
     return redirect('reservations_admin')
 
+
+
+@login_required
+def add_review(request, tour_pk):
+    """Метод для создания отзыва"""
+
+    tour = get_object_or_404(Tour, pk=tour_pk)
+    if request.user.is_staff or request.user.groups.filter(name='Администратор').exists():
+        return redirect('tour_detail', pk=tour_pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.tour = tour
+            review.user = request.user
+            review.save()
+            return redirect('tour_detail', pk=tour_pk)
+    else:
+        form = ReviewForm()
+    return render(request, 'main/review_form.html', {'form': form, 'tour': tour})
+
+@login_required
+def edit_review(request, pk):
+    """Метод для редактирования отзыва"""
+
+    review = get_object_or_404(Review, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('tour_detail', pk=review.tour.pk)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'main/review_form.html', {'form': form, 'tour': review.tour})
+
+@login_required
+def delete_review(request, pk):
+    """Метод для удаления отзыва"""
+
+    review = get_object_or_404(Review, pk=pk, user=request.user)
+    tour_pk = review.tour.pk
+    if request.method == 'POST':
+        review.delete()
+        return redirect('tour_detail', pk=tour_pk)
+    return render(request, 'main/review_confirm_delete.html', {'review': review})

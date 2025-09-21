@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Review</title>
+</head>
+<body>
+  <h2>Удалить отзыв?</h2>
+  <p>{{ review.text|linebreaks }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'tour_detail' review.tour.pk %}">Отмена</a>
+  </form>
+</body>
+</html>

@@ -55,5 +55,35 @@
   {% else %}
     <p>Войдите как пользователь, чтобы оставить заявку на тур.</p>
   {% endif %}
+
+  <hr>
+  <h3>Отзывы о туре</h3>
+  {% if reviews %}
+    <ul>
+      {% for review in reviews %}
+        <li>
+          <strong>{{ review.user.username }}</strong> ({{ review.tour_date|date:"d.m.Y" }}) —
+          Оценка: {{ review.rating }}
+          <br>
+          {{ review.text|linebreaks }}
+          {% if user.is_authenticated and review.user == user %}
+            <br>
+            <a href="{% url 'edit_review' review.pk %}">Редактировать</a>
+            |
+            <form action="{% url 'delete_review' review.pk %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit">Удалить</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Отзывов пока нет.</p>
+  {% endif %}
+
+  {% if user.is_authenticated and not user|is_admin %}
+    <a href="{% url 'add_review' tour.pk %}"><button>Оставить отзыв</button></a>
+  {% endif %}
 </body>
 </html>

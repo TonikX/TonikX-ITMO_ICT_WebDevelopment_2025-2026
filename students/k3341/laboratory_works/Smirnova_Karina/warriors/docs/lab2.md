@@ -61,10 +61,15 @@ class Tour(models.Model):
 class Reservation(models.Model):
     """Класс для резервирования тура пользователем"""
 
+    STATUS_CHOICES = [
+        ('waiting', 'Ожидает подтверждения'),
+        ('approved', 'Подтверждено'),
+        ('refused', 'Отклонено'),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservations', verbose_name="Пользователь")
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reservations', verbose_name="Тур")
     reserved_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата бронирования")
-    status = models.BooleanField(default=False, verbose_name="Подтверждено администратором")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='waiting', verbose_name="Статус")
 
     def __str__(self):
         return f"{self.user} - {self.tour}"
@@ -229,16 +234,167 @@ class TourForm(forms.ModelForm):
         fields = ['name', 'agency', 'description', 'country', 'start_date', 'end_date', 'price']
 ```
 
+Далее были реализованы представления для создания страницы тура, редактирования и удаления. И так как доступ к ним
+должен иметь только администратор, то была написана функция для получения прав пользователя is_admin/:
 
+```python
+def is_admin(user):
+    """Метод для определения группы пользователя."""
 
+    return user.groups.filter(name='Администратор').exists() or user.is_staff
 
+user_passes_test(is_admin)
+def create_tour(request):
+    """Метод для создания тура. Только для администраторов."""
 
+    if request.method == 'POST':
+        form = TourForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tour_list')
+    else:
+        form = TourForm()
+    return render(request, 'main/tour_form.html', {'form': form})
 
+@user_passes_test(is_admin)
+def edit_tour(request, pk):
+    """Метод для редактирования тура. Только для администраторов."""
 
+    tour = get_object_or_404(Tour, pk=pk)
+    if request.method == 'POST':
+        form = TourForm(request.POST, instance=tour)
+        if form.is_valid():
+            form.save()
+            return redirect('tour_detail', pk=pk)
+    else:
+        form = TourForm(instance=tour)
+    return render(request, 'main/tour_form.html', {'form': form})
 
+@user_passes_test(is_admin)
+def delete_tour(request, pk):
+    """Метод для удаления тура. Только для администраторов."""
 
+    tour = get_object_or_404(Tour, pk=pk)
+    if request.method == 'POST':
+        tour.delete()
+        return redirect('tour_list')
+    return render(request, 'main/tour_delete.html', {'tour': tour})
+```
 
+Для данных методов были добавлены соответствующие url:
 
+```python
+path('tours/create/', views.create_tour, name='create_tour'),
+path('tours/<int:pk>/edit/', views.edit_tour, name='edit_tour'),
+path('tours/<int:pk>/delete/', views.delete_tour, name='delete_tour'),
+```
+
+Чтобы пользователи могли просматривать и выбирать туры, были созданы два метода: метод для создания страницы со всеми
+турами и индивидуальная страница тура:
+
+```python
+def tour_list(request):
+    """Функция для отображения всех туров"""
+
+    tours = Tour.objects.all()
+    return render(request, 'main/tour_list.html', {'tours': tours})
+
+def tour_detail(request, pk):
+    """Функция для страницы тура"""
+
+    tour = get_object_or_404(Tour, pk=pk)
+    reservation = None
+    reserved = False
+
+    # Проверка на авторизованность у пользователя
+    if request.user.is_authenticated:
+        reservation = Reservation.objects.filter(user=request.user, tour=tour)
+        reserved = reservation is not None
+    return render(request, 'main/tour_detail.html', {
+        'tour': tour,
+        'reserved': reserved,
+        'reservation': reservation,
+    })
+```
+
+В функции tour_detail мы, кроме получения информации о туре, находим информацию о резервации данного тура для текущего
+пользователя, чтобы вывести эту информацию. 
+
+Пользователь может зарезервировать тур или отменить бронь с помощью следующих методов:
+
+```python
+@login_required
+def reserve_tour(request, pk):
+    """Метод для резервирования тура. Только для авторизированных пользователей."""
+
+    tour = get_object_or_404(Tour, pk=pk)
+    active_statuses = ['waiting', 'approved']
+    existing = Reservation.objects.filter(user=request.user, tour=tour, status__in=active_statuses).exists()
+    if not existing and request.method == "POST":
+        Reservation.objects.create(user=request.user, tour=tour, status='waiting')
+    return redirect('tour_detail', pk=pk)
+
+@login_required
+def cancel_reservation(request, pk):
+    """Метод для отмены резервирования тура. Только для авторизированных пользователей."""
+    tour = get_object_or_404(Tour, pk=pk)
+    Reservation.objects.filter(user=request.user, tour=tour).delete()
+    return redirect('tour_detail', pk=pk)
+```
+
+Когда пользователь сделал бронь, то администратор должен ее или подтвердить, или отвергнуть. Для этого администратор 
+будет использовать следующие 2 функции:
+
+```python
+@user_passes_test(is_admin)
+def approve_reservation(request, pk):
+    """Метод подтверждения резервации"""
+
+    reservation = get_object_or_404(Reservation, pk=pk)
+    reservation.status = 'approved'
+    reservation.save()
+    return redirect('reservations_admin')
+
+@user_passes_test(is_admin)
+def refuse_reservation(request, pk):
+    """Метод для отклонения резервирования"""
+
+    reservation = get_object_or_404(Reservation, pk=pk)
+    reservation.status = 'refused'
+    reservation.save()
+    return redirect('reservations_admin')
+```
+
+Также для удобства администратора была создана страница на которой можно посмотреть таблицу всех броней:
+
+```python
+@user_passes_test(is_admin)
+def reservations_admin(request):
+    """Отображение всех резерваций пользователей"""
+
+    reservations = Reservation.objects.select_related('user', 'tour').order_by('-reserved_at')
+    return render(request, 'main/reservations_admin.html', {'reservations': reservations})
+```
+
+Все вышеперечисленные методы были присвоены таким url:
+
+```python
+path('tours/', views.tour_list, name='tour_list'),
+path('tours/<int:pk>/', views.tour_detail, name='tour_detail'),
+path('tours/<int:pk>/reserve/', views.reserve_tour, name='reserve_tour'),
+path('tours/<int:pk>/cancel/', views.cancel_reservation, name='cancel_reservation'),
+path('admin/reservations/', views.reservations_admin, name='reservations_admin'),
+path('admin/reservations/<int:pk>/approve/', views.approve_reservation, name='approve_reservation'),
+path('admin/reservations/<int:pk>/decline/', views.refuse_reservation, name='decline_reservation'),
+```
+
+#### 4. Написание логики написания комментариев (main app)
+
+Первым делом была создана форма для создания комментария и методы для создания, редактирования и удаления.
+
+```python
+
+```
 
 
 
