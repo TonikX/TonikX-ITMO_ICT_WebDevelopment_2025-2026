@@ -5,10 +5,55 @@
     <title>Profile</title>
 </head>
 <body>
-  <h2>Профиль пользователя</h2>
+  <h2>Профиль пользователя: {{ user.username }}</h2>
 
-    <a href="{% url 'edit_profile' %}">
-        <button type="button">Редактировать профиль</button>
-    </a>
+  <a href="{% url 'edit_profile' %}">
+      <button type="button">Редактировать профиль</button>
+  </a>
+  <a href="{% url 'logout' %}">
+      <button type="button">Выйти</button>
+  </a>
+
+  <hr>
+
+  <h3>Мои бронирования туров</h3>
+  {% if reservations %}
+    <table border="1" cellpadding="5">
+      <tr>
+        <th>Тур</th>
+        <th>Период</th>
+        <th>Страна</th>
+        <th>Статус</th>
+        <th>Дата бронирования</th>
+        <th>Действия</th>
+      </tr>
+      {% for reservation in reservations %}
+        <tr>
+          <td>{{ reservation.tour.name }}</td>
+          <td>{{ reservation.tour.start_date }} — {{ reservation.tour.end_date }}</td>
+          <td>{{ reservation.tour.country }}</td>
+          <td>
+            {% if reservation.status == "waiting" %}<span style="color:orange;">Ожидает</span>
+            {% elif reservation.status == "approved" %}<span style="color:green;">Подтверждён</span>
+            {% elif reservation.status == "refused" %}<span style="color:red;">Отклонён</span>
+            {% endif %}
+          </td>
+          <td>{{ reservation.reserved_at|date:"d.m.Y H:i" }}</td>
+          <td>
+            {% if reservation.status == "waiting" %}
+              <form action="{% url 'cancel_reservation' reservation.tour.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Отменить бронирование?')">Отменить</button>
+              </form>
+            {% else %}
+              <span style="color:grey">---</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>Вы ещё не бронировали туры.</p>
+  {% endif %}
 </body>
 </html>

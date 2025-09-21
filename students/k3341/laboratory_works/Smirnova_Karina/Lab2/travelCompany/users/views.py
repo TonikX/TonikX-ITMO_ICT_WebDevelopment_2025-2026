@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from main.models import Reservation
 from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm
 
 
@@ -54,5 +55,6 @@ def edit_profile_view(request):
 def profile_view(request):
     """Функция для открытия личного профиля. Только для авторизированных пользователей."""
 
-    return render(request, 'users/profile.html')
+    reservations = Reservation.objects.select_related('tour').filter(user=request.user).order_by('-reserved_at')
+    return render(request, 'users/profile.html', {'reservations': reservations})
 
