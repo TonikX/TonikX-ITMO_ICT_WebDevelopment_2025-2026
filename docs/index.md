@@ -69,10 +69,9 @@ python task5_web_server.py
 ├── task5_web_server.py    # Задание 5: Веб-сервер
 ├── index.html             # HTML страница для задания 3
 └── docs/                  # Документация
-    └── docs/
-        ├── index.md       # Главная страница
-        ├── tasks/         # Описание заданий
-        └── conclusion.md  # Заключение
+    ├── index.md           # Главная страница
+    ├── tasks/             # Описание заданий
+    └── conclusion.md      # Заключение
 ```
 
 ### Архитектурные решения
