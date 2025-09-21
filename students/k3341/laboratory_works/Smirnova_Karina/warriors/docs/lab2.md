@@ -393,8 +393,66 @@ path('admin/reservations/<int:pk>/decline/', views.refuse_reservation, name='dec
 Первым делом была создана форма для создания комментария и методы для создания, редактирования и удаления.
 
 ```python
-
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['tour_date', 'text', 'rating']
+        widgets = {
+            'tour_date': forms.DateInput(attrs={'type': 'date'}),
+            'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Ваш отзыв...'}),
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 10}),
+        }
 ```
 
+```python
+@login_required
+def add_review(request, tour_pk):
+    """Метод для создания отзыва"""
 
+    tour = get_object_or_404(Tour, pk=tour_pk)
+    if request.user.is_staff or request.user.groups.filter(name='Администратор').exists():
+        return redirect('tour_detail', pk=tour_pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.tour = tour
+            review.user = request.user
+            review.save()
+            return redirect('tour_detail', pk=tour_pk)
+    else:
+        form = ReviewForm()
+    return render(request, 'main/review_form.html', {'form': form, 'tour': tour})
+
+@login_required
+def edit_review(request, pk):
+    """Метод для редактирования отзыва"""
+
+    review = get_object_or_404(Review, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('tour_detail', pk=review.tour.pk)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'main/review_form.html', {'form': form, 'tour': review.tour})
+
+@login_required
+def delete_review(request, pk):
+    """Метод для удаления отзыва"""
+
+    review = get_object_or_404(Review, pk=pk, user=request.user)
+    tour_pk = review.tour.pk
+    if request.method == 'POST':
+        review.delete()
+        return redirect('tour_detail', pk=tour_pk)
+    return render(request, 'main/review_confirm_delete.html', {'review': review})
+```
+
+В итоге страница тура имеет такой вид со стороны пользователя:
+
+
+
+И такой вид для администратора
 
