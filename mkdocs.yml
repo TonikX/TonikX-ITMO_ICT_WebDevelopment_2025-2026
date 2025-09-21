@@ -1,0 +1,46 @@
+site_name: Лабораторная работа 1 - Работа с сокетами
+site_description: Практические задания по сетевому программированию в Python
+site_author: Студент ИТМО
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+
+nav:
+  - Главная: index.md
+  - Задания:
+    - Задание 1 - UDP Hello: tasks/task1.md
+    - Задание 2 - TCP Математика: tasks/task2.md
+    - Задание 3 - HTTP Сервер: tasks/task3.md
+    - Задание 4 - Многопользовательский чат: tasks/task4.md
+    - Задание 5 - Веб-сервер: tasks/task5.md
+  - Заключение: conclusion.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - admonition
+  - tables
+  - toc:
+      permalink: true
