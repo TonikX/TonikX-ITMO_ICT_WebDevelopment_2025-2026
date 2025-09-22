@@ -4,7 +4,7 @@ from urllib.parse import parse_qs
 HOST = '127.0.0.1'
 PORT = 8080
 
-grades = []
+grades = dict()
 
 
 def generate_html():
@@ -77,8 +77,8 @@ def generate_html():
     <h3>Все оценки:</h3>
     <ul class="grades">
     """
-    for item in grades:
-        html += f"<li>{item['subject']}: {item['grade']}</li>"
+    for item in sorted(grades):
+        html += f"<li>{item}: " + ", ".join(grades[item])+ "</li>"
     html += """
         </ul>
     </body>
@@ -110,8 +110,10 @@ def main():
                     data = parse_qs(body)
                     subject = data.get('subject', [''])[0]
                     grade = data.get('grade', [''])[0]
-                    if subject and grade:
-                        grades.append({'subject': subject, 'grade': grade})
+                    if subject not in grades:
+                        grades[subject] = [grade]
+                    else:
+                        grades[subject].append(grade)
 
                 response_body = generate_html()
                 response = (
