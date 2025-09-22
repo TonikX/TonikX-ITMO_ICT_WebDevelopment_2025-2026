@@ -4,6 +4,7 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/json"
 	"flag"
 	"log"
@@ -14,28 +15,42 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var addr = flag.String("addr", "localhost:8080", "http service address")
+var addr = flag.String("addr", "localhost:8081", "http service address")
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
 var (
-	stats = make(map[string]int)
+	stats = make(map[string][]int)
 	mapMu sync.Mutex
 )
 
-type stat struct {
+//go:embed index.html
+var indexHTML string
+
+type statIn struct {
 	Subject string `json:"subject"`
 	Value   int    `json:"value"`
 }
 
+type statOut struct {
+	Subject string `json:"subject"`
+	Values  []int  `json:"values"`
+}
+
 func main() {
 	flag.Parse()
+	http.HandleFunc("/", serveIndex)
 	http.HandleFunc("/stats", getStats)
 	http.HandleFunc("/stats/add", addStat)
 	log.Println("listening on", *addr)
 	log.Fatal(http.ListenAndServe(*addr, nil))
+}
+
+func serveIndex(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_, _ = w.Write([]byte(indexHTML))
 }
 
 func getStats(w http.ResponseWriter, r *http.Request) {
@@ -51,9 +66,11 @@ func getStats(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 
 	mapMu.Lock()
-	copySlice := make([]stat, 0, len(stats))
+	copySlice := make([]statOut, 0, len(stats))
 	for k, v := range stats {
-		copySlice = append(copySlice, stat{Subject: k, Value: v})
+		vals := make([]int, len(v))
+		copy(vals, v)
+		copySlice = append(copySlice, statOut{Subject: k, Values: vals})
 	}
 	mapMu.Unlock()
 
@@ -90,7 +107,7 @@ func addStat(w http.ResponseWriter, r *http.Request) {
 		go func(id int) {
 			defer wg.Done()
 			for raw := range jobs {
-				var req stat
+				var req statIn
 				if err := json.Unmarshal(raw, &req); err != nil {
 					writeMu.Lock()
 					_ = conn.WriteMessage(websocket.TextMessage, []byte("invalid json: "+err.Error()))
@@ -105,7 +122,7 @@ func addStat(w http.ResponseWriter, r *http.Request) {
 				}
 
 				mapMu.Lock()
-				stats[req.Subject] = req.Value
+				stats[req.Subject] = append(stats[req.Subject], req.Value)
 				mapMu.Unlock()
 
 				ack := []byte("ok:" + req.Subject + ":" + strconv.Itoa(req.Value))

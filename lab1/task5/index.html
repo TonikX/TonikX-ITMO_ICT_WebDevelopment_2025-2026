@@ -1,0 +1,74 @@
+<!doctype html>
+<head>
+<meta charset="utf-8" />
+<title>Stats — предметы и оценки</title>
+<style>
+body{font-family: Arial, Helvetica, sans-serif; padding:20px}
+table{border-collapse: collapse; width: 100%; max-width:800px}
+th, td{border:1px solid #ddd; padding:8px}
+th{background:#f4f4f4}
+form{margin-top:16px}
+</style>
+</head>
+<body>
+<h1>Предметы и оценки</h1>
+<table id="tbl">
+<thead><tr><th>Предмет</th><th>Оценки</th></tr></thead>
+<tbody></tbody>
+</table>
+
+
+<form id="addForm">
+<input id="subject" placeholder="Предмет" required />
+<input id="value" type="number" placeholder="Оценка" required min="1" />
+<button type="submit">Отправить оценку</button>
+</form>
+
+
+<div id="log" style="margin-top:12px;color:#666"></div>
+
+
+<script>
+const log = (s)=>{document.getElementById('log').textContent = s}
+
+
+const ws = new WebSocket((location.protocol==='https:'? 'wss':'ws')+'://'+location.host+'/stats')
+ws.onmessage = e => {
+try{
+const arr = JSON.parse(e.data)
+const tbody = document.querySelector('#tbl tbody')
+tbody.innerHTML = ''
+arr.forEach(item => {
+const tr = document.createElement('tr')
+const td1 = document.createElement('td')
+td1.textContent = item.subject
+const td2 = document.createElement('td')
+td2.textContent = (item.values || []).join(', ')
+tr.appendChild(td1)
+tr.appendChild(td2)
+tbody.appendChild(tr)
+})
+log('Получен снимок с сервера')
+}catch(err){ log('invalid data: '+err) }
+}
+ws.onerror = e => log('ws error')
+
+
+// ws for posting new grades
+const wsAdd = new WebSocket((location.protocol==='https:'? 'wss':'ws')+'://'+location.host+'/stats/add')
+wsAdd.onmessage = e => log('ack: '+e.data)
+wsAdd.onerror = e => log('add ws error')
+
+
+document.getElementById('addForm').addEventListener('submit', ev=>{
+ev.preventDefault()
+const subj = document.getElementById('subject').value.trim()
+const val = parseInt(document.getElementById('value').value,10)
+if(!subj || !val) return
+const msg = JSON.stringify({subject:subj, value: val})
+wsAdd.send(msg)
+document.getElementById('value').value = ''
+})
+</script>
+</body>
+</html>
