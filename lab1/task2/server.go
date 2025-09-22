@@ -43,7 +43,7 @@ func solve(w http.ResponseWriter, r *http.Request) {
 
 	numWorkers := 2
 
-	jobs := make(chan job, 128)
+	jobs := make(chan job)
 	var wg sync.WaitGroup
 
 	var writeMu sync.Mutex

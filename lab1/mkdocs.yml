@@ -1,0 +1,12 @@
+site_name: Lab 1 Stabrovskiy Vladimir K3339
+nav:
+ - Home: index.md
+ - Tasks:
+     - "Task 1": tasks/task1.md
+     - "Task 2": tasks/task2.md
+     - "Task 3": tasks/task3.md
+     - "Task 4": tasks/task4.md
+     - "Task 5": tasks/task5.md
+
+theme:
+ name: material
