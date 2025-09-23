@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tour Form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
 </head>
 <body>
   <h2>{% if form.instance.pk %}Редактировать тур{% else %}Создать тур{% endif %}</h2>
