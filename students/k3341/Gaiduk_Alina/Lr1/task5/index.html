@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Журнал оценок</title>
+  <style>
+    body {
+      background: #e6e1f2;
+      color: #0a0a0a;
+      padding: 5%;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #0a0a0a;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    table {
+      width: 40%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+
+    th, td {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background: #7b5a96;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background: #f1edf5;
+    }
+
+    form {
+      width: 40%;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    form input {
+      padding: 8px;
+      margin: 8px 0px 20px 0px;
+      width: calc(100% - 20px);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      display: block;
+      margin: 15px auto 0;
+      padding: 10px 20px;
+      background: #7b5a96;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #543e66;
+    }
+  </style>
+</head>
+<body>
+  <h1>Журнал оценок</h1>
+  <table>
+    <tr><th>Предмет</th><th>Оценки</th></tr>
+    {{rows}}
+  </table>
+
+  <h2>Добавить оценку</h2>
+  <form method="POST" action="/add">
+    <label>Дисциплина:</label>
+    <input name="subject">
+
+    <label>Оценка:</label>
+    <input name="grade" type="number" min="1" max="5">
+
+    <button type="submit">Отправить</button>
+  </form>
+</body>
+</html>
