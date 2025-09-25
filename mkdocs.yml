@@ -1,0 +1,32 @@
+site_name: Веб-программирование - Лабораторные работы
+site_description: Документация по лабораторным работам по веб-программированию
+site_author: Student
+
+theme:
+  name: material
+  language: ru
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - fenced_code
+  - codehilite
+
+docs_dir: docs
+
+nav:
+  - "Задание 1 - UDP клиент-сервер": task1.md
+  - "Задание 2 - TCP математические операции": task2.md
+  - "Задание 3 - HTTP сервер": task3.md
+  - "Задание 4 - Многопользовательский чат": task4.md
+  - "Задание 5 - Журнал оценок": task5.md
+
