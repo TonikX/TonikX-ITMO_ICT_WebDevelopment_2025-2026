@@ -1,0 +1,15 @@
+site_name: Web reports
+nav:
+  - Home: index.md
+  - Lab 1:
+      - Task 4 (Chat Server & Client): lab1/task4.md
+      - Task 5 (HTTP Grade Journal): lab1/task5.md
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.expand
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
