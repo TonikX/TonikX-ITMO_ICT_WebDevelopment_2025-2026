@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../task4/">
+        <link rel="prev" href="../task2/">
       
+      
+        <link rel="next" href="../task4/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Task 5 (HTTP Grade Journal) - Web reports</title>
+        <title>Task 3 (Html Server Message from server) - Web reports</title>
       
     
     
@@ -60,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#task-5-http-" class="md-skip">
+        <a href="#lab-1-task-3-html-server" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Task 5 (HTTP Grade Journal)
+              Task 3 (Html Server Message from server)
             
           </span>
         </div>
@@ -304,10 +306,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../task3/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Task 3 (Html Server Message from server)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -318,6 +342,35 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Files
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -350,32 +403,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Task 5 (HTTP Grade Journal)
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../task5/" class="md-nav__link">
         
   
   
@@ -386,44 +417,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Цель задания
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Реализация
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -463,18 +456,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#files" class="md-nav__link">
     <span class="md-ellipsis">
-      Цель задания
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Реализация
+      Files
     </span>
   </a>
   
@@ -496,140 +480,14 @@
 
 
 
-<h1 id="task-5-http-">Task 5 — Реализация HTTP-сервера для учёта оценок</h1>
-<h2 id="_1">Цель задания</h2>
-<p>Разработать простой HTTP-сервер на Python с использованием сокетов, который позволяет:
-- просматривать журнал оценок,
-- добавлять новые оценки через HTML-форму.</p>
-<h2 id="_2">Реализация</h2>
-<p>Код сервера (<code>server.py</code>):</p>
-<pre><code class="language-python">import socket
-import sys
-from urllib.parse import urlparse, parse_qs
-
-MAX_LINE = 64 * 1024
-
-class GPAHTTPServer:
-    def __init__(self, host, port):
-        self._host = host
-        self._port = port
-        self.grades = {}
-
-    def serve_forever(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            s.bind((self._host, self._port))
-            s.listen(5)
-            print(f&quot;Server bind to http://{self._host}:{self._port}&quot;)
-            while True:
-                conn, addr = s.accept()
-                with conn:
-                    try:
-                        self.serve_client(conn)
-                    except Exception as e:
-                        print(&quot;Error:&quot;, e)
-
-    def serve_client(self, conn):
-        rfile = conn.makefile(&quot;rb&quot;)
-        method, path, version = self.parse_request(rfile)
-        headers = self.parse_headers(rfile)
-        body = b&quot;&quot;
-        if method == &quot;POST&quot;:
-            length = int(headers.get(&quot;Content-Length&quot;, 0))
-            if length &gt; 0:
-                body = rfile.read(length)
-        self.handle_request(conn, method, path, headers, body)
-
-    def parse_request(self, rfile):
-        line = rfile.readline(MAX_LINE + 1).decode(&quot;utf-8&quot;)
-        if not line:
-            raise Exception(&quot;Empty request&quot;)
-        method, target, version = line.strip().split()
-        return method, target, version
-
-    def parse_headers(self, rfile):
-        headers = {}
-        while True:
-            line = rfile.readline(MAX_LINE + 1).decode(&quot;utf-8&quot;)
-            if line in (&quot;\r\n&quot;, &quot;\n&quot;, &quot;&quot;):
-                break
-            key, value = line.split(&quot;:&quot;, 1)
-            headers[key.strip()] = value.strip()
-        return headers
-
-    def handle_request(self, conn, method, path, headers, body):
-        parsed = urlparse(path)
-        if method == &quot;GET&quot; and parsed.path == &quot;/&quot;:
-            content = self.render_page()
-            self.send_response(conn, &quot;200 OK&quot;, content)
-        elif method == &quot;POST&quot; and parsed.path == &quot;/&quot;:
-            params = parse_qs(body.decode(&quot;utf-8&quot;))
-            subject = params.get(&quot;subject&quot;, [&quot;&quot;])[0]
-            grade = params.get(&quot;grade&quot;, [&quot;&quot;])[0]
-            if subject and grade:
-                self.grades[subject] = self.grades.get(subject, []) + [grade]
-            self.send_redirect(conn, &quot;/&quot;)
-        else:
-            self.send_response(conn, &quot;404 Not Found&quot;, &quot;&lt;h1&gt;404 Not Found&lt;/h1&gt;&quot;)
-
-    def send_redirect(self, conn, location):
-        headers = [
-            &quot;HTTP/1.1 303 See Other&quot;,
-            f&quot;Location: {location}&quot;,
-            &quot;Content-Length: 0&quot;,
-            &quot;Connection: close&quot;,
-            &quot;&quot;,
-            &quot;&quot;,
-        ]
-        response = &quot;\r\n&quot;.join(headers).encode(&quot;utf-8&quot;)
-        conn.sendall(response)
-
-    def render_page(self):
-        rows = &quot;&quot;.join(
-            f&quot;&lt;tr&gt;&lt;td&gt;{subject}&lt;/td&gt;&lt;td&gt;{', '.join(map(str, scores))}&lt;/td&gt;&lt;/tr&gt;&quot; for subject, scores in self.grades.items()
-        )
-        return f&quot;&quot;&quot;
-        &lt;html&gt;
-        &lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Оценки&lt;/title&gt;&lt;/head&gt;
-        &lt;body&gt;
-            &lt;h1&gt;Score Journal&lt;/h1&gt;
-            &lt;table border=&quot;1&quot; cellpadding=&quot;5&quot; cellspacing=&quot;0&quot;&gt;
-                &lt;tr&gt;&lt;th&gt;Subject&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;/tr&gt;
-                {rows}
-            &lt;/table&gt;
-            &lt;h2&gt;Add Score&lt;/h2&gt;
-            &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;
-                Subject: &lt;input type=&quot;text&quot; name=&quot;subject&quot; required&gt;&lt;br&gt;
-                Score: &lt;input type=&quot;text&quot; name=&quot;grade&quot; required&gt;&lt;br&gt;
-                &lt;input type=&quot;submit&quot; value=&quot;Add&quot;&gt;
-            &lt;/form&gt;
-        &lt;/body&gt;
-        &lt;/html&gt;
-        &quot;&quot;&quot;
-
-    def send_response(self, conn, status, body):
-        body_bytes = body.encode(&quot;utf-8&quot;)
-        headers = [
-            f&quot;HTTP/1.1 {status}&quot;,
-            &quot;Content-Type: text/html; charset=utf-8&quot;,
-            f&quot;Content-Length: {len(body_bytes)}&quot;,
-            &quot;Connection: close&quot;,
-            &quot;&quot;,
-            &quot;&quot;,
-        ]
-        response = &quot;\r\n&quot;.join(headers).encode(&quot;utf-8&quot;) + body_bytes
-        conn.sendall(response)
-
-if __name__ == &quot;__main__&quot;:
-    host = &quot;127.0.0.1&quot;
-    port = 8080
-    serv = GPAHTTPServer(host, port)
-    try:
-        serv.serve_forever()
-    except KeyboardInterrupt:
-        print(&quot;\nServer stopped&quot;)
-        sys.exit()
-</code></pre>
+<h1 id="lab-1-task-3-html-server">Lab 1 / Task 3 — Html Server!</h1>
+<p>This task implements a <strong>Html Server Message from server</strong> using Python sockets.</p>
+<h2 id="files">Files</h2>
+<ul>
+<li><code>server.py</code> — handles clients.</li>
+<li><code>client.py</code> — connects to the server and sends/receives messages.</li>
+</ul>
+<hr />
 
 
 

@@ -6,12 +6,13 @@ class Server:
     def __init__(self):
         self.clients = {}
         self.server_socket = None
-        self.host = 'localhost'
+        self.host = '127.0.0.1'
         self.port = 8080
 
     def listen(self):
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.server_socket.bind((self.host, self.port))
             print(f'server socket bound to {self.host}:{self.port}')
 

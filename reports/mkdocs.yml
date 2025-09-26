@@ -2,6 +2,9 @@ site_name: Web reports
 nav:
   - Home: index.md
   - Lab 1:
+      - Task 1 (Hello Server Message to server and echo): lab1/task1.md
+      - Task 2 (Pythogoras Message to server and solve): lab1/task2.md
+      - Task 3 (Html Server Message from server): lab1/task3.md
       - Task 4 (Chat Server & Client): lab1/task4.md
       - Task 5 (HTTP Grade Journal): lab1/task5.md
 theme:
