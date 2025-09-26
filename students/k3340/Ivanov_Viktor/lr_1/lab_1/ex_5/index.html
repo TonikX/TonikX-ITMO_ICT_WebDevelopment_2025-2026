@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Журнал оценок</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  :root { --bg:#0f0f12; --card:#17181c; --text:#e8e8ea; --muted:#a0a3a8; --accent:#6a5acd; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Arial, sans-serif; background:var(--bg); color:var(--text); }
+  .container { max-width: 860px; margin: 32px auto; padding: 0 16px; }
+  .card { background:var(--card); border:1px solid #22252b; border-radius:16px; padding:20px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  h1 { margin:0 0 8px; font-size:28px; }
+  p.muted { margin:0 0 16px; color:var(--muted); }
+  table { width:100%; border-collapse: collapse; overflow:hidden; border-radius:12px; border:1px solid #262a31; }
+  th, td { padding:12px 14px; border-bottom:1px solid #262a31; vertical-align: top; }
+  th { background:#1d2026; text-align:left; font-weight:600; }
+  tr:last-child td { border-bottom: none; }
+  .form { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+  input, button { height:42px; border-radius:10px; border:1px solid #2a2f37; background:#1c1f25; color:var(--text); padding:0 12px; }
+  input::placeholder { color:#858a93; }
+  button { background:var(--accent); border-color:#5a4acd; cursor:pointer; }
+  .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#d0d3da; }
+  footer { color:#80838b; margin-top:16px; font-size:13px; }
+  a { color:#9aa8ff; text-decoration:none; } a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Журнал оценок</h1>
+
+      <table>
+        <thead>
+          <tr><th>Дисциплина</th><th>Оценки</th><th>Средняя</th></tr>
+        </thead>
+        <tbody>
+          {{TABLE_ROWS}}
+        </tbody>
+      </table>
+
+      <form class="form" method="POST" action="/add">
+        <input name="subject" placeholder="Дисциплина (например, Математика)" required style="flex:1 1 280px" />
+        <input name="grade" placeholder="Оценка (например, 5)" required style="flex:0 1 160px" />
+        <button type="submit">Добавить</button>
+      </form>
+
+    </div>
+  </div>
+</body>
+</html>
