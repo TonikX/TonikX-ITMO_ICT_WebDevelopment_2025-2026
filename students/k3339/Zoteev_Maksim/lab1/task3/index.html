@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа 1 - Задание 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 HTTP Сервер на Python</h1>
+        
+        <div class="info">
+            <h2>Лабораторная работа 1, Задание 3</h2>
+            <p><strong>Задача:</strong> Реализация HTTP сервера с использованием библиотеки socket</p>
+        </div>
+
+        <h2>Описание</h2>
+        <p>Эта HTML-страница загружена с простого HTTP сервера, написанного на Python с использованием библиотеки socket.</p>
+
+        <h2>Технические детали</h2>
+        <ul>
+            <li>Протокол: HTTP/1.1</li>
+            <li>Сокет: TCP (SOCK_STREAM)</li>
+            <li>Порт: 8080</li>
+            <li>Библиотека: socket (стандартная)</li>
+        </ul>
+
+        <h2>Статус</h2>
+        <p class="success">Сервер работает корректно</p>
+
+        <h2>Время подключения</h2>
+        <p id="time"></p>
+
+        <script>
+            document.getElementById('time').textContent = new Date().toLocaleString('ru-RU');
+        </script>
+    </div>
+</body>
+</html>
