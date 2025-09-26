@@ -17,8 +17,8 @@ class ChatServer:
     def __init__(self, host='localhost', port=12347):
         self.host = host
         self.port = port
-        self.clients = []  # Список клиентских сокетов
-        self.nicknames = []  # Список никнеймов
+        self.clients = []
+        self.nicknames = []
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         
@@ -170,17 +170,12 @@ def run_client():
 
 def run_demo():
     """Демонстрация работы чата"""
-    print("=== Демонстрация Многопользовательского Чата ===")
-    print("ВНИМАНИЕ: Это TCP чат сервер, а не веб-сайт!")
-    print("Для тестирования чата используйте терминал, а не браузер.")
-    print()
     print("Инструкция по тестированию:")
     print("1. Запустите сервер: python task4_chat.py server")
     print("2. В другом терминале запустите клиент: python task4_chat.py client")
     print("3. Повторите шаг 2 для дополнительных клиентов")
     print("4. Введите никнеймы и отправляйте сообщения")
     print("5. Введите 'quit' для выхода из клиента")
-    print()
     print("Нажмите Enter для запуска сервера...")
     input()
     

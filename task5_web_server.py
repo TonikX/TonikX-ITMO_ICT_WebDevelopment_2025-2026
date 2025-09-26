@@ -7,23 +7,22 @@
 """
 
 import socket
-import sys
-import json
 import urllib.parse
 import threading
 import time
 from datetime import datetime
 
+
 class WebServer:
     """Класс веб-сервера для обработки GET и POST запросов"""
-    
+
     def __init__(self, host='localhost', port=8081):
         self.host = host
         self.port = port
-        self.grades = []  # Хранение оценок в памяти
+        self.grades = {}
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        
+
     def start(self):
         """Запуск веб-сервера"""
         try:
@@ -35,33 +34,33 @@ class WebServer:
             while True:
                 client_socket, addr = self.server_socket.accept()
                 print(f"Подключен клиент: {addr}")
-                
+
                 try:
-                    request = client_socket.recv(1024).decode('utf-8')
+                    request = client_socket.recv(4096).decode('utf-8')
                     self.handle_request(client_socket, request)
                 except Exception as e:
                     print(f"Ошибка обработки запроса: {e}")
                 finally:
                     client_socket.close()
-                    
+
         except KeyboardInterrupt:
             print("\nСервер остановлен пользователем")
         except Exception as e:
             print(f"Ошибка сервера: {e}")
         finally:
             self.server_socket.close()
-    
+
     def handle_request(self, client_socket, request):
         """Обработка HTTP запросов"""
         lines = request.split('\n')
         if not lines:
             return
-            
+
         request_line = lines[0]
         parts = request_line.split()
         if len(parts) >= 3:
             method, path, version = parts[0], parts[1], parts[2]
-            
+
             if method == 'GET' and path == '/':
                 self.handle_get_grades(client_socket)
             elif method == 'POST' and path == '/add_grade':
@@ -70,7 +69,7 @@ class WebServer:
                 self.send_404(client_socket)
         else:
             self.send_404(client_socket)
-    
+
     def handle_get_grades(self, client_socket):
         """Обработка GET запроса - отображение всех оценок"""
         html = self.generate_grades_html()
@@ -81,7 +80,7 @@ Connection: close
 
 {html}"""
         client_socket.send(response.encode('utf-8'))
- 
+
     def handle_post_grade(self, client_socket, request):
         """Обработка POST запроса - добавление новой оценки"""
         body_start = request.find('\r\n\r\n')
@@ -91,57 +90,60 @@ Connection: close
                 body_start += 2
         else:
             body_start += 4
-            
+
         if body_start != -1:
             body = request[body_start:]
             data = urllib.parse.parse_qs(body)
-          
+
             discipline = data.get('discipline', [''])[0]
             grade = data.get('grade', [''])[0]
-            
+
             if discipline and grade:
                 try:
                     grade_value = int(grade)
                     if 1 <= grade_value <= 5:
-                        self.grades.append({
-                            'discipline': discipline,
-                            'grade': grade_value,
-                            'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        })
-                        
-                        response = """HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+                        # если предмет уже есть – добавляем, иначе создаем
+                        if discipline not in self.grades:
+                            self.grades[discipline] = {"grades": [], "created_at": []}
+                        self.grades[discipline]["grades"].append(grade_value)
+                        self.grades[discipline]["created_at"].append(
+                            datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        )
+
+                        # редирект обратно на /
+                        response = """HTTP/1.1 302 Found
+Location: /
 Connection: close
 
-{"message": "Оценка добавлена успешно"}"""
+"""
                         print(f"Добавлена оценка: {discipline} - {grade}")
                     else:
                         response = """HTTP/1.1 400 Bad Request
-Content-Type: application/json; charset=utf-8
+Content-Type: text/html; charset=utf-8
 Connection: close
 
-{"error": "Оценка должна быть от 1 до 5"}"""
+Оценка должна быть от 1 до 5"""
                 except ValueError:
                     response = """HTTP/1.1 400 Bad Request
-Content-Type: application/json; charset=utf-8
+Content-Type: text/html; charset=utf-8
 Connection: close
 
-{"error": "Оценка должна быть числом"}"""
+Оценка должна быть числом"""
             else:
                 response = """HTTP/1.1 400 Bad Request
-Content-Type: application/json; charset=utf-8
+Content-Type: text/html; charset=utf-8
 Connection: close
 
-{"error": "Необходимы поля discipline и grade"}"""
+Необходимы поля discipline и grade"""
         else:
             response = """HTTP/1.1 400 Bad Request
-Content-Type: application/json; charset=utf-8
+Content-Type: text/html; charset=utf-8
 Connection: close
 
-{"error": "Пустое тело запроса"}"""
-        
+Пустое тело запроса"""
+
         client_socket.send(response.encode('utf-8'))
-    
+
     def generate_grades_html(self):
         """Генерация HTML страницы с оценками"""
         html = """<!DOCTYPE html>
@@ -156,30 +158,32 @@ Connection: close
         <h1>Система управления оценками</h1>
         
         <h2>Список оценок</h2>"""
-        
+
         if self.grades:
             html += """
-        <table>
+        <table border="1" cellspacing="0" cellpadding="5">
             <tr>
                 <th>Дисциплина</th>
-                <th>Оценка</th>
+                <th>Оценки</th>
                 <th>Дата добавления</th>
             </tr>"""
-            
-            for grade in self.grades:
+
+            for discipline, data in self.grades.items():
+                grades_str = ", ".join(map(str, data["grades"]))
+                dates_str = "<br>".join(data["created_at"])
                 html += f"""
             <tr>
-                <td>{grade['discipline']}</td>
-                <td>{grade['grade']}</td>
-                <td>{grade['created_at']}</td>
+                <td>{discipline}</td>
+                <td>{grades_str}</td>
+                <td>{dates_str}</td>
             </tr>"""
-            
+
             html += """
         </table>"""
         else:
             html += """
         <div class="empty">Оценок пока нет</div>"""
-        
+
         html += """
         
         <h2>Добавить оценку</h2>
@@ -202,7 +206,7 @@ Connection: close
 </body>
 </html>"""
         return html
-    
+
     def send_404(self, client_socket):
         """Отправка ошибки 404"""
         response = """HTTP/1.1 404 Not Found
@@ -222,18 +226,20 @@ Connection: close
 </html>"""
         client_socket.send(response.encode('utf-8'))
 
+
 def run_demo():
     server = WebServer()
     server_thread = threading.Thread(target=server.start, daemon=True)
     server_thread.start()
-    
+
     time.sleep(2)
-    
+
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
         print("\nДемонстрация завершена")
+
 
 if __name__ == "__main__":
     run_demo()
