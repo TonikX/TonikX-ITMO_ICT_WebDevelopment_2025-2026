@@ -2,5 +2,6 @@ site_name: My Docs
 nav:
  - Home: index.md
  - Lab1: Lab1/Lab1.md
+ - Lab2: Lab2/Lab2.md
 theme:
  name: material

@@ -1,0 +1,18 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=homework_db
+      - POSTGRES_USER=hw_user
+      - POSTGRES_PASSWORD=a_strong_password
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
