@@ -1,6 +1,6 @@
 import socket
 
-def udp_client():
+def pythagoras_theorem_client():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_address = ("localhost", 8080)
 
@@ -15,4 +15,4 @@ def udp_client():
         sock.close()
 
 if __name__ == "__main__":
-    udp_client()
+    pythagoras_theorem_client()

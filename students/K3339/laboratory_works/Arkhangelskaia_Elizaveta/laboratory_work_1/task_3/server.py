@@ -17,7 +17,7 @@ def http_server():
         print("Запрос:\n", request)
 
         try:
-            with open("lol.html", "r", encoding="utf-8") as f:
+            with open("index.html", "r", encoding="utf-8") as f:
                 body = f.read()
 
             response = (

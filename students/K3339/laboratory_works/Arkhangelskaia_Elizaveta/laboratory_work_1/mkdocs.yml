@@ -1,0 +1,14 @@
+site_name: LR1 — Отчёт
+site_author: Архангельская Елизавета
+site_url: ''
+
+nav:
+  - Home: index.md
+  - Task 1: task_1/index.md
+  - Task 2: task_2/index.md
+  - Task 3: task_3/index.md
+  - Task 4: task_4/index.md
+  - Task 5: task_5/index.md
+
+theme:
+  name: material
