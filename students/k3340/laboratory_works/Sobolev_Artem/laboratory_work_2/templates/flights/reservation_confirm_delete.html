@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление брони</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1C2526;
+            color: #FFD700;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #2D3E3F;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .warning {
+            color: #FF4444;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .seat-info {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .delete-btn {
+            background-color: #FF4444;
+            color: #FFD700;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        .delete-btn:hover {
+            background-color: #CC0000;
+        }
+        .cancel-btn {
+            background-color: #3A4F50;
+            color: #FFD700;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .cancel-btn:hover {
+            background-color: #4A5F60;
+        }
+        @media (min-width: 400px) {
+            .delete-btn, .cancel-btn {
+                width: auto;
+                display: inline-block;
+            }
+            .form-group {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-2xl mb-6">Удаление брони</h1>
+        <div class="warning">Внимание! Это действие необратимо.</div>
+        <div class="seat-info">Вы уверены, что хотите удалить бронь места {{ object.seat_number }}?</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <button type="submit" class="delete-btn">Удалить</button>
+                <a href="{% url 'flights:flight-detail' object.flight.pk %}" class="cancel-btn">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1C2526;
+            color: #FFD700;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #2D3E3F;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .errorlist {
+            color: #FF4444;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 10px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            background-color: #3A4F50;
+            border: 1px solid #4A5F60;
+            border-radius: 4px;
+            color: #FFD700;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-2xl text-center mb-4">Регистрация</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-full bg-green-600 text-white p-2 rounded mt-4 hover:bg-green-700">Зарегистрироваться</button>
+        </form>
+        <p class="mt-4 text-center"><a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-600">Уже зарегистрированы? Войдите</a></p>
+    </div>
+</body>
+</html>

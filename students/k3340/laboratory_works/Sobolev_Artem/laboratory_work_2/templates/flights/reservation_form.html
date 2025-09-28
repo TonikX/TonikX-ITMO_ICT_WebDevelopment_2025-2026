@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if object %}Изменить бронь{% else %}Новая бронь{% endif %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1C2526;
+            color: #FFD700;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #2D3E3F;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .errorlist {
+            color: #FF4444;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 10px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            background-color: #3A4F50;
+            border: 1px solid #4A5F60;
+            border-radius: 4px;
+            color: #FFD700;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #FFD700;
+        }
+        .submit-btn {
+            background-color: #00FF99;
+            color: #1C2526;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #00CC66;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-2xl text-center mb-6">{% if object %}Изменить бронь{% else %}Новая бронь{% endif %}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <ul class="errorlist">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">Сохранить</button>
+        </form>
+    </div>
+</body>
+</html>

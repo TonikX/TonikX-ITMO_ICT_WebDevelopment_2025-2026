@@ -1,0 +1,313 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ flight.number }} - Детали рейса</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #1C2526;
+            font-family: 'Roboto Mono', monospace;
+            color: #FFD700;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .board-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #2D3E3F;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 2px solid #FFD700;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-size: 24px;
+            color: #FFD700;
+        }
+
+        .back-btn {
+            background-color: #3A4F50;
+            color: #FFD700;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background-color: #2D3E3F;
+        }
+
+        .flight-info {
+            background-color: #2D3E3F;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .flight-info .field {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .flight-info .status {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .booking-section, .reviews-section, .passengers-section, .admin-section {
+            background-color: #2D3E3F;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .booking-section a, .reviews-section a, .admin-section a {
+            color: #00FF99;
+            text-decoration: none;
+        }
+
+        .booking-section a:hover, .reviews-section a:hover, .admin-section a:hover {
+            color: #FFD700;
+        }
+
+        .admin-btn {
+            background-color: #FFD700;
+            color: #1C2526;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            margin: 5px;
+        }
+
+        .admin-btn:hover {
+            background-color: #E6C200;
+        }
+
+        .delete-btn {
+            background-color: #FF4444;
+            color: #FFD700;
+        }
+
+        .delete-btn:hover {
+            background-color: #CC0000;
+        }
+
+        .passengers-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .passengers-table th, .passengers-table td {
+            padding: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .passengers-table th {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFD700;
+            text-transform: uppercase;
+        }
+
+        .type-departure {
+            color: #00FF99;
+        }
+
+        .type-arrival {
+            color: #00CCFF;
+        }
+
+        .ticker {
+            background-color: #2D3E3F;
+            padding: 10px;
+            text-align: center;
+            color: #FFD700;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            .flight-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            .flight-info .field {
+                min-width: 100%;
+            }
+            .passengers-table th, .passengers-table td {
+                padding: 5px;
+                font-size: 0.85rem;
+            }
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .admin-section {
+                text-align: center;
+            }
+            .admin-btn {
+                display: block;
+                width: 100%;
+                margin: 5px 0;
+            }
+            .back-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="board-container">
+        <div class="header">
+            <h1 class="text-2xl md:text-3xl">{{ flight.number }} {{ flight.origin_airport.city }} → {{ flight.destination_airport.city }}</h1>
+            <a href="{% url 'flights:flight-list' %}" class="back-btn">Вернуться к списку рейсов</a>
+        </div>
+        <div class="flight-info">
+            <div class="field"><strong>Авиакомпания:</strong> {{ flight.airline.name }}</div>
+            <div class="field"><strong>Тип:</strong> <span class="type-{{ flight.type|lower }}">{{ flight.get_type_display }}</span></div>
+            <div class="field"><strong>Гейт:</strong> {{ flight.gate }}</div>
+            <div class="field"><strong>Вылет:</strong> {{ flight.departure_time|date:"H:i d.m.Y" }}</div>
+            <div class="field"><strong>Прилет:</strong> {{ flight.arrival_time|date:"H:i d.m.Y" }}</div>
+            <div class="status"><strong>Статус:</strong>
+                {% if flight.status == 'scheduled' %}
+                    <span style="background-color: #FFD700; color: #1C2526; padding: 5px 10px; border-radius: 3px;">{{ flight.get_status_display }}</span>
+                {% elif flight.status == 'in_flight' %}
+                    <span style="background-color: #00FF99; color: #1C2526; padding: 5px 10px; border-radius: 3px;">{{ flight.get_status_display }}</span>
+                {% elif flight.status == 'arrived' %}
+                    <span style="background-color: #00CCFF; color: #1C2526; padding: 5px 10px; border-radius: 3px;">{{ flight.get_status_display }}</span>
+                {% elif flight.status == 'delayed' %}
+                    <span style="background-color: #FF8800; color: #1C2526; padding: 5px 10px; border-radius: 3px;">{{ flight.get_status_display }}</span>
+                {% elif flight.status == 'cancelled' %}
+                    <span style="background-color: #FF4444; color: #FFD700; padding: 5px 10px; border-radius: 3px;">{{ flight.get_status_display }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="booking-section">
+            {% if user.is_authenticated %}
+                <p><a href="{% url 'flights:reservation-create' flight.pk %}">Забронировать место</a></p>
+                <h3 class="text-lg mt-2">Мои брони</h3>
+                <ul class="list-disc pl-5">
+                    {% for r in my_reservations %}
+                        <li>Место {{ r.seat_number }}
+                            <a href="{% url 'flights:reservation-update' r.pk %}" class="ml-2">Изменить</a>
+                            <a href="{% url 'flights:reservation-delete' r.pk %}" class="ml-2">Удалить</a>
+                        </li>
+                    {% empty %}
+                        <li>Нет броней на этот рейс</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><a href="{% url 'login' %}">Войдите</a>, чтобы бронировать</p>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated and user.is_staff %}
+            <div class="passengers-section">
+                <h3 class="text-lg">Пассажиры рейса</h3>
+                <p>Занято: {{ occupied }} | Свободно: {{ free }}</p>
+                <table class="passengers-table">
+                    <thead>
+                        <tr>
+                            <th>Пассажир</th>
+                            <th>Место</th>
+                            <th>Билет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in passengers %}
+                            <tr>
+                                <td>{{ r.passenger.get_username }}</td>
+                                <td>{{ r.seat_number }}</td>
+                                <td>{{ r.ticket_number|default:"—" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="3" class="text-center">Пассажиров пока нет</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <div class="reviews-section">
+            <h3 class="text-lg">Отзывы</h3>
+            {% if user.is_authenticated and not my_review_exists %}
+                <p><a href="{% url 'flights:review-create' flight.pk %}">Оставить отзыв</a></p>
+            {% endif %}
+            <ul class="list-disc pl-5 mt-2">
+                {% for rv in reviews %}
+                    <li>
+                        {{ rv.author.get_username }} — {{ rv.rating }}/10 — {{ rv.created_at|date:"Y-m-d H:i" }}<br>
+                        {{ rv.text }}
+                        {% if user.is_authenticated and user.is_staff %}
+                            <a href="{% url 'flights:review-delete' rv.pk %}" class="ml-2 text-red-500 hover:text-red-700">Удалить</a>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>Пока нет отзывов</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if user.is_authenticated and user.is_staff %}
+            <div class="admin-section">
+                <h3 class="text-lg">Управление рейсом</h3>
+                <div class="flex flex-col md:flex-row justify-center gap-2 mt-2">
+                    <a href="{% url 'flights:flight-update' flight.pk %}" class="admin-btn">Редактировать рейс</a>
+                    <form method="post" action="{% url 'flights:flight-delete' flight.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="admin-btn delete-btn">Удалить рейс</button>
+                    </form>
+                    <form method="post" action="{% url 'flights:flight-status-update' flight.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <select name="status" class="admin-btn" style="background-color: #3A4F50; color: #FFD700; border: none; padding: 8px 15px; border-radius: 4px;">
+                            <option value="scheduled" {% if flight.status == 'scheduled' %}selected{% endif %}>Запланирован</option>
+                            <option value="in_flight" {% if flight.status == 'in_flight' %}selected{% endif %}>В полёте</option>
+                            <option value="arrived" {% if flight.status == 'arrived' %}selected{% endif %}>Прибыл</option>
+                            <option value="delayed" {% if flight.status == 'delayed' %}selected{% endif %}>Задержан</option>
+                            <option value="cancelled" {% if flight.status == 'cancelled' %}selected{% endif %}>Отменён</option>
+                        </select>
+                        <button type="submit" class="admin-btn" style="margin-left: 5px;">Изменить статус</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="ticker">
+        Добро пожаловать в аэропорт! Текущее время: {% now "H:i" %} MSK, {% now "d F Y" %}. Проверяйте статус рейсов и бронируйте места.
+    </div>
+</body>
+</html>

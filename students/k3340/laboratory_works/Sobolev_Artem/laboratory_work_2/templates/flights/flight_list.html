@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Все рейсы</title>
+
+  <!-- Шрифты и стили -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      background-color: #1C2526;
+      font-family: 'Roboto Mono', monospace;
+      color: #FFD700;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .board-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .header {
+      background-color: #2D3E3F; padding: 10px 20px; text-align: center;
+      border-bottom: 2px solid #FFD700; margin-bottom: 1rem;
+    }
+    .header h1 { margin: 0; font-size: 24px; color: #FFD700; }
+    .subheader {
+      background-color: #2D3E3F; padding: 10px 20px; display: flex;
+      justify-content: space-between; align-items: center; border-bottom: 1px solid #FFD700; margin-bottom: 1rem;
+      gap: 10px;
+    }
+    .subheader .greeting { color: #00FF99; font-weight: 700; white-space: nowrap; }
+    .subheader input, .subheader select {
+      background-color: #3A4F50; border: none; color: #FFD700; padding: 6px 8px; border-radius: 4px;
+    }
+    .subheader .admin-btn {
+      background-color: #FFD700; color: #1C2526; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer;
+    }
+    .subheader .admin-btn:hover { background-color: #E6C200; }
+    .subheader .logout-btn {
+      background-color: #FF4444; color: #FFD700; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer;
+    }
+    .subheader .logout-btn:hover { background-color: #CC0000; }
+    .flight-header {
+      display: flex; justify-content: space-between; background-color: #2D3E3F;
+      padding: 10px 15px; margin-bottom: 10px; border-radius: 5px; text-transform: uppercase; font-size: 14px; color: #FFD700;
+    }
+    .flight-header .field { flex: 1; text-align: center; font-weight: bold; }
+    .flight-item {
+      display: flex; justify-content: space-between; align-items: center; background-color: #2D3E3F;
+      padding: 10px 15px; margin-bottom: 10px; border-radius: 5px; font-size: 16px;
+    }
+    .flight-item .field { flex: 1; text-align: center; padding: 0 5px; }
+    .flight-item .number { font-weight: bold; font-size: 20px; }
+    .flight-item .link a { color: #FFD700; text-decoration: none; }
+    .flight-item .link a:hover { color: #FFFFFF; }
+    .flight-item .type-departure { color: #00FF99; }
+    .flight-item .type-arrival { color: #00CCFF; }
+    .flight-item .status { flex: 1; text-align: center; padding: 5px 10px; border-radius: 3px; font-weight: bold; }
+    .ticker {
+      background-color: #2D3E3F; padding: 10px; text-align: center; color: #FFD700; font-size: 14px;
+      position: fixed; bottom: 0; width: 100%; border-top: 1px solid #FFD700;
+    }
+    @media (max-width: 768px) {
+      .subheader { flex-direction: column; align-items: stretch; }
+      .subheader .greeting { text-align: center; }
+      .flight-header, .flight-item { flex-direction: column; text-align: center; gap: 10px; }
+      .flight-header .field, .flight-item .field { padding: 5px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="board-container">
+  <!-- Шапка -->
+  <div class="header">
+    <h1>Рейсы</h1>
+    <p class="text-sm text-gray-400">Актуальная информация о рейсах в реальном времени</p>
+  </div>
+
+  <!-- Подшапка: приветствие + форма фильтров (GET) + вход/выход -->
+  <div class="subheader">
+    <div class="greeting">
+      {% if user.is_authenticated %}Привет, {{ user.get_username }}!{% else %}Привет, гость!{% endif %}
+    </div>
+
+    <!-- Форма фильтров: серверная -->
+    <form method="get" class="flex items-center gap-2" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+      <input type="text" name="q" placeholder="Поиск: номер, компания, город…" value="{{ request.GET.q|default:'' }}" style="min-width:220px">
+
+      <select name="type">
+        <option value="">Все типы</option>
+        <option value="DEPARTURE" {% if request.GET.type == "DEPARTURE" %}selected{% endif %}>Отлёт</option>
+        <option value="ARRIVAL" {% if request.GET.type == "ARRIVAL" %}selected{% endif %}>Прилёт</option>
+      </select>
+
+      <select name="airline">
+        <option value="">Все авиакомпании</option>
+        {% for name in airlines %}
+          <option value="{{ name }}" {% if request.GET.airline == name %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="origin">
+        <option value="">Откуда</option>
+        {% for city in origins %}
+          <option value="{{ city }}" {% if request.GET.origin == city %}selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="dest">
+        <option value="">Куда</option>
+        {% for city in destinations %}
+          <option value="{{ city }}" {% if request.GET.dest == city %}selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="admin-btn"><i class="fa fa-filter mr-1"></i>Фильтровать</button>
+      {% if request.GET %}
+        <a href="." class="logout-btn" style="text-decoration:none;display:inline-block">Сброс</a>
+      {% endif %}
+    </form>
+
+    <div class="flex items-center gap-2" style="display:flex;gap:8px">
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}
+          <a href="{% url 'admin:index' %}" class="admin-btn">Админ-панель</a>
+        {% endif %}
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="logout-btn">Выход</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-600">Войти</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Заголовок колонок -->
+  <div class="flight-header">
+    <div class="field">Номер</div>
+    <div class="field">Аэропорт</div>
+    <div class="field">Пункт</div>
+    <div class="field">Отправление</div>
+    <div class="field">Прибытие</div>
+    <div class="field">Тип</div>
+    <div class="field">Гейт</div>
+    <div class="field">Статус</div>
+  </div>
+
+  <!-- Список рейсов -->
+  <div id="flightBoard">
+    {% for flight in page_obj.object_list %}
+      <div class="flight-item" data-type="{{ flight.type }}">
+        <div class="field number link">
+          <a href="{% url 'flights:flight-detail' flight.pk %}">{{ flight.number }}</a>
+        </div>
+        <div class="field">
+          {{ flight.origin_airport.name }} ({{ flight.origin_airport.city }})
+        </div>
+        <div class="field">
+          {{ flight.destination_airport.name }} ({{ flight.destination_airport.city }})
+        </div>
+        <div class="field">
+          {{ flight.departure_time|date:"H:i d.m.Y" }}
+        </div>
+        <div class="field">
+          {{ flight.arrival_time|date:"H:i d.m.Y" }}
+        </div>
+        <div class="field type-{{ flight.type|lower }}">
+          {{ flight.get_type_display }}
+        </div>
+        <div class="field">
+          {{ flight.gate|default:"—" }}
+        </div>
+        <div class="field status">
+          {# Если в модели есть поле status с choices — покажем красивый бейдж. Иначе — дефис. #}
+          {% if flight.status %}
+            {% with s=flight.status disp=flight.get_status_display %}
+              {% if s == 'scheduled' %}
+                <span style="background-color:#FFD700;color:#1C2526;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% elif s == 'in_flight' %}
+                <span style="background-color:#00FF99;color:#1C2526;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% elif s == 'arrived' %}
+                <span style="background-color:#00CCFF;color:#1C2526;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% elif s == 'delayed' %}
+                <span style="background-color:#FF8800;color:#1C2526;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% elif s == 'cancelled' %}
+                <span style="background-color:#FF4444;color:#FFD700;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% else %}
+                <span style="background-color:#3A4F50;color:#FFD700;padding:5px 10px;border-radius:3px;">{{ disp }}</span>
+              {% endif %}
+            {% endwith %}
+          {% else %}
+            —
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="flight-item text-center text-gray-400">Нет доступных рейсов.</div>
+    {% endfor %}
+  </div>
+
+      <!-- Пагинация -->
+      {% if page_obj.paginator.num_pages > 1 %}
+      <nav class="flex items-center justify-center gap-2 my-6 select-none">
+        {% if page_obj.has_previous %}
+          <a href="?page=1{% if querystring %}&{{ querystring }}{% endif %}"
+             class="px-3 py-1 rounded border border-yellow-400 text-yellow-300 hover:bg-yellow-500 hover:text-gray-900 transition">« Первая</a>
+          <a href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"
+             class="px-3 py-1 rounded border border-yellow-400 text-yellow-300 hover:bg-yellow-500 hover:text-gray-900 transition">‹ Назад</a>
+        {% endif %}
+
+        {% for p in page_obj.paginator.page_range %}
+          {% if p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            {% if p == page_obj.number %}
+              <span class="px-3 py-1 rounded bg-yellow-500 text-gray-900 font-bold">{{ p }}</span>
+            {% else %}
+              <a href="?page={{ p }}{% if querystring %}&{{ querystring }}{% endif %}"
+                 class="px-3 py-1 rounded border border-yellow-400 text-yellow-300 hover:bg-yellow-500 hover:text-gray-900 transition">{{ p }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"
+             class="px-3 py-1 rounded border border-yellow-400 text-yellow-300 hover:bg-yellow-500 hover:text-gray-900 transition">Вперёд ›</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}{% if querystring %}&{{ querystring }}{% endif %}"
+             class="px-3 py-1 rounded border border-yellow-400 text-yellow-300 hover:bg-yellow-500 hover:text-gray-900 transition">Последняя »</a>
+        {% endif %}
+  </nav>
+  {% endif %}
+</div>
+
+<div class="ticker">
+  Добро пожаловать в аэропорт! Проверьте статус рейсов и бронируйте места в личном кабинете.
+</div>
+
+</body>
+</html>
