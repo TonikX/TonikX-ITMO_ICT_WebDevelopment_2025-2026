@@ -1,0 +1,66 @@
+site_name: Лабораторная работа №1 - Сетевые технологии
+site_description: Документация по лабораторной работе по сетевым технологиям
+site_author: Губанов Егор
+site_url: https://YOUR_USERNAME.github.io/network-lab-1
+
+# Repository
+repo_name: YOUR_USERNAME/network-lab-1
+repo_url: https://github.com/YOUR_USERNAME/network-lab-1
+
+# Copyright
+copyright: Copyright &copy; 2024 Губанов Егор
+
+# Configuration
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+# Page tree
+nav:
+  - Главная: index.md
+  - Задания:
+    - Задание 1 - UDP клиент-сервер: task1.md
+    - Задание 2 - TCP Математический сервер: task2.md
+    - Задание 3 - HTTP Файловый сервер: task3.md
+    - Задание 4 - Многопользовательский чат: task4.md
+    - Задание 5 - Веб-сервер с оценками: task5.md
+
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/YOUR_USERNAME
