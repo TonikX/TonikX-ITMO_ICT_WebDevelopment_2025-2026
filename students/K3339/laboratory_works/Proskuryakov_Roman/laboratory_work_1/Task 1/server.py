@@ -1,6 +1,6 @@
 import socket
 
-def start_server():
+def run_server():
     # Создаем UDP сокет
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
@@ -20,4 +20,4 @@ def start_server():
         server_socket.sendto(response_message.encode(), client_address)
 
 if __name__ == "__main__":
-    start_server()
+    run_server()

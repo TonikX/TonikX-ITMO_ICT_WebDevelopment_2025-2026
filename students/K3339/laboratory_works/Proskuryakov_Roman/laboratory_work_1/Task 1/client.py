@@ -1,6 +1,6 @@
 import socket
 
-def start_client():
+def run_client():
     # Создаем UDP сокет
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
@@ -21,4 +21,4 @@ def start_client():
     client_socket.close()
 
 if __name__ == "__main__":
-    start_client()
+    run_client()
