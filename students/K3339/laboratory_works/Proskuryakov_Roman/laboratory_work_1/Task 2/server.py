@@ -59,8 +59,6 @@ def handle_client(conn, addr):
     
     print("Connection closed", addr)
 
-threads=[]
-
 def run_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
@@ -68,11 +66,8 @@ def run_server():
         print(f"Server listening on {HOST}:{PORT}")
         while True:
             conn, addr = s.accept()
-            threads.append(threading.Thread(target=handle_client,  args=[conn, addr]))
-            threads[-1].start()
-    
-    for th in threads:
-        th.terminate()
+            thread = threading.Thread(target=handle_client,  args=[conn, addr])
+            thread.start()
 
 if __name__ == "__main__":
     run_server()

@@ -34,8 +34,6 @@ def run_client():
             print("Ответ сервера:", resp)
             if resp == "ok closing":
                 break
-        
-        sock.close()
 
 if __name__ == "__main__":
     run_client()
