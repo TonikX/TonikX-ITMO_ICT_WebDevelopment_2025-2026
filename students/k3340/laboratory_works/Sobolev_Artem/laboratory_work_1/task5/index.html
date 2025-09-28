@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оценки</title>
+</head>
+<body>
+<h1>Добавить оценку</h1>
+<form action="/grade" method="post">
+  <label>Дисциплина:
+    <input type="text" name="discipline" required>
+  </label><br><br>
+  <label>Оценка:
+    <input type="text" name="grade" required>
+  </label><br><br>
+  <button type="submit">Добавить</button>
+</form>
+
+<h2>Дисциплины ({count})</h2>
+<ol>
+  {items_html}
+</ol>
+</body>
+</html>
