@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Welcome to Homework Board</h2>
+                <p class="lead">A platform for managing homework assignments and submissions.</p>
+                
+                {% if user.is_authenticated %}
+                    <div class="alert alert-info">
+                        Hello, <strong>{{ user.username }}</strong>! You are logged in as <strong>{{ user.profile.group }}</strong>.
+                    </div>
+                    <a class="btn btn-primary btn-lg" href="{% url 'homework_list' %}">View Homework</a>
+                {% else %}
+                    <div class="alert alert-warning">
+                        Please log in or sign up to access the homework board.
+                    </div>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a class="btn btn-primary btn-lg" href="{% url 'login' %}">Login</a>
+                        <a class="btn btn-secondary btn-lg" href="{% url 'signup' %}">Sign Up</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
