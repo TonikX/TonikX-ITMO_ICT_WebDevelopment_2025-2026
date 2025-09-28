@@ -1,0 +1,6 @@
+site_name: Отчёты по лабораторным работам
+nav:
+ - Главная страница: index.md
+ - Лабораторная работа 1: Lab1.md
+theme:
+ name: material
