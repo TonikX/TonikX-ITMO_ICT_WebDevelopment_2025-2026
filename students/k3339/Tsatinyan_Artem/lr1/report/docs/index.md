@@ -5,11 +5,13 @@
 students/<группа>/<Фамилия_Имя>/lr1/          # код и материалы ЛР1
 docs/                                         # Markdown‑страницы сайта
   index.md                                    # главная
-  task1.md                                      # страница task 1
-  ...
+  task1.md                                    # страница task 1
+  task2.md                                    # страница task 2
+  task3.md                                    # страница task 3
 mkdocs.yml                                    # конфигурация MkDocs
 ```
 
 ## Навигация
 - [Задание 1: Сокеты: UDP «Hello»](task1.md)
 - [Задание 2 (TCP): Математическая операция](task2.md)
+- [Задание 3 (HTTP): Отдача HTML-файла](task3.md)
