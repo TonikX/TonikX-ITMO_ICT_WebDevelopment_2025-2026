@@ -1,0 +1,80 @@
+:root{
+  --bg: #0b1020; --fg: #e8ecf3; --muted:#a9b3c7;
+  --card:#121833; --card-2:#0f1530; --line:#243056;
+  --primary:#4f8cff; --primary-2:#7ab0ff;
+  --green:#4fd189; --amber:#ffb020; --red:#ff6b6b;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fc; --fg:#0c1222; --muted:#5b6785; --card:#ffffff; --card-2:#f1f4fb; --line:#e5eaf4; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,Inter,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,var(--bg),#090d1a 60%); color:var(--fg);}
+
+.container{max-width:1200px;margin:0 auto;padding:0 16px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+.muted{color:var(--muted)}
+
+.hero{position:relative;padding:64px 0 24px}
+.hero__bg{position:absolute;inset:0;background:
+ radial-gradient(60% 60% at 10% 10%, rgba(79,140,255,.25), transparent 60%),
+ radial-gradient(50% 50% at 90% 20%, rgba(79,209,137,.18), transparent 60%);}
+.hero__content h1{margin:0 0 8px;font-size:40px;letter-spacing:.2px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
+
+.search{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);padding:8px 10px;border-radius:14px;min-width:320px}
+.search svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2}
+.search input{border:0;outline:0;background:transparent;color:var(--fg);flex:1;font-size:14px}
+.search .ghost{border:0;background:transparent;color:var(--muted);cursor:pointer}
+
+.filters{display:flex;gap:10px;align-items:center}
+select{appearance:none;background:var(--card);border:1px solid var(--line);color:var(--fg);padding:10px 12px;border-radius:12px}
+.view-toggle{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.view-toggle button{padding:10px 14px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.view-toggle button.active{background:var(--primary);color:white}
+
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:auto}
+table.flights{width:100%;border-collapse:separate;border-spacing:0}
+table.flights thead th{position:sticky;top:0;background:var(--card-2);color:var(--muted);font-weight:600;text-align:left;padding:14px;border-bottom:1px solid var(--line);cursor:pointer}
+table.flights tbody td{padding:14px;border-bottom:1px solid var(--line);vertical-align:middle}
+table .airline{display:flex;align-items:center;gap:10px}
+.logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:grid;place-items:center;color:white;font-weight:700}
+.route{display:flex;gap:8px;align-items:center}
+.route .arrow{opacity:.6}
+.badge{padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.badge--depart{background:rgba(79,140,255,.15);color:var(--primary)}
+.badge--arrive{background:rgba(79,209,137,.15);color:var(--green)}
+.chip{display:inline-block;padding:6px 10px;border-radius:10px;background:var(--card-2);border:1px solid var(--line)}
+.chip--primary{background:rgba(79,140,255,.14);border-color:rgba(79,140,255,.4);color:var(--primary)}
+
+.capacity{display:flex;gap:10px;align-items:center}
+.capacity .bar{width:120px;height:8px;background:var(--card-2);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.capacity .fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--green))}
+.capacity.small .bar{width:100%}
+.cap-text{font-size:12px;color:var(--muted)}
+
+.actions .btn{display:inline-block;padding:8px 12px;background:var(--primary);color:white;border-radius:10px;text-decoration:none}
+.actions .btn:hover{filter:brightness(1.05)}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column}
+.card__head{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
+.card__body{display:grid;gap:12px;padding:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.label{font-size:12px;color:var(--muted)}
+.card__foot{padding:12px;border-top:1px solid var(--line);display:flex;justify-content:flex-end}
+
+.pagination{display:flex;gap:12px;justify-content:center;align-items:center;margin:18px 0}
+.page{padding:8px 12px;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--fg);text-decoration:none}
+.page.current{background:var(--card-2);color:var(--muted);border-style:dashed}
+
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:32px;text-align:center;margin:16px 0}
+
+@media (max-width: 1100px){ .cards{grid-template-columns:repeat(2,1fr)} }
+@media (max-width: 720px){
+  .controls{flex-direction:column;align-items:stretch}
+  .search{min-width:unset}
+  .cards{grid-template-columns:1fr}
+  table.flights thead th:nth-child(5),
+  table.flights tbody td:nth-child(5){display:none} /* hide Gate on phones */
+}

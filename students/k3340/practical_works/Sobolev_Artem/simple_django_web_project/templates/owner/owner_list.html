@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Владельцы</title>
+</head>
+<body>
+    <h1>Владельцы</h1>
+    <ul>
+      {% for o in owners %}
+        <li>{{ o.lastname }} {{ o.firstname }}{% if o.date_birth %} ({{ o.date_birth }}){% endif %}</li>
+      {% endfor %}
+    </ul>
+</body>
+</html>

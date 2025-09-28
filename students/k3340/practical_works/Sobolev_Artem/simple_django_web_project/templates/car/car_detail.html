@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Машина</title>
+</head>
+<body>
+    <h1>{{ object.brand }} {{ object.model }}</h1>
+    <p>Номер: {{ object.state_number }}</p>
+    <p>Цвет: {{ object.color }}</p>
+    <a href="{% url 'car-update' object.pk %}">Редактировать</a>
+</body>
+</html>

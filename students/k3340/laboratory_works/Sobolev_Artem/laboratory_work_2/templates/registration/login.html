@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1C2526;
+            color: #FFD700;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #2D3E3F;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .errorlist {
+            color: #FF4444;
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-2xl text-center mb-4">Вход</h1>
+        {% if form.errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="id_username" class="block mb-1">Имя пользователя:</label>
+                <input type="text" name="username" id="id_username" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="id_password" class="block mb-1">Пароль:</label>
+                <input type="password" name="password" id="id_password" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Войти</button>
+        </form>
+        <p class="mt-4 text-center"><a href="{% url 'flights:signup' %}" class="text-green-400 hover:text-green-600">Ещё нет аккаунта? Зарегистрируйтесь</a></p>
+    </div>
+</body>
+</html>
