@@ -36,8 +36,8 @@
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/YOUR_USERNAME/network-lab-1.git
-cd network-lab-1
+git clone https://github.com/egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025.git
+cd ITMO_ICT_WebDevelopment_2024-2025/students/k3340/Gubanov_Egor/Lr1
 
 # Установите MkDocs (для документации)
 pip install mkdocs mkdocs-material
@@ -143,7 +143,7 @@ python task5/server.py
 
     ---
 
-    Весь код доступен в [GitHub репозитории](https://github.com/YOUR_USERNAME/network-lab-1)
+    Весь код доступен в [GitHub репозитории](https://github.com/egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025)
 
 -   :material-book-open:{ .lg .middle } **Документация**
 

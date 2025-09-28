@@ -1,20 +1,15 @@
 site_name: Лабораторная работа №1 - Сетевые технологии
 site_description: Документация по лабораторной работе по сетевым технологиям
 site_author: Губанов Егор
-site_url: https://YOUR_USERNAME.github.io/network-lab-1
+site_url: https://egorr-gubanov.github.io/ITMO_ICT_WebDevelopment_2024-2025
 
-# Repository
-repo_name: YOUR_USERNAME/network-lab-1
-repo_url: https://github.com/YOUR_USERNAME/network-lab-1
-
-# Copyright
+repo_name: egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025
+repo_url: https://github.com/egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025
 copyright: Copyright &copy; 2024 Губанов Егор
 
-# Configuration
 theme:
   name: material
   palette:
-    # Palette toggle for light mode
     - scheme: default
       primary: blue
       accent: light blue
@@ -22,7 +17,6 @@ theme:
         icon: material/brightness-7
         name: Switch to dark mode
 
-    # Palette toggle for dark mode
     - scheme: slate
       primary: blue
       accent: light blue
@@ -43,13 +37,11 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
-# Plugins
 plugins:
   - search
   - git-revision-date-localized:
       enable_creation_date: true
 
-# Page tree
 nav:
   - Главная: index.md
   - Задания:
@@ -59,8 +51,7 @@ nav:
     - Задание 4 - Многопользовательский чат: task4.md
     - Задание 5 - Веб-сервер с оценками: task5.md
 
-# Extra
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/YOUR_USERNAME
+      link: https://github.com/egorr-gubanov
