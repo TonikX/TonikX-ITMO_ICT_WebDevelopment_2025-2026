@@ -1,0 +1,12 @@
+site_name: Отчёт по лабораторной №1
+nav:
+  - Главная: index.md
+  - Задача 1: task1.md
+  - Задача 2: task2.md
+  - Задача 3: task3.md
+  - Задача 4: task4.md
+  - Задача 5: task5.md
+
+theme:
+  name: material
+  language: ru
