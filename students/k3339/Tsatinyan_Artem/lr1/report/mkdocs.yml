@@ -1,1 +1,7 @@
-site_name: Lr1
+site_name: ITMO Web Labs
+nav:
+  - Главная: index.md
+  - Задание 1: task1.md
+  - Задание 2: task2.md
+theme:
+  name: material
