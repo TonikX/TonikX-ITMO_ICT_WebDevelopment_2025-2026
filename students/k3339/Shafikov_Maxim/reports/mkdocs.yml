@@ -1,0 +1,7 @@
+site_name: Лабораторные работы
+site_url: https://MrAmfix.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+theme:
+  name: material
+nav:
+  - 'Главная': index.md
+  - 'Лабораторная работа №1': report_1.md
