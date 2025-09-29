@@ -17,3 +17,5 @@ mkdocs.yml                                    # конфигурация MkDocs
 - [Задание 1: Сокеты: UDP «Hello»](task1.md)
 - [Задание 2 (TCP): Математическая операция](task2.md)
 - [Задание 3 (HTTP): Отдача HTML-файла](task3.md)
+- [Задание 4 (TCP + threading): Чат](task4.md)
+- [Задание 5 (HTTP GET+POST): Журнал оценок](task5.md)
