@@ -50,7 +50,7 @@
 
 ---
 
-### Код: [https://github.com/exPriceD/TonikX-ITMO_ICT_WebDevelopment_2025-2026/tree/lab1/lab1/5](https://github.com/exPriceD/TonikX-ITMO_ICT_WebDevelopment_2025-2026/tree/lab1/lab1/5)
+### Код: [https://github.com/exPriceD/TonikX-ITMO_ICT_WebDevelopment_2025-2026/tree/lab1/students/k3340/Bogdanov_Maxim/Lr1/5](https://github.com/exPriceD/TonikX-ITMO_ICT_WebDevelopment_2025-2026/tree/lab1/students/k3340/Bogdanov_Maxim/Lr1/5)
 
 
 ## Пример работы
