@@ -1,18 +1,29 @@
 import socket
 
-
 def pythagoras_theorem_server():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(("localhost", 8080))
-    print(f"server is launched")
+    sock.listen(1)
+    print("server is launched, expects a connection...")
 
     while True:
-        data, client_address = sock.recvfrom(1024)
-        a, b = data.decode().split(" ")
-        reply = str((float(a) ** 2 + float(b) ** 2) ** 0.5)
-        sock.sendto(reply.encode(), client_address)
-        print(f"answer is sent: {reply}")
+        connection, client_address = sock.accept()
+        print(f"client is connected: {client_address}")
 
+        try:
+            data = connection.recv(1024)
+            if not data:
+                break
+
+            a, b = data.decode().split()
+            reply = str((float(a) ** 2 + float(b) ** 2) ** 0.5)
+            connection.sendall(reply.encode())
+            print(f"answer sent: {reply}")
+        except Exception as e:
+            print(f"error: {e}")
+        finally:
+            connection.close()
+            print("client turned off")
 
 if __name__ == "__main__":
     pythagoras_theorem_server()

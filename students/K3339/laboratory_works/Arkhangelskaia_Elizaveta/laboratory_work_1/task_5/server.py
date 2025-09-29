@@ -3,16 +3,14 @@ from urllib.parse import parse_qs
 
 HOST = '127.0.0.1'
 PORT = 8080
-
-grades = dict()
-
+GRADES = dict()
 
 def generate_html():
     with open("index.html", "r", encoding="utf-8") as f:
         html = f.read()
 
-    for item in sorted(grades):
-        html += f"<li>{item}: " + ", ".join(grades[item])+ "</li>"
+    for item in sorted(GRADES):
+        html += f"<li>{item}: " + ", ".join(GRADES[item])+ "</li>"
     html += """
         </ul>
     </body>
@@ -25,7 +23,7 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
         s.listen(1)
-        print(f"Сервер запущен на http://{HOST}:{PORT}")
+        print(f"server is launched: http://{HOST}:{PORT}")
 
         while True:
             conn, addr = s.accept()
@@ -44,10 +42,10 @@ def main():
                     data = parse_qs(body)
                     subject = data.get('subject', [''])[0]
                     grade = data.get('grade', [''])[0]
-                    if subject not in grades:
-                        grades[subject] = [grade]
+                    if subject not in GRADES:
+                        GRADES[subject] = [grade]
                     else:
-                        grades[subject].append(grade)
+                        GRADES[subject].append(grade)
 
                 response_body = generate_html()
                 response = (

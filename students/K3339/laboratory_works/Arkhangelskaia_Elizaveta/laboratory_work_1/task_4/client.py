@@ -2,8 +2,8 @@ import socket
 import threading
 import sys
 
-SERVER_HOST = "127.0.0.1"
-SERVER_PORT = 8080
+HOST = "127.0.0.1"
+PORT = 8080
 
 def listen_for_messages(sock):
     while True:
@@ -19,11 +19,11 @@ def listen_for_messages(sock):
 
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((SERVER_HOST, SERVER_PORT))
+    sock.connect((HOST, PORT))
 
-    name = input("Enter your name: ")
+    name = input("Введите свой ник: ")
     if not name:
-        name = "Anonymous"
+        name = "Аноним"
     sock.sendall((name + "\n").encode("utf-8"))
 
     threading.Thread(target=listen_for_messages, args=(sock,), daemon=True).start()
