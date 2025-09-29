@@ -8,6 +8,8 @@ docs/                                         # Markdown‑страницы са
   task1.md                                    # страница task 1
   task2.md                                    # страница task 2
   task3.md                                    # страница task 3
+  task4.md                                    # страница task 4
+  task5.md                                    # страница task 5
 mkdocs.yml                                    # конфигурация MkDocs
 ```
 
