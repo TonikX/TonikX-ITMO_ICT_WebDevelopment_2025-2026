@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Оценки по дисциплинам</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+      }
+      form {
+        width: 70%;
+        margin: 0 auto 30px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      form input[type="text"],
+      form input[type="number"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      form button {
+        padding: 10px 20px;
+        background: #2c3e50;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      form button:hover {
+        background: #1a242f;
+      }
+      table {
+        border-collapse: collapse;
+        width: 70%;
+        margin: 0 auto;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      thead {
+        background: #2c3e50;
+        color: #fff;
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+      }
+      tbody tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+      tbody tr:hover {
+        background: #f1f7ff;
+      }
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Оценки по дисциплинам</h1>
+
+    <!-- Форма для добавления новой оценки -->
+    <form method="POST" action="/">
+      <input
+        type="text"
+        name="discipline"
+        placeholder="Название дисциплины"
+        required
+      />
+      <input
+        type="number"
+        name="mark"
+        placeholder="Оценка (0 - 100)"
+        min="0"
+        max="100"
+        required
+      />
+      <button type="submit">Добавить</button>
+    </form>
+
+    <!-- Таблица с оценками -->
+    <table>
+      <thead>
+        <tr>
+          <th>Дисциплина</th>
+          <th>Оценки</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{rows}}
+      </tbody>
+    </table>
+  </body>
+</html>

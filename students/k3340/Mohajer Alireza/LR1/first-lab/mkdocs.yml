@@ -1,0 +1,31 @@
+site_name: "WEB-programming lab 1"
+nav:
+  - Home: index.md
+  - 1 lab:
+      - Task 1: task1.md
+      - Task 2: task2.md
+      - Task 3: task3.md
+      - Task 4: task4.md
+      - Task 5: task5.md
+  - Conclusion: conclusion.md
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - search.suggest
