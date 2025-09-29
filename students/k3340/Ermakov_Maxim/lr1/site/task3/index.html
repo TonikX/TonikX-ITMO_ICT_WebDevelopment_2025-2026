@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Задание 3: HTTP Сервер - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 3: HTTP \u0421\u0435\u0440\u0432\u0435\u0440";
+        var mkdocs_page_input_path = "task3.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Задание 3: HTTP Сервер</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Решение</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Сервер</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#indexhtml">Пример index.html</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Пояснение</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №1</li>
+      <li class="breadcrumb-item active">Задание 3: HTTP Сервер</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="3">Задание 3</h1>
+<p>Реализовать <strong>серверную</strong> часть приложения. Клиент подключается к серверу и получает <strong>HTTP-сообщение</strong>, содержащее HTML‑страницу, которую сервер подгружает из файла <code>index.html</code>.</p>
+<p><strong>Требования:</strong>
+- Обязательно использовать библиотеку <code>socket</code>.</p>
+<hr />
+<h2 id="_1">Решение</h2>
+<h3 id="_2">Сервер</h3>
+<pre><code class="language-python">import socket
+from datetime import datetime
+
+def load_html_file(file_name):
+    &quot;&quot;&quot;Читает содержимое HTML-файла и возвращает (текст, найден_ли_файл: bool).&quot;&quot;&quot;
+    try:
+        with open(file_name, &quot;r&quot;, encoding=&quot;utf-8&quot;) as file:
+            return file.read(), True
+    except FileNotFoundError:
+        not_found_html = &quot;&lt;!doctype html&gt;&lt;meta charset='utf-8'&gt;&lt;h1&gt;404 - File Not Found&lt;/h1&gt;&quot;
+        return not_found_html, False
+
+def build_http_response(status_code, body_text):
+    &quot;&quot;&quot;Формирует корректное HTTP-сообщение (заголовки + тело).&quot;&quot;&quot;
+    if status_code == 200:
+        status_line = &quot;HTTP/1.1 200 OK&quot;
+    elif status_code == 404:
+        status_line = &quot;HTTP/1.1 404 Not Found&quot;
+    else:
+        status_line = f&quot;HTTP/1.1 {status_code}&quot;
+
+    body_bytes = body_text.encode(&quot;utf-8&quot;)
+    headers = [
+        status_line,
+        &quot;Content-Type: text/html; charset=utf-8&quot;,
+        f&quot;Content-Length: {len(body_bytes)}&quot;,     # длина в байтах!
+        &quot;Connection: close&quot;,
+        f&quot;Date: {datetime.utcnow():%a, %d %b %Y %H:%M:%S} GMT&quot;,
+    ]
+    # Между заголовками и телом обязательно должна быть пустая строка (\r\n\r\n)
+    response_text = &quot;\r\n&quot;.join(headers) + &quot;\r\n\r\n&quot;
+    return response_text.encode(&quot;utf-8&quot;) + body_bytes
+
+def main():
+    server_host = &quot;127.0.0.1&quot;
+    server_port = 8081
+    html_file_name = &quot;index.html&quot;
+
+    # Создаем TCP-сокет
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Чтобы можно было быстро перезапускать сервер на том же порту
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+    server_socket.bind((server_host, server_port))
+
+    # Начинаем прослушивание входящих подключений
+    server_socket.listen(5)
+    print(f&quot;HTTP-сервер запущен на http://{server_host}:{server_port}&quot;)
+
+    try:
+        while True:
+            try:
+                # Принимаем подключение
+                client_socket, client_address = server_socket.accept()
+                print(f&quot;Подключился клиент: {client_address}&quot;)
+
+                # Получаем HTTP-запрос
+                raw_request = client_socket.recv(2048).decode(&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+                print(f&quot;Получен запрос:\n{raw_request}&quot;)
+
+                # Загружаем HTML-страницу из файла
+                html_content, file_found = load_html_file(html_file_name)
+
+                # Готовим ответ с корректным статусом
+                status_code = 200 if file_found else 404
+                http_response = build_http_response(status_code, html_content)
+
+                # Отправляем ответ клиенту
+                client_socket.sendall(http_response)
+                print(f&quot;Отправлен HTTP-ответ со статусом {status_code}\n&quot;)
+
+            except KeyboardInterrupt:
+                print(&quot;\nСервер остановлен&quot;)
+                break
+            except Exception as error:
+                print(f&quot;Произошла ошибка при обработке клиента: {error}&quot;)
+            finally:
+                try:
+                    client_socket.close()
+                except Exception:
+                    pass
+    finally:
+        server_socket.close()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="indexhtml">Пример <code>index.html</code></h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;title&gt;Мой index.html&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: sans-serif; margin: 2rem; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Привет! Это html-страница Ермакова Максима!&lt;/h1&gt;
+  &lt;p&gt;Эту страницу отдаёт сервер на сокетах.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr />
+<h2 id="_3">Пояснение</h2>
+<p>Создаём TCP сокет на сервере, используя адрес 127.0.0.1 и порт 9090 и устанавливаем соединение с клиентом. 
+- Сервер читает входящий HTTP‑запрос и всегда отдаёт содержимое <code>index.html</code>.
+- В ответе формируются заголовки: статус, <code>Content-Type</code>, <code>Content-Length</code>, <code>Connection</code>, <code>Date</code>, затем пустая строка и HTML‑тело.
+- Если файла нет — возвращаем простую страницу <code>404</code>.</p>
+<p>Браузер отправляет HTTP GET запрос серверу и получает в ответ HTTP-сообщение, содержащее HTML-страницу index.html.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../task2/" class="btn btn-neutral float-left" title="Задание 2: TCP: площадь параллелограмма"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../task4/" class="btn btn-neutral float-right" title="Задание 4: TCP Чат">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../task2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../task4/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
