@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Оценки по дисциплинам</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/assets/style.css" rel="stylesheet" />
+</head>
+<body>
+<main class="container">
+  <header class="header">
+    <h1>Оценки</h1>
+    <p>Добавляйте оценки по дисциплинам. Данные хранятся локально на сервере (grades.json).</p>
+  </header>
+
+  <section class="card">
+    <form id="grade-form" class="form" autocomplete="off">
+      <div class="field">
+        <label for="subject">Дисциплина</label>
+        <input id="subject" name="subject" placeholder="Матан" required />
+      </div>
+      <div class="field">
+        <label for="grade">Оценка</label>
+        <input id="grade" name="grade" placeholder="5" required />
+      </div>
+      <button class="btn" type="submit">Добавить</button>
+      <p class="hint" id="hint"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+        <tr><th>Дисциплина</th><th>Оценки</th><th>Последнее обновление</th></tr>
+        </thead>
+        <tbody id="grades-body">
+        <tr><td colspan="3"><em>Загрузка…</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script src="/assets/app.js"></script>
+</body>
+</html>
