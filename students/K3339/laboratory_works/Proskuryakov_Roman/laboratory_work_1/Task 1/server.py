@@ -1,11 +1,14 @@
 import socket
 
+HOST = "127.0.0.1"
+PORT = 50001
+
 def run_server():
     # Создаем UDP сокет
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     # Привязываем сокет к адресу и порту
-    server_address = ('localhost', 12345)
+    server_address = (HOST, PORT)
     server_socket.bind(server_address)
     
     print("Сервер запущен и ожидает сообщений...")

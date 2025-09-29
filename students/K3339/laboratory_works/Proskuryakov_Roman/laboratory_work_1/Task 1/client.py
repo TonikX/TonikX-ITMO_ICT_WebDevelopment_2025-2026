@@ -1,11 +1,14 @@
 import socket
 
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 50001
+
 def run_client():
     # Создаем UDP сокет
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     # Адрес сервера
-    server_address = ('localhost', 12345)
+    server_address = (SERVER_HOST, SERVER_PORT)
     
     print("Отправка сообщения на сервер...")
 

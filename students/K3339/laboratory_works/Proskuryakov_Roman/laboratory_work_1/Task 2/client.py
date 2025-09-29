@@ -1,7 +1,7 @@
 import socket
 
 SERVER_HOST = "127.0.0.1"
-SERVER_PORT = 50000
+SERVER_PORT = 50002
 
 def run_client():
     print('Клиент для вычислений по теореме Пифагора.')

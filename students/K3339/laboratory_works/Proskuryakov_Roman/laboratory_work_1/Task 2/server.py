@@ -3,7 +3,7 @@ import math
 import threading
 
 HOST = "127.0.0.1"
-PORT = 50000
+PORT = 50002
 
 def handle_request(line: str) -> str:
     parts = line.strip().split()
