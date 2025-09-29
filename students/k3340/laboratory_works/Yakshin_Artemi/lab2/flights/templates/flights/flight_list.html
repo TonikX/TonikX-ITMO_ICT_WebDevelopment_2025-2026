@@ -1,0 +1,137 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Список рейсов - Табло авиаперелетов{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-plane text-primary"></i> Табло авиаперелетов
+        </h1>
+        
+        <!-- Поиск и фильтры -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Поиск:</label>
+                        <input type="text" name="search" class="form-control" 
+                               value="{{ search_query }}" 
+                               placeholder="Номер рейса, авиакомпания, город...">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Тип рейса:</label>
+                        <select name="type" class="form-control">
+                            <option value="">Все рейсы</option>
+                            <option value="departure" {% if flight_type == 'departure' %}selected{% endif %}>Вылеты</option>
+                            <option value="arrival" {% if flight_type == 'arrival' %}selected{% endif %}>Прилеты</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search"></i> Найти
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Список рейсов -->
+        {% if page_obj %}
+        <div class="row">
+            {% for flight in page_obj %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card flight-card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ flight.flight_number }}</h5>
+                        <span class="badge bg-{{ flight.flight_type|yesno:'success,info' }}">
+                            {% if flight.flight_type == 'departure' %}
+                                <i class="fas fa-plane-departure"></i> Вылет
+                            {% else %}
+                                <i class="fas fa-plane-arrival"></i> Прилет
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-building"></i> {{ flight.airline.name }}
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-route"></i> 
+                            <strong>{{ flight.origin }}</strong> → <strong>{{ flight.destination }}</strong>
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-clock"></i> 
+                            {{ flight.departure_time|date:"d.m.Y H:i" }} - {{ flight.arrival_time|date:"H:i" }}
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-door-open"></i> Гейт {{ flight.gate_number }}
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-chair"></i> 
+                            Свободно мест: {{ flight.available_seats }}/{{ flight.capacity }}
+                        </p>
+                        
+                        {% if flight.avg_rating %}
+                        <div class="mb-2">
+                            <i class="fas fa-star rating-stars"></i>
+                            {{ flight.avg_rating|floatformat:1 }}/10
+                            <small class="text-muted">({{ flight.reviews.count }} отзыв{{ flight.reviews.count|pluralize:"ов" }})</small>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="text-end">
+                            <strong class="text-success">{{ flight.price }} ₽</strong>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'flight_detail' flight.id %}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-info-circle"></i> Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Навигация по страницам">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if flight_type %}&type={{ flight_type }}{% endif %}">Первая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if flight_type %}&type={{ flight_type }}{% endif %}">Предыдущая</a>
+                </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <span class="page-link">
+                        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if flight_type %}&type={{ flight_type }}{% endif %}">Следующая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if flight_type %}&type={{ flight_type }}{% endif %}">Последняя</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="alert alert-info text-center">
+            <h4><i class="fas fa-info-circle"></i> Рейсы не найдены</h4>
+            <p>По вашему запросу рейсы не найдены. Попробуйте изменить параметры поиска.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

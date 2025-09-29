@@ -1,0 +1,155 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Регистрация - Табло авиаперелетов{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0 text-center">
+          <i class="fas fa-user-plus text-primary"></i>
+          Регистрация
+        </h3>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+
+          <!-- Основная информация пользователя -->
+          <fieldset class="mb-4">
+            <legend class="fs-6 text-muted">Данные для входа</legend>
+
+            <div class="mb-3">
+              <label for="{{ form.username.id_for_label }}" class="form-label"
+                >{{ form.username.label }}</label
+              >
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-user"></i
+                ></span>
+                {{ form.username }}
+              </div>
+              {% if form.username.help_text %}
+              <div class="form-text">{{ form.username.help_text }}</div>
+              {% endif %} {% if form.username.errors %}
+              <div class="text-danger">
+                {% for error in form.username.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.password1.id_for_label }}" class="form-label"
+                >{{ form.password1.label }}</label
+              >
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-lock"></i
+                ></span>
+                {{ form.password1 }}
+              </div>
+              {% if form.password1.help_text %}
+              <div class="form-text">{{ form.password1.help_text }}</div>
+              {% endif %} {% if form.password1.errors %}
+              <div class="text-danger">
+                {% for error in form.password1.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.password2.id_for_label }}" class="form-label"
+                >{{ form.password2.label }}</label
+              >
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-lock"></i
+                ></span>
+                {{ form.password2 }}
+              </div>
+              {% if form.password2.help_text %}
+              <div class="form-text">{{ form.password2.help_text }}</div>
+              {% endif %} {% if form.password2.errors %}
+              <div class="text-danger">
+                {% for error in form.password2.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </fieldset>
+
+          <!-- Дополнительная информация -->
+          <fieldset class="mb-4">
+            <legend class="fs-6 text-muted">
+              Дополнительная информация (необязательно)
+            </legend>
+
+            <div class="mb-3">
+              <label
+                for="{{ profile_form.phone.id_for_label }}"
+                class="form-label"
+                >{{ profile_form.phone.label }}</label
+              >
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-phone"></i
+                ></span>
+                {{ profile_form.phone }}
+              </div>
+              {% if profile_form.phone.errors %}
+              <div class="text-danger">
+                {% for error in profile_form.phone.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label
+                for="{{ profile_form.passport_number.id_for_label }}"
+                class="form-label"
+                >{{ profile_form.passport_number.label }}</label
+              >
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-id-card"></i
+                ></span>
+                {{ profile_form.passport_number }}
+              </div>
+              {% if profile_form.passport_number.errors %}
+              <div class="text-danger">
+                {% for error in profile_form.passport_number.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </fieldset>
+
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-user-plus"></i> Зарегистрироваться
+            </button>
+          </div>
+        </form>
+
+        <div class="text-center">
+          <p class="mb-0">
+            Уже есть аккаунт?
+            <a href="{% url 'login' %}" class="text-decoration-none">
+              <i class="fas fa-sign-in-alt"></i> Войти
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Вход - Табло авиаперелетов{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0 text-center">
+          <i class="fas fa-sign-in-alt text-primary"></i>
+          Вход в систему
+        </h3>
+      </div>
+      <div class="card-body">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for field in form %} {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label"
+              >{{ form.username.label }}</label
+            >
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                id="{{ form.username.id_for_label }}"
+                value="{{ form.username.value|default:'' }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label"
+              >{{ form.password.label }}</label
+            >
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="{{ form.password.id_for_label }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt"></i> Войти
+            </button>
+          </div>
+
+          {% if next %}
+          <input type="hidden" name="next" value="{{ next }}" />
+          {% endif %}
+        </form>
+
+        <div class="text-center">
+          <p class="mb-0">
+            Нет аккаунта?
+            <a href="{% url 'register' %}" class="text-decoration-none">
+              <i class="fas fa-user-plus"></i> Зарегистрироваться
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Информационная панель -->
+    <div class="card mt-4">
+      <div class="card-body text-center">
+        <h5 class="card-title">
+          <i class="fas fa-info-circle text-info"></i> Добро пожаловать!
+        </h5>
+        <p class="card-text">
+          Войдите в систему, чтобы бронировать места на рейсы и оставлять
+          отзывы.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,312 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}{{ flight.flight_number }} - Табло авиаперелетов{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <!-- Информация о рейсе -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="mb-0">
+            <i class="fas fa-plane text-primary"></i>
+            Рейс {{ flight.flight_number }}
+          </h2>
+          <span
+            class="badge bg-{{ flight.flight_type|yesno:'success,info' }} fs-6"
+          >
+            {% if flight.flight_type == 'departure' %}
+            <i class="fas fa-plane-departure"></i> Вылет {% else %}
+            <i class="fas fa-plane-arrival"></i> Прилет {% endif %}
+          </span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p>
+              <i class="fas fa-building text-primary"></i>
+              <strong>Авиакомпания:</strong> {{ flight.airline.name }}
+            </p>
+            <p>
+              <i class="fas fa-route text-primary"></i>
+              <strong>Маршрут:</strong> {{ flight.origin }} → {{ flight.destination }}
+            </p>
+            <p>
+              <i class="fas fa-door-open text-primary"></i>
+              <strong>Гейт:</strong> {{ flight.gate_number }}
+            </p>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <i class="fas fa-clock text-primary"></i>
+              <strong>Вылет:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}
+            </p>
+            <p>
+              <i class="fas fa-clock text-primary"></i>
+              <strong>Прилет:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}
+            </p>
+            <p>
+              <i class="fas fa-chair text-primary"></i>
+              <strong>Свободно мест:</strong> {{ available_seats }}/{{ flight.capacity }}
+            </p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <h4 class="text-success">{{ flight.price }} ₽</h4>
+          </div>
+          <div class="col-md-6 text-end">
+            {% if user.is_authenticated %}
+              {% if available_seats > 0 %}
+                <a
+                  href="{% url 'make_reservation' flight.id %}"
+                  class="btn btn-success"
+                >
+                  <i class="fas fa-ticket-alt"></i> Забронировать место
+                </a>
+              {% else %}
+                <span class="badge bg-danger fs-6">
+                  <i class="fas fa-times"></i> Мест нет
+                </span>
+              {% endif %}
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Войдите для бронирования
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Список пассажиров -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-users text-primary"></i>
+          Список пассажиров ({{ passengers.count }})
+        </h4>
+      </div>
+      <div class="card-body">
+        {% if passengers %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Место</th>
+                <th>Пассажир</th>
+                <th>Номер билета</th>
+                <th>Дата бронирования</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reservation in passengers %}
+              <tr>
+                <td>
+                  <span class="badge bg-primary"
+                    >{{ reservation.seat_number }}</span
+                  >
+                </td>
+                <td>
+                  {{ reservation.user.first_name|default:reservation.user.username }}
+                </td>
+                <td>{{ reservation.ticket_number|default:"—" }}</td>
+                <td>{{ reservation.created_at|date:"d.m.Y H:i" }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="text-muted text-center mb-0">Пассажиров пока нет</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Отзывы -->
+    <div class="card">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        <h4 class="mb-0">
+          <i class="fas fa-comments text-primary"></i>
+          Отзывы ({{ reviews.count }})
+        </h4>
+        {% if user.is_authenticated %}
+        <a
+          href="{% url 'add_review' flight.id %}"
+          class="btn btn-outline-primary btn-sm"
+        >
+          <i class="fas fa-plus"></i> Добавить отзыв
+        </a>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        {% if reviews %} {% for review in reviews %}
+        <div class="border-bottom pb-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="mb-1">
+                {{ review.user.first_name|default:review.user.username }}
+              </h6>
+              <div class="rating-stars mb-2">
+                {% for i in "1234567890" %}
+                  {% if forloop.counter <= review.rating %}
+                    <i class="fas fa-star"></i>
+                  {% else %}
+                    <i class="far fa-star"></i>
+                  {% endif %}
+                {% endfor %}
+                <span class="ms-1">{{ review.rating }}/10</span>
+              </div>
+            </div>
+            <small class="text-muted"
+              >{{ review.created_at|date:"d.m.Y H:i" }}</small
+            >
+          </div>
+          <p class="mb-0">{{ review.text }}</p>
+        </div>
+        {% endfor %} {% else %}
+        <p class="text-muted text-center mb-0">
+          Отзывов пока нет. Будьте первым!
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <!-- Боковая панель с быстрыми действиями -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-cog text-primary"></i> Действия</h5>
+      </div>
+      <div class="card-body">
+        {% if user.is_authenticated %}
+          {% if user_reservations %}
+            <div class="alert alert-success">
+              <h6><i class="fas fa-check-circle"></i> Ваши брони ({{ user_reservations.count }})</h6>
+              {% for reservation in user_reservations %}
+                <div class="border-bottom pb-2 mb-2">
+                  <p class="mb-1">
+                    Место: <strong>{{ reservation.seat_number }}</strong>
+                  </p>
+                  <p class="mb-2">
+                    Билет: <strong>{{ reservation.ticket_number|default:"Не выдан" }}</strong>
+                  </p>
+                  <div class="d-grid gap-1">
+                    <a
+                      href="{% url 'edit_reservation' reservation.id %}"
+                      class="btn btn-outline-primary btn-sm"
+                    >
+                      <i class="fas fa-edit"></i> Изменить
+                    </a>
+                    <a
+                      href="{% url 'cancel_reservation' reservation.id %}"
+                      class="btn btn-outline-danger btn-sm"
+                    >
+                      <i class="fas fa-times"></i> Отменить
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if available_seats > 0 %}
+        <div class="d-grid mb-3">
+          <a
+            href="{% url 'make_reservation' flight.id %}"
+            class="btn btn-success"
+          >
+            <i class="fas fa-ticket-alt"></i> Забронировать
+          </a>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle"></i> Мест нет
+        </div>
+        {% endif %}
+
+        <div class="d-grid">
+          <a
+            href="{% url 'add_review' flight.id %}"
+            class="btn btn-outline-primary"
+          >
+            <i class="fas fa-star"></i> Оставить отзыв
+          </a>
+        </div>
+        {% else %}
+        <div class="text-center">
+          <p class="text-muted mb-3">
+            Войдите в систему для бронирования и добавления отзывов
+          </p>
+          <div class="d-grid gap-2">
+            <a
+              href="{% url 'login' %}?next={{ request.path }}"
+              class="btn btn-primary"
+            >
+              <i class="fas fa-sign-in-alt"></i> Войти
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary">
+              <i class="fas fa-user-plus"></i> Регистрация
+            </a>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Статистика рейса -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-chart-bar text-primary"></i> Статистика
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-6">
+            <div class="border-end">
+              <h4 class="text-primary">{{ passengers.count }}</h4>
+              <small class="text-muted">Пассажиров</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <h4 class="text-success">{{ available_seats }}</h4>
+            <small class="text-muted">Свободно</small>
+          </div>
+        </div>
+        <hr />
+        <div class="row text-center">
+          <div class="col-6">
+            <div class="border-end">
+              <h4 class="text-warning">{{ reviews.count }}</h4>
+              <small class="text-muted">Отзывов</small>
+            </div>
+          </div>
+          <div class="col-6">
+            {% if flight.reviews.all %}
+            <h4 class="text-info">
+              {{ flight.average_rating|floatformat:1 }}
+            </h4>
+            {% else %}
+            <h4 class="text-info">—</h4>
+            {% endif %}
+            <small class="text-muted">Рейтинг</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <a href="{% url 'flight_list' %}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left"></i> Назад к списку рейсов
+    </a>
+  </div>
+</div>
+{% endblock %}

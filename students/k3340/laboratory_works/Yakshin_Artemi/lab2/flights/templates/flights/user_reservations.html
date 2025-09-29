@@ -1,0 +1,153 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Мои бронирования - Табло авиаперелетов{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <h1 class="mb-4">
+      <i class="fas fa-ticket-alt text-primary"></i>
+      Мои бронирования
+    </h1>
+
+    {% if reservations %}
+    <div class="row">
+      {% for reservation in reservations %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">{{ reservation.flight.flight_number }}</h5>
+            <span
+              class="badge bg-{{ reservation.flight.flight_type|yesno:'success,info' }}"
+            >
+              {% if reservation.flight.flight_type == 'departure' %}
+              <i class="fas fa-plane-departure"></i> Вылет {% else %}
+              <i class="fas fa-plane-arrival"></i> Прилет {% endif %}
+            </span>
+          </div>
+          <div class="card-body">
+            <p class="text-muted mb-2">
+              <i class="fas fa-building"></i> {{ reservation.flight.airline.name }}
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-route"></i>
+              <strong>{{ reservation.flight.origin }}</strong> →
+              <strong>{{ reservation.flight.destination }}</strong>
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-clock"></i>
+              {{ reservation.flight.departure_time|date:"d.m.Y H:i" }}
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-door-open"></i> Гейт {{ reservation.flight.gate_number }}
+            </p>
+
+            <hr />
+
+            <div class="alert alert-success mb-3">
+              <h6 class="mb-2">
+                <i class="fas fa-check-circle"></i> Ваша бронь
+              </h6>
+              <p class="mb-1">
+                <strong>Место:</strong> {{ reservation.seat_number }}
+              </p>
+              <p class="mb-1">
+                <strong>Билет:</strong> {{ reservation.ticket_number|default:"Не выдан" }}
+              </p>
+              <p class="mb-0">
+                <strong>Забронировано:</strong> {{ reservation.created_at|date:"d.m.Y H:i" }}
+              </p>
+            </div>
+
+            <div class="text-end">
+              <strong class="text-success">{{ reservation.flight.price }} ₽</strong>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+              <a
+                href="{% url 'flight_detail' reservation.flight.id %}"
+                class="btn btn-outline-primary btn-sm"
+              >
+                <i class="fas fa-info-circle"></i> Подробнее
+              </a>
+              <a
+                href="{% url 'edit_reservation' reservation.id %}"
+                class="btn btn-outline-warning btn-sm"
+              >
+                <i class="fas fa-edit"></i> Изменить
+              </a>
+              <a
+                href="{% url 'cancel_reservation' reservation.id %}"
+                class="btn btn-outline-danger btn-sm"
+              >
+                <i class="fas fa-times"></i> Отменить
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Статистика -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-chart-bar text-primary"></i> Статистика
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-3">
+            <h4 class="text-primary">{{ reservations.count }}</h4>
+            <small class="text-muted">Всего бронирований</small>
+          </div>
+          <div class="col-md-3">
+            <h4 class="text-success">
+              {{ reservations.count }}
+            </h4>
+            <small class="text-muted">Предстоящие рейсы</small>
+          </div>
+          <div class="col-md-3">
+            <h4 class="text-info">
+              {{ reservations.count }}
+            </h4>
+            <small class="text-muted">Билеты выданы</small>
+          </div>
+          <div class="col-md-3">
+            <h4 class="text-warning">
+              100
+            </h4>
+            <small class="text-muted">Активность</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <i class="fas fa-ticket-alt fa-5x text-muted"></i>
+      </div>
+      <h3 class="text-muted mb-3">У вас пока нет бронирований</h3>
+      <p class="text-muted mb-4">
+        Найдите подходящий рейс и забронируйте место
+      </p>
+      <a href="{% url 'flight_list' %}" class="btn btn-primary">
+        <i class="fas fa-search"></i> Найти рейсы
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  // Добавляем текущую дату для сравнения в шаблоне
+  document.addEventListener("DOMContentLoaded", function () {
+    // Можно добавить JavaScript для дополнительной интерактивности
+  });
+</script>
+{% endblock %}

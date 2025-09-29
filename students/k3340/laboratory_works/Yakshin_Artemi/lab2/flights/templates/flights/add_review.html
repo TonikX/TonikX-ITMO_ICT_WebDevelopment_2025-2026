@@ -1,0 +1,99 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Добавить отзыв - {{ flight.flight_number }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mb-0">
+          <i class="fas fa-star text-primary"></i>
+          Добавить отзыв о рейсе {{ flight.flight_number }}
+        </h3>
+      </div>
+      <div class="card-body">
+        <!-- Информация о рейсе -->
+        <div class="alert alert-info">
+          <h5><i class="fas fa-plane"></i> Информация о рейсе</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Авиакомпания:</strong> {{ flight.airline.name }}</p>
+              <p>
+                <strong>Маршрут:</strong> {{ flight.origin }} → {{ flight.destination }}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <strong>Дата вылета:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}
+              </p>
+              <p><strong>Гейт:</strong> {{ flight.gate_number }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Форма отзыва -->
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="{{ form.rating.id_for_label }}" class="form-label"
+              >{{ form.rating.label }}</label
+            >
+            {{ form.rating }} {% if form.rating.errors %}
+            <div class="text-danger">
+              {% for error in form.rating.errors %}
+              <small>{{ error }}</small>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="form-text">Оцените рейс от 1 до 10 звезд</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.text.id_for_label }}" class="form-label"
+              >{{ form.text.label }}</label
+            >
+            {{ form.text }} {% if form.text.errors %}
+            <div class="text-danger">
+              {% for error in form.text.errors %}
+              <small>{{ error }}</small>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="form-text">
+              Поделитесь своими впечатлениями о рейсе (минимум 10 символов)
+            </div>
+          </div>
+
+          <div class="alert alert-success">
+            <h6>
+              <i class="fas fa-lightbulb"></i> Что можно отметить в отзыве:
+            </h6>
+            <ul class="mb-0">
+              <li>Качество обслуживания</li>
+              <li>Комфорт салона</li>
+              <li>Пунктуальность</li>
+              <li>Качество питания</li>
+              <li>Работа экипажа</li>
+              <li>Общие впечатления</li>
+            </ul>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a
+              href="{% url 'flight_detail' flight.id %}"
+              class="btn btn-outline-secondary"
+            >
+              <i class="fas fa-arrow-left"></i> Отмена
+            </a>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i> Отправить отзыв
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
