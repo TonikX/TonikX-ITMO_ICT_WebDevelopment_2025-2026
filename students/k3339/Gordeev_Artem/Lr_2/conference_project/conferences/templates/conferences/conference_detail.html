@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ conference.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ conference.title }}</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Основная информация</h5>
+        <p><strong>Место проведения:</strong> {{ conference.location.name }} ({{ conference.location.address }})</p>
+        <p><strong>Даты проведения:</strong> с {{ conference.start_date }} по {{ conference.end_date }}</p>
+        <p><strong>Тематики:</strong>
+            {% for topic in conference.topics.all %}
+            <span class="badge bg-secondary">{{ topic.name }}</span>
+            {% endfor %}
+        </p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">Описание конференции</h5>
+        <p>{{ conference.description|linebreaks }}</p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">Условия участия</h5>
+        <p>{{ conference.conditions|linebreaks }}</p>
+    </div>
+</div>
+
+<h3 class="mt-5">Зарегистрированные участники</h3>
+{% with participations=conference.participations.all %}
+{% if participations %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Участник</th>
+        <th>Тема доклада</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in participations %}
+    <tr>
+        <td>{{ p.participant.username }}</td>
+        <td>{{ p.presentation_title }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>На эту конференцию еще никто не зарегистрировался.</p>
+{% endif %}
+{% endwith %}
+
+<h3 class="mt-5">Отзывы</h3>
+<p>...</p>
+{% endblock %}

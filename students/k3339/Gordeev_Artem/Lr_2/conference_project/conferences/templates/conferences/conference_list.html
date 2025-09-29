@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Список конференций{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Список конференций</h1>
+    <form class="d-flex" method="get" action="{% url 'conference_list' %}">
+        <input class="form-control me-2" type="search" placeholder="Поиск..." name="q" value="{{ request.GET.q }}">
+        <button class="btn btn-outline-success" type="submit">Найти</button>
+    </form>
+</div>
+
+{% for conference in conferences %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'conference_detail' conference.pk %}">{{ conference.title }}</a></h5>
+        <p class="card-subtitle mb-2 text-muted">{{ conference.location.name }} | {{ conference.start_date }} -
+            {{ conference.end_date }}</p>
+        <p class="card-text">{{ conference.description|truncatewords:30 }}</p>
+    </div>
+</div>
+{% empty %}
+<p>Конференций не найдено.</p>
+{% endfor %}
+
+{% if page_obj.has_other_pages %}
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">«</span></li>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">»</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
