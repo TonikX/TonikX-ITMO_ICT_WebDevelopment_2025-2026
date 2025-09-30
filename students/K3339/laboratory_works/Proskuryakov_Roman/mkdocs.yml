@@ -1,0 +1,9 @@
+site_name: ИТМО 5 Web-программирование
+
+nav:
+  - Добро пожаловать: index.md
+  - Лабораторная работа 1: 'lab1/index.md'
+
+theme:
+  name: windmill-dark
+  color_mode: auto

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Любить Web</title>
+  <style>
+    :root{--bg:#f7f7fb;--card:#ffffff;--muted:#7b7b8a}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+    body{
+      display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fbfdff, #f0f4ff);
+    }
+    .card{
+      width:min(640px,90%);padding:48px;border-radius:16px;box-shadow:0 10px 30px rgba(20,30,80,0.06);background:var(--card);text-align:center
+    }
+    .heart{
+      display:inline-block;font-size:96px;line-height:1;color:#ddd;user-select:none;transition:transform .25s ease, color .25s ease, text-shadow .25s ease;
+      transform-origin:center center;margin-bottom:20px
+    }
+    .heart.liked{color:#e0245e;transform:scale(1.05);text-shadow:0 6px 18px rgba(224,36,94,0.18)}
+
+    .love-btn{
+      display:inline-block;margin-top:18px;padding:12px 22px;border-radius:10px;border:0;background:#111827;color:#fff;font-size:16px;cursor:pointer;
+      box-shadow:0 6px 18px rgba(17,24,39,0.12);transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+    .love-btn:active{transform:translateY(1px)}
+
+    .hint{color:var(--muted);margin-top:14px;font-size:14px}
+
+    /* маленькие экраны */
+    @media (max-width:420px){.heart{font-size:72px}}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <div>
+      <span id="heart" class="heart" aria-hidden="true">♥</span>
+    </div>
+
+    <div>
+      <button id="loveBtn" class="love-btn" aria-pressed="false">Любить Web</button>
+    </div>
+
+    <p class="hint" id="hint">Нажми на кнопку, чтобы показать любовь к Web.</p>
+  </main>
+
+  <script>
+    const heart = document.getElementById('heart');
+    const btn = document.getElementById('loveBtn');
+    const hint = document.getElementById('hint');
+
+    let liked = false;
+
+    function setLiked(v){
+      liked = !!v;
+      heart.classList.toggle('liked', liked);
+      btn.setAttribute('aria-pressed', String(liked));
+      hint.textContent = liked ? 'Спасибо! Ты любишь Web!' : 'Нажми на кнопку, чтобы показать любовь к Web.';
+      // лёгкая анимация
+      heart.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.15)' },
+        { transform: 'scale(1)' }
+      ],{ duration: 300, easing: 'cubic-bezier(.2,.9,.3,1)' });
+    }
+
+    btn.addEventListener('click', () => setLiked(!liked));
+
+    // поддержка по нажатию на сердце
+    heart.addEventListener('click', () => setLiked(!liked));
+  </script>
+</body>
+</html>
