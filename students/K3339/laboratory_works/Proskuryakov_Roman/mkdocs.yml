@@ -1,7 +1,8 @@
 site_name: ИТМО 5 Web-программирование
 
 nav:
-  - Лабораторная работа 1: lab1/index.md
+  - Home: home.md
+  - Лабораторная работа 1: 'lab1/index.md'
 
 theme:
   name: windmill-dark
