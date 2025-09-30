@@ -1,7 +1,7 @@
 site_name: ИТМО 5 Web-программирование
 
 nav:
-  - Home: home.md
+  - Добро пожаловать: index.md
   - Лабораторная работа 1: 'lab1/index.md'
 
 theme:

@@ -18,7 +18,7 @@ def processing_input_messages(socket):
     while True:
         try:
             resp = socket.recv(1024).decode("utf-8").strip()
-            print("Полученно сообщение:", resp)
+            print("Получено сообщение:", resp)
         except:
             break
 
