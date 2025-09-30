@@ -1,0 +1,109 @@
+:root{
+    --bg: #0f1220;
+    --card: #151a2e;
+    --text: #e8ecff;
+    --muted: #a7b0d0;
+    --accent: #7aa2ff;
+    --accent-2: #9b7aff;
+    --border: #2a3254;
+    --ok: #41d39e;
+    --err: #ff6b6b;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+    color:var(--text);
+    background:
+            radial-gradient(60rem 60rem at 10% -10%, #1a2250 0%, transparent 55%),
+            radial-gradient(50rem 50rem at 120% 10%, #2b1555 0%, transparent 55%),
+            var(--bg);
+}
+
+.container{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+}
+
+.header h1{
+    margin:0 0 6px;
+    font-size: 36px;
+    letter-spacing: .5px;
+}
+.header p{
+    margin:0 0 16px;
+    color:var(--muted);
+}
+
+.card{
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 18px;
+    margin: 16px 0;
+    backdrop-filter: blur(6px);
+}
+
+.form{
+    display:grid;
+    gap:16px;
+    grid-template-columns: 1fr 180px auto;
+    align-items: end;
+}
+@media (max-width:700px){
+    .form{ grid-template-columns: 1fr 1fr; }
+    .form .btn{ grid-column: 1 / -1; }
+}
+
+.field{ display:flex; flex-direction:column; gap:6px; }
+label{ color: var(--muted); font-size:14px; }
+input{
+    padding:12px 14px;
+    background: #0e1326;
+    color: var(--text);
+    border:1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+}
+input:focus{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(122,162,255,.15); }
+
+.btn{
+    padding:12px 18px;
+    border:1px solid transparent;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color:#fff; font-weight:600;
+    cursor:pointer;
+    transition: transform .04s ease;
+}
+.btn:active{ transform: translateY(1px); }
+
+.hint{ margin:0; min-height:18px; font-size:13px; color:var(--muted); }
+
+.table-wrap{ overflow:auto; border-radius: 10px; }
+table{ width:100%; border-collapse: collapse; }
+thead th{
+    background:#0e1326;
+    color:var(--muted);
+    font-weight:600;
+    text-align:left;
+    padding:12px;
+    border-bottom:1px solid var(--border);
+}
+tbody td{
+    padding:12px;
+    border-bottom:1px solid var(--border);
+}
+tbody tr:hover td{ background: rgba(255,255,255,.02); }
+
+.footer{
+    margin-top: 24px;
+    color:var(--muted);
+    font-size: 14px;
+    text-align: center;
+}
