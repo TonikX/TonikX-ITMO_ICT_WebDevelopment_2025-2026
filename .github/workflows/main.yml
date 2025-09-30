@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "dev/Proskuryakov_Roman/..." branch
+  push:
+    branches: 
+      - 'dev/Proskuryakov_Roman/**'
+  pull_request:
+    branches:
+      - 'dev/Proskuryakov_Roman/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-windmill-dark-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-windmill-dark-
+      - run: pip install mkdocs-windmill-dark 
+      - run: mkdocs gh-deploy --force
+        working-directory: students/K3339/laboratory_works/Proskuryakov_Roman
