@@ -1,0 +1,28 @@
+site_name: Web reports
+nav:
+  - Home: index.md
+  - Lab 1:
+      - Task 1 (Hello Server Message to server and echo): lab1/task1.md
+      - Task 2 (Pythogoras Message to server and solve): lab1/task2.md
+      - Task 3 (Html Server Message from server): lab1/task3.md
+      - Task 4 (Chat Server & Client): lab1/task4.md
+      - Task 5 (HTTP Grade Journal): lab1/task5.md
+  - Lab 2:
+    - Установка: lab2/installation.md
+    - Использование: lab2/usage.md
+    - Модели данных: lab2/models.md
+    - Представления: lab2/views.md
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.expand
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
