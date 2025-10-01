@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HWBoard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">HWBoard</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="text-white me-3">Привет, {{ user.username }}!</span>
+                    <a class="btn btn-outline-light btn-sm" href="{% url 'homework:logout' %}">Выйти</a>
+                {% else %}
+                    <a class="btn btn-outline-light btn-sm me-2" href="{% url 'homework:login' %}">Войти</a>
+                    <a class="btn btn-warning btn-sm" href="{% url 'homework:register' %}">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
