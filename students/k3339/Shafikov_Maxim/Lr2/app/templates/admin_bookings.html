@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Админ — неподтвержденные бронирования{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Неподтвержденные бронирования</h2>
+  <a href="/admin/hotels/new" class="btn btn-primary">+ Добавить отель</a>
+</div>
+
+{% if bookings|length == 0 %}
+  <div class="alert alert-success">Нет заявок, требующих подтверждения.</div>
+{% else %}
+  <div class="list-group">
+    {% for b in bookings %}
+      <div class="list-group-item">
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="me-3">
+            <div class="fw-bold">{{ b.user.full_name }}</div>
+            <div class="text-muted small">{{ b.user.email }}</div>
+          </div>
+          <div class="me-3">
+            <div class="fw-bold">{{ b.room.hotel.name }} — {{ b.room.room_type }}</div>
+            <div class="text-muted small">
+              {{ b.check_in_date.strftime('%d.%m.%Y') }} — {{ b.check_out_date.strftime('%d.%m.%Y') }}
+            </div>
+          </div>
+          <div class="ms-auto d-flex gap-2">
+            <form method="POST" action="/admin/bookings/{{ b.id }}/confirm">
+              <button class="btn btn-success" title="Подтвердить">✅</button>
+            </form>
+            <form method="POST" action="/admin/bookings/{{ b.id }}/reject">
+              <button class="btn btn-outline-danger" title="Отклонить">❌</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if total_pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% set start_item = (page - 1) * 5 + 1 %}
+        {% set end_item = page * 5 %}
+        {% set total_items = total_pages * 5 %}
+        {% set prev_start = (page - 1) * 5 - 4 %}
+        {% set prev_end = (page - 1) * 5 %}
+        {% set next_start = (page + 1) * 5 - 4 %}
+        {% set next_end = (page + 1) * 5 %}
+        
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page - 1 }}">
+                {% if prev_start < 1 %}1{% else %}{{ prev_start }}{% endif %} - {{ prev_end }} <<
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ start_item }} - {% if end_item > total_items %}{{ total_items }}{% else %}{{ end_item }}{% endif %}</span>
+        </li>
+
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page + 1 }}">
+                >> {{ next_start }} - {% if next_end > total_items %}{{ total_items }}{% else %}{{ next_end }}{% endif %}
+            </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endif %}
+{% endblock %}
