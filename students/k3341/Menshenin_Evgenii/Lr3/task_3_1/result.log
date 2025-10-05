@@ -1,0 +1,140 @@
+
+  ~/Py/TonikX-ITMO_ICT_WebDevelopment_2025-2026/s/k/M/Lr3/task_3_1 on   lab3 +38 !1 ?15 ❯ python3 django_tasks.py                                                                                              TonikX-ITMO_ICT_WebDevelopment_2025-2026
+=== Task 1 ===
+Created owner: Олег Иванов
+Created owner: Анна Петрова
+Created owner: Дмитрий Сидоров
+Created owner: Елена Козлова
+Created owner: Михаил Морозов
+Created owner: Ольга Новикова
+Created owner: Алексей Волков
+Created car: Toyota Camry (A123BC777)
+Created car: BMW X5 (B456CD888)
+Created car: Audi A4 (C789DE999)
+Created car: Toyota Corolla (D012EF111)
+Created car: Mercedes E-Class (E345FG222)
+Created car: Honda Civic (F678GH333)
+Created license: 111111 - Олег Иванов
+Created license: 222222 - Анна Петрова
+Created license: 333333 - Дмитрий Сидоров
+Created license: 444444 - Елена Козлова
+Created license: 555555 - Михаил Морозов
+Created license: 666666 - Ольга Новикова
+Created license: 777777 - Алексей Волков
+Created ownership: Олег Иванов - Toyota Camry (A123BC777)
+Created ownership: Олег Иванов - Toyota Corolla (D012EF111)
+Created ownership: Анна Петрова - BMW X5 (B456CD888)
+Created ownership: Дмитрий Сидоров - Audi A4 (C789DE999)
+Created ownership: Дмитрий Сидоров - Mercedes E-Class (E345FG222)
+Created ownership: Дмитрий Сидоров - Honda Civic (F678GH333)
+Created ownership: Елена Козлова - Toyota Camry (A123BC777)
+Created ownership: Михаил Морозов - BMW X5 (B456CD888)
+Created ownership: Михаил Морозов - Toyota Corolla (D012EF111)
+Created ownership: Ольга Новикова - Mercedes E-Class (E345FG222)
+Created ownership: Алексей Волков - Audi A4 (C789DE999)
+Created ownership: Алексей Волков - Honda Civic (F678GH333)
+
+Total created: 7 owners, 6 cars, 7 licenses, 12 ownerships
+
+=== Task 2 ===
+1. Все машины марки Toyota:
+   Toyota Camry (A123BC777)
+   Toyota Corolla (D012EF111)
+
+2. Все водители с именем Олег:
+   Олег Иванов
+
+3. Получение удостоверения по id владельца:
+   Владелец: Олег Иванов
+   ID владельца: 1
+   Удостоверение: 111111 - Олег Иванов
+
+4. Владельцы красных машин:
+   Олег Иванов
+   Дмитрий Сидоров
+   Елена Козлова
+   Алексей Волков
+
+5. Владельцы, чей год владения машиной начинается с 2010:
+   Олег Иванов
+   Анна Петрова
+   Дмитрий Сидоров
+   Елена Козлова
+   Михаил Морозов
+   Ольга Новикова
+   Алексей Волков
+
+=== Task 3 ===
+1. Дата выдачи самого старшего водительского удостоверения:
+   2010-01-15
+
+2. Самая поздняя дата владения машиной:
+   2022-01-01
+
+3. Количество машин для каждого водителя:
+   Алексей Волков: 2 машин
+   Олег Иванов: 2 машин
+   Елена Козлова: 1 машин
+   Михаил Морозов: 2 машин
+   Ольга Новикова: 1 машин
+   Анна Петрова: 1 машин
+   Дмитрий Сидоров: 3 машин
+
+4. Количество машин каждой марки:
+   Audi: 1 машин
+   BMW: 1 машин
+   Honda: 1 машин
+   Mercedes: 1 машин
+   Toyota: 2 машин
+
+5. Автовладельцы, отсортированные по дате выдачи удостоверения:
+Error occurred: 'CarOwner' object has no attribute 'driverlicense_set'
+Traceback (most recent call last):
+  File "/Users/mezhendosina/PycharmProjects/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3341/Menshenin_Evgenii/Lr3/task_3_1/django_tasks.py", line 176, in main
+    task_3_aggregation()
+  File "/Users/mezhendosina/PycharmProjects/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3341/Menshenin_Evgenii/Lr3/task_3_1/django_tasks.py", line 165, in task_3_aggregation
+    license_date = owner.driverlicense_set.first().issue_date if owner.driverlicense_set.exists() else "Нет данных"
+AttributeError: 'CarOwner' object has no attribute 'driverlicense_set'
+
+
+  ~/Py/TonikX-ITMO_ICT_WebDevelopment_2025-2026/s/k/M/Lr3/task_3_1 on   lab3 +38 !1 ?15 ❯ python3 django_tasks.py
+=== Task 3 ===
+1. Дата выдачи самого старшего водительского удостоверения:
+   2010-01-15
+
+2. Самая поздняя дата владения машиной:
+   2022-01-01
+
+3. Количество машин для каждого водителя:
+   Алексей Волков: 2 машин
+   Алексей Волков: 0 машин
+   Олег Иванов: 2 машин
+   Олег Иванов: 0 машин
+   Елена Козлова: 1 машин
+   Елена Козлова: 0 машин
+   Михаил Морозов: 2 машин
+   Михаил Морозов: 0 машин
+   Ольга Новикова: 1 машин
+   Ольга Новикова: 0 машин
+   Анна Петрова: 1 машин
+   Анна Петрова: 0 машин
+   Дмитрий Сидоров: 3 машин
+   Дмитрий Сидоров: 0 машин
+
+4. Количество машин каждой марки:
+   Audi: 1 машин
+   BMW: 1 машин
+   Honda: 1 машин
+   Mercedes: 1 машин
+   Toyota: 2 машин
+
+5. Автовладельцы, отсортированные по дате выдачи удостоверения:
+   Олег Иванов (удостоверение выдано: 2010-01-15)
+   Дмитрий Сидоров (удостоверение выдано: 2011-06-10)
+   Анна Петрова (удостоверение выдано: 2012-03-20)
+   Елена Козлова (удостоверение выдано: 2013-09-05)
+   Михаил Морозов (удостоверение выдано: 2014-12-30)
+   Ольга Новикова (удостоверение выдано: 2015-02-14)
+   Алексей Волков (удостоверение выдано: 2016-08-19)
+
+All tasks completed successfully!
