@@ -1,0 +1,24 @@
+site_name: Отчеты по лабораторным работам
+site_url: https://Jubastik.github.io/ITMO_ICT_WebDevelopment/
+
+theme:
+  name: material
+  language: ru
+  palette:
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.top
+
+nav:
+  - 'Главная': 'index.md'
+  - 'Лабораторная работа №1':
+    - 'Задание 1: UDP Клиент-Сервер': 'lab1/task1.md'
+    - 'Задание 2: TCP Калькулятор': 'lab1/task2.md'
+    - 'Задание 3: HTTP Сервер': 'lab1/task3.md'
+    - 'Задание 4: TCP Чат': 'lab1/task4.md'
+    - 'Задание 5: Веб-сервер (GET/POST)': 'lab1/task5.md'
+    - 'Вывод': 'lab1/conclusion.md'
+
+  - 'Лабораторная работа №2':
+      - 'Система учёта научных конференций': 'lab2/task1.md'
