@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Админ — добавить отель{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Добавить новый отель</h2>
+
+  <form method="POST" action="/admin/hotels/new">
+    <div class="mb-3">
+      <label class="form-label">Название отеля</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Владелец</label>
+      <input type="text" name="owner" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Адрес</label>
+      <input type="text" name="address" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Описание</label>
+      <textarea name="description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Удобства (через запятую)</label>
+      <input type="text" name="amenities" class="form-control">
+      <div class="form-text">Например: Wi-Fi, Парковка, Бассейн</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Типы номеров</label>
+      <input type="text" name="room_types" class="form-control">
+      <div class="form-text">Например: Стандарт, Люкс, Семейный</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Стоимость за ночь (₽)</label>
+        <input type="number" name="price" class="form-control" min="0" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Вместимость (человек)</label>
+        <input type="number" name="capacity" class="form-control" min="1" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/admin/bookings" class="btn btn-secondary">Отмена</a>
+  </form>
+</div>
+{% endblock %}

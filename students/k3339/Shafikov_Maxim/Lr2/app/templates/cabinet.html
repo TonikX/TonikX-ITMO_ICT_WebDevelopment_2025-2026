@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h2 class="mb-3">Мои бронирования</h2>
+
+{% if bookings|length == 0 %}
+  <div class="alert alert-info">Бронирований пока нет.</div>
+{% else %}
+  <div class="list-group">
+    {% for b in bookings %}
+      <div class="list-group-item">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+          <div class="me-3">
+            <div class="fw-bold">
+              {{ b.room.hotel.name }} — {{ b.room.room_type }}
+            </div>
+            <div class="text-muted small">
+              {{ b.check_in_date.strftime('%d.%m.%Y') }} — {{ b.check_out_date.strftime('%d.%m.%Y') }}
+              · {{ "%.0f"|format(b.room.price) }} руб./ночь
+            </div>
+            <div class="mt-1">
+              Статус:
+              {% if b.status.value == 'confirmed' %}
+                <span class="badge bg-success">Подтверждена</span>
+              {% elif b.status.value == 'pending' %}
+                <span class="badge bg-warning text-dark">В ожидании</span>
+              {% elif b.status.value == 'cancelled' %}
+                <span class="badge bg-secondary">Отменена</span>
+              {% elif b.status.value == 'checked_in' %}
+                <span class="badge bg-primary">Заселен</span>
+              {% else %}
+                <span class="badge bg-dark">Выселен</span>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if b.check_in_date > today and b.status.value not in ['cancelled'] %}
+            <form method="POST" action="/bookings/{{ b.id }}/cancel" class="ms-auto">
+              <button class="btn btn-outline-danger">Отменить бронь</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if total_pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% set start_item = (page - 1) * 5 + 1 %}
+        {% set end_item = page * 5 %}
+        {% set total_items = total_pages * 5 %}
+        {% set prev_start = (page - 1) * 5 - 4 %}
+        {% set prev_end = (page - 1) * 5 %}
+        {% set next_start = (page + 1) * 5 - 4 %}
+        {% set next_end = (page + 1) * 5 %}
+        
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page - 1 }}">
+                {% if prev_start < 1 %}1{% else %}{{ prev_start }}{% endif %} - {{ prev_end }} <<
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ start_item }} - {% if end_item > total_items %}{{ total_items }}{% else %}{{ end_item }}{% endif %}</span>
+        </li>
+
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page + 1 }}">
+                >> {{ next_start }} - {% if next_end > total_items %}{{ total_items }}{% else %}{{ next_end }}{% endif %}
+            </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endif %}
+{% endblock %}

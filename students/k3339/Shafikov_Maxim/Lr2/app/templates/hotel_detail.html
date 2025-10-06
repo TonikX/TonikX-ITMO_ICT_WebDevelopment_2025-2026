@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+{% if request.query_params.get('error') %}
+<div class="alert alert-danger" role="alert">
+    {% if request.query_params.get('error') == 'invalid_dates' %}
+        Ошибка: Дата начала проживания должна быть раньше даты окончания.
+    {% elif request.query_params.get('error') == 'future_stay' %}
+        Ошибка: Дата окончания проживания не может быть в будущем.
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h1 class="card-title">{{ hotel.name }}</h1>
+        <h6 class="card-subtitle text-muted">{{ hotel.address }}</h6>
+    </div>
+    <div class="card-body">
+        <p>{{ hotel.description }}</p>
+        <p><strong>Владелец:</strong> {{ hotel.owner }}</p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Номера</h3>
+    </div>
+    <div class="card-body">
+        {% if not hotel.rooms %}
+            <p>В данный момент нет доступных номеров.</p>
+        {% else %}
+            {% for room in hotel.rooms %}
+            <div class="row border-bottom py-2 align-items-center">
+                <div class="col-md-3">
+                    <h5>{{ room.room_type }}</h5>
+                    <p class="mb-1">Вместимость: {{ room.capacity }} чел.</p>
+                    <p class="text-muted small">{{ room.amenities }}</p>
+                </div>
+                <div class="col-md-2">
+                    <strong>{{ "%.0f"|format(room.price) }} руб./ночь</strong>
+                </div>
+                <div class="col-md-7">
+                    {% if request.state.user %}
+                    <form action="/book" method="POST">
+                        <input type="hidden" name="room_id" value="{{ room.id }}">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-sm-4">
+                                <label for="check_in_date" class="form-label small">Заезд</label>
+                                <input type="date" name="check_in_date" class="form-control" required>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="check_out_date" class="form-label small">Выезд</label>
+                                <input type="date" name="check_out_date" class="form-control" required>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-success w-100">Забронировать</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <p class="text-center"><a href="/login">Войдите</a>, чтобы забронировать номер.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h3>Отзывы</h3>
+    </div>
+    <div class="card-body">
+        {% for review in reviews %}
+        <div class="border-bottom pb-2 mb-2">
+            <div class="d-flex justify-content-between">
+                <strong>{{ review.commentator.full_name }}</strong>
+                <span class="rating-star">
+                    {% for i in range(review.rating) %}<i class="bi bi-star-fill"></i>{% endfor %}
+                    {% for i in range(10 - review.rating) %}<i class="bi bi-star"></i>{% endfor %}
+                </span>
+            </div>
+            <p class="text-muted small">Период проживания: {{ review.stay_period_start.strftime('%d.%m.%Y') }} - {{ review.stay_period_end.strftime('%d.%m.%Y') }}</p>
+            <p>{{ review.text }}</p>
+        </div>
+        {% else %}
+        <p>Отзывов пока нет. Станьте первым!</p>
+        {% endfor %}
+        {% if total_reviews_pages > 1 %}
+        <nav class="mt-3">
+            <ul class="pagination pagination-sm">
+                {% if reviews_page > 1 %}
+                <li class="page-item"><a class="page-link" href="?reviews_page={{ reviews_page - 1 }}">«</a></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">Страница {{ reviews_page }} из {{ total_reviews_pages }}</span></li>
+                {% if reviews_page < total_reviews_pages %}
+                <li class="page-item"><a class="page-link" href="?reviews_page={{ reviews_page + 1 }}">»</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+    {% if request.state.user %}
+    <div class="card-footer">
+        <h5>Оставить отзыв</h5>
+        <form action="/hotel/{{ hotel.id }}/review" method="POST">
+            <div class="mb-3">
+                <label for="rating" class="form-label">Оценка (1-10)</label>
+                <input type="number" name="rating" class="form-control" min="1" max="10" required>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="stay_start" class="form-label">Начало проживания</label>
+                    <input type="date" name="stay_start" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label for="stay_end" class="form-label">Конец проживания</label>
+                    <input type="date" name="stay_end" class="form-control" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="text" class="form-label">Текст отзыва</label>
+                <textarea name="text" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+
+{% if request.state.user and request.state.user.is_admin %}
+<div class="card">
+    <div class="card-header">
+        <h3>Постояльцы за последний месяц</h3>
+    </div>
+    <div class="card-body">
+        {% if not guests_data %}
+            <p>За последний месяц в отеле не было постояльцев.</p>
+        {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Даты проживания</th>
+                    <th>Оценка отеля</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in guests_data %}
+                <tr>
+                    <td>{{ data.booking.user.full_name }}</td>
+                    <td>{{ data.booking.check_in_date.strftime('%d.%m.%Y') }} - {{ data.booking.check_out_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ data.rating }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if total_guests_pages > 1 %}
+        <nav class="mt-3">
+            <ul class="pagination pagination-sm">
+                {% if guests_page > 1 %}
+                <li class="page-item"><a class="page-link" href="?guests_page={{ guests_page - 1 }}">«</a></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">Страница {{ guests_page }} из {{ total_guests_pages }}</span></li>
+                {% if guests_page < total_guests_pages %}
+                <li class="page-item"><a class="page-link" href="?guests_page={{ guests_page + 1 }}">»</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}{% if min_price is not none %}
+  От {{ "%.0f"|format(min_price) }} руб.
+{% else %}
+  Нет свободных номеров
+{% endif %}
