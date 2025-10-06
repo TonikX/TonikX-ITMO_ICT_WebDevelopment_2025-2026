@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="{% static 'main/style.css' %}">
 </head>
 <body>
+  <a href="{% url 'login' %}">Войти</a>/
+  <a href="{% url 'register' %}">Зарегистрироваться</a><br/>
+  <a href="{% url 'profile' %}">Профиль</a>
   <h2>Все туры</h2>
   <ul>
     {% for tour in tours %}

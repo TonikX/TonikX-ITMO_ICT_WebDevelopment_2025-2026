@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="{% static 'users/style.css' %}">
 </head>
 <body>
+  <a href="{% url 'tour_list' %}">Главная</a>
+
   <h2>Профиль пользователя: {{ user.username }}</h2>
 
   <a href="{% url 'edit_profile' %}">
@@ -31,7 +33,11 @@
       </tr>
       {% for reservation in reservations %}
         <tr>
-          <td>{{ reservation.tour.name }}</td>
+          <td>
+            <a href="{% url 'tour_detail' reservation.tour.pk %}">
+              {{ reservation.tour.name }}
+            </a>
+          </td>
           <td>{{ reservation.tour.start_date }} — {{ reservation.tour.end_date }}</td>
           <td>{{ reservation.tour.country }}</td>
           <td>

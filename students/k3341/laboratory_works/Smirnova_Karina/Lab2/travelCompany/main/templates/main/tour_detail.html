@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'main/style.css' %}">
 </head>
 <body>
+  <a href="{% url 'tour_list' %}">Главная</a><br/>
+
   <h2>{{ tour.name }}</h2>
 
   <div class="tour-info-container">
