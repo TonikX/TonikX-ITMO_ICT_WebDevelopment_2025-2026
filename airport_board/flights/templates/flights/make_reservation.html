@@ -1,0 +1,281 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Бронирование - Табло аэропорта{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-bookmark-plus"></i> Бронирование места на рейс {{ flight.flight_number }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Информация о рейсе:</h5>
+                    <p><strong>Авиакомпания:</strong> {{ flight.airline }}</p>
+                    <p><strong>Отлет:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Прилет:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Гейт:</strong> {{ flight.gate_number }}</p>
+                    <p class="mb-0"><strong>Свободных мест:</strong> {{ flight.available_seats }}</p>
+                </div>
+
+                <!-- Схема салона самолета -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-grid-3x3"></i> Схема салона (нажмите на место)
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 d-flex align-items-center gap-3">
+                            <div>
+                                <span class="seat-box seat-free"></span> Свободно
+                            </div>
+                            <div>
+                                <span class="seat-box seat-occupied"></span> Занято
+                            </div>
+                            <div>
+                                <span class="seat-box seat-selected"></span> Выбрано
+                            </div>
+                        </div>
+                        
+                        <div class="airplane-cabin" id="airplane-cabin">
+                            <!-- Места будут сгенерированы JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" id="reservation-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="seat_number_input" class="form-label">
+                            {{ form.seat_number.label }}
+                        </label>
+                        <input type="text" 
+                               name="seat_number" 
+                               id="seat_number_input" 
+                               class="form-control" 
+                               placeholder="Например: 12A или оставьте пустым"
+                               value="">
+                        <small class="form-text text-muted">
+                            Место выбрано: <span id="selected-seat-display">не выбрано</span>
+                        </small>
+                        {% if form.seat_number.errors %}
+                            <div class="text-danger">
+                                {{ form.seat_number.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Забронировать
+                        </button>
+                        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Информация</h5>
+            </div>
+            <div class="card-body">
+                <p><i class="bi bi-info-circle"></i> Нажмите на свободное место (синее) для выбора.</p>
+                <p><i class="bi bi-x-circle"></i> Красные места уже заняты.</p>
+                <p><i class="bi bi-check-circle"></i> Вы можете забронировать без выбора места.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.airplane-cabin {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.seat-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 5px;
+}
+
+.row-number {
+    width: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #495057;
+    font-size: 14px;
+}
+
+.seat-group {
+    display: flex;
+    gap: 5px;
+}
+
+.aisle {
+    width: 30px;
+}
+
+.seat-box {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.seat-free {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0a58ca;
+}
+
+.seat-free:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.4);
+}
+
+.seat-occupied {
+    background-color: #dc3545;
+    color: white;
+    border-color: #b02a37;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.seat-selected {
+    background-color: #198754;
+    color: white;
+    border-color: #146c43;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.4);
+}
+
+.cabin-header {
+    text-align: center;
+    font-weight: bold;
+    color: #6c757d;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+}
+</style>
+
+<script>
+const occupiedSeats = {{ occupied_seats|safe }};
+let selectedSeat = null;
+
+const ROWS = 20;
+const SEATS_PER_SIDE = 2;
+const SEAT_LETTERS = ['A', 'B', 'C', 'D'];
+
+function generateCabin() {
+    const cabin = document.getElementById('airplane-cabin');
+    
+    // Заголовок
+    const header = document.createElement('div');
+    header.className = 'cabin-header';
+    header.innerHTML = '<i class="bi bi-airplane"></i> Нос самолета';
+    cabin.appendChild(header);
+    
+    for (let row = 1; row <= ROWS; row++) {
+        const seatRow = document.createElement('div');
+        seatRow.className = 'seat-row';
+        
+        // Номер ряда
+        const rowNum = document.createElement('div');
+        rowNum.className = 'row-number';
+        rowNum.textContent = row;
+        seatRow.appendChild(rowNum);
+        
+        // Левая группа (A, B)
+        const leftGroup = document.createElement('div');
+        leftGroup.className = 'seat-group';
+        for (let i = 0; i < SEATS_PER_SIDE; i++) {
+            const seat = createSeat(row, SEAT_LETTERS[i]);
+            leftGroup.appendChild(seat);
+        }
+        seatRow.appendChild(leftGroup);
+        
+        // Проход
+        const aisle = document.createElement('div');
+        aisle.className = 'aisle';
+        seatRow.appendChild(aisle);
+        
+        // Правая группа (C, D)
+        const rightGroup = document.createElement('div');
+        rightGroup.className = 'seat-group';
+        for (let i = SEATS_PER_SIDE; i < SEAT_LETTERS.length; i++) {
+            const seat = createSeat(row, SEAT_LETTERS[i]);
+            rightGroup.appendChild(seat);
+        }
+        seatRow.appendChild(rightGroup);
+        
+        cabin.appendChild(seatRow);
+    }
+}
+
+function createSeat(row, letter) {
+    const seatNumber = `${row}${letter}`;
+    const seat = document.createElement('div');
+    seat.className = 'seat-box';
+    seat.textContent = letter;
+    seat.dataset.seat = seatNumber;
+    
+    if (occupiedSeats.includes(seatNumber)) {
+        seat.classList.add('seat-occupied');
+    } else {
+        seat.classList.add('seat-free');
+        seat.addEventListener('click', () => selectSeat(seatNumber, seat));
+    }
+    
+    return seat;
+}
+
+function selectSeat(seatNumber, seatElement) {
+    // Снимаем выделение с предыдущего места
+    if (selectedSeat) {
+        const prevSeat = document.querySelector(`[data-seat="${selectedSeat}"]`);
+        if (prevSeat) {
+            prevSeat.classList.remove('seat-selected');
+            prevSeat.classList.add('seat-free');
+        }
+    }
+    
+    // Выделяем новое место
+    selectedSeat = seatNumber;
+    seatElement.classList.remove('seat-free');
+    seatElement.classList.add('seat-selected');
+    
+    // Обновляем поле ввода
+    document.getElementById('seat_number_input').value = seatNumber;
+    document.getElementById('selected-seat-display').textContent = seatNumber;
+}
+
+// Генерируем салон при загрузке страницы
+document.addEventListener('DOMContentLoaded', generateCabin);
+</script>
+{% endblock %}

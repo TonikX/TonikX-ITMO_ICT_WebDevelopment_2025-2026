@@ -1,0 +1,63 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Мои бронирования - Табло аэропорта{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">
+    <i class="bi bi-bookmarks"></i> Мои бронирования
+</h1>
+
+{% if reservations %}
+<div class="row">
+    {% for reservation in reservations %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Рейс {{ reservation.flight.flight_number }}</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Авиакомпания:</strong> {{ reservation.flight.airline }}</p>
+                <p><strong>Отлет:</strong> {{ reservation.flight.departure_time|date:"d.m.Y H:i" }}</p>
+                <p><strong>Прилет:</strong> {{ reservation.flight.arrival_time|date:"d.m.Y H:i" }}</p>
+                <p><strong>Гейт:</strong> {{ reservation.flight.gate_number }}</p>
+                <p><strong>Место:</strong> 
+                    {% if reservation.seat_number %}
+                        <span class="badge bg-primary">{{ reservation.seat_number }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">не выбрано</span>
+                    {% endif %}
+                </p>
+                <p><strong>Забронировано:</strong> {{ reservation.created_at|date:"d.m.Y H:i" }}</p>
+                
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'flight_detail' reservation.flight.pk %}" class="btn btn-info btn-sm">
+                        <i class="bi bi-info-circle"></i> Подробнее
+                    </a>
+                    {% if reservation.passenger %}
+                        <span class="btn btn-success btn-sm disabled">
+                            <i class="bi bi-check-circle-fill"></i> Зарегистрирован
+                        </span>
+                    {% else %}
+                        <a href="{% url 'register_passenger' reservation.pk %}" class="btn btn-success btn-sm">
+                            <i class="bi bi-person-check"></i> Зарегистрироваться на рейс
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'edit_reservation' reservation.pk %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i> Изменить
+                    </a>
+                    <a href="{% url 'delete_reservation' reservation.pk %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Отменить
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    <i class="bi bi-info-circle"></i> У вас пока нет бронирований.
+    <a href="{% url 'flight_list' %}" class="alert-link">Посмотрите доступные рейсы</a>
+</div>
+{% endif %}
+{% endblock %}

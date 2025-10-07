@@ -1,0 +1,39 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Отмена бронирования - Табло аэропорта{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Отмена бронирования
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5>Вы уверены, что хотите отменить это бронирование?</h5>
+                    <hr>
+                    <p><strong>Рейс:</strong> {{ reservation.flight.flight_number }}</p>
+                    <p><strong>Авиакомпания:</strong> {{ reservation.flight.airline }}</p>
+                    <p><strong>Отлет:</strong> {{ reservation.flight.departure_time|date:"d.m.Y H:i" }}</p>
+                    <p class="mb-0"><strong>Место:</strong> {{ reservation.seat_number }}</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Да, отменить
+                        </button>
+                        <a href="{% url 'my_reservations' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Нет, вернуться
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

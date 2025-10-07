@@ -1,0 +1,109 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Регистрация на рейс - Табло аэропорта{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-person-check"></i> Регистрация на рейс {{ flight.flight_number }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Информация о рейсе:</h5>
+                    <p><strong>Номер рейса:</strong> {{ flight.flight_number }}</p>
+                    <p><strong>Авиакомпания:</strong> {{ flight.airline }}</p>
+                    <p><strong>Отлет:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Прилет:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Гейт:</strong> {{ flight.gate_number }}</p>
+                    <p class="mb-0"><strong>Место:</strong> 
+                        {% if reservation.seat_number %}
+                            <span class="badge bg-primary">{{ reservation.seat_number }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">не выбрано</span>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    <strong>Важно:</strong> Пожалуйста, проверьте правильность введенных данных. 
+                    Имя и фамилия должны совпадать с данными в паспорте.
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                                {{ form.first_name.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                                {{ form.last_name.label }} <span class="text-danger">*</span>
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.ticket_number.id_for_label }}" class="form-label">
+                            {{ form.ticket_number.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.ticket_number }}
+                        <small class="form-text text-muted">
+                            Номер билета указан в вашем электронном билете
+                        </small>
+                        {% if form.ticket_number.errors %}
+                            <div class="text-danger">
+                                {{ form.ticket_number.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.passport_number.id_for_label }}" class="form-label">
+                            {{ form.passport_number.label }} <span class="text-danger">*</span>
+                        </label>
+                        {{ form.passport_number }}
+                        <small class="form-text text-muted">
+                            Серия и номер паспорта (например: 1234 567890)
+                        </small>
+                        {% if form.passport_number.errors %}
+                            <div class="text-danger">
+                                {{ form.passport_number.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Зарегистрироваться на рейс
+                        </button>
+                        <a href="{% url 'my_reservations' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

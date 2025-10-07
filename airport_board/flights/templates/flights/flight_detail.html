@@ -1,0 +1,109 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}{{ flight.flight_number }} - Табло аэропорта{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">
+                    <i class="bi bi-airplane"></i> Рейс {{ flight.flight_number }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Авиакомпания:</strong> {{ flight.airline }}</p>
+                        <p><strong>Время отлета:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+                        <p><strong>Время прилета:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Тип:</strong> {{ flight.get_flight_type_display }}</p>
+                        <p><strong>Гейт:</strong> {{ flight.gate_number }}</p>
+                        <p><strong>Свободных мест:</strong> {{ flight.available_seats }} / {{ flight.total_seats }}</p>
+                    </div>
+                </div>
+
+                {% if avg_rating %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-star-fill"></i> <strong>Средний рейтинг:</strong> {{ avg_rating }}/10
+                </div>
+                {% endif %}
+
+                <div class="mt-3">
+                    {% if user.is_authenticated %}
+                        {% if user_reservation %}
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle"></i> У вас есть резервирование на этот рейс (Место: {{ user_reservation.seat_number }})
+                            </div>
+                        {% else %}
+                            {% if flight.available_seats > 0 %}
+                                <a href="{% url 'make_reservation' flight.pk %}" class="btn btn-success">
+                                    <i class="bi bi-bookmark-plus"></i> Забронировать место
+                                </a>
+                            {% else %}
+                                <div class="alert alert-danger">
+                                    <i class="bi bi-exclamation-triangle"></i> Нет свободных мест
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <a href="{% url 'add_review' flight.pk %}" class="btn btn-primary">
+                            <i class="bi bi-chat-left-text"></i> Оставить отзыв
+                        </a>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> <a href="{% url 'login' %}">Войдите</a>, чтобы забронировать место или оставить отзыв
+                        </div>
+                    {% endif %}
+                    <a href="{% url 'passengers_list' flight.pk %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-people"></i> Список пассажиров
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-chat-square-text"></i> Отзывы</h4>
+            </div>
+            <div class="card-body">
+                {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="border-bottom mb-3 pb-3">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ review.user.username }}</strong>
+                            <span class="badge bg-warning text-dark">{{ review.rating }}/10</span>
+                        </div>
+                        <small class="text-muted">Дата рейса: {{ review.flight_date|date:"d.m.Y" }} | Отзыв от: {{ review.created_at|date:"d.m.Y H:i" }}</small>
+                        <p class="mt-2">{{ review.comment }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Отзывов пока нет. Будьте первым!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Навигация</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'flight_list' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Все рейсы
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'my_reservations' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-bookmarks"></i> Мои бронирования
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

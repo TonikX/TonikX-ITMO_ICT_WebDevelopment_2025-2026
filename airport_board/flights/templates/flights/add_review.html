@@ -1,0 +1,83 @@
+{% extends 'flights/base.html' %}
+
+{% block title %}Добавить отзыв - Табло аэропорта{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-chat-left-text"></i> Оставить отзыв о рейсе {{ flight.flight_number }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Информация о рейсе:</h5>
+                    <p><strong>Номер рейса:</strong> {{ flight.flight_number }}</p>
+                    <p><strong>Авиакомпания:</strong> {{ flight.airline }}</p>
+                    <p><strong>Отлет:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+                    <p class="mb-0"><strong>Прилет:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Поле даты рейса -->
+                    <div class="mb-3">
+                        <label for="{{ form.flight_date.id_for_label }}" class="form-label">
+                            {{ form.flight_date.label }}
+                            <span class="badge bg-info ms-2">
+                                <i class="bi bi-info-circle"></i> Автоматически заполнено
+                            </span>
+                        </label>
+                        {{ form.flight_date }}
+                        <small class="form-text text-muted">
+                            Дата установлена автоматически из даты отлета рейса ({{ flight.departure_time|date:"Y-m-d" }}). Вы можете изменить её при необходимости.
+                        </small>
+                        {% if form.flight_date.errors %}
+                            <div class="text-danger">
+                                {{ form.flight_date.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Поле комментария -->
+                    <div class="mb-3">
+                        <label for="{{ form.comment.id_for_label }}" class="form-label">
+                            {{ form.comment.label }}
+                        </label>
+                        {{ form.comment }}
+                        {% if form.comment.errors %}
+                            <div class="text-danger">
+                                {{ form.comment.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Поле рейтинга -->
+                    <div class="mb-3">
+                        <label for="{{ form.rating.id_for_label }}" class="form-label">
+                            {{ form.rating.label }}
+                        </label>
+                        {{ form.rating }}
+                        {% if form.rating.errors %}
+                            <div class="text-danger">
+                                {{ form.rating.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Отправить отзыв
+                        </button>
+                        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
