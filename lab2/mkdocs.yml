@@ -1,0 +1,8 @@
+site_name: Lab 2 Stabrovskiy Vladimir K3339
+nav:
+ - Home: index.md
+ - Tasks:
+     - "Task": task.md
+
+theme:
+ name: material
