@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Удаление задания - {{ object.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Подтверждение удаления
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <strong>Внимание!</strong> Это действие нельзя отменить.
+                </div>
+                
+                <h5>Вы действительно хотите удалить задание?</h5>
+                
+                <div class="assignment-info mt-3">
+                    <h6>{{ object.title }}</h6>
+                    <p class="text-muted">
+                        <i class="bi bi-book"></i> {{ object.subject.name }} | 
+                        <i class="bi bi-person"></i> {{ object.teacher.get_full_name|default:object.teacher.username }} |
+                        <i class="bi bi-calendar"></i> Срок: {{ object.due_date|date:"d.m.Y H:i" }}
+                    </p>
+                    <p class="text-muted">
+                        <i class="bi bi-file-text"></i> {{ object.submissions.count }} сдач | 
+                        <i class="bi bi-star"></i> {{ object.submissions.filter|length }} оценок
+                    </p>
+                </div>
+                
+                {% if object.submissions.count > 0 %}
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Внимание:</strong> У этого задания есть {{ object.submissions.count }} сдач. 
+                        При удалении задания все связанные сдачи и оценки также будут удалены.
+                    </div>
+                {% endif %}
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'assignment_detail' object.pk %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Отмена
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Удалить задание
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

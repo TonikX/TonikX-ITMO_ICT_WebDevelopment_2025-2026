@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Редактирование{% else %}Создание{% endif %} задания{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-{% if object %}pencil{% else %}plus-circle{% endif %}"></i>
+                    {% if object %}Редактирование задания{% else %}Создание задания{% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">
+                                Предмет <span class="text-danger">*</span>
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.subject.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.max_points.id_for_label }}" class="form-label">
+                                Максимальный балл <span class="text-danger">*</span>
+                            </label>
+                            {{ form.max_points }}
+                            {% if form.max_points.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.max_points.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">
+                            Название задания <span class="text-danger">*</span>
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.title.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">
+                            Описание задания <span class="text-danger">*</span>
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            Подробно опишите задание, требования и критерии оценки
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.due_date.id_for_label }}" class="form-label">
+                            Срок выполнения <span class="text-danger">*</span>
+                        </label>
+                        {{ form.due_date }}
+                        {% if form.due_date.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.due_date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.penalty_info.id_for_label }}" class="form-label">
+                            Информация о штрафах
+                        </label>
+                        {{ form.penalty_info }}
+                        {% if form.penalty_info.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.penalty_info.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            Опишите штрафы за несвоевременную сдачу (необязательно)
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'assignment_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Отмена
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i> 
+                            {% if object %}Сохранить изменения{% else %}Создать задание{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add Bootstrap classes to form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const formFields = document.querySelectorAll('input, select, textarea');
+        formFields.forEach(function(field) {
+            if (!field.classList.contains('form-control') && !field.classList.contains('form-select')) {
+                field.classList.add('form-control');
+            }
+        });
+    });
+</script>
+{% endblock %}

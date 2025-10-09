@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Сдача задания - {{ assignment.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-send"></i> Сдача задания
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="assignment-info mb-4">
+                    <h5>{{ assignment.title }}</h5>
+                    <p class="text-muted">
+                        <i class="bi bi-book"></i> {{ assignment.subject.name }} | 
+                        <i class="bi bi-person"></i> {{ assignment.teacher.get_full_name|default:assignment.teacher.username }} |
+                        <i class="bi bi-calendar"></i> Срок: {{ assignment.due_date|date:"d.m.Y H:i" }}
+                    </p>
+                    {% if assignment.is_overdue %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i> 
+                            Внимание! Срок выполнения задания истек. За сдачу с опозданием могут быть применены штрафы.
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">
+                            <strong>Ваше решение:</strong>
+                        </label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.content.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            Опишите подробно ваше решение задания. Используйте четкую структуру и объяснения.
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'assignment_detail' assignment.pk %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Отмена
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-send"></i> Сдать задание
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add Bootstrap classes to form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.classList.add('form-control');
+        }
+    });
+    
+    // Character counter
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+        const counter = document.createElement('div');
+        counter.className = 'form-text text-end';
+        counter.innerHTML = '<span id="char-count">0</span> символов';
+        textarea.parentNode.appendChild(counter);
+        
+        textarea.addEventListener('input', function() {
+            document.getElementById('char-count').textContent = this.value.length;
+        });
+    }
+</script>
+{% endblock %}

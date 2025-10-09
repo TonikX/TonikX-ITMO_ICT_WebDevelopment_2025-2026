@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white rounded-3 p-5 mb-4">
+            <h1 class="display-4">
+                <i class="bi bi-journal-text"></i> Доска домашних заданий
+            </h1>
+            <p class="lead">Система управления учебными заданиями для студентов и преподавателей</p>
+            {% if not user.is_authenticated %}
+                <a class="btn btn-light btn-lg" href="{% url 'register' %}" role="button">
+                    <i class="bi bi-person-plus"></i> Начать работу
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_assignments }}</div>
+            <div class="stat-label">Активных заданий</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_subjects }}</div>
+            <div class="stat-label">Предметов</div>
+        </div>
+    </div>
+    {% if user.is_authenticated and user.role == 'student' %}
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ my_submissions|length }}</div>
+                <div class="stat-label">Мои сдачи</div>
+            </div>
+        </div>
+    {% endif %}
+    {% if user.is_authenticated and user.role in 'teacher,admin' %}
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ pending_grades }}</div>
+                <div class="stat-label">Ожидают оценки</div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Recent Assignments -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-clock-history"></i> Последние задания
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if recent_assignments %}
+                    <div class="row">
+                        {% for assignment in recent_assignments %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card assignment-card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <a href="{% url 'assignment_detail' assignment.pk %}" class="text-decoration-none">
+                                                {{ assignment.title }}
+                                            </a>
+                                        </h6>
+                                        <p class="card-text text-muted small">
+                                            <i class="bi bi-book"></i> {{ assignment.subject.name }}
+                                        </p>
+                                        <p class="card-text text-muted small">
+                                            <i class="bi bi-person"></i> {{ assignment.teacher.get_full_name|default:assignment.teacher.username }}
+                                        </p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar"></i> 
+                                                Срок: {{ assignment.due_date|date:"d.m.Y H:i" }}
+                                            </small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-primary">{{ assignment.max_points }} баллов</span>
+                                            {% if assignment.is_overdue %}
+                                                <span class="assignment-status overdue">Просрочено</span>
+                                            {% else %}
+                                                <span class="assignment-status active">Активно</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'assignment_list' %}" class="btn btn-primary">
+                            <i class="bi bi-list-task"></i> Все задания
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-inbox display-1 text-muted"></i>
+                        <p class="text-muted mt-3">Пока нет заданий</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- My Submissions (for students) -->
+{% if user.is_authenticated and user.role == 'student' and my_submissions %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-file-text"></i> Мои последние сдачи
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Задание</th>
+                                <th>Предмет</th>
+                                <th>Дата сдачи</th>
+                                <th>Статус</th>
+                                <th>Оценка</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for submission in my_submissions %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'assignment_detail' submission.assignment.pk %}" class="text-decoration-none">
+                                            {{ submission.assignment.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ submission.assignment.subject.name }}</td>
+                                    <td>{{ submission.submitted_at|date:"d.m.Y H:i" }}</td>
+                                    <td>
+                                        {% if submission.is_late %}
+                                            <span class="badge bg-warning">С опозданием</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Вовремя</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if submission.grade %}
+                                            <span class="grade-points" data-max-points="{{ submission.assignment.max_points }}">
+                                                {{ submission.grade.points }}/{{ submission.assignment.max_points }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">Ожидает оценки</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'my_submissions' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-file-text"></i> Все мои сдачи
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+{% if user.is_authenticated %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-lightning"></i> Быстрые действия
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if user.role == 'student' %}
+                        <div class="col-md-4 mb-2">
+                            <a href="{% url 'assignment_list' %}" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-search"></i> Найти задание
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <a href="{% url 'my_submissions' %}" class="btn btn-outline-success w-100">
+                                <i class="bi bi-file-text"></i> Мои сдачи
+                            </a>
+                        </div>
+                    {% elif user.role in 'teacher,admin' %}
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'assignment_create' %}" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-plus-circle"></i> Создать задание
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'grade_list' %}" class="btn btn-outline-warning w-100">
+                                <i class="bi bi-star"></i> Оценить работы
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'statistics' %}" class="btn btn-outline-info w-100">
+                                <i class="bi bi-graph-up"></i> Статистика
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary w-100">
+                                <i class="bi bi-gear"></i> Админ-панель
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
