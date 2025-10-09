@@ -8,16 +8,16 @@ def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
 
-    # Ввод данных с клавиатуры
+    
     base = input("Введите основание параллелограмма: ")
     height = input("Введите высоту параллелограмма: ")
 
-    # Отправляем данные на сервер
+    
     message = f"{base} {height}"
     sock.sendall(message.encode('utf-8'))
     print(f"Sent to server: {message}")
 
-    # Ждём ответ
+    
     data = sock.recv(1024).decode('utf-8')
     print(f"Received from server: {data}")
 
