@@ -2,11 +2,11 @@
 import socket
 import threading
 
-HOST = '0.0.0.0'   # слушать на всех интерфейсах (или '127.0.0.1' для локального теста)
-PORT = 5001        # порт сервера
+HOST = '0.0.0.0'   
+PORT = 5001        
 
 clients_lock = threading.Lock()
-clients = {}  # socket -> username
+clients = {}  
 
 def broadcast(message: str, exclude_sock=None):
     """Отправить message всем подключенным клиентам, кроме exclude_sock (если задан)"""
@@ -17,7 +17,7 @@ def broadcast(message: str, exclude_sock=None):
             try:
                 sock.sendall(message.encode('utf-8'))
             except Exception:
-                # Если отправка упала — закрываем соединение
+                
                 remove_client(sock)
 
 def remove_client(sock):
@@ -37,7 +37,7 @@ def handle_client(conn: socket.socket, addr):
     """Поток обработки одного клиента"""
     print(f"[+] Connected: {addr}")
     try:
-        # Первое сообщение от клиента — его имя
+        
         conn.sendall("Введите ваше имя: ".encode('utf-8'))
         name_data = conn.recv(1024)
         if not name_data:
@@ -57,7 +57,7 @@ def handle_client(conn: socket.socket, addr):
         broadcast(join_msg, exclude_sock=conn)
         print(join_msg.strip())
 
-        # Основной цикл получения сообщений от клиента
+        
         while True:
             data = conn.recv(4096)
             if not data:
@@ -66,24 +66,24 @@ def handle_client(conn: socket.socket, addr):
             if not text:
                 continue
 
-            # Простая команда выхода
+            
             if text.lower() in ('/quit', '/exit'):
                 break
 
-            # Команды сервера (пример: /users) можно добавить
+            
             if text.lower() == '/users':
                 with clients_lock:
                     users_list = ", ".join(clients.values())
                 conn.sendall(f"Список пользователей: {users_list}\n".encode('utf-8'))
                 continue
 
-            # Broadcast: имя: сообщение
+            
             message = f"{username}: {text}\n"
             print(message.strip())
             broadcast(message, exclude_sock=None)
 
     except ConnectionResetError:
-        # Клиент резко закрыл соединение
+        
         pass
     except Exception as e:
         print(f"Error handling client {addr}: {e}")
@@ -101,7 +101,7 @@ def main():
     try:
         while True:
             conn, addr = server_sock.accept()
-            # Для каждого клиента создаём поток
+            
             t = threading.Thread(target=handle_client, args=(conn, addr), daemon=True)
             t.start()
     except KeyboardInterrupt:
