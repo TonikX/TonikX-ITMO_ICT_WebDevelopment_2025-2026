@@ -1,10 +1,12 @@
-site_name: "ЛР1 — Работа с сокетами"
+site_name: ЛР1 — Джаватов Ильяс
+theme:
+  name: material
+
 nav:
-  - Главная: docs/index.md
-  - Задание 1: docs/task1.md
-  - Задание 2: docs/task2.md
-  - Задание 3: docs/task3.md
-  - Задание 4: docs/task4.md
-  - Задание 5: docs/task5.md
-docs_dir: students/k3341/laboratory_works/Dzhavatov_Ilyas/laboratory_work_1  # путь к папке с md
-theme: readthedocs
+  - Главная: index.md
+  - Задания:
+      - Задание 1: task1.md
+      - Задание 2: task2.md
+      - Задание 3: task3.md
+      - Задание 4: task4.md
+      - Задание 5: task5.md
