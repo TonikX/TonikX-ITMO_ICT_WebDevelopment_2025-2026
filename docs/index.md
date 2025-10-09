@@ -2,9 +2,9 @@
 
 Добро пожаловать в документацию по лабораторной работе 2! Здесь представлены два Django проекта, созданных в рамках курса веб-разработки.
 
-## 📚 Проекты
+  ## Проекты
 
-### 🎓 Доска домашних заданий (homework_board)
+### Доска домашних заданий (homework_board)
 Современная веб-система для управления домашними заданиями в учебных заведениях.
 
 **Основные возможности:**
@@ -15,7 +15,7 @@
 
 [Подробнее о проекте →](homework_board/index.md)
 
-### 🚗 Система управления автовладельцами (tutorial)
+### Система управления автовладельцами (tutorial)
 Веб-приложение для управления информацией об автовладельцах, их автомобилях и водительских удостоверениях.
 
 **Основные возможности:**
@@ -26,44 +26,42 @@
 
 [Подробнее о проекте →](tutorial/index.md)
 
-## 🛠 Технологии
+## Технологии
 
 - **Backend**: Django 5.2.7
 - **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
 - **База данных**: SQLite
 - **Язык**: Python 3.12+
 
-## 🚀 Быстрый старт
+## Быстрый старт
 
 ### Установка зависимостей
 ```bash
 # Для homework_board
 cd homework_board
 python -m venv homework-env
-source homework-env/bin/activate  # Linux/Mac
+source homework-env/bin/activate
 pip install django
 
 # Для tutorial
 cd tutorial
 python -m venv tutorial-env
-source tutorial-env/bin/activate  # Linux/Mac
+source tutorial-env/bin/activate
 pip install django
 ```
 
 ### Запуск проектов
 ```bash
-# homework_board
 cd homework_board
 python manage.py migrate
 python manage.py runserver
 
-# tutorial
 cd tutorial
 python manage.py migrate
 python manage.py runserver
 ```
 
-## 📖 Структура репозитория
+## Структура репозитория
 
 ```
 ├── homework_board/          # Проект доски домашних заданий
@@ -78,14 +76,6 @@ python manage.py runserver
 ├── docs/                   # Документация MkDocs
 └── mkdocs.yml             # Конфигурация MkDocs
 ```
-
-## 👨‍💻 Автор
-
-**Арсений Филатов** - студент курса веб-разработки
-
-## 📝 Лицензия
-
-Этот проект распространяется под лицензией MIT. См. файл [LICENSE](../LICENSE) для подробностей.
 
 ---
 
