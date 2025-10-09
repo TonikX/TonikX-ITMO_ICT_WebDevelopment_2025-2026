@@ -4,7 +4,7 @@ import urllib.parse
 HOST = "127.0.0.1"
 PORT = 8081
 
-# Здесь будем хранить оценки (словарь: предмет -> оценка)
+
 grades = {}
 
 def build_html():
@@ -44,13 +44,13 @@ def handle_request(request: str) -> str:
         return response
 
     elif method == "POST":
-        # Отделяем заголовки от тела
+        
         parts = request.split("\r\n\r\n", 1)
         if len(parts) < 2:
             return "HTTP/1.1 400 Bad Request\r\n\r\n"
         body_data = parts[1]
 
-        # Парсим данные (subject=...&grade=...)
+        
         form = urllib.parse.parse_qs(body_data)
         subject = form.get("subject", [""])[0]
         grade = form.get("grade", [""])[0]
@@ -58,7 +58,7 @@ def handle_request(request: str) -> str:
         if subject and grade:
             grades[subject] = grade
 
-        # После POST возвращаем обновлённую страницу
+        
         body = build_html()
         response = "HTTP/1.1 200 OK\r\n"
         response += "Content-Type: text/html; charset=utf-8\r\n"
