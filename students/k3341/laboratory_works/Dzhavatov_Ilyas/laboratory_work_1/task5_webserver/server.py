@@ -1,11 +1,13 @@
 import socket
 import urllib.parse
+from collections import defaultdict
 
 HOST = "127.0.0.1"
 PORT = 8081
 
 
-grades = {}
+grades = defaultdict(list)
+
 
 def build_html():
     """Подставляем таблицу с оценками в index.html"""
@@ -16,8 +18,13 @@ def build_html():
         return "<h1>index.html not found</h1>"
 
     if grades:
-        rows = "".join(f"<tr><td>{subj}</td><td>{grade}</td></tr>" for subj, grade in grades.items())
-        table = f"<table border='1'><tr><th>Дисциплина</th><th>Оценка</th></tr>{rows}</table>"
+        rows = []
+        for subject, grade_list in grades.items():
+
+            grades_str = ", ".join(grade_list)
+            rows.append(f"<tr><td>{subject}</td><td>{grades_str}</td></tr>")
+
+        table = f"<table border='1'><tr><th>Дисциплина</th><th>Оценки</th></tr>{''.join(rows)}</table>"
     else:
         table = "<p>Пока нет оценок</p>"
 
@@ -44,21 +51,22 @@ def handle_request(request: str) -> str:
         return response
 
     elif method == "POST":
-        
+
         parts = request.split("\r\n\r\n", 1)
         if len(parts) < 2:
             return "HTTP/1.1 400 Bad Request\r\n\r\n"
         body_data = parts[1]
 
-        
+
         form = urllib.parse.parse_qs(body_data)
-        subject = form.get("subject", [""])[0]
-        grade = form.get("grade", [""])[0]
+        subject = form.get("subject", [""])[0].strip()
+        grade = form.get("grade", [""])[0].strip()
 
         if subject and grade:
-            grades[subject] = grade
 
-        
+            grades[subject].append(grade)
+
+
         body = build_html()
         response = "HTTP/1.1 200 OK\r\n"
         response += "Content-Type: text/html; charset=utf-8\r\n"
