@@ -20,6 +20,7 @@ urlpatterns = [
     
     # Студенческие страницы
     path('my-submissions/', views.my_submissions, name='my_submissions'),
+    path('profile/', views.profile, name='profile'),
     
     # Статистика
     path('statistics/', views.statistics, name='statistics'),

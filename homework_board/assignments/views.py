@@ -312,3 +312,47 @@ def statistics(request):
     }
     
     return render(request, 'assignments/statistics.html', context)
+
+
+def profile(request):
+    """Профиль пользователя"""
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    user_submissions = AssignmentSubmission.objects.filter(student=request.user)
+    user_grades = Grade.objects.filter(submission__student=request.user)
+    
+    # Статистика по предметам
+    subject_stats = {}
+    for submission in user_submissions:
+        subject = submission.assignment.subject.name
+        if subject not in subject_stats:
+            subject_stats[subject] = {
+                'total_assignments': 0,
+                'submitted': 0,
+                'graded': 0,
+                'avg_grade': 0
+            }
+        subject_stats[subject]['total_assignments'] += 1
+        if submission.submitted_at:
+            subject_stats[subject]['submitted'] += 1
+        if submission.grade:
+            subject_stats[subject]['graded'] += 1
+    
+    # Вычисляем средние оценки
+    for subject in subject_stats:
+        grades = user_grades.filter(submission__assignment__subject__name=subject)
+        if grades.exists():
+            subject_stats[subject]['avg_grade'] = round(
+                grades.aggregate(avg=Avg('points'))['avg'], 2
+            )
+    
+    context = {
+        'user_submissions': user_submissions,
+        'user_grades': user_grades,
+        'subject_stats': subject_stats,
+        'total_submissions': user_submissions.count(),
+        'total_grades': user_grades.count(),
+    }
+    
+    return render(request, 'assignments/profile.html', context)

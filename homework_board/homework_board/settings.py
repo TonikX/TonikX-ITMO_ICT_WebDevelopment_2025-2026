@@ -127,3 +127,8 @@ AUTH_USER_MODEL = 'assignments.User'
 
 # Настройки для пагинации
 PAGINATE_BY = 10
+
+# Настройки аутентификации
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'  # Перенаправление после входа на главную страницу
+LOGOUT_REDIRECT_URL = '/'  # Перенаправление после выхода на главную страницу
