@@ -1,10 +1,16 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class CarOwner(models.Model):
-    surname = models.CharField(max_length=30, null=False)
-    name = models.CharField(max_length=30, null=False)
-    birth_date = models.DateField(null=False)
+
+class CarOwner(AbstractUser):
+    surname = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
+    birth_date = models.DateField(null=True, blank=True)
+    passport_number = models.CharField(max_length=20, default="Unknown", blank=True)
+    address = models.CharField(max_length=255, default="Unknown", blank=True)
+    nationality = models.CharField(max_length=50, default="Unknown", blank=True)
     cars = models.ManyToManyField('Car', through='Ownership')
+
 
 class DriverLicense(models.Model):
     id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, null=False)
@@ -24,3 +30,4 @@ class Ownership(models.Model):
     id_car = models.ForeignKey(Car, on_delete=models.CASCADE, null=False)
     start_date = models.DateField(null=False)
     end_date = models.DateField(null=True)
+

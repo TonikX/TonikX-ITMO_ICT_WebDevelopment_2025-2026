@@ -1,19 +1,14 @@
-from django.views.generic import ListView, DetailView, UpdateView
-from django.urls import reverse_lazy
+from django.views.generic import DetailView
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Car
-from .forms import OwnershipForm, CarForm
+from .models import CarOwner, Car
+from .forms import OwnershipForm, CarForm, CarOwnerCreationForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 
-
-def owner_list(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    owners = car.owners.all()
-
-    return render(request,
-                  'owner_list.html',
-                  {'car': car, 'owners': owners})
+def owner_list(request):
+    owners = CarOwner.objects.all()
+    return render(request, 'owner_list.html', {'owners': owners})
 
 
 class CarListView(ListView):
@@ -61,3 +56,19 @@ class CarDeleteView(DeleteView):
     model = Car
     template_name = 'car_confirm_delete.html'
     success_url = reverse_lazy('car_list')
+
+
+class CarOwnerCreateView(CreateView):
+    form_class = CarOwnerCreationForm
+    template_name = 'carowner_form.html'
+    success_url = reverse_lazy('owner_list')
+
+def create_car_owner(request):
+    if request.method == 'POST':
+        form = CarOwnerCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('owner_list')  # можно на страницу списка владельцев
+    else:
+        form = CarOwnerCreationForm()
+    return render(request, 'carowner_form.html', {'form': form})
