@@ -4,6 +4,7 @@ class CarOwner(models.Model):
     surname = models.CharField(max_length=30, null=False)
     name = models.CharField(max_length=30, null=False)
     birth_date = models.DateField(null=False)
+    cars = models.ManyToManyField('Car', through='Ownership')
 
 class DriverLicense(models.Model):
     id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, null=False)
@@ -16,6 +17,7 @@ class Car(models.Model):
     car_brand = models.CharField(max_length=20, null=False)
     car_model = models.CharField(max_length=20, null=False)
     car_color = models.CharField(max_length=30, null=False)
+    owners = models.ManyToManyField(CarOwner, through='Ownership')
 
 class Ownership(models.Model):
     id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, null=False)

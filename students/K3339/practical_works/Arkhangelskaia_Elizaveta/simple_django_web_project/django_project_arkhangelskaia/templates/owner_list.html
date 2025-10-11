@@ -2,9 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>owners</title>
+    <title>Владельцы машины {{ car.car_brand }} {{ car.car_model }}</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fdf6f9; 
+            color: #2f3e2f; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #a8e6a1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a2a2a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .owner {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #a8e6a1;
+            border-radius: 8px;
+            background-color: #f9fdf9;
+        }
+
+    </style>
 </head>
 <body>
-    Имя: {{ owners.name }}, Фамилия: {{ owners.surname }} <br>
+    <div class="container">
+        <h1>Владельцы машины  {{ car.car_brand }} {{ car.car_model }}</h1>
+
+        {% if owners %}
+            {% for owner in owners %}
+                <div class="owner">
+                    Владелец: {{ owner.name }} {{ owner.surname }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No owners found for this car.</p>
+        {% endif %}
+
+    </div>
 </body>
 </html>

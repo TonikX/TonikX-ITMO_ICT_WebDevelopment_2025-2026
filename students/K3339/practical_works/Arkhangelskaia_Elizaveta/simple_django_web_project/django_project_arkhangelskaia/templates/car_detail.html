@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ car.car_brand }} {{ car.car_model }}</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fdf6f9; 
+            color: #2f3e2f; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #a8e6a1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a2a2a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2f3e2f;
+            border: 2px solid #a8e6a1;
+            background-color: #a8e6a1;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 10px 5px 0 0;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #ffb6c1; 
+            border-color: #ffb6c1;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ car.car_brand }} {{ car.car_model }}</h1>
+
+        <p><strong>Номер:</strong> {{ car.number }}</p>
+        <p><strong>Цвет машины:</strong> {{ car.car_color }}</p>
+
+        <div class="buttons">
+            <a href="{% url 'car_update' car.id %}">Редактировать</a>
+            <a href="{% url 'car_list' %}">Назад к списку</a>
+            <a href="{% url 'car_delete' car.id %}">Удалить машину</a>
+        </div>
+    </div>
+</body>
+</html>
