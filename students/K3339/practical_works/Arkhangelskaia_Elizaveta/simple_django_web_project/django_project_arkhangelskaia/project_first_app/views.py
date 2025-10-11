@@ -42,7 +42,7 @@ def add_owner_to_car(request, car_id):
         form = OwnershipForm(request.POST)
         if form.is_valid():
             ownership = form.save(commit=False)
-            ownership.id_car = car  # привязка к машине
+            ownership.id_car = car
             ownership.save()
             return redirect('owner_list', car_id=car.id)
     else:
