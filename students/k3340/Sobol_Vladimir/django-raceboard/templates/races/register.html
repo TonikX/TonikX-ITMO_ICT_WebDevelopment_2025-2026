@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <h3 class="red-text text-darken-2">
+      <i class="material-icons large left">person_add</i>
+      Регистрация нового участника
+    </h3>
+    <p class="flow-text grey-text">Создайте аккаунт и профиль гонщика</p>
+  </div>
+</div>
+
+<div class="divider" style="margin: 20px 0;"></div>
+
+<div class="row">
+  <div class="col s12 l10 offset-l1">
+    <div class="card">
+      <div class="card-content">
+        <form method="post">
+          {% csrf_token %}
+          
+          <!-- User Account Section -->
+          <div class="card-panel red lighten-5">
+            <h5 class="red-text text-darken-2">
+              <i class="material-icons left">account_circle</i>
+              Учетная запись
+            </h5>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">person</i>
+                <input type="text" id="id_username" name="username" value="{{ user_form.username.value|default:'' }}" required maxlength="150">
+                <label for="id_username">Имя пользователя</label>
+                <span class="helper-text">Обязательное поле. Не более 150 символов.</span>
+                {% if user_form.username.errors %}
+                  <span class="helper-text red-text">{{ user_form.username.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">email</i>
+                <input type="email" id="id_email" name="email" value="{{ user_form.email.value|default:'' }}">
+                <label for="id_email">Email</label>
+                {% if user_form.email.errors %}
+                  <span class="helper-text red-text">{{ user_form.email.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">lock</i>
+                <input type="password" id="id_password" name="password" required>
+                <label for="id_password">Пароль</label>
+                {% if user_form.password.errors %}
+                  <span class="helper-text red-text">{{ user_form.password.errors.0 }}</span>
+                {% endif %}
+              </div>
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">lock_outline</i>
+                <input type="password" id="id_password2" name="password2" required>
+                <label for="id_password2">Повторите пароль</label>
+                {% if user_form.password2.errors %}
+                  <span class="helper-text red-text">{{ user_form.password2.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Participant Profile Section -->
+          <div class="card-panel blue lighten-5">
+            <h5 class="blue-text text-darken-2">
+              <i class="material-icons left">badge</i>
+              Профиль участника
+            </h5>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">badge</i>
+                <input type="text" id="id_full_name" name="full_name" value="{{ profile_form.full_name.value|default:'' }}" required maxlength="255">
+                <label for="id_full_name">ФИО участника</label>
+                {% if profile_form.full_name.errors %}
+                  <span class="helper-text red-text">{{ profile_form.full_name.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">group</i>
+                <select id="id_team" name="team">
+                  <option value="" selected>Без команды</option>
+                  {% for value, label in profile_form.team.field.choices %}
+                    {% if value %}
+                      <option value="{{ value }}" {% if profile_form.team.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <label for="id_team">Команда</label>
+                {% if profile_form.team.errors %}
+                  <span class="helper-text red-text">{{ profile_form.team.errors.0 }}</span>
+                {% endif %}
+              </div>
+              
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">stars</i>
+                <select id="id_driver_class" name="driver_class" required>
+                  {% for value, label in profile_form.driver_class.field.choices %}
+                    <option value="{{ value }}" {% if profile_form.driver_class.value == value or value == 'amateur' and not profile_form.driver_class.value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+                <label for="id_driver_class">Класс участника</label>
+                {% if profile_form.driver_class.errors %}
+                  <span class="helper-text red-text">{{ profile_form.driver_class.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">directions_car</i>
+                <textarea id="id_car_description" name="car_description" class="materialize-textarea">{{ profile_form.car_description.value|default:'' }}</textarea>
+                <label for="id_car_description">Описание автомобиля</label>
+                {% if profile_form.car_description.errors %}
+                  <span class="helper-text red-text">{{ profile_form.car_description.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">info</i>
+                <textarea id="id_description" name="description" class="materialize-textarea">{{ profile_form.description.value|default:'' }}</textarea>
+                <label for="id_description">Описание участника</label>
+                {% if profile_form.description.errors %}
+                  <span class="helper-text red-text">{{ profile_form.description.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">timeline</i>
+                <input type="number" id="id_experience_years" name="experience_years" value="{{ profile_form.experience_years.value|default:'0' }}" min="0" max="100">
+                <label for="id_experience_years">Опыт (лет)</label>
+                {% if profile_form.experience_years.errors %}
+                  <span class="helper-text red-text">{{ profile_form.experience_years.errors.0 }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Errors -->
+          {% if user_form.non_field_errors or profile_form.non_field_errors %}
+            <div class="card-panel red lighten-4 red-text text-darken-2">
+              <i class="material-icons left">error</i>
+              {{ user_form.non_field_errors }}
+              {{ profile_form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <!-- Submit Button -->
+          <div class="center-align" style="margin-top: 30px;">
+            <button type="submit" class="btn-large red darken-2 waves-effect waves-light">
+              <i class="material-icons left">how_to_reg</i>
+              Зарегистрироваться
+            </button>
+            <br><br>
+            <p class="grey-text">
+              Уже есть аккаунт? 
+              <a href="{% url 'login' %}" class="red-text text-darken-2">Войти</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

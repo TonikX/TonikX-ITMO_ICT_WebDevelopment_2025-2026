@@ -1,0 +1,239 @@
+/* Custom styles for django-raceboard with Materialize CSS */
+
+/* Body and Layout */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* Navbar Enhancements */
+nav .brand-logo {
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+
+nav ul a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Card Enhancements */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.hoverable:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+/* Button Enhancements */
+.btn, .btn-large, .btn-small {
+  text-transform: none;
+  font-weight: 500;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+  transition: all 0.3s ease;
+}
+
+.btn:hover, .btn-large:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Table Styling */
+table.striped tbody tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+table.highlight tbody tr:hover {
+  background-color: #ffebee;
+}
+
+/* Badge and Chip Enhancements */
+.badge {
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.chip {
+  border-radius: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Collection Enhancements */
+.collection .collection-item {
+  transition: background-color 0.3s ease;
+}
+
+.collection .collection-item:hover {
+  background-color: #f5f5f5;
+}
+
+.collection .collection-item.avatar {
+  min-height: 84px;
+  padding-left: 72px;
+}
+
+/* Footer */
+.page-footer {
+  margin-top: auto;
+}
+
+/* Form Enhancements */
+.input-field input:focus + label,
+.input-field textarea:focus + label {
+  color: #c62828 !important;
+}
+
+.input-field input:focus,
+.input-field textarea:focus {
+  border-bottom: 1px solid #c62828 !important;
+  box-shadow: 0 1px 0 0 #c62828 !important;
+}
+
+.input-field .prefix.active {
+  color: #c62828;
+}
+
+/* Material Icons alignment */
+.material-icons.left {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.material-icons.right {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Custom Racing Theme Colors */
+.racing-gradient {
+  background: linear-gradient(135deg, #c62828 0%, #e53935 100%);
+}
+
+/* Card Panel Enhancements */
+.card-panel {
+  border-radius: 6px;
+  padding: 20px;
+}
+
+/* Responsive improvements */
+@media only screen and (max-width: 600px) {
+  nav .brand-logo {
+    font-size: 1.4rem;
+  }
+  
+  .card-title {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* Animation for page load */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Divider styling */
+.divider {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+.select-wrapper input.select-dropdown:focus {
+  border-bottom: 1px solid #c62828 !important;
+}
+
+/* Datepicker theming */
+.datepicker-date-display {
+  background-color: #c62828;
+}
+
+.datepicker-table td.is-selected {
+  background-color: #c62828;
+}
+
+.datepicker-done, .datepicker-cancel {
+  color: #c62828;
+}
+
+/* Comment section styling */
+.comment-card {
+  border-left: 4px solid #c62828;
+  padding-left: 16px;
+}
+
+/* Stats cards */
+.stats-card {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: scale(1.05);
+}
+
+/* Profile avatar circle */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #c62828 0%, #e53935 100%);
+  color: white;
+}
+
+/* Loading animation for buttons */
+.btn:active, .btn-large:active {
+  transform: scale(0.98);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c62828;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b71c1c;
+}
