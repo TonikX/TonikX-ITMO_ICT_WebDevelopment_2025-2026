@@ -9,6 +9,15 @@ from django.db.models import Count
 # Feature views
 @api_view(['GET'])
 def mark_top(request):
+    """
+    Get the most popular plane mark.
+    
+    Returns the mark of the plane that appears most frequently in the database.
+    
+    Responses:
+        200: Successfully retrieved the top mark
+        500: Internal server error
+    """
     mark_counts = Plane.objects.values('mark').annotate(count=Count('mark')).order_by('-count')
     
     if mark_counts:
@@ -21,6 +30,16 @@ def mark_top(request):
 
 @api_view(['GET'])
 def mark_all(request):
+    """
+    Get all plane marks and their counts.
+    
+    Returns a list of all plane marks along with the count of planes for each mark,
+    and the total count of all planes.
+    
+    Responses:
+        200: Successfully retrieved all marks and counts
+        500: Internal server error
+    """
     mark_counts = Plane.objects.values('mark').annotate(count_boards=Count('mark'))
 
     marks_data = [
@@ -38,6 +57,20 @@ def mark_all(request):
 
 @api_view(['POST'])
 def routes_pick(request):
+    """
+    Get flights with occupancy below a specified threshold.
+    
+    Accepts an optional 'filled_less_than' parameter (float between 0 and 1) to filter flights
+    by their occupancy ratio. Returns flights with occupancy below the specified threshold.
+    
+    Request Body:
+        filled_less_than (float, optional): Occupancy threshold (0.0 to 1.0)
+        
+    Responses:
+        200: Successfully retrieved flights
+        400: Invalid request data
+        500: Internal server error
+    """
     serializer = RoutesPickSerializer(data=request.data)
     if serializer.is_valid():
         filled_less_than = serializer.validated_data.get('filled_less_than')
@@ -68,6 +101,19 @@ def routes_pick(request):
 
 @api_view(['GET'])
 def flights_available_seats(request, id):
+    """
+    Get available seats for a specific flight.
+    
+    Returns a list of available seat numbers for the specified flight ID.
+    
+    Path Parameters:
+        id (int): The ID of the flight
+        
+    Responses:
+        200: Successfully retrieved available seats
+        404: Flight not found
+        500: Internal server error
+    """
     try:
         flight = Flight.objects.get(id=id)
 
@@ -80,12 +126,30 @@ def flights_available_seats(request, id):
 
 @api_view(['GET'])
 def planes_in_repair(request):
+    """
+    Get all planes that are currently in repair.
+    
+    Returns a list of planes with status 'repair'.
+    
+    Responses:
+        200: Successfully retrieved planes in repair
+        500: Internal server error
+    """
     planes = Plane.objects.filter(status='repair')
     serializer = PlanesInRepairSerializer(planes, many=True)
     return Response({'planes': serializer.data})
 
 @api_view(['GET'])
 def employees_count(request):
+    """
+    Get the total count of employees (crew members).
+    
+    Returns the total number of crew members in the database.
+    
+    Responses:
+        200: Successfully retrieved employee count
+        500: Internal server error
+    """
     count = CrewMember.objects.count()
     serializer = EmployeesCountSerializer({'employees_count': count})
     return Response(serializer.data)
