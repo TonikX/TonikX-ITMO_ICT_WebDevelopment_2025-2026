@@ -1,0 +1,26 @@
+meta {
+  name: login
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8000/auth/token/login/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "mezhendosina",
+    "password": "mezhendosina"
+  }
+}
+
+settings {
+  encodeUrl: false
+}

@@ -1,0 +1,25 @@
+meta {
+  name: pick routes
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8000/api/routes/pick/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "filled_less_than": 0.8
+  }
+}
+
+settings {
+  encodeUrl: false
+}
