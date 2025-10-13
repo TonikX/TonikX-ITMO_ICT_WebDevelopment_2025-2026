@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top: 50px;">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="card">
+      <div class="card-content">
+        <div class="center-align" style="margin-bottom: 30px;">
+          <i class="material-icons red-text text-darken-2" style="font-size: 80px;">account_circle</i>
+          <h4 class="red-text text-darken-2">Вход в систему</h4>
+          <p class="grey-text">Войдите, чтобы управлять регистрациями и оставлять комментарии</p>
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+            <div class="card-panel red lighten-4 red-text text-darken-2">
+              <i class="material-icons left">error</i>
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">person</i>
+              <input type="text" id="id_username" name="username" required autofocus>
+              <label for="id_username">Имя пользователя</label>
+              {% if form.username.errors %}
+                <span class="helper-text red-text">{{ form.username.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">lock</i>
+              <input type="password" id="id_password" name="password" required>
+              <label for="id_password">Пароль</label>
+              {% if form.password.errors %}
+                <span class="helper-text red-text">{{ form.password.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <input type="hidden" name="next" value="{{ next }}">
+
+          <div class="center-align" style="margin-top: 30px;">
+            <button type="submit" class="btn-large red darken-2 waves-effect waves-light" style="width: 100%;">
+              <i class="material-icons left">login</i>
+              Войти
+            </button>
+          </div>
+        </form>
+
+        <div class="divider" style="margin: 30px 0;"></div>
+
+        <div class="center-align">
+          <p class="grey-text">
+            Нет аккаунта? 
+            <a href="{% url 'races:user_register' %}" class="red-text text-darken-2"><strong>Зарегистрируйтесь</strong></a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Info -->
+    <div class="row" style="margin-top: 30px;">
+      <div class="col s12 m4">
+        <div class="center-align">
+          <i class="material-icons medium red-text text-darken-2">how_to_reg</i>
+          <p class="grey-text">Регистрация на гонки</p>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="center-align">
+          <i class="material-icons medium red-text text-darken-2">comment</i>
+          <p class="grey-text">Комментарии</p>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="center-align">
+          <i class="material-icons medium red-text text-darken-2">person</i>
+          <p class="grey-text">Профиль гонщика</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

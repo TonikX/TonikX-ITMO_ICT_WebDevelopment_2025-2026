@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block title %}{{ race.title }}{% endblock %}
+{% block content %}
+
+<!-- Race Header -->
+<div class="row">
+  <div class="col s12">
+    <div class="card red darken-2 white-text">
+      <div class="card-content">
+        <span class="card-title" style="font-size: 2.5rem;">
+          <i class="material-icons large left">sports_score</i>
+          {{ race.title }}
+        </span>
+        <p class="flow-text">
+          <i class="material-icons left">event</i>
+          {{ race.date|date:"d F Y" }}
+        </p>
+        <p class="flow-text">
+          <i class="material-icons left">place</i>
+          {{ race.location|default:"Локация не указана" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Registration Section -->
+<div class="row" id="register">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2">
+          <i class="material-icons left">how_to_reg</i>
+          Регистрация на гонку
+        </span>
+        {% if user.is_authenticated %}
+          {% if user_registration %}
+            <div class="card-panel green lighten-4 green-text text-darken-2">
+              <i class="material-icons left">check_circle</i>
+              <strong>Вы уже зарегистрированы на эту гонку!</strong>
+            </div>
+            <a href="{% url 'races:delete_registration' user_registration.pk %}" 
+               class="btn red darken-2 waves-effect waves-light"
+               onclick="return confirm('Вы уверены, что хотите отменить регистрацию?')">
+              <i class="material-icons left">cancel</i>
+              Отменить регистрацию
+            </a>
+          {% else %}
+            <form method="post" action="{% url 'races:create_registration' race.pk %}" style="margin-top: 15px;">
+              {% csrf_token %}
+              <button type="submit" class="btn-large green darken-1 waves-effect waves-light">
+                <i class="material-icons left">add_circle</i>
+                Зарегистрироваться на гонку
+              </button>
+            </form>
+          {% endif %}
+        {% else %}
+          <div class="card-panel orange lighten-4 orange-text text-darken-2">
+            <i class="material-icons left">info</i>
+            <a href="{% url 'login' %}?next={{ request.path }}" class="orange-text text-darken-2"><strong>Войдите</strong></a>, чтобы зарегистрироваться на гонку
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Heats and Results Table -->
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2">
+          <i class="material-icons left">timer</i>
+          Все заезды и результаты
+        </span>
+        {% if race.heats.all %}
+          <table class="striped highlight responsive-table">
+            <thead>
+              <tr>
+                <th><i class="material-icons tiny">filter_1</i> Заезд</th>
+                <th><i class="material-icons tiny">access_time</i> Время заезда</th>
+                <th><i class="material-icons tiny">emoji_events</i> Позиция</th>
+                <th><i class="material-icons tiny">timer</i> Результат</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for heat in race.heats.all %}
+                <tr>
+                  <td><strong>#{{ heat.number }}</strong></td>
+                  <td>{{ heat.scheduled_at|date:"d.m.Y H:i" }}</td>
+                  <td>
+                    {% if heat.position %}
+                      <span class="badge red white-text">{{ heat.position }} место</span>
+                    {% else %}
+                      <span class="grey-text">—</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if heat.result_time %}
+                      <span class="chip green white-text">{{ heat.result_time }}</span>
+                    {% else %}
+                      <span class="grey-text">—</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="card-panel grey lighten-4 center-align">
+            <i class="material-icons large grey-text">event_busy</i>
+            <p class="grey-text">Заезды пока не назначены</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Registered Participants -->
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2">
+          <i class="material-icons left">groups</i>
+          Зарегистрированные участники ({{ race.registrations.count }})
+        </span>
+        {% if race.registrations.all %}
+          <div class="collection">
+            {% for reg in race.registrations.all %}
+              <div class="collection-item avatar">
+                <i class="material-icons circle red">person</i>
+                <span class="title"><strong>{{ reg.participant.full_name }}</strong></span>
+                <p>
+                  Команда: {{ reg.participant.team.name|default:"Без команды" }}<br>
+                  Класс: {{ reg.participant.get_driver_class_display }}<br>
+                  Опыт: {{ reg.participant.experience_years }} лет
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="grey-text center-align">Участников пока нет</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comments Section -->
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2">
+          <i class="material-icons left">comment</i>
+          Комментарии ({{ race.comments.count }})
+        </span>
+        
+        <!-- Display Comments -->
+        {% if race.comments.all %}
+          {% for c in race.comments.all %}
+            <div class="card-panel grey lighten-5" style="margin-top: 15px;">
+              <div class="row valign-wrapper" style="margin-bottom: 5px;">
+                <div class="col s12">
+                  <i class="material-icons left red-text">account_circle</i>
+                  <strong>{{ c.author.username }}</strong>
+                  <span class="grey-text">• {{ c.created_at|date:"d.m.Y H:i" }}</span>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 5px;">
+                <div class="col s12 m6">
+                  <span class="chip blue lighten-4 blue-text">
+                    <i class="material-icons tiny">label</i>
+                    {{ c.get_comment_type_display }}
+                  </span>
+                </div>
+                <div class="col s12 m6">
+                  <span class="chip orange lighten-4 orange-text">
+                    <i class="material-icons tiny">event</i>
+                    Заезд: {{ c.heat_date|date:"d.m.Y" }}
+                  </span>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 5px;">
+                <div class="col s12">
+                  <span class="chip yellow lighten-4 orange-text text-darken-2">
+                    {% for i in "12345678910"|make_list %}
+                      {% if forloop.counter <= c.rating %}
+                        <i class="material-icons tiny">star</i>
+                      {% endif %}
+                    {% endfor %}
+                    {{ c.rating }}/10
+                  </span>
+                </div>
+              </div>
+              <p>{{ c.text }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="grey-text center-align">Пока нет комментариев. Будьте первым!</p>
+        {% endif %}
+
+        <!-- Add Comment Form -->
+        {% if user.is_authenticated %}
+          <div class="divider" style="margin: 30px 0;"></div>
+          <h5 class="red-text text-darken-2">
+            <i class="material-icons left">add_comment</i>
+            Оставить комментарий
+          </h5>
+          <form method="post" action="{% url 'races:create_comment' race.pk %}">
+            {% csrf_token %}
+            <div class="row">
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">event</i>
+                <input type="text" id="id_heat_date" name="heat_date" class="datepicker" required>
+                <label for="id_heat_date">Дата заезда</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <i class="material-icons prefix">category</i>
+                <select id="id_comment_type" name="comment_type" required>
+                  <option value="" disabled selected>Выберите тип</option>
+                  <option value="cooperation">Вопрос о сотрудничестве</option>
+                  <option value="race">Вопрос о гонках</option>
+                  <option value="other">Иное</option>
+                </select>
+                <label for="id_comment_type">Тип комментария</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">message</i>
+                <textarea id="id_text" name="text" class="materialize-textarea" required></textarea>
+                <label for="id_text">Текст комментария</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">star_rate</i>
+                <select id="id_rating" name="rating" required>
+                  <option value="" disabled selected>Выберите рейтинг</option>
+                  {% for i in "12345678910"|make_list %}
+                    <option value="{{ forloop.counter }}">{{ forloop.counter }} ★</option>
+                  {% endfor %}
+                </select>
+                <label for="id_rating">Рейтинг (1-10)</label>
+              </div>
+            </div>
+            <button type="submit" class="btn-large red darken-2 waves-effect waves-light">
+              <i class="material-icons left">send</i>
+              Отправить комментарий
+            </button>
+          </form>
+        {% else %}
+          <div class="card-panel orange lighten-4 orange-text text-darken-2 center-align" style="margin-top: 20px;">
+            <i class="material-icons left">info</i>
+            <a href="{% url 'login' %}?next={{ request.path }}" class="orange-text text-darken-2"><strong>Войдите</strong></a>, чтобы оставить комментарий
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back Button -->
+<div class="row">
+  <div class="col s12 center-align">
+    <a href="{% url 'races:race_list' %}" class="btn-large grey darken-1 waves-effect waves-light">
+      <i class="material-icons left">arrow_back</i>
+      Вернуться к списку гонок
+    </a>
+  </div>
+</div>
+
+{% endblock %}
