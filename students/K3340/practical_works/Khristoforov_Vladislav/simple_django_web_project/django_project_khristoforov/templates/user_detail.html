@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Информация о пользователе</title>
+</head>
+<body>
+    <h1>Данные пользователя</h1>
+    
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+    <p><strong>Дата рождения:</strong> {{ user.birth_date|default:"Не указана" }}</p>
+    <p><strong>Паспорт:</strong> {{ user.passport|default:"Не указан" }}</p>
+    <p><strong>Адрес:</strong> {{ user.address|default:"Не указан" }}</p>
+    <p><strong>Национальность:</strong> {{ user.nationality|default:"Не указана" }}</p>
+    
+    <br>
+    <a href="{% url 'user_list' %}">Назад к списку</a>
+</body>
+</html>

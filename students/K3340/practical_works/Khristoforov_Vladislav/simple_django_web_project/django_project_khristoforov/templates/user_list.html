@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список пользователей</title>
+</head>
+<body>
+    <h1>Все пользователи</h1>
+    
+    <p><a href="{% url 'create_user' %}">+ Добавить нового пользователя</a></p>
+    
+    <ul>
+    {% for user in users %}
+        <li>
+            <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+            {% if user.birth_date %}
+                - {{ user.birth_date }}
+            {% endif %}
+            - <a href="{% url 'user_detail' user.id %}">Подробнее</a>
+        </li>
+    {% empty %}
+        <li>Пользователей пока нет</li>
+    {% endfor %}
+    </ul>
+    
+    <br>
+    <a href="/admin/">Админ-панель</a>
+</body>
+</html>
