@@ -24,7 +24,7 @@ class Car(models.Model):
     brand = models.CharField(max_length=20)
     model = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
-    owners = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Ownership')
+    owners = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Ownership', related_name='cars')
 
     def __str__(self):
         return self.state_num
@@ -32,15 +32,15 @@ class Car(models.Model):
 class Ownership(models.Model):
     """Таблица владение"""
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='ownerships')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, related_name='ownerships')
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(null=True)
 
 class License(models.Model):
     """Таблица Водительское удостоверение"""
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='licenses')
     license_number = models.CharField(max_length=10)
     type = models.CharField(max_length=10)
     date_issued = models.DateTimeField()
