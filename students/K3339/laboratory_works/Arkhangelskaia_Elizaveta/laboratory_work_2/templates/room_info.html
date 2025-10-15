@@ -1,10 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
 </head>
 <body>
+Название отеля <br>
+Название номера<br>
+Список удобств <br>
+Отзывы <br>
 
+<a href="{% url 'book_room' room.pk %}" class="btn-book">Забронировать</a>
 </body>
 </html>

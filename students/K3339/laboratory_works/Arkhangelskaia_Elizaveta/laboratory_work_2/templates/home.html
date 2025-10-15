@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
+</head>
+<body>
+    <a href="{% url 'register' %}" class="btn-book">register/</a>
+    <a href="{% url 'hotels' %}" class="btn-book">hotels/</a>
+    <a href="{% url 'all_rooms' %}" class="btn-book">all_rooms/</a>
+{#    <a href="{% url 'admin' %}" class="btn-book">admin/</a>#}
+</body>
+</html>

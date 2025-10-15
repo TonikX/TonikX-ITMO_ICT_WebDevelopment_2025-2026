@@ -33,12 +33,8 @@ class Reservation(models.Model):
     start_date = models.DateField(null=False)
     end_date = models.DateField(null=False)
     reservation_date = models.DateField(null=False)
-    pay_status = models.CharField(max_length=30, null=False)
-    pay_date = models.DateField(null=False)
-
 
 class Review(models.Model):
-    id_user = models.ForeignKey(HotelUser, on_delete=models.CASCADE)
     id_reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
     rating = models.IntegerField(null=False)
     review_text = models.CharField(max_length=500, null=False)
