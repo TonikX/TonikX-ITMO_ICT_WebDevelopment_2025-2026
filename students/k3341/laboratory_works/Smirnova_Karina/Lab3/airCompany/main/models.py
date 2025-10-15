@@ -8,10 +8,9 @@ class AirlineCompany(models.Model):
 
 class Plane(models.Model):
     number = models.CharField(max_length=20, verbose_name='Номер самолета')
-    plane_type = models.CharField(max_length=50, verbose_name='Тип самолета')
+    type = models.CharField(max_length=50, verbose_name='Тип самолета')
     seats_capacity = models.IntegerField(verbose_name='Число мест')
     flight_speed = models.IntegerField(verbose_name='Скорость полета')
-    under_repair = models.BooleanField(default=False, verbose_name='В ремонте')
     airline_company = models.ForeignKey(AirlineCompany, on_delete=models.CASCADE, verbose_name='Компания-авиаперевозчик')
 
     def __str__(self):
@@ -35,7 +34,7 @@ class CrewMember(models.Model):
         return self.full_name
 
 class Route(models.Model):
-    flight_number = models.CharField(max_length=20, verbose_name='Номер рейса')
+    flight_number = models.IntegerField(verbose_name='Номер рейса')
     distance = models.IntegerField(verbose_name='Расстояние до пункта назначения')
     departure_point = models.CharField(max_length=255, verbose_name='Пункт вылета')
     landing_points = models.CharField(max_length=255, blank=True, null=True,  verbose_name='Пункты посадки')
