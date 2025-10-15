@@ -7,6 +7,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
 </head>
 <body>
+    {% for r in reservations %}
+{#        <a href="{% url 'room_info' room.pk %}">#}
+            <div class="hotel">
+            {{ r.id_user }}<br>
+            {{ r.id_rooms }}<br>
+            {{ r.start_date }}<br>
+            {{ r.end_date }}<br>
+            {{ r.reservation_date }}<br>
+            <a href="{% url 'edit_reservation' r.pk %}" class="btn-book">Редактировать бронирование</a>
+            <a href="{% url 'delete_reservation' r.pk %}" class="btn-book">Удалить бронирование</a>
 
+            </div>
+{#        </a>#}
+    {% endfor %}
 </body>
 </html>

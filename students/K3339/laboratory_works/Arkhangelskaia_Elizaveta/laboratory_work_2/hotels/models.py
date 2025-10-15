@@ -33,6 +33,7 @@ class Reservation(models.Model):
     start_date = models.DateField(null=False)
     end_date = models.DateField(null=False)
     reservation_date = models.DateField(null=False)
+    num_of_people = models.IntegerField(default=1)
 
 class Review(models.Model):
     id_reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
