@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о владельце</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .info-block { background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .info-item { margin: 10px 0; }
+        .info-item strong { display: inline-block; width: 200px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; padding: 8px 16px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; }
+        .nav a:hover { background-color: #45a049; }
+        .section { margin-top: 30px; }
+        a { color: #4CAF50; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/owners/">← К списку владельцев</a>
+        <a href="/cars/">Автомобили</a>
+        <a href="/admin/">Админ-панель</a>
+    </div>
+
+    <h1>Информация о владельце автомобиля</h1>
+    
+    <div class="info-block">
+        <h2>Основная информация</h2>
+        <div class="info-item"><strong>ID:</strong> {{ owner.id }}</div>
+        <div class="info-item"><strong>Username:</strong> {{ owner.username }}</div>
+        <div class="info-item"><strong>Email:</strong> {{ owner.email|default:"Не указан" }}</div>
+        <div class="info-item"><strong>Фамилия:</strong> {{ owner.last_name }}</div>
+        <div class="info-item"><strong>Имя:</strong> {{ owner.first_name }}</div>
+        <div class="info-item"><strong>Дата рождения:</strong> {{ owner.birth_date|default:"Не указана" }}</div>
+    </div>
+
+    <div class="info-block">
+        <h2>Документы и адрес</h2>
+        <div class="info-item"><strong>Номер паспорта:</strong> {{ owner.passport_number|default:"Не указан" }}</div>
+        <div class="info-item"><strong>Домашний адрес:</strong> {{ owner.home_address|default:"Не указан" }}</div>
+        <div class="info-item"><strong>Национальность:</strong> {{ owner.nationality|default:"Не указана" }}</div>
+    </div>
+
+    <div class="section">
+        <h2>Автомобили владельца</h2>
+        {% if owner.cars.all %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Госномер</th>
+                    <th>Марка</th>
+                    <th>Модель</th>
+                    <th>Цвет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in owner.cars.all %}
+                <tr>
+                    <td>{{ car.license_plate }}</td>
+                    <td>{{ car.brand }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.color|default:"Не указан" }}</td>
+                    <td><a href="/car/{{ car.id }}/">Подробнее</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>У этого владельца нет зарегистрированных автомобилей.</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>Водительские удостоверения</h2>
+        {% if owner.licenses.all %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Номер удостоверения</th>
+                    <th>Тип</th>
+                    <th>Дата выдачи</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for license in owner.licenses.all %}
+                <tr>
+                    <td>{{ license.license_number }}</td>
+                    <td>{{ license.type }}</td>
+                    <td>{{ license.issue_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>У этого владельца нет зарегистрированных водительских удостоверений.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

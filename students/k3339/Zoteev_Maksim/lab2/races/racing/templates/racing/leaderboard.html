@@ -1,0 +1,106 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Leaderboard - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🏆 Leaderboard</h1>
+    <p>Top performing drivers by total points</p>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-section">
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <label for="team">Team</label>
+            <select name="team" id="team" class="form-control">
+                <option value="">All Teams</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}" {% if team_filter == team.id|stringformat:"s" %}selected{% endif %}>
+                        {{ team.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="experience">Experience Level</label>
+            <select name="experience" id="experience" class="form-control">
+                <option value="">All Levels</option>
+                <option value="beginner" {% if experience_filter == 'beginner' %}selected{% endif %}>Beginner</option>
+                <option value="intermediate" {% if experience_filter == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                <option value="advanced" {% if experience_filter == 'advanced' %}selected{% endif %}>Advanced</option>
+                <option value="professional" {% if experience_filter == 'professional' %}selected{% endif %}>Professional</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'leaderboard' %}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</div>
+
+<!-- Leaderboard -->
+{% if page_obj %}
+    {% for item in page_obj %}
+        <div class="leaderboard-item">
+            <div class="position-badge position-{{ forloop.counter }}">
+                {{ forloop.counter }}
+            </div>
+            <div style="flex: 1;">
+                <h3 style="margin-bottom: 0.5rem;">{{ item.participant.full_name }}</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <span>🏴 {{ item.participant.country }}</span>
+                    {% if item.participant.team %}
+                        <span>🏁 {{ item.participant.team.name }}</span>
+                    {% endif %}
+                    <span class="badge badge-{{ item.participant.experience_level }}">
+                        {{ item.participant.get_experience_level_display }}
+                    </span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div class="stat-box" style="display: inline-block; margin: 0;">
+                    <div class="stat-label">Total Points</div>
+                    <div class="stat-value">{{ item.total_points }}</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-left: 1rem;">
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-label">Races</div>
+                        <div class="stat-value" style="font-size: 1.2rem;">{{ item.total_races }}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Wins</div>
+                        <div class="stat-value" style="font-size: 1.2rem;">{{ item.wins }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if team_filter %}&team={{ team_filter }}{% endif %}{% if experience_filter %}&experience={{ experience_filter }}{% endif %}">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if team_filter %}&team={{ team_filter }}{% endif %}{% if experience_filter %}&experience={{ experience_filter }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if team_filter %}&team={{ team_filter }}{% endif %}{% if experience_filter %}&experience={{ experience_filter }}{% endif %}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if team_filter %}&team={{ team_filter }}{% endif %}{% if experience_filter %}&experience={{ experience_filter }}{% endif %}">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <p style="text-align: center; padding: 2rem;">No participants found.</p>
+{% endif %}
+{% endblock %}
+
