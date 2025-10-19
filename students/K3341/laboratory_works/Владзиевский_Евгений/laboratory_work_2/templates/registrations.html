@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}My registrations — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>My registrations</h1>
+  <ul>
+    {% for r in registrations %}
+      <li>
+        {{ r.title }} — {{ r.status }} (created: {{ r.created_at }})
+        <a href="/ui/registrations/{{ r.id }}/edit">Edit</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="/ui/conferences">Back to conferences</a></p>
+{% endblock %}

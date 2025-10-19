@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Login — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>Login</h1>
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+  <form method="post" action="/ui/login">
+    <label>Username</label>
+    <input name="username" required />
+    <label>Password</label>
+    <input type="password" name="password" required />
+    <button type="submit">Sign in</button>
+  </form>
+  <p>Don't have an account? <a href="/ui/signup">Sign up</a></p>
+{% endblock %}

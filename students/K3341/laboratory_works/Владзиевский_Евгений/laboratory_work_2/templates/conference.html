@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ conference.title }} — Conference{% endblock %}
+
+{% block content %}
+  <div class="conference">
+    <h1>{{ conference.title }}</h1>
+    <p>{{ conference.description }}</p>
+    <p><strong>Location:</strong> {{ conference.location_name }}</p>
+    <p><strong>Dates:</strong> {{ conference.start_date }} — {{ conference.end_date }}</p>
+
+    {% if user %}
+      <section>
+        <h3>Register</h3>
+        <form method="post" action="/ui/conferences/{{ conference.id }}/register">
+          <label>Title</label>
+          <input name="title" />
+          <label>Abstract</label>
+          <textarea name="abstract"></textarea>
+          <button type="submit">Register</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Leave a review</h3>
+        <form method="post" action="/ui/conferences/{{ conference.id }}/review">
+          <label>Rating (1-10)</label>
+          <input name="rating" type="number" min="1" max="10" value="5" />
+          <label>Text</label>
+          <textarea name="text"></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+    {% else %}
+      <p><a href="/ui/login">Login to register or review</a></p>
+    {% endif %}
+
+    <section>
+      <h3>Reviews</h3>
+      <ul>
+        {% for r in reviews %}
+          <li>{{ r.rating }}/10 — {{ r.text }} <small class="muted">({{ r.created_at }})</small></li>
+        {% else %}
+          <li>No reviews yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section>
+      <h3>Registrations for this conference</h3>
+      <ul>
+        {% for reg in conference.registrations %}
+          <li>{{ reg.title }} — <strong>{{ reg.status }}</strong> {% if user and reg.user_id == user.id %} <a href="/ui/registrations/{{ reg.id }}/edit">Edit</a>{% endif %}</li>
+        {% else %}
+          <li>No registrations yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <p><a href="/ui/conferences">Back to list</a></p>
+  </div>
+{% endblock %}

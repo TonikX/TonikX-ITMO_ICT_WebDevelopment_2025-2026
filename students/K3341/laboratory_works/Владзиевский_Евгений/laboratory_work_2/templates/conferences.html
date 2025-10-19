@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Conferences — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>Conferences</h1>
+  <h2>All conferences</h2>
+
+  <form method="get" class="filters" action="/ui/conferences">
+    <input type="text" name="search" placeholder="search title/description" value="{{ filters.search if filters.search else '' }}" />
+    <input type="text" name="location" placeholder="location" value="{{ filters.location if filters.location else '' }}" />
+    <input type="text" name="topic" placeholder="topic" value="{{ filters.topic if filters.topic else '' }}" />
+    <label>From <input type="date" name="date_from" value="{{ filters.date_from if filters else '' }}" /></label>
+    <label>To <input type="date" name="date_to" value="{{ filters.date_to if filters else '' }}" /></label>
+    <button type="submit">Filter</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Dates</th>
+        <th>Topics</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in conferences %}
+      {% set c = item.conf %}
+      <tr>
+        <td><a href="/ui/conferences/{{ c.id }}">{{ c.title }}</a></td>
+        <td>{{ c.location_name or '&mdash;' }}</td>
+        <td>{{ c.start_date }} — {{ c.end_date }}</td>
+        <td>{{ (item.topics_names | join(', ')) if item.topics_names else (c.topics | map(attribute='name') | join(', ')) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">No conferences found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if pagination and pagination.pages > 1 %}
+    <nav class="pagination">
+      {% set p = pagination.page %}
+      {% for i in range(1, pagination.pages + 1) %}
+        {% if i == p %}
+          <span class="page current">{{ i }}</span>
+        {% else %}
+          <a class="page" href="?page={{ i }}&per_page={{ pagination.per_page }}{% if filters.search %}&search={{ filters.search }}{% endif %}{% if filters.location %}&location={{ filters.location }}{% endif %}{% if filters.topic %}&topic={{ filters.topic }}{% endif %}{% if filters.date_from %}&date_from={{ filters.date_from }}{% endif %}{% if filters.date_to %}&date_to={{ filters.date_to }}{% endif %}">{{ i }}</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+  {% endif %}
+  {% if user and user.role == 'admin' %}
+  <h2>Create conference</h2>
+  <form method="post" action="/ui/conferences">
+    <label>Title</label>
+    <input name="title" required />
+    <label>Description</label>
+    <input name="description" />
+    <label>Location</label>
+    <input name="location_name" />
+    <label>Start date (YYYY-MM-DD)</label>
+    <input name="start_date" required />
+    <label>End date (YYYY-MM-DD)</label>
+    <input name="end_date" required />
+    <label>Topics (comma separated)</label>
+    <input name="topics" />
+    <button type="submit">Create</button>
+  </form>
+  {% endif %}
+{% endblock %}
