@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автомобиле</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .info-block { background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .info-item { margin: 10px 0; }
+        .info-item strong { display: inline-block; width: 200px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #2196F3; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; padding: 8px 16px; background-color: #2196F3; color: white; border-radius: 4px; text-decoration: none; }
+        .nav a:hover { background-color: #0b7dda; }
+        .section { margin-top: 30px; }
+        a { color: #2196F3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/cars/">← К списку автомобилей</a>
+        <a href="/owners/">Владельцы</a>
+        <a href="/admin/">Админ-панель</a>
+    </div>
+
+    <h1>Информация об автомобиле</h1>
+    
+    <div class="info-block">
+        <div class="info-item"><strong>ID:</strong> {{ car.id }}</div>
+        <div class="info-item"><strong>Государственный номер:</strong> {{ car.license_plate }}</div>
+        <div class="info-item"><strong>Марка:</strong> {{ car.brand }}</div>
+        <div class="info-item"><strong>Модель:</strong> {{ car.model }}</div>
+        <div class="info-item"><strong>Цвет:</strong> {{ car.color|default:"Не указан" }}</div>
+    </div>
+
+    <div class="section">
+        <h2>Владельцы автомобиля</h2>
+        {% if car.owners.all %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Дата рождения</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for owner in car.owners.all %}
+                <tr>
+                    <td>{{ owner.last_name }}</td>
+                    <td>{{ owner.first_name }}</td>
+                    <td>{{ owner.birth_date|default:"Не указана" }}</td>
+                    <td><a href="/owner/{{ owner.id }}/">Подробнее</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>У этого автомобиля нет зарегистрированных владельцев.</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>История владения</h2>
+        {% if car.ownerships.all %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Владелец</th>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ownership in car.ownerships.all %}
+                <tr>
+                    <td><a href="/owner/{{ ownership.owner.id }}/">{{ ownership.owner }}</a></td>
+                    <td>{{ ownership.start_date }}</td>
+                    <td>{{ ownership.end_date|default:"—" }}</td>
+                    <td>
+                        {% if ownership.end_date %}
+                            Завершено
+                        {% else %}
+                            <strong style="color: #4CAF50;">Активно</strong>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>История владения отсутствует.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

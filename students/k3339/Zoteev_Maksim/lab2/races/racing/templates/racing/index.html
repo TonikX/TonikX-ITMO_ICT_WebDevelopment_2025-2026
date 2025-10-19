@@ -1,0 +1,98 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}All Races - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🏎️ Racing Events</h1>
+    <p>Discover and register for upcoming races</p>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-section">
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <label for="search">Search</label>
+            <input type="text" name="q" id="search" class="form-control" 
+                   placeholder="Search races..." value="{{ search_query }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="">All Statuses</option>
+                <option value="upcoming" {% if status_filter == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
+                <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+                <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>Cancelled</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="location">Location</label>
+            <select name="location" id="location" class="form-control">
+                <option value="">All Locations</option>
+                {% for loc in locations %}
+                    <option value="{{ loc }}" {% if location_filter == loc %}selected{% endif %}>{{ loc }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</div>
+
+<!-- Races Grid -->
+{% if page_obj %}
+    <div class="cards-grid">
+        {% for race in page_obj %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ race.name }}</h3>
+                <span class="badge badge-{{ race.status }}">{{ race.get_status_display }}</span>
+            </div>
+            <div class="card-body">
+                <p><strong>📍 Location:</strong> {{ race.location }}</p>
+                <p><strong>📅 Date:</strong> {{ race.date|date:"M d, Y - H:i" }}</p>
+                <p><strong>🛣️ Track:</strong> {{ race.track_length }} km</p>
+                <p><strong>🔄 Laps:</strong> {{ race.total_laps }}</p>
+                {% if race.description %}
+                    <p class="description">{{ race.description|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'race_detail' race.id %}" class="btn btn-primary btn-small">View Details</a>
+                {% if user.is_staff %}
+                    <a href="{% url 'manage_race_results' race.id %}" class="btn btn-secondary btn-small">Manage</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <p style="text-align: center; padding: 2rem;">No races found. Check back later!</p>
+{% endif %}
+{% endblock %}
+

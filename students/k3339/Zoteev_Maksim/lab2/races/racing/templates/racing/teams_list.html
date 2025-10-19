@@ -1,0 +1,67 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Teams - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🏁 Racing Teams</h1>
+    <p>Explore all racing teams</p>
+</div>
+
+<!-- Search -->
+<div class="filter-section">
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <label for="search">Search Teams</label>
+            <input type="text" name="q" id="search" class="form-control" 
+                   placeholder="Search by name or country..." value="{{ search_query }}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'teams_list' %}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</div>
+
+<!-- Teams Grid -->
+{% if page_obj %}
+    <div class="cards-grid">
+        {% for team in page_obj %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ team.name }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>🏴 Country:</strong> {{ team.country }}</p>
+                <p><strong>📅 Founded:</strong> {{ team.founded_year }}</p>
+                {% if team.description %}
+                    <p class="description">{{ team.description|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <p style="text-align: center; padding: 2rem;">No teams found.</p>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,197 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}{{ race.name }} - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ race.name }}</h1>
+    <span class="badge badge-{{ race.status }}">{{ race.get_status_display }}</span>
+</div>
+
+<!-- Race Information -->
+<div class="race-info-grid">
+    <div class="info-card">
+        <div class="info-label">Location</div>
+        <div class="info-value">📍 {{ race.location }}</div>
+    </div>
+    <div class="info-card">
+        <div class="info-label">Date & Time</div>
+        <div class="info-value">📅 {{ race.date|date:"M d, Y H:i" }}</div>
+    </div>
+    <div class="info-card">
+        <div class="info-label">Track Length</div>
+        <div class="info-value">🛣️ {{ race.track_length }} km</div>
+    </div>
+    <div class="info-card">
+        <div class="info-label">Total Laps</div>
+        <div class="info-value">🔄 {{ race.total_laps }}</div>
+    </div>
+</div>
+
+{% if race.description %}
+<div style="background: var(--light-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+    <h3>About This Race</h3>
+    <p>{{ race.description }}</p>
+</div>
+{% endif %}
+
+<!-- Registration Button -->
+{% if user.is_authenticated %}
+    {% if race.status == 'upcoming' %}
+        {% if user_registered %}
+            <div class="alert alert-success">
+                ✓ You are registered for this race!
+            </div>
+        {% else %}
+            <form method="post" action="{% url 'register_for_race' race.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Register for This Race</button>
+            </form>
+        {% endif %}
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to participate in races.
+    </div>
+{% endif %}
+
+<!-- Participants/Results -->
+<h2 style="margin-top: 2rem;">Participants {% if race.status == 'completed' %}& Results{% endif %}</h2>
+{% if race_participants %}
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    {% if race.status == 'completed' %}
+                        <th>Position</th>
+                    {% endif %}
+                    <th>Driver</th>
+                    <th>Team</th>
+                    <th>Car</th>
+                    {% if race.status == 'completed' %}
+                        <th>Finish Time</th>
+                        <th>Best Lap</th>
+                        <th>Points</th>
+                        <th>Status</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for rp in race_participants %}
+                <tr>
+                    {% if race.status == 'completed' %}
+                        <td>
+                            {% if rp.position %}
+                                <strong>{{ rp.position }}</strong>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    <td>{{ rp.participant.full_name }}</td>
+                    <td>{{ rp.participant.team.name|default:"-" }}</td>
+                    <td>{{ rp.participant.car|default:"-" }}</td>
+                    {% if race.status == 'completed' %}
+                        <td>{{ rp.finish_time|default:"-" }}</td>
+                        <td>{{ rp.best_lap_time|default:"-" }}</td>
+                        <td><strong>{{ rp.points }}</strong></td>
+                        <td>
+                            {% if rp.dnf %}
+                                <span class="badge badge-cancelled">DNF</span>
+                                {% if rp.dnf_reason %}
+                                    <br><small>{{ rp.dnf_reason }}</small>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge badge-completed">Finished</span>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p style="text-align: center; padding: 2rem;">No participants registered yet.</p>
+{% endif %}
+
+<!-- Admin Management Link -->
+{% if user.is_staff %}
+    <div class="admin-panel">
+        <h3>Admin Controls</h3>
+        <a href="{% url 'manage_race_results' race.id %}" class="btn btn-secondary">Manage Race Results</a>
+    </div>
+{% endif %}
+
+<!-- Comments Section -->
+<div class="comments-section">
+    <h2>Reviews & Comments</h2>
+    
+    {% if avg_rating %}
+        <div class="alert alert-info">
+            <strong>Average Rating:</strong> {{ avg_rating|floatformat:1 }}/10
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-body">
+                <h3>Add Your Comment</h3>
+                <form method="post" action="{% url 'add_comment' race.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="comment_type">Comment Type</label>
+                        <select name="comment_type" id="comment_type" class="form-control" required>
+                            <option value="cooperation">Cooperation Issue</option>
+                            <option value="track">Track Condition</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Your Comment</label>
+                        <textarea name="text" id="text" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating (1-10)</label>
+                        <input type="number" name="rating" id="rating" class="form-control" 
+                               min="1" max="10" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if comments_page %}
+        {% for comment in comments_page %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div>
+                        <span class="comment-author">{{ comment.author.username }}</span>
+                        <span class="badge badge-{{ comment.comment_type }}">{{ comment.get_comment_type_display }}</span>
+                    </div>
+                    <span class="comment-rating">{{ comment.rating }}/10</span>
+                </div>
+                <p>{{ comment.text }}</p>
+                <small style="color: #7f8c8d;">{{ comment.created_at|date:"M d, Y - H:i" }}</small>
+            </div>
+        {% endfor %}
+
+        <!-- Pagination for comments -->
+        {% if comments_page.has_other_pages %}
+        <div class="pagination">
+            {% if comments_page.has_previous %}
+                <a href="?page={{ comments_page.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="current">Page {{ comments_page.number }} of {{ comments_page.paginator.num_pages }}</span>
+            {% if comments_page.has_next %}
+                <a href="?page={{ comments_page.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% else %}
+        <p style="text-align: center; padding: 2rem;">No comments yet. Be the first to comment!</p>
+    {% endif %}
+</div>
+{% endblock %}
+

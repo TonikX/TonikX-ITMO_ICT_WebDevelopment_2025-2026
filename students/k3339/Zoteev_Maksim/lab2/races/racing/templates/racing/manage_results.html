@@ -1,0 +1,124 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Manage Results - {{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>⚙️ Manage Race Results</h1>
+    <p>{{ race.name }} - {{ race.location }}</p>
+</div>
+
+<div class="admin-panel">
+    <h3>Admin Panel</h3>
+    <p>Update race status and participant results below</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Race Status -->
+            <div class="form-group">
+                <label for="race_status">Race Status</label>
+                <select name="race_status" id="race_status" class="form-control">
+                    <option value="upcoming" {% if race.status == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                    <option value="in_progress" {% if race.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if race.status == 'completed' %}selected{% endif %}>Completed</option>
+                    <option value="cancelled" {% if race.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Participant Results</h3>
+            
+            {% if participant_forms %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Driver</th>
+                                <th>Position</th>
+                                <th>Finish Time (HH:MM:SS)</th>
+                                <th>Best Lap (HH:MM:SS)</th>
+                                <th>Points</th>
+                                <th>DNF</th>
+                                <th>DNF Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rp, form in participant_forms %}
+                            <tr>
+                                <td><strong>{{ rp.participant.full_name }}</strong></td>
+                                <td>
+                                    <input type="number" name="{{ form.position.html_name }}" 
+                                           value="{{ form.position.value|default:'' }}" 
+                                           style="width: 80px; padding: 0.5rem;">
+                                </td>
+                                <td>
+                                    <input type="text" name="{{ form.finish_time.html_name }}" 
+                                           value="{{ form.finish_time.value|default:'' }}" 
+                                           placeholder="00:30:45"
+                                           style="width: 120px; padding: 0.5rem;">
+                                </td>
+                                <td>
+                                    <input type="text" name="{{ form.best_lap_time.html_name }}" 
+                                           value="{{ form.best_lap_time.value|default:'' }}" 
+                                           placeholder="00:01:23"
+                                           style="width: 120px; padding: 0.5rem;">
+                                </td>
+                                <td>
+                                    <input type="number" name="{{ form.points.html_name }}" 
+                                           value="{{ form.points.value|default:0 }}" 
+                                           style="width: 80px; padding: 0.5rem;">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="{{ form.dnf.html_name }}" 
+                                           {% if form.dnf.value %}checked{% endif %}
+                                           style="width: 20px; height: 20px;">
+                                </td>
+                                <td>
+                                    <input type="text" name="{{ form.dnf_reason.html_name }}" 
+                                           value="{{ form.dnf_reason.value|default:'' }}" 
+                                           placeholder="Reason"
+                                           style="width: 150px; padding: 0.5rem;">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p style="text-align: center; padding: 2rem;">No participants registered for this race yet.</p>
+            {% endif %}
+
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-success" style="margin-right: 1rem;">Save Results</button>
+                <a href="{% url 'race_detail' race.id %}" class="btn btn-secondary">Back to Race</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="alert alert-info" style="margin-top: 2rem;">
+    <strong>Tips:</strong>
+    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <li>Time format: HH:MM:SS (e.g., 00:30:45 for 30 minutes and 45 seconds)</li>
+        <li>Points are typically awarded based on position (e.g., 1st=25, 2nd=18, 3rd=15, etc.)</li>
+        <li>Check DNF (Did Not Finish) for drivers who didn't complete the race</li>
+    </ul>
+</div>
+
+<style>
+    .form-control, input[type="text"], input[type="number"], select {
+        padding: 0.75rem;
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .form-control:focus, input:focus, select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+</style>
+{% endblock %}
+

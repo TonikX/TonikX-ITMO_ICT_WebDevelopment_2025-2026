@@ -1,0 +1,144 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}My Profile - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>👤 My Profile</h1>
+    <p>View and edit your participant information</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <!-- Profile Information -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Profile Information</h3>
+        </div>
+        <div class="card-body">
+            <div style="margin-bottom: 1rem;">
+                <strong>Full Name:</strong> {{ participant.full_name }}
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>Date of Birth:</strong> {{ participant.date_of_birth }}
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>Country:</strong> 🏴 {{ participant.country }}
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>Team:</strong> {{ participant.team.name|default:"No team" }}
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>Car:</strong> {{ participant.car|default:"No car" }}
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>Experience Level:</strong> 
+                <span class="badge badge-{{ participant.experience_level }}">
+                    {{ participant.get_experience_level_display }}
+                </span>
+            </div>
+            {% if participant.bio %}
+                <div>
+                    <strong>Bio:</strong>
+                    <p>{{ participant.bio }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Edit Profile -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Edit Profile</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="alert alert-error" style="margin-top: 0.5rem;">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Race History -->
+<div class="card" style="margin-top: 2rem;">
+    <div class="card-header">
+        <h3>🏁 My Race History</h3>
+    </div>
+    <div class="card-body">
+        {% if race_history %}
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Race</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Position</th>
+                            <th>Points</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rp in race_history %}
+                        <tr>
+                            <td><a href="{% url 'race_detail' rp.race.id %}">{{ rp.race.name }}</a></td>
+                            <td>{{ rp.race.location }}</td>
+                            <td>{{ rp.race.date|date:"M d, Y" }}</td>
+                            <td>
+                                {% if rp.position %}
+                                    <strong>{{ rp.position }}</strong>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ rp.points }}</strong></td>
+                            <td>
+                                {% if rp.dnf %}
+                                    <span class="badge badge-cancelled">DNF</span>
+                                {% else %}
+                                    <span class="badge badge-completed">Finished</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p style="text-align: center; padding: 2rem;">No race history yet. Register for a race to get started!</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid var(--border-color);
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+        div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}
+

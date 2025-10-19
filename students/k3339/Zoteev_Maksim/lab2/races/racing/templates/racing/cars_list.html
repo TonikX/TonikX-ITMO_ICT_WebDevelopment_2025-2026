@@ -1,0 +1,80 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Cars - Racing Leaderboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🏎️ Racing Cars</h1>
+    <p>Browse all racing vehicles</p>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-section">
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <label for="search">Search</label>
+            <input type="text" name="q" id="search" class="form-control" 
+                   placeholder="Search cars..." value="{{ search_query }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="manufacturer">Manufacturer</label>
+            <select name="manufacturer" id="manufacturer" class="form-control">
+                <option value="">All Manufacturers</option>
+                {% for mfr in manufacturers %}
+                    <option value="{{ mfr }}" {% if manufacturer_filter == mfr %}selected{% endif %}>{{ mfr }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'cars_list' %}" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</div>
+
+<!-- Cars Grid -->
+{% if page_obj %}
+    <div class="cards-grid">
+        {% for car in page_obj %}
+        <div class="card">
+            <div class="card-header">
+                <h3>{{ car.model_name }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>🏭 Manufacturer:</strong> {{ car.manufacturer }}</p>
+                <p><strong>📅 Year:</strong> {{ car.year }}</p>
+                <p><strong>⚙️ Engine:</strong> {{ car.engine_type }}</p>
+                <p><strong>💪 Horsepower:</strong> {{ car.horsepower }} HP</p>
+                {% if car.description %}
+                    <p class="description" style="margin-top: 1rem;">{{ car.description|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if manufacturer_filter %}&manufacturer={{ manufacturer_filter }}{% endif %}">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if manufacturer_filter %}&manufacturer={{ manufacturer_filter }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if manufacturer_filter %}&manufacturer={{ manufacturer_filter }}{% endif %}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if manufacturer_filter %}&manufacturer={{ manufacturer_filter }}{% endif %}">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <p style="text-align: center; padding: 2rem;">No cars found.</p>
+{% endif %}
+{% endblock %}
+
