@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Participants — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>Participants</h1>
+  <table>
+    <thead><tr><th>#</th><th>Conference</th><th>Dates</th><th>User</th><th>Title</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for it in items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ it.conference.title if it.conference else '' }}</td>
+          <td>{% if it.conference %}{{ it.conference.start_date }} — {{ it.conference.end_date }}{% endif %}</td>
+          <td>{{ it.user.display_name or it.user.username if it.user else '' }}</td>
+          <td>{{ it.registration.title }}</td>
+          <td>{{ it.registration.status }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit registration — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>Edit registration</h1>
+  <form method="post" action="/ui/registrations/{{ registration.id }}/edit">
+    <label>Title</label>
+    <input name="title" value="{{ registration.title }}" />
+    <label>Abstract</label>
+    <textarea name="abstract">{{ registration.abstract }}</textarea>
+    <button type="submit">Save</button>
+  </form>
+  <form method="post" action="/ui/registrations/{{ registration.id }}/delete" onsubmit="return confirm('Delete registration?')">
+    <button type="submit">Delete</button>
+  </form>
+  <p><a href="/ui/my_registrations">Back</a></p>
+{% endblock %}

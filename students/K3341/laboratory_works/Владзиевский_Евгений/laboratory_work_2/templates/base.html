@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Conference Service{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner container">
+      <a class="brand" href="/ui/">ConfService</a>
+      {% if user %}
+        <nav class="nav-links">
+          <a href="/ui/conferences">Conferences</a>
+          <a href="/ui/participants-page">Participants</a>
+          <a href="/ui/my_registrations">My registrations</a>
+          {% if user.role == 'admin' %}
+            <a href="/ui/admin/registrations">Admin</a>
+          {% endif %}
+        </nav>
+        <div class="nav-actions">
+          <span class="who">{{ user.display_name or user.username }}</span>
+          <form class="inline" method="post" action="/ui/logout"><button>Logout</button></form>
+        </div>
+      {% else %}
+        <!-- not logged in: render minimal empty navbar (brand only) -->
+        <div class="nav-spacer"></div>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer container">
+    <small>Conference Service — demo</small>
+  </footer>
+</body>
+</html>

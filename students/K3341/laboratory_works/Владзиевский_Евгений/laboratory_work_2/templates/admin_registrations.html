@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin — Registrations{% endblock %}
+
+{% block content %}
+  <h1>All registrations (admin)</h1>
+  <table>
+    <thead><tr><th>#</th><th>Conference</th><th>User</th><th>Title</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for r in registrations %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ r.conference.title if r.conference else '' }}</td>
+          <td>{{ r.user.display_name or r.user.username if r.user else '' }}</td>
+          <td>{{ r.title }}</td>
+          <td>{{ r.status }}</td>
+          <td>
+            <form method="post" action="/ui/admin/registrations">
+              <input type="hidden" name="reg_id" value="{{ r.id }}" />
+              <select name="status">
+                <option value="pending" {% if r.status == 'pending' %}selected{% endif %}>pending</option>
+                <option value="recommended" {% if r.status == 'recommended' %}selected{% endif %}>recommended</option>
+                <option value="not_recommended" {% if r.status == 'not_recommended' %}selected{% endif %}>not_recommended</option>
+              </select>
+              <button type="submit">Set</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Home — Conference Service{% endblock %}
+
+{% block content %}
+  <h1>Welcome{% if user %}{% if user.display_name %}, {{ user.display_name }}{% else %}, {{ user.username }}{% endif %}{% endif %}</h1>
+  <p>This is a minimal frontend for the Conference Service.</p>
+  <p class="muted">Tip: visit Conferences to view details, register and leave reviews.</p>
+{% endblock %}

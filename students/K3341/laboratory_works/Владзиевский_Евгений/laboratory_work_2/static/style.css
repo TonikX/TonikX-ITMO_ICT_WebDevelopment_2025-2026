@@ -1,0 +1,59 @@
+:root{--bg:#f5f7fb;--card:#fff;--muted:#6b7280;--accent:#2563eb}
+body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#111; margin:0}
+.container{max-width:980px;margin:28px auto;padding:20px;background:var(--card);border-radius:10px;box-shadow:0 6px 24px rgba(16,24,40,0.06)}
+h1{margin-top:0;font-size:1.6rem}
+label{display:block;margin-top:12px;font-weight:600;color:#333}
+input, textarea, select{display:block;width:100%;padding:10px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px;background:#fbfdff}
+textarea{min-height:100px}
+button{margin-top:14px;padding:10px 14px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer}
+.btn{display:inline-block;padding:8px 12px;border-radius:8px;background:var(--accent);color:white;text-decoration:none}
+.btn.outline{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.error{background:#fff1f2;border:1px solid #fecaca;padding:10px;border-radius:8px;color:#9b1c1c}
+.muted{color:var(--muted)}
+
+/* navbar */
+.navbar{background:#ffffff;border-bottom:1px solid #eef2f7}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+.brand{font-weight:700;color:var(--accent);text-decoration:none;font-size:1.1rem}
+.nav-links{display:flex;gap:10px;align-items:center}
+.nav-links a{margin:0;color:#374151;text-decoration:none;padding:8px 12px;border-radius:999px;transition:all .18s ease;font-weight:600;border:1px solid transparent;background:transparent}
+.nav-links a:hover{background:rgba(37,99,235,0.08);color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,99,235,0.08)}
+.nav-links a.active{background:var(--accent);color:white;box-shadow:0 6px 18px rgba(37,99,235,0.12)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-actions .who{color:#334155;margin-right:8px}
+.inline{display:inline}
+
+/* when navbar has only brand, keep spacing to center brand visually */
+.nav-spacer{flex:1}
+
+/* sticky header */
+.navbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(4px)}
+
+/* responsive: stack nav on small screens */
+@media (max-width:720px){
+	.nav-inner{flex-direction:row;gap:8px}
+	.nav-links{flex-wrap:wrap;gap:8px}
+	.container{padding:14px}
+}
+
+/* tables */
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;padding:8px;border-bottom:1px solid #eef2f7;color:#374151}
+tbody td{padding:10px;border-bottom:1px solid #f5f7fa}
+
+.footer{padding:18px;text-align:center;color:var(--muted)}
+
+/* filters and pagination */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.filters input[type="text"], .filters input[type="date"]{width:180px;padding:8px;border-radius:8px}
+.filters button{align-self:center}
+.pagination{display:flex;gap:8px;margin-top:12px}
+.pagination .page{padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--accent);border:1px solid transparent}
+.pagination .page.current{background:var(--accent);color:white}
+
+
+/* conferences table */
+table thead th{background:#fafbff;font-weight:700}
+table tbody tr:hover{background:#fbfdff}
+table a{color:var(--accent);text-decoration:none}
+

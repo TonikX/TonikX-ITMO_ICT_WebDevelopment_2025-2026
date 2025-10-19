@@ -1,0 +1,11 @@
+site_name: Conference Service — Отчёт
+nav:
+  - Главная: index.md
+  - Запуск и использование: usage.md
+  - API: api.md
+  - Администрирование: admin.md
+  - Скриншоты: screenshots.md
+theme:
+  name: material
+extra_css:
+  - css/extra.css
