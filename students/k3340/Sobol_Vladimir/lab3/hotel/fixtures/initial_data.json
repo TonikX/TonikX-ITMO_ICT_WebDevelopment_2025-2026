@@ -1,0 +1,207 @@
+[
+  {
+    "model": "hotel.room",
+    "pk": 1,
+    "fields": {
+      "number": 101,
+      "floor": 1,
+      "room_type": "single",
+      "daily_rate": "2500.00",
+      "phone": "+7-495-123-0101"
+    }
+  },
+  {
+    "model": "hotel.room",
+    "pk": 2,
+    "fields": {
+      "number": 102,
+      "floor": 1,
+      "room_type": "double",
+      "daily_rate": "3500.00",
+      "phone": "+7-495-123-0102"
+    }
+  },
+  {
+    "model": "hotel.room",
+    "pk": 3,
+    "fields": {
+      "number": 201,
+      "floor": 2,
+      "room_type": "triple",
+      "daily_rate": "4500.00",
+      "phone": "+7-495-123-0201"
+    }
+  },
+  {
+    "model": "hotel.room",
+    "pk": 4,
+    "fields": {
+      "number": 202,
+      "floor": 2,
+      "room_type": "single",
+      "daily_rate": "2500.00",
+      "phone": "+7-495-123-0202"
+    }
+  },
+  {
+    "model": "hotel.room",
+    "pk": 5,
+    "fields": {
+      "number": 301,
+      "floor": 3,
+      "room_type": "double",
+      "daily_rate": "3500.00",
+      "phone": "+7-495-123-0301"
+    }
+  },
+  {
+    "model": "hotel.client",
+    "pk": 1,
+    "fields": {
+      "passport_number": "1234 567890",
+      "last_name": "Иванов",
+      "first_name": "Иван",
+      "patronymic": "Иванович",
+      "city": "Москва"
+    }
+  },
+  {
+    "model": "hotel.client",
+    "pk": 2,
+    "fields": {
+      "passport_number": "2345 678901",
+      "last_name": "Петров",
+      "first_name": "Петр",
+      "patronymic": "Петрович",
+      "city": "Санкт-Петербург"
+    }
+  },
+  {
+    "model": "hotel.client",
+    "pk": 3,
+    "fields": {
+      "passport_number": "3456 789012",
+      "last_name": "Сидоров",
+      "first_name": "Сидор",
+      "patronymic": "Сидорович",
+      "city": "Новосибирск"
+    }
+  },
+  {
+    "model": "hotel.client",
+    "pk": 4,
+    "fields": {
+      "passport_number": "4567 890123",
+      "last_name": "Козлова",
+      "first_name": "Анна",
+      "patronymic": "Сергеевна",
+      "city": "Москва"
+    }
+  },
+  {
+    "model": "hotel.employee",
+    "pk": 1,
+    "fields": {
+      "last_name": "Смирнов",
+      "first_name": "Алексей",
+      "patronymic": "Владимирович",
+      "is_active": true
+    }
+  },
+  {
+    "model": "hotel.employee",
+    "pk": 2,
+    "fields": {
+      "last_name": "Кузнецова",
+      "first_name": "Елена",
+      "patronymic": "Александровна",
+      "is_active": true
+    }
+  },
+  {
+    "model": "hotel.employee",
+    "pk": 3,
+    "fields": {
+      "last_name": "Морозов",
+      "first_name": "Дмитрий",
+      "patronymic": "Игоревич",
+      "is_active": false
+    }
+  },
+  {
+    "model": "hotel.employeeschedule",
+    "pk": 1,
+    "fields": {
+      "employee": 1,
+      "weekday": 1,
+      "floor": 1
+    }
+  },
+  {
+    "model": "hotel.employeeschedule",
+    "pk": 2,
+    "fields": {
+      "employee": 1,
+      "weekday": 3,
+      "floor": 2
+    }
+  },
+  {
+    "model": "hotel.employeeschedule",
+    "pk": 3,
+    "fields": {
+      "employee": 2,
+      "weekday": 2,
+      "floor": 1
+    }
+  },
+  {
+    "model": "hotel.employeeschedule",
+    "pk": 4,
+    "fields": {
+      "employee": 2,
+      "weekday": 4,
+      "floor": 3
+    }
+  },
+  {
+    "model": "hotel.stay",
+    "pk": 1,
+    "fields": {
+      "client": 1,
+      "room": 1,
+      "check_in": "2024-01-15",
+      "check_out": "2024-01-20"
+    }
+  },
+  {
+    "model": "hotel.stay",
+    "pk": 2,
+    "fields": {
+      "client": 2,
+      "room": 2,
+      "check_in": "2024-01-18",
+      "check_out": null
+    }
+  },
+  {
+    "model": "hotel.stay",
+    "pk": 3,
+    "fields": {
+      "client": 3,
+      "room": 3,
+      "check_in": "2024-01-20",
+      "check_out": "2024-01-25"
+    }
+  },
+  {
+    "model": "hotel.stay",
+    "pk": 4,
+    "fields": {
+      "client": 4,
+      "room": 4,
+      "check_in": "2024-01-22",
+      "check_out": null
+    }
+  }
+]
