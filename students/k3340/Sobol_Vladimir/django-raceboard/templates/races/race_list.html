@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Список гонок{% endblock %}
+{% block content %}
+
+<!-- Page Header -->
+<div class="row">
+  <div class="col s12">
+    <h3 class="red-text text-darken-2">
+      <i class="material-icons large left">emoji_events</i>
+      Все автогонки
+    </h3>
+    <p class="flow-text grey-text text-darken-1">Выберите гонку для просмотра деталей и регистрации</p>
+  </div>
+</div>
+
+<div class="divider" style="margin: 20px 0;"></div>
+
+<!-- Race Cards -->
+<div class="row">
+  {% for race in races %}
+    <div class="col s12 m6 l4">
+      <div class="card hoverable">
+        <div class="card-content">
+          <span class="card-title red-text text-darken-2">
+            <i class="material-icons left">flag</i>
+            {{ race.title }}
+          </span>
+          <p class="grey-text">
+            <i class="material-icons tiny">event</i>
+            <strong>Дата:</strong> {{ race.date|date:"d.m.Y" }}
+          </p>
+          <p class="grey-text">
+            <i class="material-icons tiny">place</i>
+            <strong>Место:</strong> {{ race.location|default:"Не указано" }}
+          </p>
+          <p class="grey-text">
+            <i class="material-icons tiny">people</i>
+            <strong>Участников:</strong> {{ race.registrations.count }}
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'races:race_detail' race.pk %}" class="red-text text-darken-2">
+            <i class="material-icons left tiny">visibility</i>Подробнее
+          </a>
+          <a href="{% url 'races:race_detail' race.pk %}#register" class="red-text text-darken-2">
+            <i class="material-icons left tiny">how_to_reg</i>Регистрация
+          </a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col s12">
+      <div class="card-panel yellow lighten-4 center-align">
+        <i class="material-icons large grey-text">info</i>
+        <h5 class="grey-text">Пока нет соревнований</h5>
+        <p class="grey-text">Скоро здесь появятся новые гонки!</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- Statistics Section -->
+{% if races %}
+<div class="row" style="margin-top: 40px;">
+  <div class="col s12">
+    <h5 class="red-text text-darken-2">
+      <i class="material-icons left">bar_chart</i>
+      Статистика
+    </h5>
+  </div>
+  <div class="col s12 m4">
+    <div class="card-panel teal lighten-4 center-align">
+      <i class="material-icons large teal-text">event_available</i>
+      <h4 class="teal-text">{{ races|length }}</h4>
+      <p class="teal-text">Всего гонок</p>
+    </div>
+  </div>
+  <div class="col s12 m4">
+    <div class="card-panel orange lighten-4 center-align">
+      <i class="material-icons large orange-text">people</i>
+      <h4 class="orange-text">{% for race in races %}{{ race.registrations.count }}{% if not forloop.last %}+{% endif %}{% endfor %}</h4>
+      <p class="orange-text">Регистраций</p>
+    </div>
+  </div>
+  <div class="col s12 m4">
+    <div class="card-panel purple lighten-4 center-align">
+      <i class="material-icons large purple-text">comment</i>
+      <h4 class="purple-text">{% for race in races %}{{ race.comments.count }}{% if not forloop.last %}+{% endif %}{% endfor %}</h4>
+      <p class="purple-text">Комментариев</p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

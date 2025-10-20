@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <h3 class="red-text text-darken-2">
+      <i class="material-icons large left">person</i>
+      Мой профиль
+    </h3>
+    <p class="flow-text grey-text">Управление профилем участника автогонок</p>
+  </div>
+</div>
+
+<div class="divider" style="margin: 20px 0;"></div>
+
+<div class="row">
+  <!-- Profile Info Card -->
+  <div class="col s12 l4">
+    <div class="card">
+      <div class="card-content center-align">
+        <i class="material-icons large red-text text-darken-2" style="font-size: 100px;">account_circle</i>
+        <h5>{{ user.username }}</h5>
+        <p class="grey-text">{{ user.email }}</p>
+        {% if user.participant_profile %}
+          <div class="divider" style="margin: 15px 0;"></div>
+          <p><strong>{{ user.participant_profile.full_name }}</strong></p>
+          <p class="grey-text">{{ user.participant_profile.get_driver_class_display }}</p>
+          <p class="grey-text">
+            <i class="material-icons tiny">timeline</i>
+            {{ user.participant_profile.experience_years }} лет опыта
+          </p>
+          {% if user.participant_profile.team %}
+            <p class="grey-text">
+              <i class="material-icons tiny">group</i>
+              {{ user.participant_profile.team.name }}
+            </p>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Registration Stats -->
+    {% if user.participant_profile %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title red-text text-darken-2">
+            <i class="material-icons left">bar_chart</i>
+            Статистика
+          </span>
+          <div class="collection">
+            <a href="#!" class="collection-item">
+              <span class="badge">{{ user.participant_profile.registrations.count }}</span>
+              Регистраций на гонки
+            </a>
+            <a href="#!" class="collection-item">
+              <span class="badge">{{ user.race_comments.count }}</span>
+              Комментариев
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Edit Profile Form -->
+  <div class="col s12 l8">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2">
+          <i class="material-icons left">edit</i>
+          Редактировать профиль
+        </span>
+        
+        <form method="post">
+          {% csrf_token %}
+          
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">badge</i>
+              <input type="text" id="id_full_name" name="full_name" value="{{ form.full_name.value|default:'' }}" required maxlength="255">
+              <label for="id_full_name" class="active">ФИО участника</label>
+              {% if form.full_name.errors %}
+                <span class="helper-text red-text">{{ form.full_name.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix">group</i>
+              <select id="id_team" name="team">
+                <option value="">Без команды</option>
+                {% for value, label in form.team.field.choices %}
+                  {% if value %}
+                    <option value="{{ value }}" {% if form.team.value == value|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <label for="id_team">Команда</label>
+              {% if form.team.errors %}
+                <span class="helper-text red-text">{{ form.team.errors.0 }}</span>
+              {% endif %}
+            </div>
+            
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix">stars</i>
+              <select id="id_driver_class" name="driver_class" required>
+                {% for value, label in form.driver_class.field.choices %}
+                  <option value="{{ value }}" {% if form.driver_class.value == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <label for="id_driver_class">Класс участника</label>
+              {% if form.driver_class.errors %}
+                <span class="helper-text red-text">{{ form.driver_class.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">directions_car</i>
+              <textarea id="id_car_description" name="car_description" class="materialize-textarea">{{ form.car_description.value|default:'' }}</textarea>
+              <label for="id_car_description" class="active">Описание автомобиля</label>
+              {% if form.car_description.errors %}
+                <span class="helper-text red-text">{{ form.car_description.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">info</i>
+              <textarea id="id_description" name="description" class="materialize-textarea">{{ form.description.value|default:'' }}</textarea>
+              <label for="id_description" class="active">Описание участника</label>
+              {% if form.description.errors %}
+                <span class="helper-text red-text">{{ form.description.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">timeline</i>
+              <input type="number" id="id_experience_years" name="experience_years" value="{{ form.experience_years.value|default:'0' }}" min="0" max="100">
+              <label for="id_experience_years" class="active">Опыт (лет)</label>
+              {% if form.experience_years.errors %}
+                <span class="helper-text red-text">{{ form.experience_years.errors.0 }}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="center-align" style="margin-top: 30px;">
+            <button type="submit" class="btn-large red darken-2 waves-effect waves-light">
+              <i class="material-icons left">save</i>
+              Сохранить изменения
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- My Registrations -->
+    {% if user.participant_profile.registrations.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title red-text text-darken-2">
+            <i class="material-icons left">event_available</i>
+            Мои регистрации на гонки
+          </span>
+          <div class="collection">
+            {% for reg in user.participant_profile.registrations.all %}
+              <div class="collection-item">
+                <div>
+                  <strong>{{ reg.race.title }}</strong>
+                  <a href="{% url 'races:race_detail' reg.race.pk %}" class="secondary-content red-text text-darken-2">
+                    <i class="material-icons">visibility</i>
+                  </a>
+                  <br>
+                  <span class="grey-text">
+                    <i class="material-icons tiny">event</i>
+                    {{ reg.race.date|date:"d.m.Y" }}
+                  </span>
+                  <span class="grey-text">
+                    <i class="material-icons tiny">place</i>
+                    {{ reg.race.location|default:"Не указано" }}
+                  </span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

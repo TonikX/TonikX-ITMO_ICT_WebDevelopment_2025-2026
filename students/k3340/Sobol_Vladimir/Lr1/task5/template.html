@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Оценки</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Оценки</h1>
+        <ul class="grades-list">
+            {{grades}}
+        </ul>
+        <p class="message">{{message}}</p>
+        <h2>Добавить/изменить оценку</h2>
+        <form method="POST" class="grade-form">
+            <label for="subject">Дисциплина:</label>
+            <input type="text" id="subject" name="subject">
+
+            <label for="grade">Оценка:</label>
+            <input type="text" id="grade" name="grade">
+
+            <input type="submit" value="Сохранить">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+site_name: ЛР2 — Соболь Владимир
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+
+nav:
+  - Главная: index.md
+  - Задания:
+      - Задание 2.1 — Создание проекта и моделей: practice1.md
+      - Задание 2.2 — Миграции и админ-панель: practice2.md
+      - Задание 2.3 — Представления и шаблоны: practice3.md

@@ -1,0 +1,27 @@
+site_name: Лабораторные работы — Соболь Владимир
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: teal
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа №1:
+      - Главная: lab1/docs/index.md
+      - Описание: lab1/docs/lab1.md
+      - Задание 1: lab1/docs/task1.md
+      - Задание 2: lab1/docs/task2.md
+      - Задание 3: lab1/docs/task3.md
+      - Задание 4: lab1/docs/task4.md
+      - Задание 5: lab1/docs/task5.md
+  - Лабораторная работа №2:
+      - Главная: lab2/docs/index.md
+      - Задание 2.1 — Модели: lab2/docs/practice1.md
+      - Задание 2.2 — Миграции: lab2/docs/practice2.md
+      - Задание 2.3 — Представления: lab2/docs/practice3.md
+

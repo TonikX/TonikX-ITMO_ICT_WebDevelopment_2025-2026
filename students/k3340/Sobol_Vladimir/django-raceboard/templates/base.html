@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Табло гонок{% endblock %}</title>
+  
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="red darken-2" role="navigation">
+    <div class="nav-wrapper container">
+      <a href="{% url 'races:race_list' %}" class="brand-logo">
+        <i class="material-icons left">speed</i>
+        Табло Гонок
+      </a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'races:race_list' %}"><i class="material-icons left">home</i>Гонки</a></li>
+          <li><a href="{% url 'races:profile' %}"><i class="material-icons left">person</i>Профиль</a></li>
+          <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Выйти</a></li>
+        {% else %}
+          <li><a href="{% url 'races:race_list' %}"><i class="material-icons left">home</i>Гонки</a></li>
+          <li><a href="{% url 'races:user_register' %}"><i class="material-icons left">person_add</i>Регистрация</a></li>
+          <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Войти</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidenav -->
+  <ul class="sidenav" id="mobile-nav">
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'races:race_list' %}"><i class="material-icons">home</i>Гонки</a></li>
+      <li><a href="{% url 'races:profile' %}"><i class="material-icons">person</i>Профиль</a></li>
+      <li class="divider"></li>
+      <li><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i>Выйти</a></li>
+    {% else %}
+      <li><a href="{% url 'races:race_list' %}"><i class="material-icons">home</i>Гонки</a></li>
+      <li><a href="{% url 'races:user_register' %}"><i class="material-icons">person_add</i>Регистрация</a></li>
+      <li><a href="{% url 'login' %}"><i class="material-icons">login</i>Войти</a></li>
+    {% endif %}
+  </ul>
+
+  <!-- Messages -->
+  {% if messages %}
+    <div class="container" style="margin-top: 20px;">
+      {% for message in messages %}
+        <div class="card-panel {{ message.tags|default:'blue' }} lighten-4">
+          <span class="{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-text text-darken-2">
+            <i class="material-icons left">
+              {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}check_circle{% else %}info{% endif %}
+            </i>
+            {{ message }}
+          </span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main class="container" style="margin-top: 30px; margin-bottom: 60px;">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer red darken-2">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Табло победителей</h5>
+          <p class="grey-text text-lighten-4">Система управления автогонками</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Ссылки</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="{% url 'races:race_list' %}">Все гонки</a></li>
+            {% if user.is_authenticated %}
+              <li><a class="grey-text text-lighten-3" href="{% url 'races:profile' %}">Мой профиль</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2025 Учебный проект Django 3.2
+        <a class="grey-text text-lighten-4 right" href="#!">Основы Web-программирования</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Initialize Materialize components -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sidenav
+      var sidenavElems = document.querySelectorAll('.sidenav');
+      M.Sidenav.init(sidenavElems);
+      
+      // Initialize select
+      var selectElems = document.querySelectorAll('select');
+      M.FormSelect.init(selectElems);
+      
+      // Initialize datepicker
+      var datepickerElems = document.querySelectorAll('.datepicker');
+      M.Datepicker.init(datepickerElems, {
+        format: 'yyyy-mm-dd',
+        firstDay: 1,
+        i18n: {
+          cancel: 'Отмена',
+          done: 'Готово',
+          months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+          monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+          weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+          weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+          weekdaysAbbrev: ['В', 'П', 'В', 'С', 'Ч', 'П', 'С']
+        }
+      });
+      
+      // Initialize modals
+      var modalElems = document.querySelectorAll('.modal');
+      M.Modal.init(modalElems);
+      
+      // Initialize tooltips
+      var tooltipElems = document.querySelectorAll('.tooltipped');
+      M.Tooltip.init(tooltipElems);
+    });
+  </script>
+</body>
+</html>

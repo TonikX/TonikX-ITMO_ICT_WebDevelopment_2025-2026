@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Выход{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top: 80px;">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="card">
+      <div class="card-content center-align">
+        <i class="material-icons green-text text-darken-2" style="font-size: 100px;">check_circle</i>
+        <h4 class="red-text text-darken-2">Вы вышли из системы</h4>
+        <p class="flow-text grey-text">Спасибо за использование нашего сервиса!</p>
+        
+        <div style="margin-top: 40px;">
+          <a href="{% url 'login' %}" class="btn-large red darken-2 waves-effect waves-light">
+            <i class="material-icons left">login</i>
+            Войти снова
+          </a>
+          <br><br>
+          <a href="{% url 'races:race_list' %}" class="btn-large grey darken-1 waves-effect waves-light">
+            <i class="material-icons left">home</i>
+            На главную
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Links -->
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title red-text text-darken-2 center-align">
+          <i class="material-icons left">link</i>
+          Быстрые ссылки
+        </span>
+        <div class="collection">
+          <a href="{% url 'races:race_list' %}" class="collection-item">
+            <i class="material-icons left">emoji_events</i>
+            Просмотр гонок
+          </a>
+          <a href="{% url 'races:user_register' %}" class="collection-item">
+            <i class="material-icons left">person_add</i>
+            Регистрация нового участника
+          </a>
+          <a href="{% url 'login' %}" class="collection-item">
+            <i class="material-icons left">login</i>
+            Вход в систему
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
