@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal">Найдите лучший отель</h1>
+    <p class="fs-5 text-muted">Используйте фильтры ниже, чтобы найти идеальное место для отдыха.</p>
+</div>
+
+{% if request.query_params.get('error') %}
+<div class="alert alert-danger" role="alert">
+    {% if request.query_params.get('error') == 'invalid_dates' %}
+        Ошибка: Дата заезда должна быть раньше даты выезда.
+    {% elif request.query_params.get('error') == 'past_checkin' %}
+        Ошибка: Дата заезда не может быть в прошлом.
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Фильтры</h5>
+        <form method="GET" action="/">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label for="sort" class="form-label">Сортировать по:</label>
+                    <select name="sort" id="sort" class="form-select">
+                        <option value="rating" {% if sort == 'rating' %}selected{% endif %}>Рейтингу (сначала высокий)</option>
+                        <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Цене (сначала дешевые)</option>
+                        <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Цене (сначала дорогие)</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="min_price" class="form-label">Цена от (руб):</label>
+                    <input type="number" name="min_price" id="min_price" class="form-control" value="{{ min_price or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label for="max_price" class="form-label">Цена до (руб):</label>
+                    <input type="number" name="max_price" id="max_price" class="form-control" value="{{ max_price or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Применить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-1 g-4">
+    {% for hotel, min_price, avg_rating in hotels %}
+    <div class="col">
+        <div class="card hotel-card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{{ url_for('get_hotel_page', hotel_id=hotel.id) }}">{{ hotel.name }}</a>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ hotel.address }}</h6>
+                <p class="card-text text-truncate">{{ hotel.description }}</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                <span class="fw-bold">
+                    {% if min_price is not none %}
+                        От {{ "%.0f"|format(min_price) }} руб.
+                    {% else %}
+                        Нет свободных номеров
+                    {% endif %}
+                </span>
+                <span class="rating-star">
+                    <i class="bi bi-star-fill"></i>
+                    {% if avg_rating is not none %}
+                        {{ "%.1f"|format(avg_rating) }}
+                    {% else %}
+                        Без оценок
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col">
+        <p class="text-center">Отели по вашему запросу не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% if total_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% set start_item = (page - 1) * 5 + 1 %}
+        {% set end_item = page * 5 %}
+        {% set total_items = total_pages * 5 %}
+        {% set prev_start = (page - 1) * 5 - 4 %}
+        {% set prev_end = (page - 1) * 5 %}
+        {% set next_start = (page + 1) * 5 - 4 %}
+        {% set next_end = (page + 1) * 5 %}
+        
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page - 1 }}&sort={{ sort }}&min_price={{ min_price or '' }}&max_price={{ max_price or '' }}">
+                {% if prev_start < 1 %}1{% else %}{{ prev_start }}{% endif %} - {{ prev_end }} <<
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ start_item }} - {% if end_item > total_items %}{{ total_items }}{% else %}{{ end_item }}{% endif %}</span>
+        </li>
+
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page + 1 }}&sort={{ sort }}&min_price={{ min_price or '' }}&max_price={{ max_price or '' }}">
+                >> {{ next_start }} - {% if next_end > total_items %}{{ total_items }}{% else %}{{ next_end }}{% endif %}
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="card hotel-card h-100">
+  <div class="card-body">
+    <h5 class="card-title">
+      <a href="{{ url_for('get_hotel_page', hotel_id=hotel.id) }}">{{ hotel.name }}</a>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ hotel.address }}</h6>
+    <p class="card-text text-truncate">{{ hotel.description }}</p>
+  </div>
+  <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+    <span class="fw-bold">
+      {% if stats.min_room_price %}
+        От {{ "%.0f"|format(stats.min_room_price) }} руб.
+      {% else %}Нет свободных номеров{% endif %}
+    </span>
+    <span class="rating-star">
+      <i class="bi bi-star-fill"></i> {{ "%.1f"|format(stats.avg_rating) if stats.avg_rating else 'Без оценок' }}
+    </span>
+  </div>
+</div>
