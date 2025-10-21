@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Задание - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0417\u0430\u0434\u0430\u043d\u0438\u0435";
+        var mkdocs_page_input_path = "test.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Задание</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">Задание</h1>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент отправляет серверу сообщение «Hello, server», и оно должно
+отобразиться на стороне сервера. В ответ сервер отправляет клиенту сообщение «Hello, client», которое должно
+отобразиться у клиента.</p>
+<p><strong>Требования:</strong></p>
+<ul>
+<li>Обязательно использовать библиотеку socket.</li>
+<li>Реализовать с помощью протокола UDP.</li>
+</ul>
+<hr />
+<h1 id="_2">Решение</h1>
+<h2 id="_3">Клиент</h2>
+<pre><code class="language-python">import socket
+
+HOST = '127.0.0.1'
+PORT = 9090
+
+# Создаём сокет
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Отправляем сообщение на сервер
+message = 'Hello, server'
+client_socket.sendto(message.encode('utf-8'), (HOST, PORT))
+
+# Получаем ответ от сервера
+server_data, server_address = client_socket.recvfrom(1024)
+print(f'Ответ от сервера: {server_data.decode('utf-8')}')
+
+# Закрываем сокет
+client_socket.close()
+</code></pre>
+<h2 id="_4">Сервер</h2>
+<pre><code class="language-python">import socket
+
+HOST = '127.0.0.1'
+PORT = 9090
+
+# Создаем сокет
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Привязываем сокет к адресу и порту
+server_socket.bind((HOST, PORT))
+
+print(f&quot;Сервер запущен на {HOST}:{PORT}&quot;)
+
+while True:
+    # Получаем данные от клиента и его адрес
+    client_data, client_address = server_socket.recvfrom(1024)
+    print(f'Сообщение от клиента: {client_data.decode('utf-8')}')
+
+    # Отправляем ответ клиенту
+    message = 'Hello, client'
+    server_socket.sendto(message.encode('utf-8'), client_address)
+</code></pre>
+<hr />
+<h1 id="_5">Пояснение</h1>
+<p>Создаём UDP сокет на сервере, используя адрес <code>127.0.0.1</code> и порт <code>9090</code>, после чего в бесконечном цикле пытаемся прочитать данные от
+клиента и напечатать их, а затем отправить сообщение <code>Hello, client</code> клиенту.</p>
+<p>Клиент создает UDP сокет и без установки соединения отправляет данные на <code>127.0.0.1:9090</code>. Затем читает ответ от сервера и закрывает сокет.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

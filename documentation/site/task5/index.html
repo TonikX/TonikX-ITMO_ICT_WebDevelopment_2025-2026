@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Задание 5: Веб-сервер (GET/POST) - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 5: \u0412\u0435\u0431-\u0441\u0435\u0440\u0432\u0435\u0440 (GET/POST)";
+        var mkdocs_page_input_path = "task5.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Задание 5: Веб-сервер (GET/POST)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Решение</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Сервер</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Подробное пояснение</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1">1) Общая идея</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-http-">2) Как читается HTTP-запрос</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-post">3) Как парсим данные формы (POST)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4">4) Хранилище данных</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-html-">5) Формирование HTML-страницы</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-http-">6) Формирование HTTP-ответа</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#7">7) Жизненный цикл запросов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#8">8) Почему закрываем соединение</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Как запустить и проверить</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №1</li>
+      <li class="breadcrumb-item active">Задание 5: Веб-сервер (GET/POST)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="5">Задание 5</h1>
+<p>Написать простой <strong>веб-сервер</strong> для обработки <strong>GET</strong> и <strong>POST</strong> HTTP-запросов с помощью <code>socket</code> в Python.</p>
+<p><strong>Требования:</strong>
+- Сервер должен:
+  - Принять и записать информацию о дисциплине и оценке (в памяти процесса).
+  - Отдать информацию обо всех оценках по дисциплинам в виде HTML-страницы (одна строка на дисциплину со списком оценок).
+- Протокол: TCP (HTTP поверх TCP).</p>
+<hr />
+<h2 id="_1">Решение</h2>
+<h3 id="_2">Сервер</h3>
+<pre><code class="language-python">import socket
+from urllib.parse import parse_qs
+
+SERVER_HOST = &quot;127.0.0.1&quot;
+SERVER_PORT = 8083
+
+# Память сервера: &quot;дисциплина&quot; -&gt; список оценок
+grades_by_discipline = {}  # например: {&quot;Математика&quot;: [&quot;5&quot;, &quot;4&quot;]}
+
+def build_html_page():
+    table_rows = []
+    if grades_by_discipline:
+        for discipline, grades_list in grades_by_discipline.items():
+            grades_text = &quot;, &quot;.join(grades_list) if grades_list else &quot;—&quot;
+            table_rows.append(f&quot;&lt;tr&gt;&lt;td&gt;{discipline}&lt;/td&gt;&lt;td&gt;{grades_text}&lt;/td&gt;&lt;/tr&gt;&quot;)
+    else:
+        table_rows.append(&quot;&lt;tr&gt;&lt;td colspan='2'&gt;Нет данных&lt;/td&gt;&lt;/tr&gt;&quot;)
+
+    html = &quot;&quot;&quot;&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Журнал оценок&lt;/title&gt;
+&lt;h1&gt;Журнал оценок&lt;/h1&gt;
+
+&lt;form action=&quot;/add&quot; method=&quot;POST&quot;&gt;
+  &lt;div&gt;
+    &lt;label&gt;Дисциплина: &lt;input type=&quot;text&quot; name=&quot;discipline&quot;&gt;&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label&gt;Оценка: &lt;input type=&quot;text&quot; name=&quot;grade&quot;&gt;&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;button type=&quot;submit&quot;&gt;Добавить&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;table border=&quot;1&quot; cellpadding=&quot;6&quot; cellspacing=&quot;0&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Дисциплина&lt;/th&gt;&lt;th&gt;Оценки&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    {rows}
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&quot;&quot;&quot;.format(rows=''.join(table_rows))
+    return html
+
+def read_http_request(client_socket):
+    data = b&quot;&quot;
+    while b&quot;\r\n\r\n&quot; not in data:
+        chunk = client_socket.recv(4096)
+        if not chunk:
+            break
+        data += chunk
+
+    header_part, _, body_rest = data.partition(b&quot;\r\n\r\n&quot;)
+    header_text = header_part.decode(&quot;iso-8859-1&quot;, errors=&quot;ignore&quot;)
+    lines = header_text.split(&quot;\r\n&quot;)
+    request_line = lines[0] if lines else &quot;&quot;
+    try:
+        method, path, version = request_line.split(&quot; &quot;)
+    except ValueError:
+        method, path, version = &quot;&quot;, &quot;&quot;, &quot;&quot;
+
+    headers = {}
+    for line in lines[1:]:
+        if &quot;:&quot; in line:
+            k, v = line.split(&quot;:&quot;, 1)
+            headers[k.strip().lower()] = v.strip()
+
+    content_length = int(headers.get(&quot;content-length&quot;, &quot;0&quot;) or &quot;0&quot;)
+    body = body_rest
+    while len(body) &lt; content_length:
+        chunk = client_socket.recv(4096)
+        if not chunk:
+            break
+        body += chunk
+
+    return method, path, version, headers, body
+
+def build_http_response(status_code, body_text, content_type=&quot;text/html; charset=UTF-8&quot;):
+    if status_code == 200:
+        status_line = &quot;HTTP/1.1 200 OK&quot;
+    elif status_code == 404:
+        status_line = &quot;HTTP/1.1 404 Not Found&quot;
+    else:
+        status_line = f&quot;HTTP/1.1 {status_code}&quot;
+
+    body_bytes = body_text.encode(&quot;utf-8&quot;)
+    headers_lines = [
+        status_line,
+        f&quot;Content-Type: {content_type}&quot;,
+        f&quot;Content-Length: {len(body_bytes)}&quot;,
+        &quot;Connection: close&quot;,
+    ]
+    return (&quot;\r\n&quot;.join(headers_lines) + &quot;\r\n\r\n&quot;).encode(&quot;utf-8&quot;) + body_bytes
+
+def handle_client(client_socket):
+    try:
+        method, path, version, headers, body = read_http_request(client_socket)
+
+        if method == &quot;GET&quot; and path.startswith(&quot;/&quot;):
+            page = build_html_page()
+            client_socket.sendall(build_http_response(200, page))
+            return
+
+        if method == &quot;POST&quot; and path == &quot;/add&quot;:
+            form_text = body.decode(&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+            form_data = parse_qs(form_text)
+            discipline = (form_data.get(&quot;discipline&quot;, [&quot;&quot;])[0] or &quot;&quot;).strip()
+            grade = (form_data.get(&quot;grade&quot;, [&quot;&quot;])[0] or &quot;&quot;).strip()
+
+            if discipline and grade:
+                grades_by_discipline.setdefault(discipline, []).append(grade)
+
+            page = build_html_page()
+            client_socket.sendall(build_http_response(200, page))
+            return
+
+        not_found = &quot;&lt;!doctype html&gt;&lt;meta charset='utf-8'&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&quot;
+        client_socket.sendall(build_http_response(404, not_found))
+    finally:
+        try:
+            client_socket.close()
+        except Exception:
+            pass
+
+def main():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind((SERVER_HOST, SERVER_PORT))
+    server_socket.listen(5)
+    print(f&quot;Журнал-HTTP-сервер запущен на http://{SERVER_HOST}:{SERVER_PORT}&quot;)
+
+    try:
+        while True:
+            client_socket, client_address = server_socket.accept()
+            handle_client(client_socket)
+    except KeyboardInterrupt:
+        print(&quot;\nСервер остановлен пользователем.&quot;)
+    finally:
+        server_socket.close()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<hr />
+<h2 id="_3">Подробное пояснение</h2>
+<h3 id="1">1) Общая идея</h3>
+<ul>
+<li>Мы пишем <strong>микро-HTTP-сервер</strong> на чистых сокетах: читаем текст запроса, парсим стартовую строку, заголовки, при необходимости тело.</li>
+<li>Поддерживаем <strong>два маршрута</strong>:</li>
+<li><code>GET /</code> — отдать HTML-страницу с формой и таблицей оценок.</li>
+<li><code>POST /add</code> — принять поля <code>discipline</code> и <code>grade</code>, добавить их в память, вернуть обновлённую HTML-страницу.</li>
+</ul>
+<h3 id="2-http-">2) Как читается HTTP-запрос</h3>
+<ul>
+<li>TCP — поток байт. Мы читаем из сокета порциями, пока не встретим <strong>разделитель заголовков и тела</strong>: <code>\r\n\r\n</code>.</li>
+<li>Первая строка (Request-Line) вида: <code>GET / HTTP/1.1</code> → разбиваем на <code>method</code>, <code>path</code>, <code>version</code>.</li>
+<li>Заголовки кладём в словарь <code>headers</code> с ключами в нижнем регистре (удобнее искать).</li>
+<li>Если есть <code>Content-Length: N</code>, дочитываем ещё <code>N</code> байт для <strong>тела</strong> запроса.</li>
+</ul>
+<h3 id="3-post">3) Как парсим данные формы (POST)</h3>
+<ul>
+<li>Браузер по умолчанию шлёт <code>&lt;form method="POST"&gt;</code> в формате <code>application/x-www-form-urlencoded</code>, например:
+  <code>discipline=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0&amp;grade=5</code></li>
+<li>Декодируем тело как UTF-8 и пропускаем через <code>parse_qs</code>, получая словарь списков:
+  <code>python
+  {"discipline": ["Математика"], "grade": ["5"]}</code></li>
+<li>Берём <strong>первый элемент</strong> каждого списка, подрезаем пробелы <code>.strip()</code>.<br />
+  Если поле отсутствует/пустое — просто ничего не добавляем.</li>
+</ul>
+<h3 id="4">4) Хранилище данных</h3>
+<ul>
+<li><code>grades_by_discipline: dict[str, list[str]]</code> — словарь в памяти процесса.</li>
+<li>При добавлении:
+  <code>python
+  grades_by_discipline.setdefault(discipline, []).append(grade)</code>
+  Это создаёт пустой список для новой дисциплины и добавляет оценку.</li>
+</ul>
+<h3 id="5-html-">5) Формирование HTML-страницы</h3>
+<ul>
+<li>В <code>build_html_page()</code> строим таблицу: <strong>одна строка = одна дисциплина</strong>, справа — список всех её оценок, объединённый через запятую.</li>
+<li>Если данных нет — выводим одну строку «Нет данных».</li>
+<li>Выдаём минимальный, «учебный» HTML (без лишнего оформления).</li>
+</ul>
+<h3 id="6-http-">6) Формирование HTTP-ответа</h3>
+<ul>
+<li>Собираем ответ вручную:</li>
+<li>Статус <code>HTTP/1.1 200 OK</code> (или 404).</li>
+<li>Заголовки: <code>Content-Type</code>, <code>Content-Length</code> (<strong>в байтах</strong>), <code>Connection: close</code>.</li>
+<li>Пустая строка <code>\r\n\r\n</code>.</li>
+<li>Тело (HTML).</li>
+<li>Почему <code>Content-Length</code> в байтах: HTTP — байтовый протокол; UTF-8 символ может занимать больше 1 байта.</li>
+</ul>
+<h3 id="7">7) Жизненный цикл запросов</h3>
+<ol>
+<li>Браузер делает <code>GET /</code> → сервер возвращает страницу с формой и текущей таблицей.</li>
+<li>Пользователь отправляет форму → браузер шлёт <code>POST /add</code> с телом.</li>
+<li>Сервер парсит тело, добавляет запись, снова возвращает <strong>HTML-страницу</strong> (без редиректа — проще).</li>
+</ol>
+<h3 id="8">8) Почему закрываем соединение</h3>
+<ul>
+<li>Заголовок <code>Connection: close</code> — после ответа закрываем сокет. Так проще: «один запрос — один ответ».</li>
+<li>Браузер сам создаст новое соединение при следующем запросе.</li>
+</ul>
+<hr />
+<h2 id="_4">Как запустить и проверить</h2>
+<ol>
+<li>Запустить сервер:
+   <code>bash
+   python grades_server.py</code></li>
+<li>Открыть в браузере: <code>http://127.0.0.1:8083/</code></li>
+<li>Заполнить форму: дисциплина и оценка → <strong>Добавить</strong>.<br />
+   На странице появится строка с дисциплиной и список её оценок.</li>
+<li>Добавить ту же дисциплину ещё раз — увидите накопление оценок в одной строке.</li>
+</ol>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../task4/" class="btn btn-neutral float-left" title="Задание 4: TCP Чат"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../task4/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
