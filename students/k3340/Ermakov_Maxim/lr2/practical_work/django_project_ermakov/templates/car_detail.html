@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Car detail</title></head>
+<body>
+<h1>{{ object.make }} {{ object.model }}</h1>
+<p><b>Plate:</b> {{ object.plate_number }}</p>
+<p><b>Color:</b> {{ object.color|default:"—" }}</p>
+<p><a href="/cars/{{ object.pk }}/update/">Edit</a> | <a href="/cars/">Back</a></p>
+</body></html>

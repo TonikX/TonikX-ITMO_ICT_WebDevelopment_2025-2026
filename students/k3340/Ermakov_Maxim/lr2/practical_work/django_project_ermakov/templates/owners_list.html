@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Owners</title></head>
+<body>
+<h1>Owners</h1>
+<ul>
+  {% for o in owners %}
+    <li>
+      <a href="/owner/{{ o.id }}/">{{ o.last_name }} {{ o.first_name }}</a>
+      {% if o.birth_date %} — {{ o.birth_date }}{% endif %}
+    </li>
+  {% empty %}
+    <li>No owners yet.</li>
+  {% endfor %}
+</ul>
+</body>
+</html>
