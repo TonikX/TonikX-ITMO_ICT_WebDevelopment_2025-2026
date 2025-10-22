@@ -7,24 +7,44 @@
     <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
 </head>
 <body>
-    <form method="post" class="date-form">
-        {% csrf_token %}
+    <h1></h1>
+    <form method="get" class="date-form">
         <div class="date-row">
             <div class="field">
-                <label for="checkin">Заезд:</label>
-                <input type="date" id="checkin" name="checkin" required>
+                <label for="hotel">Отель:</label>
+                <select id="hotel" name="id">
+                    <option value="">все отели</option>
+                    {% for hotel in all_hotels %}
+                        <option value="{{ hotel.id }}" {% if hotel.id|stringformat:"s" == request.GET.id %}selected{% endif %}>
+                            {{ hotel.name }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
+        
+            <div class="field">
+                <label for="checkin">Заезд:</label>
+                <input type="date" id="checkin" name="checkin" value="{{ request.GET.checkin }}">
+            </div>
+
             <div class="field">
                 <label for="checkout">Выезд:</label>
-                <input type="date" id="checkout" name="checkout" required>
+                <input type="date" id="checkout" name="checkout" value="{{ request.GET.checkout }}">
             </div>
+
             <button type="submit">Найти</button>
         </div>
     </form>
+    {% if hotel_name %}
+        <h1> Все номера для отеля {{ hotel_name }}</h1>
+    {% endif %}
     {% for room in rooms %}
         <a href="{% url 'room_info' room.pk %}">
             <div class="hotel">
-                <strong>{{ room.room_type }}</strong><br>
+            {% if hotel_name == None %}
+                <strong>{{ room.id_hotel.name }}</strong>
+            {% endif %}
+                {{ room.room_type }}<br>
                 Цена за номер: {{ room.price }}<br>
                 Номер рассчитан на {{ room.capacity }} 
                 {% if room.capacity == 1 %}

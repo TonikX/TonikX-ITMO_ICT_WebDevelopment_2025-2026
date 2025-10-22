@@ -7,7 +7,6 @@ class Hotel(models.Model):
     owner = models.CharField(max_length=100, null=False)
     address = models.CharField(max_length=100, null=False)
     description = models.CharField(max_length=500, null=False)
-    capacity = models.IntegerField(null=False)
 
 
 class HotelUser(AbstractUser):

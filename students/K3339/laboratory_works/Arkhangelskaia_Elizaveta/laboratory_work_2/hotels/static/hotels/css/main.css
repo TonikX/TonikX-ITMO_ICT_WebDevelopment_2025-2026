@@ -37,6 +37,7 @@ body {
     background-color: #e7ffe7;
 }
 .date-form {
+    margin-top: 50px;
     background-color: #fffbe6;
     border: 1px solid #ffd6d6;
     padding: 15px 20px;
@@ -45,12 +46,8 @@ body {
 }
 .date-row {
     display: flex;
-    align-items: end;
-    gap: 12px;
-}
-.field {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 label {
     font-weight: 600;
@@ -109,9 +106,6 @@ form {
     display: flex;
     flex-direction: column;
 }
-.field {
-    margin-bottom: 15px;
-}
 input {
     width: 100%;
     padding: 10px;
@@ -120,3 +114,67 @@ input {
     font-size: 1em;
     box-sizing: border-box;
 }
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 250px;
+    font-family: "Inter", sans-serif;
+}
+
+
+.hotel-info, .facilities {
+margin-bottom: 25px;
+}
+
+.facility {
+background-color: #a8e6a1;
+display: inline-block;
+padding: 5px 10px;
+margin: 5px 5px 0 0;
+border-radius: 8px;
+font-size: 0.9em;
+}
+
+#reviewsCarousel {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+}
+#reviewsCarousel .carousel-item {
+    background: #fdf7f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/*#reviewsCarousel .carousel-control-prev,*/
+/*#reviewsCarousel .carousel-control-next {*/
+/*    !*width: 10px;*!*/
+/*    !*height: 30px;*!*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*    background: none;*/
+/*    z-index: 1;*/
+/*}*/
+
+
+
+#reviewsCarousel .carousel-item p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+#reviewsCarousel .carousel-item strong {
+    display: block;
+    text-align: right;
+    color: #f08c82;
+}
+
+
+
+

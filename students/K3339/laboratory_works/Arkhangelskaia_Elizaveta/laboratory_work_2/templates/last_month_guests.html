@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Постояльцы за последний месяц</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f8fff3;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #d4d4d4;
+        }
+        th {
+            background-color: #b3e5c2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2fdf4;
+        }
+    </style>
 </head>
 <body>
-
+    <h1>Постояльцы за последний месяц</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отель</th>
+                <th>Тип комнаты</th>
+                <th>Дата заезда</th>
+                <th>Дата выезда</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reservations %}
+            <tr>
+                <td>{{ r.id_user.first_name }}</td>
+                <td>{{ r.id_user.last_name }}</td>
+                <td>{{ r.id_rooms.id_hotel.name }}</td>
+                <td>{{ r.id_rooms.room_type }}</td>
+                <td>{{ r.start_date }}</td>
+                <td>{{ r.end_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">Нет данных за последний месяц</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
