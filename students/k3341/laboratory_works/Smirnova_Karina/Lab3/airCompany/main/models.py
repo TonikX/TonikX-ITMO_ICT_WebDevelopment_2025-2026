@@ -12,6 +12,7 @@ class Plane(models.Model):
     seats_capacity = models.IntegerField(verbose_name='Число мест')
     flight_speed = models.IntegerField(verbose_name='Скорость полета')
     airline_company = models.ForeignKey(AirlineCompany, on_delete=models.CASCADE, verbose_name='Компания-авиаперевозчик')
+    in_repair = models.BooleanField(default=False, verbose_name='В ремонте')
 
     def __str__(self):
         return self.number
@@ -29,34 +30,42 @@ class CrewMember(models.Model):
     passport_info = models.CharField(max_length=255, verbose_name='Паспортные данные')
     flight_authorization = models.BooleanField(default=False, verbose_name='Допуск к рейсу')
     company = models.ManyToManyField(AirlineCompany, verbose_name='Компания, в которой работает')
+    position = models.CharField(max_length=50,
+                                verbose_name='Должность (командир, второй пилот, штурман, стюардесса/стюард)')
 
     def __str__(self):
         return self.full_name
 
 class Route(models.Model):
-    flight_number = models.IntegerField(verbose_name='Номер рейса')
     distance = models.IntegerField(verbose_name='Расстояние до пункта назначения')
     departure_point = models.CharField(max_length=255, verbose_name='Пункт вылета')
+    destination_point = models.CharField(max_length=255, verbose_name='Пункт назначения')
     landing_points = models.CharField(max_length=255, blank=True, null=True,  verbose_name='Пункты посадки')
     transit_landings = models.CharField(max_length=255, blank=True, null=True,   verbose_name='Транзитные посадки')
-    destination_point = models.CharField(max_length=255, verbose_name='Пункт назначения')
 
     def __str__(self):
         return self.flight_number
 
 class Flight(models.Model):
+    flight_number = models.IntegerField(verbose_name='Номер рейса')
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='flights', verbose_name='Маршрут')
     departure_datetime = models.DateTimeField(verbose_name='Дата и время вылета')
     arrival_datetime = models.DateTimeField(verbose_name='Дата и время прилета')
-    transit_landing_datetime = models.DateTimeField(blank=True, null=True, verbose_name='Дата и время транзитных посадок')
     sold_tickets = models.IntegerField(verbose_name='Количество проданных билетов')
-    airplanes = models.ManyToManyField(Plane, verbose_name='Самолеты, обслуживающие рейс')
+    plane = models.ForeignKey(Plane, on_delete=models.CASCADE, verbose_name='Самолет, обслуживающий рейс')
     crew = models.ManyToManyField(Crew, verbose_name='Экипаж, обслуживающий рейс')
 
     def __str__(self):
         return f'Flight {self.pk}'
 
+class TransitLanding(models.Model):
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, verbose_name='Рейс')
+    landing_point = models.CharField(max_length=255, verbose_name='Пункт транзитной посадки')
+    landing_datetime = models.DateTimeField(verbose_name='Дата и время транзитной посадки')
+    takeoff_datetime = models.DateTimeField(verbose_name='Дата и время вылета (после транзитной посадки)')
 
+    def __str__(self):
+        return f'{self.landing_point} для рейса {self.flight.flight_number}'
 
 
 
