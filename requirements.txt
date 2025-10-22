@@ -1,0 +1,5 @@
+Django==4.2.7
+djangorestframework==3.14.0
+mkdocs==1.6.1
+mkdocs-material==9.6.20
+requests==2.32.5
