@@ -5,17 +5,14 @@
     <meta charset="UTF-8">
     <title>Регистрация</title>
     <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
-    <style>
-        
-    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-register">
         <h1>Регистрация</h1>
         <form method="post">
             {% csrf_token %}
             {% for field in form %}
-                <div class="field">
+                <div class="register-field">
                     {{ field.label_tag }} <br>
                     {{ field }} 
                     {% if field.errors %}
@@ -23,7 +20,7 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit">Зарегистрироваться</button>
+            <button type="submit" class="btn-register">Зарегистрироваться</button>
         </form>
     </div>
 </body>

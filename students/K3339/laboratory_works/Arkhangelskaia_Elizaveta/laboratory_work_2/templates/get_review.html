@@ -1,12 +1,24 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Оставить отзыв</title>
     <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
 </head>
 <body>
-
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <div class="form-container">
+        <h2>Оставить отзыв о бронировании</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-book">Отправить</button>
+        </form>
+    </div>
 </body>
 </html>

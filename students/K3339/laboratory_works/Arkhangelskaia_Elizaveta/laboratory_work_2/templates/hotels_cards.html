@@ -10,10 +10,10 @@
 <h1> Отели </h1>
     {% for item in hotels_with_rating %}
         <a href="{% url 'all_rooms'%}?id={{ item.hotel.pk }}">
-            <div class="hotel">
+            <div class="hotel-card">
                 <strong>{{ item.hotel.name }}</strong><br>
                 {{ item.hotel.address }}<br>
-                Оценка отеля: {{ item.rating }}/10
+                <strong>Оценка отеля: </strong>{{ item.rating }}/10
             </div>
         </a>
     {% endfor %}

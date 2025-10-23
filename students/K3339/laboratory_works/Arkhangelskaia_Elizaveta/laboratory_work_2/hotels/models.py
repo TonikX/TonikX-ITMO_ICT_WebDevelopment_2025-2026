@@ -35,7 +35,7 @@ class Reservation(models.Model):
     num_of_people = models.IntegerField(default=1)
 
 class Review(models.Model):
-    id_reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    id_reservation = models.OneToOneField(Reservation, on_delete=models.CASCADE)
     rating = models.IntegerField(null=False)
     review_text = models.CharField(max_length=500, null=False)
 

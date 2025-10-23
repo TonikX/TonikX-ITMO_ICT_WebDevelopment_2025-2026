@@ -1,13 +1,183 @@
 body {
     font-family: sans-serif;
-        background: #fff7e6;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+    background: #fff7e6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.container-register {
+    max-width: 800px;
+    min-width: 500px;
+    margin: 50px auto;
+    background: #fdf6f9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.register-field{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 400px;
+    font-family: "Inter", sans-serif;
+}
+.btn-register {
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 400px;
+    margin: 10px auto;
+}
+.btn-register:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.hotel-card{
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff7e6;
+    max-width: 500px;
+    min-width: 300px;
+    transition: all 0.3s ease;
+}
+.hotel-card:hover {
+    background-color: #ffefcc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.date-form {
+    margin-top: 50px;
+    max-width: 600px;
+    background-color: #fffbe6;
+    border: 1px solid #ffd6d6;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 250px;
+}
+.field label {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+#hotel {
+    background-color: #fff;
+    border-radius: 7px;
+    border-color: #ffc8c8;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    height: 35px;
+}
+.btn-find{
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    margin-top: 25px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 200px;
+}
+.btn-find:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.container-rooms{
+    width: 600px;
+    margin: 20px auto;
+    background: #fdf6f9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.room-card{
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #ffffff;
+    max-width: 500px;
+    min-width: 300px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.btn-room{
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    margin-top: 25px;
+    padding: 7px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 150px;
+}
+.btn-room:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.facility-card{
+    padding: 10px;
+    margin: 10px;
+}
+.facility {
+    background-color: #a6ea9f;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px 5px 0 0;
+    border-radius: 8px;
+    font-size: 0.9em;
+}
+.card{
+    padding: 15px;
+    background-color: #ffe6e6;
+}
+
+
+
+
+
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fdf6f9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 .btn-book {
     display: inline-block;
     background-color: #ffb6c1;
@@ -18,6 +188,7 @@ body {
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
+    width: 400px;
 }
 .btn-book:hover {
     background-color: #ff99aa;
@@ -30,25 +201,12 @@ body {
     cursor: pointer;
     background-color: #f9f9f9;
     transition: background-color 0.3s;
-    max-width: 500px;
-    min-width: 300px;
+    width: 500px;
 }
 .hotel:hover {
     background-color: #e7ffe7;
 }
-.date-form {
-    margin-top: 50px;
-    background-color: #fffbe6;
-    border: 1px solid #ffd6d6;
-    padding: 15px 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
-}
-.date-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+
 label {
     font-weight: 600;
     color: #555;
@@ -89,17 +247,10 @@ a {
     text-decoration: none;
     color: inherit;
 }
-.container {
-    max-width: 400px;
-    margin: 50px auto;
-    background: #fdf6f9;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-h1 {
+
+h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 20px;
     color: #000000;
 }
 form {
@@ -125,56 +276,23 @@ input {
 }
 
 
-.hotel-info, .facilities {
-margin-bottom: 25px;
+
+
+
+.hotel {
+  background-color: #fff7e6;
+  transition: all 0.3s ease;
 }
 
-.facility {
-background-color: #a8e6a1;
-display: inline-block;
-padding: 5px 10px;
-margin: 5px 5px 0 0;
-border-radius: 8px;
-font-size: 0.9em;
+.hotel:hover {
+  background-color: #ffefcc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-#reviewsCarousel {
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    padding: 20px;
+.facilities .badge {
+  font-size: 0.9em;
+  background-color: #d4f8d4;
+  color: #333;
 }
-#reviewsCarousel .carousel-item {
-    background: #fdf7f0;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/*#reviewsCarousel .carousel-control-prev,*/
-/*#reviewsCarousel .carousel-control-next {*/
-/*    !*width: 10px;*!*/
-/*    !*height: 30px;*!*/
-/*    top: 50%;*/
-/*    transform: translateY(-50%);*/
-/*    background: none;*/
-/*    z-index: 1;*/
-/*}*/
-
-
-
-#reviewsCarousel .carousel-item p {
-    font-size: 1em;
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-
-#reviewsCarousel .carousel-item strong {
-    display: block;
-    text-align: right;
-    color: #f08c82;
-}
-
-
 
 

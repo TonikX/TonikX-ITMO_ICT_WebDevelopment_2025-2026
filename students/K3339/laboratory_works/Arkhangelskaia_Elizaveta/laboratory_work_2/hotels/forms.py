@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import HotelUser, Reservation, RoomType
+from .models import HotelUser, Reservation, Review
 
 class HotelUserCreationForm(UserCreationForm):
     class Meta:
@@ -51,3 +51,19 @@ class ReservationForm(forms.ModelForm):
                         f"Количество гостей не должно превышать {self.room.capacity} для этой комнаты")
 
         return cleaned_data
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'review_text']
+        labels = {
+            'rating': 'Оценка (от 1 до 10)',
+            'review_text': 'Текст отзыва'
+        }
+
+    def clean_rating(self):
+        rating = self.cleaned_data.get('rating')
+        if not (1 <= rating <= 10):
+            raise forms.ValidationError("Оценка должна быть от 1 до 10.")
+        return rating
