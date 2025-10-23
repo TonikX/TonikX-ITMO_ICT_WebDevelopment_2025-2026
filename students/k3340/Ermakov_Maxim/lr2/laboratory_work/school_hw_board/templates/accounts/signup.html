@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-wrap d-flex align-items-center justify-content-center">
+  <div class="auth-card card shadow-sm">
+    <div class="card-body p-4">
+      <h1 class="h4 text-center mb-3">Регистрация</h1>
+
+      {% if form.errors and not form.non_field_errors %}
+        <div class="alert alert-danger py-2">
+          Пожалуйста, исправьте ошибки в форме.
+        </div>
+      {% endif %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger py-2">
+          {% for e in form.non_field_errors %}{{ e }}<br>{% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Логин</label>
+          {{ form.username }}
+          {% for e in form.username.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Имя</label>
+          {{ form.first_name }}
+          {% for e in form.first_name.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Фамилия</label>
+          {{ form.last_name }}
+          {% for e in form.last_name.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          {{ form.email }}
+          {% for e in form.email.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Пароль</label>
+          {{ form.password1 }}
+          {% for e in form.password1.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Повторите пароль</label>
+          {{ form.password2 }}
+          {% for e in form.password2.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
+        </div>
+
+        <button class="btn btn-success w-100">Зарегистрироваться</button>
+      </form>
+
+      <div class="text-center mt-3">
+        <span class="text-muted">Уже есть аккаунт?</span>
+        <a href="{% url 'login' %}" class="btn btn-link p-0 align-baseline">Войти</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

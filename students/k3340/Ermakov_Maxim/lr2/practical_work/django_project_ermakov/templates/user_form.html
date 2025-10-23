@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Create user</title></head>
+<body>
+<h1>Create user</h1>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Create">
+</form>
+<p><a href="/owners/">Back to owners</a></p>
+</body></html>

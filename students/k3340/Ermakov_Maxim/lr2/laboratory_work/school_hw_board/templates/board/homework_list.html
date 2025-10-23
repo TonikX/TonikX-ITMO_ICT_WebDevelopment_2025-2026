@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-3">Домашние задания</h1>
+
+{% for hw in homeworks %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ hw.subject.name }} — до {{ hw.due_date }}</h5>
+      <h6 class="card-subtitle text-muted">Преподаватель: {{ hw.teacher.username }}</h6>
+      <p class="mt-2">{{ hw.text|truncatechars:200 }}</p>
+      <a class="btn btn-primary" href="{% url 'homework_detail' hw.pk %}">Открыть</a>
+    </div>
+  </div>
+{% empty %}
+  <p>Пока нет заданий.</p>
+{% endfor %}
+
+{% if is_paginated %}
+<nav aria-label="pagination">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if request.GET.q %}q={{request.GET.q}}&{% endif %}page={{ page_obj.previous_page_number }}">Назад</a>
+      </li>
+    {% endif %}
+    <li class="page-item disabled">
+      <span class="page-link">Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    </li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if request.GET.q %}q={{request.GET.q}}&{% endif %}page={{ page_obj.next_page_number }}">Вперёд</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

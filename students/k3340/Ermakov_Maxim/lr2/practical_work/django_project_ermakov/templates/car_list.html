@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Cars</title></head>
+<body>
+<h1>Cars</h1>
+<ul>
+  {% for car in object_list %}
+    <li>
+      <a href="/cars/{{ car.pk }}/">{{ car.make }} {{ car.model }}</a>
+      — {{ car.plate_number }}
+      [<a href="/cars/{{ car.pk }}/update/">edit</a>]
+    </li>
+  {% empty %}
+    <li>No cars yet.</li>
+  {% endfor %}
+</ul>
+<p><a href="/cars/create/">+ add car</a> </p>
+</body></html>
