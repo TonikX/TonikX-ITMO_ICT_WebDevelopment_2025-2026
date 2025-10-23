@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b45d86a4-259a-42f1-9f2d-746636dfce9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_24_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_49_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_50_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_24__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_49__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_50__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/accounts/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/accounts/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/board/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/board/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/accounts/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/accounts/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/board/gradebook.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/board/homework_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/board/homework_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/board/homework_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board/templates/board/subject_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TonikX-ITMO_ICT_WebDevelopment_2025-2026.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TonikX-ITMO_ICT_WebDevelopment_2025-2026.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search/search_index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task4/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task4/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task5/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task5/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/test/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -32,10 +63,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "lab2"
+    "git-widget-placeholder": "lab2",
+    "last_opened_file_path": "/Users/maksim/Documents/GitHub/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

@@ -42,9 +42,13 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Главная</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#_1">Цель работы</a>
+    <li class="toctree-l2"><a class="reference internal" href="#web-">по дисциплине «Web-программирование»</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_2">Задания</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Введение</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#no1-python">Лабораторная работа №1 — Клиент-серверные приложения на Python</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#no2-django-web-framework">Лабораторная работа №2 — Django Web Framework</a>
     </li>
     </ul>
                 </li>
@@ -60,6 +64,15 @@
                   <li class="toctree-l1"><a class="reference internal" href="task4/">Задание 4: TCP Чат</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
                   </li>
               </ul>
       </div>
@@ -85,21 +98,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="-">Отчет по практической работе: Клиент-серверные приложения</h1>
-<p><strong>Автор:</strong> Ермаков Максим
+                <h1 id="_1">Отчёт по лабораторным работам</h1>
+<h2 id="web-">по дисциплине «Web-программирование»</h2>
+<p><strong>Автор:</strong> Ермаков Максим Олегович
 <strong>Группа:</strong> К3340  </p>
 <hr />
-<h2 id="_1">Цель работы</h2>
-<p>Освоить основы сетевого программирования на Python, реализовав клиент-серверные приложения с использованием библиотеки <code>socket</code> для различных протоколов (UDP, TCP, HTTP) и моделей (многопоточность).</p>
-<h2 id="_2">Задания</h2>
-<p>В рамках работы были выполнены следующие задания:</p>
-<ol>
-<li><strong>UDP-клиент и сервер</strong> - обмен простыми сообщениями.</li>
-<li><strong>TCP-сервер для вычисления площади трапеции</strong> - клиент отправляет параметры, сервер возвращает результат.</li>
-<li><strong>Простой HTTP-сервер</strong> - возвращает HTML-страницу из файла.</li>
-<li><strong>Многопользовательский чат</strong> на TCP с использованием потоков (<code>threading</code>).</li>
-<li><strong>Веб-сервер для учета оценок</strong> с обработкой GET и POST запросов.</li>
-</ol>
+<h2 id="_2">Введение</h2>
+<p>Данный отчёт содержит результаты выполнения лабораторных и практических работ по дисциплине <strong>«Web-программирование»</strong>.<br />
+Цель курса — освоить принципы разработки клиент-серверных приложений на Python, включая работу с сетевыми протоколами, веб-серверами и современными веб-фреймворками.</p>
+<p>В отчёт включены материалы двух лабораторных работ:</p>
+<hr />
+<h2 id="no1-python">Лабораторная работа №1 — Клиент-серверные приложения на Python</h2>
+<p><strong>Цель:</strong><br />
+Освоить основы сетевого программирования с использованием библиотеки <code>socket</code> и реализовать простые сетевые приложения.  </p>
+<p><strong>Основные задания:</strong>
+1. UDP-клиент и сервер.<br />
+2. TCP-клиент и сервер для вычисления площади параллелограмма.<br />
+3. HTTP-сервер, возвращающий HTML-страницу.<br />
+4. Многопользовательский чат (TCP).<br />
+5. Мини-веб-сервер с обработкой GET и POST запросов.</p>
+<p><strong>Результат:</strong><br />
+Разработаны и протестированы клиент-серверные приложения для различных протоколов, отработаны навыки работы с потоками и базовыми HTTP-заголовками.</p>
+<hr />
+<h2 id="no2-django-web-framework">Лабораторная работа №2 — Django Web Framework</h2>
+<p><strong>Цель:</strong><br />
+Изучить принципы построения веб-приложений с использованием Django-фреймворка.  </p>
+<p><strong>Состав работы:</strong>
+1. <strong>Практическая работа №1</strong> — установка Django, создание проекта и моделей, настройка маршрутов и админ-панели.<br />
+2. <strong>Практическая работа №2</strong> — реализация CRUD-операций (создание, чтение, редактирование, удаление) с применением FBV и CBV.<br />
+3. <strong>Практическая работа №3</strong> — расширение пользовательской модели (<code>AbstractUser</code>), добавление полей и создание интерфейса регистрации пользователя.</p>
+<p><strong>Результат:</strong><br />
+Создано полноценное Django-приложение с административной панелью, шаблонами и формами; реализованы CRUD-операции и кастомная модель пользователя.</p>
+<hr />
               
             </div>
           </div><footer>
@@ -148,5 +178,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-09-28 18:14:44.527933+00:00
+Build Date UTC : 2025-10-21 16:29:30.213934+00:00
 -->

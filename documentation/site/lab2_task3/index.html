@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Практическая работа №3 — Расширение модели пользователя - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 \u21163 \u2014 \u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u0438\u0435 \u043c\u043e\u0434\u0435\u043b\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f";
+        var mkdocs_page_input_path = "lab2_task3.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Практическая работа №3 — Расширение модели пользователя</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Цель работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Теория (кратко)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1">Шаг 1 — Модель пользователя</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">Шаг 2 — Настройки</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">Шаг 3 — Миграции</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4">Шаг 4 — Админ‑панель</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5">Шаг 5 — Вывод пользователя на странице владельца</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-cbv">Шаг 6 — Интерфейс создания пользователя (форма + CBV)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Результаты</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Вывод</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №2: Django</li>
+      <li class="breadcrumb-item active">Практическая работа №3 — Расширение модели пользователя</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no3-django">Практическая работа №3 — Расширение пользовательской модели (Django)</h1>
+<p><strong>Автор:</strong> Ермаков Максим<br />
+<strong>Группа:</strong> К3340  </p>
+<hr />
+<h2 id="_1">Цель работы</h2>
+<p>Сделать «владельца автомобиля» полноценным пользователем системы и <strong>расширить</strong> модель <code>User</code> дополнительными атрибутами:<br />
+<strong>паспорт</strong>, <strong>домашний адрес</strong>, <strong>национальность</strong> (и дата рождения при необходимости). Настроить отображение в админ‑панели и реализовать веб‑интерфейс создания пользователя.</p>
+<hr />
+<h2 id="_2">Теория (кратко)</h2>
+<p>Есть несколько способов расширения пользователя в Django: <strong>proxy</strong>, профиль <code>OneToOne</code>, <code>AbstractBaseUser</code>, <strong>AbstractUser</strong>.<br />
+В рамках работы выбрана «best practice» — <strong>наследование от <code>AbstractUser</code></strong> и указание своей модели в <code>AUTH_USER_MODEL</code>.</p>
+<blockquote>
+<p>Важно: менять <code>AUTH_USER_MODEL</code> лучше <strong>в начале проекта</strong>. Если модель уже была настроена иначе, перед переключением рекомендуется обнулить БД/миграции учебного приложения или аккуратно провести миграции совместимости.</p>
+</blockquote>
+<hr />
+<h2 id="1">Шаг 1 — Модель пользователя</h2>
+<p><code>project_first_app/models.py</code>:</p>
+<pre><code class="language-python">from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    birth_date = models.DateField(null=True, blank=True)
+    passport_number = models.CharField(max_length=20, unique=True)
+    home_address = models.CharField(max_length=255, blank=True)
+    nationality = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        full = f&quot;{self.last_name} {self.first_name}&quot;.strip()
+        return full or self.username
+</code></pre>
+<p><strong>Сущности домена</strong> (фрагмент):</p>
+<pre><code class="language-python">from django.conf import settings
+
+class Car(models.Model):
+    plate_number = models.CharField(max_length=15, unique=True)
+    make = models.CharField(max_length=20)
+    model = models.CharField(max_length=20)
+    color = models.CharField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return f&quot;{self.make} {self.model} ({self.plate_number})&quot;
+
+class Ownership(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ownerships'
+    )
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ownerships')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = [('owner', 'car', 'start_date')]
+
+class DriverLicense(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='licenses')
+    number = models.CharField(max_length=10, unique=True)
+    type = models.CharField(max_length=10)
+    issue_date = models.DateTimeField()
+
+    def __str__(self):
+        return f&quot;DL {self.number} ({self.type}) — {self.owner}&quot;
+</code></pre>
+<hr />
+<h2 id="2">Шаг 2 — Настройки</h2>
+<p><code>django_project_ermakov/settings.py</code>:</p>
+<pre><code class="language-python">INSTALLED_APPS = [
+    # ...
+    'project_first_app',
+    # ...
+]
+
+AUTH_USER_MODEL = 'project_first_app.User'
+</code></pre>
+<hr />
+<h2 id="3">Шаг 3 — Миграции</h2>
+<p>Создаём и применяем миграции:</p>
+<pre><code class="language-bash">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<p>Если ранее использовалась другая пользовательская модель или была модель <code>Owner</code> — <strong>удалить/перевести</strong> ссылки и (в учебном проекте) при необходимости обнулить БД/миграции своего приложения.</p>
+<p>Создаём суперпользователя:</p>
+<pre><code class="language-bash">python manage.py createsuperuser
+</code></pre>
+<hr />
+<h2 id="4">Шаг 4 — Админ‑панель</h2>
+<p><code>project_first_app/admin.py</code>:</p>
+<pre><code class="language-python">from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import User, Car, Ownership, DriverLicense
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    list_display = ('username', 'last_name', 'first_name',
+                    'passport_number', 'nationality', 'is_staff')
+    search_fields = ('username', 'last_name', 'first_name', 'passport_number')
+    fieldsets = BaseUserAdmin.fieldsets + (
+        ('Additional info', {
+            'fields': ('birth_date', 'passport_number', 'home_address', 'nationality')
+        }),
+    )
+    add_fieldsets = BaseUserAdmin.add_fieldsets + (
+        (None, {
+            'fields': ('first_name', 'last_name', 'email',
+                       'birth_date', 'passport_number', 'home_address', 'nationality')
+        }),
+    )
+
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    list_display = ('make', 'model', 'plate_number', 'color')
+    search_fields = ('make', 'model', 'plate_number')
+    list_filter = ('color',)
+
+@admin.register(Ownership)
+class OwnershipAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'car', 'start_date', 'end_date')
+    list_filter = ('start_date', 'end_date')
+
+@admin.register(DriverLicense)
+class DriverLicenseAdmin(admin.ModelAdmin):
+    list_display = ('number', 'type', 'owner', 'issue_date')
+    search_fields = ('number', 'owner__last_name', 'owner__first_name')
+    list_filter = ('type', 'issue_date')
+</code></pre>
+<p>Проверка: <code>http://127.0.0.1:8000/admin/</code> — в списке Users видны <strong>passport_number</strong>, <strong>nationality</strong>.</p>
+<hr />
+<h2 id="5">Шаг 5 — Вывод пользователя на странице владельца</h2>
+<p><code>project_first_app/views.py</code> (фрагмент):</p>
+<pre><code class="language-python">from django.contrib.auth import get_user_model
+from django.shortcuts import render, get_object_or_404
+from .models import Ownership
+
+def owner_detail(request, owner_id: int):
+    User = get_user_model()
+    owner = get_object_or_404(User, pk=owner_id)
+    ownerships = (Ownership.objects
+                  .select_related('car', 'owner')
+                  .filter(owner=owner)
+                  .order_by('-start_date'))
+    return render(request, 'owner.html', {'owner': owner, 'ownerships': ownerships})
+</code></pre>
+<p><code>templates/owner.html</code> (фрагмент):</p>
+<pre><code class="language-html">&lt;h1&gt;Owner: {{ owner.last_name }} {{ owner.first_name }}&lt;/h1&gt;
+{% if owner.birth_date %}&lt;p&gt;Birth date: {{ owner.birth_date }}&lt;/p&gt;{% endif %}
+{% if owner.passport_number %}&lt;p&gt;Passport: {{ owner.passport_number }}&lt;/p&gt;{% endif %}
+{% if owner.home_address %}&lt;p&gt;Address: {{ owner.home_address }}&lt;/p&gt;{% endif %}
+{% if owner.nationality %}&lt;p&gt;Nationality: {{ owner.nationality }}&lt;/p&gt;{% endif %}
+</code></pre>
+<p>Маршрут уже настроен ранее:</p>
+<pre><code class="language-python">path('owner/&lt;int:owner_id&gt;/', owner_detail, name='owner_detail'),
+</code></pre>
+<hr />
+<h2 id="6-cbv">Шаг 6 — Интерфейс создания пользователя (форма + CBV)</h2>
+<p><code>project_first_app/forms.py</code>:</p>
+<pre><code class="language-python">from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email',
+                  'birth_date', 'passport_number', 'home_address', 'nationality')
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = User
+        fields = ('first_name', 'last_name', 'email',
+                  'birth_date', 'passport_number', 'home_address', 'nationality')
+</code></pre>
+<p><code>project_first_app/views.py</code> (добавить CBV):</p>
+<pre><code class="language-python">from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm
+
+class UserCreateView(CreateView):
+    form_class = CustomUserCreationForm
+    template_name = 'user_form.html'
+    success_url = reverse_lazy('owners_list')  # либо на другую страницу по выбору
+</code></pre>
+<p><code>project_first_app/urls.py</code>:</p>
+<pre><code class="language-python">path('users/create/', UserCreateView.as_view(), name='user_create'),
+</code></pre>
+<p><code>templates/user_form.html</code>:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Create user&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Create user&lt;/h1&gt;
+&lt;form method=&quot;post&quot;&gt;{% csrf_token %}
+  {{ form.as_p }}
+  &lt;input type=&quot;submit&quot; value=&quot;Create&quot;&gt;
+&lt;/form&gt;
+&lt;p&gt;&lt;a href=&quot;/owners/&quot;&gt;Back to owners&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+<p>Проверка: <code>http://127.0.0.1:8000/users/create/</code> — форма с новыми полями; после сабмита пользователь создаётся.</p>
+<hr />
+<h2 id="_3">Результаты</h2>
+<p>✅ «Владелец автомобиля» заменён на <strong>кастомного пользователя</strong> (<code>AbstractUser</code>).<br />
+✅ Добавлены новые поля: <strong>паспорт</strong>, <strong>адрес</strong>, <strong>национальность</strong> (+ дата рождения).<br />
+✅ Поля отображаются в <strong>админ‑панели</strong> и на пользовательской странице <code>/owner/&lt;id&gt;</code>.<br />
+✅ Реализован интерфейс <strong>создания пользователя</strong> через веб‑форму.</p>
+<hr />
+<h2 id="_4">Вывод</h2>
+<p>Практическая работа №3 показала, как корректно расширить модель пользователя в Django, связать её с предметными сущностями проекта и предоставить интерфейс администрирования/создания данных.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab2_task2/" class="btn btn-neutral float-left" title="Практическая работа №2 — Реализация CRUD"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab2_task2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

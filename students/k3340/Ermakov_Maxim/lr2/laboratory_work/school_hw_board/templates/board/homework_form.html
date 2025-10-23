@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Новое домашнее задание</h2>
+<div class="mb-3">
+  <a class="btn btn-outline-secondary btn-sm" href="{% url 'subject_create' %}">+ Новый предмет</a>
+</div>
+<form method="post" class="card card-body">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Опубликовать</button>
+  <a class="btn btn-link" href="{% url 'homework_list' %}">Отмена</a>
+</form>
+{% endblock %}
