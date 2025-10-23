@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Доска домашних заданий (Django) - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0414\u043e\u0441\u043a\u0430 \u0434\u043e\u043c\u0430\u0448\u043d\u0438\u0445 \u0437\u0430\u0434\u0430\u043d\u0438\u0439 (Django)";
+        var mkdocs_page_input_path = "lab2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Доска домашних заданий (Django)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Цель работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Вариант "Доска домашних заданий"</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Краткое описание решения</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Структура проекта</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Ход выполнения</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-django">1. Инициализация окружения и Django‑проекта</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2">2. Модель пользователя и аутентификация</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3">3. Данные предметов/ДЗ/сдач</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4">4. Публикация и просмотр ДЗ (клиент)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5">5. Оценки</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6">6. Пагинация и поиск</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#7">7. Роли и доступ</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#8">8. Старт и проверка</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Выводы</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №2: Django</li>
+      <li class="breadcrumb-item active">Доска домашних заданий (Django)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no2-django">Лабораторная работа №2 — «Доска домашних заданий» (Django)</h1>
+<hr />
+<h2 id="_1">Цель работы</h2>
+<p>Реализовать простой веб‑сервис <strong>«Доска домашних заданий»</strong> на Django с поддержкой ролей (студент/преподаватель), регистрацией пользователей, публикацией и просмотром домашних заданий, сдачей решений, выставлением оценок через Django Admin, а также с поиском, пагинацией и клиентской таблицей оценок.</p>
+<hr />
+<h2 id="_2">Вариант "Доска домашних заданий"</h2>
+<ul>
+<li>Хранить у ДЗ: предмет, преподаватель, дата выдачи, срок (период) выполнения, текст задания, информация о штрафах.  </li>
+<li>Реализовать функционал:</li>
+<li>Регистрация новых пользователей (студенты).</li>
+<li>Просмотр ДЗ по всем дисциплинам (сроки выполнения, описание).</li>
+<li>Сдача ДЗ <strong>в текстовом виде</strong>.</li>
+<li>Оценка администратором/преподавателем <strong>через Django Admin</strong>.</li>
+<li><strong>На клиенте</strong> отобразить таблицу оценок <strong>всех учеников</strong> (gradebook).</li>
+<li>Для максимального балла: <strong>меню на Bootstrap</strong>, <strong>пагинация</strong>, <strong>поиск/фильтрация</strong> на страницах со списками.</li>
+</ul>
+<hr />
+<h2 id="_3">Краткое описание решения</h2>
+<ul>
+<li>Создан проект <code>school_hw_board</code> и два приложения:</li>
+<li><code>accounts</code> — кастомная модель пользователя <code>User</code> (роля: <code>student</code>/<code>teacher</code>), регистрация, логин/логаут с минималистичными шаблонами.</li>
+<li><code>board</code> — предметы (<code>Subject</code>), домашние задания (<code>Homework</code>), сдачи (<code>Submission</code>), список ДЗ с <strong>поиском и пагинацией</strong>, детальная страница ДЗ и форма сдачи, страница <strong>gradebook</strong> для преподавателя, публикация ДЗ и быстрый ввод предмета на клиенте.</li>
+<li>Оценки выставляются через <strong>Django Admin</strong> (удобные инлайны и правка прямо в списке).</li>
+</ul>
+<hr />
+<h2 id="_4">Структура проекта</h2>
+<pre><code>school_hw_board/
+├─ manage.py
+├─ school_hw_board/
+│  ├─ settings.py
+│  ├─ urls.py
+│  ├─ wsgi.py / asgi.py
+├─ accounts/
+│  ├─ models.py           # кастомный User с полем role
+│  ├─ forms.py            # StudentSignUpForm, LoginForm
+│  ├─ views.py            # signup, logout_view
+│  ├─ urls.py             # /accounts/login|signup|logout
+│  └─ templates/accounts/ # login.html, signup.html
+├─ board/
+│  ├─ models.py           # Subject, Homework, Submission
+│  ├─ forms.py            # SubmissionForm, HomeworkForm, SubjectForm
+│  ├─ views.py            # список/поиск/пагинация, детали, сдача, создание ДЗ/предмета, gradebook
+│  ├─ urls.py             # /, /homework/&lt;id&gt;/, /gradebook/, /homework/new/
+│  ├─ admin.py            # инлайны и фильтры для оценивания
+│  └─ templates/
+│     ├─ base.html
+│     └─ board/           # homework_list/detail/form/gradebook
+└─ db.sqlite3 (после миграций)
+</code></pre>
+<hr />
+<h2 id="_5">Ход выполнения</h2>
+<h3 id="1-django">1. Инициализация окружения и Django‑проекта</h3>
+<ol>
+<li>Создать и активировать виртуальное окружение, установить Django.</li>
+<li><code>django-admin startproject school_hw_board</code></li>
+<li><code>python manage.py startapp accounts</code>, <code>python manage.py startapp board</code></li>
+<li>В <code>settings.py</code>: подключены приложения, указана кастомная модель <code>AUTH_USER_MODEL = 'accounts.User'</code>, отключены строгие валидаторы пароля (учебные цели), подключены шаблоны и Bootstrap через <code>base.html</code>.</li>
+</ol>
+<h3 id="2">2. Модель пользователя и аутентификация</h3>
+<ol>
+<li><code>accounts.models.User</code> унаследован от <code>AbstractUser</code>, добавлено поле <code>role</code> с вариантами: <code>student</code>/<code>teacher</code>.</li>
+<li>Формы: <code>StudentSignUpForm</code> (регистрация студента, авто‑роль), <code>LoginForm</code> (красивые виджеты).</li>
+<li>Вьюхи: <code>signup</code> (регистрация+автовход), <code>logout_view</code> (выход с редиректом на логин).</li>
+<li>Шаблоны: минималистичные страницы <code>login.html</code>, <code>signup.html</code> с карточками по центру.</li>
+<li>Маршруты <code>/accounts/...</code> подключены в корневом <code>urls.py</code>.</li>
+</ol>
+<h3 id="3">3. Данные предметов/ДЗ/сдач</h3>
+<ol>
+<li><code>board.models.Subject</code> (уникальное имя предмета).</li>
+<li><code>board.models.Homework</code> (предмет, преподаватель, <code>issued_at</code>, <code>due_date</code>, <code>text</code>, <code>penalty_info</code>).</li>
+<li><code>board.models.Submission</code> (ссылка на ДЗ и студента, <code>content</code>, время создания/обновления, <code>grade</code>, <code>graded_by</code>, <code>unique_together</code> по (homework, student)).</li>
+<li>Миграции: <code>makemigrations</code>, <code>migrate</code>.</li>
+</ol>
+<h3 id="4">4. Публикация и просмотр ДЗ (клиент)</h3>
+<ol>
+<li><strong>Список ДЗ</strong> — <code>HomeworkListView</code> с <code>paginate_by=5</code>, поддержкой <code>q</code> (поиск по предмету/тексту/преподавателю) и фильтром <code>subject</code>.</li>
+<li><strong>Детали ДЗ</strong> — <code>HomeworkDetailView</code> показывает полную формулировку, штрафы и форму сдачи студенту.</li>
+<li><strong>Сдача ДЗ</strong> — <code>SubmitHomeworkView</code> создаёт/обновляет <code>Submission</code> (одна сдача на студента).</li>
+<li><strong>Публикация ДЗ</strong> — <code>HomeworkCreateView</code> (только учитель), <code>SubjectCreateView</code> для быстрого добавления предмета.</li>
+<li><strong>Меню Bootstrap</strong> с поиском и пунктами для учителя (Новое задание, Оценки класса).</li>
+</ol>
+<h3 id="5">5. Оценки</h3>
+<ol>
+<li><strong>Django Admin</strong>: в <code>board/admin.py</code> настроены инлайны сдач на странице ДЗ и правка оценок прямо в списке Submissions; фильтр «проверено/непроверено»; <code>graded_by</code> автоматически ставится как текущий пользователь при изменении <code>grade</code>.</li>
+<li><strong>Клиентский журнал</strong> (<code>/gradebook/</code>): матрица «студенты × ДЗ», доступна только учителю/staff.</li>
+</ol>
+<h3 id="6">6. Пагинация и поиск</h3>
+<ul>
+<li>Пагинация реализована через <code>ListView.paginate_by = 5</code> и блок пагинации в шаблоне.  </li>
+<li>Поиск и фильтрация работают через GET‑параметры <code>?q=...&amp;subject=...</code> и сохраняются при переключении страниц.</li>
+</ul>
+<h3 id="7">7. Роли и доступ</h3>
+<ul>
+<li>В шаблонах (меню) и во вьюхах проверяется роль пользователя. Учитель/staff видит и может создавать ДЗ и открывать журнал оценок. Студент видит список и детали ДЗ и может сдавать.</li>
+</ul>
+<h3 id="8">8. Старт и проверка</h3>
+<ol>
+<li>Создать суперпользователя: <code>python manage.py createsuperuser</code>.</li>
+<li>Зайти в <code>/admin/</code> → добавить предметы / пользователя‑учителя (<code>role=teacher</code>, <code>is_staff=True</code>).</li>
+<li>Залогиниться как учитель → «Новое задание» → опубликовать ДЗ.</li>
+<li>Залогиниться как студент → открыть ДЗ и сдать текстом.</li>
+<li>В <code>/admin/</code> выставить оценку → проверить <code>/gradebook/</code>.</li>
+</ol>
+<hr />
+<h2 id="_6">Выводы</h2>
+<p>В рамках лабораторной работы разработан полностью функционирующий сервис «Доска домашних заданий» на Django:
+- реализована модель данных (предметы, ДЗ, сдачи) и роли пользователей (студент/преподаватель);
+- есть регистрация, вход/выход и понятные клиентские страницы;
+- студент может сдавать задания в текстовом виде; преподаватель выставляет оценки в админке;
+- на клиенте отображается таблица оценок класса;
+- добавлены необходимая <strong>пагинация</strong>, <strong>поиск/фильтры</strong>, и <strong>меню на Bootstrap</strong>;
+- код простой и поддерживаемый, что соответствует уровню учебного проекта.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab2_task3/" class="btn btn-neutral float-left" title="Практическая работа №3 — Расширение модели пользователя"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab2_task3/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
