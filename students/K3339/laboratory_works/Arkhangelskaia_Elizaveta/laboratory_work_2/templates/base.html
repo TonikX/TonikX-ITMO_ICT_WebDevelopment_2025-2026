@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Hotel Booking{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
+</head>
+<body>
+
+    <nav class="navbar" >
+        <div style="background: #fff7e6">
+            <div style="background: #fff7e6">
+                <a href="{% url 'login' %}" class="btn-nav">Вход</a>
+                <a href="{% url 'register' %}" class="btn-nav">Регистрация</a>
+                <a href="{% url 'hotels' %}" class="btn-nav">Отели</a>
+                <a href="{% url 'all_rooms' %}" class="btn-nav">Номера</a>
+                <a href="{% url 'reservations' %}" class="btn-nav">Мои бронирования</a>
+                <a href="{% url 'last_month_guests' %}" class="btn-nav">Список постояльцве</a>
+                <a href="{% url 'logout' %}" class="btn-nav">Выйти</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

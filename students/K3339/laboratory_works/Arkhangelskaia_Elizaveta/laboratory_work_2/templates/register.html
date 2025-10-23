@@ -1,12 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
     <div class="container-register">
         <h1>Регистрация</h1>
         <form method="post">
@@ -23,5 +19,4 @@
             <button type="submit" class="btn-register">Зарегистрироваться</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}

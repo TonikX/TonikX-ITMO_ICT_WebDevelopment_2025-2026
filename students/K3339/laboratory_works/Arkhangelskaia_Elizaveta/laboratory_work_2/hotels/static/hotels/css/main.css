@@ -49,13 +49,13 @@ body {
     margin: 10px;
     border-radius: 8px;
     cursor: pointer;
-    background-color: #fff7e6;
+    background-color: #ffefcc;
     max-width: 500px;
     min-width: 300px;
     transition: all 0.3s ease;
 }
 .hotel-card:hover {
-    background-color: #ffefcc;
+    background-color: #a6ea9f;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
@@ -167,17 +167,21 @@ body {
 
 
 
-
-
-
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-    background: #fdf6f9;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.btn-nav {
+    display: inline-block;
+    background-color: #ffefcc;
+    color: #324531;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
 }
+.btn-nav:hover {
+    background-color: #a6ea9f;
+}
+
 .btn-book {
     display: inline-block;
     background-color: #ffb6c1;
@@ -188,7 +192,6 @@ body {
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
-    width: 400px;
 }
 .btn-book:hover {
     background-color: #ff99aa;
@@ -289,10 +292,44 @@ input {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.facilities .badge {
-  font-size: 0.9em;
-  background-color: #d4f8d4;
-  color: #333;
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #d4d4d4;
+}
+th {
+    background-color: #b3e5c2;
+}
+tr:nth-child(even) {
+    background-color: #f2fdf4;
 }
 
 
+.pagination .page-link {
+    color: #2c3e50;
+    background-color: #a6ea9f;
+    border: 1px solid #a6ea9f;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-link:hover {
+    background-color: #8fe78a;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #5cd65c;
+    border-color: #5cd65c;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #c9f2c9;
+    color: #fff;
+    border-color: #c9f2c9;
+}

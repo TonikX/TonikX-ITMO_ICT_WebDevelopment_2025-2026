@@ -1,12 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
 <h1>Вход в систему</h1>
     {% if form.errors %}
         <p style="color:red;">Неверное имя пользователя или пароль</p>
@@ -14,7 +11,6 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Войти</button>
+        <button type="submit" class="btn-nav">Войти</button>
     </form>
-</body>
-</html>
+{% endblock %}

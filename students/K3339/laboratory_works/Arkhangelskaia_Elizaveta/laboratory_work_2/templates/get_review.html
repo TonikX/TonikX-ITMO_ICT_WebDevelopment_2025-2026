@@ -1,12 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Оставить отзыв</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Отзыв{% endblock %}
+
+{% block content %}
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-info">{{ message }}</div>
@@ -20,5 +16,5 @@
             <button type="submit" class="btn-book">Отправить</button>
         </form>
     </div>
-</body>
-</html>
+
+{% endblock %}

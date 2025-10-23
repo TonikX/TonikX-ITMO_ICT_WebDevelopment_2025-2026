@@ -1,34 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Постояльцы за последний месяц</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f8fff3;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
-            width: 80%;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #d4d4d4;
-        }
-        th {
-            background-color: #b3e5c2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2fdf4;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Постояльцы отеля{% endblock %}
+
+{% block content %}
+
     <h1>Постояльцы за последний месяц</h1>
     <table>
         <thead>
@@ -42,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for r in reservations %}
+            {% for r in page_obj %}
             <tr>
                 <td>{{ r.id_user.first_name }}</td>
                 <td>{{ r.id_user.last_name }}</td>
@@ -58,5 +33,32 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+    
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">«</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">»</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

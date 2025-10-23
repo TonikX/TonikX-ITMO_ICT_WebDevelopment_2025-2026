@@ -1,12 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'hotels/css/main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Бронирования{% endblock %}
+
+{% block content %}
+
     {% if not now_reservations and not future_reservations and not past_reservations  %}
         <h1>Бронирований не найдено</h1>
     {% endif %}
@@ -61,5 +58,4 @@
                 </div>
         {% endfor %}
     {% endif %}
-</body>
-</html>
+{% endblock %}

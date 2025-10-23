@@ -1,7 +1,10 @@
+from django.core.paginator import Paginator
+
 from .forms import HotelUserCreationForm, ReservationForm, ReviewForm
 from .models import Facility, Hotel, Reservation, Review, RoomType
 from datetime import timedelta
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, F, Q
 from django.http import HttpResponseForbidden
@@ -117,7 +120,6 @@ def book_room(request, pk):
                     end_date=checkout,
                     reservation_date=timezone.now()
                 )
-                messages.success(request, "Бронирование успешно создано!")
             else:
                 messages.error(request, "На эти даты номер занят!!")
             return redirect('reservations')
@@ -129,7 +131,8 @@ def book_room(request, pk):
                    'checkout': checkout})
 
 def home(request):
-    return render(request, 'home.html')
+    return redirect('hotels')
+
 
 @login_required
 def reservations(request):
@@ -157,13 +160,22 @@ def reservations(request):
 def last_month_guests(request):
     today = timezone.now().date()
     month_ago = today - timedelta(days=30)
+
     r = Reservation.objects.filter(
         start_date__gte=month_ago,
         start_date__lte=today
     ).select_related('id_user', 'id_rooms__id_hotel')
 
-    return render(request, 'last_month_guests.html', {'reservations': r})
+    paginator = Paginator(r, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
+    return render(request, 'last_month_guests.html', {'page_obj': page_obj})
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('login')
 
 class ReservationUpdateView(UpdateView):
     model = Reservation

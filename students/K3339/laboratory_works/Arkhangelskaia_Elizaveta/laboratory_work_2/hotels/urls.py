@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import register, hotels, all_rooms, book_room, home, reservations, get_review
+from .views import register, hotels, all_rooms, book_room, home, reservations, custom_logout
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from . import views
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', custom_logout, name='logout'),
     path('register/', register, name='register'),
     path('hotels/', hotels, name='hotels'),
     path('all_rooms/', all_rooms, name='all_rooms'),

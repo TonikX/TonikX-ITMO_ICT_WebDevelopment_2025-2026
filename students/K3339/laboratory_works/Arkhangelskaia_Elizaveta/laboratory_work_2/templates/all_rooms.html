@@ -1,13 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Комнаты</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'hotels/css/main.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Доступные номера{% endblock %}
+
+{% block content %}
+
     <form method="get" class="date-form">
         <div class="date-row">
             <div class="field">
@@ -106,7 +102,4 @@
             </div>
         {% endfor %}
     </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
