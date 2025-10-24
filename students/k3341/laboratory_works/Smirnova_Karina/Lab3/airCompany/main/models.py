@@ -44,7 +44,7 @@ class Route(models.Model):
     transit_landings = models.CharField(max_length=255, blank=True, null=True,   verbose_name='Транзитные посадки')
 
     def __str__(self):
-        return self.flight_number
+        return f'{self.departure_point} - {self.destination_point}'
 
 class Flight(models.Model):
     flight_number = models.IntegerField(verbose_name='Номер рейса')

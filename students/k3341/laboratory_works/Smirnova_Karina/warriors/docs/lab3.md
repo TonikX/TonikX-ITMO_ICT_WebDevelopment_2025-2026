@@ -199,4 +199,216 @@ print("Самая поздняя дата окончания владения Ho
 
 ## Реализация лабораторной работы (Вариант 14)
 
-Модель базы данных:
+#### Модель базы данных:
+
+![Модель](dbStructure.jpg)
+
+Реализация моделей:
+
+```python
+from django.db import models
+
+class AirlineCompany(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Название компании')
+
+    def __str__(self):
+        return self.name
+
+class Plane(models.Model):
+    number = models.CharField(max_length=20, verbose_name='Номер самолета')
+    type = models.CharField(max_length=50, verbose_name='Тип самолета')
+    seats_capacity = models.IntegerField(verbose_name='Число мест')
+    flight_speed = models.IntegerField(verbose_name='Скорость полета')
+    airline_company = models.ForeignKey(AirlineCompany, on_delete=models.CASCADE, verbose_name='Компания-авиаперевозчик')
+    in_repair = models.BooleanField(default=False, verbose_name='В ремонте')
+
+    def __str__(self):
+        return self.number
+
+class Crew(models.Model):
+    members = models.ManyToManyField('CrewMember', verbose_name='Члены экипажа')
+
+    def __str__(self):
+        return f'Crew {self.pk}'
+class CrewMember(models.Model):
+    full_name = models.CharField(max_length=255, verbose_name='ФИО')
+    age = models.IntegerField(verbose_name='Возраст')
+    education = models.CharField(max_length=255, verbose_name='Образование')
+    work_experience = models.IntegerField(verbose_name='Стаж работы')
+    passport_info = models.CharField(max_length=255, verbose_name='Паспортные данные')
+    flight_authorization = models.BooleanField(default=False, verbose_name='Допуск к рейсу')
+    company = models.ManyToManyField(AirlineCompany, verbose_name='Компания, в которой работает')
+    position = models.CharField(max_length=50,
+                                verbose_name='Должность (командир, второй пилот, штурман, стюардесса/стюард)')
+
+    def __str__(self):
+        return self.full_name
+
+class Route(models.Model):
+    distance = models.IntegerField(verbose_name='Расстояние до пункта назначения')
+    departure_point = models.CharField(max_length=255, verbose_name='Пункт вылета')
+    destination_point = models.CharField(max_length=255, verbose_name='Пункт назначения')
+    landing_points = models.CharField(max_length=255, blank=True, null=True,  verbose_name='Пункты посадки')
+    transit_landings = models.CharField(max_length=255, blank=True, null=True,   verbose_name='Транзитные посадки')
+
+    def __str__(self):
+        return self.flight_number
+
+class Flight(models.Model):
+    flight_number = models.IntegerField(verbose_name='Номер рейса')
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='flights', verbose_name='Маршрут')
+    departure_datetime = models.DateTimeField(verbose_name='Дата и время вылета')
+    arrival_datetime = models.DateTimeField(verbose_name='Дата и время прилета')
+    sold_tickets = models.IntegerField(verbose_name='Количество проданных билетов')
+    plane = models.ForeignKey(Plane, on_delete=models.CASCADE, verbose_name='Самолет, обслуживающий рейс')
+    crew = models.ManyToManyField(Crew, verbose_name='Экипаж, обслуживающий рейс')
+
+    def __str__(self):
+        return f'Flight {self.pk}'
+
+class TransitLanding(models.Model):
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, verbose_name='Рейс')
+    landing_point = models.CharField(max_length=255, verbose_name='Пункт транзитной посадки')
+    landing_datetime = models.DateTimeField(verbose_name='Дата и время транзитной посадки')
+    takeoff_datetime = models.DateTimeField(verbose_name='Дата и время вылета (после транзитной посадки)')
+
+    def __str__(self):
+        return f'{self.landing_point} для рейса {self.flight.flight_number}'
+```
+
+#### Реализуем сериализаторы для моделей:
+
+```python
+from datetime import datetime
+
+from rest_framework import serializers
+from .models import AirlineCompany, Plane, Crew, CrewMember, Route, Flight, TransitLanding
+
+class AirlineCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AirlineCompany
+        fields = '__all__'
+
+class PlaneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plane
+        fields = '__all__'
+
+class CrewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crew
+        fields = '__all__'
+
+class CrewMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CrewMember
+        fields = '__all__'
+
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Route
+        fields = '__all__'
+
+class FlightSerializer(serializers.ModelSerializer):
+    departure_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    arrival_datetime = serializers.DateTimeField(format=None, input_formats=None)
+
+    class Meta:
+        model = Flight
+        fields = '__all__'
+
+class TransitLandingSerializer(serializers.ModelSerializer):
+    landing_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    takeoff_datetime = serializers.DateTimeField(format=None, input_formats=None)
+
+    class Meta:
+        model = TransitLanding
+        fields = '__all__'
+
+class TransitLandingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TransitLanding
+        fields = '__all__'
+```
+
+#### Описываем представления для API:
+
+Используем viewsets для создания CRUD операций для каждой модели.
+
+```python
+from rest_framework import viewsets
+from .models import AirlineCompany, Plane, Crew, Route, Flight, TransitLanding, CrewMember
+from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer, \
+    TransitLandingSerializer, CrewMemberSerializer
+
+
+class AirlineCompanyViewSet(viewsets.ModelViewSet):
+    queryset = AirlineCompany.objects.all()
+    serializer_class = AirlineCompanySerializer
+
+class PlaneViewSet(viewsets.ModelViewSet):
+    queryset = Plane.objects.all()
+    serializer_class = PlaneSerializer
+
+class CrewViewSet(viewsets.ModelViewSet):
+    queryset = Crew.objects.all()
+    serializer_class = CrewSerializer
+
+class RouteViewSet(viewsets.ModelViewSet):
+    queryset = Route.objects.all()
+    serializer_class = RouteSerializer
+
+class FlightViewSet(viewsets.ModelViewSet):
+    queryset = Flight.objects.all()
+    serializer_class = FlightSerializer
+
+class TransitLandingViewSet(viewsets.ModelViewSet):
+    queryset = TransitLanding.objects.all()
+    serializer_class = TransitLandingSerializer
+
+class CrewMemberViewSet(viewsets.ModelViewSet):
+    queryset = CrewMember.objects.all()
+    serializer_class = CrewMemberSerializer
+```
+
+#### Настраиваем маршруты для API:
+
+Используем router для автоматической генерации URL-адресов.
+
+```python
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import (
+    AirlineCompanyViewSet, PlaneViewSet, CrewViewSet,
+    RouteViewSet, FlightViewSet, TransitLandingViewSet, CrewMemberViewSet
+)
+
+router = DefaultRouter()
+router.register(r'airline-companies', AirlineCompanyViewSet)
+router.register(r'planes', PlaneViewSet)
+router.register(r'crews', CrewViewSet)
+router.register(r'routes', RouteViewSet)
+router.register(r'flights', FlightViewSet)
+router.register(r'transit-landings', TransitLandingViewSet)
+router.register(r'crew-members', CrewMemberViewSet)
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
+```
+
+#### Настроим админ-панель для управления моделями:
+
+```python
+from django.contrib import admin
+from .models import AirlineCompany, Plane, Crew, CrewMember, Route, Flight, TransitLanding
+
+admin.site.register(AirlineCompany)
+admin.site.register(Plane)
+admin.site.register(Crew)
+admin.site.register(CrewMember)
+admin.site.register(Route)
+admin.site.register(Flight)
+admin.site.register(TransitLanding)
+```
+
