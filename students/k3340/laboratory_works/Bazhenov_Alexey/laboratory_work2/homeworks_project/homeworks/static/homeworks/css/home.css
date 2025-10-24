@@ -1,0 +1,841 @@
+:root {
+    --dark-red: #8B0000;
+    --purple: #800080;
+    --light-purple: #9370DB;
+    --light-gray: #f4f4f4;
+    --dark-gray: #333;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--light-gray) 0%, #e6e6fa 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-gray);
+}
+
+.container {
+    max-width: 95%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.main-content {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: var(--dark-red);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: var(--dark-gray);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--dark-red) 0%, var(--purple) 100%);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--purple);
+    border: 2px solid var(--purple);
+}
+
+.btn-secondary:hover {
+    background: var(--purple);
+    color: var(--white);
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--dark-gray);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--purple);
+}
+
+/* Ошибки */
+.errorlist {
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+.errorlist li {
+    color: #dc3545;
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+}
+
+/* Ссылки */
+.auth-link {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.auth-link a {
+    color: var(--purple);
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* Стили для страницы всех заданий */
+.filter-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--purple);
+}
+
+.filter-card h2 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.homework-item {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--purple);
+}
+
+.homework-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.homework-header h3 {
+    color: var(--dark-gray);
+    margin: 0;
+    flex: 1;
+}
+
+.subject-badge {
+    background: var(--light-purple);
+    color: var(--white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.homework-info {
+    margin-bottom: 1rem;
+}
+
+.homework-info p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.homework-description {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.homework-status {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.homework-status.submitted {
+    background: #d4edda;
+    color: #155724;
+}
+
+.homework-status.not-submitted {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.homework-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.no-homeworks {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для страницы оценок */
+.grades-summary {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--purple);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-item h3 {
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--dark-red);
+    margin: 0;
+}
+
+.grade-item {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--dark-red);
+}
+
+.grade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.grade-header h3 {
+    color: var(--dark-gray);
+    margin: 0;
+    flex: 1;
+}
+
+.grade-value {
+    background: linear-gradient(135deg, var(--dark-red) 0%, var(--purple) 100%);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-width: 80px;
+    text-align: center;
+}
+
+.grade-details p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.feedback {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid var(--light-purple);
+}
+
+.feedback p {
+    margin: 0.5rem 0 0 0;
+    font-style: italic;
+}
+
+.grade-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.no-grades {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для таблицы оценок класса */
+.table-container {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.grades-table th {
+    background: linear-gradient(135deg, var(--dark-red) 0%, var(--purple) 100%);
+    color: var(--white);
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+.grades-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.grades-table .student-name {
+    text-align: left;
+    font-weight: bold;
+    background: #f8f9fa;
+}
+
+.grades-table .grade-cell {
+    font-weight: bold;
+}
+
+.grades-table .grade-cell.has-grade {
+    background: #d4edda;
+    color: #155724;
+}
+
+.table-legend {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-legend h3 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.table-legend ul {
+    list-style: none;
+    padding: 0;
+}
+
+.table-legend li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.table-legend li:before {
+    content: "•";
+    color: var(--purple);
+    position: absolute;
+    left: 0;
+}
+
+.no-data {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .homework-header,
+    .grade-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .homework-actions,
+    .grade-actions {
+        flex-direction: column;
+    }
+
+    .btn-small {
+        width: 100%;
+        text-align: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .table-container {
+        padding: 1rem;
+    }
+
+    .grades-table {
+        font-size: 0.9rem;
+    }
+
+    .grades-table th,
+    .grades-table td {
+        padding: 0.5rem;
+    }
+}
+
+/* Стили для детальной страницы задания */
+.homework-detail-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--purple);
+}
+
+.homework-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.meta-item strong {
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+.due-date.overdue {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.homework-description,
+.penalty-info {
+    margin-bottom: 2rem;
+}
+
+.homework-description h3,
+.penalty-info h3 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.description-text,
+.penalty-text {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--light-purple);
+    line-height: 1.6;
+}
+
+/* Карточки статуса */
+.submission-status-card,
+.grade-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.submission-status-card h2,
+.grade-card h2 {
+    color: var(--dark-red);
+    margin-bottom: 1.5rem;
+}
+
+.status-submitted,
+.status-not-submitted {
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.status-submitted {
+    background: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+.status-not-submitted {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.status-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Оценки */
+.grade-value-large {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--dark-red);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.grade-details {
+    text-align: center;
+}
+
+.grade-details p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+/* Форма сдачи */
+.homework-info-card,
+.submission-form-card,
+.reminders-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.homework-info-card h2 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.homework-meta p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.submission-form-card h2 {
+    color: var(--dark-red);
+    margin-bottom: 1.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.reminders-card {
+    border-left: 4px solid var(--dark-red);
+}
+
+.reminders-card h3 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.reminders-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.reminders-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.reminders-card li:before {
+    content: "⚠️";
+    position: absolute;
+    left: 0;
+}
+
+/* Сданные задания */
+.submission-header-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--purple);
+}
+
+.submission-header-card h2 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.submission-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.status-badge.submitted {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.graded {
+    background: #d4edda;
+    color: #155724;
+}
+
+.submission-content-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.submission-content-card h3 {
+    color: var(--dark-red);
+    margin-bottom: 1rem;
+}
+
+.submission-text {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--light-purple);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.file-attachment {
+    padding: 1rem;
+    background: #e9ecef;
+    border-radius: 5px;
+}
+
+.file-attachment h4 {
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray);
+}
+
+.waiting-grade-card {
+    background: #fff3cd;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #ffc107;
+    text-align: center;
+}
+
+.waiting-grade-card h3 {
+    color: #856404;
+    margin-bottom: 1rem;
+}
+
+.waiting-actions {
+    margin-top: 1.5rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .homework-meta,
+    .submission-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .status-actions,
+    .form-actions,
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grade-value-large {
+        font-size: 2.5rem;
+    }
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pagination-info {
+    color: var(--dark-gray);
+    font-weight: bold;
+}
+
+.pagination-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination-links .btn-small {
+    min-width: 40px;
+    text-align: center;
+}
+
+.homework-item,
+.grade-item,
+.profile-card,
+.actions-card {
+    max-width: 100%;
+}
+/* Стиль кнопки для учителей */
+.btn-teacher {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-teacher:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+/* Карточка создания задания */
+.create-homework-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #ee5a24;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.create-homework-card h2 {
+    color: #ee5a24;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Декорации для учительского интерфейса */
+.teacher-badge {
+    background: #ee5a24;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}

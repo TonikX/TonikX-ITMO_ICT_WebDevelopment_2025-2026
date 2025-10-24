@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Сдача задания - Доска домашних заданий</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Сдача задания</h1>
+            <div class="user-info">
+                <a href="{% url 'homeworks:homework_detail' homework.id %}" class="btn btn-secondary">← Назад к заданию</a>
+                <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Информация о задании -->
+            <div class="homework-info-card">
+                <h2>{{ homework.title }}</h2>
+                <div class="homework-meta">
+                    <p><strong>Предмет:</strong> {{ homework.subject.name }}</p>
+                    <p><strong>Срок сдачи:</strong> {{ homework.due_date|date:"d.m.Y H:i" }}</p>
+                    {% if homework.penalty_info %}
+                    <p><strong>Штрафы:</strong> {{ homework.penalty_info|truncatewords:20 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Форма сдачи -->
+            <div class="submission-form-card">
+                <h2>Форма сдачи задания</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_submission_text">Текст решения:</label>
+                        {{ form.submission_text }}
+                        {% if form.submission_text.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.submission_text.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small>Опишите ваше решение задания подробно</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_file_attachment">Прикрепить файл (опционально):</label>
+                        {{ form.file_attachment }}
+                        {% if form.file_attachment.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.file_attachment.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small>Можно прикрепить дополнительные материалы</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Сдать задание</button>
+                        <a href="{% url 'homeworks:homework_detail' homework.id %}" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Важные напоминания -->
+            <div class="reminders-card">
+                <h3>Важно!</h3>
+                <ul>
+                    <li>Проверьте решение перед отправкой</li>
+                    <li>После сдачи изменить решение можно только до момента оценки преподавателем</li>
+                    <li>Прикрепляйте файлы, если они требуются по заданию</li>
+                    {% if homework.penalty_info %}
+                    <li>Обратите внимание на информацию о штрафах</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
