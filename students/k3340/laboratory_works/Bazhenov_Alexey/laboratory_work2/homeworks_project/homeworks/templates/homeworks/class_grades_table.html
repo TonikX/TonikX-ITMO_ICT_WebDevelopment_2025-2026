@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Оценки класса - Доска домашних заданий</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Оценки класса {{ student_class }}</h1>
+            <div class="user-info">
+                <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+                <form method="post" action="{% url 'homeworks:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">Выйти</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="main-content">
+            {% if grades_data %}
+                <div class="table-container">
+                    <table class="grades-table">
+                        <thead>
+                            <tr>
+                                <th>Студент</th>
+                                {% for homework in homeworks %}
+                                <th title="{{ homework.title }}">
+                                    {{ homework.subject.name }}<br>
+                                    <small>{{ homework.due_date|date:"d.m" }}</small>
+                                </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student_data in grades_data %}
+                            <tr>
+                                <td class="student-name">
+                                    {{ student_data.student.get_full_name|default:student_data.student.username }}
+                                </td>
+                                {% for grade in student_data.grades %}
+                                <td class="grade-cell {% if grade != '-' %}has-grade{% endif %}">
+                                    {{ grade }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-legend">
+                    <h3>Обозначения:</h3>
+                    <ul>
+                        <li>Число - оценка за задание</li>
+                        <li>"-" - задание не сдано или не оценено</li>
+                        <li>Дата - срок сдачи задания</li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="no-data">
+                    <h3>Нет данных для отображения</h3>
+                    <p>В вашем классе пока нет оценок или информация о классе не указана в профиле.</p>
+                    <a href="{% url 'homeworks:profile' %}" class="btn btn-primary">Проверить профиль</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>{{ homework.title }} - Доска домашних заданий</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">{{ homework.title }}</h1>
+            <div class="user-info">
+                <a href="{% url 'homeworks:homework_list' %}" class="btn btn-secondary">← Все задания</a>
+                <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Основная информация о задании -->
+            <div class="homework-detail-card">
+                <div class="homework-meta">
+                    <div class="meta-item">
+                        <strong>Предмет:</strong>
+                        <span class="subject-badge">{{ homework.subject.name }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Преподаватель:</strong>
+                        <span>{{ homework.teacher.get_full_name|default:homework.teacher.username }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Дата выдачи:</strong>
+                        <span>{{ homework.assigned_date|date:"d.m.Y H:i" }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Срок сдачи:</strong>
+                        <span class="due-date {% if homework.due_date < now %}overdue{% endif %}">
+                            {{ homework.due_date|date:"d.m.Y H:i" }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Описание задания -->
+                <div class="homework-description">
+                    <h3>Описание задания</h3>
+                    <div class="description-text">
+                        {{ homework.description|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Информация о штрафах -->
+                {% if homework.penalty_info %}
+                <div class="penalty-info">
+                    <h3>Информация о штрафах</h3>
+                    <div class="penalty-text">
+                        {{ homework.penalty_info|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Статус сдачи -->
+            <div class="submission-status-card">
+                <h2>Статус выполнения</h2>
+                {% if user_has_submitted %}
+                <div class="status-submitted">
+                    <h3>✅ Задание сдано</h3>
+                    <p>Вы сдали это задание {{ submission.submitted_date|date:"d.m.Y в H:i" }}</p>
+                    <div class="status-actions">
+                        <a href="{% url 'homeworks:submission_detail' submission.id %}" class="btn btn-primary">Просмотреть сдачу</a>
+                        {% if not submission.grade %}
+                        <a href="{% url 'homeworks:edit_submission' submission.id %}" class="btn btn-secondary">Редактировать</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="status-not-submitted">
+                    <h3>⏳ Задание не сдано</h3>
+                    <p>Вы еще не сдали это задание</p>
+                    <div class="status-actions">
+                        <a href="{% url 'homeworks:submit_homework' homework.id %}" class="btn btn-primary">Сдать задание</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Если есть оценка -->
+            {% if user_has_submitted and submission.grade %}
+            <div class="grade-card">
+                <h2>Оценка</h2>
+                <div class="grade-info">
+                    <div class="grade-value-large">{{ submission.grade.grade }}/5</div>
+                    <div class="grade-details">
+                        <p><strong>Оценил:</strong> {{ submission.grade.graded_by.get_full_name|default:submission.grade.graded_by.username }}</p>
+                        <p><strong>Дата оценки:</strong> {{ submission.grade.graded_date|date:"d.m.Y H:i" }}</p>
+                        {% if submission.grade.feedback %}
+                        <div class="feedback">
+                            <strong>Комментарий преподавателя:</strong>
+                            <p>{{ submission.grade.feedback }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

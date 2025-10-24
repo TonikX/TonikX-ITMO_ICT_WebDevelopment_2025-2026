@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Сданное задание - Доска домашних заданий</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Сданное задание</h1>
+            <div class="user-info">
+                <a href="{% url 'homeworks:homework_detail' submission.homework.id %}" class="btn btn-secondary">← К заданию</a>
+                <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Информация о задании -->
+            <div class="submission-header-card">
+                <h2>{{ submission.homework.title }}</h2>
+                <div class="submission-meta">
+                    <div class="meta-item">
+                        <strong>Предмет:</strong>
+                        <span>{{ submission.homework.subject.name }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Дата сдачи:</strong>
+                        <span>{{ submission.submitted_date|date:"d.m.Y в H:i" }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Статус:</strong>
+                        <span class="status-badge {% if grade %}graded{% else %}submitted{% endif %}">
+                            {% if grade %}Оценено{% else %}На проверке{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Решение студента -->
+            <div class="submission-content-card">
+                <h3>Ваше решение</h3>
+                <div class="submission-text">
+                    {{ submission.submission_text|linebreaks }}
+                </div>
+
+                {% if submission.file_attachment %}
+                <div class="file-attachment">
+                    <h4>Прикрепленный файл:</h4>
+                    <a href="{{ submission.file_attachment.url }}" class="btn btn-small btn-secondary" target="_blank">
+                        📎 Скачать файл
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Оценка -->
+            {% if grade %}
+            <div class="grade-card">
+                <h2>Оценка</h2>
+                <div class="grade-display">
+                    <div class="grade-value-large">{{ grade.grade }}/5</div>
+                    <div class="grade-details">
+                        <p><strong>Оценил:</strong> {{ grade.graded_by.get_full_name|default:grade.graded_by.username }}</p>
+                        <p><strong>Дата оценки:</strong> {{ grade.graded_date|date:"d.m.Y в H:i" }}</p>
+                        {% if grade.feedback %}
+                        <div class="feedback">
+                            <h4>Комментарий преподавателя:</h4>
+                            <p>{{ grade.feedback|linebreaks }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="waiting-grade-card">
+                <h3>⏳ Ожидание оценки</h3>
+                <p>Ваша работа находится на проверке у преподавателя.</p>
+                <div class="waiting-actions">
+                    <a href="{% url 'homeworks:edit_submission' submission.id %}" class="btn btn-primary">Редактировать решение</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Действия -->
+            <div class="actions-card">
+                <h3>Действия</h3>
+                <div class="action-buttons">
+                    <a href="{% url 'homeworks:homework_list' %}" class="btn btn-primary">Все задания</a>
+                    <a href="{% url 'homeworks:grade_list' %}" class="btn btn-secondary">Мои оценки</a>
+                    {% if not grade %}
+                    <a href="{% url 'homeworks:edit_submission' submission.id %}" class="btn btn-secondary">Редактировать</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

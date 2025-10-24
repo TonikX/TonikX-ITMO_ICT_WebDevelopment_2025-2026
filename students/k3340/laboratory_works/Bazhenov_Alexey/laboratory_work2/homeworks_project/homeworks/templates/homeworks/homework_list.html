@@ -1,0 +1,94 @@
+{% load homework_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Все задания - Доска домашних заданий</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="title">Все домашние задания</h1>
+        <div class="user-info">
+            <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+            <form method="post" action="{% url 'homeworks:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Выйти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Фильтр по предметам -->
+        <div class="filter-card">
+            <h2>Фильтр по предметам</h2>
+            <div class="filter-buttons">
+                <a href="{% url 'homeworks:homework_list' %}"
+                   class="btn btn-small {% if not request.GET.subject %}btn-primary{% else %}btn-secondary{% endif %}">Все
+                    предметы</a>
+                {% for subject in subjects %}
+                    <a href="?subject={{ subject.id }}"
+                       class="btn btn-small {% if request.GET.subject == subject.id|stringformat:'i' %}btn-primary{% else %}btn-secondary{% endif %}">
+                        {{ subject.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Список заданий -->
+        <div class="homeworks-list">
+            {% if homeworks %}
+                {% for homework in homeworks %}
+                    <div class="homework-item">
+                        <div class="homework-header">
+                            <h3>{{ homework.title }}</h3>
+                            <span class="subject-badge">{{ homework.subject.name }}</span>
+                        </div>
+
+                        <div class="homework-info">
+                            <p>
+                                <strong>Преподаватель:</strong> {{ homework.teacher.get_full_name|default:homework.teacher.username }}
+                            </p>
+                            <p><strong>Выдано:</strong> {{ homework.assigned_date|date:"d.m.Y" }}</p>
+                            <p><strong>Срок сдачи:</strong> {{ homework.due_date|date:"d.m.Y H:i" }}</p>
+                        </div>
+
+                        <div class="homework-description">
+                            <p>{{ homework.description|truncatewords:30 }}</p>
+                        </div>
+
+                        {% if homework.id in submitted_homework_ids %}
+                            <div class="homework-status submitted">
+                                ✅ Задание сдано
+                            </div>
+                        {% else %}
+                            <div class="homework-status not-submitted">
+                                ⏳ Ожидает сдачи
+                            </div>
+                        {% endif %}
+<div class="homework-actions">
+                            <a href="{% url 'homeworks:homework_detail' homework.id %}"
+                               class="btn btn-primary btn-small">Подробнее</a>
+                            {% if homework.id not in submitted_homework_ids %}
+                                <a href="{% url 'homeworks:submit_homework' homework.id %}"
+                                   class="btn btn-secondary btn-small">Сдать задание</a>
+                            {% else %}
+                                <a href="{% url 'homeworks:submission_detail' submission_ids_dict|get_item:homework.id %}"
+                                   class="btn btn-secondary btn-small">Просмотреть сдачу</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-homeworks">
+                    <h3>Нет доступных заданий</h3>
+                    <p>На данный момент нет активных домашних заданий.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
