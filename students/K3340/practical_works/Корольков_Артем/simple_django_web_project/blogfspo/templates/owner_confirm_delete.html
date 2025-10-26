@@ -1,0 +1,93 @@
+<!-- templates/owner_confirm_delete.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление владельца</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .warning-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .warning-icon {
+            font-size: 4em;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .owner-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-danger { background: #dc3545; }
+        .btn-secondary { background: #6c757d; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Подтверждение удаления</h1>
+        </div>
+
+        <div class="warning-container">
+            <div class="warning-icon">Удаление</div>
+            <h2>Вы уверены, что хотите удалить этого владельца?</h2>
+
+            <div class="owner-info">
+                <h3>{{ owner.get_full_name }}</h3>
+                <p><strong>ID:</strong> {{ owner.id }}</p>
+                {% if owner.phone %}
+                    <p><strong>Телефон:</strong> {{ owner.phone }}</p>
+                {% endif %}
+                <p><strong>Автомобилей в истории:</strong> {{ owner.ownerships.count }}</p>
+                <p><strong>Водительских удостоверений:</strong> {{ owner.licenses.count }}</p>
+            </div>
+
+            <p style="color: #dc3545; font-weight: bold;">
+                Внимание: Это действие нельзя отменить! Будут удалены все связанные записи о владении и водительских удостоверениях.
+            </p>
+
+            <form method="post" style="margin-top: 30px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Да, удалить владельца</button>
+                <a href="{% url 'owner_detail' owner.id %}" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

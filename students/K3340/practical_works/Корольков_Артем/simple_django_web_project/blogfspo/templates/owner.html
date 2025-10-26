@@ -1,0 +1,172 @@
+<!-- templates/owner.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Данные владельца автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .owner-info {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .cars-list {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .car-item {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .no-data {
+            color: #666;
+            font-style: italic;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+        .back-link:hover {
+            background: #545b62;
+        }
+        .btn {
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+         border-radius: 5px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .info-item.full-width {
+            grid-column: 1 / -1;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Данные владельца автомобиля</h1>
+        </div>
+        <div class="owner-info">
+            <h2>Информация о владельце</h2>
+            <p><strong>ID владельца:</strong> {{ owner.id }}</p>
+
+            {% if owner.first_name or owner.last_name %}
+            <p><strong>Имя:</strong>
+                {% if owner.first_name %}{{ owner.first_name }}{% else %}<span class="no-data">не указано</span>{% endif %}
+            </p>
+            <p><strong>Фамилия:</strong>
+                {% if owner.last_name %}{{ owner.last_name }}{% else %}<span class="no-data">не указано</span>{% endif %}
+            </p>
+            {% else %}
+            <p class="no-data">Дополнительная информация о владельце не указана</p>
+            {% endif %}
+        </div>
+        <div class="info-section">
+        <h2>Паспортные данные и адрес</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Номер паспорта:</span>
+                {{ owner.passport_number|default:"Не указан" }}
+            </div>
+            <div class="info-item">
+                <span class="info-label">Национальность:</span>
+                {{ owner.get_nationality_display }}
+                </div>
+                <div class="info-item full-width">
+                <span class="info-label">Домашний адрес:</span>
+                {% if owner.address %}
+                    <div style="margin-top: 5px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                     {{ owner.address|linebreaks }}
+                    </div>
+                    {% else %}
+                    <span style="color: #666;">Не указан</span>
+                    {% endif %}
+                </div>
+        </div>
+        </div>
+
+        <div class="actions" style="margin-bottom: 20px;">
+            <a href="{% url 'owner_update' owner.id %}" class="btn" style="background: #28a745;">Редактировать</a>
+            <a href="{% url 'add_license' owner.id %}" class="btn" style="background: #17a2b8;">Добавить удостоверение</a>
+            <a href="{% url 'owner_delete' owner.id %}" class="btn" style="background: #dc3545;">Удалить</a>
+        </div>
+
+        <div class="cars-list">
+            <h2>Автомобили владельца</h2>
+
+            {% if ownerships %}
+                {% for ownership in ownerships %}
+                <div class="car-item">
+                    <h3>{{ ownership.car.brand }} {{ ownership.car.model }}</h3>
+                    <p><strong>Гос. номер:</strong> {{ ownership.car.state_number }}</p>
+                    <p><strong>Цвет:</strong> {{ ownership.car.color }}</p>
+                    <p><strong>Период владения:</strong>
+                        с {{ ownership.start_date|date:"d.m.Y" }}
+                        {% if ownership.end_date %}
+                            по {{ ownership.end_date|date:"d.m.Y" }}
+                        {% else %}
+                            по настоящее время
+                        {% endif %}
+                    </p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-data">У этого владельца нет зарегистрированных автомобилей</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'owners_list' %}" class="back-link">Назад к списку владельцев</a>
+    </div>
+</body>
+</html>
