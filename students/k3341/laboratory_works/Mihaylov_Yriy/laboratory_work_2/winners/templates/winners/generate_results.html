@@ -1,0 +1,31 @@
+<!-- templates/races/generate_heat_results.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/results.css' %}">
+    <title>Генерация результатов - {{ heat.name }}</title>
+</head>
+<body>
+    <div class="results-container">
+        <div class="results-header">
+            <h1>Генерация результатов</h1>
+            <p>{{ heat.name }}</p>
+        </div>
+
+        <div class="heat-card" style="text-align: center;">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="generate-btn" style="padding: 15px 30px; font-size: 1.2rem;">
+                    🎲 Сгенерировать
+                </button>
+            </form>
+        </div>
+
+        <div class="actions" style="justify-content: center;">
+            <a href="{% url 'race_results' heat.race.id %}" class="back-btn">← Назад</a>
+        </div>
+    </div>
+</body>
+</html>

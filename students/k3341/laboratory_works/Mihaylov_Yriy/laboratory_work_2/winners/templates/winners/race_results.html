@@ -1,0 +1,112 @@
+<!-- templates/races/race_results.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/results.css' %}">
+    <title>Результаты - {{ race.name }}</title>
+</head>
+<body>
+    <div class="results-container">
+        <div class="results-header">
+            <h1>Результаты гонки "{{ race.name }}"</h1>
+        </div>
+
+        {% if user.is_staff %}
+        <div class="admin-notice">
+            <p>⚙️ <strong>Администратор:</strong> Вы можете сгенерировать результаты для каждого заезда</p>
+        </div>
+        {% endif %}
+
+        <div class="heat-results">
+            {% for data in results_data %}
+            <div class="heat-card">
+                <h3>
+                    {{ data.heat.name }}
+                    <span class="heat-time">{{ data.heat.heat_time|date:"d M Y H:i" }}</span>
+                </h3>
+
+                {% if data.heat.description %}
+                <p>{{ data.heat.description }}</p>
+                {% endif %}
+
+                {% if data.results %}
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Место</th>
+                            <th>Гонщик</th>
+                            <th>Команда</th>
+                            <th>Класс</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in data.results %}
+                        <tr>
+                            <td class="position-{{ result.position }}">
+                                {% if result.position == 1 %}🥇
+                                {% elif result.position == 2 %}🥈
+                                {% elif result.position == 3 %}🥉
+                                {% endif %}
+                                {{ result.position }}
+                            </td>
+                            <td>{{ result.racer.user.username }}</td>
+                            <td>{{ result.racer.team }}</td>
+                            <td>{{ result.racer.classs }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-results">
+                    <p>Результатов еще нету</p>
+                    {% if user.is_staff %}
+                    <a href="{% url 'generate_heat_results' data.heat.id %}" class="generate-btn">
+                        Сгенерировать тестовые результаты
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if user.is_staff and data.results %}
+                <div style="margin-top: 1rem; text-align: right;">
+                    <a href="{% url 'generate_heat_results' data.heat.id %}" class="generate-btn">
+                        Перегенерировать тестовые результаты
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="no-results">
+                <h3>Заезды еще не созданы</h3>
+                <p>Администратор скоро добавит заезды для этой гонки</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация для заездов -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">← Назад</a>
+            {% endif %}
+
+            <span class="page-info">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Вперед →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{% url 'race_about' race.id %}" class="back-btn">← Назад к гонке</a>
+            <a href="{% url 'races_list' %}" class="back-btn">Назад к списку гонок</a>
+            <a href="{% url 'profile' %}" class="back-btn">В профиль</a>
+        </div>
+    </div>
+</body>
+</html>

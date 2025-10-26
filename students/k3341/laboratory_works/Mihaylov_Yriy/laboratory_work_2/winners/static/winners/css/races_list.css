@@ -1,0 +1,211 @@
+/* static/winners/css/races_list.css */
+.races-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0c1a2d 0%, #1e3a5f 100%);
+    padding: 2rem;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+.races-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.races-header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.races-list {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.race-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.race-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #60a5fa;
+}
+
+.race-time {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.race-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-info {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.btn-comment {
+    background: #7c3aed;
+    color: white;
+}
+
+.btn-comment:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+}
+
+.btn-register {
+    background: #059669;
+    color: white;
+}
+
+.btn-register:hover {
+    background: #047857;
+    transform: translateY(-2px);
+}
+
+.btn-registered {
+    background: #6b7280;
+    color: white;
+    cursor: not-allowed;
+}
+
+.btn-registered:hover {
+    transform: none;
+}
+
+.no-races {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+    .races-container {
+        padding: 1rem;
+    }
+
+    .race-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        text-align: center;
+    }
+}
+
+.back-to-profile {
+    background: #dc2626;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.back-to-profile:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-unregister {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-unregister:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+/* Фильтры */
+.filters {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #2563eb;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #2563eb;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.page-info {
+    font-weight: 500;
+    color: #60a5fa;
+}
