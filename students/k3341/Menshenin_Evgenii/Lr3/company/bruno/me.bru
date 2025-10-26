@@ -1,0 +1,19 @@
+meta {
+  name: me
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8000/auth/users/me/
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Token c93685c440d80db11f2ad2dcc3bfab162d96c64f
+}
+
+settings {
+  encodeUrl: false
+}

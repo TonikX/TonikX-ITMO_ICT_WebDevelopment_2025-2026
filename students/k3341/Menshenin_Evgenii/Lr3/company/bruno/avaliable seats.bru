@@ -1,0 +1,15 @@
+meta {
+  name: avaliable seats
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8000/api/flights/1/available_seats/
+  body: none
+  auth: none
+}
+
+settings {
+  encodeUrl: false
+}

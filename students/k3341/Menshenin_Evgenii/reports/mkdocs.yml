@@ -1,0 +1,4 @@
+site_name: Reports
+nav:
+  - Home: index.md
+  - Lab1: Lr1/README.md

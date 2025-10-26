@@ -1,0 +1,29 @@
+meta {
+  name: register
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8000/auth/users/
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "new_user",
+    "password": "new_password",
+    "email": "user@example.com",
+    "first_name": "First",
+    "last_name": "Last"
+  }
+}
+
+settings {
+  encodeUrl: false
+}
