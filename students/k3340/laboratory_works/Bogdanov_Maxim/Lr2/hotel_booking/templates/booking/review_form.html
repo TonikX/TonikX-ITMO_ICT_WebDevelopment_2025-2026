@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактировать отзыв{% else %}Новый отзыв{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>{% if form.instance.pk %}Редактировать отзыв{% else %}Новый отзыв{% endif %}</h3>
+                {% if booking %}
+                <p class="mb-0">
+                    <strong>Отель:</strong> {{ booking.room.room_type.hotel.name }}<br>
+                    <strong>Номер:</strong> {{ booking.room.room_number }} ({{ booking.room.room_type.name }})<br>
+                    <strong>Период проживания:</strong> {{ booking.check_in }} - {{ booking.check_out }}
+                </p>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.rating.id_for_label }}" class="form-label">Рейтинг (1-10)</label>
+                        {{ form.rating }}
+                        {% if form.rating.errors %}
+                        <div class="text-danger">{{ form.rating.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">1 - очень плохо, 10 - отлично</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.comment.id_for_label }}" class="form-label">Комментарий</label>
+                        {{ form.comment }}
+                        {% if form.comment.errors %}
+                        <div class="text-danger">{{ form.comment.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">Поделитесь своими впечатлениями о проживании</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a href="{% url 'my_bookings' %}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="number"], textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}

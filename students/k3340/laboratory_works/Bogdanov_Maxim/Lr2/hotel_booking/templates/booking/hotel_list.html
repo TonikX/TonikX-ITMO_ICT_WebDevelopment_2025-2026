@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Список отелей{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список отелей</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-10">
+                {{ filter_form.search }}
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">🔍 Поиск</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if hotels %}
+<div class="row">
+    {% for hotel in hotels %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ hotel.name }}</h5>
+                <p class="card-text">
+                    <strong>📍 Адрес:</strong> {{ hotel.address }}<br>
+                    {% if hotel.description %}
+                    <strong>📝 Описание:</strong> {{ hotel.description|truncatewords:20 }}
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'hotel_detail' hotel.pk %}" class="btn btn-primary w-100">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                &laquo; Первая
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                &lsaquo; Предыдущая
+            </a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    {{ num }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                Следующая &rsaquo;
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                Последняя &raquo;
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+
+    <div class="text-center text-muted">
+        Показаны отели {{ page_obj.start_index }}–{{ page_obj.end_index }} из {{ page_obj.paginator.count }}
+    </div>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info">
+    <h4 class="alert-heading">Отели не найдены</h4>
+    <p>По вашему запросу не найдено отелей. Попробуйте изменить параметры поиска.</p>
+</div>
+{% endif %}
+{% endblock %}

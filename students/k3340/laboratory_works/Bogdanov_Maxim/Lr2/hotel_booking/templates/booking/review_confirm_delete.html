@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Удалить отзыв{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3>Удалить отзыв</h3>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить этот отзыв?</p>
+                <p><strong>Отель:</strong> {{ object.room.room_type.hotel.name }}</p>
+                <p><strong>Номер:</strong> {{ object.room.room_number }}</p>
+                <p><strong>Рейтинг:</strong> {{ object.rating }}/10</p>
+                <p><strong>Комментарий:</strong> {{ object.comment|truncatewords:20 }}</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Да, удалить</button>
+                    <a href="{% url 'my_reviews' %}" class="btn btn-secondary">Нет, вернуться</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
