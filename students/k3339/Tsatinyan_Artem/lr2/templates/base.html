@@ -17,8 +17,14 @@
         </button>
         <div class="collapse navbar-collapse" id="nav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{% url 'conference_list' %}">Список</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'participants_table' %}">Участники</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'conference_list' %}">Список</a>
+                </li>
+                {% if user.is_staff or user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'participants_table' %}">Участники</a>
+                </li>
+                {% endif %}
             </ul>
             <form class="d-flex" method="get" action="{% url 'conference_list' %}">
                 <input class="form-control me-2" type="search" placeholder="Поиск" name="q" value="{{ request.GET.q }}">

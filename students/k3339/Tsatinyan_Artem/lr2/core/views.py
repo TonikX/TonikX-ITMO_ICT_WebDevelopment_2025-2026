@@ -91,17 +91,28 @@ class ReviewDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     def get_success_url(self):
         return self.object.conference.get_absolute_url()
 
-class ParticipantsTableView(ListView):
+class ParticipantsTableView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'core/participants.html'
     context_object_name = 'conferences'
     model = Conference
 
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+    def handle_no_permission(self):
+        from django.contrib import messages
+        messages.warning(self.request, "Доступ разрешён только администраторам.")
+        from django.shortcuts import redirect
+        return redirect('conference_list')
+
     def get_queryset(self):
-        return (Conference.objects
-                .select_related('venue')
-                .prefetch_related('registrations__user')
-                .annotate(participants_count=Count('registrations'))
-                .order_by('-participants_count', 'title'))
+        return (
+            Conference.objects
+            .select_related('venue')
+            .prefetch_related('registrations__user')
+            .annotate(participants_count=Count('registrations'))
+            .order_by('-participants_count', 'title')
+        )
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
