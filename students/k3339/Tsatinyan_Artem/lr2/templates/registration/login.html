@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+{% if form.errors %}<div class="alert alert-danger">Неверные данные</div>{% endif %}
+<form method="post" action="{% url 'login' %}" class="conf-panel">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Войти</button>
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+<p class="mt-2">Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрируйтесь</a></p>
+{% endblock %}

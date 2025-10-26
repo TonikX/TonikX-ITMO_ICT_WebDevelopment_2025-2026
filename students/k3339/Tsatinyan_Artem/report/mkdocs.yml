@@ -1,0 +1,7 @@
+site_name: ITMO Web Labs
+nav:
+  - Главная: index.md
+  - Лаба 1: lr1/index.md
+  - Лаба 2: lr2/index.md
+theme:
+  name: material
