@@ -1,0 +1,2041 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Документация по лабораторной работе по Django Web Framework">
+      
+      
+        <meta name="author" content="Губанов Егор">
+      
+      
+        <link rel="canonical" href="https://egorr-gubanov.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/Lr2/task3.html">
+      
+      
+        <link rel="prev" href="task2.html">
+      
+      
+        <link rel="next" href="lp2.html">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Практическая работа №2.3 - Лабораторная работа №2 - Django</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#no23-django" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Лабораторная работа №2 - Django" class="md-header__button md-logo" aria-label="Лабораторная работа №2 - Django" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Лабораторная работа №2 - Django
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Практическая работа №2.3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="task1.html" class="md-tabs__link">
+          
+  
+  
+  Практические работы
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="lp2.html" class="md-tabs__link">
+          
+  
+  
+  Лабораторная работа
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="%D0%9F%D0%A0%D0%9E%D0%92%D0%95%D0%A0%D0%9A%D0%90_%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%AB.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Проверка работы
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Лабораторная работа №2 - Django" class="md-nav__button md-logo" aria-label="Лабораторная работа №2 - Django" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Лабораторная работа №2 - Django
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Практические работы
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Практические работы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="task1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа №2.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="task2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа №2.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа №2.3
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="task3.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа №2.3
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Цель работы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 1: Расширение пользовательской модели
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 1: Расширение пользовательской модели">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 Способы расширения пользовательской модели
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 Реализация кастомной модели пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 Настройка кастомной модели пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 Дополнительные модели
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 2: Формы для работы с кастомным пользователем
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 2: Формы для работы с кастомным пользователем">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Формы создания и редактирования пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Формы для других моделей
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 3: Админ-панель для кастомного пользователя
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 3: Админ-панель для кастомного пользователя">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 Настройка админ-панели
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 4: Представления для работы с пользователями
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 4: Представления для работы с пользователями">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Классовые представления
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-django-rest-framework-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 5: Django REST Framework API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 5: Django REST Framework API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 Сериализаторы
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-viewsets" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 ViewSets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no23" class="md-nav__link">
+    <span class="md-ellipsis">
+      Результаты выполнения практической работы №2.3
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Результаты выполнения практической работы №2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Выполненные задачи:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Функционал приложения:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Функционал приложения:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Веб-интерфейс:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомная модель пользователя:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Админ-панель:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Дизайн и интерфейс:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Технические особенности:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Технические особенности:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомная модель пользователя:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Система владений:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сигналы Django:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API и сериализация:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Вывод
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Как запустить и проверить:
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторная работа
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lp2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LP2 - Система автогонок
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="%D0%9F%D0%A0%D0%9E%D0%92%D0%95%D0%A0%D0%9A%D0%90_%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%AB.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Проверка работы
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Цель работы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 1: Расширение пользовательской модели
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 1: Расширение пользовательской модели">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 Способы расширения пользовательской модели
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 Реализация кастомной модели пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 Настройка кастомной модели пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 Дополнительные модели
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 2: Формы для работы с кастомным пользователем
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 2: Формы для работы с кастомным пользователем">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Формы создания и редактирования пользователя
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Формы для других моделей
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 3: Админ-панель для кастомного пользователя
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 3: Админ-панель для кастомного пользователя">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 Настройка админ-панели
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 4: Представления для работы с пользователями
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 4: Представления для работы с пользователями">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Классовые представления
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-django-rest-framework-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача 5: Django REST Framework API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача 5: Django REST Framework API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 Сериализаторы
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-viewsets" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2 ViewSets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no23" class="md-nav__link">
+    <span class="md-ellipsis">
+      Результаты выполнения практической работы №2.3
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Результаты выполнения практической работы №2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Выполненные задачи:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Функционал приложения:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌐 Функционал приложения:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Веб-интерфейс:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомная модель пользователя:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Админ-панель:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Дизайн и интерфейс:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Технические особенности:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Технические особенности:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомная модель пользователя:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Система владений:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сигналы Django:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API и сериализация:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Вывод
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Как запустить и проверить:
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="no23-django">Практическая работа №2.3 — Расширение пользовательской модели Django</h1>
+<p><strong>Автор:</strong> Губанов Егор<br />
+<strong>Группа:</strong> К3340</p>
+<hr />
+<h2 id="_1">Цель работы</h2>
+<p>Изучить различные способы расширения пользовательской модели Django, реализовать кастомную модель пользователя с помощью <code>AbstractUser</code>, создать полноценную систему управления пользователями и автомобилями с дополнительными полями пользователя.</p>
+<hr />
+<h2 id="1">Задача 1: Расширение пользовательской модели</h2>
+<h3 id="11">1.1 Способы расширения пользовательской модели</h3>
+<p>В Django существует 4 основных способа расширения пользовательской модели:</p>
+<ol>
+<li><strong>Простое расширение модели (proxy)</strong> - без создания новых таблиц</li>
+<li><strong>Связь один-к-одному с пользовательской моделью</strong> - через дополнительную модель</li>
+<li><strong>Расширение AbstractBaseUser</strong> - полная замена модели пользователя</li>
+<li><strong>Расширение AbstractUser</strong> - добавление полей к стандартной модели</li>
+</ol>
+<p>В данной работе используется <strong>расширение AbstractUser</strong> как наиболее практичный подход.</p>
+<h3 id="12">1.2 Реализация кастомной модели пользователя</h3>
+<p>Создана кастомная модель пользователя с дополнительными полями:</p>
+<pre><code class="language-python">class CustomUser(AbstractUser):
+    &quot;&quot;&quot;Кастомная модель пользователя с дополнительными полями&quot;&quot;&quot;
+    passport_number = models.CharField(
+        max_length=20, 
+        unique=True, 
+        verbose_name='Номер паспорта',
+        help_text='Номер паспорта пользователя'
+    )
+    home_address = models.TextField(
+        verbose_name='Домашний адрес',
+        help_text='Полный домашний адрес пользователя'
+    )
+    nationality = models.CharField(
+        max_length=100, 
+        default='Российская', 
+        verbose_name='Национальность',
+        help_text='Национальность пользователя'
+    )
+    phone_number = models.CharField(
+        max_length=20, 
+        blank=True, 
+        verbose_name='Номер телефона',
+        help_text='Контактный номер телефона'
+    )
+    birth_date = models.DateField(
+        null=True, 
+        blank=True, 
+        verbose_name='Дата рождения',
+        help_text='Дата рождения пользователя'
+    )
+    avatar = models.ImageField(
+        upload_to=get_upload_path, 
+        blank=True, 
+        null=True, 
+        verbose_name='Аватар',
+        help_text='Фото профиля пользователя'
+    )
+    is_car_owner = models.BooleanField(
+        default=False, 
+        verbose_name='Владелец автомобиля',
+        help_text='Является ли пользователь владельцем автомобиля'
+    )
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        ordering = ['last_name', 'first_name']
+
+    def __str__(self):
+        return f&quot;{self.first_name} {self.last_name} ({self.username})&quot;
+
+    @property
+    def full_name(self):
+        &quot;&quot;&quot;Полное имя пользователя&quot;&quot;&quot;
+        return f&quot;{self.last_name} {self.first_name}&quot;
+
+    @property
+    def age(self):
+        &quot;&quot;&quot;Возраст пользователя&quot;&quot;&quot;
+        if self.birth_date:
+            return timezone.now().year - self.birth_date.year
+        return None
+
+    def get_absolute_url(self):
+        return reverse('user_detail', kwargs={'pk': self.pk})
+</code></pre>
+<h3 id="13">1.3 Настройка кастомной модели пользователя</h3>
+<p>В <code>settings.py</code> добавлена настройка:</p>
+<pre><code class="language-python"># Custom User Model
+AUTH_USER_MODEL = 'library_app.CustomUser'
+</code></pre>
+<h3 id="14">1.4 Дополнительные модели</h3>
+<p>Созданы модели для системы управления автомобилями:</p>
+<pre><code class="language-python">class Car(TimeStampedModel):
+    &quot;&quot;&quot;Модель автомобиля&quot;&quot;&quot;
+    CAR_TYPES = [
+        ('sedan', 'Седан'),
+        ('hatchback', 'Хэтчбек'),
+        ('suv', 'Внедорожник'),
+        ('coupe', 'Купе'),
+        ('convertible', 'Кабриолет'),
+        ('truck', 'Грузовик'),
+        ('other', 'Другое'),
+    ]
+
+    FUEL_TYPES = [
+        ('gasoline', 'Бензин'),
+        ('diesel', 'Дизель'),
+        ('electric', 'Электрический'),
+        ('hybrid', 'Гибрид'),
+        ('gas', 'Газ'),
+    ]
+
+    make = models.CharField(max_length=50, verbose_name='Марка')
+    model = models.CharField(max_length=50, verbose_name='Модель')
+    year = models.PositiveIntegerField(
+        validators=[MinValueValidator(1900), MaxValueValidator(2030)],
+        verbose_name='Год выпуска'
+    )
+    color = models.CharField(max_length=30, verbose_name='Цвет')
+    state_number = models.CharField(max_length=15, unique=True, verbose_name='Гос. номер')
+    car_type = models.CharField(
+        max_length=20, 
+        choices=CAR_TYPES, 
+        default='sedan', 
+        verbose_name='Тип автомобиля'
+    )
+    fuel_type = models.CharField(
+        max_length=20, 
+        choices=FUEL_TYPES, 
+        default='gasoline', 
+        verbose_name='Тип топлива'
+    )
+    engine_volume = models.DecimalField(
+        max_digits=3, 
+        decimal_places=1, 
+        null=True, 
+        blank=True, 
+        verbose_name='Объем двигателя (л)'
+    )
+    mileage = models.PositiveIntegerField(
+        null=True, 
+        blank=True, 
+        verbose_name='Пробег (км)'
+    )
+    price = models.DecimalField(
+        max_digits=12, 
+        decimal_places=2, 
+        null=True, 
+        blank=True, 
+        verbose_name='Стоимость'
+    )
+    description = models.TextField(blank=True, verbose_name='Описание')
+    photo = models.ImageField(
+        upload_to=get_upload_path, 
+        blank=True, 
+        null=True, 
+        verbose_name='Фото автомобиля'
+    )
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
+
+class Ownership(TimeStampedModel):
+    &quot;&quot;&quot;Модель владения автомобилем&quot;&quot;&quot;
+    STATUS_CHOICES = [
+        ('current', 'Текущее владение'),
+        ('previous', 'Бывшее владение'),
+        ('sold', 'Продан'),
+        ('stolen', 'Украден'),
+        ('scrapped', 'Утилизирован'),
+    ]
+
+    owner = models.ForeignKey(
+        'CustomUser', 
+        on_delete=models.CASCADE, 
+        verbose_name='Владелец',
+        related_name='ownerships'
+    )
+    car = models.ForeignKey(
+        Car, 
+        on_delete=models.CASCADE, 
+        verbose_name='Автомобиль',
+        related_name='ownerships'
+    )
+    start_date = models.DateTimeField(verbose_name='Дата начала владения')
+    end_date = models.DateTimeField(
+        null=True, 
+        blank=True, 
+        verbose_name='Дата окончания владения'
+    )
+    status = models.CharField(
+        max_length=20, 
+        choices=STATUS_CHOICES, 
+        default='current', 
+        verbose_name='Статус владения'
+    )
+    purchase_price = models.DecimalField(
+        max_digits=12, 
+        decimal_places=2, 
+        null=True, 
+        blank=True, 
+        verbose_name='Цена покупки'
+    )
+    sale_price = models.DecimalField(
+        max_digits=12, 
+        decimal_places=2, 
+        null=True, 
+        blank=True, 
+        verbose_name='Цена продажи'
+    )
+    notes = models.TextField(blank=True, verbose_name='Заметки')
+</code></pre>
+<hr />
+<h2 id="2">Задача 2: Формы для работы с кастомным пользователем</h2>
+<h3 id="21">2.1 Формы создания и редактирования пользователя</h3>
+<pre><code class="language-python">class CustomUserCreationForm(UserCreationForm):
+    &quot;&quot;&quot;Форма для создания пользователя с дополнительными полями&quot;&quot;&quot;
+
+    class Meta:
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'last_name', 
+            'passport_number', 'home_address', 'nationality',
+            'phone_number', 'birth_date', 'avatar', 'is_car_owner'
+        )
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),
+            'home_address': forms.Textarea(attrs={'rows': 3}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        # Делаем поля обязательными
+        self.fields['passport_number'].required = True
+        self.fields['home_address'].required = True
+        self.fields['nationality'].required = True
+        self.fields['email'].required = True
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
+class CustomUserChangeForm(UserChangeForm):
+    &quot;&quot;&quot;Форма для редактирования пользователя&quot;&quot;&quot;
+
+    class Meta:
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'last_name',
+            'passport_number', 'home_address', 'nationality',
+            'phone_number', 'birth_date', 'avatar', 'is_car_owner',
+            'is_active', 'is_staff', 'is_superuser'
+        )
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),
+            'home_address': forms.Textarea(attrs={'rows': 3}),
+        }
+</code></pre>
+<h3 id="22">2.2 Формы для других моделей</h3>
+<p>Созданы формы для автомобилей, владений и обслуживания с валидацией и Bootstrap стилями.</p>
+<hr />
+<h2 id="3-">Задача 3: Админ-панель для кастомного пользователя</h2>
+<h3 id="31-">3.1 Настройка админ-панели</h3>
+<pre><code class="language-python">@admin.register(User)
+class CustomUserAdmin(BaseUserAdmin):
+    &quot;&quot;&quot;Админ-панель для кастомной модели пользователя&quot;&quot;&quot;
+
+    # Поля для отображения в списке
+    list_display = (
+        'username', 'email', 'first_name', 'last_name', 
+        'passport_number', 'nationality', 'is_car_owner', 
+        'is_active', 'is_staff', 'date_joined'
+    )
+
+    # Поля для поиска
+    search_fields = (
+        'username', 'email', 'first_name', 'last_name', 
+        'passport_number', 'phone_number'
+    )
+
+    # Фильтры
+    list_filter = (
+        'is_active', 'is_staff', 'is_superuser', 'is_car_owner',
+        'nationality', 'date_joined', 'last_login'
+    )
+
+    # Порядок сортировки
+    ordering = ('last_name', 'first_name')
+
+    # Поля для редактирования
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('username', 'password')
+        }),
+        ('Персональная информация', {
+            'fields': (
+                'first_name', 'last_name', 'email', 'birth_date',
+                'phone_number', 'avatar'
+            )
+        }),
+        ('Дополнительная информация', {
+            'fields': (
+                'passport_number', 'home_address', 'nationality',
+                'is_car_owner'
+            )
+        }),
+        ('Права доступа', {
+            'fields': (
+                'is_active', 'is_staff', 'is_superuser',
+                'groups', 'user_permissions'
+            )
+        }),
+        ('Важные даты', {
+            'fields': ('last_login', 'date_joined')
+        }),
+    )
+
+    # Поля для добавления нового пользователя
+    add_fieldsets = (
+        ('Основная информация', {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+        ('Персональная информация', {
+            'fields': (
+                'first_name', 'last_name', 'email', 'birth_date',
+                'phone_number', 'avatar'
+            )
+        }),
+        ('Дополнительная информация', {
+            'fields': (
+                'passport_number', 'home_address', 'nationality',
+                'is_car_owner'
+            )
+        }),
+    )
+</code></pre>
+<hr />
+<h2 id="4">Задача 4: Представления для работы с пользователями</h2>
+<h3 id="41">4.1 Классовые представления</h3>
+<pre><code class="language-python">class UserListView(ListView):
+    &quot;&quot;&quot;Список пользователей&quot;&quot;&quot;
+    model = CustomUser
+    template_name = 'library_app/user_list.html'
+    context_object_name = 'users'
+    paginate_by = 20
+
+    def get_queryset(self):
+        &quot;&quot;&quot;Фильтрация пользователей&quot;&quot;&quot;
+        queryset = CustomUser.objects.filter(is_active=True)
+
+        # Поиск
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search) |
+                Q(passport_number__icontains=search) |
+                Q(username__icontains=search)
+            )
+
+        # Фильтр по национальности
+        nationality = self.request.GET.get('nationality')
+        if nationality:
+            queryset = queryset.filter(nationality=nationality)
+
+        # Фильтр по владельцам автомобилей
+        is_car_owner = self.request.GET.get('is_car_owner')
+        if is_car_owner:
+            queryset = queryset.filter(is_car_owner=True)
+
+        return queryset.order_by('last_name', 'first_name')
+
+class UserDetailView(DetailView):
+    &quot;&quot;&quot;Детальная информация о пользователе&quot;&quot;&quot;
+    model = CustomUser
+    template_name = 'library_app/user_detail.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+
+        # Владения пользователя
+        context['ownerships'] = Ownership.objects.filter(owner=user).order_by('-start_date')
+
+        # Статистика
+        context['total_cars'] = context['ownerships'].count()
+        context['current_cars'] = context['ownerships'].filter(status='current').count()
+
+        return context
+
+class UserCreateView(CreateView):
+    &quot;&quot;&quot;Создание пользователя&quot;&quot;&quot;
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = 'library_app/user_form.html'
+    success_url = reverse_lazy('user_list')
+
+    def form_valid(self, form):
+        &quot;&quot;&quot;Добавление сообщения об успехе&quot;&quot;&quot;
+        messages.success(self.request, 'Пользователь успешно создан!')
+        return super().form_valid(form)
+</code></pre>
+<hr />
+<h2 id="5-django-rest-framework-api">Задача 5: Django REST Framework API</h2>
+<h3 id="51">5.1 Сериализаторы</h3>
+<pre><code class="language-python">class CustomUserSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор пользователя&quot;&quot;&quot;
+    full_name = serializers.ReadOnlyField()
+    age = serializers.ReadOnlyField()
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'username', 'email', 'first_name', 'last_name',
+            'passport_number', 'home_address', 'nationality',
+            'phone_number', 'birth_date', 'avatar', 'is_car_owner',
+            'is_active', 'is_staff', 'date_joined', 'last_login',
+            'full_name', 'age'
+        ]
+        read_only_fields = ['id', 'date_joined', 'last_login']
+</code></pre>
+<h3 id="52-viewsets">5.2 ViewSets</h3>
+<pre><code class="language-python">class CustomUserViewSet(viewsets.ModelViewSet):
+    &quot;&quot;&quot;ViewSet для пользователей&quot;&quot;&quot;
+    queryset = CustomUser.objects.filter(is_active=True)
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['first_name', 'last_name', 'email', 'passport_number', 'username']
+    ordering_fields = ['last_name', 'first_name', 'date_joined']
+    ordering = ['last_name', 'first_name']
+
+    def get_permissions(self):
+        &quot;&quot;&quot;Настройка прав доступа&quot;&quot;&quot;
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAuthenticatedOrReadOnly]
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['get'])
+    def cars(self, request, pk=None):
+        &quot;&quot;&quot;Получить автомобили пользователя&quot;&quot;&quot;
+        user = self.get_object()
+        ownerships = Ownership.objects.filter(owner=user)
+
+        # Пагинация
+        page = self.paginate_queryset(ownerships)
+        if page is not None:
+            serializer = OwnershipSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = OwnershipSerializer(ownerships, many=True)
+        return Response(serializer.data)
+</code></pre>
+<hr />
+<h2 id="no23">Результаты выполнения практической работы №2.3</h2>
+<h3 id="_2">✅ Выполненные задачи:</h3>
+<ol>
+<li><strong>Задача 1:</strong></li>
+<li>✅ Создана кастомная модель пользователя с <code>AbstractUser</code></li>
+<li>✅ Добавлены дополнительные поля: номер паспорта, домашний адрес, национальность</li>
+<li>✅ Настроена <code>AUTH_USER_MODEL</code> в settings.py</li>
+<li>
+<p>✅ Созданы связанные модели: Car, Ownership, CarService</p>
+</li>
+<li>
+<p><strong>Задача 2:</strong></p>
+</li>
+<li>✅ Созданы формы для создания и редактирования пользователей</li>
+<li>✅ Реализована валидация форм</li>
+<li>
+<p>✅ Добавлены Bootstrap стили</p>
+</li>
+<li>
+<p><strong>Задача 3:</strong></p>
+</li>
+<li>✅ Настроена админ-панель для кастомного пользователя</li>
+<li>✅ Добавлены поля поиска и фильтрации</li>
+<li>
+<p>✅ Настроены fieldsets для удобного редактирования</p>
+</li>
+<li>
+<p><strong>Задача 4:</strong></p>
+</li>
+<li>✅ Созданы представления для работы с пользователями</li>
+<li>✅ Реализованы CRUD операции</li>
+<li>
+<p>✅ Добавлены поиск и фильтрация</p>
+</li>
+<li>
+<p><strong>Задача 5:</strong></p>
+</li>
+<li>✅ Создан Django REST Framework API</li>
+<li>✅ Реализованы сериализаторы и ViewSets</li>
+<li>✅ Добавлены кастомные действия API</li>
+</ol>
+<h3 id="_3">🌐 Функционал приложения:</h3>
+<h4 id="-"><strong>Веб-интерфейс:</strong></h4>
+<ul>
+<li><strong>Главная страница</strong> со статистикой пользователей и автомобилей</li>
+<li><strong>Список пользователей</strong> с поиском и фильтрацией</li>
+<li><strong>Детальная страница пользователя</strong> с его автомобилями</li>
+<li><strong>Создание/редактирование пользователей</strong> с дополнительными полями</li>
+<li><strong>Список автомобилей</strong> с техническими характеристиками</li>
+<li><strong>Система владений</strong> с историей владения автомобилями</li>
+<li><strong>Обслуживание автомобилей</strong> с отслеживанием пробега</li>
+</ul>
+<h4 id="_4"><strong>Кастомная модель пользователя:</strong></h4>
+<ul>
+<li><strong>Номер паспорта</strong> - уникальное поле для идентификации</li>
+<li><strong>Домашний адрес</strong> - полный адрес пользователя</li>
+<li><strong>Национальность</strong> - национальная принадлежность</li>
+<li><strong>Номер телефона</strong> - контактная информация</li>
+<li><strong>Дата рождения</strong> - для расчета возраста</li>
+<li><strong>Аватар</strong> - фото профиля пользователя</li>
+<li><strong>Статус владельца автомобиля</strong> - автоматически обновляется</li>
+</ul>
+<h4 id="-_1"><strong>Админ-панель:</strong></h4>
+<ul>
+<li>Полная настройка для кастомного пользователя</li>
+<li>Поиск по всем полям пользователя</li>
+<li>Фильтрация по статусам и национальности</li>
+<li>Удобные fieldsets для редактирования</li>
+<li>Интеграция с системой прав доступа Django</li>
+</ul>
+<h4 id="rest-api"><strong>REST API:</strong></h4>
+<ul>
+<li>Полный CRUD для всех моделей</li>
+<li>Фильтрация и поиск через API</li>
+<li>Кастомные действия (статистика, связанные объекты)</li>
+<li>Пагинация и сортировка</li>
+<li>Аутентификация и права доступа</li>
+</ul>
+<h3 id="_5">🎨 Дизайн и интерфейс:</h3>
+<ul>
+<li><strong>Bootstrap 5</strong> для современного дизайна</li>
+<li><strong>Font Awesome</strong> иконки</li>
+<li><strong>Адаптивная верстка</strong> для всех устройств</li>
+<li><strong>Карточки пользователей</strong> с аватарами</li>
+<li><strong>Статистические виджеты</strong> с градиентами</li>
+<li><strong>Формы с валидацией</strong> и удобным интерфейсом</li>
+<li><strong>Навигация</strong> с выпадающими меню</li>
+</ul>
+<h3 id="_6">🔧 Технические особенности:</h3>
+<h4 id="_7"><strong>Кастомная модель пользователя:</strong></h4>
+<ul>
+<li>Наследование от <code>AbstractUser</code></li>
+<li>Дополнительные поля с валидацией</li>
+<li>Свойства для вычисляемых значений</li>
+<li>Методы для работы с URL</li>
+</ul>
+<h4 id="_8"><strong>Система владений:</strong></h4>
+<ul>
+<li>Отслеживание истории владения</li>
+<li>Автоматическое обновление статуса владельца</li>
+<li>Валидация дат владения</li>
+<li>Расчет продолжительности владения</li>
+</ul>
+<h4 id="django"><strong>Сигналы Django:</strong></h4>
+<ul>
+<li>Автоматическое обновление статуса владельца</li>
+<li>Обновление пробега при обслуживании</li>
+<li>Очистка кэша при изменениях</li>
+<li>Создание профилей пользователей</li>
+</ul>
+<h4 id="api"><strong>API и сериализация:</strong></h4>
+<ul>
+<li>Полная сериализация всех моделей</li>
+<li>Вложенные сериализаторы для связанных объектов</li>
+<li>Кастомные поля и свойства</li>
+<li>Права доступа на уровне действий</li>
+</ul>
+<hr />
+<h2 id="_9">Вывод</h2>
+<p>В ходе практической работы №2.3 был освоен процесс расширения пользовательской модели Django:</p>
+<ol>
+<li><strong>Кастомная модель пользователя</strong> с дополнительными полями</li>
+<li><strong>Настройка AUTH_USER_MODEL</strong> в проекте</li>
+<li><strong>Формы</strong> для создания и редактирования пользователей</li>
+<li><strong>Админ-панель</strong> с полной настройкой</li>
+<li><strong>Представления</strong> для работы с пользователями</li>
+<li><strong>REST API</strong> для программного доступа к данным</li>
+</ol>
+<p>Приложение демонстрирует все аспекты работы с кастомной моделью пользователя и показывает, как правильно расширять стандартную модель Django для решения конкретных задач.</p>
+<hr />
+<h2 id="_10">🚀 Как запустить и проверить:</h2>
+<pre><code class="language-bash">cd Task3
+python manage.py runserver 8003
+</code></pre>
+<p><strong>Проверьте:</strong>
+- http://127.0.0.1:8003/ - главная страница со статистикой
+- http://127.0.0.1:8003/users/ - список пользователей с дополнительными полями
+- http://127.0.0.1:8003/accounts/register/ - регистрация пользователя
+- http://127.0.0.1:8003/cars/ - список автомобилей
+- http://127.0.0.1:8003/admin/ - админ-панель (admin/admin123)
+- http://127.0.0.1:8003/api/users/ - API пользователей
+- http://127.0.0.1:8003/api/cars/ - API автомобилей</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 26, 2025 20:57:10 UTC">October 26, 2025</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 26, 2025 16:38:58 UTC">October 26, 2025</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Губанов Егор
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/egorr-gubanov/" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "search.highlight", "search.share", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
