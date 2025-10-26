@@ -1,0 +1,496 @@
+:root {
+  --bg:#f7f7f9; --text:#1f2328; --muted:#6b7280;
+  --card:#fff; --border:#e5e7eb; --brand:#2b7cff; --brand-2:#174ea6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,body {
+    margin:0;
+    padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+
+a {
+    text-decoration:none;
+    color: #000000;
+}
+
+
+.container {
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.nav {
+    background: #AEE8C8;
+    border-bottom:2px solid var(--border);
+    position:sticky;
+    top:0;
+}
+.nav-inner {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 5em;
+    margin: 0 10% 0 1%
+}
+
+.brand {
+    font-weight:600;
+    color:var(--text);
+    font-size: 32px;
+}
+
+
+.menu a,
+.menu button {
+  font-size:20px;
+  font-weight:600;
+  padding-right:16px;
+  color:var(--text);
+  text-decoration:none;
+  background:none;
+  border:0;
+  cursor:pointer;
+  font-family:inherit; /* чтобы шрифт совпадал */
+}
+
+.exit { display:inline; margin:0; }
+
+.btn small {
+    padding: 5px 5px !important;
+
+}
+
+
+.filters__search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 10% 0 4%;
+
+}
+
+.filters__search h2 {
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+}
+
+.search input {
+    width: 20em;
+    height: 2.5em;
+    border-radius: 0.7em;
+    border-width: 0.5px;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.search button {
+    width: 6em;
+    height: 2.5em;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 1em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #AEE8C8;
+}
+
+.button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  transition: transform .02s ease, background .2s ease, border-color .2s ease;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #DFF7E6;
+    width: 40vw;
+    max-width: 40vw;
+    align-items: center;
+    justify-content: center;
+    margin: 1% 15% 1% 15%;
+    padding: 0% 1% 1% 1%;
+    border: 2px solid #006400;
+    border-radius: 10px;
+
+}
+
+.card h5 {
+    font-size: 18px;
+    margin-bottom: 0.3em;
+}
+
+.filters__topic {
+    display: flex;
+    justify-content: right;
+}
+
+.select {
+    font-size: 18px;
+    height: 2.5em;
+    width: 12em;
+    margin-right: 10%;
+    border-radius: 0.7em;
+    padding: 0 5px 0 10px;
+}
+
+.muted_small {
+    font-style: italic;
+}
+
+.card__footer {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 0.3%;
+}
+
+.card__footer a {
+    background-color: #68967e;
+    padding: 0.2% 1%;
+    font-weight: 600;
+    border-radius: 0.3em;
+}
+
+.card__footer a:hover {
+    background-color: #4e6e5d;
+}
+
+.pager {
+    --gap: 6px;
+    --radius: 6px;
+    --border: #dcdcdc;
+    --accent: #68967e;
+    margin: 1em 0;
+}
+
+.pager__list{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap: var(--gap);
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.pager__item { display:inline-block; }
+
+.pager__link{
+  display:inline-block;
+  min-width: 36px;
+  text-align:center;
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration:none;
+  color:inherit;
+  line-height:1.2;
+}
+
+.pager__item.is-active .pager__link{
+  background: var(--accent);
+  border-color: var(--accent);
+  color:#fff;
+  pointer-events:none;
+}
+
+.pager__item.is-disabled .pager__link{
+  opacity:.5;
+  pointer-events:none;
+}
+
+.pager__link:hover { background:#f6f6f6; }
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-link {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 1em 0 0 1em;
+}
+
+.layout__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading {
+    margin: 0.7em 0 0.2em 0;
+}
+
+.description_title {
+    margin: 0.5em 0 0 0;
+}
+
+.reviews_participants {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    gap: 0.3em;
+}
+
+.card_block {
+    background-color: #DFF7E6;
+    width: 20vw;
+    max-width: 30vw;
+    align-items: center;
+    justify-content: center;
+    padding: 0% 1% 1% 1%;
+    border: 2px solid #006400;
+    border-radius: 10px;
+}
+
+.form-row {
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    justify-content: center;
+}
+
+/* все поля в формах отзывов и регистрации — 70% ширины */
+.review-form .input,
+.review-form textarea,
+.review-form input,
+.review-form select,
+.register-form .input,
+.register-form textarea,
+.register-form input,
+.register-form select{
+  width: 70%;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+/* textarea без ресайза */
+.review-form textarea,
+.register-form textarea{
+  resize: none;
+  overflow: auto;
+}
+
+/* рейтинг остаётся узким, переопределяем ширину */
+.review-form .input--rating,
+.review-form input[name="rating"]{
+  width: 6ch;
+  min-width: 80px;
+}
+
+
+
+.button_ok {
+    background-color: #68967e;
+    padding: 2% 3%;
+    border-radius: 0.2em;
+    font-size: 16px;
+    border: none !important;
+}
+
+.review-form input[name="rating"]{
+  width: 5em;
+  min-width: 2em;
+  box-sizing: border-box;
+}
+
+.heading-md {
+    padding-left: 0.5em;
+}
+
+.form-field{
+    display: flex;
+    flex-direction: row;
+    gap: 3em;
+}
+
+.label_review {
+    margin-left: 5em;
+    min-width: 10em;
+    max-width: 10em;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.page-title {
+    margin-left: 2em;
+}
+
+.actions {
+    display: flex;
+    gap: 2em;
+}
+
+.link-button {
+    font-size: 16px;
+}
+
+.label_login {
+    min-width: 3em;
+    max-width: 3em;
+    font-size: 20px !important;
+    margin: 0;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    gap:2em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+.button_login {
+    background-color: #68967e;
+    padding: 13% 46%;
+    border-radius: 0.4em;
+    font-size: 20px;
+    border: none !important;
+    margin: 0;
+}
+
+.actions_login {
+    margin: 0 0 0 8.2em;
+}
+
+.label_register {
+    min-width: 7.5em;
+    max-width: 7.5em;
+    font-size: 20px !important;
+    margin: 0;
+}
+
+.button_register {
+    background-color: #68967e;
+    padding: 5% 6%;
+    border-radius: 0.4em;
+    font-size: 20px;
+    border: none !important;
+    margin: 0;
+}
+.actions_register {
+    margin: 0 0 0 15.9em;
+}
+
+.text-muted {
+    margin-left: 1em;
+}
+
+.fw-semibold {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.1em;
+}
+
+.regs_info {
+    margin: 0;
+
+}
+
+.regs_info a {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    margin: 0;
+}
+
+.regs_info p{
+    margin: 0;
+}
+
+.actions_profile a {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.actions_profile a:hover {
+    font-weight: 700;
+}
+
+.actions_profile {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.participant-list {
+    margin: 0 0 1em 1.4em;
+}
+
+.heading-md {
+    margin: 0.7em 0 0.6em 0.2em;
+}
+
+.text_review p {
+    margin: 0.2em 0 0.9em 0;
+}
+
+.row-between {
+    margin-bottom: 0.6em;
+}
+
+.profile_grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 7em;
+}
+
+.card_profile {
+    background-color: #DFF7E6;
+    width: 40vw;
+    max-width: 40vw;
+    align-items: center;
+    justify-content: center;
+    padding: 0% 1% 1% 1%;
+    border: 2px solid #006400;
+    border-radius: 10px;
+
+}
+
+.card-title-profile {
+    margin: 1em 0 0 1em;
+}
+
+
+
