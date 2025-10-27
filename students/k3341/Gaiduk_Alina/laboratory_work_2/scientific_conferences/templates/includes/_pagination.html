@@ -1,0 +1,41 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<nav aria-label="Навигация по страницам" class="pager" role="navigation">
+  <ul class="pager__list">
+
+    {# Назад #}
+    <li class="pager__item {% if not page_obj.has_previous %}is-disabled{% endif %}">
+      <a class="pager__link"
+         href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}?page=1{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}{% if current_topic %}&topic={{ current_topic }}{% endif %}"
+         aria-label="Предыдущая страница">
+        ‹
+      </a>
+    </li>
+
+    {# Номера страниц #}
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <li class="pager__item is-active" aria-current="page">
+          <span class="pager__link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="pager__item">
+          <a class="pager__link"
+             href="?page={{ num }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if current_topic %}&topic={{ current_topic }}{% endif %}">
+            {{ num }}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {# Вперёд #}
+    <li class="pager__item {% if not page_obj.has_next %}is-disabled{% endif %}">
+      <a class="pager__link"
+         href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}?page={{ page_obj.paginator.num_pages }}{% endif %}{% if q %}&q={{ q|urlencode }}{% endif %}{% if current_topic %}&topic={{ current_topic }}{% endif %}"
+         aria-label="Следующая страница">
+        ›
+      </a>
+    </li>
+
+  </ul>
+</nav>
+{% endif %}

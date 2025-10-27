@@ -1,0 +1,42 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Научные конференции{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="{% url 'conference_list' %}" class="brand">ScienceConfs</a>
+    <nav class="menu">
+      <a href="{% url 'conference_list' %}">Конференции</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">Профиль</a>
+        <form method="post" action="{% url 'logout' %}" class="exit">
+            {% csrf_token %}
+            <button type="submit">Выход</button>
+        </form>
+
+      {% else %}
+        <a href="{% url 'login' %}">Вход</a>
+        <a href="{% url 'register' %}" class="btn small">Регистрация</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main class="container page">
+  {% if messages %}
+    <div class="messages">
+      {% for m in messages %}<div class="msg">{{ m }}</div>{% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+
+</body>
+</html>

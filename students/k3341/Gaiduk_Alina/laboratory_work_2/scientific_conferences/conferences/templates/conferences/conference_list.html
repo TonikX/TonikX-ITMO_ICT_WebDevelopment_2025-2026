@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Конференции — ScienceConfs{% endblock %}
+{% block content %}
+
+<div class="filters">
+  <form method="get" class="filters__search">
+  <h2>Список научных конференций</h2>
+  <div class="search">
+    <input type="text" name="q" value="{{ q }}" placeholder="Поиск по названию, описанию, теме...">
+    {% if current_topic %}<input type="hidden" name="topic" value="{{ current_topic }}">{% endif %}
+    <button class="button button--primary">Найти</button>
+  </div>
+  </form>
+
+  <form method="get" class="filters__topic">
+    {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+    <select class="select" name="topic" onchange="this.form.submit()">
+      <option value="">Все темы</option>
+      {% for t in topics %}
+        <option value="{{ t.id }}" {% if current_topic == t.id %}selected{% endif %}>{{ t.name }}</option>
+      {% endfor %}
+    </select>
+    <noscript><button class="button">Фильтровать</button></noscript>
+  </form>
+</div>
+
+{% if page_obj.object_list %}
+  <div class="cards">
+    {% for conf in page_obj.object_list %}
+      <article class="card">
+        <div class="card__body">
+          <div class="card__head">
+            <div class="card__main">
+              <h5 class="card__title">
+                <a href="{% url 'conference_detail' pk=conf.pk %}" class="link">
+                  {{ conf.title }}
+                </a>
+              </h5>
+              <div class="muted_small">
+                {{ conf.place.name }} • {{ conf.place.address }} •
+                {{ conf.start_date|date:"d.m.Y" }} — {{ conf.end_date|date:"d.m.Y" }}
+              </div>
+              {% if conf.topics.all %}
+                <div class="tags">
+                  {% for tp in conf.topics.all %}
+                    <span class="tag">{{ tp.name }}; </span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if conf.description %}
+            <p class="card__text">{{ conf.description|truncatewords:35 }}</p>
+          {% endif %}
+        </div>
+
+        <footer class="card__footer">
+          <a href="{% url 'conference_detail' pk=conf.pk %}" class="button button--sm button--outline">Подробнее</a>
+        </footer>
+      </article>
+    {% endfor %}
+  </div>
+
+  <div class="mt-4">{% include "includes/_pagination.html" %}</div>
+{% else %}
+  <div class="empty">Ничего не найдено.</div>
+{% endif %}
+{% endblock %}

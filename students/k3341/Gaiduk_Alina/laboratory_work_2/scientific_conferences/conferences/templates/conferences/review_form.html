@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Отзыв — ScienceConfs{% endblock %}
+{% block content %}
+
+<div class="back-link">
+  <a href="{% url 'conference_list' %}">← ко всем конференциям</a>
+</div>
+
+<h1 class="page-title">Оставить отзыв</h1>
+
+<form method="post" class="panel review-form">
+  <div class="panel__body">
+    {% csrf_token %}
+
+    {# ====== ГЛОБАЛЬНЫЕ ОШИБКИ (типа "Вы уже оставляли отзыв") ====== #}
+    {% if form.non_field_errors %}
+      <div class="form-error form-error--nonfield">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="form-grid">
+
+      <div class="form-field">
+        <label class="label_review" for="id_text">Текст отзыва</label>
+        {{ form.text }}
+        {# Ошибки конкретно поля text #}
+        {% if form.text.errors %}
+          <div class="form-error">
+            {{ form.text.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-field form-field--rating">
+        <label class="label_review" for="id_rating">Рейтинг (1–10)</label>
+        {{ form.rating }}
+        {# Ошибки для rating #}
+        {% if form.rating.errors %}
+          <div class="form-error">
+            {{ form.rating.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="label_review">
+        <button class="button_ok">Отправить</button>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% endblock %}

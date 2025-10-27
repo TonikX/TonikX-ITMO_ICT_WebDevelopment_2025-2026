@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Регистрация доклада — ScienceConfs{% endblock %}
+{% block content %}
+
+    <div class="back-link">
+    <a href="{% url 'conference_list' %}">← ко всем конференциям</a>
+    </div>
+
+<h1 class="page-title">Регистрация доклада</h1>
+
+<form method="post" class="panel register-form">
+  <div class="panel__body stack stack--md">
+    {% csrf_token %}
+      <div class="form-grid">
+    <div class="form-field">
+      <label class="label_review" for="id_presentation_title">Название доклада</label>
+      {{ form.presentation_title }}
+    </div>
+
+    <div class="form-field">
+      <label class="label_review" for="id_abstract">Тезисы</label>
+      {{ form.abstract }}
+    </div>
+
+    <div class="label_review">
+        <div class="actions">
+      <button class="button_ok">Сохранить</button>
+      <a class="link-button" href="javascript:history.back()">Отмена</a>
+            </div>
+    </div>
+      </div>
+  </div>
+</form>
+
+{% endblock %}

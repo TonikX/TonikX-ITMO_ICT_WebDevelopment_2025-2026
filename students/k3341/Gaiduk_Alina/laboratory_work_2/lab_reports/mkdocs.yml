@@ -1,0 +1,27 @@
+site_name: Лабораторные работы по WEB
+nav:
+  - Главная: index.md
+  - ЛР1:
+      - Введение: lab1/index.md
+      - Задание 1: lab1/task1.md
+      - Задание 2: lab1/task2.md
+      - Задание 3: lab1/task3.md
+      - Задание 4: lab1/task4.md
+      - Задание 5: lab1/task5.md
+  - ЛР2:
+      - Задание: lab2/index.md
+      - Структура проекта: lab2/structure.md
+      - Модели conferences: lab2/models/conferences.md
+      - Формы:
+          - Формы приложения conferences: lab2/forms/conferences.md
+          - Формы приложения users: lab2/forms/users.md
+      - Views:
+          - Views приложения conferences: lab2/views/conferences.md
+          - Views приложения users: lab2/views/users.md
+      - Admin: lab2/admin.md
+      - Инструкция по запуску проекта: lab2/run.md
+      - Скриншоты сайта: lab2/screen.md
+      - Вывод: lab2/review.md
+
+theme:
+  name: material

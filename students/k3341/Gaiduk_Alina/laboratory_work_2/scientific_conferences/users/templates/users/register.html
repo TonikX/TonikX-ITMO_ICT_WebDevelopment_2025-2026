@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — ScienceConfs{% endblock %}
+{% block content %}
+
+<h1 class="page-title">Регистрация</h1>
+
+<form method="post" class="panel register-form">
+  <div class="form-login">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert">
+        {% for err in form.non_field_errors %}<div>{{ err }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="form-field">
+      <label class="label_register" for="{{ form.username.id_for_label }}">Логин</label>
+      {{ form.username }}
+      {% for err in form.username.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="form-field">
+      <label class="label_register" for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+      {% for err in form.email.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="form-field">
+      <label class="label_register" for="{{ form.password1.id_for_label }}">Пароль</label>
+      {{ form.password1 }}
+      {% for err in form.password1.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="form-field">
+      <label class="label_register" for="{{ form.password2.id_for_label }}">Пароль ещё раз</label>
+      {{ form.password2 }}
+      {% for err in form.password2.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="actions_register">
+      <button class="button_register">Создать аккаунт</button>
+    </div>
+
+    <p class="text-reg">
+      Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+    </p>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}{{ conference.title }} — ScienceConfs{% endblock %}
+{% block content %}
+
+    <div class="back-link">
+    <a href="{% url 'conference_list' %}">← ко всем конференциям</a>
+    </div>
+
+
+<div class="layout">
+    <section class="card">
+      <div class="card__body">
+        <h1 class="heading">{{ conference.title }}</h1>
+        <div class="muted_small">
+          {{ conference.place.name }}, {{ conference.place.address }} ·
+          {{ conference.start_date|date:"d.m.Y" }} — {{ conference.end_date|date:"d.m.Y" }}
+        </div>
+
+        {% if conference.topics.all %}
+          <div class="tags mb-3">
+            {% for tp in conference.topics.all %}
+              <span class="tag">{{ tp.name }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if conference.description %}
+          <h2 class="description_title">Описание</h2>
+          <div class="description">{{ conference.description|linebreaks }}</div>
+        {% endif %}
+
+        {% if conference.participation_terms %}
+          <h2 class="description_title">Условия участия</h2>
+          <div class="description">{{ conference.participation_terms|linebreaks }}</div>
+        {% endif %}
+
+        <footer class="card__footer">
+          {% if user.is_authenticated %}
+            {% if user_registration %}
+              <a class="button button--success"
+                 href="javascript:void(0)"
+                 onclick="window.scrollTo({top: document.getElementById('participants').offsetTop-80, behavior:'smooth'})">
+                Вы зарегистрированы
+              </a>
+            {% else %}
+              <a class="button button--primary" href="{% url 'register_for_conference' pk=conference.pk %}">
+                Зарегистрироваться на доклад
+              </a>
+            {% endif %}
+          {% else %}
+            <a class="button button--primary" href="{% url 'login' %}?next={{ request.path }}">
+              Войти, чтобы зарегистрироваться
+            </a>
+          {% endif %}
+        </footer>
+      </div>
+    </section>
+
+    <div class="reviews_participants">
+    <section class="card_block">
+      <div class="panel__body">
+        <h2 class="heading-md mb-3">Отзывы</h2>
+
+        {% if reviews %}
+          <ul class="review-list">
+            {% for r in reviews %}
+              <li class="review-item">
+                <div class="row-between">
+                  <strong>@{{ r.user.username }}</strong>
+                  <span class="rating" aria-label="Рейтинг">{{ r.rating }}/10</span>
+                </div>
+                <div class="date_review">{{ r.date_posted|date:"d.m.Y H:i" }}</div>
+                <div class="text_review">{{ r.text|linebreaks }}</div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-muted">Пока нет отзывов.</div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <hr class="divider">
+            <h3> Оставьте отзыв </h3>
+          <form method="post" action="{% url 'add_review' pk=conference.pk %}" class="review-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-col form-col--grow">
+                    {{ review_form.text }}
+                    {% for err in review_form.text.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+                </div>
+                <div class="form-col form-col--narrow">
+                    {{ review_form.rating }}
+                    {% for err in review_form.rating.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+                </div>
+                <div class="form-col form-col--narrow">
+                    <button class="button_ok">Отправить</button>
+                </div>
+  </div>
+</form>
+
+        {% else %}
+          <div class="callout mt-3">
+            <a href="{% url 'login' %}?next={{ request.path }}">Войдите</a>, чтобы оставить отзыв.
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+ <aside class="layout__sidebar" id="participants">
+  <section class="card_block">
+    <div class="panel__body">
+      <h2 class="heading-md">Участники</h2>
+
+      {% if registrations %}
+        {% if request.user.is_staff %}
+          <div class="text-small text-muted" style="margin-bottom:0.5rem;">
+            Панель организатора (видно только сотрудникам)
+          </div>
+        {% endif %}
+
+        <ul class="participant-list">
+          {% for reg in registrations %}
+            <li class="participant-item" style="margin-bottom:1.2em;">
+
+              <div>@{{ reg.user.username }}</div>
+              <div>{{ reg.presentation_title }}</div>
+
+
+              <div class="status">
+                {% if reg.result == "pending" %}
+                    <span>Ожидает решения</span>
+                {% elif reg.result == "recommended" %}
+                    <span>Рекомендован к публикации</span>
+                {% elif reg.result == "not_recommended" %}
+                    <span>Не рекомендован</span>
+                {% else %}
+                    <span>{{ reg.get_result_display }}</span>
+                {% endif %}
+              </div>
+
+              <!-- форма для изменения статуса только для админа -->
+              {% if request.user.is_staff %}
+                <form method="post"
+                      action="{% url 'set_registration_result' reg.id %}"
+                      class="admin_form"
+                      style ="margin-top:0.5rem;display:flex;flex-wrap:wrap; align-items:flex-start; gap: 0.5em">
+                  {% csrf_token %}
+
+                  <label class="admin_label" for="result-{{ reg.id }}">
+                    Изменить статус:
+                  </label>
+
+                  <select name="result"
+                          id="result-{{ reg.id }}"
+                          style="font-size:14px; padding:2px 6px; border:1px solid #0a4d0a; border-radius:2em; display: flex; width: 50%">
+                    <option value="pending"
+                            {% if reg.result == "pending" %}selected{% endif %}>
+                      Ожидает
+                    </option>
+                    <option value="recommended"
+                            {% if reg.result == "recommended" %}selected{% endif %}>
+                      Рекомендован к публикации
+                    </option>
+                    <option value="not_recommended"
+                            {% if reg.result == "not_recommended" %}selected{% endif %}>
+                      Не рекомендован
+                    </option>
+                  </select>
+
+                  <button type="submit"
+                          class="button_admin"
+                          style="background-color: #68967e; padding: 1% 1%; border-radius: 2em; font-size: 14px; border: none !important;">
+                    Сохранить
+                  </button>
+                </form>
+              {% endif %}
+
+            </li>
+          {% endfor %}
+        </ul>
+
+      {% else %}
+        <div class="participant-list">
+          Пока нет зарегистрированных докладчиков.
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</aside>
+</div>
+    </div>
+{% endblock %}

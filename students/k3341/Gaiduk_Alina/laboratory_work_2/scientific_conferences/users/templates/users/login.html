@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Вход — ScienceConfs{% endblock %}
+{% block content %}
+
+<h1 class="page-title">Вход</h1>
+
+<form method="post" class="panel login-form">
+  <div class="form-login">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert">
+        {% for err in form.non_field_errors %}<div>{{ err }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="form-field">
+      <label class="label_login" for="{{ form.username.id_for_label }}">Логин</label>
+      {{ form.username }}
+      {% for err in form.username.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="form-field">
+      <label class="label_login" for="{{ form.password.id_for_label }}">Пароль</label>
+      {{ form.password }}
+      {% for err in form.password.errors %}<div class="error-text">{{ err }}</div>{% endfor %}
+    </div>
+
+    <div class="actions_login">
+      <button class="button_login">Войти</button>
+    </div>
+
+    <p class="text-reg">
+      Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a>
+    </p>
+  </div>
+</form>
+
+{% endblock %}

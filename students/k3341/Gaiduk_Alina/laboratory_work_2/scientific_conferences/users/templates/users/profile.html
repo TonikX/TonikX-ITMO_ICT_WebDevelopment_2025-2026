@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Профиль — ScienceConfs{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">Профиль @{{ user.username }}</h1>
+
+<div class="profile_grid">
+  <div>
+    <div class="card_profile">
+      <div class="card-body">
+        <h2 class="card-title-profile">Мои регистрации</h2>
+
+        {% if regs %}
+          <ul class="list">
+            {% for r in regs %}
+              <li class="list-item">
+                <div class="row-between">
+                  <div class="reg_full">
+                    <div class="fw-semibold">{{ r.presentation_title }}</div>
+                    <div class="regs_info">
+                      <a href="{% url 'conference_detail' pk=r.conference.pk %}">
+                        {{ r.conference.title }}
+                      </a>
+                      <p>
+                        {{ r.get_result_display }} • {{ r.created|date:"d.m.Y H:i" }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="actions_profile">
+                    <a class="btn btn-secondary"
+                       href="{% url 'register_for_conference' pk=r.conference.pk %}">Править</a>
+                    <a class="btn btn-danger"
+                       href="{% url 'delete_registration' pk=r.pk %}">Удалить</a>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="muted">Пока нет заявок.</div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card_profile">
+      <div class="card-body">
+        <h2 class="card-title-profile">Мои отзывы</h2>
+
+        {% if reviews %}
+          <ul class="list">
+            {% for rv in reviews %}
+              <li class="list-item">
+                <div class="row-between">
+                  <a class="fw-semibold"
+                     href="{% url 'conference_detail' pk=rv.conference.pk %}">
+                    {{ rv.conference.title }}
+                  </a>
+                  <span class="rating">{{ rv.rating }}/10</span>
+                </div>
+
+                <div class="small muted">
+                  {{ rv.date_posted|date:"d.m.Y H:i" }}
+                </div>
+
+                <div class="mt-2">
+                  {{ rv.text|truncatewords:30 }}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="muted">Пока нет отзывов.</div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
