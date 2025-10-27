@@ -10,8 +10,6 @@
 html,body {
     margin:0;
     padding:0;
-    background:var(--bg);
-    color:var(--text);
     font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -174,7 +172,7 @@ a {
     background-color: #68967e;
     padding: 0.2% 1%;
     font-weight: 600;
-    border-radius: 0.3em;
+    border-radius: 2em;
 }
 
 .card__footer a:hover {
@@ -319,7 +317,7 @@ a {
 .button_ok {
     background-color: #68967e;
     padding: 2% 3%;
-    border-radius: 0.2em;
+    border-radius: 2em;
     font-size: 16px;
     border: none !important;
 }
@@ -491,6 +489,16 @@ a {
 .card-title-profile {
     margin: 1em 0 0 1em;
 }
+
+.admin_form {
+    margin-top:0.5rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.5rem;
+    align-items:flex-start;
+}
+
+
 
 
 

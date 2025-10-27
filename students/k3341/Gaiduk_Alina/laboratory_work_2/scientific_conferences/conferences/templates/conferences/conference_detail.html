@@ -106,32 +106,87 @@
       </div>
     </section>
 
-  <aside class="layout__sidebar" id="participants">
-    <section class="card_block">
-      <div class="panel__body">
-        <h2 class="heading-md">Участники</h2>
+ <aside class="layout__sidebar" id="participants">
+  <section class="card_block">
+    <div class="panel__body">
+      <h2 class="heading-md">Участники</h2>
 
-        {% if registrations %}
-          <ul class="participant-list">
-            {% for reg in registrations|slice:":12" %}
-              <li class="participant-item">
-                <div class="text-strong">@{{ reg.user.username }}</div>
-                <div class="text-muted">{{ reg.presentation_title }}</div>
-                {% if reg.result != "pending" %}
-                  <span class="badge badge--outline">{{ reg.get_result_display }}</span>
-                {% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-          {% if registrations|length > 12 %}
-            <div class="text-small text-muted mt-2">Показано 12 из {{ registrations|length }}.</div>
-          {% endif %}
-        {% else %}
-          <div class="participant-list">Пока нет зарегистрированных докладчиков.</div>
+      {% if registrations %}
+        {% if request.user.is_staff %}
+          <div class="text-small text-muted" style="margin-bottom:0.5rem;">
+            Панель организатора (видно только сотрудникам)
+          </div>
         {% endif %}
-      </div>
-    </section>
-  </aside>
+
+        <ul class="participant-list">
+          {% for reg in registrations %}
+            <li class="participant-item" style="margin-bottom:1.2em;">
+
+              <div>@{{ reg.user.username }}</div>
+              <div>{{ reg.presentation_title }}</div>
+
+
+              <div class="status">
+                {% if reg.result == "pending" %}
+                    <span>Ожидает решения</span>
+                {% elif reg.result == "recommended" %}
+                    <span>Рекомендован к публикации</span>
+                {% elif reg.result == "not_recommended" %}
+                    <span>Не рекомендован</span>
+                {% else %}
+                    <span>{{ reg.get_result_display }}</span>
+                {% endif %}
+              </div>
+
+              <!-- форма для изменения статуса только для админа -->
+              {% if request.user.is_staff %}
+                <form method="post"
+                      action="{% url 'set_registration_result' reg.id %}"
+                      class="admin_form"
+                      style ="margin-top:0.5rem;display:flex;flex-wrap:wrap; align-items:flex-start; gap: 0.5em">
+                  {% csrf_token %}
+
+                  <label class="admin_label" for="result-{{ reg.id }}">
+                    Изменить статус:
+                  </label>
+
+                  <select name="result"
+                          id="result-{{ reg.id }}"
+                          style="font-size:14px; padding:2px 6px; border:1px solid #0a4d0a; border-radius:2em; display: flex; width: 50%">
+                    <option value="pending"
+                            {% if reg.result == "pending" %}selected{% endif %}>
+                      Ожидает
+                    </option>
+                    <option value="recommended"
+                            {% if reg.result == "recommended" %}selected{% endif %}>
+                      Рекомендован к публикации
+                    </option>
+                    <option value="not_recommended"
+                            {% if reg.result == "not_recommended" %}selected{% endif %}>
+                      Не рекомендован
+                    </option>
+                  </select>
+
+                  <button type="submit"
+                          class="button_admin"
+                          style="background-color: #68967e; padding: 1% 1%; border-radius: 2em; font-size: 12px; border: none !important;">
+                    Сохранить
+                  </button>
+                </form>
+              {% endif %}
+
+            </li>
+          {% endfor %}
+        </ul>
+
+      {% else %}
+        <div class="participant-list">
+          Пока нет зарегистрированных докладчиков.
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</aside>
 </div>
     </div>
 {% endblock %}

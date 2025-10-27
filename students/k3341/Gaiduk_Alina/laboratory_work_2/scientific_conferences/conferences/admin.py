@@ -29,3 +29,4 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ("conference", "user", "rating", "date_posted")
     list_filter = ("rating", "conference")
     search_fields = ("user__username", "conference__title", "text")
+

@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db import IntegrityError
-
+from django.contrib.auth.decorators import user_passes_test
+from django.views.decorators.http import require_POST
+from django.http import HttpResponseForbidden
 from .models import Conference, Registration, Review, Topic
 from .forms import RegistrationForm, ReviewForm
 
@@ -137,3 +139,22 @@ def add_review(request, pk):
         form = ReviewForm()
 
     return render(request, 'conferences/review_form.html', {'form': form})
+
+def staff_check(user):
+    return user.is_staff  # или user.is_superuser, если хочешь жёстко
+
+
+@require_POST
+@user_passes_test(staff_check)
+def set_registration_result(request, reg_id):
+    registration = get_object_or_404(Registration, pk=reg_id)
+
+    new_status = request.POST.get("result")
+    allowed = {'pending', 'recommended', 'not_recommended'}
+    if new_status not in allowed:
+        return HttpResponseForbidden("Недопустимый статус")
+
+    registration.result = new_status
+    registration.save()
+
+    return redirect('conference_detail', pk=registration.conference.pk)
