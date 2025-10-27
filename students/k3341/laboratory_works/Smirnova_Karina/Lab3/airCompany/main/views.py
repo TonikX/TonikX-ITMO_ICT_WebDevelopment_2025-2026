@@ -72,10 +72,6 @@ class TransitLandingViewSet(viewsets.ModelViewSet):
     queryset = TransitLanding.objects.all()
     serializer_class = TransitLandingSerializer
 
-class CrewMemberViewSet(viewsets.ModelViewSet):
-    queryset = CrewMember.objects.all()
-    serializer_class = CrewMemberSerializer
-
 class MostPopularPaneType(APIView):
     def get(self, request, route_id):
         # Фильтруем рейсы по маршруту
@@ -97,7 +93,7 @@ class MostPopularPaneType(APIView):
         }, status=status.HTTP_200_OK)
 
 class RoutesBelowCapacity(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, percentage):
         try:
@@ -130,7 +126,7 @@ class AvailableSeats(APIView):
         return Response({'available_seats': available_seats}, status=status.HTTP_200_OK)
 
 class PlanesUnderRepair(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         # Подсчитываем количество самолетов в ремонте
@@ -139,7 +135,7 @@ class PlanesUnderRepair(APIView):
         return Response({'planes_under_repair': under_repair_count}, status=status.HTTP_200_OK)
 
 class TotalEmployees(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, company_id):
         try:

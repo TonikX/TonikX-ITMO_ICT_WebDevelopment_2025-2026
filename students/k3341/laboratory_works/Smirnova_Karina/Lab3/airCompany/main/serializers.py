@@ -67,16 +67,6 @@ class TransitLandingSerializer(serializers.ModelSerializer):
 
 # Сериализаторы со связями
 
-# class AirlineCompanyWithCrewSerializer(serializers.ModelSerializer):
-#     """
-#     Сериализатор для AirlineCompany + вложенные члены экипажа.
-#     """
-#     crew_members = CrewMemberSerializer(many=True, read_only=True)
-#
-#     class Meta:
-#         model = AirlineCompany
-#         fields = ['id', 'name', 'crew_members']
-
 class CrewAndMembersSerializer(serializers.ModelSerializer):
     """
     Сериализатор для Crew + вложенные члены экипажа.
