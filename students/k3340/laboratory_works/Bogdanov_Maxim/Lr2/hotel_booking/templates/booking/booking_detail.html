@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование #{{ booking.pk }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Бронирование #{{ booking.pk }}</h1>
+    <a href="{% url 'my_bookings' %}" class="btn btn-secondary">Назад к списку</a>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ booking.room.room_type.hotel.name }}</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Номер:</strong> {{ booking.room.room_number }}</p>
+                <p><strong>Тип номера:</strong> {{ booking.room.room_type.name }}</p>
+                <p><strong>Вместимость:</strong> {{ booking.room.room_type.capacity }} чел.</p>
+                <p><strong>Адрес:</strong> {{ booking.room.room_type.hotel.address }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Дата заезда:</strong> {{ booking.check_in }}</p>
+                <p><strong>Дата выезда:</strong> {{ booking.check_out }}</p>
+                <p><strong>Статус:</strong>
+                    <span class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% elif booking.status == 'checked_in' %}primary{% elif booking.status == 'checked_out' %}info{% else %}secondary{% endif %}">
+                        {{ booking.get_status_display }}
+                    </span>
+                </p>
+                <p><strong>Стоимость:</strong> {{ booking.total_price }} руб.</p>
+                <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            {% if booking.can_edit %}
+            <a href="{% url 'booking_update' booking.pk %}" class="btn btn-warning">Изменить</a>
+            {% endif %}
+            {% if booking.can_cancel %}
+            <a href="{% url 'booking_delete' booking.pk %}" class="btn btn-danger">Отменить бронирование</a>
+            {% endif %}
+
+            {% if can_review and not has_review %}
+            <a href="{% url 'review_create' booking.pk %}" class="btn btn-success">Оставить отзыв</a>
+            {% elif has_review %}
+            <span class="badge bg-info">Вы уже оставили отзыв на это бронирование</span>
+            {% elif not can_review %}
+            <span class="badge bg-secondary">Отзыв можно оставить после заезда</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if has_review %}
+<div class="card">
+    <div class="card-header">
+        <h5>Ваш отзыв</h5>
+    </div>
+    <div class="card-body">
+        {% for review in booking.reviews.all %}
+        {% if review.user == user %}
+        <div class="mb-2">
+            <strong>Рейтинг:</strong>
+            <span class="badge bg-{% if review.rating >= 8 %}success{% elif review.rating >= 5 %}warning{% else %}danger{% endif %}">
+                {{ review.rating }}/10
+            </span>
+        </div>
+        <p><strong>Комментарий:</strong> {{ review.comment }}</p>
+        <small class="text-muted">Оставлен: {{ review.created_at|date:"d.m.Y H:i" }}</small>
+        <div class="mt-2">
+            <a href="{% url 'review_update' review.pk %}" class="btn btn-sm btn-warning">Изменить отзыв</a>
+            <a href="{% url 'review_delete' review.pk %}" class="btn btn-sm btn-danger">Удалить отзыв</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

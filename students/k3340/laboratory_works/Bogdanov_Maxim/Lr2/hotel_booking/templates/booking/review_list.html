@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои отзывы{% endblock %}
+
+{% block content %}
+<h1>Мои отзывы</h1>
+
+{% if reviews %}
+<div class="row">
+    {% for review in reviews %}
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ review.room.room_type.hotel.name }} - Номер {{ review.room.room_number }}
+                    <span class="badge bg-{% if review.rating >= 8 %}success{% elif review.rating >= 5 %}warning{% else %}danger{% endif %} float-end">
+                        {{ review.rating }}/10
+                    </span>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ review.room.room_type.name }}</h6>
+                <p class="card-text">{{ review.comment }}</p>
+                <p class="text-muted mb-2">
+                    <small>
+                        <strong>Период проживания:</strong> {{ review.stay_start }} - {{ review.stay_end }}<br>
+                        <strong>Отзыв оставлен:</strong> {{ review.created_at|date:"d.m.Y H:i" }}
+                    </small>
+                </p>
+                {% if review.booking %}
+                <a href="{% url 'booking_detail' review.booking.pk %}" class="btn btn-sm btn-info">К бронированию</a>
+                {% endif %}
+                <a href="{% url 'review_update' review.pk %}" class="btn btn-sm btn-warning">Изменить</a>
+                <a href="{% url 'review_delete' review.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">Первая</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info">
+    У вас пока нет отзывов. Оставьте отзыв после проживания в отеле из раздела <a href="{% url 'my_bookings' %}">Мои брони</a>.
+</div>
+{% endif %}
+{% endblock %}
