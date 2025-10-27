@@ -1,9 +1,10 @@
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 from .views import (
     AirlineCompanyViewSet, PlaneViewSet, CrewViewSet,
     RouteViewSet, FlightViewSet, TransitLandingViewSet, CrewMemberViewSet, MostPopularPaneType, RoutesBelowCapacity,
-    AvailableSeats, PlanesUnderRepair, TotalEmployees
+    AvailableSeats, PlanesUnderRepair, TotalEmployees, auth_demo
 )
 
 router = DefaultRouter()
@@ -32,4 +33,11 @@ urlpatterns = [
 
     # Определить количество работников компания-авиаперевозчика.
     path('total_employees/<int:company_id>/', TotalEmployees.as_view(), name='total_employees'),
+
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+
+    path('auth-demo/', auth_demo, name='auth-demo'),
 ]
+

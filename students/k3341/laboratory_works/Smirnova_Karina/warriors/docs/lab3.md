@@ -412,3 +412,316 @@ admin.site.register(Flight)
 admin.site.register(TransitLanding)
 ```
 
+#### Пишем urls и views для заданий из варианта:
+
+```python
+# Выбрать марку самолета, которая чаще всего летает по маршруту.
+    path('most_popular_plane_type/<int:route_id>/', MostPopularPaneType.as_view(), name='most_popular_plane_type'),
+
+    # Выбрать маршрут/маршруты, по которым летают рейсы, заполненные менее чем на XX%
+    path('routes_below_capacity/<str:percentage>/', RoutesBelowCapacity.as_view(), name='routes_below_capacity'),
+
+    # Определить наличие свободных мест на заданный рейс.
+    path('available_seats/<int:flight_id>/', AvailableSeats.as_view(), name='available_seats'),
+
+    # Определить количество самолетов, находящихся в ремонте.
+    path('planes_under_repair/', PlanesUnderRepair.as_view(), name='planes_under_repair'),
+
+    # Определить количество работников компания-авиаперевозчика.
+    path('total_employees/<int:company_id>/', TotalEmployees.as_view(), name='total_employees'),
+```
+
+```python
+class MostPopularPaneType(APIView):
+    def get(self, request, route_id):
+        # Фильтруем рейсы по маршруту
+        flights = Flight.objects.filter(route_id=route_id)
+
+        # Подсчитываем количество рейсов для каждой марки самолета
+        plane_counts = flights.values('plane__type').annotate(count=Count('id')).order_by('-count')
+
+        # Проверяем, есть ли данные
+        if not plane_counts:
+            return Response({"detail": "No flights found for the given route."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Получаем марку самолета с максимальным количеством рейсов
+        most_popular_plane = plane_counts.first()
+
+        return Response({
+            "plane_type": most_popular_plane['plane__type'],
+            "flight_count": most_popular_plane['count']
+        }, status=status.HTTP_200_OK)
+
+class RoutesBelowCapacity(APIView):
+    def get(self, request, percentage):
+        try:
+            # Рассчитываем порог заполненности
+            threshold = float(percentage) / 100
+
+            # Фильтруем маршруты с рейсами, заполненными менее чем на threshold
+            under_capacity_routes = Route.objects.annotate(
+                average_capacity=Avg('flights__sold_tickets') / Avg('flights__plane__seats_capacity')
+            ).filter(average_capacity__lt=threshold)
+
+            # Сериализуем данные маршрутов
+            serializer = RouteSerializer(under_capacity_routes, many=True)
+
+            return Response({'under_capacity_routes': serializer.data}, status=status.HTTP_200_OK)
+        except ValueError:
+            return Response({"detail": "Invalid percentage value."}, status=status.HTTP_400_BAD_REQUEST)
+
+class AvailableSeats(APIView):
+    def get(self, request, flight_id):
+        try:
+            # Получаем рейс по ID
+            flight = Flight.objects.get(pk=flight_id)
+        except Flight.DoesNotExist:
+            return Response({'error': 'Flight not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Рассчитываем количество свободных мест
+        available_seats = flight.plane.seats_capacity - flight.sold_tickets
+
+        return Response({'available_seats': available_seats}, status=status.HTTP_200_OK)
+
+class PlanesUnderRepair(APIView):
+    def get(self, request):
+        # Подсчитываем количество самолетов в ремонте
+        under_repair_count = Plane.objects.filter(in_repair=True).count()
+
+        return Response({'planes_under_repair': under_repair_count}, status=status.HTTP_200_OK)
+
+class TotalEmployees(APIView):
+    def get(self, request, company_id):
+        try:
+            # Получаем компанию-авиаперевозчика по ID
+            company = AirlineCompany.objects.get(pk=company_id)
+        except AirlineCompany.DoesNotExist:
+            return Response({'error': 'Company not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Подсчитываем количество работников компании
+        total_employees = CrewMember.objects.filter(company=company).count()
+
+        return Response({'total_employees': total_employees}, status=status.HTTP_200_OK)
+```
+
+#### Авторизация, аутентификация и регистрация пользователей
+
+Установка необходимых пакетов:
+
+```
+pip install djoser
+pip install djangorestframework-simplejwt
+```
+
+Настройка в settings.py:
+
+```python
+INSTALLED_APPS += [
+    'rest_framework.authtoken',
+    'djoser',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+```
+
+Настраиваем urls.py для аутентификации и регистрации:
+
+```python
+urlpatterns = [
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    
+    path('auth-demo/', auth_demo, name='auth-demo'),
+]
+```
+
+Djoser автоматически создаёт следующие эндпоинты:
+* Регистрация пользователя: POST /auth/users/
+* Получение информации о текущем пользователе: GET /auth/users/me/
+* Авторизация (получение токена): POST /auth/token
+* Изменение пароля: POST /auth/users/set_password/
+* Выход (удаление токена): POST /logout/
+
+Пишем view для страницы демонстрации аутентификации:
+
+```python
+@csrf_protect
+def auth_demo(request):
+    """
+    Обрабатывает три действия (в поле action формы):
+    - login: аутентифицирует (username/password), делает django_login и создаёт Token (Token.objects.get_or_create),
+             сохраняет token.key в request.session['auth_token'].
+    - me: показывает данные текущего пользователя (из request.user если сессия есть, иначе пытается по токену в сессии).
+    - logout: удаляет Token (если есть) и делает django_logout.
+    """
+    message = ''
+    token = request.session.get('auth_token')
+    user_info = None
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'login':
+            username = request.POST.get('username', '').strip()
+            password = request.POST.get('password', '')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                # Логиним пользователя в сессии
+                django_login(request, user)
+                # Создаём/получаем токен
+                token_obj, created = Token.objects.get_or_create(user=user)
+                request.session['auth_token'] = token_obj.key
+                token = token_obj.key
+                message = 'Успешный вход. Токен сохранён в сессии.'
+            else:
+                message = 'Неверный username или password.'
+        elif action == 'me':
+            if request.user.is_authenticated:
+                u = request.user
+                user_info = {
+                    'id': u.id,
+                    'username': u.username,
+                    'email': u.email,
+                    'is_active': u.is_active,
+                    'is_staff': u.is_staff,
+                }
+            else:
+                # пробуем по токену из сессии
+                token_key = request.session.get('auth_token')
+                if token_key:
+                    try:
+                        t = Token.objects.get(key=token_key)
+                        u = t.user
+                        user_info = {
+                            'id': u.id,
+                            'username': u.username,
+                            'email': u.email,
+                            'is_active': u.is_active,
+                            'is_staff': u.is_staff,
+                        }
+                        message = 'Пользователь найден по токену из сессии.'
+                    except Token.DoesNotExist:
+                        message = 'Токен в сессии не найден в базе.'
+                else:
+                    message = 'Нет активной сессии и токена. Сначала выполните вход.'
+        elif action == 'logout':
+            # Если пользователь аутентифицирован, удаляем токен пользователя
+            if request.user.is_authenticated:
+                Token.objects.filter(user=request.user).delete()
+                django_logout(request)
+                request.session.pop('auth_token', None)
+                message = 'Вышли из сессии и удалили токен.'
+            else:
+                # Попробуем удалить по токену из сессии
+                token_key = request.session.pop('auth_token', None)
+                if token_key:
+                    Token.objects.filter(key=token_key).delete()
+                    message = 'Токен из сессии удалён.'
+                else:
+                    message = 'Нет активной сессии и токена для удаления.'
+
+    # Приведём user_info в читаемый вид (строка JSON-like) для шаблона
+    if user_info:
+        import json
+        user_info = json.dumps(user_info, ensure_ascii=False, indent=2)
+
+    context = {
+        'message': message,
+        'token': token,
+        'user_info': user_info,
+    }
+    return render(request, 'auth_page.html', context)
+```
+
+Напишем html для демонстарации аутентификации (auth_page.html):
+
+```html
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auth demo (без JS)</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 16px; }
+    label { display:block; margin-top:8px; }
+    input { padding:6px; width: 320px; }
+    button { margin-top: 10px; padding:8px 12px; }
+    pre { background:#f7f7f7; padding:12px; border:1px solid #ddd; white-space:pre-wrap; }
+    .row { display:flex; gap:12px; align-items:center; margin-top:8px; }
+    .token { font-family: monospace; background:#eef; padding:6px; display:inline-block; margin-left:8px; }
+    .msg { margin-top:12px; padding:8px; background:#f0f8ff; border:1px solid #cce; }
+  </style>
+</head>
+<body>
+
+  <p>Этот интерфейс работает через Django view на сервере. Формы отправляются без JavaScript — сервер выполняет логику с токеном и сессией.</p>
+
+  {% if message %}
+  <div class="msg">{{ message }}</div>
+  {% endif %}
+
+  <h2>Вход</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="login" />
+    <label>Username
+      <input name="username" required />
+    </label>
+    <label>Password
+      <input name="password" type="password" required />
+    </label>
+    <div class="row">
+      <button type="submit">Войти и получить токен</button>
+      <button type="submit" formaction="" formmethod="post" name="dummy" value="1" onclick="return true;"> </button>
+    </div>
+  </form>
+
+  <h2>Действия</h2>
+  <form method="post" style="display:inline-block; margin-right:12px;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="me" />
+    <button type="submit">Показать current user</button>
+  </form>
+
+  <form method="post" style="display:inline-block;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="logout" />
+    <button type="submit">Выйти (удалить токен)</button>
+  </form>
+
+  <h2>Текущий токен (сохранённый в сессии)</h2>
+  {% if token %}
+    <div>Ключ токена: <span class="token">{{ token }}</span></div>
+    <div style="margin-top:6px; color:#666">Если нужно использовать токен с curl/Postman: добавьте заголовок Authorization: Token {{ token }}</div>
+  {% else %}
+    <div>Токен не найден в сессии.</div>
+  {% endif %}
+
+  <h2>Информация о пользователе</h2>
+  {% if user_info %}
+    <pre>{{ user_info|safe }}</pre>
+  {% else %}
+    <div>Информация отсутствует. Нажмите «Показать current user» после входа.</div>
+  {% endif %}
+
+  <hr/>
+  <div style="color:#666; font-size:0.9em">
+    Примечания:
+    <ul>
+      <li>Нужен app rest_framework.authtoken в INSTALLED_APPS и выполненные миграции (python manage.py migrate).</li>
+      <li>Этот view использует Django session auth + DRF Token: сайт создаёт/хранит токен на сервере и в сессии браузера — поэтому JS не требуется.</li>
+      <li>Если хочешь использовать JWT — можно изменить логику view, чтобы хранить access/refresh в сессии аналогично.</li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+ 

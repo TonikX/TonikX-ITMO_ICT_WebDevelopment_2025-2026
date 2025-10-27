@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auth demo (без JS)</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 16px; }
+    label { display:block; margin-top:8px; }
+    input { padding:6px; width: 320px; }
+    button { margin-top: 10px; padding:8px 12px; }
+    pre { background:#f7f7f7; padding:12px; border:1px solid #ddd; white-space:pre-wrap; }
+    .row { display:flex; gap:12px; align-items:center; margin-top:8px; }
+    .token { font-family: monospace; background:#eef; padding:6px; display:inline-block; margin-left:8px; }
+    .msg { margin-top:12px; padding:8px; background:#f0f8ff; border:1px solid #cce; }
+  </style>
+</head>
+<body>
+
+  <p>Этот интерфейс работает через Django view на сервере. Формы отправляются без JavaScript — сервер выполняет логику с токеном и сессией.</p>
+
+  {% if message %}
+  <div class="msg">{{ message }}</div>
+  {% endif %}
+
+  <h2>Вход</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="login" />
+    <label>Username
+      <input name="username" required />
+    </label>
+    <label>Password
+      <input name="password" type="password" required />
+    </label>
+    <div class="row">
+      <button type="submit">Войти и получить токен</button>
+      <button type="submit" formaction="" formmethod="post" name="dummy" value="1" onclick="return true;"> </button>
+    </div>
+  </form>
+
+  <h2>Действия</h2>
+  <form method="post" style="display:inline-block; margin-right:12px;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="me" />
+    <button type="submit">Показать current user</button>
+  </form>
+
+  <form method="post" style="display:inline-block;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="logout" />
+    <button type="submit">Выйти (удалить токен)</button>
+  </form>
+
+  <h2>Текущий токен (сохранённый в сессии)</h2>
+  {% if token %}
+    <div>Ключ токена: <span class="token">{{ token }}</span></div>
+    <div style="margin-top:6px; color:#666">Если нужно использовать токен с curl/Postman: добавьте заголовок Authorization: Token {{ token }}</div>
+  {% else %}
+    <div>Токен не найден в сессии.</div>
+  {% endif %}
+
+  <h2>Информация о пользователе</h2>
+  {% if user_info %}
+    <pre>{{ user_info|safe }}</pre>
+  {% else %}
+    <div>Информация отсутствует. Нажмите «Показать current user» после входа.</div>
+  {% endif %}
+
+  <hr/>
+  <div style="color:#666; font-size:0.9em">
+    Примечания:
+    <ul>
+      <li>Нужен app rest_framework.authtoken в INSTALLED_APPS и выполненные миграции (python manage.py migrate).</li>
+      <li>Этот view использует Django session auth + DRF Token: сайт создаёт/хранит токен на сервере и в сессии браузера — поэтому JS не требуется.</li>
+      <li>Если хочешь использовать JWT — можно изменить логику view, чтобы хранить access/refresh в сессии аналогично.</li>
+    </ul>
+  </div>
+</body>
+</html>
