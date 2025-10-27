@@ -1,5 +1,5 @@
 from django.db.models import Count, Avg
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,28 +10,63 @@ from django.views.decorators.csrf import csrf_protect
 
 from .models import AirlineCompany, Plane, Crew, Route, Flight, TransitLanding, CrewMember
 from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer, \
-    TransitLandingSerializer, CrewMemberSerializer
+    TransitLandingSerializer, CrewMemberSerializer, AirlineCompanyAndPlanesAndCrewMembersSerializer, \
+    PlaneWithFlightsSerializer, CrewAndMembersSerializer, RouteWithFlightsSerializer, \
+    FlightWithTransitLandingsSerializer
 
 
 class AirlineCompanyViewSet(viewsets.ModelViewSet):
-    queryset = AirlineCompany.objects.all()
-    serializer_class = AirlineCompanySerializer
+    """
+    ViewSet для модели AirlineCompany с возможностью поиска по названию.
+    """
+    queryset = AirlineCompany.objects.all().prefetch_related('plane_set', 'crew_members')
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return AirlineCompanyAndPlanesAndCrewMembersSerializer
+        return AirlineCompanySerializer
 
 class PlaneViewSet(viewsets.ModelViewSet):
-    queryset = Plane.objects.all()
-    serializer_class = PlaneSerializer
+    """
+    ViewSet для модели Plane + рейсы
+    """
+    queryset = Plane.objects.select_related('airline_company').prefetch_related('flight_set__route').all()
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return PlaneWithFlightsSerializer
+        return PlaneSerializer
 
 class CrewViewSet(viewsets.ModelViewSet):
-    queryset = Crew.objects.all()
-    serializer_class = CrewSerializer
+    """
+    ViewSet для модели Crew + члены экипажа
+    """
+    queryset = Crew.objects.prefetch_related('members').all()
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve', 'create', 'update', 'partial_update'):
+            return CrewAndMembersSerializer
+        return CrewSerializer
+
+class CrewMemberViewSet(viewsets.ModelViewSet):
+    queryset = CrewMember.objects.prefetch_related('company').all()
+    serializer_class = CrewMemberSerializer
 
 class RouteViewSet(viewsets.ModelViewSet):
-    queryset = Route.objects.all()
-    serializer_class = RouteSerializer
+    queryset = Route.objects.all().prefetch_related('flights')
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return RouteWithFlightsSerializer
+        return RouteSerializer
 
 class FlightViewSet(viewsets.ModelViewSet):
-    queryset = Flight.objects.all()
-    serializer_class = FlightSerializer
+    queryset = Flight.objects.select_related('route', 'plane').prefetch_related('crew', 'transitlanding_set').all()
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return FlightWithTransitLandingsSerializer
+        return FlightSerializer
 
 class TransitLandingViewSet(viewsets.ModelViewSet):
     queryset = TransitLanding.objects.all()

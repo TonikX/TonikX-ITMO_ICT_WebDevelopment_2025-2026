@@ -29,7 +29,8 @@ class CrewMember(models.Model):
     work_experience = models.IntegerField(verbose_name='Стаж работы')
     passport_info = models.CharField(max_length=255, verbose_name='Паспортные данные')
     flight_authorization = models.BooleanField(default=False, verbose_name='Допуск к рейсу')
-    company = models.ManyToManyField(AirlineCompany, verbose_name='Компания, в которой работает')
+    company = models.ManyToManyField(AirlineCompany, verbose_name='Компания, в которой работает',
+                                     related_name='crew_members')
     position = models.CharField(max_length=50,
                                 verbose_name='Должность (командир, второй пилот, штурман, стюардесса/стюард)')
 
