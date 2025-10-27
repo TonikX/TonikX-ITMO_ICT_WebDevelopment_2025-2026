@@ -1,0 +1,40 @@
+{% extends 'hotels/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Добавить отзыв</h2>
+    
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Ошибка!</strong> Пожалуйста, исправьте ошибки ниже.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="{{ form.room_type.id_for_label }}" class="form-label">Тип номера</label>
+            {{ form.room_type }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.stay_period.id_for_label }}" class="form-label">Период проживания</label>
+            {{ form.stay_period }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.rating.id_for_label }}" class="form-label">Рейтинг (1-10)</label>
+            {{ form.rating }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.text.id_for_label }}" class="form-label">Текст отзыва</label>
+            {{ form.text }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+        <a href="{% url 'review_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

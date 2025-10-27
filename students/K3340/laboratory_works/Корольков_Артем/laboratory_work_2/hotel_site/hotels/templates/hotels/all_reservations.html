@@ -1,0 +1,81 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Все бронирования{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Все бронирования</h1>
+    
+    <div class="alert alert-info">
+        <strong>Административный режим</strong> - вы видите все бронирования системы
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Отель</th>
+                    <th>Тип номера</th>
+                    <th>Заезд</th>
+                    <th>Выезд</th>
+                    <th>Статус</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.user.username }}</td>
+                    <td>{{ reservation.room_type.hotel.name }}</td>
+                    <td>{{ reservation.room_type.name }}</td>
+                    <td>{{ reservation.check_in }}</td>
+                    <td>{{ reservation.check_out }}</td>
+                    <td>
+                        <span class="badge bg-{% if reservation.status == 'confirmed' %}primary{% elif reservation.status == 'checked_in' %}success{% elif reservation.status == 'checked_out' %}secondary{% else %}danger{% endif %}">
+                            {{ reservation.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ reservation.total_cost }} руб.</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">Нет бронирований</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
