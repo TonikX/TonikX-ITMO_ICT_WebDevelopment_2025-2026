@@ -1,0 +1,75 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Главная страница - Система бронирования отелей{% endblock %}
+
+{% block content %}
+<div class="row align-items-center hero-section mb-5">
+    <div class="col-md-6">
+        <h1 class="display-4 fw-bold mb-4">Найдите идеальный отель для отдыха</h1>
+        <p class="lead mb-4">Широкий выбор отелей с лучшими ценами и отзывами реальных гостей</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="{% url 'hotel_list' %}" class="btn btn-primary btn-lg px-4 me-md-2">🎯 Найти отель</a>
+            <a href="{% url 'review_list' %}" class="btn btn-outline-secondary btn-lg px-4">⭐ Читать отзывы</a>
+        </div>
+    </div>
+    <div class="col-md-6 text-center">
+        <div class="hero-image-placeholder bg-light rounded-3 p-5">
+            <h3>🏨</h3>
+            <p class="text-muted">Лучшие отели ждут вас!</p>
+        </div>
+    </div>
+</div>
+
+<!-- Преимущества -->
+<div class="row mt-5">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="fs-1 mb-3">🔍</div>
+            <h5 class="card-title">Легкий поиск</h5>
+                <p class="card-text">Найдите отель по названию, описанию или местоположению</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="fs-1 mb-3">💰</div>
+                <h5 class="card-title">Лучшие цены</h5>
+                <p class="card-text">Гарантия лучшей стоимости при прямом бронировании</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="fs-1 mb-3">⭐</div>
+                <h5 class="card-title">Реальные отзывы</h5>
+                <p class="card-text">Читайте отзывы от настоящих гостей с рейтингами</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <div class="fs-1 mb-3">📱</div>
+                <h5 class="card-title">Удобное управление</h5>
+                <p class="card-text">Бронируйте, редактируйте и отслеживайте заказы онлайн</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Быстрые ссылки -->
+<div class="row mt-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">Быстрый доступ</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{% url 'hotel_list' %}" class="btn btn-outline-primary">📋 Все отели</a>
+            <a href="{% url 'create_reservation' %}" class="btn btn-outline-success">🏨 Новое бронирование</a>
+            <a href="{% url 'create_review' %}" class="btn btn-outline-warning">⭐ Написать отзыв</a>
+            <a href="{% url 'guest_report' %}" class="btn btn-outline-info">📊 Посмотреть отчет</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

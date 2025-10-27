@@ -1,0 +1,76 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Отзывы об отелях{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Отзывы об отелях</h1>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'create_review' %}" class="btn btn-primary">Написать отзыв</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'user_reviews' %}" class="btn btn-outline-secondary">Мои отзывы</a>
+        {% endif %}
+    </div>
+
+    {% for review in reviews %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ review.room_type.hotel.name }} - {{ review.room_type.name }}</h5>
+            <div>
+                <span class="badge bg-primary">Рейтинг: {{ review.rating }}/10</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">
+                Автор: {{ review.user.username }} | 
+                Период проживания: {{ review.stay_period }} |
+                Опубликовано: {{ review.created_at|date:"d.m.Y H:i" }}
+            </h6>
+            <p class="card-text">{{ review.text }}</p>
+            
+            {% if user == review.user %}
+            <div class="mt-3">
+                <a href="{% url 'delete_review' review.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info">
+        <p>Пока нет отзывов. Будьте первым, кто оставит отзыв!</p>
+    </div>
+    {% endfor %}
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
