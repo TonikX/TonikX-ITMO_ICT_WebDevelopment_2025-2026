@@ -85,7 +85,11 @@
 <div class="alert alert-info">Пока нет отзывов об этом отеле.</div>
 {% endif %}
 
-<h2 class="mt-4">Постояльцы за последние 30 дней</h2>
+{% if user.is_staff %}
+<h2 class="mt-4">
+    <span class="badge bg-danger">Только для администраторов</span>
+    Постояльцы за последние 30 дней
+</h2>
 {% if recent_guests %}
 <div class="table-responsive">
     <table class="table table-striped">
@@ -117,5 +121,6 @@
 </div>
 {% else %}
 <div class="alert alert-info">Нет постояльцев за последние 30 дней.</div>
+{% endif %}
 {% endif %}
 {% endblock %}

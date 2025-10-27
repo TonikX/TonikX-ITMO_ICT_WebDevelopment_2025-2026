@@ -56,7 +56,12 @@ class HotelDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['room_types'] = self.object.room_types.prefetch_related('amenities', 'rooms')
-        context['recent_guests'] = get_recent_guests(self.object, days=30)
+
+        if self.request.user.is_staff or (
+                self.request.user.is_authenticated and self.request.user == self.object.owner):
+            context['recent_guests'] = get_recent_guests(self.object, days=30)
+        else:
+            context['recent_guests'] = None
 
         reviews = Review.objects.filter(
             room__room_type__hotel=self.object
@@ -65,7 +70,7 @@ class HotelDetailView(DetailView):
 
         avg_rating = Review.objects.filter(
             room__room_type__hotel=self.object
-        ).aggregate(Avg('rating'))['rating__avg']
+        ).aggregate(Avg('rating'))['rating__avg'] # 4.3
         context['average_rating'] = round(avg_rating, 1) if avg_rating else None
 
         return context
