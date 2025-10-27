@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовая страница</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать на HTTP-сервер Королькова Артема!</h1>
+        <p>Это тестовая страница, загружаемая сервером из файла index.html</p>
+        <p>Сервер реализован на чистом Python с использованием библиотеки socket</p>
+
+        <h2>О сервере</h2>
+        <ul>
+            <li>Протокол: HTTP/1.1</li>
+            <li>Порт: 8080</li>
+            <li>Обрабатывает GET-запросы</li>
+            <li>Возвращает HTML-страницы</li>
+        </ul>
+    </div>
+
+    <script>
+        // JavaScript для отображения текущей даты и времени
+        document.getElementById('datetime').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

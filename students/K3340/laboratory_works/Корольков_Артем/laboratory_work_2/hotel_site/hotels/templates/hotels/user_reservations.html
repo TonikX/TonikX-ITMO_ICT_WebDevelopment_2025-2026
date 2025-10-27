@@ -1,0 +1,74 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Мои бронирования</h1>
+    
+    <a href="{% url 'create_reservation' %}" class="btn btn-primary mb-4">Новое бронирование</a>
+
+    {% if reservations %}
+        <div class="row">
+            {% for reservation in reservations %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">{{ reservation.room_type.hotel.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ reservation.room_type.name }}</h6>
+                        <p class="card-text">
+                            <strong>Даты:</strong> с {{ reservation.check_in }} по {{ reservation.check_out }}<br>
+                            <strong>Стоимость:</strong> {{ reservation.room_type.cost }} руб. за ночь<br>
+                            <strong>Итого:</strong> {{ reservation.total_cost }} руб.
+                        </p>
+                        <small class="text-muted">Создано: {{ reservation.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'update_reservation' reservation.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                        <a href="{% url 'delete_reservation' reservation.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info">
+            <h4>У вас пока нет бронирований</h4>
+            <p>Создайте свое первое бронирование, нажав на кнопку "Новое бронирование".</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

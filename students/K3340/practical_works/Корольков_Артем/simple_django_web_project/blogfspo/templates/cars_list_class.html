@@ -1,0 +1,256 @@
+<!-- templates/cars_list_class.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список автомобилей (Class-Based)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .btn-primary { background: #007bff; }
+        .btn-success { background: #28a745; }
+        .btn-secondary { background: #6c757d; }
+        .btn-danger { background: #dc3545; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn:disabled, .btn.disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
+        }
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border-top: 5px solid #28a745;
+        }
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .car-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        .car-id {
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        .car-info {
+            margin-bottom: 15px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .owner-section {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .current-owner {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .no-owner {
+            color: #dc3545;
+            font-style: italic;
+        }
+        .car-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .car-actions .btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px 5px;
+            font-size: 0.9em;
+        }
+        .messages {
+            margin-bottom: 20px;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error-card {
+            border-top: 5px solid #dc3545;
+            background: #f8d7da;
+        }
+        .error-message {
+            color: #721c24;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Список автомобилей</h1>
+            <p>Всего автомобилей в системе: {{ total_cars }}</p>
+        </div>
+
+        <!-- Сообщения -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{% url 'car_create' %}" class="btn btn-success">
+                Добавить новый автомобиль
+            </a>
+            <div>
+                <a href="{% url 'automobiles_home' %}" class="btn btn-secondary">На главную</a>
+                <a href="{% url 'owners_list' %}" class="btn btn-primary">Список владельцев</a>
+            </div>
+        </div>
+
+        {% if cars %}
+            <div class="cars-grid">
+                {% for car in cars %}
+                <div class="car-card {% if not car.id %}error-card{% endif %}">
+                    <div class="car-header">
+                        <h3 class="car-title">{{ car.brand }} {{ car.model }}</h3>
+                        <span class="car-id">#{{ car.id|default:"N/A" }}</span>
+                    </div>
+
+                    <div class="car-info">
+                        <div class="info-row">
+                            <span class="info-label">Гос. номер:</span>
+                            <span>{{ car.state_number|default:"Не указан" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Цвет:</span>
+                            <span>{{ car.get_color_display|default:"Не указан" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Марка:</span>
+                            <span>{{ car.brand|default:"Не указана" }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Модель:</span>
+                            <span>{{ car.model|default:"Не указана" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="owner-section">
+                        <strong>Текущий владелец:</strong>
+                        {% with current_owner=car.get_current_owner %}
+                            {% if current_owner %}
+                                <span class="current-owner">{{ current_owner.get_full_name }}</span>
+                            {% else %}
+                                <span class="no-owner">Нет владельца</span>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="car-actions">
+                        {% if car.id %}
+                            <a href="{% url 'car_detail_class' car.id %}" class="btn btn-primary">
+                                Подробнее
+                            </a>
+                            <a href="{% url 'car_update' car.id %}" class="btn btn-success">
+                                Редактировать
+                            </a>
+                            <a href="{% url 'car_delete' car.id %}" class="btn btn-danger">
+                                Удалить
+                            </a>
+                        {% else %}
+                            <span class="btn btn-primary disabled">Подробнее</span>
+                            <span class="btn btn-success disabled">Редактировать</span>
+                            <span class="btn btn-danger disabled">Удалить</span>
+                            <div class="error-message">
+                                Ошибка: у автомобиля нет ID
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                <h2>Автомобили не найдены</h2>
+                <p>Добавьте первый автомобиль в систему</p>
+                <a href="{% url 'car_create' %}" class="btn btn-success" style="margin-top: 15px;">
+                    Добавить автомобиль
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

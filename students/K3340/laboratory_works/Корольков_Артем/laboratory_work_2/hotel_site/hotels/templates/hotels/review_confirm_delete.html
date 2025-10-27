@@ -1,0 +1,19 @@
+{% extends 'hotels/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Удаление отзыва</h2>
+    <div class="alert alert-warning">
+        <p>Вы уверены, что хотите удалить свой отзыв?</p>
+        <p><strong>Отель:</strong> {{ object.room_type.hotel.name }}</p>
+        <p><strong>Рейтинг:</strong> {{ object.rating }}/10</p>
+        <p><strong>Текст:</strong> {{ object.text|truncatewords:10 }}</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a href="{% url 'user_reviews' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

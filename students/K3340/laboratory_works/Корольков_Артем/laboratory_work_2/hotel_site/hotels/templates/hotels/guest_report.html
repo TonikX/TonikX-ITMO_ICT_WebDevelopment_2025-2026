@@ -1,0 +1,77 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Отчет по постояльцам{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Отчет по постояльцам</h1>
+    
+    <div class="alert alert-info">
+        <h4>Период: с {{ period_start }} по {{ period_end }}</h4>
+        <p class="mb-0">Всего бронирований: {{ reservations.count }}</p>
+    </div>
+
+    <h2>Статистика по отелям</h2>
+    <div class="row">
+        {% for hotel_name, stats in hotel_stats.items %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ hotel_name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Количество постояльцев:</strong> {{ stats.total_guests }}</p>
+                    <h6>Последние бронирования:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for reservation in stats.reservations|slice:":3" %}
+                        <li class="list-group-item">
+                            {{ reservation.user.username }} - 
+                            {{ reservation.check_in }} до {{ reservation.check_out }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning">
+                Нет данных о бронированиях за указанный период.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Детали бронирований</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Отель</th>
+                    <th>Тип номера</th>
+                    <th>Гость</th>
+                    <th>Заезд</th>
+                    <th>Выезд</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.room_type.hotel.name }}</td>
+                    <td>{{ reservation.room_type.name }}</td>
+                    <td>{{ reservation.user.username }}</td>
+                    <td>{{ reservation.check_in }}</td>
+                    <td>{{ reservation.check_out }}</td>
+                    <td>{{ reservation.total_cost }} руб.</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Нет бронирований за указанный период</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Вход в систему</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            Неправильное имя пользователя или пароль.
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Имя пользователя</label>
+                            {{ form.username }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Пароль</label>
+                            {{ form.password }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                    
+                    <div class="mt-3 text-center">
+                        <p class="text-muted">
+                            Нет аккаунта? 
+                            <a href="{% url 'register' %}" class="text-decoration-none">Зарегистрироваться</a>
+                        </p>
+                        <p class="text-muted">
+                            Администраторам: 
+                            <a href="/admin/login/" class="text-decoration-none">Войти в админ-панель</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
