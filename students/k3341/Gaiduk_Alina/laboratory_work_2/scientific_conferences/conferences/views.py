@@ -141,7 +141,7 @@ def add_review(request, pk):
     return render(request, 'conferences/review_form.html', {'form': form})
 
 def staff_check(user):
-    return user.is_staff  # или user.is_superuser, если хочешь жёстко
+    return user.is_staff
 
 
 @require_POST
