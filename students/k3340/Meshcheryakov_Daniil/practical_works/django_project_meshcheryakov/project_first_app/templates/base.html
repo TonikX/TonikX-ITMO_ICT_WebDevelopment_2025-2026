@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Читальный зал{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      /* Исправление hover для кнопки регистрации */
+      .nav-link.btn-outline-light:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border-color: #fff !important;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'book_list' %}">📖 Читальный зал</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'book_list' %}">📚 Книги</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'active_readers' %}">👥 Активные читатели</a></li>
+            {% if user.is_authenticated %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'my_borrowings' %}">📋 Мои бронирования</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                  👤 {{ user.username }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  {% if user.is_staff %}
+                    <li><a class="dropdown-item" href="/admin/">⚙️ Админка</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                  {% endif %}
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">🚪 Выход</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">🔑 Вход</a></li>
+              <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="{% url 'register' %}">✨ Регистрация</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <!-- Сообщения -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center text-muted py-4 mt-5 border-top">
+      © {{ now|date:"Y" }} Читальный зал — Django project by Даниил Мещеряков
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

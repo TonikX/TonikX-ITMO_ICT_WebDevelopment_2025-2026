@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Активные читатели{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <h1 class="mb-4 text-center">👥 Активные читатели за последний месяц</h1>
+
+    <div class="alert alert-info">
+      <strong>ℹ️ Информация:</strong> На этой странице отображаются все читатели, которые брали книги за последние 30 дней.
+    </div>
+
+    {% if borrowings %}
+      <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Читатель</th>
+              <th>Email</th>
+              <th>Книга</th>
+              <th>Автор</th>
+              <th>Дата получения</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in borrowings %}
+            <tr>
+              <td class="text-center">{{ forloop.counter }}</td>
+              <td>
+                <a href="{% url 'reader_detail' b.reader.id %}" class="text-decoration-none">
+                  {{ b.reader }}
+                </a>
+              </td>
+              <td>{{ b.reader.email }}</td>
+              <td>
+                <a href="{% url 'book_detail' b.book.id %}" class="text-decoration-none">
+                  {{ b.book.title }}
+                </a>
+              </td>
+              <td>{{ b.book.author }}</td>
+              <td>{{ b.date_from|date:"d.m.Y" }}</td>
+              <td>
+                {% if b.is_returned %}
+                  <span class="badge bg-success">✅ Возвращена</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark">📖 У читателя</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Статистика -->
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Всего заимствований</h5>
+              <p class="display-6 text-primary">{{ borrowings.count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Активных</h5>
+              <p class="display-6 text-warning">
+                {{ borrowings|length }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Уникальных читателей</h5>
+              <p class="display-6 text-success">
+                {% with readers=borrowings|length %}
+                  {% regroup borrowings by reader as reader_list %}
+                  {{ reader_list|length }}
+                {% endwith %}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-warning text-center py-5">
+        <h4>😴 За последний месяц не было заимствований</h4>
+        <p>Пока никто не брал книги. Будьте первым!</p>
+        <a href="{% url 'book_list' %}" class="btn btn-primary mt-3">
+          Перейти к каталогу книг
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

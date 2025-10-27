@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Каталог книг{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4 text-center">📚 Каталог книг</h1>
+
+  <!-- Форма поиска -->
+  <form method="get" class="d-flex mb-4">
+    <input
+      type="text"
+      name="q"
+      class="form-control me-2"
+      placeholder="Поиск по названию или автору..."
+      value="{{ query }}"
+    />
+    <button class="btn btn-primary" type="submit">🔍 Найти</button>
+  </form>
+
+  <!-- Таблица -->
+  <div class="table-responsive shadow-sm">
+    <table class="table table-striped table-hover align-middle">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>#</th>
+          <th>Название</th>
+          <th>Автор</th>
+          <th>Год</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in page_obj %}
+        <tr>
+          <td class="text-center">{{ forloop.counter }}</td>
+          <td>
+            <a href="{% url 'book_detail' book.id %}" class="text-decoration-none">
+              {{ book.title }}
+            </a>
+            {% if not book.available %}
+              <span class="badge bg-danger ms-2">Занята</span>
+            {% else %}
+              <span class="badge bg-success ms-2">Доступна</span>
+            {% endif %}
+          </td>
+          <td>{{ book.author }}</td>
+          <td class="text-center">{{ book.year }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center text-muted py-3">Нет книг в базе данных</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Пагинация -->
+  {% if page_obj.has_other_pages %}
+  <nav aria-label="Навигация по страницам" class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">← Назад</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">← Назад</span></li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+      <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">{{ num }}</a></li>
+      {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Вперёд →</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">Вперёд →</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white text-center">
+        <h2 class="mb-0">✨ Регистрация</h2>
+      </div>
+      <div class="card-body p-4">
+        <p class="text-center text-muted mb-4">
+          Создайте аккаунт, чтобы бронировать книги и оставлять отзывы
+        </p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">
+              Имя пользователя
+            </label>
+            <input type="text" 
+                   name="{{ form.username.name }}" 
+                   id="{{ form.username.id_for_label }}"
+                   class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                   value="{{ form.username.value|default:'' }}"
+                   required>
+            {% if form.username.errors %}
+              <div class="invalid-feedback">
+                {{ form.username.errors }}
+              </div>
+            {% endif %}
+            {% if form.username.help_text %}
+              <div class="form-text">{{ form.username.help_text }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">
+              Email
+            </label>
+            <input type="email" 
+                   name="{{ form.email.name }}" 
+                   id="{{ form.email.id_for_label }}"
+                   class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                   value="{{ form.email.value|default:'' }}"
+                   required>
+            {% if form.email.errors %}
+              <div class="invalid-feedback">
+                {{ form.email.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- First Name -->
+          <div class="mb-3">
+            <label for="{{ form.first_name.id_for_label }}" class="form-label">
+              Имя
+            </label>
+            <input type="text" 
+                   name="{{ form.first_name.name }}" 
+                   id="{{ form.first_name.id_for_label }}"
+                   class="form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                   value="{{ form.first_name.value|default:'' }}"
+                   required>
+            {% if form.first_name.errors %}
+              <div class="invalid-feedback">
+                {{ form.first_name.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Last Name -->
+          <div class="mb-3">
+            <label for="{{ form.last_name.id_for_label }}" class="form-label">
+              Фамилия
+            </label>
+            <input type="text" 
+                   name="{{ form.last_name.name }}" 
+                   id="{{ form.last_name.id_for_label }}"
+                   class="form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                   value="{{ form.last_name.value|default:'' }}"
+                   required>
+            {% if form.last_name.errors %}
+              <div class="invalid-feedback">
+                {{ form.last_name.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Password1 -->
+          <div class="mb-3">
+            <label for="{{ form.password1.id_for_label }}" class="form-label">
+              Пароль
+            </label>
+            <input type="password" 
+                   name="{{ form.password1.name }}" 
+                   id="{{ form.password1.id_for_label }}"
+                   class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+                   required>
+            {% if form.password1.errors %}
+              <div class="invalid-feedback">
+                {{ form.password1.errors }}
+              </div>
+            {% endif %}
+            {% if form.password1.help_text %}
+              <div class="form-text">{{ form.password1.help_text }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Password2 -->
+          <div class="mb-3">
+            <label for="{{ form.password2.id_for_label }}" class="form-label">
+              Подтверждение пароля
+            </label>
+            <input type="password" 
+                   name="{{ form.password2.name }}" 
+                   id="{{ form.password2.id_for_label }}"
+                   class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+                   required>
+            {% if form.password2.errors %}
+              <div class="invalid-feedback">
+                {{ form.password2.errors }}
+              </div>
+            {% endif %}
+            {% if form.password2.help_text %}
+              <div class="form-text">{{ form.password2.help_text }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mb-3">
+            ✨ Зарегистрироваться
+          </button>
+        </form>
+
+        <hr>
+        <p class="text-center mb-0">
+          Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

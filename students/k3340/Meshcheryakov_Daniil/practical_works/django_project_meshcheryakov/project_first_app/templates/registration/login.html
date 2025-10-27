@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white text-center">
+        <h2 class="mb-0">🔑 Вход в систему</h2>
+      </div>
+      <div class="card-body p-4">
+        <p class="text-center text-muted mb-4">
+          Войдите в свой аккаунт
+        </p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">
+              Имя пользователя
+            </label>
+            <input type="text" 
+                   name="{{ form.username.name }}" 
+                   id="{{ form.username.id_for_label }}"
+                   class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                   value="{{ form.username.value|default:'' }}"
+                   autofocus
+                   required>
+            {% if form.username.errors %}
+              <div class="invalid-feedback">
+                {{ form.username.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label">
+              Пароль
+            </label>
+            <input type="password" 
+                   name="{{ form.password.name }}" 
+                   id="{{ form.password.id_for_label }}"
+                   class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                   required>
+            {% if form.password.errors %}
+              <div class="invalid-feedback">
+                {{ form.password.errors }}
+              </div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 mb-3">
+            🚀 Войти
+          </button>
+        </form>
+
+        <hr>
+        <p class="text-center mb-0">
+          Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Дополнительная информация -->
+    <div class="card shadow-sm mt-3">
+      <div class="card-body">
+        <h6 class="card-title">ℹ️ Возможности для зарегистрированных пользователей:</h6>
+        <ul class="mb-0">
+          <li>📚 Бронирование книг</li>
+          <li>💬 Написание отзывов</li>
+          <li>📋 Управление своими бронированиями</li>
+          <li>👤 Личный кабинет</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

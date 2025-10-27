@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <h1 class="mb-4">📋 Мои бронирования</h1>
+
+    {% if borrowings %}
+      <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Книга</th>
+              <th>Автор</th>
+              <th>Дата получения</th>
+              <th>Дата возврата</th>
+              <th>Статус</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in borrowings %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>
+                <a href="{% url 'book_detail' b.book.id %}" class="text-decoration-none">
+                  {{ b.book.title }}
+                </a>
+              </td>
+              <td>{{ b.book.author }}</td>
+              <td>{{ b.date_from|date:"d.m.Y" }}</td>
+              <td>
+                {% if b.date_to %}
+                  {{ b.date_to|date:"d.m.Y" }}
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if b.is_returned %}
+                  <span class="badge bg-success">✅ Возвращена</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark">📖 У вас</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if not b.is_returned %}
+                  <a href="{% url 'delete_borrowing' b.id %}" 
+                     class="btn btn-sm btn-danger" 
+                     onclick="return confirm('Вы уверены, что хотите удалить это бронирование?')">
+                    🗑️ Удалить
+                  </a>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Статистика -->
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Всего бронирований</h5>
+              <p class="display-6 text-primary">{{ borrowings.count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Активных</h5>
+              <p class="display-6 text-warning">
+                {% with active=borrowings|length %}
+                  {% for b in borrowings %}
+                    {% if not b.is_returned %}
+                      {% if forloop.first %}1{% else %}{{ forloop.counter }}{% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Возвращено</h5>
+              <p class="display-6 text-success">
+                {% with returned=0 %}
+                  {% for b in borrowings %}
+                    {% if b.is_returned %}
+                      {{ forloop.counter }}
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center py-5">
+        <h4>📚 У вас пока нет бронирований</h4>
+        <p class="mb-3">Перейдите в каталог книг и забронируйте понравившуюся книгу!</p>
+        <a href="{% url 'book_list' %}" class="btn btn-primary">
+          Перейти к каталогу книг
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

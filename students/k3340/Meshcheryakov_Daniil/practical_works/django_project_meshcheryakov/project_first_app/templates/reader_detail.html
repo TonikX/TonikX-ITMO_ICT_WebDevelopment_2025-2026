@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль читателя - {{ reader.first_name }} {{ reader.last_name }}{% endblock %}
+
+{% block content %}
+<style>
+  .borrow-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  .borrow-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card shadow-sm p-4">
+      <div class="card-body">
+        <h1 class="mb-4 text-center">👤 Профиль читателя</h1>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <p><strong>Имя:</strong> {{ reader.first_name }}</p>
+            <p><strong>Фамилия:</strong> {{ reader.last_name }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>📧 Email:</strong> {{ reader.email }}</p>
+            <p>
+              <strong>📅 Дата регистрации:</strong>
+              {{ reader.created_at|date:"d.m.Y H:i" }}
+            </p>
+          </div>
+        </div>
+
+        <hr />
+        <h4 class="mb-3">📖 История заимствований</h4>
+
+        {% if borrowings %}
+          {% for b in borrowings %}
+          <div class="borrow-card">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <div class="flex-grow-1">
+                <strong>
+                  <a href="{% url 'book_detail' b.book.id %}" class="text-decoration-none">
+                    {{ b.book.title }}
+                  </a>
+                </strong>
+                <br />
+                <small class="text-muted">
+                  📅 с {{ b.date_from|date:"d.m.Y" }} 
+                  {% if b.date_to %}
+                    по {{ b.date_to|date:"d.m.Y" }}
+                  {% else %}
+                    — <span class="badge bg-warning text-dark">📖 У читателя</span>
+                  {% endif %}
+                </small>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-secondary">
+                  ✍️ {{ b.book.author }}
+                </span>
+                {% if b.is_returned %}
+                  <span class="badge bg-success">✅ Возвращена</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+          <!-- Статистика -->
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <div class="card text-center shadow-sm">
+                <div class="card-body">
+                  <h6>Всего заимствований</h6>
+                  <p class="display-6 text-primary mb-0">{{ borrowings.count }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card text-center shadow-sm">
+                <div class="card-body">
+                  <h6>Активных сейчас</h6>
+                  <p class="display-6 text-warning mb-0">
+                    {% with active_count=0 %}
+                      {% for b in borrowings %}
+                        {% if not b.is_returned %}
+                          {{ forloop.counter }}
+                        {% endif %}
+                      {% endfor %}
+                    {% endwith %}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="alert alert-secondary text-center py-4">
+            <h5>😴 Этот читатель пока не брал книг</h5>
+            <p class="mb-0">История заимствований пуста</p>
+          </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+          <a href="{% url 'book_list' %}" class="btn btn-primary">
+            📚 Перейти к каталогу книг
+          </a>
+          <a href="{% url 'active_readers' %}" class="btn btn-outline-secondary">
+            👥 Все активные читатели
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

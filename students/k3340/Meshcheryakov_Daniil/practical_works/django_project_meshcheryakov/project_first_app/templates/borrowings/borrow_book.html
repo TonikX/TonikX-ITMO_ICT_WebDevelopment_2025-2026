@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Забронировать книгу{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <h1 class="mb-4 text-center">📚 Бронирование книги</h1>
+
+    <!-- Информация о книге -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Информация о книге</h5>
+      </div>
+      <div class="card-body">
+        <h4>{{ book.title }}</h4>
+        <p class="mb-1"><strong>Автор:</strong> {{ book.author }}</p>
+        <p class="mb-1"><strong>Год издания:</strong> {{ book.year }}</p>
+        {% if book.description %}
+          <p class="mb-0"><strong>Описание:</strong> {{ book.description }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Форма бронирования -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Форма бронирования</h5>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label for="{{ form.date_from.id_for_label }}" class="form-label">
+              {{ form.date_from.label }}
+            </label>
+            {{ form.date_from }}
+            {% if form.date_from.errors %}
+              <div class="text-danger mt-1">
+                {{ form.date_from.errors }}
+              </div>
+            {% endif %}
+            <div class="form-text">
+              Выберите дату, когда вы планируете получить книгу
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <strong>ℹ️ Обратите внимание:</strong>
+            <ul class="mb-0 mt-2">
+              <li>После бронирования книга станет недоступна для других читателей</li>
+              <li>Вы сможете отменить бронирование в разделе "Мои бронирования"</li>
+              <li>Администратор может указать дату возврата книги</li>
+            </ul>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+              ✅ Подтвердить бронирование
+            </button>
+            <a href="{% url 'book_detail' book.id %}" class="btn btn-secondary">
+              ❌ Отмена
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

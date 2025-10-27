@@ -1,0 +1,19 @@
+site_name: Отчёты по WEB-программированию — Мещеряков Даниил (K3340)
+theme:
+  name: material
+  language: ru
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа №1:
+      - Описание: lab1/docs/index.md
+      - Задание 1: lab1/docs/task1.md
+      - Задание 2: lab1/docs/task2.md
+      - Задание 3: lab1/docs/task3.md
+      - Задание 4: lab1/docs/task4.md
+      - Задание 5: lab1/docs/task5.md
+  - Практическая работа №2 (Django):
+      - Описание: lab2/docs/index.md
+      - Задание 2.1: lab2/docs/practice2_1.md
+      - Задание 2.2: lab2/docs/practice2_2.md
+      - Задание 2.3: lab2/docs/practice2_3.md
