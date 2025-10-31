@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удалить автомобиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #EF5350;
+            border-bottom: 2px solid #EF5350;
+            padding-bottom: 10px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        .avtomobil-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .btn-danger {
+            background-color: #EF5350;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #E53935;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Подтвердите удаление</h1>
+        
+        <div class="warning">
+            <strong>Внимание!</strong> Это действие необратимо.
+        </div>
+        
+        <p>Вы уверены, что хотите удалить автомобиль?</p>
+        
+        <div class="avtomobil-info">
+            <p><strong>Марка:</strong> {{ avtomobil.marka }}</p>
+            <p><strong>Модель:</strong> {{ avtomobil.model }}</p>
+            <p><strong>Госномер:</strong> {{ avtomobil.gos_nomer }}</p>
+            {% if avtomobil.cvet %}
+            <p><strong>Цвет:</strong> {{ avtomobil.cvet }}</p>
+            {% endif %}
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Да, удалить" class="btn btn-danger">
+            <a href="{% url 'avtomobil_list' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>
+

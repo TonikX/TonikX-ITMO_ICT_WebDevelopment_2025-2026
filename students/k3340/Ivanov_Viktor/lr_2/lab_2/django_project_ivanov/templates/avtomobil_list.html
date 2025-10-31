@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список автомобилей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 900px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+        .avtomobil-list {
+            list-style: none;
+            padding: 0;
+        }
+        .avtomobil-item {
+            padding: 20px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .avtomobil-info {
+            flex-grow: 1;
+        }
+        .avtomobil-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-view {
+            background-color: #2196F3;
+        }
+        .btn-view:hover {
+            background-color: #0b7dda;
+        }
+        .btn-edit {
+            background-color: #FFA726;
+        }
+        .btn-edit:hover {
+            background-color: #FB8C00;
+        }
+        .btn-delete {
+            background-color: #EF5350;
+        }
+        .btn-delete:hover {
+            background-color: #E53935;
+        }
+        .btn-add {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .btn-add:hover {
+            background-color: #45a049;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+        .no-avtomobili {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Список автомобилей</h1>
+        
+        <div>
+            <a href="{% url 'avtomobil_create' %}" class="btn btn-add">+ Добавить автомобиль</a>
+            <a href="{% url 'owner_list' %}" class="btn btn-back">← К списку владельцев</a>
+        </div>
+        
+        {% if avtomobili %}
+            <ul class="avtomobil-list">
+            {% for avtomobil in avtomobili %}
+                <li class="avtomobil-item">
+                    <div class="avtomobil-info">
+                        <strong>{{ avtomobil.marka }} {{ avtomobil.model }}</strong><br>
+                        <small>Госномер: {{ avtomobil.gos_nomer }}</small><br>
+                        {% if avtomobil.cvet %}
+                            <small>Цвет: {{ avtomobil.cvet }}</small>
+                        {% endif %}
+                    </div>
+                    <div class="avtomobil-actions">
+                        <a href="{% url 'avtomobil_detail' avtomobil.id_avtomobilya %}" class="btn btn-view">Просмотр</a>
+                        <a href="{% url 'avtomobil_update' avtomobil.id_avtomobilya %}" class="btn btn-edit">Изменить</a>
+                        <a href="{% url 'avtomobil_delete' avtomobil.id_avtomobilya %}" class="btn btn-delete">Удалить</a>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-avtomobili">Автомобили не найдены. Добавьте первый автомобиль!</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+

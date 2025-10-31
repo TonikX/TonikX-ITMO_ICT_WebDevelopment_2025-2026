@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Рейс {{ flight.flight_number }}{% endblock %}
+{% block extra_css %}
+<style>
+.detail-grid {display: grid; grid-template-columns: 2fr 1fr; gap: 20px;}
+.passengers-table {width: 100%; border-collapse: collapse; margin: 20px 0;}
+.passengers-table th, .passengers-table td {padding: 12px; text-align: left; border-bottom: 1px solid #e0e0e0;}
+.passengers-table th {background: #f8f9fa; font-weight: 600;}
+.review-item {border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 15px;}
+.rating-display {color: #ffc107; font-size: 20px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <h1 class="card-title">Рейс {{ flight.flight_number }}</h1>
+    <div class="detail-grid">
+        <div>
+            <h3>Информация о рейсе</h3>
+            <p><strong>Авиакомпания:</strong> {{ flight.airline }}</p>
+            <p><strong>Маршрут:</strong> {{ flight.departure_city }} → {{ flight.arrival_city }}</p>
+            <p><strong>Отправление:</strong> {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+            <p><strong>Прибытие:</strong> {{ flight.arrival_time|date:"d.m.Y H:i" }}</p>
+            <p><strong>Гейт:</strong> {{ flight.gate_number }}</p>
+            <p><strong>Тип:</strong> {% if flight.flight_type == 'departure' %}Отлет{% else %}Прилет{% endif %}</p>
+            <p><strong>Цена:</strong> {{ flight.price }} ₽</p>
+            <p><strong>Доступно мест:</strong> {{ flight.available_seats }}/{{ flight.total_seats }}</p>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                {% if user_reservation %}
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px;">
+                        <p><strong>У вас есть бронь</strong></p>
+                        <p>Статус: {{ user_reservation.get_status_display }}</p>
+                        {% if user_reservation.ticket_number %}
+                        <p>Билет: {{ user_reservation.ticket_number }}</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    {% if flight.is_available %}
+                    <a href="{% url 'create_reservation' flight.pk %}" class="btn btn-success">Забронировать место</a>
+                    {% else %}
+                    <p style="color: #e74c3c;">Мест нет</p>
+                    {% endif %}
+                {% endif %}
+                <br><br>
+                <a href="{% url 'create_review' flight.pk %}" class="btn btn-primary">Написать отзыв</a>
+            {% else %}
+                <p>Войдите, чтобы забронировать</p>
+                <a href="{% url 'login' %}" class="btn btn-primary">Войти</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Пассажиры рейса ({{ reservations.count }})</h2>
+    {% if reservations %}
+    <table class="passengers-table">
+        <thead>
+            <tr><th>ФИО</th><th>Номер билета</th><th>Место</th></tr>
+        </thead>
+        <tbody>
+        {% for res in reservations %}
+            <tr>
+                <td>{{ res.user.last_name }} {{ res.user.first_name }}</td>
+                <td>{{ res.ticket_number|default:"Не назначен" }}</td>
+                <td>{{ res.seat_number|default:"Не назначено" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Пока нет подтвержденных бронирований</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Отзывы {% if avg_rating %}(Средний рейтинг: {{ avg_rating|floatformat:1 }}/10){% endif %}</h2>
+    {% if reviews %}
+        {% for review in reviews %}
+        <div class="review-item">
+            <div class="rating-display">{% for i in "12345678910"|make_list %}{% if forloop.counter <= review.rating %}★{% endif %}{% endfor %}</div>
+            <p><strong>{{ review.user.username }}</strong> - {{ review.flight_date|date:"d.m.Y" }}</p>
+            <p>{{ review.text }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Отзывов пока нет</p>
+    {% endif %}
+</div>
+{% endblock %}

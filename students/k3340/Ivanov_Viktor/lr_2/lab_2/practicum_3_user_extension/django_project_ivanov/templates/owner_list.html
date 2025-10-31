@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список владельцев автомобилей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .owner-list {
+            list-style: none;
+            padding: 0;
+        }
+        .owner-item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .owner-item:hover {
+            background-color: #e8f5e9;
+            transform: translateX(5px);
+        }
+        .owner-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .no-owners {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        .btn-success {
+            background-color: #4CAF50;
+        }
+        .btn-success:hover {
+            background-color: #45a049;
+        }
+        .btn-primary {
+            background-color: #2196F3;
+        }
+        .btn-primary:hover {
+            background-color: #0b7dda;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Список пользователей (Владельцы автомобилей)</h1>
+        
+        {% if owners %}
+            <ul class="owner-list">
+            {% for owner in owners %}
+                <li class="owner-item">
+                    <a href="{% url 'owner_detail' owner.id %}">
+                        <strong>{{ owner.last_name }} {{ owner.first_name }} {% if owner.patronymic %}{{ owner.patronymic }}{% endif %}</strong>
+                        <br>
+                        <small>Логин: {{ owner.username }}</small>
+                        {% if owner.email %}
+                            | <small>Email: {{ owner.email }}</small>
+                        {% endif %}
+                        {% if owner.data_rozhdeniya %}
+                            <br>
+                            <small>Дата рождения: {{ owner.data_rozhdeniya|date:"d.m.Y" }}</small>
+                        {% endif %}
+                        {% if owner.nationality %}
+                            | <small>Национальность: {{ owner.nationality }}</small>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-owners">Пользователи не найдены. Зарегистрируйте первого пользователя!</p>
+        {% endif %}
+        
+        <div>
+            <a href="{% url 'owner_create' %}" class="btn btn-success">+ Зарегистрировать пользователя</a>
+            <a href="{% url 'avtomobil_list' %}" class="btn btn-primary">🚗 К списку автомобилей</a>
+            <a href="/admin/" class="btn btn-info">⚙️ Админ-панель</a>
+        </div>
+    </div>
+</body>
+</html>
+

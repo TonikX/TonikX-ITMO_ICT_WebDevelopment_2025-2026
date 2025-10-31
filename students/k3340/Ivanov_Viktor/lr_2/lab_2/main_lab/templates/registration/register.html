@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+    .form-control { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; }
+    .errorlist { color: #e74c3c; list-style: none; margin: 5px 0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="card">
+        <h1 class="card-title">Регистрация</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <p style="margin-top: 20px;">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+        </form>
+    </div>
+</div>
+{% endblock %}

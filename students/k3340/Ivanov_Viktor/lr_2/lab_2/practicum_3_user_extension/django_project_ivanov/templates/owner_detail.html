@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о владельце</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .info {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            color: #333;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Информация о пользователе (Владелец автомобиля)</h1>
+        <div class="info">
+            <p>
+                <span class="label">Логин:</span> 
+                <span class="value">{{ owner.username }}</span>
+            </p>
+            <p>
+                <span class="label">Имя:</span> 
+                <span class="value">{{ owner.first_name }}</span>
+            </p>
+            <p>
+                <span class="label">Фамилия:</span> 
+                <span class="value">{{ owner.last_name }}</span>
+            </p>
+            {% if owner.patronymic %}
+            <p>
+                <span class="label">Отчество:</span> 
+                <span class="value">{{ owner.patronymic }}</span>
+            </p>
+            {% endif %}
+            <p>
+                <span class="label">Email:</span> 
+                <span class="value">{{ owner.email }}</span>
+            </p>
+            {% if owner.data_rozhdeniya %}
+            <p>
+                <span class="label">Дата рождения:</span> 
+                <span class="value">{{ owner.data_rozhdeniya|date:"d.m.Y" }}</span>
+            </p>
+            {% endif %}
+            {% if owner.passport_number %}
+            <p>
+                <span class="label">Номер паспорта:</span> 
+                <span class="value">{{ owner.passport_number }}</span>
+            </p>
+            {% endif %}
+            {% if owner.home_address %}
+            <p>
+                <span class="label">Домашний адрес:</span> 
+                <span class="value">{{ owner.home_address }}</span>
+            </p>
+            {% endif %}
+            {% if owner.nationality %}
+            <p>
+                <span class="label">Национальность:</span> 
+                <span class="value">{{ owner.nationality }}</span>
+            </p>
+            {% endif %}
+            <p>
+                <span class="label">ID пользователя:</span> 
+                <span class="value">{{ owner.id }}</span>
+            </p>
+        </div>
+        <a href="{% url 'owner_list' %}" class="back-link">← Назад к списку</a>
+    </div>
+</body>
+</html>
+

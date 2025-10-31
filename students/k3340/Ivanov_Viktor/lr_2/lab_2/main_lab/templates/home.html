@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - Табло авиарейсов{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        text-align: center;
+        color: white;
+        padding: 50px 20px;
+    }
+    
+    .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .search-form {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-group label {
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-control {
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+    
+    .flight-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+    }
+    
+    .flight-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .flight-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .flight-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .flight-number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #d4a574;
+    }
+    
+    .flight-type {
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .type-departure {
+        background: #e8f5e9;
+        color: #27ae60;
+    }
+    
+    .type-arrival {
+        background: #e3f2fd;
+        color: #2196f3;
+    }
+    
+    .route {
+        font-size: 18px;
+        margin: 15px 0;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .flight-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 15px 0;
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #999;
+        font-size: 12px;
+        margin-bottom: 3px;
+    }
+    
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 10px 0;
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+    }
+    
+    .seats-info {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        text-align: center;
+        margin-top: auto;
+    }
+    
+    .seats-available {
+        color: #27ae60;
+        font-weight: bold;
+    }
+    
+    .seats-full {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Табло авиарейсов</h1>
+    <p>Поиск и бронирование авиабилетов онлайн</p>
+</div>
+
+<div class="search-form">
+    <h2 style="margin-bottom: 20px; color: #333;">Поиск рейсов</h2>
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group">
+                <label>{{ form.departure_city.label }}</label>
+                {{ form.departure_city }}
+            </div>
+            <div class="form-group">
+                <label>{{ form.arrival_city.label }}</label>
+                {{ form.arrival_city }}
+            </div>
+            <div class="form-group">
+                <label>{{ form.departure_date.label }}</label>
+                {{ form.departure_date }}
+            </div>
+            <div class="form-group">
+                <label>{{ form.flight_type.label }}</label>
+                {{ form.flight_type }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Искать рейсы</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Сбросить</a>
+    </form>
+</div>
+
+{% if flights %}
+<div class="flight-grid">
+    {% for flight in flights %}
+    <div class="flight-card">
+        <div class="flight-header">
+            <div class="flight-number">{{ flight.flight_number }}</div>
+            <div class="flight-type type-{{ flight.flight_type }}">
+                {% if flight.flight_type == 'departure' %}Отлет{% else %}Прилет{% endif %}
+            </div>
+        </div>
+        
+        <div class="route">
+            {{ flight.departure_city }} → {{ flight.arrival_city }}
+        </div>
+        
+        <div style="color: #999; font-size: 14px; margin-bottom: 15px;">
+            <strong>{{ flight.airline }}</strong>
+        </div>
+        
+        <div class="flight-info">
+            <div class="info-item">
+                <span class="info-label">Отправление</span>
+                <span>{{ flight.departure_time|date:"d.m.Y H:i" }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Прибытие</span>
+                <span>{{ flight.arrival_time|date:"d.m.Y H:i" }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Гейт</span>
+                <span>{{ flight.gate_number }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Цена</span>
+                <span><strong>{{ flight.price }} ₽</strong></span>
+            </div>
+        </div>
+        
+        {% if flight.avg_rating %}
+        <div class="rating">
+            <span class="rating-stars">★★★★★</span>
+            <span>{{ flight.avg_rating|floatformat:1 }}/10</span>
+        </div>
+        {% endif %}
+        
+        <div class="seats-info">
+            {% if flight.is_available %}
+                <span class="seats-available">Доступно мест: {{ flight.available_seats }}</span>
+            {% else %}
+                <span class="seats-full">Мест нет</span>
+            {% endif %}
+        </div>
+        
+        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-primary" style="width: 100%; text-align: center;">
+            Подробнее
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card" style="text-align: center; color: #666;">
+    <p style="font-size: 18px;">Рейсы не найдены. Попробуйте изменить параметры поиска.</p>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
