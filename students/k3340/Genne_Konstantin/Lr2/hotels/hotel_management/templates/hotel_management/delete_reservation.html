@@ -1,0 +1,37 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}Удалить бронирование{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Удаление бронирования</h4>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить это бронирование?</p>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ reservation.room.type.hotel.name }}</h5>
+                        <p class="card-text">
+                            <strong>Тип номера:</strong> {{ reservation.room.type.name }}<br>
+                            <strong>Даты:</strong> {{ reservation.check_in }} - {{ reservation.check_out }}<br>
+                            <strong>Стоимость:</strong> {{ reservation.total_price }} руб.
+                        </p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'my_reservations' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

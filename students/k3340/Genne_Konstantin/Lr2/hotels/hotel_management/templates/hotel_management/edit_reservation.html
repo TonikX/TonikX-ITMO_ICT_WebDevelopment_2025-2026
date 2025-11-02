@@ -1,0 +1,98 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}Редактировать бронирование{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Редактировать бронирование</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card mb-4 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Текущие данные бронирования</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Отель:</strong> {{ reservation.room.type.hotel.name }}</p>
+                                <p><strong>Тип номера:</strong> {{ reservation.room.type.name }}</p>
+                                <p><strong>Стоимость за ночь:</strong> {{ reservation.room.type.price }} руб.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Текущие даты:</strong><br>
+                                    {{ reservation.check_in }} - {{ reservation.check_out }}</p>
+                                <p><strong>Вместимость:</strong> {{ reservation.room.type.capacity }} чел.</p>
+                                <p><strong>Удобства:</strong> {{ reservation.room.type.facilities }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Ошибка!</strong> Пожалуйста, исправьте ошибки ниже.
+                    </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Тип номера</label>
+                                {{ form.new_room_type }}
+                                {% if form.new_room_type.errors %}
+                                    <div class="text-danger small">{{ form.new_room_type.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.check_in.id_for_label }}" class="form-label">
+                                    Дата заезда *
+                                </label>
+                                {{ form.check_in }}
+                                {% if form.check_in.errors %}
+                                    <div class="text-danger small">{{ form.check_in.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.check_out.id_for_label }}" class="form-label">
+                                    Дата выезда *
+                                </label>
+                                {{ form.check_out }}
+                                {% if form.check_out.errors %}
+                                    <div class="text-danger small">{{ form.check_out.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <small>
+                            <strong>Информация:</strong><br>
+                            • Минимальный срок проживания - 1 ночь<br>
+                            • Дата заезда не может быть раньше сегодняшнего дня<br>
+                            • Изменение дат может повлиять на стоимость бронирования
+                        </small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'my_reservations' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

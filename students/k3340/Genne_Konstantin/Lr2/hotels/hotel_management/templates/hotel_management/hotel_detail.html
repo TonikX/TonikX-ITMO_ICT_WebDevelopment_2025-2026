@@ -1,0 +1,64 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}{{ hotel.name }} - Номера{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <a href="{% url 'hotel_list' %}{% if request.GET.page %}?page={{ request.GET.page }}{% endif %}" class="btn btn-outline-secondary mb-2">← Назад к отелям</a>
+        <h1>{{ hotel.name }}</h1>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="mb-1"><strong>Владелец:</strong> {{ hotel.owner }}</p>
+                <p class="mb-1"><strong>Адрес:</strong> {{ hotel.address }}</p>
+                <p class="mb-0"><strong>Описание:</strong> {{ hotel.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-4">Доступные номера</h2>
+
+{% if room_types %}
+<div class="row">
+    {% for room_type in room_types %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{ room_type.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ room_type.description }}</p>
+                <ul class="list-unstyled">
+                    <li><strong>Стоимость за ночь:</strong> {{ room_type.price }} руб.</li>
+                    <li><strong>Вместимость:</strong> {{ room_type.capacity }} чел.</li>
+                    <li><strong>Удобства:</strong> {{ room_type.facilities }}</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'room_type_detail' room_type.id %}" class="btn btn-outline-primary btn-sm">
+                        Подробнее
+                    </a>
+                    {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-secondary btn-sm">
+                        Войдите для бронирования
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    В этом отеле пока нет доступных номеров.
+</div>
+{% endif %}
+{% endblock %}

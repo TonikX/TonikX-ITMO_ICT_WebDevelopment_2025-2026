@@ -1,0 +1,57 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}Бронирование номера{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Бронирование номера</h4>
+            </div>
+            <div class="card-body">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5>{{ room_type.name }}</h5>
+                        <p class="mb-1"><strong>Отель:</strong> {{ room_type.hotel.name }}</p>
+                        <p class="mb-1"><strong>Стоимость:</strong> {{ room_type.price }} руб./ночь</p>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Дата заезда</label>
+                        {{ form.check_in }}
+                        {% if form.check_in.errors %}
+                            <div class="text-danger small">{{ form.check_in.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Дата выезда</label>
+                        {{ form.check_out }}
+                        {% if form.check_out.errors %}
+                            <div class="text-danger small">{{ form.check_out.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'room_type_detail' room_type.id %}" class="btn btn-secondary">Назад</a>
+                        <button type="submit" class="btn btn-success">Забронировать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
