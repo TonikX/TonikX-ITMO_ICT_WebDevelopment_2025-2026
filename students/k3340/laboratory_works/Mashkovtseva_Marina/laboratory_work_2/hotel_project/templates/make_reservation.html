@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Новое бронирование{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Новое бронирование</h1>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field|add_class:"form-control" }}
+                {% if field.errors %}
+                    <div class="text-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Забронировать</button>
+        <a href="{% url 'reservation_list' %}" class="btn btn-secondary ms-2">← Назад к списку</a>
+    </form>
+</div>
+{% endblock %}

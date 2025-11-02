@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3">{{ hotel.name }} ({{ hotel.stars }}★)</h1>
+    <p class="lead">{{ hotel.address }}</p>
+    <p>{{ hotel.description }}</p>
+
+    <hr>
+
+    <h2 class="mt-4">Номера</h2>
+    <div class="list-group mb-4">
+        {% for room in rooms %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>Номер {{ room.number }}</strong> — {{ room.room_type }}
+            </div>
+            <span class="badge bg-primary rounded-pill">{{ room.price }}₽</span>
+        </div>
+        {% empty %}
+        <div class="list-group-item">Нет доступных номеров.</div>
+        {% endfor %}
+    </div>
+
+    <h2 class="mt-4">Отзывы</h2>
+    <div class="list-group mb-4">
+        {% for review in reviews %}
+        <div class="list-group-item">
+            <strong>{{ review.user.username }}</strong> ({{ review.rating }}/10): {{ review.comment }}
+        </div>
+        {% empty %}
+        <div class="list-group-item">Отзывов пока нет.</div>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'hotel_list' %}" class="btn btn-secondary">← Назад</a>
+</div>
+{% endblock %}

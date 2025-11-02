@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Отзывы{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Отзывы</h1>
+
+    <a href="{% url 'add_review' %}" class="btn btn-primary mb-3">➕ Добавить отзыв</a>
+
+    <ul class="list-group mb-4">
+        {% for review in reviews %}
+            <li class="list-group-item">
+                <strong>{{ review.user.username }}</strong> — 
+                {{ review.room.hotel.name }} — {{ review.room.room_type }} — 
+                <span class="badge bg-info text-dark">{{ review.rating }}/10</span>
+                <p class="mt-2 mb-0">{{ review.comment }}</p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Пока отзывов нет.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Пагинация -->
+    <nav aria-label="Навигация по страницам">
+      <ul class="pagination justify-content-center">
+        {% if reviews.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ reviews.previous_page_number }}">← Назад</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">← Назад</span></li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Стр. {{ reviews.number }} из {{ reviews.paginator.num_pages }}
+          </span>
+        </li>
+
+        {% if reviews.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ reviews.next_page_number }}">Вперед →</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Вперед →</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+</div>
+{% endblock %}

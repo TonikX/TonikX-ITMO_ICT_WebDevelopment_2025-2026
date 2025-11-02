@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Добавить отзыв{% endblock %}
+
+{% block content %}
+<h1>Добавить отзыв</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="room" class="form-label">Выберите номер</label>
+        <select name="room_id" id="room" class="form-select">
+            {% for room in rooms %}
+                <option value="{{ room.id }}">{{ room.hotel.name }} - {{ room.room_type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="stay_start" class="form-label">Дата заезда</label>
+        <input type="date" name="stay_start" id="stay_start" class="form-control">
+    </div>
+    
+    <div class="mb-3">
+        <label for="stay_end" class="form-label">Дата выезда</label>
+        <input type="date" name="stay_end" id="stay_end" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="text" class="form-label">Комментарий</label>
+        <textarea name="text" id="text" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="rating" class="form-label">Оценка (1-10)</label>
+        <input type="number" name="rating" id="rating" min="1" max="10" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить отзыв</button>
+</form>
+{% endblock %}
