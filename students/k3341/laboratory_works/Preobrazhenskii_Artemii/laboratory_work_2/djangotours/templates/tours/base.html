@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Туристическое агентство</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f8f9fa; }
+        header { background: #0077b6; color: white; padding: 20px; text-align: center; }
+        nav { background: #023e8a; padding: 10px; display: flex; justify-content: center; align-items: center; gap: 20px; }
+        nav a, nav span, nav button { color: white; font-weight: bold; text-decoration: none; }
+        nav a:hover, nav button:hover { text-decoration: underline; }
+        nav form { display: inline; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { margin: 0; }
+        .welcome { text-align: center; margin: 40px 0; }
+        .welcome h2 { font-size: 28px; color: #333; }
+        .welcome p { font-size: 18px; color: #666; }
+        footer { text-align: center; margin-top: 40px; padding: 15px; background: #f0f0f0; color: #555; }
+
+        /* таблица на всю ширину */
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background: #f1f1f1; }
+
+        /* кнопка выхода как ссылка */
+        .link-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font: inherit;
+            color: white;
+        }
+        .link-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать в Туристическое агентство</h1>
+    </header>
+
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" style="text-transform: uppercase;">{{ user.username }}</a>
+            <a href="{% url 'tour_list' %}">Туры</a>
+            <a href="{% url 'sold_tours_by_country' %}">Проданные туры</a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="link-button">Выйти</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </nav>
+
+    <div class="container">
+        <div class="welcome">
+            {% if user.is_authenticated %}
+                <h2>Приятного путешествия, {{ user.username }}!</h2>
+                <p>Вы можете выбрать тур и забронировать его прямо сейчас.</p>
+            {% else %}
+                <h2>Откройте мир путешествий</h2>
+                <p>Зарегистрируйтесь или войдите, чтобы бронировать туры и оставлять отзывы.</p>
+            {% endif %}
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        © 2025 Туристическое агентство. Все права защищены.
+    </footer>
+</body>
+</html>
