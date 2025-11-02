@@ -1,0 +1,45 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}Гости за последний месяц{% endblock %}
+
+{% block content %}
+<h1>Гости отелей за последний месяц</h1>
+<p>Период: с {{ period }} по сегодня</p>
+
+{% if guests %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Гость</th>
+                <th>Отель</th>
+                <th>Тип номера</th>
+                <th>Дата заезда</th>
+                <th>Дата выезда</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guest in guests %}
+            <tr>
+                <td>{{ guest.user.username }}</td>
+                <td>{{ guest.room.type.hotel.name }}</td>
+                <td>{{ guest.room.type.name }}</td>
+                <td>{{ guest.check_in }}</td>
+                <td>{{ guest.check_out }}</td>
+                <td>
+                    <span class="badge 
+                        {% if guest.status == 'checked_in' %}bg-primary
+                        {% else %}bg-secondary{% endif %}">
+                        {{ guest.get_status_display }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>За последний месяц гости не найдены.</p>
+{% endif %}
+{% endblock %}

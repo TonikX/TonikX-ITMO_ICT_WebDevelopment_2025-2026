@@ -1,0 +1,6 @@
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete car {{ object.brand }} {{ object.model }} with state number {{ object.state_number }}?</p>
+    <input type="submit" value="Confirm">
+</form>
+<br>
+<a href="/car/list/">Get back</a>

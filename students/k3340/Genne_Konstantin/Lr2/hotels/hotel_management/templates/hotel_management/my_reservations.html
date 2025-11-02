@@ -1,0 +1,106 @@
+{% extends 'hotel_management/base.html' %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📋 Мои бронирования</h1>
+</div>
+
+{% if reservations %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Отель</th>
+                <th>Тип номера</th>
+                <th>Даты</th>
+                <th>Стоимость</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.room.type.hotel.name }}</td>
+                <td>{{ reservation.room.type.name }}</td>
+                <td>
+                    {{ reservation.check_in }} - {{ reservation.check_out }}
+                </td>
+                <td><strong>{{ reservation.total_price }} руб.</strong></td>
+                <td>
+                    <span class="badge 
+                        {% if reservation.status == 'confirmed' %}bg-success
+                        {% elif reservation.status == 'checked_in' %}bg-primary
+                        {% elif reservation.status == 'checked_out' %}bg-secondary
+                        {% elif reservation.status == 'cancelled' %}bg-danger
+                        {% else %}bg-warning{% endif %}">
+                        {{ reservation.get_status_display }}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group-vertical btn-group-sm">
+                        {% if reservation.status == 'pending' or reservation.status == 'confirmed' %}
+                        <a href="{% url 'edit_reservation' reservation.id %}" 
+                           class="btn btn-outline-primary mb-1">✏️ Изменить</a>
+                        <a href="{% url 'delete_reservation' reservation.id %}" 
+                           class="btn btn-outline-danger">🗑️ Удалить</a>
+                        {% endif %}
+                        
+                        {% if reservation.status == 'checked_out' %}
+                            {% if not reservation.review %}
+                            <a href="{% url 'add_review' reservation.id %}" 
+                               class="btn btn-outline-success mt-1">Оставить отзыв</a>
+                            {% else %}
+                            <span class="badge bg-info mt-1">Отзыв оставлен</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Назад</a>
+        </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед →</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="text-center py-5">
+    <div class="alert alert-info">
+        <h4>У вас пока нет бронирований</h4>
+        <p>Найдите подходящий отель и забронируйте номер!</p>
+        <a href="{% url 'hotel_list' %}" class="btn btn-primary btn-lg">🏨 Найти отель</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
