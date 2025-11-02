@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Табло рейсов{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Табло рейсов</h1>
+
+<form class="row g-2 mb-3" method="get">
+  {% with d=request.GET.direction %}
+  <div class="col-auto">
+    <select name="direction" class="form-select">
+      <option value="">Все</option>
+
+      {% if d == 'DEP' %}
+        <option value="DEP" selected="selected">Вылет</option>
+      {% else %}
+        <option value="DEP">Вылет</option>
+      {% endif %}
+
+      {% if d == 'ARR' %}
+        <option value="ARR" selected="selected">Прибытие</option>
+      {% else %}
+        <option value="ARR">Прибытие</option>
+      {% endif %}
+    </select>
+  </div>
+  {% endwith %}
+
+  <div class="col-auto">
+    <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+  </div>
+
+  <div class="col-auto">
+    <input type="text" name="airline" class="form-control" placeholder="Код авиакомпании" value="{{ request.GET.airline }}">
+  </div>
+
+  <div class="col-auto">
+    <button class="btn btn-primary" type="submit">Фильтровать</button>
+  </div>
+</form>
+
+<!-- Легенда статусов -->
+<div class="small text-muted mb-2">
+  <span class="badge text-bg-primary">Вылет</span>
+  <span class="ms-2 badge text-bg-success">Прибытие</span>
+  <span class="ms-2 badge text-bg-secondary">прошёл</span> — рейс уже состоялся
+</div>
+
+<table class="table table-striped table-hover align-middle">
+  <thead>
+    <tr>
+      <th>№ рейса</th>
+      <th>А/к</th>
+      <th>Откуда → Куда</th>
+      <th>Вылет</th>
+      <th>Тип</th>
+      <th>Места</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for f in flights %}
+    {# Серый ряд и приглушённый текст для завершённых рейсов #}
+    <tr{% if f.is_departed %} class="table-light text-muted"{% endif %}>
+      <td>
+        <a href="{% url 'core:flight_detail' f.pk %}"
+           class="{% if f.is_departed %}link-secondary{% endif %}">
+          {{ f.number }}
+        </a>
+      </td>
+      <td>{{ f.airline.code }}</td>
+      <td>{{ f.departure_airport }} → {{ f.arrival_airport }}</td>
+      <td>
+        {{ f.departure_dt|date:"d.m.Y H:i" }}
+        {% if f.is_departed %}
+          <div class="small text-muted">({{ f.departure_dt|naturaltime }})</div>
+        {% endif %}
+      </td>
+      <td>
+        {% if f.direction == 'DEP' %}
+          <span class="badge text-bg-primary">Вылет</span>
+        {% else %}
+          <span class="badge text-bg-success">Прибытие</span>
+        {% endif %}
+        {% if f.is_departed %}
+          <span class="badge text-bg-secondary ms-1">прошёл</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if f.is_departed %}
+          <span class="text-muted">{{ f.seats_available }}/{{ f.seats_total }}</span>
+        {% else %}
+          {{ f.seats_available }}/{{ f.seats_total }}
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="6">
+        <div class="card card-body text-center text-muted">
+          По текущим фильтрам рейсов не найдено.
+          <div class="mt-2">
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'core:flight_list' %}">
+              Сбросить фильтры
+            </a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<nav aria-label="pagination">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">Назад</a>
+      </li>
+    {% endif %}
+    <li class="page-item disabled">
+      <span class="page-link">Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    </li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">Вперёд</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}

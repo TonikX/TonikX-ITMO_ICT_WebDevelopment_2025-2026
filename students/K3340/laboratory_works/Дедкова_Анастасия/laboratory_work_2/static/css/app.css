@@ -1,0 +1,7 @@
+/* static/css/app.css */
+body { padding-bottom: 40px; }
+.table td, .table th { vertical-align: middle; }
+.card { border-radius: 14px; }
+.form-control, .form-select { border-radius: 10px; }
+.navbar-brand { font-weight: 700; letter-spacing: .2px; }
+.badge { font-size: .85rem; }

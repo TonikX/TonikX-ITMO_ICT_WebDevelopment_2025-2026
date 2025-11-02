@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Добавить пассажира: {{ flight.code }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Добавить пассажира на рейс {{ flight.code }}</h2>
+
+<div class="alert alert-secondary">
+  Свободно мест: <strong>{{ flight.seats_available }}</strong>
+</div>
+
+<form method="post" class="card p-3">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div class="mb-3">
+    <label for="{{ form.user.id_for_label }}" class="form-label">Пользователь</label>
+    {{ form.user }}
+    {{ form.user.errors }}
+  </div>
+
+  <div class="mb-3">
+    <label for="{{ form.ticket_number.id_for_label }}" class="form-label">№ билета</label>
+    {{ form.ticket_number }}
+    {{ form.ticket_number.errors }}
+  </div>
+
+  <button type="submit" class="btn btn-primary">Добавить</button>
+  <a href="{% url 'core:flight_passengers' flight_id=flight.id %}" class="btn btn-outline-secondary ms-2">Отмена</a>
+</form>
+{% endblock %}

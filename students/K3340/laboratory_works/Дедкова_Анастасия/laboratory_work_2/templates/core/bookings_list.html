@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Мои бронирования{% endblock %}
+{% block content %}
+<h1 class="mb-4">Мои бронирования</h1>
+{% if bookings %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Билет</th>
+      <th>Рейс</th>
+      <th>Дата вылета</th>
+      <th>Откуда → Куда</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in bookings %}
+    <tr>
+      <td>{{ b.ticket_number }}</td>
+      <td>{{ b.flight.number }}</td>
+      <td>{{ b.flight.departure_dt|date:"d.m.Y H:i" }}</td>
+      <td>{{ b.flight.departure_airport }} → {{ b.flight.arrival_airport }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>У вас пока нет бронирований.</p>
+{% endif %}
+<a href="{% url 'core:flight_list' %}" class="btn btn-secondary mt-3">Назад к рейсам</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+site_name: Web-программирование — лабораторные
+nav:
+  - Главная: index.md
+  - Лабораторная работа 1:
+      - index: laboratory_work_1/index.md
+  - Лабораторная работа 2:
+      - index: laboratory_work_2/index.md
+theme:
+  name: material

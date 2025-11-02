@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h3>Вход</h3>
+<form method="post" class="card card-body">{% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Войти</button>
+</form>
+<p class="mt-2">Нет аккаунта? <a href="{% url 'core:signup' %}">Регистрация</a></p>
+{% endblock %}

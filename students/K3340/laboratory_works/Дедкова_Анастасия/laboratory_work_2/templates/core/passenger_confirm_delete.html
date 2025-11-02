@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Удалить пассажира: {{ flight.code }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Удалить пассажира с рейса {{ flight.code }}?</h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <p class="mb-1"><strong>Пользователь:</strong> {{ booking.user.get_username }}</p>
+    <p class="mb-1"><strong>№ билета:</strong> {{ booking.ticket_number }}</p>
+    <p class="mb-0"><strong>Мест:</strong> {{ booking.seats_count }}</p>
+  </div>
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Удалить</button>
+  <a href="{% url 'core:flight_passengers' flight_id=flight.id %}"
+     class="btn btn-outline-secondary ms-2">Отмена</a>
+</form>
+{% endblock %}

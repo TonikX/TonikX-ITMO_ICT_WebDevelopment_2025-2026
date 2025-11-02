@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Бронь рейса {{ flight.number }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Бронирование рейса {{ flight.number }}</h1>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="id_ticket_number" class="form-label">Номер билета</label>
+            <input type="text"
+                   id="id_ticket_number"
+                   name="ticket_number"
+                   class="form-control"
+                   placeholder="Напр., 5551234567890"
+                   required>
+            <div class="form-text">
+              Бронируется <strong>1 место</strong>. Имя возьмём из вашего профиля.
+              Один пользователь — один билет.
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary px-4">Забронировать</button>
+            <a href="{% url 'core:flight_detail' flight.id %}" class="btn btn-secondary px-4">Назад к рейсу</a>
+            <a href="{% url 'core:flight_list' %}" class="btn btn-outline-secondary px-4">Назад к расписанию</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Кратко о рейсе</h5>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2">
+            <span class="text-muted">Маршрут:</span>
+            <strong>{{ flight.departure_airport }}</strong> → <strong>{{ flight.arrival_airport }}</strong>
+          </li>
+          <li class="mb-2"><span class="text-muted">Вылет:</span> <strong>{{ flight.departure_dt|date:"d.m.Y H:i" }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Прибытие:</span> <strong>{{ flight.arrival_dt|date:"d.m.Y H:i" }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Гейт:</span> <strong>{{ flight.gate|default:"—" }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Свободно мест:</span> <strong>{{ flight.seats_available }}</strong> / {{ flight.seats_total }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

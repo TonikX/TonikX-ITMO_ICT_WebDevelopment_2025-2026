@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Удаление брони{% endblock %}
+{% block content %}
+<h3>Удалить бронь?</h3>
+<form method="post" class="card card-body">{% csrf_token %}
+  <button class="btn btn-danger">Да, удалить</button>
+  <a class="btn btn-secondary" href="{% url 'core:my_bookings' %}">Отмена</a>
+</form>
+{% endblock %}
