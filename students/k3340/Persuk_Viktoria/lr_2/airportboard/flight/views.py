@@ -77,16 +77,13 @@ def create_reservation(request: HttpRequest, flight_id: int) -> HttpResponse:
     flight = get_object_or_404(Flight, id=flight_id)
 
     if request.method == 'POST':
-        form = ReservationForm(request.POST)
+        # Передаем instance с уже установленными полями, чтобы валидация прошла корректно
+        form = ReservationForm(request.POST, instance=Reservation(user=request.user, flight=flight, status=Reservation.StatusType.RESERVED))
         if form.is_valid():
-            reservation = form.save(commit=False)
-            reservation.user = request.user
-            reservation.flight = flight
-            reservation.status = Reservation.StatusType.RESERVED
-            reservation.save()
+            reservation = form.save()
             return redirect('flight_detail', flight_id=flight.pk)
-        else:
-            form = ReservationForm()
+    else:
+        form = ReservationForm()
 
     return render(request, 'flight/reservation_form.html', {
         'form': form,
@@ -110,8 +107,8 @@ def add_comment(request: HttpRequest, flight_id: int) -> HttpResponse:
             comment.flight_date = flight.departure.date()
             comment.save()
             return redirect('flight_detail', flight_id=flight.pk)
-        else:
-            form = CommentForm()
+    else:
+        form = CommentForm()
 
     return render(request, 'flight/comment_form.html', {
         'form': form,

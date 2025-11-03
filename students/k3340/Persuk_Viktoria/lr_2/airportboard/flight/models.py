@@ -72,7 +72,10 @@ class Reservation(models.Model):
         ]
 
     def clean(self):
-        # Если указано seat_number — место должно быть свободно
+        # Если нет связанных данных, пропустить проверку на уникальность места
+        if not self.flight_id or not self.seat_number:
+            return
+        # Если указано seat_number — место должно быть свободно в рамках рейса
         if self.seat_number:
             qs = Reservation.objects.filter(flight=self.flight, seat_number=self.seat_number)
             if self.pk:
