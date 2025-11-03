@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Рейс {{ flight.flight_number }}</h2>
+<p><b>Авиакомпания:</b> {{ flight.airline }}</p>
+<p><b>Вылет:</b> {{ flight.departure }}</p>
+<p><b>Прибытие:</b> {{ flight.arrival }}</p>
+<p><b>Гейт:</b> {{ flight.gate }}</p>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'create_reservation' flight.id %}" class="btn btn-success">Забронировать место</a>
+    <a href="{% url 'add_comment' flight.id %}" class="btn btn-secondary">Оставить отзыв</a>
+{% else %}
+    <p>Чтобы забронировать место, <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
+{% endif %}
+
+<hr>
+<h3>Комментарии</h3>
+{% for comment in comments %}
+    <p><b>{{ comment.author.username }}</b> - {{ comment.rating }}/10</p>
+    <p>{{ comment.text }}</p>
+    <hr>
+{% empty %}
+    <p>Комментариев пока нет.</p>
+{% endfor %}
+
+{% endblock content %}
