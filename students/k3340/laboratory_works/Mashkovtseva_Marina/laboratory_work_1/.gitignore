@@ -1,0 +1,30 @@
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Виртуальные окружения Python
+.venv/
+venv/
+env/
+
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+*.tmp
+*.temp
+
+# Логи
+*.log
+
+# Файлы IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Резервные копии
+*.bak
+*.backup
