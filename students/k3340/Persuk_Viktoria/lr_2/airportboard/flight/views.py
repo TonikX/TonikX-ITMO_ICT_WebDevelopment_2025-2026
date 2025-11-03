@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db import models
 from django.http import HttpRequest, HttpResponse
-from shapely import is_valid
 from .forms import ReservationForm, CommentForm, RegisterForm
 from .models import Flight, Reservation, Comment
 
@@ -26,10 +27,46 @@ def register(request: HttpRequest) -> HttpResponse:
 
 def flight_list(request: HttpRequest) -> HttpResponse:
     '''
-    Список рейсов, отсортированные по времени отправления
+    Список рейсов с поиском, фильтрами и пагинацией
     '''
-    flights = Flight.objects.all().order_by('departure')
-    return render(request, 'flight/flight_list.html', {'flights': flights})
+    qs = Flight.objects.all()
+
+    # поиск
+    q = request.GET.get('q')
+    if q:
+        qs = qs.filter(
+            models.Q(flight_number__icontains=q) | models.Q(airline__icontains=q)
+        )
+
+    # фильтры
+    flight_type = request.GET.get('type')
+    if flight_type in {Flight.FlightType.ARRIVAL, Flight.FlightType.DEPARTURE}:
+        qs = qs.filter(flight_type=flight_type)
+
+    date_from = request.GET.get('date_from')
+    if date_from:
+        qs = qs.filter(departure__date__gte=date_from)
+
+    date_to = request.GET.get('date_to')
+    if date_to:
+        qs = qs.filter(departure__date__lte=date_to)
+
+    gate = request.GET.get('gate')
+    if gate:
+        qs = qs.filter(gate__iexact=gate)
+
+    ordering = request.GET.get('ordering') or 'departure'
+    qs = qs.order_by(ordering)
+
+    paginator = Paginator(qs, int(request.GET.get('per_page') or 10))
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    ctx = {
+        'page_obj': page_obj,
+        'request': request,
+    }
+    return render(request, 'flight/flight_list.html', ctx)
 
 
 @login_required
@@ -156,3 +193,9 @@ def my_reservations(request: HttpRequest) -> HttpResponse:
     page_obj = pagination.get_page(page_number)
 
     return render(request, 'flight/my_reservations.html', {'page_obj': page_obj})
+
+
+def logout_view(request: HttpRequest) -> HttpResponse:
+    logout(request)
+    messages.success(request, 'Вы вышли из аккаунта.')
+    return redirect('flight_list')

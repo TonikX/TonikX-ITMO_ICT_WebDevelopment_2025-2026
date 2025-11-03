@@ -1,10 +1,10 @@
 {% extends "flight/base.html" %}
 
+{% block title %}Мои бронирования{% endblock %}
+
 {% block content %}
+<h2 class="mb-3">Мои бронирования</h2>
 
-<h2>Мои бронирования</h2>
-
-{% if page_obj %}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -12,39 +12,38 @@
             <th>Место</th>
             <th>Билет</th>
             <th>Статус</th>
-            <th>Дата создания</th>
-            <th>Действия</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for r in page_obj %}
         <tr>
-            <td>{{ r.flight.flight_number }} — {{ r.flight.airline }}</td>
+            <td><a href="{% url 'flight_detail' r.flight.id %}">{{ r.flight.flight_number }}</a></td>
             <td>{{ r.seat_number }}</td>
-            <td>{{ r.ticket_number|default:"—" }}</td>
-            <td>{{ r.status }}</td>
-            <td>{{ r.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ r.ticket_number|default:'—' }}</td>
+            <td>{{ r.get_status_display }}</td>
             <td>
-                <a href="{% url 'reservation_update' r.id %}" class="btn btn-sm btn-primary">Изменить</a>
-                <a href="{% url 'reservation_delete' r.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                <a href="{% url 'reservation_update' r.id %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <a href="{% url 'reservation_delete' r.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
             </td>
         </tr>
+        {% empty %}
+        <tr><td colspan="5">У вас пока нет бронирований.</td></tr>
         {% endfor %}
     </tbody>
 </table>
 
-<div class="pagination">
+<nav>
+  <ul class="pagination">
     {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}">← Назад</a>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Назад</a></li>
     {% endif %}
-    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">Вперёд →</a>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд →</a></li>
     {% endif %}
-</div>
-
-{% else %}
-<p>У вас пока нет бронирований.</p>
-{% endif %}
-
-{% endblock content %}
+  </ul>
+</nav>
+{% endblock %}

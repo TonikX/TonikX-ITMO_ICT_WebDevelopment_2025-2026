@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "flight.apps.FlightConfig"
+    "flight.apps.FlightConfig",
 ]
 
 MIDDLEWARE = [
@@ -80,6 +80,10 @@ DATABASES = {
     }
 }
 
+# Login
+LOGIN_REDIRECT_URL = 'flight_list'
+LOGOUT_REDIRECT_URL = 'flight_list'
+LOGIN_URL = 'login'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

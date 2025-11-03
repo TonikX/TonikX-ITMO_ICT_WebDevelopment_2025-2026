@@ -5,50 +5,72 @@
 {% block content %}
 <h1 class="mb-3">Табло рейсов</h1>
 
-<form method="get" class="mb-3">
-    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Поиск рейса..." class="form-control">
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-3">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Поиск (рейс/авиакомпания)" class="form-control">
+  </div>
+  <div class="col-md-2">
+    <select name="type" class="form-select">
+      <option value="">Тип рейса</option>
+      <option value="arrival" {% if request.GET.type == 'arrival' %}selected{% endif %}>Прибытие</option>
+      <option value="departure" {% if request.GET.type == 'departure' %}selected{% endif %}>Отправление</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <input type="date" name="date_from" value="{{ request.GET.date_from }}" class="form-control" placeholder="Дата от">
+  </div>
+  <div class="col-md-2">
+    <input type="date" name="date_to" value="{{ request.GET.date_to }}" class="form-control" placeholder="Дата до">
+  </div>
+  <div class="col-md-2">
+    <input type="text" name="gate" value="{{ request.GET.gate }}" class="form-control" placeholder="Гейт">
+  </div>
+  <div class="col-md-1 d-grid">
+    <button class="btn btn-primary" type="submit">Фильтр</button>
+  </div>
 </form>
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Рейс</th>
-            <th>Авиакомпания</th>
-            <th>Вылет</th>
-            <th>Прилёт</th>
-            <th>Тип</th>
-            <th>Гейт</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for flight in object_list %}
-        <tr>
-            <td>{{ flight.flight_number }}</td>
-            <td>{{ flight.airline }}</td>
-            <td>{{ flight.departure }}</td>
-            <td>{{ flight.arrival }}</td>
-            <td>{{ flight.get_flight_type_display }}</td>
-            <td>{{ flight.gate }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="6">Рейсы не найдены.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Рейс</th>
+      <th>Авиакомпания</th>
+      <th>Вылет</th>
+      <th>Прилёт</th>
+      <th>Тип</th>
+      <th>Гейт</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for flight in page_obj %}
+    <tr>
+      <td>{{ flight.flight_number }}</td>
+      <td>{{ flight.airline }}</td>
+      <td>{{ flight.departure }}</td>
+      <td>{{ flight.arrival }}</td>
+      <td>{{ flight.get_flight_type_display }}</td>
+      <td>{{ flight.gate }}</td>
+      <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'flight_detail' flight.id %}">Подробнее</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7">Рейсы не найдены.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
-<!-- пагинация -->
 <nav>
   <ul class="pagination">
     {% if page_obj.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Назад</a></li>
+      <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode|cut:'page=' }}&{% endif %}page={{ page_obj.previous_page_number }}">← Назад</a></li>
     {% endif %}
 
     <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
 
     {% if page_obj.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд →</a></li>
+      <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode|cut:'page=' }}&{% endif %}page={{ page_obj.next_page_number }}">Вперёд →</a></li>
     {% endif %}
   </ul>
 </nav>

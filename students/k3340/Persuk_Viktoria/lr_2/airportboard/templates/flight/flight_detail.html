@@ -16,6 +16,37 @@
 {% endif %}
 
 <hr>
+<h3>Пассажиры</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Пассажир</th>
+      <th>Место</th>
+      <th>Билет</th>
+      <th>Статус</th>
+      {% if user.is_staff %}<th></th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in reservations %}
+    <tr>
+      <td>{{ r.user.username }}</td>
+      <td>{{ r.seat_number|default:'—' }}</td>
+      <td>{{ r.ticket_number|default:'—' }}</td>
+      <td>{{ r.get_status_display }}</td>
+      {% if user.is_staff %}
+      <td>
+        <a class="btn btn-sm btn-outline-primary" href="{% url 'reservation_update' r.id %}">Изменить</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'reservation_delete' r.id %}">Удалить</a>
+      </td>
+      {% endif %}
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Пассажиров пока нет.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 <h3>Комментарии</h3>
 {% for comment in comments %}
     <p><b>{{ comment.author.username }}</b> - {{ comment.rating }}/10</p>

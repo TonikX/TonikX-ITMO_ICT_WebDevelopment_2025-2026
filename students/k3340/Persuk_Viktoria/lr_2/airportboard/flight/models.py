@@ -3,8 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Index
 from django.utils.translation import gettext_lazy as _
-from networkx import constraint
-from pydantic import ValidationError
+from django.core.exceptions import ValidationError
 
 
 class Flight(models.Model):
