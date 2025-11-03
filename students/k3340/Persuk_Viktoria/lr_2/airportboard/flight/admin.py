@@ -1,3 +1,22 @@
 from django.contrib import admin
+from .models import Flight, Reservation, Comment
 
-# Register your models here.
+
+@admin.register(Flight)
+class FlightAdmin(admin.ModelAdmin):
+    list_display = ('flight_number', 'airline', 'departure', 'arrival', 'gate', 'seats_count')
+    search_fields = ('flight_number', 'airline')
+
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'flight', 'seat_number', 'ticket_number','status','created_at')
+    search_fields = ('user__username', 'ticket_number', 'seat_number')
+    list_filter = ('status', 'flight')
+    autocomplete_fields = ('user', 'flight')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('flight', 'author', 'rating', 'flight_date', 'created_at')
+    search_fields = ('author__username', 'text')
