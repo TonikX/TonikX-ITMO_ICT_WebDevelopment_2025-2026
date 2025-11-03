@@ -1,0 +1,50 @@
+{% extends "flight/base.html" %}
+
+{% block content %}
+
+<h2>Мои бронирования</h2>
+
+{% if page_obj %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Рейс</th>
+            <th>Место</th>
+            <th>Билет</th>
+            <th>Статус</th>
+            <th>Дата создания</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in page_obj %}
+        <tr>
+            <td>{{ r.flight.flight_number }} — {{ r.flight.airline }}</td>
+            <td>{{ r.seat_number }}</td>
+            <td>{{ r.ticket_number|default:"—" }}</td>
+            <td>{{ r.status }}</td>
+            <td>{{ r.created_at|date:"d.m.Y H:i" }}</td>
+            <td>
+                <a href="{% url 'reservation_update' r.id %}" class="btn btn-sm btn-primary">Изменить</a>
+                <a href="{% url 'reservation_delete' r.id %}" class="btn btn-sm btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">← Назад</a>
+    {% endif %}
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Вперёд →</a>
+    {% endif %}
+</div>
+
+{% else %}
+<p>У вас пока нет бронирований.</p>
+{% endif %}
+
+{% endblock content %}

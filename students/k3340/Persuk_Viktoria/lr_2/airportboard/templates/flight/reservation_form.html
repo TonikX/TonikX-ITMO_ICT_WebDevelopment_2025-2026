@@ -1,0 +1,22 @@
+{% extends "flight/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    {% if edit_mode %}
+        <h2>Редактирование бронирования</h2>
+    {% else %}
+        <h2>Бронирование рейса {{ flight.flight_number }}</h2>
+    {% endif %}
+
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if edit_mode %}Сохранить изменения{% else %}Забронировать{% endif %}
+        </button>
+        <a href="{% url 'flight_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+
+{% endblock content %}
