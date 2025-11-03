@@ -41,7 +41,7 @@ class CommentForm(forms.ModelForm):
         }
 
 
-class RegisterForms(UserCreationForm):
+class RegisterForm(UserCreationForm):
     '''
     Форма регистрации
     '''
