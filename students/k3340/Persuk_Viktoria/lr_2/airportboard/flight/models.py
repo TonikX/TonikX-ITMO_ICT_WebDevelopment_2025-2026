@@ -1,12 +1,10 @@
-from pyexpat import model
-from tkinter import CASCADE
-from turtle import mode
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Index
 from django.utils.translation import gettext_lazy as _
-from sympy import re
+from networkx import constraint
+from pydantic import ValidationError
 
 
 class Flight(models.Model):
@@ -52,18 +50,36 @@ class Reservation(models.Model):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=CASCADE  # type: ignore
+        on_delete=models.CASCADE
     )
     flight = models.ForeignKey(
         Flight,
         related_name='reservations',
-        on_delete=CASCADE  # type: ignore
+        on_delete=models.CASCADE
     )
-    seat_number = models.CharField(null=True)
-    ticket_number = models.CharField(null=True, blank=True)
+    seat_number = models.CharField(max_length=10, null=True, blank=True)
+    ticket_number = models.CharField(max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=10, choices=StatusType)
+    status = models.CharField(max_length=12, choices=StatusType.choices, default=StatusType.RESERVED)
+
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['flight', 'seat_number'],
+                name='unique_flight_seat'
+            )
+        ]
+
+    def clean(self):
+        # Если указано seat_number — место должно быть свободно
+        if self.seat_number:
+            qs = Reservation.objects.filter(flight=self.flight, seat_number=self.seat_number)
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            if qs.exists():
+                raise ValidationError({'seat_number': 'Это место уже занято.'})
 
 
 class Comment(models.Model):
@@ -73,11 +89,11 @@ class Comment(models.Model):
     flight = models.ForeignKey(
         Flight,
         related_name='comments',
-        on_delete=CASCADE  # type: ignore
+        on_delete=models.CASCADE
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=SET_NULL,  # type: ignore
+        on_delete=models.SET_NULL,
         null=True
     )
     flight_date = models.DateField()

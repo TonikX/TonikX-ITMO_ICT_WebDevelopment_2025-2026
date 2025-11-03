@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from shapely import is_valid
-from sphinx import ret
 from .forms import ReservationForm, CommentForm, RegisterForm
 from .models import Flight, Reservation, Comment
 
@@ -20,7 +19,7 @@ def register(request: HttpRequest) -> HttpResponse:
             return redirect('flight_list')
     else:
         form = RegisterForm()
-    return render(request, 'flights/register.html', {'form': form})
+    return render(request, 'flight/register.html', {'form': form})
 
 
 def flight_list(request: HttpRequest) -> HttpResponse:
