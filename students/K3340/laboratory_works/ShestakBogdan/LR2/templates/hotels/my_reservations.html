@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Мои заселения{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h3 class="mb-4">Мои заселения</h3>
+  <table class="table table-bordered align-middle text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Отель / Номер</th>
+        <th>Заезд</th>
+        <th>Выезд</th>
+        <th>Статус</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in reservations %}
+      <tr>
+        <td>{{ r.room.hotel.name }} / {{ r.room.number }}</td>
+        <td>{{ r.check_in }}</td>
+        <td>{{ r.check_out }}</td>
+        <td>
+          {% if r.status == "reserved" %}
+            <span class="badge bg-primary">{{ r.get_status_display }}</span>
+          {% elif r.status == "checked_in" %}
+            <span class="badge bg-success">{{ r.get_status_display }}</span>
+          {% elif r.status == "checked_out" %}
+            <span class="badge bg-secondary">{{ r.get_status_display }}</span>
+          {% else %}
+            <span class="badge bg-danger">{{ r.get_status_display }}</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if r.id %}
+            <a href="{% url 'edit_reservation' r.id %}" class="btn btn-sm btn-warning me-2">Изменить</a>
+          {% endif %}
+          {% if r.status == "reserved" %}
+          <form action="{% url 'cancel_reservation' r.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-danger" type="submit">Отменить</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="text-muted">Нет активных бронирований</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5" style="max-width:500px;">
+  <h2>Редактирование бронирования</h2>
+  <p><strong>Номер:</strong> {{ reservation.room.number }}<br>
+     <strong>Отель:</strong> {{ reservation.room.hotel.name }}</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success w-100">Сохранить изменения</button>
+  </form>
+
+  <a href="{% url 'my_reservations' %}" class="btn btn-outline-secondary mt-3 w-100">Отмена</a>
+</div>
+{% endblock %}
