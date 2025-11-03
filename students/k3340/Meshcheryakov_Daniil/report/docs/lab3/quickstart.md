@@ -1,29 +1,33 @@
 # Быстрый старт - Лабораторная №3
 
-Пошаговая инструкция для запуска и тестирования проекта.
+Пошаговая инструкция для запуска системы управления читальным залом.
 
 ## Предварительные требования
 
-- Python 3.10+
-- PostgreSQL 12+
-- pip
+- **Python** 3.10 или выше
+- **pip** (менеджер пакетов Python)
+- **Git** (опционально)
+- **SQLite** (встроен в Python)
 
 ## Установка
 
-### Шаг 1: Клонирование репозитория
+### Шаг 1: Клонирование/Переход в проект
 
 ```bash
-git clone https://github.com/TonikX/ITMO_ICT_WebDevelopment_2025-2026.git
-cd students/k3340/Meshcheryakov_Daniil/Lr3/task_1
+cd students/k3340/Meshcheryakov_Daniil/lab3
 ```
 
-### Шаг 2: Создание виртуального окружения (опционально)
+### Шаг 2: Создание виртуального окружения
 
+**Windows:**
 ```bash
 python -m venv venv
-# Windows
 venv\Scripts\activate
-# Linux/Mac
+```
+
+**Linux/Mac:**
+```bash
+python3 -m venv venv
 source venv/bin/activate
 ```
 
@@ -33,130 +37,66 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Основные зависимости:
+**Основные зависимости:**
 ```
-Django==4.2.7
-djangorestframework==3.14.0
-djoser==2.2.2
-drf-spectacular==0.27.0
-psycopg2-binary==2.9.9
-django-filter==23.5
-python-dotenv==1.0.0
-Pillow==10.1.0
+Django==5.1.1
+djangorestframework==3.15.2
+djoser==2.2.3
+djangorestframework-simplejwt==5.3.0
+drf-spectacular==0.27.2
+django-cors-headers==4.3.0
 ```
 
-### Шаг 4: Настройка PostgreSQL
-
-**Создайте базу данных:**
-
-```sql
-CREATE DATABASE library_db;
-CREATE USER library_user WITH PASSWORD 'your_password';
-ALTER ROLE library_user SET client_encoding TO 'utf8';
-ALTER ROLE library_user SET default_transaction_isolation TO 'read committed';
-ALTER ROLE library_user SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE library_db TO library_user;
-```
-
-**Создайте файл `.env` в папке `task_1/`:**
-
-```env
-DB_NAME=library_db
-DB_USER=library_user
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=5432
-SECRET_KEY=django-insecure-your-secret-key-change-in-production
-DEBUG=True
-```
-
-### Шаг 5: Миграции базы данных
+### Шаг 4: Применение миграций
 
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-### Шаг 6: Создание суперпользователя
+**Вывод:**
+```
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, reading_room, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying reading_room.0001_initial... OK
+  ...
+```
+
+### Шаг 5: Создание суперпользователя
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Введите:
-- Username: `admin`
-- Email: `admin@example.com`
-- Password: `admin123` (или любой другой)
-
-### Шаг 7: (Опционально) Загрузка тестовых данных
-
-Создайте файл `load_data.py` в папке `library/management/commands/`:
-
-```python
-from django.core.management.base import BaseCommand
-from library.models import Author, Publisher, Genre, Book, Reader, Review
-from datetime import date
-
-class Command(BaseCommand):
-    def handle(self, *args, **kwargs):
-        # Создаем авторов
-        tolstoy = Author.objects.create(
-            first_name="Лев",
-            last_name="Толстой",
-            biography="Великий русский писатель",
-            birth_date=date(1828, 9, 9),
-            country="Россия"
-        )
-        
-        # Создаем издательство
-        publisher = Publisher.objects.create(
-            name="АСТ",
-            country="Россия",
-            city="Москва",
-            foundation_year=1990
-        )
-        
-        # Создаем жанр
-        genre = Genre.objects.create(
-            name="Роман",
-            description="Литературный жанр"
-        )
-        
-        # Создаем книгу
-        book = Book.objects.create(
-            title="Война и мир",
-            isbn="9785170123456",
-            author=tolstoy,
-            publisher=publisher,
-            publication_year=1869,
-            pages=1300,
-            language="ru",
-            description="Эпический роман о войне 1812 года",
-            total_copies=5,
-            available_copies=5
-        )
-        book.genres.add(genre)
-        
-        self.stdout.write(self.style.SUCCESS('Тестовые данные загружены!'))
+**Введите данные:**
+```
+Username: admin
+Email: admin@example.com
+Password: admin123
+Password (again): admin123
 ```
 
-Запустите:
-
-```bash
-python manage.py load_data
-```
-
-### Шаг 8: Запуск сервера
+### Шаг 6: Запуск backend сервера
 
 ```bash
 python manage.py runserver
 ```
 
-Сервер запустится на `http://localhost:8000`
+**Вывод:**
+```
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+
+Backend запущен на `http://localhost:8000` ✅
+
+---
 
 ## Тестирование API
 
-### 1. Через Swagger UI (Рекомендуется!)
+### Через Swagger UI (Рекомендуется!)
 
 Откройте в браузере:
 
@@ -164,40 +104,30 @@ python manage.py runserver
 http://localhost:8000/api/schema/swagger-ui/
 ```
 
-**Преимущества Swagger UI:**
-- ✅ Интерактивная документация
-- ✅ Тестирование API прямо в браузере
-- ✅ Автоматическая авторизация
-- ✅ Просмотр схем запросов/ответов
-- ✅ Примеры данных
+**Преимущества:**
+- ✅ Интерактивное тестирование
+- ✅ Авторизация через интерфейс
+- ✅ Примеры запросов/ответов
+- ✅ Автодокументация
 
 **Как использовать:**
 
-1. Откройте Swagger UI
-2. Найдите endpoint `/api/auth/token/login/`
-3. Нажмите "Try it out"
-4. Введите credentials суперпользователя
-5. Нажмите "Execute"
-6. Скопируйте полученный токен
-7. Нажмите кнопку "Authorize" вверху страницы
-8. Введите: `Token <ваш_токен>`
-9. Теперь можете тестировать все endpoints!
+1. Найдите endpoint `/api/auth/jwt/create/`
+2. Нажмите "Try it out"
+3. Введите:
+   ```json
+   {
+     "username": "admin",
+     "password": "admin123"
+   }
+   ```
+4. Нажмите "Execute"
+5. Скопируйте `access` токен из ответа
+6. Нажмите кнопку **"Authorize"** вверху страницы
+7. Введите: `Bearer <ваш_токен>`
+8. Теперь можете тестировать все endpoints! 🎉
 
-### 2. Через ReDoc
-
-Альтернативная документация:
-
-```
-http://localhost:8000/api/schema/redoc/
-```
-
-### 3. Через Browsable API (Django REST Framework)
-
-```
-http://localhost:8000/api/
-```
-
-### 4. Через Admin панель
+### Через Django Admin
 
 ```
 http://localhost:8000/admin/
@@ -205,51 +135,142 @@ http://localhost:8000/admin/
 
 Войдите с учетными данными суперпользователя.
 
-### 5. Через Postman
+---
 
-**Импортируйте OpenAPI schema:**
+## Создание тестовых данных
 
-1. Откройте Postman
-2. File → Import
-3. Введите URL: `http://localhost:8000/api/schema/`
-4. Import
-
-**Или создайте запросы вручную:**
-
-**Регистрация:**
-```
-POST http://localhost:8000/api/auth/users/
-Content-Type: application/json
-
-{
-    "username": "testuser",
-    "email": "test@example.com",
-    "password": "testpass123",
-    "re_password": "testpass123"
-}
-```
-
-**Получение токена:**
-```
-POST http://localhost:8000/api/auth/token/login/
-Content-Type: application/json
-
-{
-    "username": "testuser",
-    "password": "testpass123"
-}
-```
-
-**Использование токена:**
-```
-GET http://localhost:8000/api/books/
-Authorization: Token <ваш_токен>
-```
-
-### 6. Через cURL
+### Через Django Shell
 
 ```bash
-# Регистрация
+python manage.py shell
+```
+
+```python
+from reading_room.models import ReadingRoom, Reader, Reservation, Librarian, Schedule
+from datetime import datetime, timedelta
+
+# Создаем читальные залы
+room1 = ReadingRoom.objects.create(
+    number=101,
+    floor=1,
+    room_type='small',
+    capacity=20,
+    hourly_rate=150.00,
+    description='Тихий малый зал для индивидуальной работы'
+)
+
+room2 = ReadingRoom.objects.create(
+    number=201,
+    floor=2,
+    room_type='large',
+    capacity=50,
+    hourly_rate=300.00,
+    description='Большой зал для групповых занятий'
+)
+
+# Создаем читателя
+reader = Reader.objects.create(
+    library_card='RD2024001',
+    last_name='Иванов',
+    first_name='Иван',
+    patronymic='Иванович',
+    phone='+79991234567',
+    email='ivanov@example.com'
+)
+
+# Создаем бронирование
+reservation = Reservation.objects.create(
+    reader=reader,
+    reading_room=room1,
+    reserved_from=datetime.now(),
+    reserved_to=datetime.now() + timedelta(hours=2),
+    is_active=True
+)
+
+# Создаем библиотекаря
+librarian = Librarian.objects.create(
+    last_name='Петрова',
+    first_name='Мария',
+    patronymic='Сергеевна',
+    is_active=True
+)
+
+# Создаем расписание
+schedule = Schedule.objects.create(
+    librarian=librarian,
+    weekday=1,  # Понедельник
+    floor=1
+)
+
+print("Тестовые данные созданы! ✅")
+```
+
+### Через Python скрипт
+
+Создайте файл `load_test_data.py`:
+
+```python
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
+
+from reading_room.models import ReadingRoom, Reader, Reservation, Librarian, Schedule
+from datetime import datetime, timedelta
+
+def load_data():
+    # Залы
+    rooms_data = [
+        {'number': 101, 'floor': 1, 'room_type': 'small', 'capacity': 20, 'hourly_rate': 150.00},
+        {'number': 102, 'floor': 1, 'room_type': 'small', 'capacity': 20, 'hourly_rate': 150.00},
+        {'number': 201, 'floor': 2, 'room_type': 'medium', 'capacity': 35, 'hourly_rate': 200.00},
+        {'number': 301, 'floor': 3, 'room_type': 'large', 'capacity': 50, 'hourly_rate': 300.00},
+    ]
+    
+    for data in rooms_data:
+        ReadingRoom.objects.get_or_create(**data)
+    
+    # Читатели
+    readers_data = [
+        {'library_card': 'RD2024001', 'last_name': 'Иванов', 'first_name': 'Иван', 'phone': '+79991234567'},
+        {'library_card': 'RD2024002', 'last_name': 'Петров', 'first_name': 'Петр', 'phone': '+79997654321'},
+        {'library_card': 'RD2024003', 'last_name': 'Сидоров', 'first_name': 'Сидор', 'phone': '+79995556677'},
+    ]
+    
+    for data in readers_data:
+        Reader.objects.get_or_create(**data)
+    
+    # Библиотекари
+    librarians_data = [
+        {'last_name': 'Петрова', 'first_name': 'Мария', 'is_active': True},
+        {'last_name': 'Сидорова', 'first_name': 'Анна', 'is_active': True},
+    ]
+    
+    for data in librarians_data:
+        Librarian.objects.get_or_create(**data)
+    
+    print("✅ Тестовые данные загружены!")
+    print(f"Залов: {ReadingRoom.objects.count()}")
+    print(f"Читателей: {Reader.objects.count()}")
+    print(f"Библиотекарей: {Librarian.objects.count()}")
+
+if __name__ == '__main__':
+    load_data()
+```
+
+Запустите:
+```bash
+python load_test_data.py
+```
+
+---
+
+## Примеры API запросов
+
+### Регистрация пользователя
+
+```bash
 curl -X POST http://localhost:8000/api/auth/users/ \
   -H "Content-Type: application/json" \
   -d '{
@@ -258,179 +279,291 @@ curl -X POST http://localhost:8000/api/auth/users/ \
     "password": "testpass123",
     "re_password": "testpass123"
   }'
-
-# Получение токена
-TOKEN=$(curl -X POST http://localhost:8000/api/auth/token/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"username": "testuser", "password": "testpass123"}' \
-  | jq -r '.auth_token')
-
-# Использование токена
-curl http://localhost:8000/api/books/ \
-  -H "Authorization: Token $TOKEN"
-
-# Получить доступные книги
-curl http://localhost:8000/api/books/available/ \
-  -H "Authorization: Token $TOKEN"
 ```
 
-### 7. Через Python requests
+### Получение JWT токена
 
-```python
-import requests
-
-BASE_URL = "http://localhost:8000/api"
-
-# Регистрация
-response = requests.post(f"{BASE_URL}/auth/users/", json={
-    "username": "testuser",
-    "email": "test@example.com",
-    "password": "testpass123",
-    "re_password": "testpass123"
-})
-print(response.json())
-
-# Получение токена
-response = requests.post(f"{BASE_URL}/auth/token/login/", json={
+```bash
+curl -X POST http://localhost:8000/api/auth/jwt/create/ \
+  -H "Content-Type: application/json" \
+  -d '{
     "username": "testuser",
     "password": "testpass123"
-})
-token = response.json()['auth_token']
-print(f"Token: {token}")
-
-# Использование API
-headers = {"Authorization": f"Token {token}"}
-response = requests.get(f"{BASE_URL}/books/", headers=headers)
-books = response.json()
-print(f"Книг найдено: {books['count']}")
+  }'
 ```
 
-## Запуск тестов
+**Ответ:**
+```json
+{
+  "refresh": "eyJ0eXAiOiJKV1Q...",
+  "access": "eyJ0eXAiOiJKV1Q..."
+}
+```
 
-### Все тесты
+### Список читальных залов
 
 ```bash
-python manage.py test
+curl http://localhost:8000/api/reading-rooms/ \
+  -H "Authorization: Bearer <your_access_token>"
 ```
 
-### Тесты конкретного приложения
+### Создание читательского зала
 
 ```bash
-python manage.py test library
+curl -X POST http://localhost:8000/api/reading-rooms/ \
+  -H "Authorization: Bearer <your_access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "number": 401,
+    "floor": 4,
+    "room_type": "medium",
+    "capacity": 30,
+    "hourly_rate": "180.00",
+    "description": "Зал с видом на парк"
+  }'
 ```
 
-### С подробным выводом
+### Поиск свободных залов
 
 ```bash
-python manage.py test --verbosity=2
+curl "http://localhost:8000/api/reading-rooms/free/?on=2024-11-05T14:00:00" \
+  -H "Authorization: Bearer <your_access_token>"
 ```
 
-### Coverage (покрытие тестами)
+### Квартальный отчет
 
 ```bash
-pip install coverage
-coverage run --source='.' manage.py test
-coverage report
-coverage html
+curl "http://localhost:8000/api/reports/quarter/?quarter=1" \
+  -H "Authorization: Bearer <your_access_token>"
 ```
 
-## Проверка кода
+---
 
-### Линтинг (flake8)
+## Запуск фронтенда (Vue.js)
+
+### В новом терминале:
 
 ```bash
-pip install flake8
-flake8 library/ --max-line-length=120
+cd frontend
+npm install
+npm run dev
 ```
 
-### Форматирование (black)
+**Вывод:**
+```
+VITE v5.0.0  ready in 500 ms
 
-```bash
-pip install black
-black library/
+➜  Local:   http://localhost:3000/
+➜  Network: use --host to expose
 ```
 
-## Возможные проблемы и решения
+Фронтенд запущен на `http://localhost:3000` ✅
 
-### PostgreSQL не подключается
-
-**Ошибка:** `could not connect to server`
-
-**Решение:**
-1. Проверьте, что PostgreSQL запущен
-2. Проверьте настройки в `.env`
-3. Проверьте права пользователя в PostgreSQL
-
-### Ошибка миграций
-
-**Ошибка:** `No changes detected`
-
-**Решение:**
-```bash
-python manage.py makemigrations library
-python manage.py migrate
+**Теперь откройте браузер:**
+```
+http://localhost:3000
 ```
 
-### Ошибка импорта модулей
-
-**Ошибка:** `ModuleNotFoundError`
-
-**Решение:**
-```bash
-pip install -r requirements.txt --force-reinstall
-```
-
-### Ошибка с Pillow (обложки книг)
-
-**Windows:**
-```bash
-pip install Pillow --no-cache-dir
-```
-
-**Linux:**
-```bash
-sudo apt-get install python3-dev python3-setuptools
-sudo apt-get install libjpeg-dev zlib1g-dev
-pip install Pillow
-```
+---
 
 ## Полезные команды
 
+### Django
+
 ```bash
-# Создать приложение
-python manage.py startapp app_name
-
-# Shell с Django окружением
-python manage.py shell
-
-# Собрать статические файлы
-python manage.py collectstatic
-
-# Проверить проект
+# Проверка проекта
 python manage.py check
+
+# Создание миграций
+python manage.py makemigrations
+
+# Применение миграций
+python manage.py migrate
 
 # Показать миграции
 python manage.py showmigrations
 
-# Создать дамп данных
+# Django shell
+python manage.py shell
+
+# Создать приложение
+python manage.py startapp app_name
+
+# Собрать статику
+python manage.py collectstatic
+
+# Дамп данных
 python manage.py dumpdata > data.json
 
-# Загрузить дамп данных
+# Загрузить дамп
 python manage.py loaddata data.json
 ```
 
+### Тестирование
+
+```bash
+# Запустить все тесты
+python manage.py test
+
+# Тесты конкретного приложения
+python manage.py test reading_room
+
+# С подробным выводом
+python manage.py test --verbosity=2
+```
+
+### Зависимости
+
+```bash
+# Обновить requirements.txt
+pip freeze > requirements.txt
+
+# Установить из requirements.txt
+pip install -r requirements.txt
+
+# Обновить все пакеты
+pip list --outdated
+pip install --upgrade <package_name>
+```
+
+---
+
+## Проверка установки
+
+### Шаг 1: Backend API
+
+```bash
+curl http://localhost:8000/api/
+```
+
+**Ожидаемый ответ:** JSON с доступными endpoints
+
+### Шаг 2: Swagger UI
+
+Откройте `http://localhost:8000/api/schema/swagger-ui/`
+
+**Ожидается:** Интерактивная документация API
+
+### Шаг 3: Admin Panel
+
+Откройте `http://localhost:8000/admin/`
+
+**Ожидается:** Страница входа в админку
+
+### Шаг 4: Frontend
+
+Откройте `http://localhost:3000`
+
+**Ожидается:** Страница входа в систему
+
+---
+
+## Возможные проблемы и решения
+
+### ❌ Проблема: ModuleNotFoundError
+
+**Ошибка:**
+```
+ModuleNotFoundError: No module named 'rest_framework'
+```
+
+**Решение:**
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### ❌ Проблема: Port already in use
+
+**Ошибка:**
+```
+Error: That port is already in use.
+```
+
+**Решение:**
+```bash
+# Использовать другой порт
+python manage.py runserver 8001
+```
+
+---
+
+### ❌ Проблема: No migrations to apply
+
+**Ошибка:**
+```
+No changes detected
+```
+
+**Решение:**
+```bash
+python manage.py makemigrations reading_room
+python manage.py migrate
+```
+
+---
+
+### ❌ Проблема: CORS errors
+
+**Ошибка в консоли браузера:**
+```
+Access to XMLHttpRequest blocked by CORS policy
+```
+
+**Решение:** Проверьте `config/settings.py`:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    ...
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+```
+
+---
+
 ## Следующие шаги
 
-1. ✅ Изучите [Модели данных](models.md)
-2. ✅ Изучите [API Reference](api.md)
-3. ✅ Попробуйте [Примеры использования](examples.md)
-4. ✅ Прочитайте про [Авторизацию](task3.md)
+1. ✅ Backend запущен
+2. ✅ Frontend запущен
+3. 📖 [Изучите API Endpoints](api.md)
+4. 🔐 [Настройте аутентификацию](auth.md)
+5. 🧪 [Протестируйте систему](testing.md)
+6. 🎨 [Изучите фронтенд (Lab 4)](../lab4/index.md)
 
-## Поддержка
+---
 
-При возникновении проблем:
-1. Проверьте логи: `python manage.py runserver --verbosity=2`
-2. Проверьте настройки в `.env`
-3. Убедитесь что все зависимости установлены
-4. Проверьте версию Python: `python --version`
+## Справка
 
+### Структура проекта
+
+```
+lab3/
+├── config/              # Django настройки
+├── reading_room/        # Основное приложение
+├── frontend/            # Vue.js фронтенд
+├── db.sqlite3           # База данных
+├── manage.py            # Django CLI
+└── requirements.txt     # Python зависимости
+```
+
+### Полезные ссылки
+
+- **Backend API:** http://localhost:8000/api/
+- **Swagger UI:** http://localhost:8000/api/schema/swagger-ui/
+- **Admin:** http://localhost:8000/admin/
+- **Frontend:** http://localhost:3000/
+
+### Контакты
+
+**Студент:** Мещеряков Даниил  
+**Группа:** K3340

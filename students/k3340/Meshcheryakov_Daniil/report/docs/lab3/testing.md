@@ -1,562 +1,659 @@
 # Тестирование API
 
-Подробное руководство по тестированию всех возможностей Library API.
+Примеры тестирования системы управления читальным залом различными способами.
 
-## Подготовка
+## Swagger UI (Рекомендуемый способ)
 
-Убедитесь, что:
-1. ✅ Сервер запущен: `python manage.py runserver`
-2. ✅ База данных создана и миграции применены
-3. ✅ Создан суперпользователь
+### Открытие Swagger UI
 
-## Способы тестирования
-
-### 1. Swagger UI (Рекомендуется!)
-
-**URL:** `http://localhost:8000/api/schema/swagger-ui/`
-
-#### Пошаговая инструкция:
-
-**Шаг 1: Откройте Swagger UI**
-
-Перейдите по ссылке в браузере.
-
-**Шаг 2: Авторизация**
-
-1. Найдите раздел **auth** → `/api/auth/token/login/`
-2. Нажмите на endpoint
-3. Нажмите кнопку **"Try it out"**
-4. Заполните JSON:
-```json
-{
-  "username": "admin",
-  "password": "ваш_пароль"
-}
 ```
-5. Нажмите **"Execute"**
-6. В разделе **Response body** скопируйте значение `auth_token`
-
-**Шаг 3: Установка токена**
-
-1. Нажмите кнопку **"Authorize"** в правом верхнем углу (иконка замка)
-2. В поле **Value** введите: `Token ваш_токен`
-   - Пример: `Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b`
-3. Нажмите **"Authorize"**
-4. Закройте окно
-
-**Шаг 4: Тестируем endpoints**
-
-Теперь вы можете тестировать любые endpoints!
-
-**Пример - Создание автора:**
-
-1. Найдите **authors** → `POST /api/authors/`
-2. Нажмите **"Try it out"**
-3. Заполните Request body:
-```json
-{
-  "first_name": "Лев",
-  "last_name": "Толстой",
-  "biography": "Великий русский писатель",
-  "birth_date": "1828-09-09",
-  "country": "Россия"
-}
-```
-4. Нажмите **"Execute"**
-5. Проверьте Response (должен быть 201 Created)
-
-**Пример - Создание книги:**
-
-1. `POST /api/books/`
-2. Request body:
-```json
-{
-  "title": "Война и мир",
-  "isbn": "9785170123456",
-  "author_id": 1,
-  "genre_ids": [1],
-  "publication_year": 1869,
-  "language": "ru",
-  "pages": 1300,
-  "description": "Эпический роман",
-  "total_copies": 5,
-  "available_copies": 5
-}
+http://localhost:8000/api/schema/swagger-ui/
 ```
 
-**Пример - Взять книгу:**
+### Авторизация в Swagger
 
-1. `POST /api/borrowings/`
-2. Request body:
-```json
-{
-  "reader_id": 1,
-  "book_id": 1,
-  "borrow_date": "2024-01-15",
-  "due_date": "2024-01-29"
-}
-```
+1. Найдите раздел **auth** → `/api/auth/jwt/create/`
+2. Нажмите "Try it out"
+3. Введите данные:
+   ```json
+   {
+     "username": "admin",
+     "password": "admin123"
+   }
+   ```
+4. Нажмите "Execute"
+5. Скопируйте `access` токен
+6. Нажмите кнопку **"Authorize"** вверху страницы
+7. Введите: `Bearer <ваш_токен>`
+8. Нажмите "Authorize"
 
-**Пример - Вернуть книгу:**
+### Тестирование endpoints
 
-1. `POST /api/borrowings/{id}/return_book/`
-2. Request body:
-```json
-{
-  "return_date": "2024-01-22"
-}
-```
+Теперь можете тестировать любой endpoint:
+- Выберите endpoint
+- Нажмите "Try it out"
+- Заполните параметры
+- Нажмите "Execute"
+- Просмотрите ответ
 
 ---
 
-### 2. ReDoc
+## Postman
 
-**URL:** `http://localhost:8000/api/schema/redoc/`
-
-ReDoc предоставляет красивую документацию только для чтения. Хорошо подходит для изучения API, но не для тестирования.
-
----
-
-### 3. Browsable API (DRF)
-
-**URL:** `http://localhost:8000/api/`
-
-Django REST Framework предоставляет веб-интерфейс.
-
-**Авторизация:**
-1. Войдите через админку: `http://localhost:8000/admin/`
-2. После этого вы будете авторизованы во всех DRF endpoints
-
-**Использование:**
-- Переходите по ссылкам endpoints
-- Заполняйте формы для POST/PUT запросов
-- Просматривайте JSON ответы
-
----
-
-### 4. Postman
-
-#### Импорт OpenAPI schema:
+### Импорт OpenAPI схемы
 
 1. Откройте Postman
 2. **File** → **Import**
-3. Вкладка **Link**
-4. Вставьте: `http://localhost:8000/api/schema/`
-5. Нажмите **Continue** → **Import**
+3. Введите URL: `http://localhost:8000/api/schema/`
+4. Нажмите **Import**
 
-Все endpoints будут автоматически добавлены!
+### Ручное создание запросов
 
-#### Настройка авторизации:
+#### 1. Получение токена
 
-**Способ 1: Глобальные переменные**
-
-1. Создайте окружение (Environment)
-2. Добавьте переменную `token`
-3. Получите токен через `/api/auth/token/login/`
-4. Сохраните токен в переменной
-
-**Способ 2: На уровне коллекции**
-
-1. Выберите коллекцию
-2. **Authorization** → Type: **API Key**
-3. Key: `Authorization`
-4. Value: `Token {{token}}`
-5. Add to: **Header**
-
-#### Примеры запросов:
-
-**Регистрация:**
+**Request:**
 ```
-POST http://localhost:8000/api/auth/users/
+POST http://localhost:8000/api/auth/jwt/create/
 Content-Type: application/json
 
 {
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "testpass123",
-  "re_password": "testpass123"
+  "username": "admin",
+  "password": "admin123"
 }
 ```
 
-**Получение токена:**
+**Response:**
+```json
+{
+  "refresh": "eyJ0eXAiOiJKV1Q...",
+  "access": "eyJ0eXAiOiJKV1Q..."
+}
 ```
-POST http://localhost:8000/api/auth/token/login/
+
+#### 2. Использование токена
+
+Добавьте в Headers:
+```
+Authorization: Bearer eyJ0eXAiOiJKV1Q...
+```
+
+#### 3. Тестирование endpoints
+
+**Список залов:**
+```
+GET http://localhost:8000/api/reading-rooms/
+Authorization: Bearer <token>
+```
+
+**Создание зала:**
+```
+POST http://localhost:8000/api/reading-rooms/
+Authorization: Bearer <token>
 Content-Type: application/json
 
 {
-  "username": "testuser",
-  "password": "testpass123"
+  "number": 401,
+  "floor": 4,
+  "room_type": "medium",
+  "capacity": 30,
+  "hourly_rate": "180.00",
+  "description": "Зал с видом на парк"
 }
-```
-
-**Список книг:**
-```
-GET http://localhost:8000/api/books/
-Authorization: Token ваш_токен
 ```
 
 ---
 
-### 5. cURL
+## cURL (Командная строка)
 
-#### Регистрация
+### Регистрация
+
 ```bash
 curl -X POST http://localhost:8000/api/auth/users/ \
   -H "Content-Type: application/json" \
   -d '{
-    "username": "testuser",
-    "email": "test@example.com",
-    "password": "testpass123",
-    "re_password": "testpass123"
+    "username": "newuser",
+    "email": "newuser@example.com",
+    "password": "securepass123",
+    "re_password": "securepass123"
   }'
 ```
 
-#### Получение токена
-```bash
-TOKEN=$(curl -X POST http://localhost:8000/api/auth/token/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"username": "testuser", "password": "testpass123"}' \
-  | jq -r '.auth_token')
+### Получение токена
 
-echo "Token: $TOKEN"
-```
-
-#### Список книг
 ```bash
-curl http://localhost:8000/api/books/ \
-  -H "Authorization: Token $TOKEN"
-```
-
-#### Создание книги
-```bash
-curl -X POST http://localhost:8000/api/books/ \
-  -H "Authorization: Token $TOKEN" \
+curl -X POST http://localhost:8000/api/auth/jwt/create/ \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Анна Каренина",
-    "isbn": "9785170123457",
-    "author_id": 1,
-    "genre_ids": [1],
-    "publication_year": 1877,
-    "language": "ru",
-    "total_copies": 3,
-    "available_copies": 3
+    "username": "newuser",
+    "password": "securepass123"
   }'
 ```
 
-#### Поиск книг
+**Сохранение токена в переменную (Linux/Mac):**
 ```bash
-curl "http://localhost:8000/api/books/?search=Толстой" \
-  -H "Authorization: Token $TOKEN"
+TOKEN=$(curl -X POST http://localhost:8000/api/auth/jwt/create/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}' \
+  | jq -r '.access')
+
+echo $TOKEN
 ```
 
-#### Фильтрация
+### CRUD операции
+
+**Список залов:**
 ```bash
-curl "http://localhost:8000/api/books/?language=ru&ordering=-publication_year" \
-  -H "Authorization: Token $TOKEN"
+curl http://localhost:8000/api/reading-rooms/ \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Создание зала:**
+```bash
+curl -X POST http://localhost:8000/api/reading-rooms/ \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "number": 501,
+    "floor": 5,
+    "room_type": "large",
+    "capacity": 60,
+    "hourly_rate": "350.00",
+    "description": "Конференц-зал"
+  }'
+```
+
+**Обновление зала:**
+```bash
+curl -X PATCH http://localhost:8000/api/reading-rooms/1/ \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "hourly_rate": "160.00"
+  }'
+```
+
+**Удаление зала:**
+```bash
+curl -X DELETE http://localhost:8000/api/reading-rooms/1/ \
+  -H "Authorization: Bearer $TOKEN"
 ```
 
 ---
 
-### 6. Python requests
+## Python (requests)
+
+### Установка
+
+```bash
+pip install requests
+```
+
+### Примеры
 
 ```python
 import requests
-from datetime import date, timedelta
+import json
 
 BASE_URL = "http://localhost:8000/api"
 
-class LibraryAPI:
-    def __init__(self):
-        self.token = None
-        self.headers = {}
-    
-    def register(self, username, email, password):
-        """Регистрация"""
-        response = requests.post(f"{BASE_URL}/auth/users/", json={
-            "username": username,
-            "email": email,
-            "password": password,
-            "re_password": password
+# 1. Регистрация
+response = requests.post(
+    f"{BASE_URL}/auth/users/",
+    json={
+        "username": "pythonuser",
+        "email": "python@example.com",
+        "password": "pypass123",
+        "re_password": "pypass123"
+    }
+)
+print("Регистрация:", response.status_code)
+
+# 2. Получение токена
+response = requests.post(
+    f"{BASE_URL}/auth/jwt/create/",
+    json={
+        "username": "pythonuser",
+        "password": "pypass123"
+    }
+)
+tokens = response.json()
+access_token = tokens['access']
+print(f"Access token: {access_token[:20]}...")
+
+# 3. Создание headers с токеном
+headers = {
+    "Authorization": f"Bearer {access_token}",
+    "Content-Type": "application/json"
+}
+
+# 4. Получение списка залов
+response = requests.get(
+    f"{BASE_URL}/reading-rooms/",
+    headers=headers
+)
+rooms = response.json()
+print(f"Найдено залов: {len(rooms)}")
+
+# 5. Создание зала
+new_room = {
+    "number": 601,
+    "floor": 6,
+    "room_type": "small",
+    "capacity": 15,
+    "hourly_rate": "120.00",
+    "description": "Маленький тихий зал"
+}
+response = requests.post(
+    f"{BASE_URL}/reading-rooms/",
+    headers=headers,
+    json=new_room
+)
+created_room = response.json()
+print(f"Создан зал ID: {created_room['id']}")
+
+# 6. Поиск свободных залов
+from datetime import datetime
+response = requests.get(
+    f"{BASE_URL}/reading-rooms/free/",
+    headers=headers,
+    params={"on": "2024-11-05T14:00:00"}
+)
+free_rooms = response.json()
+print(f"Свободных залов: {len(free_rooms)}")
+
+# 7. Создание читателя
+new_reader = {
+    "library_card": "RD2024999",
+    "last_name": "Тестов",
+    "first_name": "Тест",
+    "phone": "+79999999999",
+    "email": "test@example.com"
+}
+response = requests.post(
+    f"{BASE_URL}/readers/",
+    headers=headers,
+    json=new_reader
+)
+reader = response.json()
+print(f"Создан читатель ID: {reader['id']}")
+
+# 8. Создание бронирования
+new_reservation = {
+    "reader": reader['id'],
+    "reading_room": created_room['id'],
+    "reserved_from": "2024-11-05T10:00:00Z",
+    "reserved_to": "2024-11-05T14:00:00Z",
+    "is_active": True
+}
+response = requests.post(
+    f"{BASE_URL}/reservations/",
+    headers=headers,
+    json=new_reservation
+)
+reservation = response.json()
+print(f"Создано бронирование ID: {reservation['id']}")
+
+# 9. Квартальный отчет
+response = requests.get(
+    f"{BASE_URL}/reports/quarter/",
+    headers=headers,
+    params={"quarter": 1}
+)
+report = response.json()
+print(f"Квартальный отчет: доход = {report['total_income']}")
+```
+
+---
+
+## JavaScript (Axios)
+
+### Установка
+
+```bash
+npm install axios
+```
+
+### Примеры
+
+```javascript
+const axios = require('axios');
+
+const BASE_URL = 'http://localhost:8000/api';
+
+async function testAPI() {
+  try {
+    // 1. Регистрация
+    await axios.post(`${BASE_URL}/auth/users/`, {
+      username: 'jsuser',
+      email: 'js@example.com',
+      password: 'jspass123',
+      re_password: 'jspass123'
+    });
+    console.log('✅ Регистрация успешна');
+
+    // 2. Получение токена
+    const { data: tokens } = await axios.post(`${BASE_URL}/auth/jwt/create/`, {
+      username: 'jsuser',
+      password: 'jspass123'
+    });
+    const accessToken = tokens.access;
+    console.log('✅ Токен получен');
+
+    // 3. Настройка axios с токеном
+    const api = axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    // 4. Получение списка залов
+    const { data: rooms } = await api.get('/reading-rooms/');
+    console.log(`✅ Найдено залов: ${rooms.length}`);
+
+    // 5. Создание зала
+    const { data: newRoom } = await api.post('/reading-rooms/', {
+      number: 701,
+      floor: 7,
+      room_type: 'medium',
+      capacity: 40,
+      hourly_rate: '220.00',
+      description: 'JavaScript Test Room'
+    });
+    console.log(`✅ Создан зал ID: ${newRoom.id}`);
+
+    // 6. Обновление зала
+    const { data: updatedRoom } = await api.patch(`/reading-rooms/${newRoom.id}/`, {
+      hourly_rate: '230.00'
+    });
+    console.log(`✅ Обновлена цена: ${updatedRoom.hourly_rate}`);
+
+    // 7. Поиск свободных залов
+    const { data: freeRooms } = await api.get('/reading-rooms/free/', {
+      params: { on: '2024-11-05T14:00:00' }
+    });
+    console.log(`✅ Свободных залов: ${freeRooms.length}`);
+
+    // 8. Квартальный отчет
+    const { data: report } = await api.get('/reports/quarter/', {
+      params: { quarter: 1 }
+    });
+    console.log(`✅ Квартальный доход: ${report.total_income}`);
+
+  } catch (error) {
+    console.error('❌ Ошибка:', error.response?.data || error.message);
+  }
+}
+
+testAPI();
+```
+
+---
+
+## Unit тесты (pytest)
+
+### Установка
+
+```bash
+pip install pytest pytest-django
+```
+
+### Создание тестов
+
+Создайте файл `reading_room/tests.py`:
+
+```python
+import pytest
+from django.contrib.auth import get_User_model
+from rest_framework.test import APIClient
+from reading_room.models import ReadingRoom, Reader
+
+User = get_User_model()
+
+@pytest.fixture
+def api_client():
+    return APIClient()
+
+@pytest.fixture
+def create_user():
+    def make_user(**kwargs):
+        return User.objects.create_user(**kwargs)
+    return make_user
+
+@pytest.fixture
+def authenticated_client(api_client, create_user):
+    user = create_user(username='testuser', password='testpass')
+    response = api_client.post('/api/auth/jwt/create/', {
+        'username': 'testuser',
+        'password': 'testpass'
+    })
+    token = response.data['access']
+    api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+    return api_client
+
+@pytest.mark.django_db
+class TestReadingRooms:
+    def test_create_reading_room(self, authenticated_client):
+        response = authenticated_client.post('/api/reading-rooms/', {
+            'number': 101,
+            'floor': 1,
+            'room_type': 'small',
+            'capacity': 20,
+            'hourly_rate': '150.00'
         })
-        return response.json()
+        assert response.status_code == 201
+        assert response.data['number'] == 101
     
-    def login(self, username, password):
-        """Авторизация"""
-        response = requests.post(f"{BASE_URL}/auth/token/login/", json={
-            "username": username,
-            "password": password
-        })
-        self.token = response.json()['auth_token']
-        self.headers = {"Authorization": f"Token {self.token}"}
-        return self.token
-    
-    def get_books(self, **params):
-        """Получить книги"""
-        response = requests.get(f"{BASE_URL}/books/", 
-                              params=params,
-                              headers=self.headers)
-        return response.json()
-    
-    def create_book(self, book_data):
-        """Создать книгу"""
-        response = requests.post(f"{BASE_URL}/books/",
-                               json=book_data,
-                               headers=self.headers)
-        return response.json()
-    
-    def borrow_book(self, reader_id, book_id, days=14):
-        """Взять книгу"""
-        today = date.today()
-        due = today + timedelta(days=days)
-        
-        response = requests.post(f"{BASE_URL}/borrowings/", json={
-            "reader_id": reader_id,
-            "book_id": book_id,
-            "borrow_date": str(today),
-            "due_date": str(due)
-        }, headers=self.headers)
-        return response.json()
-    
-    def return_book(self, borrowing_id):
-        """Вернуть книгу"""
-        response = requests.post(
-            f"{BASE_URL}/borrowings/{borrowing_id}/return_book/",
-            json={"return_date": str(date.today())},
-            headers=self.headers
+    def test_list_reading_rooms(self, authenticated_client):
+        ReadingRoom.objects.create(
+            number=101, floor=1, room_type='small',
+            capacity=20, hourly_rate=150.00
         )
-        return response.json()
+        response = authenticated_client.get('/api/reading-rooms/')
+        assert response.status_code == 200
+        assert len(response.data) == 1
+    
+    def test_update_reading_room(self, authenticated_client):
+        room = ReadingRoom.objects.create(
+            number=101, floor=1, room_type='small',
+            capacity=20, hourly_rate=150.00
+        )
+        response = authenticated_client.patch(f'/api/reading-rooms/{room.id}/', {
+            'hourly_rate': '175.00'
+        })
+        assert response.status_code == 200
+        assert response.data['hourly_rate'] == '175.00'
+    
+    def test_delete_reading_room(self, authenticated_client):
+        room = ReadingRoom.objects.create(
+            number=101, floor=1, room_type='small',
+            capacity=20, hourly_rate=150.00
+        )
+        response = authenticated_client.delete(f'/api/reading-rooms/{room.id}/')
+        assert response.status_code == 204
+        assert not ReadingRoom.objects.filter(id=room.id).exists()
 
-# Использование:
-api = LibraryAPI()
+@pytest.mark.django_db
+class TestReaders:
+    def test_create_reader(self, authenticated_client):
+        response = authenticated_client.post('/api/readers/', {
+            'library_card': 'RD2024001',
+            'last_name': 'Тестов',
+            'first_name': 'Тест',
+            'phone': '+79991234567',
+            'email': 'test@example.com'
+        })
+        assert response.status_code == 201
+        assert response.data['library_card'] == 'RD2024001'
+```
 
-# Регистрация
-api.register("testuser", "test@example.com", "pass123")
+### Запуск тестов
 
-# Авторизация
-token = api.login("testuser", "pass123")
-print(f"Token: {token}")
+```bash
+# Все тесты
+pytest
 
-# Получить книги
-books = api.get_books(search="Война")
-print(f"Найдено книг: {books['count']}")
+# С подробным выводом
+pytest -v
 
-# Создать книгу (требуется права персонала)
-book = api.create_book({
-    "title": "Новая книга",
-    "isbn": "9785170999999",
-    "author_id": 1,
-    "genre_ids": [1],
-    "publication_year": 2024,
-    "language": "ru",
-    "total_copies": 2,
-    "available_copies": 2
-})
+# Конкретный файл
+pytest reading_room/tests.py
+
+# Конкретный тест
+pytest reading_room/tests.py::TestReadingRooms::test_create_reading_room
+
+# С покрытием
+pytest --cov=reading_room
 ```
 
 ---
 
 ## Сценарии тестирования
 
-### Сценарий 1: Регистрация и авторизация
+### Сценарий 1: Создание и бронирование зала
 
-1. ✅ Зарегистрировать нового пользователя
-2. ✅ Получить токен авторизации
-3. ✅ Получить информацию о себе `/api/auth/users/me/`
-4. ✅ Изменить email
-5. ✅ Изменить пароль
-6. ✅ Выйти (удалить токен)
+```python
+import requests
 
-### Сценарий 2: Работа с книгами
+BASE_URL = "http://localhost:8000/api"
 
-1. ✅ Получить список всех книг
-2. ✅ Поиск книги по названию
-3. ✅ Фильтрация по языку и году
-4. ✅ Получить только доступные книги `/api/books/available/`
-5. ✅ Получить детали конкретной книги
-6. ✅ Посмотреть отзывы на книгу `/api/books/{id}/reviews/`
-7. ✅ Создать новую книгу (персонал)
+# Получение токена
+response = requests.post(f"{BASE_URL}/auth/jwt/create/", 
+    json={"username": "admin", "password": "admin123"})
+token = response.json()['access']
+headers = {"Authorization": f"Bearer {token}"}
 
-### Сценарий 3: Выдача и возврат книг
+# 1. Создать зал
+room = requests.post(f"{BASE_URL}/reading-rooms/", 
+    headers=headers,
+    json={
+        "number": 101,
+        "floor": 1,
+        "room_type": "small",
+        "capacity": 20,
+        "hourly_rate": "150.00"
+    }).json()
 
-1. ✅ Создать читателя
-2. ✅ Взять книгу (создать borrowing)
-3. ✅ Проверить, что available_copies уменьшился
-4. ✅ Получить список активных выдач `/api/borrowings/active/`
-5. ✅ Вернуть книгу `/api/borrowings/{id}/return_book/`
-6. ✅ Проверить, что available_copies увеличился
-7. ✅ Проверить расчет штрафа при просрочке
+# 2. Создать читателя
+reader = requests.post(f"{BASE_URL}/readers/", 
+    headers=headers,
+    json={
+        "library_card": "RD2024001",
+        "last_name": "Иванов",
+        "first_name": "Иван",
+        "phone": "+79991234567"
+    }).json()
 
-### Сценарий 4: Отзывы
+# 3. Создать бронирование
+reservation = requests.post(f"{BASE_URL}/reservations/", 
+    headers=headers,
+    json={
+        "reader": reader['id'],
+        "reading_room": room['id'],
+        "reserved_from": "2024-11-05T10:00:00Z",
+        "reserved_to": "2024-11-05T14:00:00Z",
+        "is_active": True
+    }).json()
 
-1. ✅ Создать отзыв на книгу
-2. ✅ Получить все отзывы
-3. ✅ Фильтрация по оценке
-4. ✅ Обновить свой отзыв
-5. ✅ Удалить свой отзыв
+print(f"✅ Зал {room['number']} забронирован на {reader['last_name']}")
+```
 
-### Сценарий 5: Права доступа
+### Сценарий 2: Поиск свободных залов
 
-1. ✅ Неавторизованный: может читать книги
-2. ✅ Неавторизованный: НЕ может создавать книги (403)
-3. ✅ Обычный пользователь: может создавать отзывы
-4. ✅ Обычный пользователь: НЕ может создавать книги (403)
-5. ✅ Персонал: может создавать/редактировать книги
-6. ✅ Персонал: может видеть все выдачи
+```python
+# Проверка свободных залов на конкретное время
+free_rooms = requests.get(
+    f"{BASE_URL}/reading-rooms/free/",
+    headers=headers,
+    params={"on": "2024-11-05T14:00:00"}
+).json()
 
----
+for room in free_rooms:
+    print(f"Свободен зал №{room['number']}, этаж {room['floor']}, {room['capacity']} мест")
+```
 
-## Проверка функциональности
+### Сценарий 3: Генерация отчета
 
-### ✅ Модели и CRUD
+```python
+# Получение квартального отчета
+report = requests.get(
+    f"{BASE_URL}/reports/quarter/",
+    headers=headers,
+    params={"quarter": 1}
+).json()
 
-- [ ] Создание всех типов объектов (Reader, Author, Book, etc.)
-- [ ] Чтение списков с пагинацией
-- [ ] Чтение деталей объектов
-- [ ] Обновление объектов (PUT/PATCH)
-- [ ] Удаление объектов
-
-### ✅ Фильтрация и поиск
-
-- [ ] Поиск книг по названию
-- [ ] Поиск книг по автору
-- [ ] Фильтрация по языку
-- [ ] Фильтрация по году издания
-- [ ] Сортировка по разным полям
-
-### ✅ Кастомные действия
-
-- [ ] `/api/books/available/` - доступные книги
-- [ ] `/api/borrowings/active/` - активные выдачи
-- [ ] `/api/borrowings/overdue/` - просроченные выдачи
-- [ ] `/api/borrowings/{id}/return_book/` - возврат книги
-- [ ] `/api/authors/{id}/books/` - книги автора
-- [ ] `/api/books/{id}/reviews/` - отзывы на книгу
-
-### ✅ Аутентификация
-
-- [ ] Регистрация пользователя
-- [ ] Получение токена
-- [ ] Использование токена в заголовках
-- [ ] Получение информации о себе
-- [ ] Изменение пароля
-- [ ] Удаление токена (logout)
-
-### ✅ Права доступа
-
-- [ ] Неавторизованные могут читать книги
-- [ ] Неавторизованные НЕ могут создавать книги
-- [ ] Авторизованные могут создавать отзывы
-- [ ] Только персонал может создавать книги
-- [ ] Пользователи видят только свои выдачи
-- [ ] Персонал видит все выдачи
-
-### ✅ Бизнес-логика
-
-- [ ] При создании выдачи уменьшается available_copies
-- [ ] При возврате книги увеличивается available_copies
-- [ ] Автоматический расчет штрафа при просрочке
-- [ ] Нельзя взять книгу, если available_copies = 0
-- [ ] Автоматическая смена статуса на 'overdue'
-- [ ] Расчет среднего рейтинга книги
+print(f"Квартал {report['quarter']}")
+print(f"Общий доход: {report['total_income']} ₽")
+for stat in report['rooms_stats']:
+    print(f"  Зал {stat['room_number']}: {stat['income']} ₽")
+```
 
 ---
 
-## Полезные команды
+## Performance тестирование
 
-### Сброс базы данных
+### Apache Bench (ab)
 
 ```bash
-python manage.py flush
-python manage.py migrate
-python manage.py createsuperuser
+# 100 запросов, 10 одновременных
+ab -n 100 -c 10 -H "Authorization: Bearer <token>" \
+   http://localhost:8000/api/reading-rooms/
 ```
 
-### Создание тестовых данных
-
-```bash
-python manage.py shell
-```
+### Locust (Python)
 
 ```python
-from library.models import *
-from datetime import date
+from locust import HttpUser, task, between
 
-# Автор
-author = Author.objects.create(
-    first_name="Лев",
-    last_name="Толстой",
-    birth_date=date(1828, 9, 9),
-    country="Россия"
-)
+class ReadingRoomUser(HttpUser):
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        response = self.client.post("/api/auth/jwt/create/", json={
+            "username": "admin",
+            "password": "admin123"
+        })
+        self.token = response.json()['access']
+        self.client.headers.update({
+            'Authorization': f'Bearer {self.token}'
+        })
+    
+    @task
+    def list_rooms(self):
+        self.client.get("/api/reading-rooms/")
+    
+    @task
+    def list_readers(self):
+        self.client.get("/api/readers/")
+```
 
-# Жанр
-genre = Genre.objects.create(name="Роман")
-
-# Издательство
-publisher = Publisher.objects.create(
-    name="АСТ",
-    country="Россия",
-    city="Москва"
-)
-
-# Книга
-book = Book.objects.create(
-    title="Война и мир",
-    isbn="9785170123456",
-    author=author,
-    publisher=publisher,
-    publication_year=1869,
-    language="ru",
-    total_copies=5,
-    available_copies=5
-)
-book.genres.add(genre)
-
-# Читатель
-reader = Reader.objects.create(
-    first_name="Иван",
-    last_name="Иванов",
-    email="ivan@example.com",
-    passport_number="1234567890"
-)
+Запуск:
+```bash
+locust -f locustfile.py
+# Откройте http://localhost:8089
 ```
 
 ---
 
-## Отладка
+## Итоговая проверка
 
-### Просмотр SQL запросов
+### Checklist тестирования
 
-```python
-from django.conf import settings
-settings.DEBUG = True
+- [ ] Регистрация пользователя работает
+- [ ] Получение JWT токена работает
+- [ ] CRUD для читальных залов работает
+- [ ] CRUD для читателей работает
+- [ ] CRUD для бронирований работает
+- [ ] CRUD для библиотекарей работает
+- [ ] Поиск свободных залов работает
+- [ ] Квартальные отчеты генерируются
+- [ ] Custom endpoints работают
+- [ ] Swagger UI доступен и функционален
 
-from django.db import connection
-from library.models import Book
+---
 
-books = Book.objects.all()
-print(connection.queries)
-```
+## Заключение
 
-### Логирование
+Система протестирована и готова к использованию! 🎉
 
-Добавьте в `settings.py`:
-
-```python
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
-```
-
+Переходите к [Лабораторной №4 (Vue.js)](../lab4/index.md) для работы с фронтендом.

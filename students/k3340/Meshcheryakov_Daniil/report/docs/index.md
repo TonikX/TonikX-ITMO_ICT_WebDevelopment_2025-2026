@@ -33,4 +33,4 @@
 
 ## 🌐 Ссылка на GitHub Pages
 
-👉 [https://твое_имя.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Meshcheryakov_Daniil/report/](#)
+👉 [https://toneryy.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Meshcheryakov_Daniil/report/](#)

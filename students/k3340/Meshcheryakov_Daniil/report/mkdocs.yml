@@ -39,10 +39,20 @@ nav:
       - Задание 2.1: lab2/docs/practice2_1.md
       - Задание 2.2: lab2/docs/practice2_2.md
       - Задание 2.3: lab2/docs/practice2_3.md
-  - Лабораторная работа №3 (DRF):
-      - Главная: lab3/index.md
+  - Лабораторная работа №3 (Django + DRF):
+      - Описание: lab3/index.md
       - Быстрый старт: lab3/quickstart.md
+      - Модели данных: lab3/models.md
+      - API Endpoints: lab3/api.md
+      - Аутентификация: lab3/auth.md
       - Тестирование: lab3/testing.md
+  - Лабораторная работа №4 (Vue.js):
+      - Описание: lab4/index.md
+      - Установка: lab4/installation.md
+      - Компоненты: lab4/components.md
+      - Routing: lab4/routing.md
+      - State Management: lab4/state.md
+      - API Integration: lab4/api-integration.md
 
 markdown_extensions:
   - pymdownx.highlight:
