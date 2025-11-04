@@ -1,14 +1,7 @@
-# Welcome to MkDocs
+## Лабораторные работы по дисциплине "Web-программирование"
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Документация по лабам
 
-## Commands
+Слева есть меню с вкладками определённых лаб
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-Ну чё тут
+Очень стараюсь всё сделать красиво, правда
