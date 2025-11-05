@@ -122,41 +122,6 @@ profession = models.ForeignKey('Profession', on_delete=models.CASCADE)
 skill = models.ManyToManyField('Skill', through='SkillOfWarrior')
 ```
 
-## Схема базы данных
-
-```mermaid
-erDiagram
-    Warrior ||--o{ SkillOfWarrior : "has"
-    Skill ||--o{ SkillOfWarrior : "belongs to"
-    Profession ||--o{ Warrior : "employs"
-    
-    Warrior {
-        int id PK
-        string race
-        string name
-        int level
-        int profession_id FK
-    }
-    
-    Profession {
-        int id PK
-        string title
-        text description
-    }
-    
-    Skill {
-        int id PK
-        string title
-    }
-    
-    SkillOfWarrior {
-        int id PK
-        int skill_id FK
-        int warrior_id FK
-        int level
-    }
-```
-
 ## Методы моделей
 
 ### Warrior
@@ -256,8 +221,3 @@ class Meta:
     verbose_name = 'Умение воина'
     verbose_name_plural = 'Умения воинов'
 ```
-
-## Следующие шаги
-
-- [Endpoints](endpoints.md) - API endpoints
-- [Примеры использования](examples.md) - практические примеры
