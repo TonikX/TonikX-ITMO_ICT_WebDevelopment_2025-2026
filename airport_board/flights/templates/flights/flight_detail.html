@@ -56,9 +56,11 @@
                             <i class="bi bi-info-circle"></i> <a href="{% url 'login' %}">Войдите</a>, чтобы забронировать место или оставить отзыв
                         </div>
                     {% endif %}
+                    {% if user.is_superuser %}
                     <a href="{% url 'passengers_list' flight.pk %}" class="btn btn-outline-secondary">
                         <i class="bi bi-people"></i> Список пассажиров
                     </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

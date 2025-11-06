@@ -9,7 +9,6 @@ class Command(BaseCommand):
     help = 'Populate database with sample flight data'
 
     def handle(self, *args, **options):
-        # Создаем тестовые рейсы
         flights_data = [
             {
                 'flight_number': 'SU123',

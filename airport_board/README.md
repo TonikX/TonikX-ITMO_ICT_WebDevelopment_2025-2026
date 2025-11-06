@@ -197,3 +197,51 @@ python manage.py runserver
 ## Автор
 
 Проект создан в рамках дисциплины "Основы Web-программирования"
+
+
+FIX 1 superuser access
+
+@user_passes_test(lambda u: u.is_superuser)
+def passengers_list(request, flight_id):
+    """Список пассажиров рейса"""
+    flight = get_object_or_404(Flight, pk=flight_id)
+    passengers = Passenger.objects.filter(
+        reservation__flight=flight,
+        reservation__is_active=True
+    ).select_related('reservation__user')
+    
+    return render(request, 'flights/passengers_list.html', {
+        'flight': flight,
+        'passengers': passengers
+    })
+
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <a href="{% url 'passengers_list' flight.pk %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-people"></i> Список пассажиров
+                    </a>
+                    {% endif %}
+
+
+FIX 2 pagination
+
+from django.core.paginator import Paginator
+
+def flight_list(request):
+    """Список всех рейсов"""
+    flights_qs = Flight.objects.all()
+
+    # Paginate flights (10 per page)
+    paginator = Paginator(flights_qs, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Compute average rating only for flights on current page
+    for flight in page_obj:
+        avg_rating = flight.reviews.aggregate(Avg('rating'))['rating__avg']
+        flight.avg_rating = round(avg_rating, 1) if avg_rating else None
+
+    return render(request, 'flights/flight_list.html', {
+        'page_obj': page_obj,
+        'paginator': paginator,
+    })

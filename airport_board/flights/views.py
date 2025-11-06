@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Avg
+from django.core.paginator import Paginator
 import json
 from .models import Flight, Reservation, Passenger, Review
 from .forms import UserRegistrationForm, ReservationForm, ReviewForm, PassengerRegistrationForm
@@ -24,14 +25,22 @@ def register(request):
 
 def flight_list(request):
     """Список всех рейсов"""
-    flights = Flight.objects.all()
-    
-    # Добавляем средний рейтинг для каждого рейса
-    for flight in flights:
+    flights_qs = Flight.objects.all()
+
+    # Paginate flights (10 per page)
+    paginator = Paginator(flights_qs, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Compute average rating only for flights on current page
+    for flight in page_obj:
         avg_rating = flight.reviews.aggregate(Avg('rating'))['rating__avg']
         flight.avg_rating = round(avg_rating, 1) if avg_rating else None
-    
-    return render(request, 'flights/flight_list.html', {'flights': flights})
+
+    return render(request, 'flights/flight_list.html', {
+        'page_obj': page_obj,
+        'paginator': paginator,
+    })
 
 
 def flight_detail(request, pk):
@@ -164,6 +173,7 @@ def delete_reservation(request, pk):
     })
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def passengers_list(request, flight_id):
     """Список пассажиров рейса"""
     flight = get_object_or_404(Flight, pk=flight_id)

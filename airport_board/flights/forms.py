@@ -84,7 +84,6 @@ class ReviewForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Устанавливаем формат для input type="date"
         self.fields['flight_date'].input_formats = ['%Y-%m-%d']
 
 

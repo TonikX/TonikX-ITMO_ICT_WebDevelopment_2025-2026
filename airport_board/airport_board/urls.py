@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import LogoutView
+from django.views.decorators.http import require_POST
+
+# Wrap the class-based view's callable with require_POST so /accounts/logout/ requires POST.
+logout_view = require_POST(LogoutView.as_view())
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('flights.urls')),
+    path('accounts/logout/', logout_view, name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
