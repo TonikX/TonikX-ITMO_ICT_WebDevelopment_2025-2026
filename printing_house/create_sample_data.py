@@ -23,9 +23,6 @@ def create_sample_data():
     """Создание тестовых данных"""
     
     # Создание пользователей и сотрудников
-    print("Создание сотрудников...")
-    
-    # Менеджер
     manager_user = User.objects.create_user(
         username='manager1',
         email='manager1@printing.com',
@@ -81,7 +78,6 @@ def create_sample_data():
     )
     
     # Создание авторов
-    print("Создание авторов...")
     author1 = Author.objects.create(
         first_name='Александр',
         last_name='Пушкин',
@@ -113,7 +109,6 @@ def create_sample_data():
     )
     
     # Создание книг
-    print("Создание книг...")
     book1 = Book.objects.create(
         title='Евгений Онегин',
         isbn='9781234567890',
@@ -145,7 +140,6 @@ def create_sample_data():
     )
     
     # Создание контрактов
-    print("Создание контрактов...")
     contract1 = Contract.objects.create(
         contract_number='CTR-2023-001',
         signing_date=date(2022, 12, 1),
@@ -180,7 +174,6 @@ def create_sample_data():
     )
     
     # Связывание авторов с контрактами
-    print("Связывание авторов с контрактами...")
     ContractAuthor.objects.create(
         contract=contract1,
         author=author1,
@@ -206,7 +199,6 @@ def create_sample_data():
     )
     
     # Связывание редакторов с книгами
-    print("Связывание редакторов с книгами...")
     BookEditor.objects.create(
         book=book1,
         editor=editor1,
@@ -252,7 +244,6 @@ def create_sample_data():
     )
     
     # Создание заказов
-    print("Создание заказов...")
     order1 = Order.objects.create(
         order_number='ORD-2023-001',
         order_date=date(2023, 2, 1),
@@ -272,7 +263,6 @@ def create_sample_data():
     )
     
     # Создание позиций заказов
-    print("Создание позиций заказов...")
     OrderItem.objects.create(
         order=order1,
         book=book1,
@@ -290,7 +280,6 @@ def create_sample_data():
     )
     
     # Создание финансовых записей
-    print("Создание финансовых записей...")
     FinancialRecord.objects.create(
         date=date(2023, 1, 15),
         record_type='income',
@@ -314,7 +303,6 @@ def create_sample_data():
         description='Зарплата менеджеру Петрову И.И.',
         related_contract=None
     )
-    
     print("Тестовые данные успешно созданы!")
     print(f"Создано:")
     print(f"- Сотрудников: {Employee.objects.count()}")

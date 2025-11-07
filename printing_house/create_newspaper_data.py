@@ -19,7 +19,6 @@ from core.models import (
 def create_sample_data():
     """Создание тестовых данных для системы газет"""
     
-    print("Создание газет...")
     # Газеты
     newspaper1 = Newspaper.objects.create(
         title='Городские вести',
@@ -66,7 +65,6 @@ def create_sample_data():
         price_per_copy=Decimal('28.00')
     )
     
-    print("Создание типографий...")
     # Типографии
     ph1 = PrintingHouse.objects.create(
         name='Типография "Печатный дом"',
@@ -92,7 +90,6 @@ def create_sample_data():
         is_active=False  # Закрыта
     )
     
-    print("Создание почтовых отделений...")
     # Почтовые отделения
     po1 = PostOffice.objects.create(
         number='101001',
@@ -119,7 +116,6 @@ def create_sample_data():
         address='г. Санкт-Петербург, ул. Садовая, д. 15'
     )
     
-    print("Создание тиражей...")
     # Тиражи (связь типографий и газет)
     PrintingRun.objects.create(
         printing_house=ph1,
@@ -169,7 +165,6 @@ def create_sample_data():
         circulation=6000
     )
     
-    print("Создание распределений...")
     # Распределения (связь почтовых отделений, газет и типографий)
     
     # Газета "Городские вести" из разных типографий в разные почтовые отделения
@@ -261,7 +256,6 @@ def create_sample_data():
         quantity=180  # Малое количество
     )
     
-    print("\nТестовые данные успешно созданы!")
     print(f"\nСоздано:")
     print(f"- Газет: {Newspaper.objects.count()}")
     print(f"- Типографий: {PrintingHouse.objects.count()}")
