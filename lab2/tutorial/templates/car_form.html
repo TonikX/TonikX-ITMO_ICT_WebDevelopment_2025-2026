@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.1);
+        }
+        .form-group .errorlist {
+            color: #dc3545;
+            margin-top: 5px;
+            padding: 0;
+            list-style: none;
+        }
+        .form-group .errorlist li {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border: none;
+            border-radius: 25px;
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40,167,69,0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 5px 15px rgba(108,117,125,0.3);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(108,117,125,0.4);
+        }
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .form-actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .help-text {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.brand.id_for_label }}">Марка автомобиля:</label>
+                {{ form.brand }}
+                {% if form.brand.help_text %}
+                    <div class="help-text">{{ form.brand.help_text }}</div>
+                {% endif %}
+                {% if form.brand.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.brand.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.model.id_for_label }}">Модель автомобиля:</label>
+                {{ form.model }}
+                {% if form.model.help_text %}
+                    <div class="help-text">{{ form.model.help_text }}</div>
+                {% endif %}
+                {% if form.model.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.model.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.color.id_for_label }}">Цвет автомобиля:</label>
+                {{ form.color }}
+                {% if form.color.help_text %}
+                    <div class="help-text">{{ form.color.help_text }}</div>
+                {% endif %}
+                {% if form.color.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.color.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.state_number.id_for_label }}">Государственный номер:</label>
+                {{ form.state_number }}
+                {% if form.state_number.help_text %}
+                    <div class="help-text">{{ form.state_number.help_text }}</div>
+                {% endif %}
+                {% if form.state_number.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.state_number.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn">
+                    {% if action == 'create' %}➕ Создать автомобиль{% else %}💾 Сохранить изменения{% endif %}
+                </button>
+            </div>
+        </form>
+        
+        <div class="actions">
+            <a href="/cars/" class="btn btn-secondary">🔙 К списку автомобилей</a>
+            <a href="/" class="btn btn-secondary">🏠 Главная</a>
+        </div>
+    </div>
+</body>
+</html>
