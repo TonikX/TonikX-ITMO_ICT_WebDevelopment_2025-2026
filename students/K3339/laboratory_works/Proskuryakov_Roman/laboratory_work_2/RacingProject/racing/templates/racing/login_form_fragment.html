@@ -1,0 +1,15 @@
+<form method="post" action="{% url 'racing:login' %}">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="form-row">
+    <label>Имя пользователя</label>
+    <input type="text" name="username" required>
+  </div>
+  <div class="form-row">
+    <label>Пароль</label>
+    <input type="password" name="password" required>
+  </div>
+  <div class="form-row">
+    <button type="submit">Войти</button>
+  </div>
+</form>

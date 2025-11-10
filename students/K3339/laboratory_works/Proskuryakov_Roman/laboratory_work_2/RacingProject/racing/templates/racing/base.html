@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Автогонки{% endblock %}</title>
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'racing/css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="{% url 'racing:index' %}">Табло автогонок</a></h1>
+      <nav class="main-nav">
+        {% if user.is_authenticated %}
+          {% if participant %}
+            <a href="{% url 'racing:participant_edit' %}">Привет, участник {{ user.username }}</a>
+          {% else %}
+            <span>Привет, {{ user.username }}</span>
+          {% endif %}
+
+          <a href="{% url 'racing:races_list' %}">Гонки</a>
+          
+          <a href="{% url 'racing:team_create' %}">Регистрация команды</a>
+
+          {% if not participant %}
+            <a href="{% url 'racing:participant_create' %}">Стать участником</a>
+          {% else %}
+            <a href="{% url 'racing:car_create' %}">Регистрация машины</a>
+          {% endif %}
+
+          {% if user.profile.role == 'admin' %}
+            <a href="{% url 'racing:race_create' %}">Создать гонку</a>
+          {% endif %}
+
+          <a href="{% url 'racing:logout' %}">Выйти</a>
+        {% else %}
+          <a href="{% url 'racing:login' %}">Войти</a>
+          <a href="{% url 'racing:register' %}">Регистрация</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">© Табло автогонок</div>
+  </footer>
+</body>
+</html>
