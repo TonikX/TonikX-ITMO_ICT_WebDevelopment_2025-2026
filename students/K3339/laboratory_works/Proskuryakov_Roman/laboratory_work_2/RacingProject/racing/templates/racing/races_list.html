@@ -1,0 +1,39 @@
+{% extends 'racing/base.html' %}
+{% block title %}Список гонок{% endblock %}
+{% block content %}
+  <h2>Все автогонки</h2>
+  <div class="races-grid">
+    {% for race in races %}
+      <article class="race-card">
+        <h3>{{ race.name }}</h3>
+        <p>{{ race.description|truncatechars:150 }}</p>
+        <p><strong>Дата:</strong> {{ race.date }}</p>
+        <div class="card-actions">
+          <a class="btn" href="{% url 'racing:race_detail' race.pk %}">Подробнее</a>
+          {% if user.is_authenticated %}
+            {% if race.pk in registered_races %}
+              <a class="btn" href="{% url 'racing:race_unregister' race.pk %}">Отменить регистрацию</a>
+            {% else %}
+              <a class="btn" href="{% url 'racing:race_register' race.pk %}">Зарегистрироваться</a>
+            {% endif %}
+            <a class="btn" href="{% url 'racing:race_detail' race.pk %}#comments">Комментарии</a>
+            {% if user.profile.role == 'admin' %}
+              <a class="btn" href="{% url 'racing:race_session_create' race.pk %}">Создать заезд</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </article>
+    {% empty %}
+      <p>Гонки не найдены.</p>
+    {% endfor %}
+  </div>
+  <div class="pagination">
+    {% if races.has_previous %}
+      <a href="?page={{ races.previous_page_number }}">← Prev</a>
+    {% endif %}
+    <span>Стр. {{ races.number }} из {{ races.paginator.num_pages }}</span>
+    {% if races.has_next %}
+      <a href="?page={{ races.next_page_number }}">Next →</a>
+    {% endif %}
+  </div>
+{% endblock %}
