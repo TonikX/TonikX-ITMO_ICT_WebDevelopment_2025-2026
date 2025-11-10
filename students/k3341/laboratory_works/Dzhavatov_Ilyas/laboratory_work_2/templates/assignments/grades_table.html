@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load grade_filters %}
+
+{% block title %}Таблица оценок - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-chart-bar"></i> Таблица оценок</h1>
+    <a href="{% url 'assignment_list' %}" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left"></i> К заданиям
+    </a>
+</div>
+
+{% if students and assignments %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Студент</th>
+                        {% for assignment in assignments %}
+                        <th class="text-center" style="max-width: 150px;">
+                            <small>{{ assignment.title }}</small>
+                            <br>
+                            <span class="badge bg-secondary">{{ assignment.subject }}</span>
+                        </th>
+                        {% endfor %}
+                        <th class="text-center">Средний балл</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>
+                            <strong>{{ student.get_full_name|default:student.username }}</strong>
+                        </td>
+                        {% for assignment in assignments %}
+                        <td class="text-center align-middle">
+                            {% for submission in submissions %}
+                                {% if submission.student == student and submission.assignment == assignment %}
+                                    {% if submission.grade > 0 %}
+                                        <span class="badge grade-{{ submission.grade }} fs-6">
+                                            {{ submission.grade }}
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">-</span>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if not submissions %}
+                                <span class="badge bg-light text-dark">-</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                        <td class="text-center align-middle">
+                            {% with student_submissions=submissions|filter_submissions:student %}
+                                {% if student_submissions %}
+                                    {% with avg=student_submissions|avg_grade %}
+                                        <span class="badge bg-primary fs-6">{{ avg|floatformat:1 }}</span>
+                                    {% endwith %}
+                                {% else %}
+                                    <span class="badge bg-light text-dark">-</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Легенда оценок -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h6 class="mb-0"><i class="fas fa-info-circle"></i> Легенда оценок</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <span class="badge grade-5 me-2">5</span> Отлично
+            </div>
+            <div class="col-md-3">
+                <span class="badge grade-4 me-2">4</span> Хорошо
+            </div>
+            <div class="col-md-3">
+                <span class="badge grade-3 me-2">3</span> Удовлетворительно
+            </div>
+            <div class="col-md-3">
+                <span class="badge grade-2 me-2">2</span> Неудовлетворительно
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="alert alert-info text-center">
+    <h4><i class="fas fa-info-circle"></i> Данные для таблицы отсутствуют</h4>
+    <p>Нет студентов или заданий для отображения</p>
+</div>
+{% endif %}
+{% endblock %}

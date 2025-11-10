@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Все задания - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-tasks"></i> Домашние задания</h1>
+    {% if user.is_authenticated %}
+        <span class="badge bg-primary fs-6">
+            Всего заданий: {{ page_obj.paginator.count }}
+        </span>
+    {% endif %}
+</div>
+
+<!-- Поиск и фильтрация -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Поиск по названию, описанию или предмету..." 
+                           value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select name="subject" class="form-select">
+                    <option value="">Все предметы</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}" 
+                                {% if subject_filter == subject.id|stringformat:"i" %}selected{% endif %}>
+                            {{ subject.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" type="submit">
+                    <i class="fas fa-filter"></i> Применить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Список заданий -->
+{% for assignment in page_obj %}
+<div class="card assignment-card mb-4 shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-book text-primary"></i> {{ assignment.title }}
+        </h5>
+        <span class="badge bg-secondary subject-badge">{{ assignment.subject }}</span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p class="card-text">{{ assignment.description|truncatewords:50 }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-column">
+                    <small class="text-muted mb-1">
+                        <i class="fas fa-chalkboard-teacher"></i> 
+                        Преподаватель: {{ assignment.teacher.get_full_name|default:assignment.teacher.username }}
+                    </small>
+                    <small class="text-muted mb-1">
+                        <i class="fas fa-calendar-plus"></i> 
+                        Выдано: {{ assignment.assigned_date }}
+                    </small>
+                    <small class="text-muted mb-1">
+                        <i class="fas fa-clock"></i> 
+                        Сдать до: 
+                        <strong class="{% if assignment.due_date < today %}text-danger{% else %}text-success{% endif %}">
+                            {{ assignment.due_date }}
+                        </strong>
+                    </small>
+                    {% if assignment.penalty_info %}
+                    <small class="text-warning">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Штрафы: {{ assignment.penalty_info|truncatewords:15 }}
+                    </small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                {% if user.is_authenticated and not user.is_staff %}
+                    {% for submission in assignment.submission_set.all %}
+                        {% if submission.student == user %}
+                            {% if submission.grade > 0 %}
+                                <span class="badge grade-{{ submission.grade }} fs-6">
+                                    Оценка: {{ submission.get_grade_display }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning fs-6">
+                                    <i class="fas fa-clock"></i> Ожидает оценки
+                                </span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <a href="{% url 'assignment_detail' assignment.pk %}" class="btn btn-outline-primary">
+                <i class="fas fa-eye"></i> Подробнее
+            </a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info text-center">
+    <h4><i class="fas fa-inbox"></i> Задания не найдены</h4>
+    <p class="mb-0">Попробуйте изменить параметры поиска или фильтрации</p>
+</div>
+{% endfor %}
+
+<!-- Пагинация -->
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if subject_filter %}&subject={{ subject_filter }}{% endif %}">
+                    <i class="fas fa-angle-double-left"></i> Первая
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if subject_filter %}&subject={{ subject_filter }}{% endif %}">
+                    <i class="fas fa-angle-left"></i> Назад
+                </a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if subject_filter %}&subject={{ subject_filter }}{% endif %}">
+                    Вперед <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if subject_filter %}&subject={{ subject_filter }}{% endif %}">
+                    Последняя <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
