@@ -470,7 +470,7 @@ with open(html_path, 'r', encoding='utf-8') as f:
 ```
 
 **В браузере по адресу http://localhost:12345:**  
-![alt text](image.png)
+![alt text](img-lab_1/image.png)
 
 ---
 
@@ -1002,10 +1002,10 @@ html_content = f"""
 **В браузере по адресу http://localhost:12345:**
 
 1. Отображается форма с полями "Дисциплина" и "Оценка"
-   ![alt text](image-1.png)
+   ![alt text](img-lab_1/image-1.png)
 2. После ввода "Математика" и "5" и нажатия "Добавить"
 3. В таблице появляется строка "Математика - 5"
-   ![alt text](image-2.png)
+   ![alt text](img-lab_1/image-2.png)
 4. При добавлении новой оценки таблица автоматически обновляется
 
 ---

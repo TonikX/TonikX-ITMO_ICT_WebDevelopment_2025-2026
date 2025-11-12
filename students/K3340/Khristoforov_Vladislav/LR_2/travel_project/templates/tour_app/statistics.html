@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Статистика туров{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1 class="display-5 mb-4">Статистика туров за последний год</h1>
+
+    <!-- Популярные направления -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-globe"></i> Популярные направления</h4>
+        </div>
+        <div class="card-body">
+            {% if tours_by_country %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Страна</th>
+                            <th class="text-center">Количество бронирований</th>
+                            <th class="text-center">Популярность</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for country in tours_by_country %}
+                        <tr>
+                            <td>
+                                <strong>{{ country.tour__country }}</strong>
+                            </td>
+                            <td class="text-center">
+                                {{ country.total_sold }}
+                            </td>
+                            <td class="text-center">
+                                {% if country.total_sold == tours_by_country.0.total_sold %}
+                                    <span class="badge bg-success">Самое популярное</span>
+                                {% elif country.total_sold >= tours_by_country.0.total_sold|add:"-2" %}
+                                    <span class="badge bg-primary">Очень популярно</span>
+                                {% else %}
+                                    <span class="badge bg-info">Популярно</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">Пока нет данных о бронированиях.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Самые популярные туры -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-star"></i> Самые популярные туры</h5>
+                </div>
+                <div class="card-body">
+                    {% if popular_tours %}
+                        {% for tour in popular_tours %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6>{{ tour.title }}</h6>
+                            <p class="mb-1 text-muted">
+                                <small>{{ tour.country }} • {{ tour.agency }}</small>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">{{ tour.booking_count }} бронирований</span>
+                                <small>{{ tour.price }} руб.</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Пока нет популярных туров.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Лучшие по рейтингу -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-trophy"></i> Лучшие по отзывам</h5>
+                </div>
+                <div class="card-body">
+                    {% if top_rated_tours %}
+                        {% for tour in top_rated_tours %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6>{{ tour.title }}</h6>
+                            <p class="mb-1 text-muted">
+                                <small>{{ tour.agency }}</small>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-dark">
+                                    {{ tour.avg_rating|floatformat:1 }}/10
+                                    <small>({{ tour.review_count }} отзывов)</small>
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Пока нет туров с оценками.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Предстоящие туры -->
+    <div class="card mt-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> Скоро начинаются</h5>
+        </div>
+        <div class="card-body">
+            {% if upcoming_tours %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Тур</th>
+                            <th>Страна</th>
+                            <th>Даты</th>
+                            <th class="text-center">Цена</th>
+                            <th class="text-center">Места</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tour in upcoming_tours %}
+                        <tr>
+                            <td>
+                                <strong>{{ tour.title }}</strong>
+                                <br>
+                                <small class="text-muted">{{ tour.agency }}</small>
+                            </td>
+                            <td>{{ tour.country }}</td>
+                            <td>
+                                {{ tour.start_date|date:"d.m.Y" }} - {{ tour.end_date|date:"d.m.Y" }}
+                            </td>
+                            <td class="text-center">{{ tour.price }} руб.</td>
+                            <td class="text-center">{{ tour.get_available_spots }}/{{ tour.available_spots }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">Нет предстоящих туров.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

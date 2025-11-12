@@ -5,3 +5,4 @@ theme:
 nav:
     - "Главная": index.md
     - "Лабораторная работа №1": lab_1_report.md
+    - "Лабораторная работа №2": lab_2_report.md

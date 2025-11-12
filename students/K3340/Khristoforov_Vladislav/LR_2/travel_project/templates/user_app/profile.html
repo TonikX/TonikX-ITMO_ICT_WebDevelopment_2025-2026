@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Профиль пользователя</h2>
+    
+    <div class="border rounded p-2 mb-2">
+        <p><strong>Логин:</strong> {{ user.username }}</p>
+        <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label>{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                <label>{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.email.label }}</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>{{ form.phone.label }}</label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="form-group">
+                <label>{{ form.date_of_birth.label }}</label>
+                {{ form.date_of_birth }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.address.label }}</label>
+            {{ form.address }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="{% url 'tour_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

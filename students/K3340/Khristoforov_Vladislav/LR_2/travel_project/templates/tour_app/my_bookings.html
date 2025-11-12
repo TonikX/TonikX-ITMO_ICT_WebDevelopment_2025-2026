@@ -1,0 +1,524 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if user_is_staff %}Управление бронированиями{% else %}Мои бронирования{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1 class="display-5 mb-4">
+        {% if user_is_staff %}Управление бронированиями{% else %}Мои бронирования{% endif %}
+    </h1>
+
+    <!-- Карточка с информацией о бронированиях - Для пользователей -->
+    {% if not user_is_staff %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-suitcase"></i> Бронирования</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ active_count }}</h5>
+                            <h6 class="text-white">Активных бронирований</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ archive_count }}</h5>
+                            <h6 class="text-white">В архиве</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-success">
+                            <div class="card-body text-center">
+                                <h5 class="text-white">{{ confirmed_count }}</h5>
+                                <h6 class="text-white">Подтверждено</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-warning">
+                            <div class="card-body text-center">
+                                <h5 class="text-white">{{ pending_count }}</h5>
+                                <h6 class="text-white">Ожидают подтверждения</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-secondary">
+                            <div class="card-body text-center">
+                                <h5 class="text-white">{{ cancelled_count }}</h5>
+                                <h6 class="text-white">Отменено</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <small class="text-muted">Статистика показывает только активные бронирования (будущие туры)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Карточка с информацией о бронированиях - Для админов -->
+    {% if user_is_staff %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex flex-wrap align-items-center">
+                <h5 class="m-2 flex-grow-1">
+                    <i class="fas fa-suitcase"></i> Управление бронированиями
+                    {% if request.GET.show == 'archived' %}
+                        <span class="badge bg-secondary ms-2">Архив</span>
+                    {% endif %}
+                </h5>
+                <!-- Переключатель -->
+                <div class="btn-group border border-light rounded-pill">
+                    <a href="?show=active{% for key, value in request.GET.items %}{% if key != 'show' and key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                    class="btn {% if request.GET.show != 'archived' %}btn-primary{% else %}btn-light bg-light text-muted{% endif %}">
+                        Активные
+                    </a>
+                    <a href="?show=archived{% for key, value in request.GET.items %}{% if key != 'show' and key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                    class="btn {% if request.GET.show == 'archived' %}btn-primary{% else %}btn-light bg-light text-muted{% endif %}">
+                        Архивные
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ total_count }}</h5>
+                            <h6 class="text-white">Всего бронирований</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ confirmed_count }}</h5>
+                            <h6 class="text-white">Подтверждено</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ pending_count }}</h5>
+                            <h6 class="text-white">Ожидают подтверждения</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body text-center">
+                            <h5 class="text-white">{{ cancelled_count }}</h5>
+                            <h6 class="text-white">Отменено</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Фильтры - Для админов -->
+    {% if user_is_staff %}
+    <div class="search-filter-form">
+        <div class="card border-0">
+            <div class="card-header border-0">
+                <h5 class="mb-0"><i class="fas fa-filter"></i> Поиск и фильтры</h5>
+                <small class="opacity-75">Найдите нужные бронирования</small>
+            </div>
+            <div class="card-body">
+                <form method="get" class="filter-form">
+                    <input type="hidden" name="show" value="{{ request.GET.show }}">
+                    <div class="filter-row">
+                        <!-- Поиск -->
+                        <div class="filter-group">
+                            <label for="search"><i class="fas fa-search"></i> Поиск</label>
+                            <input type="text" 
+                                   id="search" 
+                                   name="search" 
+                                   value="{{ request.GET.search }}"
+                                   class="filter-input" 
+                                   placeholder="Введите запрос...">
+                        </div>
+                        <!-- Статус -->
+                        <div class="filter-group">
+                            <label for="status"><i class="fas fa-filter"></i> Статус</label>
+                            <select id="status" name="status" class="filter-input">
+                                <option value="">Все статусы</option>
+                                <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Ожидает подтверждения</option>
+                                <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Подтверждено</option>
+                                <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>Отменено</option>
+                            </select>
+                        </div>
+                        <!-- Страна -->
+                        <div class="filter-group">
+                            <label for="country"><i class="fas fa-globe"></i> Страна</label>
+                            <input type="text" 
+                                   id="country" 
+                                   name="country" 
+                                   value="{{ request.GET.country }}"
+                                   class="filter-input" 
+                                   placeholder="Любая страна...">
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <!-- Дата от -->
+                        <div class="filter-group">
+                            <label for="date_after"><i class="fas fa-calendar"></i> Дата от</label>
+                            <input type="date" 
+                                   id="date_after" 
+                                   name="date_after" 
+                                   value="{{ request.GET.date_after }}"
+                                   class="filter-input">
+                        </div>
+                        <!-- Дата до -->
+                        <div class="filter-group">
+                            <label for="date_before"><i class="fas fa-calendar"></i> Дата до</label>
+                            <input type="date" 
+                                   id="date_before" 
+                                   name="date_before" 
+                                   value="{{ request.GET.date_before }}"
+                                   class="filter-input">
+                        </div>
+                        <!-- Кнопка применения -->
+                        <div class="filter-group">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fas fa-filter"></i> Применить
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Активные фильтры - Для админов -->
+    {% if active_filters %}
+    <div class="active-filters-container">
+        <i class="fas fa-info-circle"></i>
+        <div>
+            <strong>Активные фильтры:</strong>
+            <div class="filter-badges">
+                {% for filter in active_filters %}
+                <span class="filter-badge">
+                    {{ filter.label }}: {{ filter.display_value }}
+                    <a href="{{ filter.remove_url }}" class="badge-remove"><i class="fas fa-times"></i></a>
+                </span>
+                {% endfor %}
+            </div>
+            <div class="filters-actions">
+                <a href="?show={{ request.GET.show }}" class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i>Сбросить все</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <!-- Активные бронирования - Для пользователей -->
+    {% if not user_is_staff and active_bookings %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="fas fa-suitcase"></i> Активные бронирования ({{ active_count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for booking in active_bookings %}
+            <div class="card travel-card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="card-title">{{ booking.tour.title }}</h4>
+                            <p class="card-text">
+                                <strong>Турагенство:</strong> {{ booking.tour.agency }}<br>
+                                <strong>Страна:</strong> {{ booking.tour.country }}<br>
+                                <strong>Даты тура:</strong> {{ booking.tour.start_date }} - {{ booking.tour.end_date }}<br>
+                                <strong>Цена за человека:</strong> {{ booking.tour.price }} руб.
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light p-3 rounded">
+                                <p><strong>Дата бронирования:</strong><br>{{ booking.booking_date|date:"d.m.Y H:i" }}</p>
+                                <p><strong>Количество человек:</strong><br>{{ booking.persons }}</p>
+                                <p><strong>Общая стоимость:</strong><br><span class="fw-bold text-success">{{ booking.total_price }} руб.</span></p>
+                                <p>
+                                    <strong>Статус:</strong><br>
+                                    {% if booking.status == 'confirmed' %}
+                                    <span class="badge status-badge status-confirmed">{{ booking.get_status_display }}</span>
+                                    {% elif booking.status == 'pending' %}
+                                    <span class="badge status-badge status-pending">{{ booking.get_status_display }}</span>
+                                    {% else %}
+                                    <span class="badge status-badge status-cancelled">{{ booking.get_status_display }}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top">
+                        <div class="btn-group">
+                            <a href="{% url 'tour_detail' booking.tour.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-info-circle"></i> Подробнее о туре
+                            </a>
+                            {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                            <a href="{% url 'edit_booking' booking.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit"></i> Изменить
+                            </a>
+                            <a href="{% url 'delete_booking' booking.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-trash"></i> Отменить
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Пагинация для активных бронирований -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mb-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                    <i class="fas fa-chevron-left"></i> Назад
+                </a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                    Вперед <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% endif %}
+
+    <!-- Архивные бронирования - Для пользователей -->
+    {% if not user_is_staff and archive_bookings %}
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="fas fa-archive"></i> Архив бронирований ({{ archive_count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for booking in archive_bookings %}
+            <div class="card travel-card mb-3 opacity-75">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="card-title">{{ booking.tour.title }}</h6>
+                            <p class="card-text text-muted small">
+                                <strong>Турагенство:</strong> {{ booking.tour.agency }}<br>
+                                <strong>Страна:</strong> {{ booking.tour.country }}<br>
+                                <strong>Даты тура:</strong> {{ booking.tour.start_date|date:"d.m.Y" }} - {{ booking.tour.end_date|date:"d.m.Y" }}<br>
+                                <strong>Завершен:</strong> {{ booking.tour.end_date|date:"d.m.Y" }}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light p-2 rounded">
+                                <p class="mb-1 small">
+                                    <strong>Дата бронирования:</strong><br>
+                                    {{ booking.booking_date|date:"d.m.Y H:i" }}
+                                </p>
+                                <p class="mb-1 small">
+                                    <strong>Количество человек:</strong><br>
+                                    {{ booking.persons }}
+                                </p>
+                                <p class="mb-1 small">
+                                    <strong>Общая стоимость:</strong><br>
+                                    <span class="fw-bold text-success">{{ booking.total_price }} руб.</span>
+                                </p>
+                                <p class="mb-0 small">
+                                    <strong>Статус:</strong><br>
+                                    <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
+                                        {{ booking.get_status_display }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour_detail' booking.tour.id %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-info-circle"></i> Подробнее о туре
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Все бронирования - Для админов -->
+    {% if user_is_staff %}
+        {% if bookings %}
+            {% for booking in bookings %}
+            <div class="card travel-card mb-4 {% if booking in archive_bookings %}opacity-50{% endif %}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="card-title">{{ booking.tour.title }}</h4>
+                            <p class="card-text">
+                                <strong>Турагенство:</strong> {{ booking.tour.agency }}<br>
+                                <strong>Страна:</strong> {{ booking.tour.country }}<br>
+                                <strong>Даты тура:</strong> {{ booking.tour.start_date }} - {{ booking.tour.end_date }}<br>
+                                <strong>Цена за человека:</strong> {{ booking.tour.price }} руб.
+                            </p>
+                            
+                            <!-- Информация о пользователе -->
+                            <div class="mb-3 card-text">
+                                <strong>Пользователь:</strong> {{ booking.user.get_full_name }} ({{ booking.user.username }})<br>
+                                <strong>Email:</strong> {{ booking.user.email }}<br>
+                                <strong>Телефон:</strong> {{ booking.user.phone|default:"Не указан" }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light p-3 rounded">
+                                <p><strong>Дата бронирования:</strong><br>{{ booking.booking_date|date:"d.m.Y H:i" }}</p>
+                                <p><strong>Количество человек:</strong><br>{{ booking.persons }}</p>
+                                <p><strong>Общая стоимость:</strong><br><span class="fw-bold text-success">{{ booking.total_price }} руб.</span></p>
+                                <p>
+                                    <strong>Статус:</strong><br>
+                                    {% if booking.status == 'confirmed' %}
+                                    <span class="badge status-badge status-confirmed">{{ booking.get_status_display }}</span>
+                                    {% elif booking.status == 'pending' %}
+                                    <span class="badge status-badge status-pending">{{ booking.get_status_display }}</span>
+                                    {% else %}
+                                    <span class="badge status-badge status-cancelled">{{ booking.get_status_display }}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top">
+                        <div class="btn-group">
+                            <a href="{% url 'tour_detail' booking.tour.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-info-circle"></i> Подробнее о туре
+                            </a>
+                            {% if booking not in archive_bookings %}
+                            {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                            <a href="{% url 'edit_booking' booking.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit"></i> Изменить
+                            </a>
+                            <a href="{% url 'delete_booking' booking.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-trash"></i> Отменить
+                            </a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        
+                        {% if booking not in archive_bookings %}
+                        <!-- Кнопки управления -->
+                        <div class="mt-2">
+                            {% if booking.status == 'pending' %}
+                            <form method="post" action="{% url 'confirm_booking' booking.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Подтвердить бронирование?')">
+                                    <i class="fas fa-check"></i> Подтвердить
+                                </button>
+                            </form>
+                            {% endif %}
+                            {% if booking.status != 'cancelled' %}
+                            <form method="post" action="{% url 'cancel_booking_admin' booking.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Отменить бронирование?')">
+                                    <i class="fas fa-times"></i> Отменить
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Пагинация -->
+            {% if is_paginated %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                            <i class="fas fa-chevron-left"></i> Назад
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                            Вперед <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        {% else %}
+            <!-- Сообщение для админов, когда нет бронирований -->
+            <div class="card travel-card text-center py-5">
+                <div class="card-body">
+                    <i class="fas fa-suitcase fa-3x text-muted mb-3"></i>
+                    <h3 class="text-muted">Бронирования не найдены</h3>
+                    <p class="text-muted">Попробуйте изменить параметры поиска</p>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- Сообщение, когда у пользователя нет бронирований -->
+    {% if not user_is_staff and not active_bookings and not archive_bookings %}
+    <div class="card travel-card text-center py-5">
+        <div class="card-body">
+            <i class="fas fa-suitcase fa-3x text-muted mb-3"></i>
+            <h3 class="text-muted">У вас пока нет бронирований</h3>
+            <p class="text-muted">Начните планировать своё путешествие прямо сейчас!</p>
+            <a href="{% url 'tour_list' %}" class="btn btn-primary btn-lg mt-3">
+                <i class="fas fa-search"></i> Посмотреть доступные туры
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

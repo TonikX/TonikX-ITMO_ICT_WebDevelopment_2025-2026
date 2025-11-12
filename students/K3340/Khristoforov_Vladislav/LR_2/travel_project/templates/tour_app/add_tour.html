@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Добавление тура{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-plus"></i> Добавление нового тура</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="travel-form">
+                        {% csrf_token %}
+                        
+                        <!-- Первая строка: Название и Агентство -->
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.title.label }}</label>
+                                    {{ form.title }}
+                                    {% if form.title.errors %}
+                                    <div class="travel-error-message">{{ form.title.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.agency.label }}</label>
+                                    {{ form.agency }}
+                                    {% if form.agency.errors %}
+                                    <div class="travel-error-message">{{ form.agency.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Описание -->
+                        <div class="form-group">
+                            <label class="form-label">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                            <div class="travel-error-message">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Вторая строка: Страна и Даты -->
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.country.label }}</label>
+                                    {{ form.country }}
+                                    {% if form.country.errors %}
+                                    <div class="travel-error-message">{{ form.country.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.start_date.label }}</label>
+                                    {{ form.start_date }}
+                                    {% if form.start_date.errors %}
+                                    <div class="travel-error-message">{{ form.start_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.end_date.label }}</label>
+                                    {{ form.end_date }}
+                                    {% if form.end_date.errors %}
+                                    <div class="travel-error-message">{{ form.end_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Третья строка: Цена и Места -->
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.price.label }}</label>
+                                    {{ form.price }}
+                                    {% if form.price.errors %}
+                                    <div class="travel-error-message">{{ form.price.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.available_spots.label }}</label>
+                                    {{ form.available_spots }}
+                                    {% if form.available_spots.errors %}
+                                    <div class="travel-error-message">{{ form.available_spots.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Условия оплаты -->
+                        <div class="form-group">
+                            <label class="form-label">{{ form.payment_conditions.label }}</label>
+                            {{ form.payment_conditions }}
+                            {% if form.payment_conditions.errors %}
+                            <div class="travel-error-message">{{ form.payment_conditions.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="form-group mt-4">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                                <button type="submit" class="btn btn-success travel-btn me-md-2">
+                                    <i class="fas fa-plus"></i> Добавить тур
+                                </button>
+                                <a href="{% url 'tour_list' %}" class="btn btn-secondary travel-btn">Отмена</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
