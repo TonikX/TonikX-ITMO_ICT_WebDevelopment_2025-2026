@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ assignment.title }} - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Информация о задании -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="fas fa-book-open"></i> {{ assignment.title }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong><i class="fas fa-book"></i> Предмет:</strong> {{ assignment.subject }}</p>
+                        <p><strong><i class="fas fa-user-tie"></i> Преподаватель:</strong> 
+                           {{ assignment.teacher.get_full_name|default:assignment.teacher.username }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong><i class="fas fa-calendar-plus"></i> Дата выдачи:</strong> {{ assignment.assigned_date }}</p>
+                        <p><strong><i class="fas fa-clock"></i> Срок сдачи:</strong> 
+                           <span class="{% if assignment.due_date < today %}text-danger{% else %}text-success{% endif %}">
+                               {{ assignment.due_date }}
+                           </span>
+                        </p>
+                    </div>
+                </div>
+                
+                <h5><i class="fas fa-tasks"></i> Описание задания:</h5>
+                <div class="bg-light p-3 rounded mb-3">
+                    {{ assignment.description|linebreaks }}
+                </div>
+                
+                {% if assignment.penalty_info %}
+                <h5><i class="fas fa-exclamation-triangle"></i> Информация о штрафах:</h5>
+                <div class="alert alert-warning">
+                    {{ assignment.penalty_info|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Форма сдачи задания -->
+        {% if user.is_authenticated and not user.is_staff %}
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-paper-plane"></i> Сдача задания</h5>
+            </div>
+            <div class="card-body">
+                {% if submission %}
+                    {% if submission.grade > 0 %}
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-check-circle"></i> Ваша работа оценена!</h6>
+                            <p class="mb-1"><strong>Оценка:</strong> 
+                                <span class="badge grade-{{ submission.grade }} fs-6">
+                                    {{ submission.get_grade_display }}
+                                </span>
+                            </p>
+                            {% if submission.teacher_comment %}
+                                <p class="mb-0"><strong>Комментарий преподавателя:</strong> 
+                                   {{ submission.teacher_comment }}</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-clock"></i> Ваша работа ожидает оценки
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> 
+                            {% if submission and submission.submission_text %}Обновить решение{% else %}Сдать задание{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Статус сдачи -->
+        {% if user.is_authenticated and not user.is_staff and submission %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0"><i class="fas fa-info-circle"></i> Статус сдачи</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Дата сдачи:</strong> {{ submission.submitted_date|date:"d.m.Y H:i" }}</p>
+                <p><strong>Статус:</strong> 
+                    {% if submission.grade > 0 %}
+                        <span class="badge bg-success">Оценено</span>
+                    {% else %}
+                        <span class="badge bg-warning">Ожидает оценки</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Для преподавателей: список сдач -->
+        {% if user.is_staff and submissions %}
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0"><i class="fas fa-users"></i> Сданные работы</h6>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% for sub in submissions %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ sub.student.get_full_name|default:sub.student.username }}</h6>
+                            {% if sub.grade > 0 %}
+                                <span class="badge grade-{{ sub.grade }}">{{ sub.grade }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Не оценено</span>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">
+                            Сдано: {{ sub.submitted_date|date:"d.m.Y H:i" }}
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'assignment_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Назад к списку заданий
+    </a>
+</div>
+{% endblock %}

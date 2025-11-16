@@ -1,0 +1,19 @@
+name: ci 
+on:
+  push:
+    branches:
+      - lr2_Dzhavatov_Ilyas
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs-material 
+      - run: |
+          cd students/k3341/laboratory_works/Dzhavatov_Ilyas/laboratory_work_2
+          mkdocs gh-deploy --force --config-file ../../../../docs/mkdocs.yml
