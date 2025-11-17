@@ -53,15 +53,20 @@ def handle_request(conn):
                 elif part.startswith("grade="):
                     grade = unquote_plus(part[6:], encoding='utf-8')
             
+            # Добавляем оценку в список для данной дисциплины
             if subject and grade:
-                grades[subject] = grade
+                if subject not in grades:
+                    grades[subject] = []  # Создаем пустой список для новой дисциплины
+                grades[subject].append(grade)  # Добавляем оценку в список
                 post_success = True
                 print(f"Добавлена оценка: {subject} - {grade}")
         
         # Генерируем HTML страницу
         rows = ""
-        for subject, grade in grades.items():
-            rows += f"<tr><td>{subject}</td><td>{grade}</td></tr>"
+        # Для каждой дисциплины отображаем все оценки через запятую
+        for subject, grade_list in grades.items():
+            grades_str = ", ".join(grade_list)  # Объединяем оценки в строку
+            rows += f"<tr><td>{subject}</td><td>{grades_str}</td></tr>"
         
         success_msg = ""
         if post_success:
@@ -85,7 +90,7 @@ def handle_request(conn):
                 
                 <h2>Все оценки</h2>
                 <table border="1">
-                    <tr><th>Дисциплина</th><th>Оценка</th></tr>
+                    <tr><th>Дисциплина</th><th>Оценки</th></tr>
                     {rows}
                 </table>
             </body>
