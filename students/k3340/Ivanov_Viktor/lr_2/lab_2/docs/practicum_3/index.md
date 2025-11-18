@@ -497,3 +497,5 @@ ForeignKey(settings.AUTH_USER_MODEL)  # ✅
 
 проект находится в папке: `practicum_3_user_extension/django_project_ivanov/`
 
+
+
