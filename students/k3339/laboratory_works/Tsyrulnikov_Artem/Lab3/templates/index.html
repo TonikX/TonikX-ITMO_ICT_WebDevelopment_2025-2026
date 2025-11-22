@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РА "Луч" - Система учета</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    {% load static %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">РА "Луч"</a>
+        <div class="navbar-nav me-auto">
+            <a class="nav-link active" href="#" onclick="loadSection('orders')">Заявки</a>
+            <a class="nav-link" href="#" onclick="loadSection('payments')">Платежи</a>
+            <a class="nav-link" href="#" onclick="loadSection('services')">Услуги</a>
+            <a class="nav-link" href="#" onclick="loadSection('clients')">Клиенты</a>
+            <a class="nav-link" href="#" onclick="loadSection('employees')">Сотрудники</a>
+            <a class="nav-link" href="#" onclick="loadSection('categories')">Категории</a>
+            <a class="nav-link" href="#" onclick="loadSection('reports')">Отчеты</a>
+        </div>
+        <div class="navbar-nav">
+            <span class="nav-link text-light" id="userInfo"></span>
+            <a class="nav-link" href="#" onclick="logout()" id="logoutBtn" style="display:none">Выход</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Форма входа/регистрации -->
+<div class="container mt-5" id="authForm">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white" id="authTitle">Вход в систему</div>
+                <div class="card-body">
+                    <form onsubmit="auth(event)" id="authFormInner">
+                        <div class="mb-3">
+                            <input type="text" id="username" class="form-control" placeholder="Логин" required>
+                        </div>
+                        <div class="mb-3 d-none" id="emailField">
+                            <input type="email" id="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" id="password" class="form-control" placeholder="Пароль" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" id="authBtn">Войти</button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="toggleAuth()" id="toggleBtn">Регистрация</button>
+                        </div>
+                        <div class="mt-2 text-danger" id="authError"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4" id="mainContent" style="display:none">
+    <div class="row mb-3">
+        <div class="col">
+            <div class="input-group">
+                <input type="date" id="dateFrom" class="form-control">
+                <input type="date" id="dateTo" class="form-control">
+                <button class="btn btn-outline-primary" onclick="applyFilter()">Фильтр</button>
+            </div>
+        </div>
+    </div>
+    <div id="content"></div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="formModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Форма</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+<script>
+const API = '/api';
+let currentSection = 'orders';
+let accessToken = localStorage.getItem('access_token');
+let isRegister = false;
+
+function toggleAuth() {
+    isRegister = !isRegister;
+    document.getElementById('authTitle').textContent = isRegister ? 'Регистрация' : 'Вход в систему';
+    document.getElementById('authBtn').textContent = isRegister ? 'Зарегистрироваться' : 'Войти';
+    document.getElementById('toggleBtn').textContent = isRegister ? 'Уже есть аккаунт' : 'Регистрация';
+    document.getElementById('emailField').classList.toggle('d-none', !isRegister);
+    document.getElementById('authError').textContent = '';
+}
+
+async function auth(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (isRegister) {
+        const email = document.getElementById('email').value;
+        const res = await fetch('/api/auth/users/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, email, password})
+        });
+        if (res.ok) {
+            toggleAuth();
+            document.getElementById('authError').textContent = '';
+            alert('Регистрация успешна! Войдите в систему.');
+        } else {
+            const err = await res.json();
+            document.getElementById('authError').textContent = Object.values(err).flat().join(' ');
+        }
+    } else {
+        const res = await fetch('/api/auth/jwt/create/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password})
+        });
+        if (res.ok) {
+            const data = await res.json();
+            accessToken = data.access;
+            localStorage.setItem('access_token', data.access);
+            localStorage.setItem('refresh_token', data.refresh);
+            localStorage.setItem('username', username);
+            showApp();
+        } else {
+            document.getElementById('authError').textContent = 'Неверный логин или пароль';
+        }
+    }
+}
+
+function logout() {
+    accessToken = null;
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
+    hideApp();
+}
+
+function showApp() {
+    document.getElementById('authForm').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('logoutBtn').style.display = 'block';
+    document.getElementById('userInfo').textContent = localStorage.getItem('username');
+    loadSection('orders');
+}
+
+function hideApp() {
+    document.getElementById('authForm').style.display = 'block';
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('userInfo').textContent = '';
+}
+
+async function api(url, method = 'GET', data = null) {
+    const opts = {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        }
+    };
+    if (data) opts.body = JSON.stringify(data);
+    const res = await fetch(API + url, opts);
+    if (res.status === 401) {
+        logout();
+        return [];
+    }
+    return res.ok ? res.json() : [];
+}
+
+async function loadSection(section) {
+    currentSection = section;
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+    const content = document.getElementById('content');
+
+    if (section === 'reports') {
+        content.innerHTML = await renderReports();
+        return;
+    }
+
+    const data = await api(`/${section}/`);
+    content.innerHTML = renderTable(section, data);
+}
+
+function renderTable(section, data) {
+    const titles = {
+        orders: 'Заявки', payments: 'Платежные поручения', services: 'Прайс-лист услуг',
+        clients: 'Клиенты', employees: 'Сотрудники', categories: 'Категории услуг'
+    };
+
+    if (!data.length) return `
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>${titles[section]}</h4>
+            <button class="btn btn-primary" onclick="showAddForm('${section}')">Добавить</button>
+        </div>
+        <div class="alert alert-info">Нет данных</div>
+    `;
+
+    const configs = {
+        orders: {
+            title: 'Заявки',
+            cols: ['ID', 'Клиент', 'Услуга', 'Исполнитель', 'Кол-во', 'Стоимость', 'Статус', 'Дата', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>${d.client_name || d.client}</td>
+                <td>${d.service_name || d.service}</td>
+                <td>${d.executor_name || d.executor}</td>
+                <td>${d.quantity}</td>
+                <td>${d.total_cost} руб.</td>
+                <td><span class="badge ${d.status === 'completed' ? 'bg-success' : d.status === 'in_progress' ? 'bg-warning' : 'bg-secondary'}">${d.status_display || d.status}</span></td>
+                <td>${new Date(d.created_at).toLocaleDateString()}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="editItem('orders', ${d.id})">✎</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('orders', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        },
+        payments: {
+            title: 'Платежные поручения',
+            cols: ['ID', 'Заявка', 'Дата выставления', 'Дата оплаты', 'Статус', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>#${d.order}</td>
+                <td>${d.issued_date}</td>
+                <td>${d.payment_date || '-'}</td>
+                <td><span class="badge ${d.is_paid ? 'bg-success' : 'bg-danger'}">${d.is_paid ? 'Оплачено' : 'Не оплачено'}</span></td>
+                <td>
+                    ${!d.is_paid ? `<button class="btn btn-sm btn-success" onclick="payOrder(${d.id})">Оплатить</button>` : ''}
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('payments', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        },
+        services: {
+            title: 'Прайс-лист услуг',
+            cols: ['ID', 'Категория', 'Наименование', 'Цена', 'Ед. изм.', 'Материалы', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>${d.category_name || d.category}</td>
+                <td>${d.name}</td>
+                <td>${d.price} руб.</td>
+                <td>${d.unit}</td>
+                <td>${d.materials || '-'}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="editItem('services', ${d.id})">✎</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('services', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        },
+        clients: {
+            title: 'Клиенты',
+            cols: ['ID', 'Компания', 'Контактное лицо', 'Телефон', 'Email', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>${d.name}</td>
+                <td>${d.contact_person}</td>
+                <td>${d.phone}</td>
+                <td>${d.email}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="editItem('clients', ${d.id})">✎</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('clients', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        },
+        employees: {
+            title: 'Сотрудники',
+            cols: ['ID', 'ФИО', 'Должность', 'Телефон', 'Email', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>${d.last_name} ${d.first_name}</td>
+                <td>${d.position}</td>
+                <td>${d.phone}</td>
+                <td>${d.email}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="editItem('employees', ${d.id})">✎</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('employees', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        },
+        categories: {
+            title: 'Категории услуг',
+            cols: ['ID', 'Название', 'Действия'],
+            row: d => `<tr>
+                <td>${d.id}</td>
+                <td>${d.name}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick="editItem('categories', ${d.id})">✎</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteItem('categories', ${d.id})">✕</button>
+                </td>
+            </tr>`
+        }
+    };
+
+    const cfg = configs[section];
+    return `
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>${cfg.title}</h4>
+            <button class="btn btn-primary" onclick="showAddForm('${section}')">Добавить</button>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>${cfg.cols.map(c => `<th>${c}</th>`).join('')}</tr>
+            </thead>
+            <tbody>${data.map(cfg.row).join('')}</tbody>
+        </table>
+    `;
+}
+
+async function renderReports() {
+    const [orders, payments, employees] = await Promise.all([
+        api('/orders/'),
+        api('/payments/'),
+        api('/employees/')
+    ]);
+
+    // Выполненные работы с оплатой
+    const completed = payments.filter(p => p.is_paid).map(p => {
+        const order = orders.find(o => o.id === p.order);
+        return order ? {...order, payment_date: p.payment_date} : null;
+    }).filter(Boolean);
+
+    // Отчет за квартал
+    const now = new Date();
+    const quarterStart = new Date(now.getFullYear(), Math.floor(now.getMonth() / 3) * 3, 1);
+    const quarterOrders = orders.filter(o => new Date(o.created_at) >= quarterStart);
+    const totalQuarter = quarterOrders.reduce((sum, o) => sum + parseFloat(o.total_cost), 0);
+
+    // Статистика по сотрудникам
+    const empStats = employees.map(e => ({
+        name: `${e.last_name} ${e.first_name}`,
+        count: orders.filter(o => o.executor === e.id || o.executor_name === `${e.last_name} ${e.first_name}`).length
+    }));
+
+    return `
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">Выполненные работы (оплаченные)</div>
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <thead><tr><th>Дата оплаты</th><th>Клиент</th><th>Услуга</th><th>Исполнитель</th></tr></thead>
+                            <tbody>
+                                ${completed.map(o => `<tr>
+                                    <td>${o.payment_date}</td>
+                                    <td>${o.client_name || o.client}</td>
+                                    <td>${o.service_name || o.service}</td>
+                                    <td>${o.executor_name || o.executor}</td>
+                                </tr>`).join('') || '<tr><td colspan="4">Нет данных</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">Отчет за текущий квартал</div>
+                    <div class="card-body">
+                        <h3>${totalQuarter.toFixed(2)} руб.</h3>
+                        <p>Всего заявок: ${quarterOrders.length}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">Статистика по сотрудникам</div>
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <thead><tr><th>Сотрудник</th><th>Кол-во заявок</th></tr></thead>
+                            <tbody>
+                                ${empStats.map(e => `<tr><td>${e.name}</td><td>${e.count}</td></tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function payOrder(id) {
+    const today = new Date().toISOString().split('T')[0];
+    await api(`/payments/${id}/`, 'PATCH', {is_paid: true, payment_date: today});
+    loadSection('payments');
+}
+
+async function deleteItem(section, id) {
+    if (!confirm('Удалить запись?')) return;
+    await api(`/${section}/${id}/`, 'DELETE');
+    await loadSection(currentSection);
+}
+
+async function editItem(section, id) {
+    const item = await api(`/${section}/${id}/`);
+    const modal = new bootstrap.Modal(document.getElementById('formModal'));
+    document.getElementById('modalTitle').textContent = 'Редактировать';
+
+    let formHtml = '';
+
+    if (section === 'clients') {
+        formHtml = `
+            <form onsubmit="submitEdit(event, '/${section}/${id}/')">
+                <div class="mb-3"><input name="name" class="form-control" value="${item.name}" required></div>
+                <div class="mb-3"><input name="contact_person" class="form-control" value="${item.contact_person}" required></div>
+                <div class="mb-3"><input name="phone" class="form-control" value="${item.phone}" required></div>
+                <div class="mb-3"><input name="email" type="email" class="form-control" value="${item.email}" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>`;
+    } else if (section === 'employees') {
+        formHtml = `
+            <form onsubmit="submitEdit(event, '/${section}/${id}/')">
+                <div class="mb-3"><input name="first_name" class="form-control" value="${item.first_name}" required></div>
+                <div class="mb-3"><input name="last_name" class="form-control" value="${item.last_name}" required></div>
+                <div class="mb-3"><input name="phone" class="form-control" value="${item.phone}" required></div>
+                <div class="mb-3"><input name="email" type="email" class="form-control" value="${item.email}" required></div>
+                <div class="mb-3"><input name="position" class="form-control" value="${item.position}" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>`;
+    } else if (section === 'categories') {
+        formHtml = `
+            <form onsubmit="submitEdit(event, '/${section}/${id}/')">
+                <div class="mb-3"><input name="name" class="form-control" value="${item.name}" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>`;
+    } else if (section === 'services') {
+        const categories = await api('/categories/');
+        formHtml = `
+            <form onsubmit="submitEdit(event, '/${section}/${id}/')">
+                <div class="mb-3">
+                    <select name="category" class="form-select" required>
+                        ${categories.map(c => `<option value="${c.id}" ${c.id === item.category ? 'selected' : ''}>${c.name}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mb-3"><input name="name" class="form-control" value="${item.name}" required></div>
+                <div class="mb-3"><input name="price" type="number" step="0.01" class="form-control" value="${item.price}" required></div>
+                <div class="mb-3"><input name="unit" class="form-control" value="${item.unit}" required></div>
+                <div class="mb-3"><textarea name="materials" class="form-control">${item.materials || ''}</textarea></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>`;
+    } else if (section === 'orders') {
+        const [clients, services, employees] = await Promise.all([
+            api('/clients/'), api('/services/'), api('/employees/')
+        ]);
+        formHtml = `
+            <form onsubmit="submitEdit(event, '/${section}/${id}/')">
+                <div class="mb-3">
+                    <select name="client" class="form-select" required>
+                        ${clients.map(c => `<option value="${c.id}" ${c.id === item.client ? 'selected' : ''}>${c.name}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select name="service" class="form-select" required>
+                        ${services.map(s => `<option value="${s.id}" ${s.id === item.service ? 'selected' : ''}>${s.name}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select name="executor" class="form-select" required>
+                        ${employees.map(e => `<option value="${e.id}" ${e.id === item.executor ? 'selected' : ''}>${e.last_name} ${e.first_name}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="mb-3"><input name="quantity" type="number" class="form-control" value="${item.quantity}" required></div>
+                <div class="mb-3"><input name="total_cost" type="number" step="0.01" class="form-control" value="${item.total_cost}" required></div>
+                <div class="mb-3">
+                    <select name="status" class="form-select">
+                        <option value="new" ${item.status === 'new' ? 'selected' : ''}>Новая</option>
+                        <option value="in_progress" ${item.status === 'in_progress' ? 'selected' : ''}>В работе</option>
+                        <option value="completed" ${item.status === 'completed' ? 'selected' : ''}>Выполнена</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>`;
+    }
+
+    document.getElementById('modalBody').innerHTML = formHtml;
+    modal.show();
+}
+
+async function submitEdit(e, url) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    await api(url, 'PUT', data);
+    bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+    await loadSection(currentSection);
+}
+
+async function showAddForm(section) {
+    const modal = new bootstrap.Modal(document.getElementById('formModal'));
+    document.getElementById('modalTitle') .textContent = 'Добавить';
+
+    const forms = {
+        clients: `
+            <form onsubmit="submitForm(event, '/clients/')">
+                <div class="mb-3"><input name="name" class="form-control" placeholder="Название компании" required></div>
+                <div class="mb-3"><input name="contact_person" class="form-control" placeholder="Контактное лицо" required></div>
+                <div class="mb-3"><input name="phone" class="form-control" placeholder="Телефон" required></div>
+                <div class="mb-3"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>
+        `,
+        employees: `
+            <form onsubmit="submitForm(event, '/employees/')">
+                <div class="mb-3"><input name="first_name" class="form-control" placeholder="Имя" required></div>
+                <div class="mb-3"><input name="last_name" class="form-control" placeholder="Фамилия" required></div>
+                <div class="mb-3"><input name="phone" class="form-control" placeholder="Телефон" required></div>
+                <div class="mb-3"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
+                <div class="mb-3"><input name="position" class="form-control" placeholder="Должность" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>
+        `,
+        orders: await (async () => {
+            const [clients, services, employees] = await Promise.all([
+                api('/clients/'), api('/services/'), api('/employees/')
+            ]);
+            return `
+                <form onsubmit="submitForm(event, '/orders/')">
+                    <div class="mb-3">
+                        <select name="client" class="form-select" required>
+                            <option value="">Выберите клиента</option>
+                            ${clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="service" class="form-select" required onchange="updateCost(this)">
+                            <option value="">Выберите услугу</option>
+                            ${services.map(s => `<option value="${s.id}" data-price="${s.price}">${s.name} - ${s.price} руб.</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="executor" class="form-select" required>
+                            <option value="">Выберите исполнителя</option>
+                            ${employees.map(e => `<option value="${e.id}">${e.last_name} ${e.first_name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="mb-3"><input name="quantity" type="number" class="form-control" placeholder="Количество" required onchange="updateCost(this)"></div>
+                    <div class="mb-3"><input name="total_cost" type="number" step="0.01" class="form-control" placeholder="Стоимость" required></div>
+                    <button class="btn btn-primary">Сохранить</button>
+                </form>
+            `;
+        })(),
+        payments: await (async () => {
+            const orders = await api('/orders/');
+            return `
+                <form onsubmit="submitForm(event, '/payments/')">
+                    <div class="mb-3">
+                        <select name="order" class="form-select" required>
+                            <option value="">Выберите заявку</option>
+                            ${orders.map(o => `<option value="${o.id}">Заявка #${o.id} - ${o.client_name || o.client}</option>`).join('')}
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">Сохранить</button>
+                </form>
+            `;
+        })(),
+        services: await (async () => {
+            const categories = await api('/categories/');
+            return `
+                <form onsubmit="submitForm(event, '/services/')">
+                    <div class="mb-3">
+                        <select name="category" class="form-select" required>
+                            <option value="">Выберите категорию</option>
+                            ${categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="mb-3"><input name="name" class="form-control" placeholder="Название услуги" required></div>
+                    <div class="mb-3"><input name="price" type="number" step="0.01" class="form-control" placeholder="Цена" required></div>
+                    <div class="mb-3"><input name="unit" class="form-control" placeholder="Ед. измерения" required></div>
+                    <div class="mb-3"><textarea name="materials" class="form-control" placeholder="Материалы"></textarea></div>
+                    <button class="btn btn-primary">Сохранить</button>
+                </form>
+            `;
+        })(),
+        categories: `
+            <form onsubmit="submitForm(event, '/categories/')">
+                <div class="mb-3"><input name="name" class="form-control" placeholder="Название категории" required></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>
+        `
+    };
+
+    document.getElementById('modalBody').innerHTML = forms[section] || '<p>Форма недоступна</p>';
+    modal.show();
+}
+
+function updateCost(el) {
+    const form = el.closest('form');
+    const service = form.querySelector('[name="service"]');
+    const quantity = form.querySelector('[name="quantity"]');
+    const cost = form.querySelector('[name="total_cost"]');
+    const price = service.selectedOptions[0]?.dataset.price || 0;
+    cost.value = (price * (quantity.value || 1)).toFixed(2);
+}
+
+async function submitForm(e, url) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    const result = await api(url, 'POST', data);
+    console.log('Submit result:', result);
+    bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+    await loadSection(currentSection);
+}
+
+function applyFilter() {
+    loadSection(currentSection);
+}
+
+// Flatpickr init
+flatpickr("#dateFrom", {locale: "ru", dateFormat: "Y-m-d"});
+flatpickr("#dateTo", {locale: "ru", dateFormat: "Y-m-d"});
+
+// Проверка авторизации при загрузке
+if (accessToken) {
+    showApp();
+} else {
+    hideApp();
+}
+</script>
+</body>
+</html>
