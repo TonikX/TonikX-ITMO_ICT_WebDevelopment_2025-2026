@@ -1,0 +1,54 @@
+<!-- templates/cars_list.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список автомобилей</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { background-color: #28a745; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .car-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; background: white; }
+        .car-link { color: #28a745; text-decoration: none; font-weight: bold; }
+        .car-link:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 3px; }
+        .back-link:hover { background: #545b62; }
+        .car-info { margin-top: 5px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Список автомобилей</h1>
+        </div>
+
+        {% if cars %}
+            {% for car in cars %}
+            <div class="car-item">
+                <a href="{% url 'car_detail' car.id %}" class="car-link">
+                    {{ car.brand }} {{ car.model }}
+                </a>
+                <div class="car-info">
+                    <p><strong>Гос. номер:</strong> {{ car.state_number }}</p>
+                    <p><strong>Цвет:</strong> {{ car.get_color_display }}</p>
+                    <p><strong>Текущий владелец:</strong>
+                        {% with current_owner=car.get_current_owner %}
+                            {% if current_owner %}
+                                {{ current_owner.get_full_name }}
+                            {% else %}
+                                <span style="color: #dc3545;">Нет владельца</span>
+                            {% endif %}
+                        {% endwith %}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Автомобили не найдены</p>
+        {% endif %}
+
+        <a href="{% url 'automobiles_home' %}" class="back-link">← На главную</a>
+    </div>
+</body>
+</html>
