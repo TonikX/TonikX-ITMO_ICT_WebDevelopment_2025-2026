@@ -1,0 +1,64 @@
+from django.db import models
+
+
+class Warrior(models.Model):
+    """
+    Описание воина
+    """
+    # CHOICES - ограничивает возможные значения поля
+    race_types = (
+        ('s', 'student'),
+        ('d', 'developer'),
+        ('t', 'teamlead'),
+    )
+
+    # CharField - строка с ограничением длины
+    race = models.CharField(max_length=1, choices=race_types, verbose_name='Расса')
+    name = models.CharField(max_length=120, verbose_name='Имя')
+
+    # IntegerField - целое число
+    level = models.IntegerField(verbose_name='Уровень', default=0)
+
+    # ManyToManyField - связь многие-ко-многим через промежуточную модель
+    skill = models.ManyToManyField('Skill', verbose_name='Умения', through='SkillOfWarrior',
+                                   related_name='warrior_skils')
+
+    # ForeignKey - связь многие-к-одному
+    profession = models.ForeignKey('Profession', on_delete=models.CASCADE, verbose_name='Профессия',
+                                   blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Profession(models.Model):
+    """
+    Описание профессии
+    """
+    title = models.CharField(max_length=120, verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+
+    def __str__(self):
+        return self.title
+
+
+class Skill(models.Model):
+    """
+    Описание умений
+    """
+    title = models.CharField(max_length=120, verbose_name='Наименование')
+
+    def __str__(self):
+        return self.title
+
+
+class SkillOfWarrior(models.Model):
+    """
+    Промежуточная модель для связи воинов и умений
+    """
+    skill = models.ForeignKey('Skill', verbose_name='Умение', on_delete=models.CASCADE)
+    warrior = models.ForeignKey('Warrior', verbose_name='Воин', on_delete=models.CASCADE)
+    level = models.IntegerField(verbose_name='Уровень освоения умения')
+
+    def __str__(self):
+        return f"{self.warrior.name} - {self.skill.title} (уровень {self.level})"
