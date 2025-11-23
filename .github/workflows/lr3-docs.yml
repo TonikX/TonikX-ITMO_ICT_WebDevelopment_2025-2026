@@ -1,0 +1,106 @@
+name: Deploy Lr3 MkDocs Documentation
+
+# Workflow для автоматического деплоя документации на GitHub Pages
+on:
+  push:
+    branches:
+      - gubanov-egorr-lr3
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies for ResidentalConnect
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/ResidentalConnect
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build ResidentalConnect documentation
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/ResidentalConnect
+          mkdocs build
+
+      - name: Install dependencies for Task1
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/Task1
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build Task1 documentation
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/Task1
+          mkdocs build
+
+      - name: Install dependencies for Task2
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/Task2
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build Task2 documentation
+        run: |
+          cd students/k3340/Gubanov_Egor/Lr3/Task2
+          mkdocs build
+
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p deploy/Lr3
+          # Копируем собранные сайты в единую структуру
+          cp -r students/k3340/Gubanov_Egor/Lr3/ResidentalConnect/site deploy/Lr3/ResidentalConnect
+          cp -r students/k3340/Gubanov_Egor/Lr3/Task1/site deploy/Lr3/Task1
+          cp -r students/k3340/Gubanov_Egor/Lr3/Task2/site deploy/Lr3/Task2
+          # Создаем index.html в корне для редиректа
+          cat > deploy/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <meta http-equiv="refresh" content="0; url=./Lr3/ResidentalConnect/">
+              <title>Redirecting...</title>
+          </head>
+          <body>
+              <p>Redirecting to <a href="./Lr3/ResidentalConnect/">documentation</a>...</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./deploy
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

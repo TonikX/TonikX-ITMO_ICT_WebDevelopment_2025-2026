@@ -1,0 +1,71 @@
+site_name: ЖК Коннект - API Документация
+site_description: Информационная система для автоматизации работы Управляющей Компании ЖК
+site_author: Губанов Егор
+site_url: https://egorr-gubanov.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/Lr3/ResidentalConnect/
+
+repo_name: egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+repo_url: https://github.com/egorr-gubanov/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+copyright: Copyright &copy; 2024 Губанов Егор
+
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: light blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - search.highlight
+    - search.share
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+  extra_javascript:
+    - https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs
+    - javascripts/mermaid-init.js
+
+nav:
+  - Главная: index.md
+  - Установка: installation.md
+  - Модели данных: models.md
+  - API: api.md
+  - Аутентификация: authentication.md
+  - Права доступа: permissions.md
+  - Схемы процессов: workflows.md
+
+plugins:
+  - search
+  - mermaid2:
+      arguments:
+        theme: default
+        themeVariables:
+          primaryColor: '#2196F3'
+          primaryTextColor: '#fff'
+          primaryBorderColor: '#1976D2'
+          lineColor: '#424242'
+          secondaryColor: '#FFC107'
+          tertiaryColor: '#4CAF50'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - tables
+  - toc:
+      permalink: true
+
+# GitHub Pages configuration
+use_directory_urls: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/egorr-gubanov
+
