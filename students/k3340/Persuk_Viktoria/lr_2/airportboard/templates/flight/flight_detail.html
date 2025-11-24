@@ -1,4 +1,5 @@
 {% extends "flight/base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -9,12 +10,28 @@
 <p><b>Гейт:</b> {{ flight.gate }}</p>
 
 {% if user.is_authenticated %}
-    <a href="{% url 'create_reservation' flight.id %}" class="btn btn-success">Забронировать место</a>
-    <a href="{% url 'add_comment' flight.id %}" class="btn btn-secondary">Оставить отзыв</a>
+    <div class="mb-3">
+        <a href="{% url 'create_reservation' flight.id %}" class="btn btn-success">Забронировать место</a>
+        <a href="{% url 'add_comment' flight.id %}" class="btn btn-secondary">Оставить отзыв</a>
+    </div>
 {% else %}
     <p>Чтобы забронировать место, <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>
 {% endif %}
 
+{% if is_admin %}
+<hr>
+<div class="alert alert-info">
+    <h5>Статистика рейса (только для администратора)</h5>
+    <p><b>Всего бронирований:</b> {{ reservations_count }}</p>
+    <p><b>Прошли регистрацию:</b> {{ checked_in_count }}</p>
+    <div class="mt-2">
+        <a href="{% url 'flight_passengers' flight.id %}" class="btn btn-primary">Просмотр всех пассажиров</a>
+        <a href="{% url 'admin_create_reservation' flight.id %}" class="btn btn-success">Добавить пассажира</a>
+    </div>
+</div>
+{% endif %}
+
+{% if is_admin %}
 <hr>
 <h3>Пассажиры</h3>
 <table class="table table-bordered">
@@ -24,7 +41,8 @@
       <th>Место</th>
       <th>Билет</th>
       <th>Статус</th>
-      {% if user.is_staff %}<th></th>{% endif %}
+      <th>Обновлено</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -34,24 +52,39 @@
       <td>{{ r.seat_number|default:'—' }}</td>
       <td>{{ r.ticket_number|default:'—' }}</td>
       <td>{{ r.get_status_display }}</td>
-      {% if user.is_staff %}
+      <td>{{ r.updated_at|date:"d.m.Y H:i" }}</td>
       <td>
         <a class="btn btn-sm btn-outline-primary" href="{% url 'reservation_update' r.id %}">Изменить</a>
         <a class="btn btn-sm btn-outline-danger" href="{% url 'reservation_delete' r.id %}">Удалить</a>
       </td>
-      {% endif %}
     </tr>
     {% empty %}
-    <tr><td colspan="5">Пассажиров пока нет.</td></tr>
+    <tr><td colspan="6">Пассажиров пока нет.</td></tr>
     {% endfor %}
   </tbody>
 </table>
+{% endif %}
 
+<hr>
 <h3>Комментарии</h3>
 {% for comment in comments %}
-    <p><b>{{ comment.author.username }}</b> - {{ comment.rating }}/10</p>
-    <p>{{ comment.text }}</p>
-    <hr>
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="card-title">{{ comment.author.username|default:"Анонимный пользователь" }} - {{ comment.rating }}/10</h6>
+                    <p class="card-text">{{ comment.text }}</p>
+                    <small class="text-muted">Дата рейса: {{ comment.flight_date|date:"d.m.Y" }} | Создано: {{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+                {% if is_admin or comment.author == user %}
+                <div>
+                    <a href="{% url 'comment_update' comment.id %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                    <a href="{% url 'comment_delete' comment.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% empty %}
     <p>Комментариев пока нет.</p>
 {% endfor %}

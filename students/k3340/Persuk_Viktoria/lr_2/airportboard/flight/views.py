@@ -5,9 +5,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import models
-from django.http import HttpRequest, HttpResponse
-from .forms import ReservationForm, CommentForm, RegisterForm
+from django.http import HttpRequest, HttpResponse, Http404
+from .forms import ReservationForm, CommentForm, RegisterForm, AdminReservationForm, CommentEditForm
 from .models import Flight, Reservation, Comment
+from .utils import is_airport_admin
 
 
 def register(request: HttpRequest) -> HttpResponse:
@@ -65,6 +66,7 @@ def flight_list(request: HttpRequest) -> HttpResponse:
     ctx = {
         'page_obj': page_obj,
         'request': request,
+        'is_admin': is_airport_admin(request.user),
     }
     return render(request, 'flight/flight_list.html', ctx)
 
@@ -72,7 +74,7 @@ def flight_list(request: HttpRequest) -> HttpResponse:
 @login_required
 def create_reservation(request: HttpRequest, flight_id: int) -> HttpResponse:
     '''
-    Функция для добавления брони
+    Функция для добавления брони (для обычных пользователей)
     '''
     flight = get_object_or_404(Flight, id=flight_id)
 
@@ -81,6 +83,7 @@ def create_reservation(request: HttpRequest, flight_id: int) -> HttpResponse:
         form = ReservationForm(request.POST, instance=Reservation(user=request.user, flight=flight, status=Reservation.StatusType.RESERVED))
         if form.is_valid():
             reservation = form.save()
+            messages.success(request, 'Бронирование успешно создано.')
             return redirect('flight_detail', flight_id=flight.pk)
     else:
         form = ReservationForm()
@@ -121,12 +124,20 @@ def flight_detail(request: HttpRequest, flight_id: int) -> HttpResponse:
     Функция рендера деталей о полёте
     '''
     flight = get_object_or_404(Flight, id=flight_id)
-    reservations = Reservation.objects.filter(flight=flight)
-    comments = Comment.objects.filter(flight=flight).order_by('-created_at')
+    reservations = Reservation.objects.filter(flight=flight).select_related('user').order_by('-created_at')
+    comments = Comment.objects.filter(flight=flight).select_related('author').order_by('-created_at')
+
+    # Статистика для админа
+    reservations_count = reservations.count()
+    checked_in_count = reservations.filter(status=Reservation.StatusType.CHECKED_IN).count()
+
     return render(request, 'flight/flight_detail.html', {
         'flight': flight,
         'reservations': reservations,
         'comments': comments,
+        'reservations_count': reservations_count,
+        'checked_in_count': checked_in_count,
+        'is_admin': is_airport_admin(request.user),
     })
 
 
@@ -138,22 +149,27 @@ def reservation_update(request: HttpRequest, pk: int) -> HttpResponse:
     reservation = get_object_or_404(Reservation, pk=pk)
 
     # проверка прав
-    if request.user != reservation.user and not request.user.is_staff:
+    if request.user != reservation.user and not is_airport_admin(request.user):
         messages.error(request, 'Вы не можете редактировать это бронирование.')
         return redirect('my_reservations')
 
+    user_is_admin = is_airport_admin(request.user)
+
     if request.method == 'POST':
-        form = ReservationForm(request.POST, instance=reservation)
+        form = ReservationForm(request.POST, instance=reservation, edit_mode=True, is_admin=user_is_admin)
         if form.is_valid():
             form.save()
             messages.success(request, 'Бронирование успешно обновлено.')
+            if user_is_admin:
+                return redirect('flight_detail', flight_id=reservation.flight.id)
             return redirect('my_reservations')
     else:
-        form = ReservationForm(instance=reservation)
+        form = ReservationForm(instance=reservation, edit_mode=True, is_admin=user_is_admin)
 
     return render(request, 'flight/reservation_form.html', {
         'form': form,
         'edit_mode': True,
+        'reservation': reservation,
     })
 
 
@@ -165,13 +181,16 @@ def reservation_delete(request: HttpRequest, pk: int) -> HttpResponse:
     reservation = get_object_or_404(Reservation, pk=pk)
 
     # проверка прав
-    if request.user != reservation.user and not request.user.is_staff:
+    if request.user != reservation.user and not is_airport_admin(request.user):
         messages.error(request, 'Вы не можете удалить это бронирование.')
         return redirect('my_reservations')
 
     if request.method == 'POST':
+        flight_id = reservation.flight.id
         reservation.delete()
         messages.success(request, 'Бронирование удалено.')
+        if is_airport_admin(request.user):
+            return redirect('flight_detail', flight_id=flight_id)
         return redirect('my_reservations')
 
     return render(request, 'flight/reservation_confirm_delete.html', {'reservation': reservation})
@@ -196,3 +215,104 @@ def logout_view(request: HttpRequest) -> HttpResponse:
     logout(request)
     messages.success(request, 'Вы вышли из аккаунта.')
     return redirect('flight_list')
+
+
+@login_required
+def flight_passengers(request: HttpRequest, flight_id: int) -> HttpResponse:
+    '''
+    Страница со списком пассажиров рейса (только для администраторов)
+    '''
+    if not is_airport_admin(request.user):
+        raise Http404("Страница не найдена")
+
+    flight = get_object_or_404(Flight, id=flight_id)
+    reservations = Reservation.objects.filter(flight=flight).select_related('user').order_by('-updated_at')
+
+    return render(request, 'flight/flight_passengers.html', {
+        'flight': flight,
+        'reservations': reservations,
+    })
+
+
+@login_required
+def admin_create_reservation(request: HttpRequest, flight_id: int) -> HttpResponse:
+    '''
+    Создание бронирования администратором для любого пользователя
+    '''
+    if not is_airport_admin(request.user):
+        messages.error(request, 'У вас нет прав для выполнения этого действия.')
+        return redirect('flight_list')
+
+    flight = get_object_or_404(Flight, id=flight_id)
+
+    if request.method == 'POST':
+        form = AdminReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.flight = flight
+            reservation.save()
+            messages.success(request, f'Бронирование для пользователя {reservation.user.username} успешно создано.')
+            return redirect('flight_detail', flight_id=flight.pk)
+    else:
+        form = AdminReservationForm()
+
+    return render(request, 'flight/admin_reservation_form.html', {
+        'form': form,
+        'flight': flight,
+    })
+
+
+@login_required
+def comment_update(request: HttpRequest, comment_id: int) -> HttpResponse:
+    '''
+    Редактирование комментария (только для администраторов)
+    '''
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Проверка прав: только админ может редактировать любые комментарии
+    if not is_airport_admin(request.user):
+        # Обычный пользователь может редактировать только свои комментарии
+        if comment.author != request.user:
+            messages.error(request, 'Вы не можете редактировать этот комментарий.')
+            return redirect('flight_detail', flight_id=comment.flight.id)
+
+    if request.method == 'POST':
+        form = CommentEditForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Комментарий успешно обновлен.')
+            return redirect('flight_detail', flight_id=comment.flight.id)
+    else:
+        form = CommentEditForm(instance=comment)
+
+    return render(request, 'flight/comment_edit_form.html', {
+        'form': form,
+        'comment': comment,
+        'flight': comment.flight,
+    })
+
+
+@login_required
+def comment_delete(request: HttpRequest, comment_id: int) -> HttpResponse:
+    '''
+    Удаление комментария (только для администраторов)
+    '''
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Проверка прав: только админ может удалять любые комментарии
+    if not is_airport_admin(request.user):
+        # Обычный пользователь может удалять только свои комментарии
+        if comment.author != request.user:
+            messages.error(request, 'Вы не можете удалить этот комментарий.')
+            return redirect('flight_detail', flight_id=comment.flight.id)
+
+    if request.method == 'POST':
+        flight_id = comment.flight.id
+        comment.delete()
+        messages.success(request, 'Комментарий удален.')
+        return redirect('flight_detail', flight_id=flight_id)
+
+    return render(request, 'flight/comment_confirm_delete.html', {
+        'comment': comment,
+        'flight': comment.flight,
+    })

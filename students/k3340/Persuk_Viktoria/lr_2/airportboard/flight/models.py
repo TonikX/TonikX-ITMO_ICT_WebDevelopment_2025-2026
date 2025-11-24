@@ -4,6 +4,8 @@ from django.db import models
 from django.db.models import Index
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Flight(models.Model):
@@ -104,3 +106,22 @@ class Comment(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AirportAdminProfile(models.Model):
+    '''
+    Профиль для хранения информации о правах администратора аэропорта
+    '''
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='airport_admin_profile'
+    )
+    is_airport_admin = models.BooleanField(default=False, verbose_name='Администратор аэропорта')
+
+    class Meta:
+        verbose_name = 'Профиль администратора аэропорта'
+        verbose_name_plural = 'Профили администраторов аэропорта'
+
+    def __str__(self):
+        return f"{self.user.username} - {'Админ' if self.is_airport_admin else 'Пользователь'}"

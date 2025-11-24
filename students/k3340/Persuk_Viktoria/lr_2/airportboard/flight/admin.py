@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Flight, Reservation, Comment
+from .models import Flight, Reservation, Comment, AirportAdminProfile
 
 
 @admin.register(Flight)
@@ -22,3 +22,10 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('flight', 'author', 'rating', 'flight_date', 'created_at')
     search_fields = ('author__username', 'flight__flight_number', 'text')
     list_filter = ('rating', 'flight_date')
+
+
+@admin.register(AirportAdminProfile)
+class AirportAdminProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_airport_admin')
+    search_fields = ('user__username', 'user__email')
+    list_filter = ('is_airport_admin',)

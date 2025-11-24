@@ -51,7 +51,12 @@
       <td>{{ flight.arrival }}</td>
       <td>{{ flight.get_flight_type_display }}</td>
       <td>{{ flight.gate }}</td>
-      <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'flight_detail' flight.id %}">Подробнее</a></td>
+      <td>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'flight_detail' flight.id %}">Подробнее</a>
+        {% if is_admin %}
+        <a class="btn btn-sm btn-outline-primary" href="{% url 'flight_passengers' flight.id %}">Пассажиры</a>
+        {% endif %}
+      </td>
     </tr>
     {% empty %}
     <tr>
