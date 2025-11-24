@@ -1,0 +1,68 @@
+databaseChangeLog:
+    - changeSet:
+        id: 001-create-workshop
+        author: artsobol
+        preConditions:
+          - onFail: HALT
+            not:
+              tableExists:
+                tableName: workshop
+
+        changes:
+          - createTable:
+              tableName: workshop
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                    constraints:
+                      primaryKey: true
+                      primaryKeyName: pk_workshop
+                      nullable: false
+
+                - column:
+                    name: workshop_number
+                    type: integer
+                    constraints:
+                      nullable: false
+                      checkConstraint: workshop_number > 0
+
+                - column:
+                    name: created_at
+                    type: timestamp with time zone
+                    defaultValueComputed: now()
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: updated_at
+                    type: timestamp with time zone
+                    defaultValueComputed: now()
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: is_active
+                    type: boolean
+                    defaultValueBoolean: true
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: version
+                    type: bigint
+                    defaultValueNumeric: "0"
+                    constraints:
+                      nullable: false
+
+          - addUniqueConstraint:
+              tableName: workshop
+              columnNames: workshop_number
+              constraintName: uq_workshop_number
+
+        rollback:
+          - dropUniqueConstraint:
+              tableName: workshop
+              constraintName: uq_workshop_number
+          - dropTable:
+              tableName: workshop

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-chicken-cage-check-trigger
+      author: artsobol
+
+      changes:
+        - sql:
+            sql: |
+              CREATE TRIGGER trg_check_chicken_cage_has_worker
+              BEFORE INSERT OR UPDATE OF cage_id ON chicken
+              FOR EACH ROW
+              EXECUTE FUNCTION check_chicken_cage_has_worker();

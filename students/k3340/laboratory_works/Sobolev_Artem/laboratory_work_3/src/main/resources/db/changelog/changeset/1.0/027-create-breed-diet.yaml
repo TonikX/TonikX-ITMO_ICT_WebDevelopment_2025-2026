@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-breed-diet
+      author: artsobol
+      changes:
+        - createTable:
+            tableName: breed_diet
+            columns:
+              - column:
+                  name: diet_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    referencedTableName: diet
+                    referencedColumnNames: id
+                    foreignKeyName: fk_breed_diet_diet_id
+                    deleteCascade: true
+
+              - column:
+                  name: breed_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    referencedTableName: breed
+                    referencedColumnNames: id
+                    foreignKeyName: fk_breed_diet_breed_id
+
+        - addPrimaryKey:
+            tableName: breed_diet
+            columnNames: diet_id, breed_id
+            constraintName: pk_breed_diet
+
+        - addUniqueConstraint:
+            tableName: breed_diet
+            constraintName: uq_breed_diet_diet_breed
+            columnNames: diet_id, breed_id

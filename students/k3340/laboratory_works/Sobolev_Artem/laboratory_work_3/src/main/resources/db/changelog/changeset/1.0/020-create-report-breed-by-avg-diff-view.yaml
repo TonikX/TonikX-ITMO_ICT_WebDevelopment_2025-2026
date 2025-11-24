@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-report-breed-by-avg-diff-view
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+              - viewExists:
+                  viewName: report_breed_by_avg_diff
+            - tableExists:
+                tableName: breed
+            - tableExists:
+                tableName: chicken
+            - tableExists:
+                tableName: workshop
+
+      changes:
+        - sql:
+            sql: |
+              WITH farm_stats AS (
+                SELECT AVG(epm.count) AS avg_eggs
+                FROM egg_production_month epm
+              ),
+              breed_stats AS (
+              SELECT b.id   AS breed_id,
+              b.name AS breed_name,
+              AVG(epm.count) AS avg_eggs
+              FROM egg_production_month epm
+              JOIN chicken c ON c.id = epm.chicken_id
+              JOIN breed   b ON b.id = c.breed_id
+              GROUP BY b.id, b.name
+              )
+              SELECT
+              bs.breed_id   AS breedId,
+              bs.breed_name AS breedName,
+              ROUND(bs.avg_eggs, 2)          AS breedAvgEggs,
+              ROUND(fs.avg_eggs, 2)          AS farmAvgEggs,
+              ROUND(bs.avg_eggs - fs.avg_eggs, 2) AS diffEggs
+              FROM breed_stats bs
+              CROSS JOIN farm_stats fs
+              ORDER BY bs.breed_id;

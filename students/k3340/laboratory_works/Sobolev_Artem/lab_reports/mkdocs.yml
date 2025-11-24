@@ -1,0 +1,28 @@
+site_name: Отчёты по лабораторным работам
+nav:
+  - Главная страница: index.md
+  - Лабораторная работа 1: Lab1.md
+  - Лабораторная работа 2: Lab2.md
+  - Лабораторная работа 3:
+      - Практическая часть: lab3/Practical.md
+      - Лабораторная часть:
+          - Главная: lab3/lab/index.md
+          - Эндпоинты: lab3/lab/endpoints.md
+          - Контроллеры: lab3/lab/controllers.md
+theme:
+  name: material
+  palette:
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode

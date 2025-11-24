@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-insert_roles
+      author: artsobol
+      changes:
+        - sql:
+            dbms: postgresql
+            splitStatements: true
+            stripComments: true
+            sql: |
+              INSERT INTO role (name, user_system_role)
+              VALUES
+                  ('SUPER_ADMIN', 'SUPER_ADMIN'),
+                  ('ADMIN', 'ADMIN'),
+                  ('USER', 'USER')
+              ON CONFLICT (name) DO NOTHING;

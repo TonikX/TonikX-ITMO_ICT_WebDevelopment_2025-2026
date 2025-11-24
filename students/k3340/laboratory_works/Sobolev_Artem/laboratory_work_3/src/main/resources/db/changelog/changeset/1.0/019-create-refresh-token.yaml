@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-refresh-token
+      author: artsobol
+
+      changes:
+        - createTable:
+              tableName: refresh_token
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                    constraints:
+                      primaryKey: true
+                      primaryKeyName: pk_refresh_token
+                      nullable: false
+
+                - column:
+                    name: token
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+                      unique: true
+
+                - column:
+                    name: user_id
+                    type: bigint
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: created_at
+                    type: timestamp with time zone
+                    defaultValueComputed: now()
+                    constraints:
+                      nullable: false

@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-add_user_role
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+                tableExists:
+                  tableName: user_role
+            - tableExists:
+                tableName: users
+            - tableExists:
+                tableName: role
+
+      changes:
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_user_role
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: user_role
+            baseColumnNames: user_id
+            constraintName: fk_user_role_user
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: user_role
+            baseColumnNames: role_id
+            constraintName: fk_user_role_role
+            referencedTableName: role
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - addUniqueConstraint:
+            tableName: user_role
+            columnNames: user_id, role_id
+            constraintName: uq_user_role_user_role
+
+      rollback:
+        - dropUniqueConstraint:
+            tableName: user_role
+            constraintName: uq_user_role_user_role
+        - dropForeignKeyConstraint:
+            baseTableName: user_role
+            constraintName: fk_user_role_role
+        - dropForeignKeyConstraint:
+            baseTableName: user_role
+            constraintName: fk_user_role_user
+        - dropTable:
+            tableName: user_role

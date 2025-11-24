@@ -1,0 +1,104 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-chicken
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - tableExists:
+                tableName: breed
+            - not:
+                tableExists:
+                  tableName: chicken
+
+      changes:
+        - createTable:
+            tableName: chicken
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chicken
+                    nullable: false
+
+              - column:
+                  name: name
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: weight
+                  type: integer
+                  constraints:
+                    nullable: false
+                    checkConstraint: weight > 0
+
+              - column:
+                  name: birth_date
+                  type: date
+                  constraints:
+                    nullable: false
+                    checkConstraint: birth_date <= now()
+
+              - column:
+                  name: breed_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: chicken
+            baseColumnNames: breed_id
+            constraintName: fk_chicken_breed
+            referencedTableName: breed
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - createIndex:
+            tableName: chicken
+            indexName: idx_chicken_breed_id
+            columns:
+              - column:
+                  name: breed_id
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: chicken
+            constraintName: fk_chicken_breed
+        - dropIndex:
+            tableName: chicken
+            indexName: idx_chicken_breed_id
+        - dropTable:
+            tableName: chicken

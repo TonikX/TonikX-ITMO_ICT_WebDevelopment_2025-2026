@@ -1,0 +1,107 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-users
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          not:
+            tableExists:
+              tableName: users
+
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_user
+                    nullable: false
+
+              - column:
+                  name: username
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "char_length(btrim(username)) > 0"
+
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: email
+                  type: varchar(80)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "char_length(btrim(email)) > 0"
+
+              - column:
+                  name: last_login
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: registration_status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: username
+            constraintName: uq_app_user_username
+
+        - createIndex:
+            tableName: users
+            indexName: uq_app_user_email_lower
+            unique: true
+            columns:
+              - column:
+                  name: email
+                  descending: false
+                  computed: true
+                  valueComputed: lower(email)
+
+      rollback:
+        - dropIndex:
+            tableName: users
+            indexName: uq_app_user_email_lower
+        - dropUniqueConstraint:
+            tableName: users
+            constraintName: uq_app_user_username
+        - dropTable:
+            tableName: user

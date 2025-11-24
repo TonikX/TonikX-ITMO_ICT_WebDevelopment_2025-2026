@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-staff
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          not:
+            tableExists:
+              tableName: staff
+
+      changes:
+        - createTable:
+            tableName: staff
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_staff
+                    nullable: false
+
+              - column:
+                  name: position
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "char_length(btrim(position)) BETWEEN 2 AND 50"
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValue: "0"
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: staff
+            columnNames: position
+            constraintName: uq_staff_position
+
+      rollback:
+        - dropUniqueConstraint:
+            tableName: staff
+            constraintName: uq_staff_position
+        - dropTable:
+            tableName: staff

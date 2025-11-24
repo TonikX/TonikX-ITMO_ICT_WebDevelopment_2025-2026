@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-report-chicken-by-workshop-and-breed-view
+      author: artsobol
+
+      preConditions:
+        - onFail: HALT
+        - and:
+            - viewExists:
+                viewName: current_chicken_position
+            - tableExists:
+                tableName: chicken
+            - tableExists:
+                tableName: workshop
+            - tableExists:
+                tableName: breed
+
+      changes:
+        - sql:
+            sql: |
+              CREATE OR REPLACE VIEW report_chickens_by_workshop_and_breed AS
+              SELECT 
+                  w.id   AS workshop_id,
+                  w.workshop_number AS workshop_number,
+                  b.id   AS breed_id,
+                  b.name AS breed_name,
+                  COUNT(c.id) AS chickens_count
+              FROM current_chicken_position ccp
+              JOIN chicken c  ON c.id = ccp.chicken_id
+              JOIN workshop w ON w.id = ccp.workshop_id
+              JOIN breed b    ON b.id = c.breed_id
+              GROUP BY w.id, w.workshop_number, b.id, b.name;
+
+      rollback:
+        - sql:
+            sql: |
+              DROP VIEW IF EXISTS report_chickens_by_workshop-and-breed;

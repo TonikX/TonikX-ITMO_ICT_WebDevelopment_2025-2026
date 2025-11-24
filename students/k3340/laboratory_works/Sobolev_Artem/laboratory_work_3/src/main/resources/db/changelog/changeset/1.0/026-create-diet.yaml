@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-diet
+      author: artsobol
+      changes:
+        - createTable:
+            tableName: diet
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_diet
+
+              - column:
+                  name: title
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_diet_title
+
+              - column:
+                  name: code
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_diet_code
+
+              - column:
+                  name: description
+                  type: text
+
+              - column:
+                  name: season
+                  type: varchar(6)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false

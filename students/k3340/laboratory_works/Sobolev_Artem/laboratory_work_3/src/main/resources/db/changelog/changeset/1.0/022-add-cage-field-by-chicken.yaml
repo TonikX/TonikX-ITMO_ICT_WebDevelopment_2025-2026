@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-add-cage-field-by-chicken
+      author: artsobol
+      changes:
+        - addColumn:
+            tableName: chicken
+            columns:
+              - column:
+                  name: cage_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: chicken
+            baseColumnNames: cage_id
+            constraintName: fk_chicken_cage
+            referencedTableName: cage
+            referencedColumnNames: id

@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-report-chicken-eggs-stats-view
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+              - viewExists:
+                  viewName: report_chicken_egg_stats
+            - tableExists:
+                tableName: breed
+            - tableExists:
+                tableName: chicken
+            - tableExists:
+                tableName: egg_production_month
+
+      changes:
+        - sql:
+            sql: |
+              CREATE VIEW report_chicken_egg_stats AS
+              SELECT
+                  c.id   AS chicken_id,
+                  c.name AS chicken_name,
+                  b.id   AS breed_id,
+                  b.name AS breed_name,
+                  c.weight,
+                  c.birth_date,
+                  COALESCE(SUM(epm.count), 0) AS eggs_count
+              FROM chicken c
+              JOIN breed b ON b.id = c.breed_id
+              LEFT JOIN egg_production_month epm ON epm.chicken_id = c.id
+              GROUP BY c.id, c.name, b.id, b.name, c.weight, c.birth_date;

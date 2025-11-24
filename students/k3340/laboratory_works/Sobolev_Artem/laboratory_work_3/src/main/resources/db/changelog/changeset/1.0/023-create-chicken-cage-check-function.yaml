@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-chicken-cage-check-function
+      author: artsobol
+      changes:
+        - sql:
+            dbms: postgresql
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE OR REPLACE FUNCTION check_chicken_cage_has_worker()
+              RETURNS trigger AS $$
+              BEGIN
+                  IF NOT EXISTS (
+                      SELECT 1
+                      FROM worker_cage wc
+                      WHERE wc.cage_id = NEW.cage_id
+                  ) THEN
+                      RAISE EXCEPTION 'Клетка % не обслуживается ни одним работником', NEW.cage_id;
+                  END IF;
+
+                  RETURN NEW;
+              END;
+              $$ LANGUAGE plpgsql;
