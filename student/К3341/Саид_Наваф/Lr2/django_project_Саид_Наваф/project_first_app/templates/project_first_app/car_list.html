@@ -1,0 +1,51 @@
+
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}All Racing Cars{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="display-5 mb-0">🚗 All Racing Cars</h1>
+        <p class="text-muted">List of all registered racing vehicles</p>
+    </div>
+    <a href="{% url 'car_create' %}" class="btn btn-success btn-lg">Add New Car</a>
+</div>
+
+{% if cars %}
+    <div class="row">
+        {% for car in cars %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">{{ car.brand }} {{ car.model }}</h4>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>License Plate:</strong> {{ car.license_plate }}</li>
+                        <li class="list-group-item"><strong>Team:</strong> {{ car.team.name|default:"No team" }}</li>
+                        {% if car.max_speed %}
+                        <li class="list-group-item"><strong>Max Speed:</strong> {{ car.max_speed }} km/h</li>
+                        {% endif %}
+                        {% if car.engine_power %}
+                        <li class="list-group-item"><strong>Engine Power:</strong> {{ car.engine_power }} HP</li>
+                        {% endif %}
+                    </ul>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-primary flex-fill">View</a>
+                        <a href="{% url 'car_update' car.id %}" class="btn btn-outline-warning flex-fill">Edit</a>
+                        <a href="{% url 'car_delete' car.id %}" class="btn btn-outline-danger flex-fill">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p class="mb-1">No racing cars found.</p>
+        <p>Please add some cars through the <a href="{% url 'car_create' %}">form</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

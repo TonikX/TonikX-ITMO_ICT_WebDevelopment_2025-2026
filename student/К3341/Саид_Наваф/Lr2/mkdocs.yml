@@ -1,0 +1,46 @@
+site_name: Лабораторная работа №2 - Система управления автогонками
+site_description: Отчет по лабораторной работе №2 - Табло победителей автогонок
+site_author: Саид Наваф
+
+theme:
+  name: material
+  language: ru
+  palette:
+    primary: red
+    accent: amber
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Главная: index.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com
+    - icon: fontawesome/solid/globe
+      link: https://itmo.ru
+
+copyright: |
+  &copy; 2025 Саид Наваф | K3341 | Лабораторная работа №2

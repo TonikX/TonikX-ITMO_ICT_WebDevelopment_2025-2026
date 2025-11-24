@@ -1,0 +1,81 @@
+
+
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Racing Winners Board{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="display-4">🏁 Racing Winners Board</h1>
+    <p class="lead text-muted">Complete racing management system for tracking races, drivers, and results</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-danger border-3 border-start">
+            <div class="card-body">
+                <h5 class="card-title">👥 Racers Management</h5>
+                <p class="card-text">View and manage racing drivers with their experience and classes</p>
+                <a href="{% url 'racer_list' %}" class="btn btn-danger w-100 mb-2">View All Racers</a>
+                <a href="{% url 'register_user' %}" class="btn btn-outline-secondary w-100">Register New Racer</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-danger border-3 border-start">
+            <div class="card-body">
+                <h5 class="card-title">🏁 Race Events</h5>
+                <p class="card-text">Register for races and view upcoming events</p>
+                <a href="{% url 'race_list' %}" class="btn btn-danger w-100 mb-2">View All Races</a>
+                <a href="{% url 'race_results' %}" class="btn btn-outline-secondary w-100">Race Results</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-danger border-3 border-start">
+            <div class="card-body">
+                <h5 class="card-title">🚗 Cars & Teams</h5>
+                <p class="card-text">Manage racing cars and teams</p>
+                <a href="{% url 'car_list' %}" class="btn btn-danger w-100 mb-2">View All Cars</a>
+                <a href="{% url 'team_list' %}" class="btn btn-outline-secondary w-100">View Teams</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-danger border-3 border-start">
+            <div class="card-body">
+                <h5 class="card-title">⚙️ Admin Panel</h5>
+                <p class="card-text">Advanced race and results management</p>
+                <a href="/admin/" class="btn btn-danger w-100">Admin Access</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if recent_races %}
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">📅 Upcoming Races</h4>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            {% for race in recent_races %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border border-2 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ race.name }}</h5>
+                        <p class="mb-1"><strong>Date:</strong> {{ race.date }}</p>
+                        <p class="mb-1"><strong>Location:</strong> {{ race.location }}</p>
+                        <a href="{% url 'race_detail' race.id %}" class="btn btn-outline-primary w-100">View Details →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

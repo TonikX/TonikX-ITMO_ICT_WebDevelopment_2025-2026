@@ -1,0 +1,38 @@
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Racing Teams{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="display-5">🏁 Racing Teams</h1>
+    <p class="text-muted">List of all registered racing teams</p>
+</div>
+
+{% if teams %}
+    <div class="row g-4 mb-4">
+        {% for team in teams %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">{{ team.name }}</h4>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>Founded:</strong> {{ team.founded_date|default:"Not specified" }}</li>
+                        {% if team.description %}
+                        <li class="list-group-item"><strong>Description:</strong> {{ team.description|truncatewords:20 }}</li>
+                        {% endif %}
+                    </ul>
+                    <a href="{% url 'team_detail' team.id %}" class="btn btn-outline-primary w-100">View Team Details →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p class="mb-1">No racing teams found.</p>
+    </div>
+{% endif %}
+{% endblock %}

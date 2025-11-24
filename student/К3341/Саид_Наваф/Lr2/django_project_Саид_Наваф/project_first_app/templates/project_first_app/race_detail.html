@@ -1,0 +1,83 @@
+
+
+
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}{{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="display-5">🏁 {{ race.name }}</h1>
+    <p class="text-muted">{{ race.get_race_type_display }} at {{ race.location }} on {{ race.date }}</p>
+    <div class="d-flex gap-2 mb-3">
+        <a href="{% url 'race_register' race.id %}" class="btn btn-success">Register for Race</a>
+        <a href="{% url 'add_race_comment' race.id %}" class="btn btn-outline-primary">Add Comment</a>
+        <a href="{% url 'race_list' %}" class="btn btn-secondary">← Back to Races</a>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Race Information</h2>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Race Type:</strong> {{ race.get_race_type_display }}</li>
+            <li class="list-group-item"><strong>Location:</strong> {{ race.location }}</li>
+            <li class="list-group-item"><strong>Date:</strong> {{ race.date }}</li>
+        </ul>
+        {% if race.description %}
+        <div class="mb-3">
+            <strong>Description:</strong>
+            <div class="text-muted">{{ race.description }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if registrations %}
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h2 class="mb-0">Registered Participants</h2>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            {% for registration in registrations %}
+            <li class="list-group-item">
+                <strong>{{ registration.racer.first_name }} {{ registration.racer.last_name }}</strong>
+                {% if registration.final_position %}<span class="badge bg-success ms-2">Position: {{ registration.final_position }}</span>{% endif %}
+                <br>
+                <span class="text-muted">{{ registration.car.brand }} {{ registration.car.model }}</span>
+                {% if registration.lap_time %}<span class="ms-2">| Best Lap: {{ registration.lap_time }}</span>{% endif %}
+                {% if registration.dnf %}<span class="badge bg-danger ms-2">DNF</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+{% if comments %}
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h2 class="mb-0">Race Comments</h2>
+    </div>
+    <div class="card-body">
+        {% for comment in comments %}
+        <div class="border rounded p-3 mb-3 bg-light">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong>{{ comment.author.first_name }} {{ comment.author.last_name }}</strong>
+                <span class="badge bg-primary">{{ comment.get_comment_type_display }}</span>
+                <span class="badge bg-warning text-dark">Rating: {{ comment.rating }}/10</span>
+            </div>
+            <div class="mb-2">{{ comment.text }}</div>
+            <div class="text-end text-muted small">{{ comment.created_date }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
