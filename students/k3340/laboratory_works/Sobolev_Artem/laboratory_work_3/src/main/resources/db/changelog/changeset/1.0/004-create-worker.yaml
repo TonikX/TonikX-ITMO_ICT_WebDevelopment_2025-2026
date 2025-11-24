@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-worker
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          not:
+            tableExists:
+              tableName: worker
+
+      changes:
+        - createTable:
+            tableName: worker
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_worker
+                    nullable: false
+
+              - column:
+                  name: first_name
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "btrim(first_name) = first_name AND char_length(btrim(first_name)) BETWEEN 1 AND 50"
+
+              - column:
+                  name: last_name
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "btrim(last_name) = last_name AND char_length(btrim(last_name)) BETWEEN 1 AND 50"
+
+              - column:
+                  name: patronymic
+                  type: varchar(30)
+                  constraints:
+                    checkConstraint: "patronymic IS NULL OR (btrim(patronymic) = patronymic AND char_length(patronymic) <= 30)"
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValue: "0"
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropTable:
+            tableName: worker

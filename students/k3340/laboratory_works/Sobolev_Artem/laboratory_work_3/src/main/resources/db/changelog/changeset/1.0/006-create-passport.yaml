@@ -1,0 +1,94 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-passport
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - tableExists:
+                tableName: worker
+            - not:
+                tableExists:
+                  tableName: passport
+
+      changes:
+        - createTable:
+            tableName: passport
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_passport
+                    nullable: false
+
+              - column:
+                  name: series
+                  type: varchar(4)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: number
+                  type: varchar(6)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: worker_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: passport
+            columnNames: series, number
+            constraintName: uq_passport_series_number
+
+        - addForeignKeyConstraint:
+            baseTableName: passport
+            baseColumnNames: worker_id
+            constraintName: fk_passport_worker
+            referencedTableName: worker
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: passport
+            constraintName: fk_passport_worker
+        - dropUniqueConstraint:
+            tableName: passport
+            constraintName: uq_passport_series_number
+        - dropTable:
+            tableName: passport

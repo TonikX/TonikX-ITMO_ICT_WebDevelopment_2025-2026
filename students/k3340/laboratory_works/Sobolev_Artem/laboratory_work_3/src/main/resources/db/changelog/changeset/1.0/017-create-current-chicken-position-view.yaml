@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-current-chicken-position-view
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+        - and:
+            - tableExists:
+                tableName: workshop
+            - tableExists:
+                tableName: rows
+            - tableExists:
+                tableName: cage
+            - tableExists:
+                tableName: chicken_movement
+
+      changes:
+        - createView:
+            viewName: current_chicken_position
+            replaceIfExists: true
+            selectQuery: |
+              WITH last_move AS (
+                  SELECT chicken_movement.*
+                  FROM chicken_movement
+                  JOIN (
+                      SELECT chicken_id, MAX(moved_at) AS max_moved_at
+                      FROM chicken_movement
+                      GROUP BY chicken_id
+                  ) t ON t.chicken_id = chicken_movement.chicken_id
+                     AND t.max_moved_at = chicken_movement.moved_at
+              )
+              SELECT 
+                  last_move.chicken_id,
+                  last_move.to_cage_id AS cage_id,
+                  cage.row_id,
+                  rows.workshop_id
+              FROM last_move
+              JOIN cage ON cage.id = last_move.to_cage_id
+              JOIN rows ON rows.id = cage.row_id
+              JOIN workshop ON workshop.id = rows.workshop_id;
+
+      rollback:
+        - dropView:
+            viewName: current_chicken_position

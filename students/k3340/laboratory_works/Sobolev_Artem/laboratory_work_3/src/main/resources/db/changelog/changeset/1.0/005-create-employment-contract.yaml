@@ -1,0 +1,143 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-employment-contract
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+                tableExists:
+                  tableName: employment_contract
+            - tableExists:
+                tableName: worker
+            - tableExists:
+                tableName: staff
+
+      changes:
+        - createTable:
+            tableName: employment_contract
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_employment_contract
+                    nullable: false
+
+              - column:
+                  name: contract_number
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    checkConstraint: "btrim(contract_number) = contract_number AND char_length(contract_number) BETWEEN 1 AND 20"
+
+              - column:
+                  name: start_date
+                  type: date
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_date
+                  type: date
+                  constraints:
+                    nullable: false
+                    checkConstraint: start_date <= end_date
+
+              - column:
+                  name: salary
+                  type: integer
+                  constraints:
+                    nullable: false
+                    checkConstraint: salary > 0
+
+              - column:
+                  name: worker_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: staff_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValue: "0"
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: employment_contract
+            baseColumnNames: worker_id
+            constraintName: fk_employment_contract_worker
+            referencedTableName: worker
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: employment_contract
+            baseColumnNames: staff_id
+            constraintName: fk_employment_contract_staff
+            referencedTableName: staff
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - createIndex:
+            tableName: employment_contract
+            indexName: ix_employment_contract_worker_id
+            columns:
+              - column:
+                  name: worker_id
+
+        - createIndex:
+            tableName: employment_contract
+            indexName: ix_employment_contract_staff_id
+            columns:
+              - column:
+                  name: staff_id
+
+        - addUniqueConstraint:
+            tableName: employment_contract
+            columnNames: contract_number
+            constraintName: uq_employment_contract_contract_number
+
+      rollback:
+        - dropUniqueConstraint:
+            tableName: employment_contract
+            constraintName: uq_employment_contract_contract_number
+        - dropForeignKeyConstraint:
+            baseTableName: employment_contract
+            constraintName: fk_employment_contract_staff
+        - dropForeignKeyConstraint:
+            baseTableName: employment_contract
+            constraintName: fk_employment_contract_worker
+        - dropTable:
+            tableName: employment_contract

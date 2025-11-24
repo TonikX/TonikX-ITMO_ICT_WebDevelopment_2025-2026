@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-breed-egg-diff-report
+      author: artsobol
+      changes:
+        - sql:
+            splitStatements: false
+            sql: |
+              create view breed_egg_diff_report
+              (
+              breed_id,
+              breed_name,
+              breed_avg_eggs,
+              farm_avg_eggs,
+              diff_eggs
+              ) as
+              with breed_stats as (
+              select
+              b.id   as breed_id,
+              b.name as breed_name,
+              count(distinct c.id)        as chickens_count,
+              coalesce(sum(epm.count), 0) as eggs_total,
+              case
+              when count(distinct c.id) = 0 then 0
+              else coalesce(sum(epm.count), 0)::numeric / count(distinct c.id)
+              end                         as breed_avg_eggs
+              from breed b
+              join chicken c on c.breed_id = b.id
+              left join egg_production_month epm on epm.chicken_id = c.id
+              group by b.id, b.name
+              ),
+              farm_stats as (
+              select
+              count(distinct c.id)        as chickens_count,
+              coalesce(sum(epm.count), 0) as eggs_total,
+              case
+              when count(distinct c.id) = 0 then 0
+              else coalesce(sum(epm.count), 0)::numeric / count(distinct c.id)
+              end                         as farm_avg_eggs
+              from chicken c
+              left join egg_production_month epm on epm.chicken_id = c.id
+              )
+              select
+              bs.breed_id,
+              bs.breed_name,
+              bs.breed_avg_eggs,
+              fs.farm_avg_eggs,
+              (bs.breed_avg_eggs - fs.farm_avg_eggs) as diff_eggs
+              from breed_stats bs
+              cross join farm_stats fs;

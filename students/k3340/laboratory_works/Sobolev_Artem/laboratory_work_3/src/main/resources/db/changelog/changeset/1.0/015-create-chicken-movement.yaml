@@ -1,0 +1,148 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-chicken-movement
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+                tableExists:
+                  tableName: chicken_movement
+            - tableExists:
+                tableName: chicken
+            - tableExists:
+                tableName: cage
+
+      changes:
+        - createTable:
+            tableName: chicken_movement
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_chicken_movement
+                    nullable: false
+
+              - column:
+                  name: moved_at
+                  type: date
+                  constraints:
+                      nullable: false
+
+              - column:
+                  name: chicken_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: from_cage_id
+                  type: bigint
+
+              - column:
+                  name: to_cage_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    checkConstraint: "from_cage_id != to_cage_id or from_cage_id is null"
+
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: chicken_movement
+            baseColumnNames: chicken_id
+            constraintName: fk_chicken_movement_chicken
+            referencedTableName: chicken
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: chicken_movement
+            baseColumnNames: from_cage_id
+            constraintName: fk_chicken_movement_from_cage
+            referencedTableName: cage
+            referencedColumnNames: id
+            onDelete: SET NULL
+            onUpdate: SET NULL
+
+        - addForeignKeyConstraint:
+            baseTableName: chicken_movement
+            baseColumnNames: to_cage_id
+            constraintName: fk_chicken_movement_to_cage
+            referencedTableName: cage
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - createIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_chicken_id
+            columns:
+              - column:
+                  name: chicken_id
+
+        - createIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_from_cage_id
+            columns:
+              - column:
+                  name: from_cage_id
+
+        - createIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_to_cage_id
+            columns:
+              - column:
+                  name: to_cage_id
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: chicken_movement
+            constraintName: fk_chicken_movement_chicken
+        - dropForeignKeyConstraint:
+            baseTableName: chicken_movement
+            constraintName: fk_chicken_movement_from_cage
+        - dropForeignKeyConstraint:
+            baseTableName: chicken_movement
+            constraintName: fk_chicken_movement_to_cage
+        - dropIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_chicken_id
+        - dropIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_from_cage_id
+        - dropIndex:
+            tableName: chicken_movement
+            indexName: idx_chicken_movement_to_cage_id
+        - dropTable:
+            tableName: chicken_movement

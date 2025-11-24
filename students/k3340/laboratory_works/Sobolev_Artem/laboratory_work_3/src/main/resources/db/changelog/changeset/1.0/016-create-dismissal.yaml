@@ -1,0 +1,125 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-add_dismissal
+      author: artsobol
+      preConditions:
+        - onFail: HALT
+          and:
+            - not:
+                tableExists:
+                  tableName: dismissal
+            - tableExists:
+                tableName: worker
+
+      changes:
+          - createTable:
+              tableName: dismissal
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                    constraints:
+                      primaryKey: true
+                      primaryKeyName: pk_dismissal
+                      nullable: false
+
+                - column:
+                    name: dismissal_date
+                    type: date
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: reason
+                    type: text
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: worker_id
+                    type: bigint
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: who_dismiss_id
+                    type: bigint
+                    constraints:
+                      nullable: false
+                      checkConstraint: who_dismiss_id != worker_id
+
+                - column:
+                    name: created_at
+                    type: timestamp with time zone
+                    defaultValueComputed: now()
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: updated_at
+                    type: timestamp with time zone
+                    defaultValueComputed: now()
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: is_active
+                    type: boolean
+                    defaultValueBoolean: true
+                    constraints:
+                      nullable: false
+
+                - column:
+                    name: version
+                    type: bigint
+                    defaultValueNumeric: "0"
+                    constraints:
+                      nullable: false
+
+          - addForeignKeyConstraint:
+              baseTableName: dismissal
+              baseColumnNames: worker_id
+              constraintName: fk_dismissal_worker
+              referencedTableName: worker
+              referencedColumnNames: id
+              onDelete: RESTRICT
+              onUpdate: RESTRICT
+
+          - addForeignKeyConstraint:
+              baseTableName: dismissal
+              baseColumnNames: who_dismiss_id
+              constraintName: fk_dismissal_who_dismiss
+              referencedTableName: worker
+              referencedColumnNames: id
+              onDelete: RESTRICT
+              onUpdate: RESTRICT
+
+          - createIndex:
+              tableName: dismissal
+              indexName: idx_dismissal_worker_id
+              columns:
+                - column:
+                    name: worker_id
+
+          - createIndex:
+              tableName: dismissal
+              indexName: idx_dismissal_who_dismiss_id
+              columns:
+                - column:
+                    name: who_dismiss_id
+
+      rollback:
+        - dropIndex:
+            tableName: dismissal
+            indexName: idx_dismissal_who_dismiss_id
+        - dropIndex:
+            tableName: dismissal
+            indexName: idx_dismissal_worker_id
+        - dropForeignKeyConstraint:
+            baseTableName: dismissal
+            constraintName: fk_dismissal_who_dismiss
+        - dropForeignKeyConstraint:
+            baseTableName: dismissal
+            constraintName: fk_dismissal_worker
+        - dropTable:
+            tableName: dismissal

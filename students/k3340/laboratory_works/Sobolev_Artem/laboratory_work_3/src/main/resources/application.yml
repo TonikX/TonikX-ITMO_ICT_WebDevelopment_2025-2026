@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: kurkod
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: ${JPA_SHOW_SQL:true}
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  messages:
+    basename: messages,validation,errors
+    encoding: UTF-8
+
+server:
+  port: ${SERVER_PORT:8189}
+
+jwt:
+  secret: ${JWT_SECRET}
+  lifetime: ${JWT_LIFETIME:PT1H}
+
+swagger:
+  servers:
+    first: ${SWAGGER_SERVER:http://localhost:${server.port}}
+
+logging:
+  level:
+    io.github.artsobol: ${LOG_LEVEL_APP:TRACE}
+    org.springframework.web: ${LOG_LEVEL_WEB:DEBUG}
+    org.springframework.boot.autoconfigure.liquibase: ${LOG_LEVEL_LIQUIBASE:DEBUG}
+    org.hibernate.SQL: ${LOG_LEVEL_SQL:DEBUG}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_BINDER:TRACE}
+    org.springframework.web.servlet.DispatcherServlet: ${LOG_LEVEL_DISPATCHER:DEBUG}
