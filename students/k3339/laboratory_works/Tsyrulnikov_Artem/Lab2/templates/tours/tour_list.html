@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 m-0">Каталог туров</h1>
+</div>
+<div class="row g-4">
+    {% for tour in tours %}
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm tour-card">
+                {% if tour.image_data_url %}
+                    <img src="{{ tour.image_data_url }}" class="card-img-top" alt="Фото {{ tour.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <div class="mb-2">
+                        <h2 class="h5 mb-1">{{ tour.name }}</h2>
+                        <p class="text-muted mb-0">{{ tour.agency }} · {{ tour.country }}</p>
+                    </div>
+                    <p class="small flex-grow-1">{{ tour.description|truncatechars:140 }}</p>
+                    <p class="mb-1"><strong>Период:</strong> {{ tour.start_date }} — {{ tour.end_date }}</p>
+                    <p class="mb-3"><strong>Оплата:</strong> {{ tour.payment_terms }}</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'tours:detail' tour.pk %}">Детали</a>
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-sm btn-primary" href="{% url 'tours:reserve' tour.pk %}">Бронировать</a>
+                        {% else %}
+                            <span class="text-muted small align-self-center">Войдите, чтобы бронировать</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        </div>
+    {% empty %}
+        <p>Туры пока не добавлены.</p>
+    {% endfor %}
+</div>
+{% endblock %}

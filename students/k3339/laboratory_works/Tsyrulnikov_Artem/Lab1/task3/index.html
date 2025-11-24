@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Я люблю Алису — независимый журнал</title>
+  <meta name="description" content="Одностраничный журнал в духе гранж-эстетики: тексты, фото-блоки, заметки, интервью. Тема выпуска — «Я люблю Алису»." />
+  <style>
+    :root{
+      --bg:#0b0b0c; --ink:#e8e8e8; --muted:#9b9b9b; --edge:#1a1a1d; --accent:#e11d48; --max:1080px;
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; color:var(--ink); background:var(--bg);
+      font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      letter-spacing:.2px;
+    }
+    /* шумовая пленка */
+    body::before{ content:""; position:fixed; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.12;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.25"/></feComponentTransfer></filter><rect width="120" height="120" filter="url(%23n)"/></svg>');
+      background-size:120px 120px;
+    }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:24px; }
+
+    /* Мастхед/обложка */
+    .cover{ position:relative; border:1px solid var(--edge); border-radius:22px; overflow:hidden; padding:26px 24px 34px;
+      background:
+        radial-gradient(1400px 600px at 10% 0%, #151517 0%, transparent 60%),
+        radial-gradient(900px 420px at 100% 0%, #121214 0%, transparent 60%),
+        linear-gradient(180deg, #0d0d0f 0%, #0a0a0b 100%);
+      box-shadow:0 20px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .masthead{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+    .brand{ font-weight:900; font-size: clamp(34px, 7vw, 72px); letter-spacing:-.02em; line-height:1; }
+    .brand span{ position:relative; display:inline-block; padding:0 .14em; }
+    .brand span::after{ content:""; position:absolute; left:0; right:0; bottom:.06em; height:.18em; background:var(--accent); opacity:.9; }
+    .kicker{ text-transform:uppercase; font-size: clamp(12px, 1.6vw, 14px); color:var(--muted); letter-spacing:.16em; font-weight:700 }
+    .issue{ margin-top:6px; color:var(--muted); font-size:14px; display:flex; gap:16px; flex-wrap:wrap }
+    .dek{ margin: 14px 0 0; padding-left:14px; border-left:2px solid var(--accent); color:#dcdcdc }
+
+    .toc{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-top:22px }
+    @media (max-width:860px){ .toc{ grid-template-columns:1fr } }
+    .toc .card{ border:1px solid var(--edge); border-radius:16px; padding:14px 16px; background:#0f0f11; }
+    .toc .card h4{ margin:0 0 6px; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#dcdcdc }
+    .toc .card p{ margin:0; color:#cfcfcf }
+
+    /* Разделы журнала */
+    section{ border:1px solid var(--edge); border-radius:18px; padding:20px; margin-top:24px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)); }
+    section h2{ margin:0 0 12px; font-size: clamp(18px, 2.6vw, 22px); text-transform:uppercase; letter-spacing:.12em; color:#dedede }
+    section h3{ margin:16px 0 8px; font-size: 16px; color:#d7d7d7 }
+    .callout{ border-left:3px solid var(--accent); padding:10px 12px; background:rgba(225,29,72,.06); color:#f0f0f0; font-weight:600 }
+
+    /* Сетка статей */
+    .grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:22px }
+    @media (max-width:980px){ .grid{ grid-template-columns:1fr } }
+
+    /* Фото-плашки без внешних ресурсов */
+    .ph{ position:relative; border:1px solid var(--edge); border-radius:14px; overflow:hidden; height:180px; background:
+      radial-gradient(120% 120% at 0% 0%, rgba(225,29,72,.25), transparent 60%),
+      radial-gradient(120% 120% at 100% 100%, rgba(255,255,255,.08), transparent 60%),
+      linear-gradient(135deg,#131316,#0f0f11);
+    }
+    .ph::after{ content:"АЛИСА"; position:absolute; right:10px; bottom:8px; font-weight:900; font-size:22px; letter-spacing:.18em; color:rgba(255,255,255,.12) }
+
+    /* Текстовые украшения */
+    .pull{ font-size:20px; line-height:1.5; padding:12px 14px; border:1px solid var(--edge); border-radius:14px; background:#0f0f11 }
+    .byline{ color:var(--muted); font-size:13px }
+
+    /* Колонки/список заметок */
+    .notes{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
+    @media (max-width:860px){ .notes{ grid-template-columns:1fr 1fr } }
+    @media (max-width:520px){ .notes{ grid-template-columns:1fr } }
+    .note{ border:1px solid var(--edge); border-radius:14px; padding:12px 12px 14px; background:#0f0f11 }
+    .note h4{ margin:0 0 6px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#dcdcdc }
+    .note p{ margin:0; color:#cfcfcf }
+
+    /* Интервью Q&A */
+    .qa{ display:grid; gap:10px }
+    .q,.a{ border:1px solid var(--edge); border-radius:12px; padding:10px 12px; background:#0f0f11 }
+    .q b{ color:var(--accent) }
+    .a{ opacity:.95 }
+
+    /* Галерея */
+    .gallery{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px }
+    @media (max-width:980px){ .gallery{ grid-template-columns:repeat(3,1fr) } }
+    @media (max-width:680px){ .gallery{ grid-template-columns:repeat(2,1fr) } }
+    .tile{ border:1px solid var(--edge); border-radius:12px; height:120px; background:
+      conic-gradient(from 180deg at 50% 50%, rgba(225,29,72,.25), rgba(255,255,255,.05), rgba(225,29,72,.18));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    /* Рейтинг номера */
+    .score{ display:flex; align-items:center; gap:14px; padding:14px; border-radius:14px; border:1px solid var(--edge); background:linear-gradient(180deg, rgba(225,29,72,.10), rgba(225,29,72,.04)); }
+    .score .num{ font-weight:900; font-size:40px; }
+    .bar{ flex:1; height:8px; background:#151517; border-radius:999px; overflow:hidden }
+    .bar i{ display:block; height:100%; width:92%; background:var(--accent) }
+
+    footer{ margin:22px 0 40px; color:var(--muted); font-size:13px; text-align:center }
+    footer a{ color:var(--muted); text-underline-offset:3px }
+
+    /* Печать */
+    @media print{
+      body::before{ display:none }
+      .ph,.gallery .tile{ -webkit-print-color-adjust:exact; print-color-adjust:exact }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cover">
+      <div class="masthead">
+        <div class="brand"><span>Я люблю Алису</span></div>
+        <div class="kicker">независимый журнал о важном</div>
+      </div>
+      <div class="issue">
+        <div><b>Выпуск:</b> №1</div>
+        <div><b>Тема:</b> близость, звук, тишина</div>
+        <div><b>Дата:</b> сентябрь 2025</div>
+      </div>
+      <p class="dek">Журнал, где чувства верстаются как треки: плотная ритм-секция фактов, мелодия личных признаний и сухой честный продакшн. Никакой патоки — только то, что звенит.</p>
+      <div class="toc" aria-label="Содержание">
+        <div class="card"><h4>Редколлегия</h4><p>Зачем мы это делаем и почему это останется личным.</p></div>
+        <div class="card"><h4>Очерк</h4><p>«Алиса — не метафора». Невероятно приземлённый текст.</p></div>
+        <div class="card"><h4>Интервью</h4><p>Вопросы без сахара. Ответы — без лишних слов.</p></div>
+        <div class="card"><h4>Фото</h4><p>Галерея текстур и света — плёнка без плёнки.</p></div>
+      </div>
+    </div>
+
+    <section>
+      <h2>Редколлегия</h2>
+      <div class="grid">
+        <article>
+          <p class="byline">Текст: редакция</p>
+          <p>Этот номер — о простом заявлении: <b>я люблю Алису</b>. Не лозунг, не хештег, не маркетинг. Это голос, который не стесняется собственной громкости.</p>
+          <p>Мы держим темп: длинных пассажей не будет. Важные вещи должны звучать ближе, чем реверб, и резче, чем любой дисторшн.</p>
+          <p class="pull">Любовь — это когда тишина между словами значительнее, чем сами слова.</p>
+        </article>
+        <aside>
+          <div class="ph" aria-label="Обложечная абстракция"></div>
+          <div class="callout" style="margin-top:12px">Формула номера: честность, воздух, удар в челюсть — и никакой мишуры.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section>
+      <h2>Очерк — «Алиса, как есть»</h2>
+      <div class="grid">
+        <article>
+          <p class="byline">Автор: редактор по тексту</p>
+          <p>Алиса — это не идея, не туманная картинка и не сценарий для постов. Это последовательность конкретных жестов, взглядов и пауз. Любовь измеряется не громкостью обещаний, а устойчивостью мелких привычек.</p>
+          <p>Мы фиксируем детали, потому что в деталях живёт правда. Запах кофе на манжетах. Манера ставить кружку на край стола. Привычка читать титры до конца. В сумме это звучит как альбом, где каждое междуделье на своём месте.</p>
+          <div class="pull">Я люблю Алису — потому что каждый день с ней звучит как новый куплет, но припев остаётся узнаваемым.</div>
+        </article>
+        <aside>
+          <div class="note">
+            <h4>Техническая ремарка</h4>
+            <p>Сайт — один HTML-файл, без зависимостей. Стили и текстуры встроены. Под печать адаптирован.</p>
+          </div>
+          <div class="note" style="margin-top:10px">
+            <h4>Сигнатура номера</h4>
+            <p>Темп 92–120 BPM, акцент — на пустотах между абзацами.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section>
+      <h2>Интервью: коротко и по делу</h2>
+      <div class="qa">
+        <div class="q"><b>Вопрос:</b> Почему именно «я люблю Алису» — и почему так прямо?</div>
+        <div class="a"><b>Ответ:</b> Потому что об этом нельзя говорить вежливо. Это должно звучать как рифф — ясно и с атакой.</div>
+        <div class="q"><b>Вопрос:</b> Что останется через год?</div>
+        <div class="a"><b>Ответ:</b> Режим повторов. Те же жесты, та же забота, новые оттенки.</div>
+        <div class="q"><b>Вопрос:</b> Чего здесь не будет?</div>
+        <div class="a"><b>Ответ:</b> Ваты. Сантиментов. Кликабельного сахара.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Заметки редактора</h2>
+      <div class="notes">
+        <div class="note"><h4>1</h4><p>Любовь живёт в расписании, но дышит импровизацией.</p></div>
+        <div class="note"><h4>2</h4><p>Слышать — значит замолчать вовремя.</p></div>
+        <div class="note"><h4>3</h4><p>Красота — это когда ничего лишнего.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Фото-блок</h2>
+      <div class="gallery" aria-label="Галерея абстракций">
+        <div class="tile" title="frame 01"></div>
+        <div class="tile" title="frame 02"></div>
+        <div class="tile" title="frame 03"></div>
+        <div class="tile" title="frame 04"></div>
+        <div class="tile" title="frame 05"></div>
+        <div class="tile" title="frame 06"></div>
+        <div class="tile" title="frame 07"></div>
+        <div class="tile" title="frame 08"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Итоги выпуска</h2>
+      <div class="score" aria-label="Рейтинг номера 9.2 из 10">
+        <div class="num">9.2/10</div>
+        <div class="bar"><i style="width:92%"></i></div>
+      </div>
+      <p style="margin-top:10px">Мы сделали номер, где форма обслуживает смысл. Если звучит — значит живёт. Если остаётся тишина — значит сказали главное.</p>
+    </section>
+
+
+  </div>
+</body>
+</html>

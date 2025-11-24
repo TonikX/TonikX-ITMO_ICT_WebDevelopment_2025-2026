@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система учёта оценок</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container my-5 col-lg-6 col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h1 class="text-center mb-4">Система учёта оценок</h1>
+                
+                <div class="bg-light p-3 rounded mb-4">
+                    <h5 class="mb-3">Добавить оценку</h5>
+                    <form method="POST" action="/">
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Дисциплина:</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="grade" class="form-label">Оценка (1-5):</label>
+                            <input type="number" class="form-control" id="grade" name="grade" min="1" max="5" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добавить оценку</button>
+                    </form>
+                </div>
+                
+                <div>
+                    <h5 class="mb-3">Все оценки</h5>
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>№</th>
+                                <th>Дисциплина</th>
+                                <th>Оценка</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {grades_rows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

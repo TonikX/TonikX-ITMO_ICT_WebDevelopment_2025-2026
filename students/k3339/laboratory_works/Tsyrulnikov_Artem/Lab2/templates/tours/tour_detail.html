@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-6">
+        <article class="card shadow-sm tour-card">
+            {% if tour.image_data_url %}
+                <img src="{{ tour.image_data_url }}" class="card-img-top" alt="Фото {{ tour.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h1 class="h4">{{ tour.name }}</h1>
+                <p class="text-muted">{{ tour.agency }} · {{ tour.country }}</p>
+                <p>{{ tour.description }}</p>
+                <p class="mb-1"><strong>Период:</strong> {{ tour.start_date }} — {{ tour.end_date }}</p>
+                <p><strong>Оплата:</strong> {{ tour.payment_terms }}</p>
+                {% if user.is_authenticated %}
+                    <div class="d-flex gap-2 mt-3">
+                        <a class="btn btn-primary" href="{% url 'tours:reserve' tour.pk %}">Забронировать</a>
+                        <a class="btn btn-outline-secondary" href="{% url 'tours:my_reservations' %}">Мои брони</a>
+                    </div>
+                {% endif %}
+            </div>
+        </article>
+    </div>
+    <div class="col-lg-6">
+        <section class="mb-4">
+            <h2 class="h5 mb-3">Отзывы</h2>
+            <div class="vstack gap-3">
+                {% for review in reviews %}
+                    <article class="border rounded p-3 bg-white shadow-sm">
+                        <div class="d-flex justify-content-between mb-1">
+                            <strong>{{ review.author.username }}</strong>
+                            <span class="badge bg-warning text-dark">Рейтинг: {{ review.rating }}/10</span>
+                        </div>
+                        <p class="text-muted small mb-1">Путешествие: {{ review.tour_start }} — {{ review.tour_end }}</p>
+                        <p class="mb-0">{{ review.text }}</p>
+                    </article>
+                {% empty %}
+                    <p class="text-muted">Отзывов пока нет.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% if user.is_authenticated %}
+            <section class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="h5 mb-3">Оставить отзыв</h3>
+                    <form method="post" action="{% url 'tours:review' tour.pk %}" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <div class="form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" type="submit">Сохранить</button>
+                            <a class="btn btn-outline-secondary" href="{% url 'tours:list' %}">К списку туров</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        {% else %}
+            <p class="text-muted">Войдите, чтобы оставить отзыв.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
