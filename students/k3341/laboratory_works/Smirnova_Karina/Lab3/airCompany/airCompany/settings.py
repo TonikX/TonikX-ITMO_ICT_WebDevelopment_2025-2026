@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "main",
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
@@ -52,6 +53,20 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ]
+}
+
+SWAGGER_SETTINGS = {
+    # определяем схему Token (чтобы кнопка Authorize работала)
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'Введите: Token <ваш_токен>'
+        }
+    },
+    'DEFAULT_SECURITY': [],
+    'USE_SESSION_AUTH': False,
 }
 
 MIDDLEWARE = [

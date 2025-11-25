@@ -12,7 +12,7 @@ from .models import AirlineCompany, Plane, Crew, Route, Flight, TransitLanding, 
 from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer, \
     TransitLandingSerializer, CrewMemberSerializer, AirlineCompanyAndPlanesAndCrewMembersSerializer, \
     PlaneWithFlightsSerializer, CrewAndMembersSerializer, RouteWithFlightsSerializer, \
-    FlightWithTransitLandingsSerializer
+    FlightWithTransitLandingsSerializer, FlightEverythingSerializer
 
 
 class AirlineCompanyViewSet(viewsets.ModelViewSet):
@@ -61,12 +61,13 @@ class RouteViewSet(viewsets.ModelViewSet):
         return RouteSerializer
 
 class FlightViewSet(viewsets.ModelViewSet):
-    queryset = Flight.objects.select_related('route', 'plane').prefetch_related('crew', 'transitlanding_set').all()
+    queryset = Flight.objects.select_related('route', 'plane').prefetch_related('crew__members').all()
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return FlightWithTransitLandingsSerializer
+        if self.action in ('list', 'retrieve'):
+            return FlightEverythingSerializer
         return FlightSerializer
+
 
 class TransitLandingViewSet(viewsets.ModelViewSet):
     queryset = TransitLanding.objects.all()

@@ -147,7 +147,6 @@ class FlightInPlaneSerializer(serializers.ModelSerializer):
 class PlaneWithFlightsSerializer(serializers.ModelSerializer):
     """
     Сериализатор для Самолёта с вложенным списком рейсов (flight_set).
-    Использует source='flight_set' — обратная связь Flight -> Plane (без related_name).
     """
     flights = FlightInPlaneSerializer(many=True, read_only=True, source='flight_set')
     airline_company = AirlineCompanySerializer(read_only=True)
@@ -155,3 +154,18 @@ class PlaneWithFlightsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plane
         fields = ['id', 'number', 'type', 'seats_capacity', 'flight_speed', 'in_repair', 'airline_company', 'flights']
+
+class FlightEverythingSerializer(serializers.ModelSerializer):
+    departure_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    arrival_datetime = serializers.DateTimeField(format=None, input_formats=None)
+
+    route = RouteSerializer(read_only=True)
+    plane = PlaneSerializer(read_only=True)
+    crew = CrewAndMembersSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Flight
+        fields = [
+            'id', 'flight_number', 'route', 'plane', 'crew',
+            'departure_datetime', 'arrival_datetime', 'sold_tickets'
+        ]
