@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework detail</title>
+</head>
+<body>
+<h1>{{ homework.subject.name }}</h1>
+<p><strong>Преподаватель:</strong> {{ homework.subject.teacher }}</p>
+<p><strong>Выдано:</strong> {{ homework.given_at }}</p>
+<p><strong>Сроки выполнения:</strong> {{ homework.due_from }} — {{ homework.due_to }}</p>
+<p><strong>Задание:</strong> {{ homework.text }}</p>
+<p><strong>Штрафы:</strong> {{ homework.penalty_info }}</p>
+
+{% if request.user.is_authenticated %}
+    <p><a href="{% url 'submit_homework' homework.pk %}">Сдать задание</a></p>
+{% endif %}
+
+<h2>Сдачи</h2>
+<ul>
+    {% for s in submissions %}
+        <li>
+            {{ s.student.username }}: {{ s.answer_text }} —
+            {% if s.grade %}оценка {{ s.grade }}{% else %}оценка ещё не выставлена{% endif %}
+        </li>
+    {% empty %}
+        <li>Пока никто не сдал.</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'homework_list' %}">Назад к списку</a></p>
+</body>
+</html>

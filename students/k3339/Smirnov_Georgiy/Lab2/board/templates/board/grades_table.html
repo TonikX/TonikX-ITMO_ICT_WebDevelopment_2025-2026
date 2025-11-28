@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grades</title>
+</head>
+<body>
+<h1>Таблица оценок</h1>
+
+<table border="1" cellpadding="4">
+    <tr>
+        <th>Ученик</th>
+        <th>Предмет</th>
+        <th>Задание</th>
+        <th>Оценка</th>
+    </tr>
+    {% for s in submissions %}
+        <tr>
+            <td>{{ s.student.username }}</td>
+            <td>{{ s.homework.subject.name }}</td>
+            <td>{{ s.homework.text|truncatechars:40 }}</td>
+            <td>{{ s.grade }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="4">Оценок пока нет.</td></tr>
+    {% endfor %}
+</table>
+
+<p><a href="{% url 'homework_list' %}">Назад к заданиям</a></p>
+</body>
+</html>

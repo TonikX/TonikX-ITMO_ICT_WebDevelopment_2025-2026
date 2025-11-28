@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework list</title>
+</head>
+<body>
+<h1>Домашние задания</h1>
+
+<ul>
+    {% for hw in homeworks %}
+        <li>
+            <a href="{% url 'homework_detail' hw.pk %}">
+                {{ hw.subject.name }} — выдано {{ hw.given_at }}
+            </a>
+            (выполнить с {{ hw.due_from }} по {{ hw.due_to }})
+        </li>
+    {% empty %}
+        <li>Пока нет заданий.</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'grades_table' %}">Таблица оценок</a></p>
+</body>
+</html>
