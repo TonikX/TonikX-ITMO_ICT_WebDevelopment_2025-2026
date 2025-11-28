@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit homework</title>
+</head>
+<body>
+<h1>Сдать задание: {{ homework.subject.name }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p>
+        <textarea name="answer_text" rows="8" cols="60">{% if existing %}{{ existing.answer_text }}{% endif %}</textarea>
+    </p>
+    <button type="submit">Отправить</button>
+</form>
+
+<p><a href="{% url 'homework_detail' homework.pk %}">Назад</a></p>
+</body>
+</html>
