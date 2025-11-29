@@ -2,8 +2,19 @@ site_name: Web-программирование — лабораторные
 nav:
   - Главная: index.md
   - Лабораторная работа 1:
-      - index: laboratory_work_1/index.md
+      - Введение: laboratory_work_1/index.md
   - Лабораторная работа 2:
-      - index: laboratory_work_2/index.md
+      - Введение: laboratory_work_2/index.md
+  - Лабораторная работа3:
+        - "Обзор": laboratory_work_3/index.md
+        - "Модели": laboratory_work_3/models.md
+        - "Эндпоинты": laboratory_work_3/endpoints.md
+        - "Авторизация": laboratory_work_3/auth.md
+        - "Кастомные запросы": laboratory_work_3/queries.md
+
+  - Практическая работа 3:
+      - Практическая работа 3.1: practical_work_3/index.md
+      - Практическая работа 3.2: practical_work_3_2/index.md
+
 theme:
   name: material
