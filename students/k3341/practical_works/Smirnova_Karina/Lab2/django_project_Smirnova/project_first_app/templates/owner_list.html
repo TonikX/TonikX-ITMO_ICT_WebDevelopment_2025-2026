@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owners</title>
+</head>
+<body>
+  <h1>Owners</h1>
+    <ul>
+        {% for owner in owners %}
+        <li>{{ owner.first_name }} {{ owner.last_name }} ({{ owner.birth_date }})</li>
+        {% empty %}
+        <li>No owners found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

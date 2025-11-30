@@ -1,0 +1,150 @@
+body {
+    background: #f7f8fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+h2, h3 {
+    margin: 32px 0 18px 0;
+    color: #3b5998;
+    text-align: center;
+}
+
+.tour-info-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 20px 0;
+}
+.tour-info {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 24px 38px;
+    min-width: 340px;
+    max-width: 480px;
+    font-size: 1.12em;
+    line-height: 1.65;
+}
+.tour-info p {
+    margin: 12px 0 5px 0;
+}
+.tour-info .price {
+    color: #388e3c;
+    font-weight: bold;
+    font-size: 1.14em;
+}
+
+.admin-actions {
+    text-align: center;
+    margin: 18px 0 28px 0;
+}
+
+form {
+    background: #fff;
+    max-width: 400px;
+    margin: 24px auto 16px auto;
+    padding: 22px 28px 18px 28px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 6px 0 14px 0;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+button, input[type="submit"] {
+    background: #3b5998;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin: 6px 2px 0 0;
+    transition: background 0.2s;
+    display: inline-block;
+}
+button:hover, input[type="submit"]:hover {
+    background: #29487d;
+}
+
+a {
+    color: #3b5998;
+    text-decoration: none;
+    margin-left: 5px;
+    font-weight: 500;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    margin: 30px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+table {
+    width: 96%;
+    margin: 24px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-collapse: collapse;
+    font-size: 1em;
+}
+th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: center;
+}
+th {
+    background: #f1f3f7;
+    font-weight: 600;
+    color: #3b5998;
+}
+tr:last-child td {
+    border-bottom: none;
+}
+span[style*='color:orange'] {
+    font-weight: 600;
+}
+span[style*='color:green'] {
+    font-weight: 600;
+}
+span[style*='color:red'] {
+    font-weight: 600;
+}
+ul {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    max-width: 600px;
+    margin: 18px auto;
+    list-style: disc inside none;
+}
+li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+em {
+    color: #8a8a8a;
+}
+
+@media (max-width: 700px) {
+    form, ul, table, .tour-info {
+        max-width: 97vw;
+        font-size: 0.97em;
+    }
+    th, td { padding: 7px 3px; }
+    body { font-size: 0.98em;}
+}

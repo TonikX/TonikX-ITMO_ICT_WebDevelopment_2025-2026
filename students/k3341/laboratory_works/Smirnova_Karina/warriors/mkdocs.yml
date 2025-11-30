@@ -1,0 +1,13 @@
+site_name: My Web 
+nav:
+  - Главная: "index.md"
+  - Лабораторная работа 1: "lab1.md"
+  - Лабораторная работа 2: "lab2.md"
+  - Лабораторная работа 3:
+      - Практические работы: "practical-work.md"
+      - Отчет: "lab3.md"
+      - Эндпоинты: "endpoints.md"
+  - Лабораторная работа 4: "lab4.md"
+
+theme:
+ name: material

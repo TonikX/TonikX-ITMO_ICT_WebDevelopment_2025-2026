@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Detail</title>
+</head>
+<body>
+  <h1>{{ object.brand }} {{ object.model }}</h1>
+    <p>Number: {{ object.state_num }}</p>
+    <p>Color: {{ object.color }}</p>
+    <a href="{% url 'car_list' %}">Back to list</a>
+</body>
+</html>
