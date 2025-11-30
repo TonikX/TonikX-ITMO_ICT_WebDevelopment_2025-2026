@@ -70,7 +70,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
     """ViewSet для авторов."""
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
+    # пагинация
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['full_name']
     ordering_fields = ['full_name', 'created_at']
@@ -119,12 +120,14 @@ class PublisherViewSet(viewsets.ModelViewSet):
     """ViewSet для издательств."""
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name']
     ordering_fields = ['name', 'created_at']
     ordering = ['name']
-    
+
+    # кастомное действие
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Книги издательства',
         description='Получить список всех книг, изданных данным издательством (вложенные объекты). Требуется JWT аутентификация.',
@@ -136,6 +139,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     def publisher_books(self, request, pk=None):
         """Получить книги издательства."""
         publisher = self.get_object()
+        # .select_related('publisher', 'section') загружает все связанные объекты, prefetch_related('authors') загружает many-to-many
         books = Book.objects.filter(publisher=publisher).select_related('publisher', 'section').prefetch_related('authors')
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
@@ -183,7 +187,7 @@ class BookSectionViewSet(viewsets.ModelViewSet):
     """ViewSet для разделов книг."""
     queryset = BookSection.objects.all()
     serializer_class = BookSectionSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name']
     ordering_fields = ['name', 'created_at']
@@ -302,7 +306,7 @@ class HallViewSet(viewsets.ModelViewSet):
     """ViewSet для читальных залов."""
     queryset = Hall.objects.all()
     serializer_class = HallSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name']
     ordering_fields = ['hall_number', 'name', 'capacity']
@@ -315,6 +319,8 @@ class HallViewSet(viewsets.ModelViewSet):
         tags=['Halls'],
         auth=AUTH_DOCS,
     )
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @action(detail=True, methods=['get'], url_path='readers')
     def hall_readers(self, request, pk=None):
         """Получить читателей зала."""
@@ -366,13 +372,14 @@ class ReaderViewSet(viewsets.ModelViewSet):
     """ViewSet для читателей."""
     queryset = Reader.objects.select_related('hall').all()
     serializer_class = ReaderSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['card_number', 'full_name', 'passport_number', 'phone']
     ordering_fields = ['full_name', 'card_number', 'birth_date', 'registration_date']
     ordering = ['full_name']
     filterset_fields = ['hall', 'education_level', 'has_academic_degree', 'is_active']
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Книги закреплённые за читателем',
         description='Получить список всех книг, которые закреплены за указанным читателем и ещё не возвращены. Требуется JWT аутентификация.',
@@ -391,12 +398,13 @@ class ReaderViewSet(viewsets.ModelViewSet):
         
         serializer = BookIssueSerializer(issues, many=True)
         return Response(serializer.data)
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Статистика по возрасту читателей',
         description='Получить количество активных читателей младше указанного возраста. Требуется JWT аутентификация.',
         parameters=[
-            OpenApiParameter('age', OpenApiTypes.INT, description='Максимальный возраст читателей', required=True, location=OpenApiParameter.QUERY)
+            OpenApiParameter('age', OpenApiTypes.INT, description='Возрастной порог', required=True, location=OpenApiParameter.QUERY)
         ],
         responses={200: OpenApiTypes.OBJECT},
         tags=['Readers'],
@@ -426,7 +434,8 @@ class ReaderViewSet(viewsets.ModelViewSet):
             'max_age': max_age,
             'readers_count': count
         })
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Статистика по образованию читателей',
         description='Получить процентное соотношение активных читателей по уровню образования. Включает: начальное, среднее, высшее образование, не указано, и наличие учёной степени. Проценты считаются от общего количества активных читателей. Требуется JWT аутентификация.',
@@ -578,7 +587,7 @@ class BookCopyViewSet(viewsets.ModelViewSet):
     """ViewSet для экземпляров книг."""
     queryset = BookCopy.objects.select_related('book', 'hall').all()
     serializer_class = BookCopySerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['inventory_number', 'book__title']
     ordering_fields = ['registration_date', 'inventory_number']
@@ -632,13 +641,14 @@ class BookIssueViewSet(viewsets.ModelViewSet):
         'reader', 'copy__book', 'hall'
     ).all()
     serializer_class = BookIssueSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['reader__full_name', 'copy__book__title', 'copy__inventory_number']
     ordering_fields = ['issue_date', 'return_date']
     ordering = ['-issue_date']
     filterset_fields = ['reader', 'copy', 'hall', 'issue_date', 'return_date']
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Просроченные выдачи',
         description='Получить список выдач книг, которые были выданы более месяца назад и ещё не возвращены. Требуется JWT аутентификация.',
@@ -657,7 +667,8 @@ class BookIssueViewSet(viewsets.ModelViewSet):
         
         serializer = BookIssueSerializer(issues, many=True)
         return Response(serializer.data)
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Читатели с редкими книгами',
         description='Получить список активных выдач книг, у которых общее количество экземпляров в библиотеке (во всех залах) не превышает 2. Требуется JWT аутентификация.',
@@ -669,7 +680,7 @@ class BookIssueViewSet(viewsets.ModelViewSet):
     def rare_books_readers(self, request):
         """Читатели с редкими книгами (≤2 экземпляра во всей библиотеке)."""
         # Считаем количество не списанных экземпляров каждой книги во всех залах
-        # Находим книги, у которых общее количество не списанных экземпляров ≤ 2
+        # Находим книги, у которых общее количество не списанных экземпляров меньше или равно 2
         rare_books = BookCopy.objects.filter(
             is_written_off=False
         ).values('book_id').annotate(
@@ -704,7 +715,8 @@ class BookIssueViewSet(viewsets.ModelViewSet):
                 {'error': 'Этот экземпляр уже выдан другому читателю.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
+        # добавляем запись о выдаче
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -750,7 +762,7 @@ class BookIssueViewSet(viewsets.ModelViewSet):
 class HallBookStockViewSet(viewsets.ModelViewSet):
     """ViewSet для склада книг в залах."""
     serializer_class = HallBookStockSerializer
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = []  # Отключаем стандартные фильтры, используем raw SQL
     ordering_fields = ['copies_total']
     ordering = ['hall', 'book']
@@ -847,12 +859,13 @@ class HallBookStockViewSet(viewsets.ModelViewSet):
                 FROM hall_book_stock hbs
                 WHERE hbs.hall_id = %s AND hbs.book_id = %s
             """, [hall_id, book_id])
-            
+
             row = cursor.fetchone()
             if not row:
                 raise NotFound("Объект не найден.")
             
             columns = [col[0] for col in cursor.description]
+            # объединяем колонки с первой строкой
             row_dict = dict(zip(columns, row))
             
             hall = Hall.objects.get(hall_id=row_dict['hall_id'])
@@ -1023,14 +1036,13 @@ class HallBookStockViewSet(viewsets.ModelViewSet):
 class StaffViewSet(viewsets.ModelViewSet):
     """ViewSet для сотрудников."""
     queryset = Staff.objects.all()
-    permission_classes = [IsAuthenticated]  # Явно указываем, что требуется аутентификация
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['login', 'email']
     ordering_fields = ['login', 'created_at']
     ordering = ['login']
     
     def get_serializer_class(self):
-        """Выбор сериализатора в зависимости от действия."""
         return StaffSerializer
     
     def create(self, request, *args, **kwargs):
@@ -1170,7 +1182,8 @@ class StaffViewSet(viewsets.ModelViewSet):
         
         serializer = BookCopySerializer(copy)
         return Response(serializer.data)
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Принять книгу в фонд',
         description='Принять книгу в фонд библиотеки. Если книги ещё нет в библиотеке, создаёт её, затем создаёт экземпляр книги и обновляет склад. Требуется JWT аутентификация.\n\n**Вариант 1: Принять экземпляр существующей книги**\n- Укажите `book_id` существующей книги\n- Укажите `hall` и `inventory_number` для экземпляра\n\n**Вариант 2: Принять новую книгу**\n- Не указывайте `book_id`\n- Укажите `title` и `cipher` (обязательно)\n- Опционально: `publisher`, `publish_year`, `section`, `author_ids`\n- Укажите `hall` и `inventory_number` для экземпляра',
@@ -1207,7 +1220,8 @@ class StaffViewSet(viewsets.ModelViewSet):
             copy_serializer = BookCopySerializer(copy)
             return Response(copy_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Отчёт за месяц',
         description='Получить отчёт о работе библиотеки за указанный месяц. Включает: количество книг и читателей на каждый день в каждом зале и в библиотеке в целом, количество читателей, записавшихся в каждый зал и в библиотеку за отчетный месяц. Требуется JWT аутентификация.',
@@ -1305,6 +1319,8 @@ class StaffViewSet(viewsets.ModelViewSet):
         tags=['Staff'],
         auth=AUTH_DOCS,
     )
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @action(detail=False, methods=['get'], url_path='monthly-report', permission_classes=[IsAuthenticated])
     def monthly_report(self, request):
         """Отчёт о работе библиотеки за месяц."""

@@ -8,10 +8,10 @@ from .models import Staff
 
 
 class StaffJWTAuthentication(JWTAuthentication):
-    """Кастомная JWT аутентификация для модели Staff."""
+    """JWT аутентификация для модели Staff"""
     
     def get_user(self, validated_token):
-        """Получить пользователя (Staff) из токена."""
+        """Получить пользователя из токена"""
         try:
             staff_id = validated_token.get('staff_id')
             if not staff_id:

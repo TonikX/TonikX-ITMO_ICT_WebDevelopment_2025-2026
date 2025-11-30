@@ -52,7 +52,7 @@ class TokenRefreshViewWithDocs(TokenRefreshView):
         },
         tags=['Authentication'],
         operation_id='refresh_token',
-        auth=[],  # Явно исключаем из DEFAULT_SECURITY
+        auth=[]
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)

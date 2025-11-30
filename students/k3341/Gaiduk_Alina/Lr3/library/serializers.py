@@ -4,16 +4,13 @@ Serializers for library API.
 from rest_framework import serializers
 from django.utils import timezone
 from django.conf import settings
-from datetime import timedelta
 from .models import (
-    Author, Publisher, BookSection, Book, BookAuthor,
+    Author, Publisher, BookSection, Book,
     Hall, Reader, BookCopy, BookIssue, HallBookStock, Staff
 )
 
-
 class AuthorSerializer(serializers.ModelSerializer):
     """Сериализатор для автора."""
-    
     class Meta:
         model = Author
         fields = ['author_id', 'full_name', 'created_at', 'updated_at']
@@ -73,6 +70,7 @@ class BookCreateUpdateSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         """Создание книги с авторами."""
+        # Извлекаем id авторов и удаляем это поле
         author_ids = validated_data.pop('author_ids', [])
         book = Book.objects.create(**validated_data)
         
@@ -81,7 +79,7 @@ class BookCreateUpdateSerializer(serializers.ModelSerializer):
             if authors.count() != len(author_ids):
                 raise serializers.ValidationError('Некоторые авторы не найдены.')
             
-            # Используем raw SQL для создания связей, так как в таблице нет поля id
+            # Используем SQL для создания связей, так как в таблице нет поля id
             from django.db import connection
             for author in authors:
                 try:

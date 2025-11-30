@@ -22,6 +22,10 @@ nav:
       - Инструкция по запуску проекта: lab2/run.md
       - Скриншоты сайта: lab2/screen.md
       - Вывод: lab2/review.md
+  - ЛР3:
+      - Практическая работа 3.1: lab3/practice1.md
+      - Практическая работа 3.1: lab3/practice2.md
+      - Система управления библиотекой: lab3/lab3.md
 
 theme:
   name: material

@@ -1,6 +1,3 @@
-"""
-Custom authentication views for JWT tokens with Staff model.
-"""
 from rest_framework import status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,9 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
 from drf_spectacular.utils import extend_schema
-from drf_spectacular.types import OpenApiTypes
 from .models import Staff
-from .serializers import StaffSerializer
 
 
 class StaffTokenObtainPairSerializer(serializers.Serializer):
@@ -47,7 +42,7 @@ class StaffTokenObtainPairView(APIView):
     
     @extend_schema(
         summary='Получить JWT токены',
-        description='Получить access и refresh токены для авторизации сотрудника библиотеки. Используйте access токен в заголовке Authorization: Bearer <token> для доступа к защищённым эндпоинтам. Аутентификация не требуется.',
+        description='Получить access и refresh токены для авторизации сотрудника библиотеки. Используйте access токен в заголовке Authorization: Bearer <token> для доступа к защищённым эндпоинтам.',
         request=StaffTokenObtainPairSerializer,
         responses={
             200: {
@@ -77,17 +72,21 @@ class StaffTokenObtainPairView(APIView):
         },
         tags=['Authentication'],
         operation_id='obtain_token_pair',
-        auth=[],  # Явно исключаем из DEFAULT_SECURITY
+        auth=[],
     )
+
     def post(self, request):
         """Получить JWT токены по логину и паролю."""
         serializer = StaffTokenObtainPairSerializer(data=request.data)
+
+        # базовая валидация + validate()
         serializer.is_valid(raise_exception=True)
         
         staff = serializer.validated_data['staff']
         
         # Создаём токены
         refresh = RefreshToken()
+        # Кладем логин и айди в токен для их шифрования
         refresh['staff_id'] = staff.staff_id
         refresh['login'] = staff.login
         
@@ -95,7 +94,7 @@ class StaffTokenObtainPairView(APIView):
         refresh.access_token['staff_id'] = staff.staff_id
         refresh.access_token['login'] = staff.login
         
-        # Не сохраняем refresh токен в БД - он не нужен там, токены валидируются по подписи
+        # Не сохраняем refresh токен в БД (он будет на стороне клиента в кэше)
         # Сохраняем только время истечения для информации
         from datetime import timedelta
         from django.utils import timezone

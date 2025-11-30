@@ -19,8 +19,8 @@ pytest для тестирования
 ### Клонирование репозитория
 
 ```bash
-git clone <repository-url>
-cd web-lab3
+git clone <https://github.com/wurlinney/TonikX-ITMO_ICT_WebDevelopment_2025-2026.git>
+cd TonikX-ITMO_ICT_WebDevelopment_2025-2026
 ```
 
 ### Создание виртуального окружения
@@ -32,18 +32,18 @@ python -m venv venv
 Активация виртуального окружения:
 
 Windows:
-```bash
+```
 venv\Scripts\activate
 ```
 
 Linux/Mac:
-```bash
+```
 source venv/bin/activate
 ```
 
 ### Установка зависимостей
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 
 Создайте базу данных PostgreSQL:
 
-```sql
+```
 CREATE DATABASE library_db;
 ```
 
@@ -63,16 +63,16 @@ psql -U postgres -d library_db -f migrations/schema.sql
 
 ### Настройка переменных окружения
 
-Создайте файл `.env` в корне проекта на основе `.env.example`:
+Создайте файл `.env` в корне проекта на основе примера:
 
-```env
-SECRET_KEY=your-secret-key-here
+```
+SECRET_KEY=fcldsfldsorweoodfkldsfkldsdkl
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 
-DB_NAME=library_db
+DB_NAME=postgres
 DB_USER=postgres
-DB_PASSWORD=postgres
+DB_PASSWORD=Doktor73
 DB_HOST=localhost
 DB_PORT=5432
 
@@ -80,14 +80,14 @@ JWT_ACCESS_TOKEN_LIFETIME_MINUTES=60
 JWT_REFRESH_TOKEN_LIFETIME_DAYS=7
 JWT_ALGORITHM=HS256
 
-STAFF_REGISTRATION_KEY=your-secret-registration-key
+STAFF_REGISTRATION_KEY=create_user
 ```
 
 ### Применение миграций
 
 Если вы используете существующую схему БД из `migrations/schema.sql`, миграции Django не нужны. Если создаёте БД с нуля:
 
-```bash
+```
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -96,7 +96,7 @@ python manage.py migrate
 
 Для доступа к Django Admin:
 
-```bash
+```
 python manage.py createsuperuser
 ```
 
@@ -104,11 +104,11 @@ python manage.py createsuperuser
 
 Для работы с API необходимо создать сотрудника. Это можно сделать через Django shell:
 
-```bash
+```
 python manage.py shell
 ```
 
-```python
+```
 from library.models import Staff
 from django.contrib.auth.hashers import make_password
 
@@ -123,15 +123,12 @@ staff = Staff.objects.create(
 
 ## Запуск проекта
 
-### Запуск сервера разработки
-
-```bash
+```
 python manage.py runserver
 ```
 
 Сервер будет доступен по адресу: `http://127.0.0.1:8000/`
 
-## Основные URL
 
 ### API эндпоинты
 
@@ -141,13 +138,12 @@ python manage.py runserver
 
 Обновление токена: `POST /api/token/refresh/`
 
-### Документация API
+### Swagger 
 
-OpenAPI Schema (JSON): `http://127.0.0.1:8000/api/schema/`
+Для доступа к Swagger, вам необходимо перейти по адресу:
 
-Swagger UI: `http://127.0.0.1:8000/api/schema/swagger-ui/`
+`http://127.0.0.1:8000/api/schema/swagger-ui/`
 
-ReDoc: `http://127.0.0.1:8000/api/schema/redoc/`
 
 ### Основные ресурсы API
 
@@ -268,51 +264,46 @@ curl -X GET http://127.0.0.1:8000/api/books/ \
 
 ### Информационные запросы
 
-Читатели с книгами старше месяца: `GET /api/book-issues/overdue/`
+#### Читатели с книгами старше месяца: `GET /api/book-issues/overdue/`
 
 Возвращает список читателей, которые взяли книги более месяца назад и ещё не вернули.
 
-Читатели с редкими книгами: `GET /api/book-issues/rare-books/`
+#### Читатели с редкими книгами: `GET /api/book-issues/rare-books/`
 
 Возвращает читателей, у которых закреплены книги с количеством экземпляров не более 2.
 
-Статистика по возрасту читателей: `GET /api/readers/statistics/age/?age=20`
+#### Статистика по возрасту читателей: `GET /api/readers/statistics/age/?age=20`
 
 Возвращает количество читателей младше указанного возраста.
 
-Статистика по образованию: `GET /api/readers/statistics/education/`
+#### Статистика по образованию: `GET /api/readers/statistics/education/`
 
 Возвращает процентное соотношение читателей по уровню образования. Включает: начальное, среднее, высшее образование, не указано, и наличие учёной степени.
 
-### Операции библиотекаря
-
-Регистрация нового читателя: `POST /api/staff/register-reader/`
+#### Регистрация нового читателя: `POST /api/staff/register-reader/`
 
 Создаёт нового читателя в библиотеке.
 
-Регистрация нового сотрудника: `POST /api/staff/register-staff/`
+#### Регистрация нового сотрудника: `POST /api/staff/register-staff/`
 
 Создаёт учётную запись сотрудника при наличии секретного ключа. Секретный ключ указывается в переменной окружения `STAFF_REGISTRATION_KEY`.
 
-Исключение неактивных читателей: `POST /api/staff/deactivate-old-readers/`
+#### Исключение неактивных читателей: `POST /api/staff/deactivate-old-readers/`
 
 Исключает читателей, записавшихся более года назад и не прошедших перерегистрацию.
 
-Списание книги: `POST /api/staff/writeoff-book/`
+#### Списание книги: `POST /api/staff/writeoff-book/`
 
 Помечает экземпляр книги как списанный. Требует параметр `copy_id` в теле запроса.
 
-Приём книги в фонд: `POST /api/staff/accept-book/`
+#### Приём книги в фонд: `POST /api/staff/accept-book/`
 
 Создаёт новый экземпляр книги и добавляет его в фонд библиотеки. Автоматически обновляет склад.
 
-Выдача книги читателю: `POST /api/book-issues/issue/`
+#### Выдача книги читателю: `POST /api/book-issues/issue/`
 
 Создаёт запись о выдаче книги читателю. Проверяет, что экземпляр не выдан другому читателю.
 
-Возврат книги: `POST /api/book-issues/return/`
-
-Отмечает книгу как возвращённую. Требует параметр `issue_id` в теле запроса.
 
 ### Отчёты
 
@@ -370,27 +361,6 @@ curl -X GET http://127.0.0.1:8000/api/books/ \
 
 `pytest.ini` - Настройки pytest
 
-## Тестирование
-
-### Запуск тестов
-
-```bash
-pytest
-```
-
-### Запуск тестов с покрытием
-
-```bash
-pytest --cov=library --cov-report=html
-```
-
-Отчёт о покрытии будет доступен в директории `htmlcov/`.
-
-### Запуск конкретного теста
-
-```bash
-pytest library/tests/test_models.py::TestAuthor::test_create_author
-```
 
 ## Особенности реализации
 
@@ -402,48 +372,3 @@ pytest library/tests/test_models.py::TestAuthor::test_create_author
 
 Полная документация API доступна через drf-spectacular. Все эндпоинты документированы с описаниями, примерами запросов и ответов.
 
-### Валидация данных
-
-Проверка данных выполняется на уровне моделей и сериализаторов. Все обязательные поля проверяются перед сохранением.
-
-### Оптимизация запросов
-
-Использование `select_related` и `prefetch_related` для уменьшения количества запросов к базе данных и решения проблемы N+1.
-
-### Тестирование
-
-Проект покрыт тестами для моделей, сериализаторов и API эндпоинтов. Тесты используют pytest и pytest-django.
-
-## Разработка
-
-### Стиль кода
-
-Проект следует стандартам Python:
-
-Соблюдение PEP 8
-
-Type hints для всех функций и методов
-
-Docstrings для публичных классов и методов
-
-Комментарии только там, где это повышает понимание
-
-### Добавление новых функций
-
-При добавлении новых функций следуйте следующему порядку:
-
-1. Создайте модель в `library/models.py`
-
-2. Создайте сериализатор в `library/serializers.py`
-
-3. Создайте ViewSet в `library/views.py`
-
-4. Добавьте маршрут в `library/urls.py`
-
-5. Напишите тесты в `library/tests/`
-
-6. Обновите документацию в Swagger через декораторы `@extend_schema`
-
-## Лицензия
-
-Этот проект создан в рамках учебной лабораторной работы.
