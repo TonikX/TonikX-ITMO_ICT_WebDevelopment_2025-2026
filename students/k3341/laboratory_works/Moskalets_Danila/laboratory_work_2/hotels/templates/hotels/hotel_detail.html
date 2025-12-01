@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+                <li class="breadcrumb-item active">{{ hotel.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title">{{ hotel.name }}</h1>
+                <p class="text-muted">Владелец: {{ hotel.owner }}</p>
+                <p><strong>Адрес:</strong> {{ hotel.address }}</p>
+                <p><strong>Описание:</strong> {{ hotel.description }}</p>
+                <p><strong>Удобства:</strong> {{ hotel.amenities }}</p>
+            </div>
+        </div>
+
+        <h2 class="mb-3">Типы номеров</h2>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Поиск номеров..."
+                               name="room_search"
+                               value="{{ room_search }}">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Найти номера</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'hotel_detail' hotel.id %}" class="btn btn-outline-secondary w-100">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if room_search %}
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Найдено номеров: {{ room_types.count }}
+                    {% if room_search %} по запросу "{{ room_search }}"{% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% for room_type in room_types %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">{{ room_type.name }}</h5>
+                        <p class="card-text">
+                            <strong>Цена за ночь:</strong> {{ room_type.price }} руб.<br>
+                            <strong>Вместимость:</strong> {{ room_type.capacity }} человек<br>
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a href="{% url 'room_type_detail' room_type.id %}" class="btn btn-outline-primary">Подробнее</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'make_reservation' room_type.id %}" class="btn btn-primary">Забронировать</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-primary">Войдите для бронирования</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            {% if room_search %}
+                Номера по запросу "{{ room_search }}" не найдены.
+            {% else %}
+                В этом отеле пока нет доступных номеров.
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if reviews %}
+<div class="row mt-5">
+    <div class="col-12">
+        <h3>Отзывы гостей</h3>
+
+        {% for review in reviews %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h6 class="card-title mb-1">{{ review.reservation.user.username }}</h6>
+                    <div>
+                        <span class="badge bg-warning text-dark">{{ review.rating }}/10</span>
+                        <small class="text-muted">{{ review.created_at|date:"d.m.Y" }}</small>
+                    </div>
+                </div>
+                <p class="card-text mb-1">
+                    <small>Период проживания: {{ review.reservation.check_in|date:"d.m.Y" }} - {{ review.reservation.check_out|date:"d.m.Y" }}</small>
+                </p>
+                <p class="card-text mt-2">{{ review.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if reviews|length == 5 %}
+        <div class="text-center">
+            <small class="text-muted">Показаны последние 5 отзывов</small>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

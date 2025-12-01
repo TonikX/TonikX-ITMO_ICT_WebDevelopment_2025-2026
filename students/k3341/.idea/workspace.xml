@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5f164774-03ce-42a6-a3e3-450695a83fff" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/Moskalets_Danila.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task1/client_udp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task1/server_udp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task2/client_tcp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task2/server_tcp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task3/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task3/server_http.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task4/client_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task4/server_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/Lr1/task5/server_http.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.1_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.2_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.3_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.3_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.4_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/imgs/lr1.5_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/docs/lr1.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/mkdocs.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/images/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/bundle.f55a23d4.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/bundle.f55a23d4.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ar.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.da.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.de.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.du.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.el.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.es.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.fi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.fr.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.he.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.hi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.hu.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.hy.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.it.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ja.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.jp.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.kn.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ko.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.multi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.nl.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.no.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.pt.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ro.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ru.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.sa.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.stemmer.support.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.sv.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.ta.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.te.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.th.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.tr.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.vi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/min/lunr.zh.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/tinyseg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/lunr/wordcut.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/workers/search.973d3a69.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/javascripts/workers/search.973d3a69.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/stylesheets/main.2a3383ac.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/stylesheets/main.2a3383ac.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/stylesheets/palette.06af60db.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/assets/stylesheets/palette.06af60db.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.1_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.2_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.3_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.3_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.4_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/imgs/lr1.5_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/lr1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/search/search_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/sitemap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Moskalets_Danila/reports/site/sitemap.xml.gz" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="35sGLxzZkKwrO75NlEH0eLIDjyF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/универ/web/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3341/practical_works/Moskalets_Danila",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d68999036c7f-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.14475.56" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5f164774-03ce-42a6-a3e3-450695a83fff" name="Changes" comment="" />
+      <created>1763891313819</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1763891313819</updated>
+      <workItem from="1763891315151" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,82 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    Добавить владельца - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Заголовок -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">👤 Добавить владельца</h1>
+                <a href="{% url 'owners_list_url' %}" class="btn btn-outline-secondary btn-sm">
+                    Назад
+                </a>
+            </div>
+
+            <!-- Форма -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Заполните данные</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Имя -->
+                        <div class="mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                                <strong>{{ form.first_name.label }}</strong>
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                            <div class="text-danger small">
+                                {{ form.first_name.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Фамилия -->
+                        <div class="mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                                <strong>{{ form.last_name.label }}</strong>
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                            <div class="text-danger small">
+                                {{ form.last_name.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Дата рождения -->
+                        <div class="mb-3">
+                            <label for="{{ form.birth_date.id_for_label }}" class="form-label">
+                                <strong>{{ form.birth_date.label }}</strong>
+                            </label>
+                            {{ form.birth_date }}
+                            <div class="form-text">Выберите дату из календаря</div>
+                            {% if form.birth_date.errors %}
+                            <div class="text-danger small">
+                                {{ form.birth_date.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                Сохранить владельца
+                            </button>
+                            <a href="{% url 'owners_list_url' %}" class="btn btn-outline-secondary">
+                                Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

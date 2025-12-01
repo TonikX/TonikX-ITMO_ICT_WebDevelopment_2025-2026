@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Добро пожаловать в систему бронирования отелей</h1>
+        <p class="lead">Найдите идеальный отель для вашего отдыха</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Поиск отелей по названию, владельцу, адресу или описанию..."
+                               name="search"
+                               value="{{ search_query }}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Найти</button>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if search_query %}
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="alert alert-info">
+            Найдено отелей: {{ hotels.paginator.count }}
+            {% if search_query %} по запросу "{{ search_query }}"{% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row">
+    {% for hotel in hotels %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card hotel-card">
+            <div class="card-body">
+                <h5 class="card-title">{{ hotel.name }}</h5>
+                <p class="card-text">
+                    <small class="text-muted">Владелец: {{ hotel.owner }}</small><br>
+                    <small class="text-muted">{{ hotel.address }}</small>
+                </p>
+                <p class="card-text">{{ hotel.description|truncatewords:20 }}</p>
+
+                <div class="mb-2">
+                    <strong>Удобства:</strong>
+                    <small class="text-muted">{{ hotel.amenities|truncatewords:10 }}</small>
+                </div>
+
+                <a href="{% url 'hotel_detail' hotel.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-warning">
+            {% if search_query %}
+                Отели по запросу "{{ search_query }}" не найдены. Попробуйте изменить параметры поиска.
+            {% else %}
+                Отели не найдены.
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% if hotels.paginator.num_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if hotels.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">Первая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ hotels.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"><-</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Первая</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link"><-</span>
+            </li>
+        {% endif %}
+
+        {% for num in hotels.paginator.page_range %}
+            {% if hotels.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > hotels.number|add:'-3' and num < hotels.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if hotels.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ hotels.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">-></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ hotels.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">Последняя</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">-></span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Последняя</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="row mt-2">
+    <div class="col-12 text-center">
+        <small class="text-muted">
+            Страница {{ hotels.number }} из {{ hotels.paginator.num_pages }}
+            | Всего отелей: {{ hotels.paginator.count }}
+        </small>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

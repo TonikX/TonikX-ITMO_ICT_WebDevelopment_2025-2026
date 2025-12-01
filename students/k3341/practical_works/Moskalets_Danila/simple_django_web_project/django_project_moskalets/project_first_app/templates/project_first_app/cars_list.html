@@ -1,0 +1,74 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    Список автомобилей - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Все автомобили</h1>
+        <span class="badge bg-primary fs-6">Всего: {{ object_list|length }}</span>
+    </div>
+
+    {% if object_list %}
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Марка</th>
+                            <th>Модель</th>
+                            <th>Гос. номер</th>
+                            <th>Цвет</th>
+                            <th>Владельцы</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for car in object_list %}
+                        <tr>
+                            <td>
+                                <strong>{{ car.brand }}</strong>
+                            </td>
+                            <td>{{ car.model }}</td>
+                            <td>
+                                <code>{{ car.license_plate }}</code>
+                            </td>
+                            <td>
+                                {% if car.color %}
+                                    <span class="badge bg-light text-dark">{{ car.color }}</span>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% with owners=car.carowner_set.all %}
+                                    {% if owners %}
+                                        {% for owner in owners %}
+                                            <span class="badge bg-secondary">
+                                                {{ owner.first_name }} {{ owner.last_name }}
+                                            </span>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="text-muted">Нет владельцев</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </td>
+                             <td><a href="{% url 'car_detail' car.pk %}">Просмотр</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        <h5>Автомобилей не найдено</h5>
+        <p class="mb-0">В базе данных нет зарегистрированных автомобилей.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
