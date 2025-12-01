@@ -4,6 +4,8 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -64,6 +66,23 @@ class ContractViewSet(viewsets.ModelViewSet):
 
         return Response(stats)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='start',
+                description='Начальная дата периода (YYYY-MM-DD)',
+                required=True,
+                type=OpenApiTypes.DATE
+            ),
+            OpenApiParameter(
+                name='end',
+                description='Конечная дата периода (YYYY-MM-DD)',
+                required=True,
+                type=OpenApiTypes.DATE
+            ),
+        ],
+        description="Возвращает список менеджеров с максимальным количеством контрактов за указанный период."
+    )
     @action(detail=False, methods=['get'])
     def top_managers(self, request):
         """

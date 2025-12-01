@@ -3,10 +3,22 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import User, Author, Customer, Book, Contract, Order, BookAuthor, BookEditor, OrderItem
 
-admin.site.register(User, UserAdmin)
 admin.site.register(Author)
 admin.site.register(Customer)
 admin.site.register(Contract)
+
+
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'role', 'is_staff')
+    fieldsets = UserAdmin.fieldsets + (
+        ('Дополнительная информация', {'fields': ('role',)}),
+    )
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ('Дополнительная информация', {'fields': ('role',)}),
+    )
+
+
+admin.site.register(User, CustomUserAdmin)
 
 
 class BookAuthorInline(admin.TabularInline):
