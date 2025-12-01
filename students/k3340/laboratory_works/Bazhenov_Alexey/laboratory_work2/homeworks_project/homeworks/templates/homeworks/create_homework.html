@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Создание задания - Доска домашних заданий</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Создание домашнего задания</h1>
+            <div class="user-info">
+                <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">← В профиль</a>
+                <a href="{% url 'homeworks:homework_list' %}" class="btn btn-secondary">Все задания</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="create-homework-card">
+                <h2>Новое задание</h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_subject">Предмет:</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.subject.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_title">Название задания:</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.title.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Описание задания:</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.description.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_due_date">Срок выполнения:</label>
+                        {{ form.due_date }}
+                        {% if form.due_date.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.due_date.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small>Укажите дату и время окончания сдачи</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_penalty_info">Информация о штрафах (необязательно):</label>
+                        {{ form.penalty_info }}
+                        {% if form.penalty_info.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.penalty_info.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <small>Например: -1 балл за каждый день просрочки</small>
+                    </div>
+<div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Создать задание</button>
+                        <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/home.css' %}">
+    <title>Мои оценки - Доска домашних заданий</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="title">Мои оценки</h1>
+        <div class="user-info">
+            <a href="{% url 'homeworks:profile' %}" class="btn btn-secondary">В профиль</a>
+            <form method="post" action="{% url 'homeworks:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Выйти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% if grades %}
+        <div class="grades-summary">
+            <h2>Общая статистика</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>Всего оценок</h3>
+                    <p class="stat-number">{{ total_grades }}</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Средний балл</h3>
+                    <p class="stat-number">
+                        {% if average_grade %}
+                        {{ average_grade }}/5
+                        {% else %}
+                        -
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grades-list">
+            {% for grade in grades %}
+            <div class="grade-item">
+                <div class="grade-header">
+                    <h3>{{ grade.submission.homework.title }}</h3>
+                    <div class="grade-value">{{ grade.grade }}/5</div>
+                </div>
+
+                <div class="grade-details">
+                    <p><strong>Предмет:</strong> {{ grade.submission.homework.subject.name }}</p>
+                    <p>
+                        <strong>Преподаватель:</strong> <span id="teacher-name">{{ grade.graded_by.username }}</span>
+                    </p>
+                    <p><strong>Дата оценки:</strong> {{ grade.graded_date|date:"d.m.Y H:i" }}</p>
+
+                    {% if grade.feedback %}
+                    <div class="feedback">
+                        <strong>Комментарий:</strong>
+                        <p>{{ grade.feedback }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="grade-actions">
+                    <a href="{% url 'homeworks:submission_detail' grade.submission.id %}"
+                       class="btn btn-primary btn-small">Просмотреть сдачу</a>
+                    <a href="{% url 'homeworks:homework_detail' grade.submission.homework.id %}"
+                       class="btn btn-secondary btn-small">К заданию</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-grades">
+            <h3>Пока нет оценок</h3>
+            <p>Ваши работы еще не оценены преподавателями.</p>
+            <a href="{% url 'homeworks:homework_list' %}" class="btn btn-primary">Посмотреть задания</a>
+        </div>
+        {% endif %}
+        <!-- Пагинация -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="pagination">
+            <div class="pagination-info">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </div>
+
+            <div class="pagination-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-small">« Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-small">‹ Назад</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <span class="btn btn-small btn-primary">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="btn btn-small btn-secondary">{{ num }}</a>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-small">Вперед ›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-small">Последняя »</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

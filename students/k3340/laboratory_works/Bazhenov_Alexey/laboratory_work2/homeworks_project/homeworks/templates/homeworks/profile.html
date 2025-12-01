@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'homeworks/css/profile.css' %}">
+    <title>Профиль - Доска домашних заданий</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="title">Личный кабинет</h1>
+        <div class="user-info">
+            <p>Добро пожаловать, <strong>{{ user.username }}</strong>
+                {% if user.is_staff %}
+                <span class="teacher-badge">Преподаватель</span>
+                {% endif %}
+            </p>
+            <form method="post" action="{% url 'homeworks:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Выйти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Информация о пользователе -->
+        <div class="profile-card">
+            <h2>Информация о профиле</h2>
+            <div class="profile-info">
+                <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                <p><strong>Имя:</strong> {{ user.first_name|default:"Не указано" }}</p>
+                <p><strong>Фамилия:</strong> {{ user.last_name|default:"Не указана" }}</p>
+                <p><strong>Класс/Группа:</strong> {{ student_class }}</p>
+            </div>
+        </div>
+
+        <!-- Быстрые действия -->
+        <div class="actions-card">
+            <h2>Быстрые действия</h2>
+            <div class="action-buttons">
+                <a href="{% url 'homeworks:homework_list' %}" class="btn btn-primary">Все задания</a>
+                <a href="{% url 'homeworks:grade_list' %}" class="btn btn-primary">Мои оценки</a>
+                <a href="{% url 'homeworks:class_grades_table' %}" class="btn btn-primary">Оценки класса</a>
+                {% if user.is_staff %}
+                <a href="{% url 'homeworks:create_homework' %}" class="btn btn-teacher"> Создать задание</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Последние сданные задания -->
+        <div class="recent-card">
+            <h2>Последние сданные задания</h2>
+            {% if recent_submissions %}
+            {% for submission in recent_submissions %}
+            <div class="submission-item">
+                <h3>{{ submission.homework.title }}</h3>
+                <p><strong>Предмет:</strong> {{ submission.homework.subject.name }}</p>
+                <p><strong>Дата сдачи:</strong> {{ submission.submitted_date|date:"d.m.Y H:i" }}</p>
+                <a href="{% url 'homeworks:submission_detail' submission.id %}" class="btn btn-small">Просмотреть</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Вы еще не сдали ни одного задания</p>
+            {% endif %}
+        </div>
+
+        <!-- Последние оценки -->
+        <div class="grades-card">
+            <h2>Последние оценки</h2>
+            {% if recent_grades %}
+            {% for grade in recent_grades %}
+            <div class="grade-item">
+                <h3>{{ grade.submission.homework.title }}</h3>
+                <p class="grade-value">Оценка: <strong>{{ grade.grade }}/5</strong></p>
+                <p><strong>Предмет:</strong> {{ grade.submission.homework.subject.name }}</p>
+                <p><strong>Дата оценки:</strong> {{ grade.graded_date|date:"d.m.Y" }}</p>
+                {% if grade.feedback %}
+                <p><strong>Комментарий:</strong> {{ grade.feedback }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Пока нет оценок</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
