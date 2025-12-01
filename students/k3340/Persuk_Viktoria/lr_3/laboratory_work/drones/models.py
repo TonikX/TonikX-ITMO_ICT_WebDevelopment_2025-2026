@@ -56,14 +56,20 @@ class Flights(models.Model):
     Модель для хранения данных о полётах
     '''
 
-    drone_id = models.ForeignKey(Drones, on_delete=models.CASCADE, verbose_name='ID дрона')
+    drone_id = models.ForeignKey(
+        Drones,
+        on_delete=models.CASCADE,
+        related_name='flights',
+        verbose_name='ID дрона'
+    )
+
     start_datetime = models.DateTimeField(verbose_name='Дата и время начала полёта')
     end_datetime = models.DateTimeField(verbose_name='Дата и время конца полёта')
     location = models.CharField(max_length=50, verbose_name='Регион полёта')
     purpose = models.CharField(max_length=255, verbose_name='Причина полёта')
     distance = models.PositiveIntegerField(verbose_name='Дистанция в км')
     battery_usage = models.FloatField(verbose_name='Использованная батарея в %')
-    notes = models.TextField(null=True, verbose_name='Заметки')
+    notes = models.TextField(null=True, blank=True, verbose_name='Заметки')
 
 
     def __str__(self):
@@ -75,7 +81,12 @@ class FlightLogs(models.Model):
     Модель для хранения логов полёта дрона
     '''
 
-    flight_id = models.ForeignKey(Flights, on_delete=models.CASCADE)
+    flight_id = models.ForeignKey(
+        Flights,
+        on_delete=models.CASCADE,
+        related_name='logs'
+    )
+
     timestamp = models.DateTimeField(verbose_name='Дата и время лога')
     latitude = models.FloatField(verbose_name='Координаты высоты')
     longtitude = models.FloatField(verbose_name='Координаты ширины')
@@ -101,7 +112,12 @@ class Documents(models.Model):
         ('other', 'Прочее'),
     ]
 
-    drone_id = models.ForeignKey(Drones, on_delete=models.CASCADE, verbose_name='ID дрона')
+    drone_id = models.ForeignKey(
+        Drones,
+        on_delete=models.CASCADE,
+        related_name='documents',
+        verbose_name='ID дрона'
+    )
 
     document_type = models.CharField(
         max_length=20,
