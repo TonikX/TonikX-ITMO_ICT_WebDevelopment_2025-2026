@@ -9,7 +9,9 @@ from rest_framework.views import APIView
 from django.db import models
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from django.db import transaction
+from django.db.models import Q
+from rest_framework import status
 from .models import Room, Client, Employee, CleaningSchedule, Stay
 from .serializers import (
     RoomSerializer,
@@ -19,6 +21,12 @@ from .serializers import (
     StaySerializer,
     ClientWithCitySerializer,
     QuarterReportSerializer,
+    CheckInActionSerializer,
+    CheckInResultSerializer,
+    HireEmployeeSerializer,
+    HireEmployeeResultSerializer,
+    RoomWithClientsSerializer,
+    ClientWithRoomsSerializer,
 )
 
 class RoomViewSet(viewsets.ModelViewSet):
@@ -428,4 +436,142 @@ class QuarterReportView(APIView):
         }
 
         serializer = QuarterReportSerializer(data)
+        return Response(serializer.data)
+
+class CheckInActionView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=CheckInActionSerializer,
+        responses={201: CheckInResultSerializer()},
+    )
+    def post(self, request):
+        serializer = CheckInActionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        with transaction.atomic():
+            client, created = Client.objects.get_or_create(
+                passport_number=data["passport_number"],
+                defaults={
+                    "last_name": data["last_name"],
+                    "first_name": data["first_name"],
+                    "patronymic": data.get("patronymic", ""),
+                    "city": data["city"],
+                },
+            )
+            if not created:
+                client.last_name = data["last_name"]
+                client.first_name = data["first_name"]
+                client.patronymic = data.get("patronymic", "")
+                client.city = data["city"]
+                client.save()
+
+            try:
+                room = Room.objects.get(number=data["room_number"])
+            except Room.DoesNotExist:
+                return Response(
+                    {"detail": "Номер с таким номером комнаты не найден"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            check_in = data["check_in"]
+            check_out = data.get("check_out")
+
+            end_for_overlap = check_out or check_in
+
+            overlaps = Stay.objects.filter(
+                room=room,
+                check_in__lte=end_for_overlap,
+            ).filter(
+                Q(check_out__isnull=True) | Q(check_out__gte=check_in)
+            )
+
+            if overlaps.exists():
+                return Response(
+                    {"detail": "Номер занят на выбранные даты"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            stay = Stay.objects.create(
+                client=client,
+                room=room,
+                check_in=check_in,
+                check_out=check_out,
+            )
+
+            if check_out:
+                nights = max((check_out - check_in).days, 0)
+                total_price = room.daily_price * nights
+            else:
+                total_price = Decimal("0.00")
+
+        result = CheckInResultSerializer(
+            {
+                "client": client,
+                "room": room,
+                "stay": stay,
+                "total_price": total_price,
+            }
+        )
+        return Response(result.data, status=status.HTTP_201_CREATED)
+
+
+class HireEmployeeActionView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=HireEmployeeSerializer,
+        responses={201: HireEmployeeResultSerializer()},
+    )
+    def post(self, request):
+        serializer = HireEmployeeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        with transaction.atomic():
+            employee = Employee.objects.create(
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                patronymic=data.get("patronymic", ""),
+                is_active=data.get("is_active", True),
+            )
+
+            created_schedules = []
+            for item in data["schedules"]:
+                schedule, _ = CleaningSchedule.objects.get_or_create(
+                    employee=employee,
+                    floor=item["floor"],
+                    weekday=item["weekday"],
+                )
+                created_schedules.append(schedule)
+
+        result = HireEmployeeResultSerializer(
+            {"employee": employee, "schedules": created_schedules}
+        )
+        return Response(result.data, status=status.HTTP_201_CREATED)
+
+class RoomsWithClientsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Список номеров с вложенным списком клиентов.",
+        responses={200: RoomWithClientsSerializer(many=True)},
+    )
+    def get(self, request):
+        rooms = Room.objects.prefetch_related("clients")
+        serializer = RoomWithClientsSerializer(rooms, many=True)
+        return Response(serializer.data)
+
+
+class ClientsWithRoomsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Список клиентов с вложенным списком номеров.",
+        responses={200: ClientWithRoomsSerializer(many=True)},
+    )
+    def get(self, request):
+        clients = Client.objects.prefetch_related("rooms")
+        serializer = ClientWithRoomsSerializer(clients, many=True)
         return Response(serializer.data)

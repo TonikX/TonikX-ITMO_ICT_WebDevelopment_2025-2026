@@ -20,6 +20,14 @@ class Room(models.Model):
     daily_price = models.DecimalField("Цена за сутки", max_digits=10, decimal_places=2)
     phone_number = models.CharField("Телефон в номере", max_length=20)
 
+    clients = models.ManyToManyField(
+        "Client",
+        through="Stay",
+        related_name="rooms",
+        verbose_name="Клиенты, проживавшие в номере",
+        blank=True,
+    )
+
     def __str__(self):
         return f"{self.number} ({self.get_room_type_display()})"
 
