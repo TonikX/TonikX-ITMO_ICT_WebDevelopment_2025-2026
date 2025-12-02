@@ -1,0 +1,22 @@
+{% extends "flight/base.html" %}
+
+{% block title %}Удалить комментарий{% endblock %}
+
+{% block content %}
+<h3>Удалить комментарий к рейсу {{ flight.flight_number }}?</h3>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><b>Автор:</b> {{ comment.author.username|default:"Анонимный пользователь" }}</p>
+        <p><b>Рейтинг:</b> {{ comment.rating }}/10</p>
+        <p><b>Текст:</b> {{ comment.text }}</p>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'flight_detail' flight.id %}" class="btn btn-secondary">Отмена</a>
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+body { padding-bottom: 40px; }
+.navbar-brand { font-weight: 600; }
+.table th, .table td { vertical-align: middle; }
+.btn { white-space: nowrap; }
