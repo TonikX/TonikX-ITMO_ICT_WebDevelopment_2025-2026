@@ -1,6 +1,3 @@
-"""
-URL configuration for drones application using DRF nested routers.
-"""
 from rest_framework_nested import routers
 
 from .views import DroneViewSet, FlightViewSet, FlightLogViewSet, DocumentViewSet

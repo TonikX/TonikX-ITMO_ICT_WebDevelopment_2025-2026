@@ -108,8 +108,12 @@ REST_FRAMEWORK = {
 # Djoser config
 DJOSER = {
     "USER_ID_FIELD": "id",
-    "LOGIN_FIELD": "email",
-    "SERIALIZERS": {},
+    "LOGIN_FIELD": "username",  # Используем username для стандартной модели User
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "PERMISSIONS": {
+        "user": ["rest_framework.permissions.IsAuthenticated"],
+        "user_list": ["rest_framework.permissions.IsAuthenticated"],
+    },
 }
 
 
