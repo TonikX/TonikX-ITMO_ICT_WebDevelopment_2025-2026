@@ -1,0 +1,19 @@
+site_name: Отчеты по лабораторным работам. Генне Константин, K3340
+
+theme:
+  name: windmill
+  language: ru
+  palette:
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.top
+
+nav:
+  - 'Главная': 'index.md'
+  - 'Лабораторная работа №1':
+    - 'Задание 1: UDP Клиент-Сервер': 'lr1/task1.md'
+    - 'Задание 2: TCP Калькулятор': 'lr1/task2.md'
+    - 'Задание 3: HTTP Сервер': 'lr1/task3.md'
+    - 'Задание 4: TCP Чат': 'lr1/task4.md'
+    - 'Задание 5: Веб-сервер (GET/POST)': 'lr1/task5.md'
