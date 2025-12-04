@@ -1,0 +1,18 @@
+site_name: "LR3: API завуча"
+site_description: "Документация лабораторной работы 3.1 по Django REST Framework"
+site_author: "Виктор Иванов"
+site_url: https://donperenon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Ivanov_Viktor/lr_3/
+repo_url: https://github.com/DonPerenon/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+repo_name: DonPerenon/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+theme:
+  name: material
+  language: ru
+nav:
+  - Обзор: index.md
+  - API: api.md
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - codehilite
+
