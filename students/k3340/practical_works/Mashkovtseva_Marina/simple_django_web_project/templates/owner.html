@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Owner details</title>
+</head>
+<body>
+    <h1>Owner information</h1>
+    <p><strong>First name:</strong> {{ owner.first_name }}</p>
+    <p><strong>Last name:</strong> {{ owner.last_name }}</p>
+    <p><strong>Birth date:</strong> {{ owner.birth_date|date:"Y-m-d" }}</p>
+
+    <h2>Cars owned:</h2>
+    <ul>
+        {% for ownership in owner.ownership_set.all %}
+            <li>{{ ownership.car.brand }} {{ ownership.car.model }} ({{ ownership.car.color }})</li>
+        {% empty %}
+            <li>No cars found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

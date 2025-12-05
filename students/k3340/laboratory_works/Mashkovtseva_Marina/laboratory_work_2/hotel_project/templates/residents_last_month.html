@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Постояльцы за последний месяц{% endblock %}
+
+{% block content %}
+<h1>Постояльцы за последние 30 дней</h1>
+
+<form method="get" class="mb-3">
+    <label for="hotel_select">Выберите отель:</label>
+    <select name="hotel_id" id="hotel_select" class="form-select" onchange="this.form.submit()">
+        {% for h in hotels %}
+            <option value="{{ h.id }}" {% if hotel and hotel.id == h.id %}selected{% endif %}>
+                {{ h.name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if hotel %}
+    <h2>Отель: {{ hotel.name }}</h2>
+    <p>Период: {{ start_period }} — {{ end_period }}</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Номер</th>
+                <th>Дата заезда</th>
+                <th>Дата выезда</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in residents %}
+            <tr>
+                <td>{{ r.user.username }}</td>
+                <td>{{ r.room.room_type }}</td>
+                <td>{{ r.check_in }}</td>
+                <td>{{ r.check_out }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Нет постояльцев за этот период.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Отель не найден.</p>
+{% endif %}
+{% endblock %}

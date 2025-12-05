@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Редактирование брони{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Редактирование брони</h1>
+
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">💾 Сохранить изменения</button>
+        <a href="{% url 'reservation_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
