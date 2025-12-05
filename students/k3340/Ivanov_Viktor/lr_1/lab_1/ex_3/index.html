@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Сервер на Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .info-box {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+        }
+        
+        .feature-list h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .tech-details {
+            background: rgba(118, 75, 162, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-details h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTTP Сервер на Python</h1>
+        <p class="subtitle">Лабораторная работа по Web-программированию</p>
+        
+        <div class="info-box">
+            <h2>Задание 3 выполнено!</h2>
+            <p>Сервер успешно отдает HTML-страницу через сокеты</p>
+        </div>
+        
+        <div class="feature-list">
+            <h3>Что реализовано:</h3>
+            <ul>
+                <li>HTTP-сервер на чистом Python с использованием сокетов</li>
+                <li>Загрузка HTML-страницы из файла index.html</li>
+                <li>Корректные HTTP-заголовки и статус-коды</li>
+                <li>Обработка HTTP-запросов от браузера</li>
+                <li>Красивый и современный дизайн страницы</li>
+            </ul>
+        </div>
+        
+        <div class="tech-details">
+            <h3>Технические детали:</h3>
+            <p><strong>Протокол:</strong> <span class="highlight">HTTP/1.1</span></p>
+            <p><strong>Транспорт:</strong> <span class="highlight">TCP сокеты</span></p>
+            <p><strong>Порт:</strong> <span class="highlight">8082</span></p>
+            <p><strong>Библиотека:</strong> <span class="highlight">socket</span></p>
+        </div>
+        
+        <div class="code-block">
+            # Пример HTTP-ответа сервера:<br>
+            HTTP/1.1 200 OK<br>
+            Content-Type: text/html; charset=UTF-8<br>
+            Content-Length: [размер файла]<br>
+            Connection: close<br>
+            <br>
+            [HTML содержимое]
+        </div>
+        
+        <div class="footer">
+            <p>Создано с использованием Python и библиотеки socket</p>
+            <p>Лабораторная работа по Web-программированию</p>
+        </div>
+    </div>
+</body>
+</html>
+

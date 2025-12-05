@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Мои бронирования{% endblock %}
+{% block content %}
+<div class="card">
+    <h1 class="card-title">Мои бронирования</h1>
+    {% if reservations %}
+        {% for res in reservations %}
+        <div style="border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+            <h3>{{ res.flight.flight_number }} - {{ res.flight.airline }}</h3>
+            <p>{{ res.flight.departure_city }} → {{ res.flight.arrival_city }}</p>
+            <p>Дата: {{ res.flight.departure_time|date:"d.m.Y H:i" }}</p>
+            <p>Статус: <strong>{{ res.get_status_display }}</strong></p>
+            {% if res.ticket_number %}<p>Билет: {{ res.ticket_number }}</p>{% endif %}
+            {% if res.is_confirmed %}
+                <span style="color: #27ae60;">Подтверждено администратором</span>
+            {% else %}
+                <span style="color: #f39c12;">Ожидает подтверждения</span>
+            {% endif %}
+            <br><br>
+            {% if res.status != 'cancelled' %}
+            <a href="{% url 'cancel_reservation' res.pk %}" class="btn btn-danger">Отменить</a>
+            {% endif %}
+            <a href="{% url 'flight_detail' res.flight.pk %}" class="btn btn-primary">К рейсу</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>У вас пока нет бронирований</p>
+        <a href="{% url 'flight_list' %}" class="btn btn-primary">Найти рейсы</a>
+    {% endif %}
+</div>
+{% endblock %}

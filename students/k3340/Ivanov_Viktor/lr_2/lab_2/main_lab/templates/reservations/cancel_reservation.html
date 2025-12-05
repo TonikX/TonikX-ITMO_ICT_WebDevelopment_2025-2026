@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Отмена бронирования{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h1 class="card-title">Отмена бронирования</h1>
+    <p>Вы действительно хотите отменить бронирование на рейс:</p>
+    <p><strong>{{ reservation.flight.flight_number }}</strong></p>
+    <p>{{ reservation.flight.departure_city }} → {{ reservation.flight.arrival_city }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Подтвердить отмену</button>
+        <a href="{% url 'my_reservations' %}" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+{% endblock %}

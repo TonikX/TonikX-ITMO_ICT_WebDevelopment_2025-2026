@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ avtomobil.marka }} {{ avtomobil.model }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+        .info {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            color: #333;
+        }
+        .actions {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-back {
+            background-color: #2196F3;
+            color: white;
+        }
+        .btn-back:hover {
+            background-color: #0b7dda;
+        }
+        .btn-edit {
+            background-color: #FFA726;
+            color: white;
+        }
+        .btn-edit:hover {
+            background-color: #FB8C00;
+        }
+        .btn-delete {
+            background-color: #EF5350;
+            color: white;
+        }
+        .btn-delete:hover {
+            background-color: #E53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Информация об автомобиле</h1>
+        <div class="info">
+            <p>
+                <span class="label">Марка:</span> 
+                <span class="value">{{ avtomobil.marka }}</span>
+            </p>
+            <p>
+                <span class="label">Модель:</span> 
+                <span class="value">{{ avtomobil.model }}</span>
+            </p>
+            <p>
+                <span class="label">Государственный номер:</span> 
+                <span class="value">{{ avtomobil.gos_nomer }}</span>
+            </p>
+            {% if avtomobil.cvet %}
+            <p>
+                <span class="label">Цвет:</span> 
+                <span class="value">{{ avtomobil.cvet }}</span>
+            </p>
+            {% endif %}
+            <p>
+                <span class="label">ID автомобиля:</span> 
+                <span class="value">{{ avtomobil.id_avtomobilya }}</span>
+            </p>
+        </div>
+        
+        <div class="actions">
+            <a href="{% url 'avtomobil_list' %}" class="btn btn-back">← Назад к списку</a>
+            <a href="{% url 'avtomobil_update' avtomobil.id_avtomobilya %}" class="btn btn-edit">Изменить</a>
+            <a href="{% url 'avtomobil_delete' avtomobil.id_avtomobilya %}" class="btn btn-delete">Удалить</a>
+        </div>
+    </div>
+</body>
+</html>
+

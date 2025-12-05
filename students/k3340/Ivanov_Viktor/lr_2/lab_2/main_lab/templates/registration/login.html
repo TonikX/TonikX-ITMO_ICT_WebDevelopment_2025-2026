@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block extra_css %}
+<style>
+    .form-container {max-width: 400px; margin: 50px auto;}
+    .form-group {margin-bottom: 20px;}
+    .form-group label {display: block; margin-bottom: 5px; font-weight: 600;}
+    .form-control {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <div class="card">
+        <h1 class="card-title">Вход</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Войти</button>
+            <p style="margin-top: 20px;">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+        </form>
+    </div>
+</div>
+{% endblock %}
