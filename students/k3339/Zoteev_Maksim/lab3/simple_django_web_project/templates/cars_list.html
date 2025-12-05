@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список автомобилей</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #2196F3; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        tr:hover { background-color: #ddd; }
+        a { color: #2196F3; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; padding: 8px 16px; background-color: #2196F3; color: white; border-radius: 4px; }
+        .nav a:hover { background-color: #0b7dda; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/owners/">Владельцы</a>
+        <a href="/cars/">Автомобили</a>
+        <a href="/admin/">Админ-панель</a>
+    </div>
+
+    <h1>Список автомобилей</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <a href="/car/create/" class="btn" style="background-color: #2196F3; color: white; padding: 10px 20px; border-radius: 4px; text-decoration: none;">➕ Добавить автомобиль</a>
+    </div>
+    
+    {% if cars %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Государственный номер</th>
+                <th>Марка</th>
+                <th>Модель</th>
+                <th>Цвет</th>
+                <th>Действия</th>
+                <th>Управление</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+            <tr>
+                <td>{{ car.id }}</td>
+                <td>{{ car.license_plate }}</td>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.color|default:"Не указан" }}</td>
+                <td><a href="/car/{{ car.id }}/">Подробнее</a></td>
+                <td>
+                    <a href="/car/{{ car.id }}/update/" style="color: #ff9800; margin-right: 10px;">✏️ Изменить</a>
+                    <a href="/car/{{ car.id }}/delete/" style="color: #f44336;">🗑️ Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Нет зарегистрированных автомобилей.</p>
+    {% endif %}
+</body>
+</html>
+
