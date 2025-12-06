@@ -10,15 +10,16 @@
 *   **Настройки JWT:**
     
     *   `JWT_SECRET_KEY`: Секретный ключ для подписи токенов JSON Web Tokens (JWT). Пример: `test`.
-*   **Настройки Amazon S3:**
+*   **Настройки S3 (MinIO):**
     
-    *   `S3_ACCESS_KEY`: Ключ доступа к бакету Amazon S3. Пример: `LrK9q7NRMfwxpiQ7guln`.
-    *   `S3_SECRET_KEY`: Секретный ключ для бакета Amazon S3. Пример: `v3rWd5fZ1XiKERZdgJq1VJmxhsMyoss7iBKkh21O`.
+    *   `S3_ACCESS_KEY`: Ключ доступа (используется и для MinIO). Пример: `minio`.
+    *   `S3_SECRET_KEY`: Секретный ключ. Пример: `minio123`.
     *   `S3_BUCKET`: Имя бакета Amazon S3. Пример: `images`.
-    *   `S3_URL`: URL для доступа к бакету Amazon S3. Пример: `http://12.34.56.78:9000`.
+    *   `S3_URL`: URL для доступа к S3. Для локального MinIO в docker-compose: `http://minio:9000`.
 
-С помощью docker-compose запустите API
+#### Быстрый запуск с готовыми переменными
+В каталоге `laboratory_work_3/lab` есть скрипт `run_with_env.sh` с дефолтными значениями. Запустит Postgres, MinIO и API:
 
 ```bash
-docker-compose up -p socnetitmo -d
+./run_with_env.sh
 ```

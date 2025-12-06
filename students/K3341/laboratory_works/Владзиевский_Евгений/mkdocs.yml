@@ -1,0 +1,20 @@
+site_name: Документация лабораторных работ
+site_description: "Материалы по лабораторным работам: модели данных, эндпоинты, структура и практическая часть."
+theme:
+  name: material
+  palette: 
+    scheme: default
+    primary: indigo
+    accent: purple
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+plugins:
+  - search
+nav:
+  - Главная: index.md
+  - Модели данных: data_models.md
+  - API эндпоинты: api_endpoints.md
+  - Структура кода: code_structure.md
+  - Практическая часть: practical.md

@@ -18,6 +18,7 @@ services:
       S3_SECRET_KEY: ${S3_SECRET_KEY}
     depends_on:
       - postgres
+      - minio
 
   postgres:
     image: postgres:latest
@@ -26,7 +27,20 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_volume:/var/lib/postgresql
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY}
+    volumes:
+      - minio_data:/data
 
 volumes:
-  postgres_data:
+  postgres_volume:
+  minio_data:
