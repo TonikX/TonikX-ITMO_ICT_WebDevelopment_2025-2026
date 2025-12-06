@@ -3,5 +3,6 @@ nav:
  - Home: index.md
  - Lab1: Lab1/Lab1.md
  - Lab2: Lab2/Lab2.md
+ - Prac3.1: Prac3_1/Prac3_1.md
 theme:
  name: material
