@@ -132,6 +132,13 @@ watch(() => props.log, (newLog) => {
   }
 }, { immediate: true })
 
+watch(() => props.modelValue, (newValue) => {
+  if (!newValue) {
+    editingLog.value = null
+    resetForm()
+  }
+})
+
 const resetForm = () => {
   formData.value = {
     timestamp: '',

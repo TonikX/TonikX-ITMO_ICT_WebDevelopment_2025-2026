@@ -128,25 +128,6 @@ const formData = ref({
   notes: '',
 })
 
-watch(() => props.flight, (newFlight) => {
-  if (newFlight) {
-    editingFlight.value = newFlight
-    formData.value = {
-      drone_id: typeof newFlight.drone_id === 'object' ? newFlight.drone_id.id : newFlight.drone_id,
-      start_datetime: formatDateTimeLocal(newFlight.start_datetime),
-      end_datetime: formatDateTimeLocal(newFlight.end_datetime),
-      location: newFlight.location || '',
-      purpose: newFlight.purpose || '',
-      distance: newFlight.distance || null,
-      battery_usage: newFlight.battery_usage || null,
-      notes: newFlight.notes || '',
-    }
-  } else {
-    editingFlight.value = null
-    resetForm()
-  }
-}, { immediate: true })
-
 const formatDateTimeLocal = (dateString) => {
   if (!dateString) return ''
   const date = new Date(dateString)
@@ -170,6 +151,32 @@ const resetForm = () => {
     notes: '',
   }
 }
+
+watch(() => props.flight, (newFlight) => {
+  if (newFlight) {
+    editingFlight.value = newFlight
+    formData.value = {
+      drone_id: typeof newFlight.drone_id === 'object' ? newFlight.drone_id.id : newFlight.drone_id,
+      start_datetime: formatDateTimeLocal(newFlight.start_datetime),
+      end_datetime: formatDateTimeLocal(newFlight.end_datetime),
+      location: newFlight.location || '',
+      purpose: newFlight.purpose || '',
+      distance: newFlight.distance || null,
+      battery_usage: newFlight.battery_usage || null,
+      notes: newFlight.notes || '',
+    }
+  } else {
+    editingFlight.value = null
+    resetForm()
+  }
+}, { immediate: true })
+
+watch(() => props.modelValue, (newValue) => {
+  if (!newValue) {
+    editingFlight.value = null
+    resetForm()
+  }
+})
 
 const loadDrones = async () => {
   try {
@@ -209,6 +216,8 @@ const save = async () => {
       await flightsAPI.createFlight(data, props.droneId)
       showSnackbar('Полёт успешно создан', 'success')
     }
+    editingFlight.value = null
+    resetForm()
     emit('update:modelValue', false)
     emit('saved')
   } catch (error) {

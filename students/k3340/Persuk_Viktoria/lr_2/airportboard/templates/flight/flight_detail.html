@@ -11,8 +11,8 @@
 
 {% if user.is_authenticated %}
     <div class="mb-3">
-        <a href="{% url 'create_reservation' flight.id %}" class="btn btn-success">Забронировать место</a>
-        <a href="{% url 'add_comment' flight.id %}" class="btn btn-secondary">Оставить отзыв</a>
+    <a href="{% url 'create_reservation' flight.id %}" class="btn btn-success">Забронировать место</a>
+    <a href="{% url 'add_comment' flight.id %}" class="btn btn-secondary">Оставить отзыв</a>
     </div>
 {% else %}
     <p>Чтобы забронировать место, <a href="{% url 'register' %}">зарегистрируйтесь</a>.</p>

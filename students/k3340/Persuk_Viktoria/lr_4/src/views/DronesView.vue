@@ -35,17 +35,43 @@
         lg="3"
       >
         <v-card
-          @click="$router.push(`/drones/${drone.id}`)"
           class="drone-card"
           hover
+          @click="$router.push(`/drones/${drone.id}`)"
         >
-          <v-card-title>
-            {{ drone.manufacturer }} {{ drone.model }}
+          <v-card-title class="d-flex justify-space-between align-center" @click.stop>
+            <div style="flex: 1; cursor: pointer;" @click="$router.push(`/drones/${drone.id}`)">
+              {{ drone.manufacturer }} {{ drone.model }}
+            </div>
+            <v-menu location="bottom end">
+              <template v-slot:activator="{ props: menuProps }">
+                <v-btn
+                  icon
+                  variant="text"
+                  v-bind="menuProps"
+                  @click.stop
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  prepend-icon="mdi-pencil"
+                  title="Редактировать"
+                  @click="editDrone(drone)"
+                ></v-list-item>
+                <v-list-item
+                  prepend-icon="mdi-delete"
+                  title="Удалить"
+                  @click="confirmDelete(drone)"
+                ></v-list-item>
+              </v-list>
+            </v-menu>
           </v-card-title>
-          <v-card-subtitle>
+          <v-card-subtitle @click="$router.push(`/drones/${drone.id}`)" style="cursor: pointer;">
             {{ drone.serial_number }}
           </v-card-subtitle>
-          <v-card-text>
+          <v-card-text @click="$router.push(`/drones/${drone.id}`)" style="cursor: pointer;">
             <v-chip
               :color="getStatusColor(drone.status)"
               size="small"
@@ -198,6 +224,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Диалог подтверждения удаления -->
+    <v-dialog v-model="showDeleteDialog" max-width="400">
+      <v-card>
+        <v-card-title>Подтверждение удаления</v-card-title>
+        <v-card-text>
+          Вы уверены, что хотите удалить дрон {{ deletingDrone?.manufacturer }} {{ deletingDrone?.model }}?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" @click="showDeleteDialog = false">Отмена</v-btn>
+          <v-btn color="error" @click="deleteDrone">Удалить</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -214,6 +255,8 @@ const saving = ref(false)
 const drones = ref([])
 const showCreateDialog = ref(false)
 const editingDrone = ref(null)
+const deletingDrone = ref(null)
+const showDeleteDialog = ref(false)
 const formRef = ref(null)
 const formValid = ref(false)
 
@@ -310,6 +353,25 @@ const editDrone = (drone) => {
   editingDrone.value = drone
   formData.value = { ...drone }
   showCreateDialog.value = true
+}
+
+const confirmDelete = (drone) => {
+  deletingDrone.value = drone
+  showDeleteDialog.value = true
+}
+
+const deleteDrone = async () => {
+  if (!deletingDrone.value) return
+
+  try {
+    await dronesAPI.deleteDrone(deletingDrone.value.id)
+    showSnackbar('Дрон успешно удалён', 'success')
+    showDeleteDialog.value = false
+    deletingDrone.value = null
+    loadDrones()
+  } catch (error) {
+    showSnackbar('Ошибка удаления дрона', 'error')
+  }
 }
 
 const saveDrone = async () => {

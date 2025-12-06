@@ -84,6 +84,13 @@ watch(() => props.document, (newDocument) => {
   }
 }, { immediate: true })
 
+watch(() => props.modelValue, (newValue) => {
+  if (!newValue) {
+    editingDocument.value = null
+    resetForm()
+  }
+})
+
 const resetForm = () => {
   formData.value = {
     document_type: '',

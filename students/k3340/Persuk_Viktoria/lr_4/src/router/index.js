@@ -7,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      redirect: '/profile',
+      component: () => import('@/views/HomeView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -43,6 +44,12 @@ const router = createRouter({
       path: '/drones/:id',
       name: 'drone-detail',
       component: () => import('@/views/DroneDetailView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/flights',
+      name: 'flights',
+      component: () => import('@/views/FlightsView.vue'),
       meta: { requiresAuth: true },
     },
     {

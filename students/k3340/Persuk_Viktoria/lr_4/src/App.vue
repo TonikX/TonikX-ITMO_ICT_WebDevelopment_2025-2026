@@ -20,11 +20,27 @@
 
       <v-btn
         v-if="authStore.isAuthenticated"
+        to="/"
+        variant="text"
+        class="mr-2"
+      >
+        Главная
+      </v-btn>
+      <v-btn
+        v-if="authStore.isAuthenticated"
         to="/drones"
         variant="text"
         class="mr-2"
       >
         Дроны
+      </v-btn>
+      <v-btn
+        v-if="authStore.isAuthenticated"
+        to="/flights"
+        variant="text"
+        class="mr-2"
+      >
+        Полёты
       </v-btn>
 
       <v-btn
@@ -70,6 +86,11 @@
           ></v-list-item>
           <v-divider></v-divider>
           <v-list-item
+            prepend-icon="mdi-view-dashboard"
+            title="Главная"
+            to="/"
+          ></v-list-item>
+          <v-list-item
             prepend-icon="mdi-account-circle"
             title="Профиль"
             to="/profile"
@@ -78,6 +99,11 @@
             prepend-icon="mdi-airplane"
             title="Дроны"
             to="/drones"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-flight-takeoff"
+            title="Полёты"
+            to="/flights"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-cog"
@@ -114,6 +140,12 @@
         ></v-list-item>
         <v-list-item
           v-if="authStore.isAuthenticated"
+          prepend-icon="mdi-view-dashboard"
+          title="Главная"
+          to="/"
+        ></v-list-item>
+        <v-list-item
+          v-if="authStore.isAuthenticated"
           prepend-icon="mdi-account-circle"
           title="Профиль"
           to="/profile"
@@ -123,6 +155,12 @@
           prepend-icon="mdi-airplane"
           title="Дроны"
           to="/drones"
+        ></v-list-item>
+        <v-list-item
+          v-if="authStore.isAuthenticated"
+          prepend-icon="mdi-flight-takeoff"
+          title="Полёты"
+          to="/flights"
         ></v-list-item>
         <v-list-item
           v-if="authStore.isAuthenticated"
