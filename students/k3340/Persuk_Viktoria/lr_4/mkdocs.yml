@@ -1,0 +1,16 @@
+site_name: Vue.js Frontend - Документация
+nav:
+  - Главная: index.md
+  - API: api.md
+  - Управление состоянием: state-management.md
+  - Маршрутизация: routing.md
+  - Компоненты: components.md
+theme:
+  name: shadcn
+  show_stargazers: False
+  pygments_style:
+    light: gotthard-light
+    dark: stata-dark
+markdown_extensions:
+  - codehilite
+  - admonition
