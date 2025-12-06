@@ -1,0 +1,1 @@
+from src.api.routers.images import endpoints
