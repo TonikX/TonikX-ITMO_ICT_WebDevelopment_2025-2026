@@ -12,6 +12,8 @@
         <link rel="prev" href="../../Lab2/Lab2/">
       
       
+        <link rel="next" href="../../Prac3_2/Prac3_2/">
+      
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
@@ -528,6 +530,28 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prac3_2/Prac3_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prac3.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -814,14 +838,13 @@ class Car(models.Model):
     model = models.CharField(max_length=20, verbose_name='Модель')
     color = models.CharField(max_length=30, verbose_name='Цвет')
 
-    # Many-to-Many связь с CarOwner через CarOwnership
     owners = models.ManyToManyField(CarOwner, through='CarOwnership', verbose_name='Владельцы', related_name='cars')
 
     def __str__(self):
         return f&quot;{self.make} {self.model} ({self.plate_number})&quot;
 
 class CarOwnership(models.Model):
-    owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, verbose_name='Id_владельца', related_name='ownerships') # Добавлен related_name
+    owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, verbose_name='Id_владельца', related_name='ownerships')
     car = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name='Id_автомобиля')
     start_date = models.DateField(verbose_name='Дата_начала')
     end_date = models.DateField(null=True, blank=True, verbose_name='Дата_окончания')
@@ -973,11 +996,21 @@ for owner in owners_car_count:
 # ]&gt;
 </code></pre>
 <h3 id="_3">Выводы</h3>
-<p>В ходе выполнения практического занятия были освоены основные методы работы с запросами в <strong>Django ORM</strong>. Практически реализованы:
-1.  Создание и модификация объектов с использованием методов <strong><code>.create()</code></strong> и <strong><code>.save()</code></strong>.
-2.  Выполнение <strong>DQL-запросов</strong> (выборки) с фильтрацией по условиям, включая сложные запросы с поиском через связанные таблицы (<code>__</code> синтаксис).
-3.  Применение функций <strong>агрегации</strong> (<code>.aggregate()</code>) и <strong>аннотации</strong> (<code>.annotate()</code>) для выполнения групповых вычислений.
-4.  Использование <strong>ленивого выполнения Queryset'ов</strong>.</p>
+<p>В ходе выполнения практического занятия были освоены основные методы работы с запросами в <strong>Django ORM</strong>. Практически реализованы:</p>
+<ol>
+<li>
+<p>Создание и модификация объектов с использованием методов <strong><code>.create()</code></strong> и <strong><code>.save()</code></strong>.</p>
+</li>
+<li>
+<p>Выполнение <strong>DQL-запросов</strong> (выборки) с фильтрацией по условиям, включая сложные запросы с поиском через связанные таблицы (<code>__</code> синтаксис).</p>
+</li>
+<li>
+<p>Применение функций <strong>агрегации</strong> (<code>.aggregate()</code>) и <strong>аннотации</strong> (<code>.annotate()</code>) для выполнения групповых вычислений.</p>
+</li>
+<li>
+<p>Использование <strong>ленивого выполнения Queryset'ов</strong>.</p>
+</li>
+</ol>
 
 
 

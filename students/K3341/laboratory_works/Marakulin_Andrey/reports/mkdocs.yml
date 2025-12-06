@@ -4,5 +4,6 @@ nav:
  - Lab1: Lab1/Lab1.md
  - Lab2: Lab2/Lab2.md
  - Prac3.1: Prac3_1/Prac3_1.md
+ - Prac3.2: Prac3_2/Prac3_2.md
 theme:
  name: material
