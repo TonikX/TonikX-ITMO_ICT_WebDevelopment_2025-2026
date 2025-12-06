@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        # URL бэкенда; во время сборки попадёт в Vite
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:80}
+    ports:
+      - "4173:80"  # host:container
+    environment:
+      # Для справки в контейнере (на рантайм не влияет, т.к. сборка статическая)
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:80}

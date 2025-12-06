@@ -17,12 +17,34 @@ async def get_db_session() -> AsyncSession:
 
 async def get_s3_session_async() -> BaseClient:
     session = AsyncS3Session()
-    client = session.client('s3', endpoint_url=config.S3_URL, aws_access_key_id=config.S3_ACCESS_KEY,
-                            aws_secret_access_key=config.S3_SECRET_KEY, config=Config(signature_version='s3v4'))
+    client = session.client(
+        's3',
+        endpoint_url=config.S3_URL,
+        aws_access_key_id=config.S3_ACCESS_KEY,
+        aws_secret_access_key=config.S3_SECRET_KEY,
+        config=Config(signature_version='s3v4'),
+    )
+    return client
+
+
+async def get_s3_public_session_async() -> BaseClient:
+    session = AsyncS3Session()
+    client = session.client(
+        's3',
+        endpoint_url=config.S3_PUBLIC_URL,
+        aws_access_key_id=config.S3_ACCESS_KEY,
+        aws_secret_access_key=config.S3_SECRET_KEY,
+        config=Config(signature_version='s3v4'),
+    )
     return client
 
 def get_s3_session_sync() -> BaseClient:
     session = SyncS3Session()
-    client = session.client('s3', endpoint_url=config.S3_URL, aws_access_key_id=config.S3_ACCESS_KEY,
-                            aws_secret_access_key=config.S3_SECRET_KEY, config=Config(signature_version='s3v4'))
+    client = session.client(
+        's3',
+        endpoint_url=config.S3_URL,
+        aws_access_key_id=config.S3_ACCESS_KEY,
+        aws_secret_access_key=config.S3_SECRET_KEY,
+        config=Config(signature_version='s3v4'),
+    )
     return client

@@ -13,6 +13,7 @@ services:
       DB_NAME: ${DB_NAME}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       S3_URL: ${S3_URL}
+      S3_PUBLIC_URL: ${S3_PUBLIC_URL}
       S3_BUCKET: ${S3_BUCKET}
       S3_ACCESS_KEY: ${S3_ACCESS_KEY}
       S3_SECRET_KEY: ${S3_SECRET_KEY}

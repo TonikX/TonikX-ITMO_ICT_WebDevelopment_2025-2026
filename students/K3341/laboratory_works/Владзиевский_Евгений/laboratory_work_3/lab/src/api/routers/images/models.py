@@ -10,7 +10,7 @@ from src.api.sessions import get_s3_session_sync
 
 
 def hash_to_url(hash: str) -> str:
-    return urllib3.util.parse_url(config.S3_URL).url + '/' + config.S3_BUCKET + '/' + hash
+    return urllib3.util.parse_url(config.S3_PUBLIC_URL).url + '/' + config.S3_BUCKET + '/' + hash
 
 
 image_url = Annotated[str, AfterValidator(hash_to_url)]

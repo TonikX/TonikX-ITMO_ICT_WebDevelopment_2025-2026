@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from src import config
 from src.api.routers.images.models import UploadResponse
 from src.api.security import access_policy
-from src.api.sessions import get_s3_session_async, get_db_session
+from src.api.sessions import get_s3_session_async, get_db_session, get_s3_public_session_async
 from src.db.crud import add_image
 
 router = APIRouter(
@@ -35,8 +35,11 @@ async def upload_frames(file: UploadFile,
 
 
 @router.get('/{hash:str}')
-async def get_image(hash: str, s3=Depends(get_s3_session_async)):
+async def get_image(hash: str, s3=Depends(get_s3_public_session_async)):
     async with s3 as s3_session:
-        url = await s3_session.generate_presigned_url('get_object', Params={'Bucket': config.S3_BUCKET, 'Key': hash},
-                                                      ExpiresIn=3600)
+        url = await s3_session.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': config.S3_BUCKET, 'Key': hash},
+            ExpiresIn=3600,
+        )
         return RedirectResponse(url=url)
