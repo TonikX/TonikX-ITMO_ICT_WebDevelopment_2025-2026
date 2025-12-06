@@ -33,6 +33,24 @@ const router = createRouter({
       component: () => import('@/views/SettingsView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/drones',
+      name: 'drones',
+      component: () => import('@/views/DronesView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/drones/:id',
+      name: 'drone-detail',
+      component: () => import('@/views/DroneDetailView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/flights/:id',
+      name: 'flight-detail',
+      component: () => import('@/views/FlightDetailView.vue'),
+      meta: { requiresAuth: true },
+    },
   ],
 })
 

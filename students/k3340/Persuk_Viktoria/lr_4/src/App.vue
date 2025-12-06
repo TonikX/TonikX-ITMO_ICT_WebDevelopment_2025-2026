@@ -19,6 +19,15 @@
       <v-spacer></v-spacer>
 
       <v-btn
+        v-if="authStore.isAuthenticated"
+        to="/drones"
+        variant="text"
+        class="mr-2"
+      >
+        Дроны
+      </v-btn>
+
+      <v-btn
         v-if="!authStore.isAuthenticated"
         to="/login"
         variant="text"
@@ -66,6 +75,11 @@
             to="/profile"
           ></v-list-item>
           <v-list-item
+            prepend-icon="mdi-airplane"
+            title="Дроны"
+            to="/drones"
+          ></v-list-item>
+          <v-list-item
             prepend-icon="mdi-cog"
             title="Настройки"
             to="/settings"
@@ -103,6 +117,12 @@
           prepend-icon="mdi-account-circle"
           title="Профиль"
           to="/profile"
+        ></v-list-item>
+        <v-list-item
+          v-if="authStore.isAuthenticated"
+          prepend-icon="mdi-airplane"
+          title="Дроны"
+          to="/drones"
         ></v-list-item>
         <v-list-item
           v-if="authStore.isAuthenticated"
