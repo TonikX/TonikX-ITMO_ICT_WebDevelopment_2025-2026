@@ -1,0 +1,1 @@
+from src.api.routers.posts import endpoints

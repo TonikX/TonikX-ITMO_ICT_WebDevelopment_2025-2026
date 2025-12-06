@@ -1,0 +1,13 @@
+greenlet==3.0.1
+SQLAlchemy==2.0.23
+asyncpg==0.29.0
+fastapi~=0.104.1
+uvicorn~=0.24.0
+typing_extensions==4.8.0
+tzdata==2023.3
+pydantic~=2.5.2
+fastapi-jwt==0.2.0
+passlib~=1.7.4
+aioboto3==12.0.0
+python-multipart==0.0.6
+Pillow==10.1.0
