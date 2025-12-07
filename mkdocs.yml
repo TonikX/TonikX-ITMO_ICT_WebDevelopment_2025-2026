@@ -68,3 +68,4 @@ nav:
     - Модели данных: printing_house/models.md
     - API Endpoints: printing_house/endpoints.md
     - Примеры использования: printing_house/examples.md
+    - Frontend приложение: printing_house/frontend.md

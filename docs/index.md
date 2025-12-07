@@ -31,3 +31,4 @@
 - [Установка и запуск](installation.md) - инструкции по развертыванию
 - [API Документация](api/overview.md) - полное описание API
 - [Printing House API](printing_house/overview.md) - документация системы распределения газет
+  - [Frontend приложение](printing_house/frontend.md) - Vue.js веб-интерфейс

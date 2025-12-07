@@ -2,15 +2,11 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q, Max, Sum, Count
-from django.db.models.functions import Coalesce
-
 from .models import (
     Newspaper, PrintingHouse, PostOffice, PrintingRun, Distribution
 )
 from .serializers import (
-    NewspaperSerializer, PrintingHouseSerializer, PostOfficeSerializer,
-    PrintingRunSerializer, DistributionSerializer,
+    NewspaperSerializer, PrintingHouseSerializer, PostOfficeSerializer, DistributionSerializer,
     PrintingHouseDetailSerializer, PostOfficeDetailSerializer, NewspaperDetailSerializer
 )
 
@@ -20,6 +16,41 @@ class NewspaperViewSet(viewsets.ModelViewSet):
     queryset = Newspaper.objects.all()
     serializer_class = NewspaperSerializer
     permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Создание новой газеты"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        """Полное обновление газеты"""
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Частичное обновление газеты"""
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Удаление газеты"""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(
+            {'message': 'Газета успешно удалена'},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
     @action(detail=False, methods=['get'])
     def by_name(self, request):
@@ -94,8 +125,7 @@ class NewspaperViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def full_detail(self, request, pk=None):
         """GET-запрос для газеты с вложенными объектами (many-to-many)
-        Возвращает газету с вложенными тиражами и распределениями,
-        что демонстрирует связь many-to-many через промежуточные модели"""
+        Возвращает газету с вложенными тиражами и распределениями"""
         try:
             newspaper = Newspaper.objects.prefetch_related(
                 'printingrun_set',
@@ -116,6 +146,41 @@ class PrintingHouseViewSet(viewsets.ModelViewSet):
     queryset = PrintingHouse.objects.all()
     serializer_class = PrintingHouseSerializer
     permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Создание новой типографии"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        """Полное обновление типографии"""
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Частичное обновление типографии"""
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Удаление типографии"""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(
+            {'message': 'Типография успешно удалена'},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
     @action(detail=True, methods=['get'])
     def largest_circulation_editor(self, request, pk=None):
@@ -210,6 +275,41 @@ class PostOfficeViewSet(viewsets.ModelViewSet):
     queryset = PostOffice.objects.all()
     serializer_class = PostOfficeSerializer
     permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Создание нового почтового отделения"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        """Полное обновление почтового отделения"""
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Частичное обновление почтового отделения"""
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Удаление почтового отделения"""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(
+            {'message': 'Почтовое отделение успешно удалено'},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
     @action(detail=False, methods=['get'])
     def by_price(self, request):
@@ -314,6 +414,41 @@ class DistributionViewSet(viewsets.ModelViewSet):
     queryset = Distribution.objects.all()
     serializer_class = DistributionSerializer
     permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        """Создание нового распределения"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        """Полное обновление распределения"""
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Частичное обновление распределения"""
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        """Удаление распределения"""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(
+            {'message': 'Распределение успешно удалено'},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
     @action(detail=False, methods=['get'])
     def by_newspaper_and_address(self, request):

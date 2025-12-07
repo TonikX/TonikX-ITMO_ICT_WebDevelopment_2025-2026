@@ -116,17 +116,67 @@ Authorization: Token <ваш_токен>
 }
 ```
 
+**Пример ответа (201 Created):**
+```json
+{
+    "id": 6,
+    "title": "Новая газета",
+    "publication_index": "NG-999",
+    "editor_first_name": "Имя",
+    "editor_last_name": "Фамилия",
+    "editor_middle_name": "Отчество",
+    "editor_full_name": "Фамилия Имя Отчество",
+    "price_per_copy": "30.00"
+}
+```
+
 ### Обновление газеты
 
-**Endpoint:** `PUT /api/newspapers/{id}/` или `PATCH /api/newspapers/{id}/`
+**Endpoint:** `PUT /api/newspapers/{id}/` (полное обновление) или `PATCH /api/newspapers/{id}/` (частичное обновление)
 
-**Тело запроса:** (аналогично созданию, все поля или только изменяемые)
+**Тело запроса для PUT (все поля обязательны):**
+```json
+{
+    "title": "Обновленная газета",
+    "publication_index": "NG-999",
+    "editor_first_name": "Новое Имя",
+    "editor_last_name": "Новая Фамилия",
+    "editor_middle_name": "Новое Отчество",
+    "price_per_copy": "35.00"
+}
+```
+
+**Тело запроса для PATCH (только изменяемые поля):**
+```json
+{
+    "price_per_copy": "35.00"
+}
+```
+
+**Пример ответа (200 OK):**
+```json
+{
+    "id": 6,
+    "title": "Обновленная газета",
+    "publication_index": "NG-999",
+    "editor_first_name": "Новое Имя",
+    "editor_last_name": "Новая Фамилия",
+    "editor_middle_name": "Новое Отчество",
+    "editor_full_name": "Новая Фамилия Новое Имя Новое Отчество",
+    "price_per_copy": "35.00"
+}
+```
 
 ### Удаление газеты
 
 **Endpoint:** `DELETE /api/newspapers/{id}/`
 
-**Ответ:** 204 No Content
+**Ответ (204 No Content):**
+```json
+{
+    "message": "Газета успешно удалена"
+}
+```
 
 ### Газета с вложенными объектами (many-to-many)
 
@@ -251,13 +301,56 @@ Authorization: Token <ваш_токен>
 }
 ```
 
+**Пример ответа (201 Created):**
+```json
+{
+    "id": 5,
+    "name": "Новая типография",
+    "address": "г. Москва, ул. Примерная, д. 1",
+    "is_active": true
+}
+```
+
 ### Обновление типографии
 
-**Endpoint:** `PUT /api/printing-houses/{id}/` или `PATCH /api/printing-houses/{id}/`
+**Endpoint:** `PUT /api/printing-houses/{id}/` (полное обновление) или `PATCH /api/printing-houses/{id}/` (частичное обновление)
+
+**Тело запроса для PUT:**
+```json
+{
+    "name": "Обновленная типография",
+    "address": "г. Москва, ул. Новая, д. 2",
+    "is_active": false
+}
+```
+
+**Тело запроса для PATCH (только изменяемые поля):**
+```json
+{
+    "is_active": false
+}
+```
+
+**Пример ответа (200 OK):**
+```json
+{
+    "id": 5,
+    "name": "Обновленная типография",
+    "address": "г. Москва, ул. Новая, д. 2",
+    "is_active": false
+}
+```
 
 ### Удаление типографии
 
 **Endpoint:** `DELETE /api/printing-houses/{id}/`
+
+**Ответ (204 No Content):**
+```json
+{
+    "message": "Типография успешно удалена"
+}
+```
 
 ### Типография с вложенными тиражами (one-to-many)
 
