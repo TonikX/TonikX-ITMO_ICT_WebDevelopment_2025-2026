@@ -255,6 +255,13 @@ watch(() => route.params.id, (newId, oldId) => {
   }
 })
 
+// Сбрасываем editingLog при закрытии диалога
+watch(showLogDialog, (newValue) => {
+  if (!newValue) {
+    editingLog.value = null
+  }
+})
+
 onMounted(() => {
   initializeFlight()
 })

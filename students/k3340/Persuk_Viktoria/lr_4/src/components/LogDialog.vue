@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :model-value="modelValue" max-width="600" persistent @update:model-value="handleClose">
+  <v-dialog :model-value="modelValue" max-width="600" persistent @update:model-value="$emit('update:modelValue', $event)">
     <v-card>
       <v-card-title>
         {{ editingLog ? 'Редактировать лог' : 'Добавить лог' }}
@@ -63,7 +63,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="text" @click="handleClose">Отмена</v-btn>
+        <v-btn variant="text" @click="handleClose()">Отмена</v-btn>
         <v-btn
           color="primary"
           :loading="saving"
@@ -150,10 +150,10 @@ watch(() => props.modelValue, (newValue) => {
   }
 })
 
-const handleClose = (value) => {
+const handleClose = () => {
   editingLog.value = null
   resetForm()
-  emit('update:modelValue', value)
+  emit('update:modelValue', false)
 }
 
 const save = async () => {
@@ -176,7 +176,7 @@ const save = async () => {
       await logsAPI.createLog(data, props.flightId)
       showSnackbar('Лог успешно создан', 'success')
     }
-    handleClose(false)
+    emit('update:modelValue', false)
     emit('saved')
   } catch (error) {
     const message = error.response?.data?.detail ||
