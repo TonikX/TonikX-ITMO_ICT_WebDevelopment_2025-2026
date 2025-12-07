@@ -1,0 +1,25 @@
+﻿{% extends "tours/base.html" %}
+{% block content %}
+<h2>{{ tour.name }}</h2>
+<p><b>Агентство:</b> {{ tour.agency }}</p>
+<p><b>Страна:</b> {{ tour.country }}</p>
+<p><b>Период:</b> {{ tour.start_date }} — {{ tour.end_date }}</p>
+<p><b>Описание:</b> {{ tour.description }}</p>
+<p><b>Условия оплаты:</b> {{ tour.payment_terms }}</p>
+<p><b>Цена:</b> {{ tour.price }}</p>
+<a href="{% url 'reserve_tour' tour.id %}">Зарезервировать тур</a>
+
+<h3>Отзывы:</h3>
+<ul>
+    {% for review in reviews %}
+        <li>
+            <strong>{{ review.user.username }}</strong> ({{ review.tour_start_date }} — {{ review.tour_end_date }}):<br>
+            {{ review.text }}<br>
+            Рейтинг: {{ review.rating }}
+        </li>
+    {% empty %}
+        <li>Нет отзывов.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'submit_review' tour.id %}">Оставить отзыв</a>
+{% endblock %}

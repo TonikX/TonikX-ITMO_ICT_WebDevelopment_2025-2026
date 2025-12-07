@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - brvjeoCloud
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    command: >
+      sh -c "
+            python manage.py makemigrations &&
+            python manage.py migrate --no-input && 
+            python manage.py runserver 0.0.0.0:8082"
+    ports:
+      - "8082:8082"
+    depends_on:
+      db:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+      result:
+        condition: service_started
+    environment:
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DEFENDER_REDIS_URL: ${DEFENDER_REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      REDIS_URL: ${REDIS_URL}
+      PORT: 8082
+    networks:
+      - brvjeoCloud
+    volumes:
+      - .:/app/backend
+      - /app/.venv
+      - ./media:/app/backend/media
+      - ./static:/app/backend/static
+
+volumes:
+  dbdata:
+    name: brvjeoCloud_dbdata
+
+networks:
+  brvjeoCloud:
+    driver: bridge

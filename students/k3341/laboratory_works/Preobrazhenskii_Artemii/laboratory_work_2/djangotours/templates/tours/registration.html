@@ -1,0 +1,12 @@
+﻿{% extends "tours/base.html" %}
+{% block content %}
+<h2>Регистрация</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зарегистрироваться</button>
+</form>
+{% if form.errors %}
+    <div class="error">Проверьте правильность заполнения формы</div>
+{% endif %}
+{% endblock %}

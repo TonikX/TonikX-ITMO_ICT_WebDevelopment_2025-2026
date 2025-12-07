@@ -1,0 +1,16 @@
+﻿@import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+
+html, body, #app {
+  height: 100%;
+  font-family: Inter, Roboto, sans-serif;
+}
+
+.v-application {
+  background: #f5f7fb;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
