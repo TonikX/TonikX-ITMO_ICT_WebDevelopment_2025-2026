@@ -7,9 +7,8 @@ from .serializer import DroneSerializer, FlightSerializer, FlightLogSerializer, 
 
 class AuthenticatedModelViewSet(viewsets.ModelViewSet):
     """
-    Базовый класс, который требует аутентификацию на каждом эндпоинте
+    Базовый класс: требуем аутентификацию (Token/Session)
     """
-
     permission_classes = [permissions.IsAuthenticated]
 
 
