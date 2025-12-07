@@ -1,0 +1,27 @@
+site_name: Настройка CORS - Практическая работа 4.3
+site_description: Документация по настройке CORS в Django REST Framework
+site_author: Губанов Егор
+
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: light blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Главная: index.md
+  - Настройка CORS: CORS_SETUP.md
+  - Инструкция: INSTRUCTIONS.md
+
+markdown_extensions:
+  - codehilite
+  - tables
+  - toc:
+      permalink: true
+

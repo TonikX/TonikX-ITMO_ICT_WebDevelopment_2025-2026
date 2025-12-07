@@ -1,0 +1,57 @@
+site_name: Лабораторная работа №1 - Сетевые технологии
+site_description: Документация по лабораторной работе по сетевым технологиям
+site_author: Губанов Егор
+site_url: https://egorr-gubanov.github.io/ITMO_ICT_WebDevelopment_2024-2025
+
+repo_name: egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025
+repo_url: https://github.com/egorr-gubanov/ITMO_ICT_WebDevelopment_2024-2025
+copyright: Copyright &copy; 2024 Губанов Егор
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+nav:
+  - Главная: index.md
+  - Задания:
+    - Задание 1 - UDP клиент-сервер: task1.md
+    - Задание 2 - TCP Математический сервер: task2.md
+    - Задание 3 - HTTP Файловый сервер: task3.md
+    - Задание 4 - Многопользовательский чат: task4.md
+    - Задание 5 - Веб-сервер с оценками: task5.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/egorr-gubanov

@@ -1,0 +1,57 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - lab-4
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material
+          pip install mkdocs
+      
+      - name: Clean old site
+        run: |
+          rm -rf students/k3340/Gubanov_Egor/Lr4/ResidentalConnectFront/site
+      
+      - name: Build MkDocs site
+        working-directory: students/k3340/Gubanov_Egor/Lr4/ResidentalConnectFront
+        run: mkdocs build --strict
+      
+      - name: Verify build
+        run: |
+          if [ ! -f "students/k3340/Gubanov_Egor/Lr4/ResidentalConnectFront/site/index.html" ]; then
+            echo "ERROR: Site was not built correctly!"
+            exit 1
+          fi
+          echo "Site built successfully. Title:"
+          grep -o '<title>.*</title>' students/k3340/Gubanov_Egor/Lr4/ResidentalConnectFront/site/index.html
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./students/k3340/Gubanov_Egor/Lr4/ResidentalConnectFront/site
+          cname: false
+          force_orphan: true
+          disable_nojekyll: false

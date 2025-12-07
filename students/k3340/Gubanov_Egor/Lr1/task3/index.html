@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Сервер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 500px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .status {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info {
+            color: #666;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+        
+        .tech {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tech span {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 HTTP Сервер</h1>
+        
+        <div class="status">
+            ✅ Сервер работает корректно<br>
+            📁 Файл index.html загружен<br>
+            🔗 Протокол HTTP/1.1
+        </div>
+        
+        <div class="info">
+            <p>Этот сервер успешно загрузил HTML страницу из файла <code>index.html</code> и отправил её по HTTP протоколу.</p>
+        </div>
+        
+        <div class="tech">
+            <span>Python</span>
+            <span>Socket</span>
+            <span>HTTP/1.1</span>
+            <span>Threading</span>
+        </div>
+        
+        <div class="footer">
+            <p>Лабораторная работа №1 - Сетевые технологии</p>
+            <p>Губанов Егор, группа K3340</p>
+        </div>
+    </div>
+</body>
+</html>
