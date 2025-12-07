@@ -1,0 +1,1994 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Документация фронтенд приложения для управления жилым комплексом">
+      
+      
+        <meta name="author" content="Egor Gubanov">
+      
+      
+      
+        <link rel="prev" href="../features/">
+      
+      
+        <link rel="next" href="../routing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Компоненты - ЖК Коннект - Frontend Документация</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ЖК Коннект - Frontend Документация" class="md-header__button md-logo" aria-label="ЖК Коннект - Frontend Документация" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ЖК Коннект - Frontend Документация
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Компоненты
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Переключить на тёмную тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Переключить на тёмную тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Переключить на светлую тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Переключить на светлую тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Установка
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../structure/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Структура проекта
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../features/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Функциональность
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Компоненты
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../routing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Роутинг
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api-integration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Интеграция
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../authentication/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Аутентификация
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ЖК Коннект - Frontend Документация" class="md-nav__button md-logo" aria-label="ЖК Коннект - Frontend Документация" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ЖК Коннект - Frontend Документация
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Установка
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Структура проекта
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Функциональность
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Компоненты
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Компоненты
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Обзор
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views" class="md-nav__link">
+    <span class="md-ellipsis">
+      Views (Страницы)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Views (Страницы)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Аутентификация
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registervue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profilevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Requests (Заявки)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Requests (Заявки)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#myrequestsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MyRequests.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignedrequestsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      AssignedRequests.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meter-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Meter Readings (Показания счетчиков)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Meter Readings (Показания счетчиков)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apartments (Квартиры)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apartments (Квартиры)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apartmentslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buildings (Дома)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Buildings (Дома)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buildingslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Home.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Переиспользуемые компоненты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Переиспользуемые компоненты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categoryselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      CategorySelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workerselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      WorkerSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statuschipvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatusChip.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prioritychipvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      PriorityChip.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statisticscardvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatisticsCard.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datatablevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      DataTable.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vuetify" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vuetify компоненты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vuetify компоненты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Формы
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Навигация
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Обратная связь
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layout
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Таблицы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Стилизация
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Создание нового компонента
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Роутинг
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Интеграция
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Аутентификация
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Обзор
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views" class="md-nav__link">
+    <span class="md-ellipsis">
+      Views (Страницы)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Views (Страницы)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Аутентификация
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registervue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Register.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profilevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Requests (Заявки)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Requests (Заявки)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#myrequestsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MyRequests.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignedrequestsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      AssignedRequests.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicerequestsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ServiceRequestsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meter-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Meter Readings (Показания счетчиков)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Meter Readings (Показания счетчиков)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#meterreadingsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      MeterReadingsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apartments (Квартиры)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apartments (Квартиры)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apartmentslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buildings (Дома)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Buildings (Дома)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buildingslistvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingsList.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingformvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingForm.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingdetailvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingDetail.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingsstatisticsvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingsStatistics.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Home.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Переиспользуемые компоненты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Переиспользуемые компоненты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#categoryselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      CategorySelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apartmentselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApartmentSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildingselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      BuildingSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workerselectvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      WorkerSelect.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statuschipvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatusChip.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prioritychipvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      PriorityChip.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statisticscardvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatisticsCard.vue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datatablevue" class="md-nav__link">
+    <span class="md-ellipsis">
+      DataTable.vue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vuetify" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vuetify компоненты
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vuetify компоненты">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Формы
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Навигация
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Обратная связь
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layout
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Таблицы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Стилизация
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Создание нового компонента
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Компоненты</h1>
+<h2 id="_2">Обзор</h2>
+<p>Приложение использует компонентный подход Vue.js. Основные компоненты разделены на <strong>Views</strong> (страницы) и переиспользуемые <strong>Components</strong>.</p>
+<h2 id="views">Views (Страницы)</h2>
+<h3 id="_3">Аутентификация</h3>
+<h4 id="loginvue">Login.vue</h4>
+<p>Страница входа в систему.</p>
+<p><strong>Функциональность:</strong>
+- Форма входа (username, password)
+- Валидация полей
+- Обработка ошибок
+- Редирект после успешного входа</p>
+<p><strong>Маршрут:</strong> <code>/login</code></p>
+<p><strong>Требования:</strong> Доступна только для неавторизованных пользователей</p>
+<h4 id="registervue">Register.vue</h4>
+<p>Страница регистрации нового пользователя.</p>
+<p><strong>Функциональность:</strong>
+- Форма регистрации со всеми полями пользователя
+- Выбор роли (жилец, мастер, диспетчер)
+- Валидация данных
+- Автоматический вход после регистрации</p>
+<p><strong>Поля формы:</strong>
+- Username (обязательно)
+- Email (обязательно)
+- Password (обязательно)
+- First name
+- Last name
+- Role (обязательно)
+- Phone number
+- Address</p>
+<p><strong>Маршрут:</strong> <code>/register</code></p>
+<h4 id="profilevue">Profile.vue</h4>
+<p>Страница профиля пользователя с возможностью редактирования.</p>
+<p><strong>Функциональность:</strong>
+- Просмотр данных пользователя
+- Редактирование профиля
+- Смена пароля
+- Валидация и обработка ошибок</p>
+<p><strong>Вкладки:</strong>
+1. <strong>Профиль</strong> - редактирование данных пользователя
+2. <strong>Смена пароля</strong> - изменение пароля</p>
+<p><strong>Маршрут:</strong> <code>/profile</code></p>
+<h3 id="service-requests">Service Requests (Заявки)</h3>
+<h4 id="servicerequestslistvue">ServiceRequestsList.vue</h4>
+<p>Список всех заявок с фильтрацией и поиском.</p>
+<p><strong>Функциональность:</strong>
+- Отображение списка заявок
+- Фильтрация по статусу и категории
+- Поиск по тексту
+- Сортировка и пагинация
+- Переход к детальной информации</p>
+<p><strong>Маршрут:</strong> <code>/service-requests</code></p>
+<h4 id="servicerequestformvue">ServiceRequestForm.vue</h4>
+<p>Форма создания/редактирования заявки.</p>
+<p><strong>Функциональность:</strong>
+- Создание новой заявки
+- Редактирование существующей заявки
+- Выбор категории и квартиры
+- Установка приоритета</p>
+<p><strong>Маршруты:</strong> <code>/service-requests/new</code>, <code>/service-requests/:id/edit</code></p>
+<h4 id="servicerequestdetailvue">ServiceRequestDetail.vue</h4>
+<p>Детальная информация о заявке с возможностью управления.</p>
+<p><strong>Функциональность:</strong>
+- Просмотр полной информации о заявке
+- Назначение мастера (для диспетчера)
+- Изменение статуса (для мастера/диспетчера)
+- Добавление комментария (для мастера/диспетчера)
+- Редактирование и удаление</p>
+<p><strong>Маршрут:</strong> <code>/service-requests/:id</code></p>
+<h4 id="myrequestsvue">MyRequests.vue</h4>
+<p>Страница "Мои заявки" для жильца.</p>
+<p><strong>Функциональность:</strong>
+- Отображение всех заявок текущего пользователя
+- Быстрое создание новой заявки</p>
+<p><strong>Маршрут:</strong> <code>/service-requests/my</code></p>
+<h4 id="assignedrequestsvue">AssignedRequests.vue</h4>
+<p>Страница "Назначенные мне" для мастера.</p>
+<p><strong>Функциональность:</strong>
+- Отображение заявок, назначенных текущему мастеру</p>
+<p><strong>Маршрут:</strong> <code>/service-requests/assigned</code></p>
+<h4 id="servicerequestsstatisticsvue">ServiceRequestsStatistics.vue</h4>
+<p>Статистика по заявкам.</p>
+<p><strong>Функциональность:</strong>
+- Общая статистика (всего, выполнено, в работе, новых)
+- Распределение по статусам
+- Распределение по приоритетам
+- Распределение по категориям
+- Среднее время решения</p>
+<p><strong>Маршрут:</strong> <code>/service-requests/statistics</code></p>
+<h3 id="meter-readings">Meter Readings (Показания счетчиков)</h3>
+<h4 id="meterreadingslistvue">MeterReadingsList.vue</h4>
+<p>Список показаний счетчиков с фильтрацией.</p>
+<p><strong>Функциональность:</strong>
+- Отображение списка показаний
+- Фильтрация по типу счетчика, квартире, дате
+- Поиск и сортировка
+- Пагинация</p>
+<p><strong>Маршрут:</strong> <code>/meter-readings</code></p>
+<h4 id="meterreadingformvue">MeterReadingForm.vue</h4>
+<p>Форма подачи показаний счетчика.</p>
+<p><strong>Функциональность:</strong>
+- Выбор квартиры и типа счетчика
+- Ввод значения
+- Указание даты подачи</p>
+<p><strong>Маршруты:</strong> <code>/meter-readings/new</code>, <code>/meter-readings/:id/edit</code></p>
+<h4 id="meterreadingdetailvue">MeterReadingDetail.vue</h4>
+<p>Детальная информация о показаниях.</p>
+<p><strong>Функциональность:</strong>
+- Просмотр информации о показаниях
+- Редактирование (для диспетчера)
+- Удаление (для диспетчера)</p>
+<p><strong>Маршрут:</strong> <code>/meter-readings/:id</code></p>
+<h4 id="meterreadingsstatisticsvue">MeterReadingsStatistics.vue</h4>
+<p>Статистика по показаниям счетчиков.</p>
+<p><strong>Функциональность:</strong>
+- Общая статистика (всего показаний, общий расход)
+- Расход по типам счетчиков
+- Средние значения по типам
+- Топ квартир по расходу</p>
+<p><strong>Маршрут:</strong> <code>/meter-readings/statistics</code></p>
+<h3 id="apartments">Apartments (Квартиры)</h3>
+<h4 id="apartmentslistvue">ApartmentsList.vue</h4>
+<p>Список квартир с фильтрацией.</p>
+<p><strong>Функциональность:</strong>
+- Отображение списка квартир
+- Фильтрация по дому и этажу
+- Поиск
+- Для жильцов - только свои квартиры
+- Для диспетчера - все квартиры</p>
+<p><strong>Маршрут:</strong> <code>/apartments</code></p>
+<h4 id="apartmentformvue">ApartmentForm.vue</h4>
+<p>Форма создания/редактирования квартиры.</p>
+<p><strong>Функциональность:</strong>
+- Создание новой квартиры
+- Редактирование существующей квартиры
+- Выбор дома
+- Указание характеристик квартиры</p>
+<p><strong>Маршруты:</strong> <code>/apartments/new</code>, <code>/apartments/:id/edit</code></p>
+<p><strong>Требования:</strong> Только для диспетчера</p>
+<h4 id="apartmentdetailvue">ApartmentDetail.vue</h4>
+<p>Детальная информация о квартире.</p>
+<p><strong>Функциональность:</strong>
+- Просмотр информации о квартире
+- Ссылки на заявки и показания по квартире
+- Редактирование (для диспетчера)</p>
+<p><strong>Маршрут:</strong> <code>/apartments/:id</code></p>
+<h3 id="buildings">Buildings (Дома)</h3>
+<h4 id="buildingslistvue">BuildingsList.vue</h4>
+<p>Список домов с возможностью управления.</p>
+<p><strong>Функциональность:</strong>
+- Отображение списка домов
+- Поиск
+- Создание, редактирование, удаление домов</p>
+<p><strong>Маршрут:</strong> <code>/buildings</code></p>
+<p><strong>Требования:</strong> Только для диспетчера</p>
+<h4 id="buildingformvue">BuildingForm.vue</h4>
+<p>Форма создания/редактирования дома.</p>
+<p><strong>Функциональность:</strong>
+- Создание нового дома
+- Редактирование существующего дома
+- Указание адреса, количества этажей, описания</p>
+<p><strong>Маршруты:</strong> <code>/buildings/new</code>, <code>/buildings/:id/edit</code></p>
+<p><strong>Требования:</strong> Только для диспетчера</p>
+<h4 id="buildingdetailvue">BuildingDetail.vue</h4>
+<p>Детальная информация о доме.</p>
+<p><strong>Функциональность:</strong>
+- Просмотр информации о доме
+- Ссылка на список квартир в доме
+- Редактирование</p>
+<p><strong>Маршрут:</strong> <code>/buildings/:id</code></p>
+<p><strong>Требования:</strong> Только для диспетчера</p>
+<h4 id="buildingsstatisticsvue">BuildingsStatistics.vue</h4>
+<p>Статистика по домам и квартирам.</p>
+<p><strong>Функциональность:</strong>
+- Общая статистика (всего домов, квартир, заселенность)
+- Статистика по каждому дому
+- Распределение по этажам
+- Распределение по количеству комнат</p>
+<p><strong>Маршрут:</strong> <code>/buildings/statistics</code></p>
+<p><strong>Требования:</strong> Только для диспетчера</p>
+<h3 id="homevue">Home.vue</h3>
+<p>Главная страница (Dashboard) с виджетами.</p>
+<p><strong>Функциональность:</strong>
+- Виджеты со статистикой в зависимости от роли
+- Быстрые действия
+- Последние заявки/показания
+- Краткая статистика (для диспетчера)</p>
+<p><strong>Маршрут:</strong> <code>/</code></p>
+<h2 id="_4">Переиспользуемые компоненты</h2>
+<h3 id="categoryselectvue">CategorySelect.vue</h3>
+<p>Компонент выбора категории услуги.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;CategorySelect
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  v-model=&quot;categoryId&quot;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  label=&quot;Категория услуги *&quot;
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  required
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  :error-messages=&quot;errors.category&quot;
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>modelValue</code> - выбранная категория (ID)
+- <code>label</code> - метка поля
+- <code>required</code> - обязательное поле
+- <code>disabled</code> - отключено
+- <code>errorMessages</code> - сообщения об ошибках</p>
+<h3 id="apartmentselectvue">ApartmentSelect.vue</h3>
+<p>Компонент выбора квартиры.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&lt;ApartmentSelect
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  v-model=&quot;apartmentId&quot;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  label=&quot;Квартира *&quot;
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  :building-id=&quot;buildingId&quot;
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  required
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>modelValue</code> - выбранная квартира (ID)
+- <code>label</code> - метка поля
+- <code>buildingId</code> - фильтр по дому (опционально)
+- <code>required</code> - обязательное поле
+- <code>disabled</code> - отключено
+- <code>errorMessages</code> - сообщения об ошибках</p>
+<h3 id="buildingselectvue">BuildingSelect.vue</h3>
+<p>Компонент выбора дома.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;BuildingSelect
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  v-model=&quot;buildingId&quot;
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  label=&quot;Дом *&quot;
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  required
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>modelValue</code> - выбранный дом (ID)
+- <code>label</code> - метка поля
+- <code>required</code> - обязательное поле
+- <code>disabled</code> - отключено
+- <code>errorMessages</code> - сообщения об ошибках</p>
+<h3 id="workerselectvue">WorkerSelect.vue</h3>
+<p>Компонент выбора мастера.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;WorkerSelect
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  v-model=&quot;workerId&quot;
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  label=&quot;Мастер&quot;
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>modelValue</code> - выбранный мастер (ID)
+- <code>label</code> - метка поля
+- <code>required</code> - обязательное поле
+- <code>disabled</code> - отключено
+- <code>errorMessages</code> - сообщения об ошибках</p>
+<h3 id="statuschipvue">StatusChip.vue</h3>
+<p>Компонент отображения статуса заявки с цветом.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&lt;StatusChip :status=&quot;request.status&quot; /&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>status</code> - статус заявки (new, in_progress, done, canceled)
+- <code>size</code> - размер чипа (small, default, large)</p>
+<h3 id="prioritychipvue">PriorityChip.vue</h3>
+<p>Компонент отображения приоритета заявки с цветом.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&lt;PriorityChip :priority=&quot;request.priority&quot; /&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>priority</code> - приоритет (low, medium, high, urgent)
+- <code>size</code> - размер чипа</p>
+<h3 id="statisticscardvue">StatisticsCard.vue</h3>
+<p>Карточка со статистикой для dashboard.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&lt;StatisticsCard
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  title=&quot;Всего заявок&quot;
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  :value=&quot;100&quot;
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  icon=&quot;mdi-clipboard-list&quot;
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  color=&quot;primary&quot;
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>title</code> - заголовок карточки
+- <code>value</code> - значение (число или строка)
+- <code>subtitle</code> - подзаголовок (опционально)
+- <code>icon</code> - иконка Material Design
+- <code>color</code> - цвет карточки</p>
+<h3 id="datatablevue">DataTable.vue</h3>
+<p>Универсальная таблица с пагинацией и сортировкой.</p>
+<p><strong>Использование:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&lt;DataTable
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  :headers=&quot;headers&quot;
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  :items=&quot;items&quot;
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  :loading=&quot;loading&quot;
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  :total-items=&quot;totalCount&quot;
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  @update:options=&quot;handleOptionsUpdate&quot;
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>/&gt;
+</code></pre></div></p>
+<p><strong>Props:</strong>
+- <code>headers</code> - массив заголовков колонок
+- <code>items</code> - массив данных
+- <code>loading</code> - состояние загрузки
+- <code>title</code> - заголовок таблицы
+- <code>itemsPerPage</code> - элементов на странице
+- <code>totalItems</code> - общее количество элементов</p>
+<h2 id="vuetify">Vuetify компоненты</h2>
+<p>Приложение активно использует компоненты из библиотеки Vuetify:</p>
+<h3 id="_5">Формы</h3>
+<ul>
+<li><code>v-form</code> - контейнер формы</li>
+<li><code>v-text-field</code> - текстовое поле</li>
+<li><code>v-textarea</code> - многострочное текстовое поле</li>
+<li><code>v-select</code> - выпадающий список</li>
+<li><code>v-btn</code> - кнопка</li>
+</ul>
+<h3 id="_6">Навигация</h3>
+<ul>
+<li><code>v-app-bar</code> - верхняя панель навигации</li>
+<li><code>v-navigation-drawer</code> - боковое меню</li>
+<li><code>v-menu</code> - выпадающее меню</li>
+<li><code>v-tabs</code> - вкладки</li>
+</ul>
+<h3 id="_7">Обратная связь</h3>
+<ul>
+<li><code>v-alert</code> - уведомления (ошибки, успех)</li>
+<li><code>v-card</code> - карточка для группировки контента</li>
+<li><code>v-chip</code> - чип для отображения статусов</li>
+</ul>
+<h3 id="layout">Layout</h3>
+<ul>
+<li><code>v-container</code> - контейнер с отступами</li>
+<li><code>v-row</code> / <code>v-col</code> - сетка для размещения элементов</li>
+<li><code>v-spacer</code> - заполнитель пространства</li>
+</ul>
+<h3 id="_8">Таблицы</h3>
+<ul>
+<li><code>v-data-table</code> - таблица с пагинацией и сортировкой</li>
+</ul>
+<h2 id="_9">Стилизация</h2>
+<p>Компоненты используют:
+- <strong>Scoped styles</strong> - стили ограничены компонентом
+- <strong>Vuetify темы</strong> - Material Design цвета и стили
+- <strong>Иконки Material Design Icons</strong> - через <code>@mdi/font</code></p>
+<h2 id="_10">Создание нового компонента</h2>
+<ol>
+<li>Создайте файл в <code>src/components/MyComponent.vue</code></li>
+<li>Используйте структуру:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&lt;template&gt;
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  &lt;!-- HTML разметка --&gt;
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>&lt;/template&gt;
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>&lt;script&gt;
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>export default {
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  name: &#39;MyComponent&#39;,
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  props: {
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    // свойства компонента
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>  },
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>  data() {
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    return {
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>      // локальное состояние
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    }
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>  },
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>  methods: {
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    // методы компонента
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>  }
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>}
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>&lt;/script&gt;
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>&lt;style scoped&gt;
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>/* Стили компонента */
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>&lt;/style&gt;
+</code></pre></div></li>
+<li>Импортируйте и используйте в нужном view:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">import</span><span class="w"> </span><span class="nx">MyComponent</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@/components/MyComponent.vue&#39;</span>
+</code></pre></div></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

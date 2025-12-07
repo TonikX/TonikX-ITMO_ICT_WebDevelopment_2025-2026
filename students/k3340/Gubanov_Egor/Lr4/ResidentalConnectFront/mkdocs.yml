@@ -1,0 +1,44 @@
+site_name: ЖК Коннект - Frontend Документация
+site_description: Документация фронтенд приложения для управления жилым комплексом
+site_author: Egor Gubanov
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на тёмную тему
+    - scheme: slate
+      primary: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Главная: index.md
+  - Установка: installation.md
+  - Структура проекта: structure.md
+  - Функциональность: features.md
+  - Компоненты: components.md
+  - Роутинг: routing.md
+  - API Интеграция: api-integration.md
+  - Аутентификация: authentication.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+

@@ -1,4 +1,0 @@
-*.sqlite3
-__init__.py
-.venv/
-venv/
