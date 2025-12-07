@@ -1,0 +1,48 @@
+{% extends "flight/base.html" %}
+
+{% block title %}Пассажиры рейса {{ flight.flight_number }}{% endblock %}
+
+{% block content %}
+<h2>Пассажиры рейса {{ flight.flight_number }}</h2>
+<p><b>Авиакомпания:</b> {{ flight.airline }}</p>
+<p><b>Вылет:</b> {{ flight.departure }}</p>
+<p><b>Прибытие:</b> {{ flight.arrival }}</p>
+
+<div class="mb-3">
+    <a href="{% url 'flight_detail' flight.id %}" class="btn btn-secondary">Назад к рейсу</a>
+    <a href="{% url 'admin_create_reservation' flight.id %}" class="btn btn-success">Добавить пассажира</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Пользователь</th>
+            <th>Место</th>
+            <th>Билет</th>
+            <th>Статус</th>
+            <th>Обновлено</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reservations %}
+        <tr>
+            <td>{{ r.user.username }}</td>
+            <td>{{ r.seat_number|default:'—' }}</td>
+            <td>{{ r.ticket_number|default:'—' }}</td>
+            <td>{{ r.get_status_display }}</td>
+            <td>{{ r.updated_at|date:"d.m.Y H:i" }}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'reservation_update' r.id %}">Изменить</a>
+                <a class="btn btn-sm btn-outline-danger" href="{% url 'reservation_delete' r.id %}">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Пассажиров пока нет.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

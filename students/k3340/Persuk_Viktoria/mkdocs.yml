@@ -1,0 +1,20 @@
+site_name: WebLabs by dontdoitno
+nav:
+  - Главная: index.md
+  - Лабораторные работы:
+    - "Lab 1": labs/lab1.md
+    - "Lab 2": labs/lab2.md
+    - "Lab 3": labs/lab3.md
+    - "Lab 4": labs/lab4.md
+  - Практические работы:
+    - "PR 3.1": pr/pr_3_1.md
+    - "PR 3.2": pr/pr_3_2.md
+theme:
+    name: shadcn
+    show_stargazers: False
+    pygments_style:
+      light: gotthard-light
+      dark: stata-dark
+markdown_extensions:
+  - codehilite
+  - admonition

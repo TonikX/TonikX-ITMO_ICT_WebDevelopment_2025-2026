@@ -1,0 +1,15 @@
+{% extends "flight/base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<h2>Вход</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Войти</button>
+    <a class="btn btn-link" href="{% url 'register' %}">Регистрация</a>
+    <a class="btn btn-link" href="{% url 'flight_list' %}">На главную</a>
+    <input type="hidden" name="next" value="{% url 'flight_list' %}">
+    </form>
+{% endblock %}

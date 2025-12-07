@@ -1,0 +1,12 @@
+{% extends "flight/base.html" %}
+
+{% block content %}
+
+<h2>Оставить отзыв о рейсе {{ flight.flight_number }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+
+{% endblock content %}
