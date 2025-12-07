@@ -202,7 +202,11 @@ const deleteFlight = async () => {
 }
 
 
-onMounted(() => {
+const initializeFlights = () => {
   loadFlights()
+}
+
+onMounted(() => {
+  initializeFlights()
 })
 </script>

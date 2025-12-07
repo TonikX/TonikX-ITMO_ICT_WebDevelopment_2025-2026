@@ -142,7 +142,7 @@
                 <v-list-item
                   v-for="document in drone.documents"
                   :key="document.id"
-                  :prepend-icon="mdi-file-document"
+                  prepend-icon="mdi-file-document"
                 >
                   <v-list-item-title>
                     {{ getDocumentTypeLabel(document.document_type) }}
@@ -218,7 +218,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, onUnmounted, watch, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as dronesAPI from '@/api/drones'
 import * as documentsAPI from '@/api/documents'
@@ -296,8 +296,27 @@ const formatDateTime = (dateString) => {
 const loadDrone = async () => {
   loading.value = true
   try {
-    drone.value = await dronesAPI.getDrone(route.params.id)
+    const droneData = await dronesAPI.getDrone(route.params.id)
+    drone.value = droneData
+
+    // Всегда загружаем полёты и документы отдельно для актуальности
+    try {
+      const flightsData = await dronesAPI.getDroneFlights(route.params.id)
+      drone.value.flights = Array.isArray(flightsData) ? flightsData : []
+    } catch (err) {
+      console.error('Ошибка загрузки полётов:', err)
+      drone.value.flights = drone.value.flights || []
+    }
+
+    try {
+      const documentsData = await dronesAPI.getDroneDocuments(route.params.id)
+      drone.value.documents = Array.isArray(documentsData) ? documentsData : []
+    } catch (err) {
+      console.error('Ошибка загрузки документов:', err)
+      drone.value.documents = drone.value.documents || []
+    }
   } catch (error) {
+    console.error('Ошибка загрузки дрона:', error)
     showSnackbar('Ошибка загрузки дрона', 'error')
     router.push('/drones')
   } finally {
@@ -333,7 +352,34 @@ const deleteDocument = async (documentId) => {
   }
 }
 
+const initializeDrone = () => {
+  if (route.params.id) {
+    loadDrone()
+  }
+}
+
+watch(() => route.params.id, (newId, oldId) => {
+  if (newId && newId !== oldId) {
+    drone.value = null
+    tab.value = 'flights'
+    showFlightDialog.value = false
+    showDocumentDialog.value = false
+    showEditDialog.value = false
+    showDeleteDialog.value = false
+    loadDrone()
+  }
+})
+
 onMounted(() => {
-  loadDrone()
+  initializeDrone()
+})
+
+onUnmounted(() => {
+  // Очищаем состояние при размонтировании
+  drone.value = null
+  showFlightDialog.value = false
+  showDocumentDialog.value = false
+  showEditDialog.value = false
+  showDeleteDialog.value = false
 })
 </script>

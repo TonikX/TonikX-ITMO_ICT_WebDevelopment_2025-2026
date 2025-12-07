@@ -1,6 +1,17 @@
 <template>
   <div>
-    <h1 class="text-h3 mb-6">Добро пожаловать, {{ authStore.displayName }}!</h1>
+    <v-card v-if="loading" class="mb-6">
+      <v-card-text>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          class="d-block mx-auto"
+        ></v-progress-circular>
+      </v-card-text>
+    </v-card>
+
+    <template v-else>
+    <h1 class="text-h3 mb-6">Добро пожаловать, {{ authStore.displayName || 'Пользователь' }}!</h1>
 
     <!-- Статистика -->
     <v-row class="mb-6">
@@ -83,7 +94,7 @@
               block
               size="large"
               prepend-icon="mdi-file-document-plus"
-              @click="showDocumentDialog = true"
+              @click="$router.push('/drones')"
             >
               Добавить документ
             </v-btn>
@@ -211,25 +222,19 @@
     <FlightDialog
       v-model="showFlightDialog"
       @saved="loadStatistics"
-      @update:modelValue="(val) => { showFlightDialog = val }"
     />
-    <DocumentDialog
-      v-model="showDocumentDialog"
-      @saved="loadStatistics"
-      @update:modelValue="(val) => { showDocumentDialog = val }"
-    />
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, inject } from 'vue'
+import { ref, onMounted, onUnmounted, computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import * as dronesAPI from '@/api/drones'
 import * as flightsAPI from '@/api/flights'
 import * as documentsAPI from '@/api/documents'
 import FlightDialog from '@/components/FlightDialog.vue'
-import DocumentDialog from '@/components/DocumentDialog.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -240,23 +245,37 @@ const drones = ref([])
 const flights = ref([])
 const documents = ref([])
 const showFlightDialog = ref(false)
-const showDocumentDialog = ref(false)
 
 const statistics = computed(() => {
-  const activeDrones = drones.value.filter(d => d.status === 'active').length
-  return {
-    drones: drones.value.length,
-    flights: flights.value.length,
-    documents: documents.value.length,
-    activeDrones,
+  try {
+    const dronesList = Array.isArray(drones.value) ? drones.value : []
+    const flightsList = Array.isArray(flights.value) ? flights.value : []
+    const documentsList = Array.isArray(documents.value) ? documents.value : []
+    const activeDrones = dronesList.filter(d => d && d.status === 'active').length
+    return {
+      drones: dronesList.length,
+      flights: flightsList.length,
+      documents: documentsList.length,
+      activeDrones,
+    }
+  } catch (error) {
+    console.error('Ошибка вычисления статистики:', error)
+    return {
+      drones: 0,
+      flights: 0,
+      documents: 0,
+      activeDrones: 0,
+    }
   }
 })
 
 const recentDrones = computed(() => {
+  if (!Array.isArray(drones.value)) return []
   return drones.value.slice(0, 5)
 })
 
 const recentFlights = computed(() => {
+  if (!Array.isArray(flights.value)) return []
   return flights.value.slice(0, 5)
 })
 
@@ -289,15 +308,28 @@ const loadStatistics = async () => {
   loading.value = true
   try {
     const [dronesData, flightsData, documentsData] = await Promise.all([
-      dronesAPI.getDrones(),
-      flightsAPI.getFlights(),
-      documentsAPI.getDocuments(),
+      dronesAPI.getDrones().catch(err => {
+        console.error('Ошибка загрузки дронов:', err)
+        return []
+      }),
+      flightsAPI.getFlights().catch(err => {
+        console.error('Ошибка загрузки полётов:', err)
+        return []
+      }),
+      documentsAPI.getDocuments().catch(err => {
+        console.error('Ошибка загрузки документов:', err)
+        return []
+      }),
     ])
-    drones.value = dronesData
-    flights.value = flightsData
-    documents.value = documentsData
+    drones.value = Array.isArray(dronesData) ? dronesData : []
+    flights.value = Array.isArray(flightsData) ? flightsData : []
+    documents.value = Array.isArray(documentsData) ? documentsData : []
   } catch (error) {
+    console.error('Ошибка загрузки статистики:', error)
     showSnackbar('Ошибка загрузки статистики', 'error')
+    drones.value = []
+    flights.value = []
+    documents.value = []
   } finally {
     loading.value = false
   }
@@ -305,5 +337,10 @@ const loadStatistics = async () => {
 
 onMounted(() => {
   loadStatistics()
+})
+
+onUnmounted(() => {
+  // Очищаем данные при размонтировании для предотвращения ошибок
+  showFlightDialog.value = false
 })
 </script>

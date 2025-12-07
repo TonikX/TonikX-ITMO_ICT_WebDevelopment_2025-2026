@@ -115,6 +115,17 @@ const formatDateTimeLocal = (dateString) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`
 }
 
+const resetForm = () => {
+  formData.value = {
+    timestamp: '',
+    latitude: null,
+    longtitude: null,
+    altitude: null,
+    battery: null,
+    message: '',
+  }
+}
+
 watch(() => props.log, (newLog) => {
   if (newLog) {
     editingLog.value = newLog
@@ -138,17 +149,6 @@ watch(() => props.modelValue, (newValue) => {
     resetForm()
   }
 })
-
-const resetForm = () => {
-  formData.value = {
-    timestamp: '',
-    latitude: null,
-    longtitude: null,
-    altitude: null,
-    battery: null,
-    message: '',
-  }
-}
 
 const handleClose = (value) => {
   editingLog.value = null

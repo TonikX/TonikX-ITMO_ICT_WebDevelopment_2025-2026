@@ -71,6 +71,13 @@ const documentTypeOptions = [
   { title: 'Прочее', value: 'other' },
 ]
 
+const resetForm = () => {
+  formData.value = {
+    document_type: '',
+    url: '',
+  }
+}
+
 watch(() => props.document, (newDocument) => {
   if (newDocument) {
     editingDocument.value = newDocument
@@ -90,13 +97,6 @@ watch(() => props.modelValue, (newValue) => {
     resetForm()
   }
 })
-
-const resetForm = () => {
-  formData.value = {
-    document_type: '',
-    url: '',
-  }
-}
 
 const save = async () => {
   const { valid } = await formRef.value.validate()

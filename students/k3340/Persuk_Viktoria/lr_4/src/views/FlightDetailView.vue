@@ -25,8 +25,7 @@
           <div>
             <h2 class="text-h4">Полёт #{{ flight.id }}</h2>
             <div class="text-body-2 text-grey" v-if="flight.drone_id">
-              Дрон: {{ flight.drone_id.manufacturer }} {{ flight.drone_id.model }}
-              ({{ flight.drone_id.serial_number }})
+              Дрон: {{ typeof flight.drone_id === 'object' ? `${flight.drone_id.manufacturer} ${flight.drone_id.model} (${flight.drone_id.serial_number})` : `Дрон #${flight.drone_id}` }}
             </div>
           </div>
           <div>
@@ -160,7 +159,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted, onUnmounted, watch, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import * as flightsAPI from '@/api/flights'
 import * as logsAPI from '@/api/logs'
@@ -186,8 +185,19 @@ const formatDateTime = (dateString) => {
 const loadFlight = async () => {
   loading.value = true
   try {
-    flight.value = await flightsAPI.getFlight(route.params.id)
+    const flightData = await flightsAPI.getFlight(route.params.id)
+    flight.value = flightData
+
+    // Всегда загружаем логи отдельно для актуальности
+    try {
+      const logsData = await flightsAPI.getFlightLogs(route.params.id)
+      flight.value.logs = Array.isArray(logsData) ? logsData : []
+    } catch (logError) {
+      console.error('Ошибка загрузки логов:', logError)
+      flight.value.logs = flight.value.logs || []
+    }
   } catch (error) {
+    console.error('Ошибка загрузки полёта:', error)
     showSnackbar('Ошибка загрузки полёта', 'error')
     router.push('/drones')
   } finally {
@@ -228,7 +238,33 @@ const deleteLog = async (logId) => {
   }
 }
 
+const initializeFlight = () => {
+  if (route.params.id) {
+    loadFlight()
+  }
+}
+
+watch(() => route.params.id, (newId, oldId) => {
+  if (newId && newId !== oldId) {
+    flight.value = null
+    editingLog.value = null
+    showLogDialog.value = false
+    showFlightDialog.value = false
+    showDeleteDialog.value = false
+    loadFlight()
+  }
+})
+
 onMounted(() => {
-  loadFlight()
+  initializeFlight()
+})
+
+onUnmounted(() => {
+  // Очищаем состояние при размонтировании
+  flight.value = null
+  editingLog.value = null
+  showLogDialog.value = false
+  showFlightDialog.value = false
+  showDeleteDialog.value = false
 })
 </script>

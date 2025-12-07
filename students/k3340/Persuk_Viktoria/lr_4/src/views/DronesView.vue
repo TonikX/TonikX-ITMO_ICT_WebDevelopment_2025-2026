@@ -407,8 +407,12 @@ const saveDrone = async () => {
   }
 }
 
-onMounted(() => {
+const initializeDrones = () => {
   loadDrones()
+}
+
+onMounted(() => {
+  initializeDrones()
 })
 </script>
 

@@ -2,22 +2,17 @@
   <v-row justify="center" align="center" class="fill-height">
     <v-col cols="12" sm="8" md="6" lg="4">
       <v-card class="pa-4">
-        <v-card-title class="text-h4 text-center mb-4">
-          Вход
-        </v-card-title>
+        <v-card-title class="text-h4 text-center mb-4">Вход</v-card-title>
 
         <v-card-text>
-          <v-form ref="formRef" v-model="valid">
+          <v-form @submit.prevent="handleLogin">
             <v-text-field
-              v-model="usernameOrEmail"
-              label="Email или имя пользователя"
+              v-model="username"
+              label="Имя пользователя"
               prepend-inner-icon="mdi-account"
-              :rules="usernameOrEmailRules"
               required
               variant="outlined"
               class="mb-2"
-              hint="Введите email или имя пользователя"
-              persistent-hint
             ></v-text-field>
 
             <v-text-field
@@ -25,19 +20,19 @@
               label="Пароль"
               type="password"
               prepend-inner-icon="mdi-lock"
-              :rules="passwordRules"
               required
               variant="outlined"
               class="mb-4"
             ></v-text-field>
 
+            <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
+
             <v-btn
+              type="submit"
               color="primary"
               size="large"
               block
               :loading="authStore.isLoading"
-              :disabled="!valid || authStore.isLoading"
-              @click="handleLogin"
             >
               Войти
             </v-btn>
@@ -58,40 +53,28 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
-const route = useRoute()
 const authStore = useAuthStore()
-const showSnackbar = inject('showSnackbar')
 
-const formRef = ref(null)
-const valid = ref(false)
-const usernameOrEmail = ref('')
+const username = ref('')
 const password = ref('')
-
-const usernameOrEmailRules = [
-  (v) => !!v || 'Email или имя пользователя обязательно',
-]
-
-const passwordRules = [
-  (v) => !!v || 'Пароль обязателен',
-]
+const error = ref('')
 
 const handleLogin = async () => {
-  const { valid: isValid } = await formRef.value.validate()
-  if (!isValid) return
-
-  const result = await authStore.login(usernameOrEmail.value, password.value)
-
+  error.value = ''
+  if (!username.value || !password.value) {
+    error.value = 'Введите имя пользователя и пароль'
+    return
+  }
+  const result = await authStore.login(username.value, password.value)
   if (result.success) {
-    showSnackbar('Успешный вход!', 'success')
-    const redirect = route.query.redirect || '/profile'
-    router.push(redirect)
+    router.push('/')
   } else {
-    showSnackbar(result.error || 'Ошибка входа', 'error')
+    error.value = result.error
   }
 }
 </script>

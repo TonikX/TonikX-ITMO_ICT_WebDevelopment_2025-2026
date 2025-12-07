@@ -14,25 +14,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
-      meta: { requiresGuest: true },
     },
     {
       path: '/register',
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
-      meta: { requiresGuest: true },
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('@/views/ProfileView.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('@/views/SettingsView.vue'),
-      meta: { requiresAuth: true },
     },
     {
       path: '/drones',
@@ -61,41 +47,17 @@ const router = createRouter({
   ],
 })
 
-// Гварды маршрутов
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // Если маршрут требует аутентификации
-  if (to.meta.requiresAuth) {
-    if (!authStore.isAuthenticated) {
-      // Пытаемся восстановить сессию из localStorage
-      if (authStore.accessToken && authStore.refreshToken) {
-        try {
-          await authStore.loadUser()
-          await authStore.loadProfile()
-          if (authStore.isAuthenticated) {
-            next()
-            return
-          }
-        } catch (error) {
-          // Не удалось восстановить - редирект на логин
-          authStore.logout()
-        }
-      }
-      next({ name: 'login', query: { redirect: to.fullPath } })
-      return
-    }
-    next()
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next({ name: 'login' })
     return
   }
 
-  // Если маршрут доступен только для гостей (неавторизованных)
-  if (to.meta.requiresGuest) {
-    if (authStore.isAuthenticated) {
-      next({ name: 'profile' })
-      return
-    }
-    next()
+  // Если уже авторизован и идёт на login/register — редирект на главную
+  if ((to.name === 'login' || to.name === 'register') && authStore.isAuthenticated) {
+    next({ name: 'home' })
     return
   }
 
