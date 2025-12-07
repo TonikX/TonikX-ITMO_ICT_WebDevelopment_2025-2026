@@ -19,6 +19,13 @@ class FlightSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
+    # drone_id необязательный при создании через вложенный URL /drones/{id}/documents/
+    drone_id = serializers.PrimaryKeyRelatedField(
+        queryset=Drones.objects.all(),
+        required=False,
+        allow_null=True
+    )
+
     class Meta:
         model = Documents
         fields = '__all__'
