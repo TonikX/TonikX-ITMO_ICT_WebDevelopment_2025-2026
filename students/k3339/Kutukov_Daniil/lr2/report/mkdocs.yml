@@ -1,0 +1,81 @@
+site_name: Лабораторная работа 2
+site_description: Django проекты - Доска домашних заданий и система управления автовладельцами
+site_author: Кутуков Даниил
+site_url: "https://dfgion.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/"
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+repo_url: https://github.com/TonikX/ITMO_ICT_WebDevelopment_2025-2026
+repo_name: ITMO WebDev 2025-2026
+
+nav:
+  - Главная: index.md
+  - Доска домашних заданий:
+    - Обзор: homework_board/index.md
+    - Модели данных: homework_board/models.md
+    - Представления: homework_board/views.md
+    - Формы: homework_board/forms.md
+    - URL маршруты: homework_board/urls.md
+    - Шаблоны: homework_board/templates.md
+    - Установка и запуск: homework_board/setup.md
+  - Система управления автовладельцами:
+    - Обзор: tutorial/index.md
+    - Модели данных: tutorial/models.md
+    - Представления: tutorial/views.md
+    - Формы: tutorial/forms.md
+    - URL маршруты: tutorial/urls.md
+    - Шаблоны: tutorial/templates.md
+    - Установка и запуск: tutorial/setup.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
