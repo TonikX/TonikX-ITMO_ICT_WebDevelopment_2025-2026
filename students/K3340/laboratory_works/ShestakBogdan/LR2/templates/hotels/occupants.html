@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Постояльцы за последний месяц</h3>
+<table class="table">
+  <thead><tr><th>Отель</th><th>Уникальных гостей</th><th>Всего резерваций</th></tr></thead>
+  <tbody>
+  {% for h in by_hotel %}
+    <tr>
+      <td>{{ h.room__hotel__name }}</td>
+      <td>{{ h.guests_count }}</td>
+      <td>{{ h.total_reservations }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Нет данных</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
