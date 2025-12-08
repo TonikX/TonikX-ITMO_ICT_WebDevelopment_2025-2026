@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <title>Журнал</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-top: 0;
+      color: #333;
+    }
+    form {
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 14px;
+    }
+    input {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .btn {
+      background-color: #4a4a4a;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.05s;
+    }
+    .btn:hover { background-color: #333; }
+    .btn:active { transform: translateY(1px); }
+    /* Состояние ошибки: красная кнопка */
+    .btn.error { background-color: #c62828; }
+    .hint {
+      grid-column: 1 / -1;
+      color: #a00;
+      font-size: 13px;
+      display: none;
+      margin-top: -6px;
+    }
+    .hint.show { display: block; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th { background: #eee; }
+    tr:nth-child(even) { background: #fafafa; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Журнал</h1>
+
+    <form id="grade-form" method="POST" action="/add" novalidate>
+      <input id="discipline" name="discipline" placeholder="Дисциплина" required />
+      <input id="grade" name="grade" placeholder="Оценка (> 0, можно дробную)" required />
+      <button id="submitBtn" class="btn" type="submit">Добавить</button>
+      <div id="hint" class="hint">
+        Оценка должна быть положительным числом (целым или дробным; разделитель «.» или «,»).
+      </div>
+    </form>
+
+    <table>
+      <tr><th>Дисциплина</th><th>Оценки</th></tr>
+      {{rows}}
+    </table>
+  </div>
+
+  <script>
+    // Клиентская валидация: положительное число > 0, допускаем дробные с . или ,
+    (function () {
+      const form = document.getElementById('grade-form');
+      const gradeInput = document.getElementById('grade');
+      const submitBtn = document.getElementById('submitBtn');
+      const hint = document.getElementById('hint');
+
+      function isPositiveNumber(value) {
+        // Разрешаем форму: "123", "0,5", "4.25"
+        const trimmed = value.trim();
+        if (!/^\d+([.,]\d+)?$/.test(trimmed)) return false;
+        const num = parseFloat(trimmed.replace(',', '.'));
+        return Number.isFinite(num) && num > 0;
+      }
+
+      function clearError() {
+        submitBtn.classList.remove('error');
+        hint.classList.remove('show');
+      }
+
+      gradeInput.addEventListener('input', clearError);
+      form.addEventListener('input', clearError);
+
+      form.addEventListener('submit', function (e) {
+        const grade = gradeInput.value;
+        if (!isPositiveNumber(grade)) {
+          e.preventDefault();
+          submitBtn.classList.add('error');
+          hint.classList.add('show');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

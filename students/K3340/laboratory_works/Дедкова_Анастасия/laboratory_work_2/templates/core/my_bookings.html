@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Мои бронирования</h1>
+  {% if bookings %}
+    <a class="btn btn-outline-secondary" href="{% url 'core:flight_list' %}">
+      ← Назад к расписанию
+    </a>
+  {% endif %}
+</div>
+
+{% if messages %}
+  {% for m in messages %}
+    <div class="alert alert-{{ m.tags }} d-flex justify-content-between align-items-center">
+      <div>{{ m }}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% if bookings %}
+  <div class="list-group">
+    {% for b in bookings %}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <div class="fw-semibold">
+            {{ b.flight.number }} — мест: {{ b.seats_count }}
+          </div>
+          <div class="text-muted small">
+            {{ b.created_at|date:"d.m.Y H:i" }}
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a class="btn btn-outline-primary btn-sm"
+             href="{% url 'core:flight_detail' flight_id=b.flight_id %}">
+            Детали рейса
+          </a>
+          <button type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#confirmDeleteModal"
+                  data-action="{% url 'core:booking_delete' b.id %}">
+            Удалить
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card card-body text-center text-muted">
+    <div class="mb-2">Бронирований пока нет.</div>
+    <a class="btn btn-outline-secondary" href="{% url 'core:flight_list' %}">
+      ← Назад к расписанию
+    </a>
+  </div>
+{% endif %}
+
+<!-- Единая модалка подтверждения удаления -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form method="post" id="deleteForm">
+      {% csrf_token %}
+      <!-- ВАЖНО: это поле заставит вьюху вернуть нас обратно на эту же страницу -->
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Удалить бронь?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          Это действие вернёт места на рейс. Продолжить?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-danger">Да, удалить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modalEl = document.getElementById('confirmDeleteModal');
+    modalEl.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const action = button.getAttribute('data-action');
+      document.getElementById('deleteForm').setAttribute('action', action);
+    });
+  });
+</script>
+{% endblock %}

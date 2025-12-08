@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Отзыв{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">Отзыв о рейсе {{ flight.number }}</h3>
+
+<form method="post" class="card card-body">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit" class="btn btn-primary">Отправить</button>
+  <a class="btn btn-secondary" href="{% url 'core:flight_detail' flight_id=flight.id %}">Отмена</a>
+</form>
+{% endblock %}

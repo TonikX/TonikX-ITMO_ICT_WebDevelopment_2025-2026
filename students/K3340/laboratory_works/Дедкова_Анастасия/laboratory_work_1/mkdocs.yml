@@ -1,0 +1,5 @@
+site_name: Отчет
+theme:
+  name: material
+nav:
+  - Главная: index.md

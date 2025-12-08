@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Рейс {{ flight.number }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+
+    <!-- Карточка с информацией о рейсе -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h2 class="h4 mb-1">
+              Рейс {{ flight.number }}
+              <span class="text-muted">({{ flight.airline.code }})</span>
+            </h2>
+            <div class="text-muted">
+              {{ flight.departure_airport }} → {{ flight.arrival_airport }}
+            </div>
+          </div>
+
+          <div class="text-end">
+            {% if flight.is_departed %}
+              <span class="badge text-bg-secondary">Рейс завершён</span>
+            {% else %}
+              {% if flight.direction == 'DEP' %}
+                <span class="badge text-bg-primary">Вылет</span>
+              {% else %}
+                <span class="badge text-bg-success">Прибытие</span>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="small text-uppercase text-muted">Вылет</div>
+            <div class="fw-semibold">{{ flight.departure_dt|date:"d.m.Y H:i" }}</div>
+            {% if flight.is_departed %}
+              <div class="text-muted small">({{ flight.departure_dt|naturaltime }})</div>
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <div class="small text-uppercase text-muted">Прибытие</div>
+            <div class="fw-semibold">{{ flight.arrival_dt|date:"d.m.Y H:i" }}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="small text-uppercase text-muted">Гейт</div>
+            <div class="fw-semibold">{{ flight.gate|default:"—" }}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="small text-uppercase text-muted">Свободно мест</div>
+            <div class="fw-semibold">
+              <span class="badge text-bg-secondary">{{ flight.seats_available }}</span>
+              из
+              <span class="badge text-bg-light text-dark">{{ flight.seats_total }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+          {% if flight.is_departed %}
+            <button class="btn btn-secondary" disabled>Бронирование недоступно (рейс завершён)</button>
+          {% else %}
+            {% if user.is_authenticated %}
+              <a class="btn btn-success" href="{% url 'core:booking_create' flight.id %}">Забронировать</a>
+              <a class="btn btn-outline-primary" href="{% url 'core:review_create' flight.id %}">Оставить отзыв</a>
+            {% else %}
+              <a class="btn btn-primary" href="{% url 'login' %}">
+                Войти, чтобы бронировать и писать отзывы
+              </a>
+            {% endif %}
+          {% endif %}
+
+          {% if request.user.is_staff %}
+            <a class="btn btn-warning" href="{% url 'core:flight_passengers' flight.id %}">Пассажиры рейса (для админа)</a>
+            <a class="btn btn-outline-dark" href="{% url 'admin:core_flight_change' flight.id %}">Редактировать рейс (admin)</a>
+            <a class="btn btn-outline-dark" href="{% url 'admin:core_booking_add' %}">Создать бронь (admin)</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Отзывы -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="h5 mb-3">Отзывы</h3>
+
+        {% if flight.reviews.count %}
+          <ul class="list-group list-group-flush">
+            {% for r in flight.reviews.all %}
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <strong>★{{ r.rating }}/10</strong>
+                        <span class="text-muted">• дата рейса: {{ r.flight_date|date:"d.m.Y" }}</span>
+                      </div>
+                      <small class="text-muted">
+                        Автор: {{ r.author|default:"—" }} • {{ r.created_at|date:"d.m.Y H:i" }}
+                      </small>
+                    </div>
+                    <div class="mt-2">{{ r.body }}</div>
+                  </div>
+
+                  {% if request.user.is_authenticated and r.author_id == request.user.id %}
+                    <form method="post"
+                          action="{% url 'core:review_delete' flight_id=flight.id pk=r.id %}"
+                          onsubmit="return confirm('Удалить отзыв?');">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                    </form>
+                  {% elif request.user.is_staff %}
+                    <form method="post"
+                          action="{% url 'core:review_delete' flight_id=flight.id pk=r.id %}"
+                          onsubmit="return confirm('Удалить отзыв?');">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted mb-0">Отзывов пока нет.</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <a class="btn btn-outline-primary mt-3" href="{% url 'core:review_create' flight.id %}">Добавить отзыв</a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Правая панель -->
+  <div class="col-lg-4">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Кратко о рейсе</h5>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><span class="text-muted">Авиакомпания:</span> <strong>{{ flight.airline.name }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Код АК:</span> <strong>{{ flight.airline.code }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Маршрут:</span> <strong>{{ flight.departure_airport }}</strong> → <strong>{{ flight.arrival_airport }}</strong></li>
+          <li class="mb-2"><span class="text-muted">Тип:</span>
+            {% if flight.direction == 'DEP' %}
+              <span class="badge text-bg-primary">Вылет</span>
+            {% else %}
+              <span class="badge text-bg-success">Прибытие</span>
+            {% endif %}
+            {% if flight.is_departed %}
+              <span class="badge text-bg-secondary ms-1">Рейс завершён</span>
+            {% endif %}
+          </li>
+          <li class="mb-2"><span class="text-muted">Гейт:</span> <strong>{{ flight.gate|default:"—" }}</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted mb-2">Действия</h6>
+        {% if flight.is_departed %}
+          <button class="btn btn-secondary w-100" disabled>Бронирование недоступно</button>
+        {% else %}
+          {% if user.is_authenticated %}
+            <a class="btn btn-success w-100 mb-2" href="{% url 'core:booking_create' flight.id %}">Забронировать</a>
+            <a class="btn btn-outline-primary w-100" href="{% url 'core:review_create' flight.id %}">Оставить отзыв</a>
+          {% else %}
+            <a class="btn btn-primary w-100" href="{% url 'login' %}">Войти</a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

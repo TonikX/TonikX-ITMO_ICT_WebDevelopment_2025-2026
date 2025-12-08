@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Пассажиры рейса {{ flight.code }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Пассажиры рейса {{ flight.code }}</h2>
+
+<div class="d-flex gap-2 mb-3">
+  {% if request.user.is_staff %}
+    <a class="btn btn-primary" href="{% url 'core:flight_add_passenger' flight_id=flight.id %}">➕ Добавить пассажира</a>
+  {% endif %}
+  <a class="btn btn-secondary" href="{% url 'core:flight_detail' flight_id=flight.id %}">← Назад к рейсу</a>
+</div>
+
+<table class="table table-striped align-middle">
+  <thead>
+    <tr>
+      <th>Пользователь</th>
+      <th>№ билета</th>
+      <th>Мест</th>
+      <th>Создано</th>
+      {% if request.user.is_staff %}
+        <th class="text-end">Действия</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% if bookings %}
+      {% for b in bookings %}
+        <tr>
+          <td>{{ b.user.get_username }}</td>
+          <td>{{ b.ticket_number }}</td>
+          <td>{{ b.seats_count }}</td>
+          <td>{{ b.created_at|date:"d.m.Y H:i" }}</td>
+          {% if request.user.is_staff %}
+            <td class="text-end">
+              <form method="post"
+                    action="{% url 'core:flight_delete_passenger' flight_id=flight.id booking_id=b.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Удалить бронь? Место вернётся в доступные.')">
+                  Удалить
+                </button>
+              </form>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="{% if request.user.is_staff %}5{% else %}4{% endif %}" class="text-muted">
+          Нет бронирований для этого рейса.
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}
