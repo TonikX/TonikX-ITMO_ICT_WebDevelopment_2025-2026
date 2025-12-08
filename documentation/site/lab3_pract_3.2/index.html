@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Практическая работа 3.2 - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 3.2";
+        var mkdocs_page_input_path = "lab3_pract_3.2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Доска домашних заданий (Django)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3: Django rest</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.1/">Практическая работа 3.1</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Практическая работа 3.2</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#0">0. Подготовка проекта</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#01">0.1. Создание и активация виртуального окружения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#02">0.2. Установка зависимостей</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#03">0.3. Создание проекта и приложения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#04-drf">0.4. Подключение приложения и DRF</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1">1. Модели данных</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">2. Регистрация моделей в админке и наполнение БД</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21">2.1. Регистрация моделей</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">3. Настройка сериализаторов</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31">3.1. Базовый сериализатор воина и создание профессии</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32">3.2. Сериализатор скилла</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33">3.3. Сериализатор профессии</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#34">3.4. Вложенный сериализатор «воин + профессия»</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#35">3.5. Сериализатор «воин + список названий скиллов»</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#36">3.6. Полный вложенный сериализатор «воин + профессия + объекты скиллов»</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-apiview">4. Реализация эндпоинтов для работы со скиллами (APIView)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41">4.1. Представления</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#42-url-">4.2. URL-маршруты</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#43">4.3. Проверка работы</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-listapiview">5. Эндпоинт: все воины и их профессии (ListAPIView)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#51">5.1. Представление</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#52-url-">5.2. URL-маршрут</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#53">5.3. Проверка</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6">6. Эндпоинт: все воины и их скиллы</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#61">6.1. Представление</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#62-url-">6.2. URL-маршрут</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#63">6.3. Проверка</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7-retrieve-update-destroy">7. Эндпоинты для работы с одним воином (Retrieve / Update / Destroy)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#71-id-retrieveapiview">7.1. Полная информация о войне по id (RetrieveAPIView)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#72-id-destroyapiview">7.2. Удаление воина по id (DestroyAPIView)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#73-id-updateapiview">7.3. Редактирование информации о войне по id (UpdateAPIView)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#8">8. Вывод</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_rest_airport/">Реализация серверной части на Django REST Framework</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4_report/">Vue.js клиент для системы управления аэропортом</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №3: Django rest</li>
+      <li class="breadcrumb-item active">Практическая работа 3.2</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="3-django-rest">Лабораторная работа 3. Реализация серверной части на Django REST.</h1>
+<p><strong>Практическая работа 3.2</strong></p>
+<blockquote>
+<p>Проект: <code>warriors_project</code> с приложением <code>warriors_app</code>.<br />
+База: SQLite.<br />
+Фреймворк для API: Django REST Framework.</p>
+</blockquote>
+<hr />
+<h2 id="0">0. Подготовка проекта</h2>
+<h3 id="01">0.1. Создание и активация виртуального окружения</h3>
+<p>В терминале (macOS):</p>
+<pre><code class="language-bash">python3 -m venv venv
+source venv/bin/activate
+</code></pre>
+<h3 id="02">0.2. Установка зависимостей</h3>
+<pre><code class="language-bash">pip install django djangorestframework
+</code></pre>
+<h3 id="03">0.3. Создание проекта и приложения</h3>
+<pre><code class="language-bash">django-admin startproject warriors_project
+cd warriors_project
+python manage.py startapp warriors_app
+</code></pre>
+<h3 id="04-drf">0.4. Подключение приложения и DRF</h3>
+<p><code>warriors_project/settings.py</code> → <code>INSTALLED_APPS</code>:</p>
+<pre><code class="language-python">INSTALLED_APPS = [
+    # стандартные приложения Django …
+    'rest_framework',
+    'warriors_app',
+]
+</code></pre>
+<hr />
+<h2 id="1">1. Модели данных</h2>
+<p>Цель: описать доменную область «Воин — Профессия — Умения» с помощью моделей Django.</p>
+<p><code>warriors_app/models.py</code>:</p>
+<pre><code class="language-python">from django.db import models
+
+
+class Warrior(models.Model):
+    &quot;&quot;&quot;
+    Описание война
+    &quot;&quot;&quot;
+    race_types = (
+        ('s', 'student'),
+        ('d', 'developer'),
+        ('t', 'teamlead'),
+    )
+    race = models.CharField(max_length=1, choices=race_types, verbose_name='Расса')
+    name = models.CharField(max_length=120, verbose_name='Имя')
+    level = models.IntegerField(verbose_name='Уровень', default=0)
+    skill = models.ManyToManyField(
+        'Skill',
+        verbose_name='Умения',
+        through='SkillOfWarrior',
+        related_name='warrior_skils',
+    )
+    profession = models.ForeignKey(
+        'Profession',
+        on_delete=models.CASCADE,
+        verbose_name='Профессия',
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        return f'{self.name} (lvl {self.level})'
+
+
+class Profession(models.Model):
+    &quot;&quot;&quot;
+    Описание профессии
+    &quot;&quot;&quot;
+    title = models.CharField(max_length=120, verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+
+    def __str__(self):
+        return self.title
+
+
+class Skill(models.Model):
+    &quot;&quot;&quot;
+    Описание умений
+    &quot;&quot;&quot;
+    title = models.CharField(max_length=120, verbose_name='Наименование')
+
+    def __str__(self):
+        return self.title
+
+
+class SkillOfWarrior(models.Model):
+    &quot;&quot;&quot;
+    Описание умений война (через таблицу связи)
+    &quot;&quot;&quot;
+    skill = models.ForeignKey('Skill', verbose_name='Умение', on_delete=models.CASCADE)
+    warrior = models.ForeignKey('Warrior', verbose_name='Воин', on_delete=models.CASCADE)
+    level = models.IntegerField(verbose_name='Уровень освоения умения')
+
+    def __str__(self):
+        return f'{self.warrior} — {self.skill} (lvl {self.level})'
+</code></pre>
+<p>После описания моделей выполняем миграции:</p>
+<pre><code class="language-bash">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<h2 id="2">2. Регистрация моделей в админке и наполнение БД</h2>
+<h3 id="21">2.1. Регистрация моделей</h3>
+<p><code>warriors_app/admin.py</code>:</p>
+<pre><code class="language-python">from django.contrib import admin
+from .models import Warrior, Profession, Skill, SkillOfWarrior
+
+
+@admin.register(Warrior)
+class WarriorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'race', 'level', 'profession')
+    list_filter = ('race', 'profession')
+
+
+@admin.register(Profession)
+class ProfessionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+
+
+@admin.register(SkillOfWarrior)
+class SkillOfWarriorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'warrior', 'skill', 'level')
+</code></pre>
+<p>Создаём суперпользователя и заходим в админку:</p>
+<pre><code class="language-bash">python manage.py createsuperuser
+python manage.py runserver
+</code></pre>
+<p>Переходим в браузере по адресу <code>http://127.0.0.1:8000/admin/</code> и создаём:</p>
+<ul>
+<li>несколько профессий (например, «Разработчик», «Тимлид»);</li>
+<li>несколько умений («Python», «Django», «REST»);</li>
+<li>2–3 воинов с выбранной профессией;</li>
+<li>записи <code>SkillOfWarrior</code>, чтобы привязать к каждому воину 1–3 скилла.</li>
+</ul>
+<p><strong>Скриншоты:</strong>  </p>
+<ul>
+<li>
+<p><em>Список профессий в админке</em><br />
+<code>![Профессии в админке](img/lab3_2_admin_professions.png)</code></p>
+</li>
+<li>
+<p><em>Список воинов и их профессий</em><br />
+<code>![Воины в админке](img/lab3_2_admin_warriors.png)</code></p>
+</li>
+<li>
+<p><em>Таблица SkillOfWarrior с уровнями владения навыками</em><br />
+<code>![Умения воинов](img/lab3_2_admin_skill_of_warrior.png)</code></p>
+</li>
+</ul>
+<hr />
+<h2 id="3">3. Настройка сериализаторов</h2>
+<p>Создаём файл <code>warriors_app/serializers.py</code>.</p>
+<pre><code class="language-python">from rest_framework import serializers
+from .models import Warrior, Profession, Skill
+</code></pre>
+<h3 id="31">3.1. Базовый сериализатор воина и создание профессии</h3>
+<pre><code class="language-python">class WarriorSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Базовый сериализатор модели Warrior.
+    Используется для операций обновления/удаления.
+    &quot;&quot;&quot;
+    class Meta:
+        model = Warrior
+        fields = '__all__'
+
+
+class ProfessionCreateSerializer(serializers.Serializer):
+    &quot;&quot;&quot;
+    Пример «ручного» сериализатора для создания профессии.
+    Используется в теоретической части работы.
+    &quot;&quot;&quot;
+    title = serializers.CharField(max_length=120)
+    description = serializers.CharField()
+
+    def create(self, validated_data):
+        profession = Profession(**validated_data)
+        profession.save()
+        return profession
+</code></pre>
+<h3 id="32">3.2. Сериализатор скилла</h3>
+<pre><code class="language-python">class SkillSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Сериализатор для модели Skill.
+    &quot;&quot;&quot;
+    class Meta:
+        model = Skill
+        fields = '__all__'
+</code></pre>
+<h3 id="33">3.3. Сериализатор профессии</h3>
+<pre><code class="language-python">class ProfessionSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Сериализатор для модели Profession.
+    Используется как вложенный.
+    &quot;&quot;&quot;
+    class Meta:
+        model = Profession
+        fields = '__all__'
+</code></pre>
+<h3 id="34">3.4. Вложенный сериализатор «воин + профессия»</h3>
+<p>Используется для эндпоинта «все воины и их профессии».</p>
+<pre><code class="language-python">class WarriorProfessionSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Воин с вложенным объектом профессии.
+    &quot;&quot;&quot;
+    profession = ProfessionSerializer()
+
+    class Meta:
+        model = Warrior
+        fields = '__all__'
+</code></pre>
+<h3 id="35">3.5. Сериализатор «воин + список названий скиллов»</h3>
+<p>Использует <code>SlugRelatedField</code> для красивого представления ManyToMany-связи.</p>
+<pre><code class="language-python">class WarriorSkillSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Воин с перечнем его умений (только названия).
+    &quot;&quot;&quot;
+    skill = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='title',
+    )
+
+    class Meta:
+        model = Warrior
+        fields = '__all__'
+</code></pre>
+<h3 id="36">3.6. Полный вложенный сериализатор «воин + профессия + объекты скиллов»</h3>
+<p>Используется для подробного вывода информации по одному воину.</p>
+<pre><code class="language-python">class WarriorNestedSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;
+    Полная информация о войне:
+    - вложенная профессия;
+    - список умений как объектов Skill.
+    &quot;&quot;&quot;
+    profession = ProfessionSerializer()
+    skill = SkillSerializer(many=True)
+
+    class Meta:
+        model = Warrior
+        fields = '__all__'
+</code></pre>
+<hr />
+<h2 id="4-apiview">4. Реализация эндпоинтов для работы со скиллами (APIView)</h2>
+<p><strong>Практическое задание:</strong><br />
+Реализовать эндпоинты для добавления и просмотра скиллов методом, описанным в теории (через <code>APIView</code>).</p>
+<h3 id="41">4.1. Представления</h3>
+<p><code>warriors_app/views.py</code> (фрагмент):</p>
+<pre><code class="language-python">from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    DestroyAPIView,
+    UpdateAPIView,
+)
+
+from .models import Warrior, Profession, Skill
+from .serializers import (
+    WarriorSerializer,
+    ProfessionCreateSerializer,
+    SkillSerializer,
+    ProfessionSerializer,
+    WarriorProfessionSerializer,
+    WarriorSkillSerializer,
+    WarriorNestedSerializer,
+)
+</code></pre>
+<p>Классы для работы со скиллами:</p>
+<pre><code class="language-python">class SkillListAPIView(APIView):
+    &quot;&quot;&quot;
+    Список всех доступных умений (GET).
+    &quot;&quot;&quot;
+    def get(self, request):
+        skills = Skill.objects.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response({'skills': serializer.data})
+
+
+class SkillCreateAPIView(APIView):
+    &quot;&quot;&quot;
+    Создание нового умения (POST).
+    &quot;&quot;&quot;
+    def get(self, request):
+        &quot;&quot;&quot;
+        GET-запрос используется только для отображения формы DRF.
+        &quot;&quot;&quot;
+        skills = Skill.objects.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response({'skills': serializer.data})
+
+    def post(self, request):
+        &quot;&quot;&quot;
+        Ожидаемый формат тела запроса:
+        {
+          &quot;skill&quot;: {
+            &quot;title&quot;: &quot;Python&quot;
+          }
+        }
+        &quot;&quot;&quot;
+        skill_data = request.data.get('skill')
+        serializer = SkillSerializer(data=skill_data)
+
+        if serializer.is_valid(raise_exception=True):
+            skill_saved = serializer.save()
+            return Response({'Success': f&quot;Skill '{skill_saved.title}' created successfully.&quot;})
+</code></pre>
+<h3 id="42-url-">4.2. URL-маршруты</h3>
+<p><code>warriors_app/urls.py</code>:</p>
+<pre><code class="language-python">from django.urls import path
+from .views import (
+    SkillListAPIView,
+    SkillCreateAPIView,
+    WarriorProfessionListAPIView,
+    WarriorSkillListAPIView,
+    WarriorFullDetailView,
+    WarriorDeleteView,
+    WarriorUpdateView,
+)
+
+app_name = 'warriors_app'
+
+urlpatterns = [
+    path('skills/', SkillListAPIView.as_view(), name='skill-list'),
+    path('skills/create/', SkillCreateAPIView.as_view(), name='skill-create'),
+
+    # остальные маршруты — в следующих разделах
+]
+</code></pre>
+<p><code>warriors_project/urls.py</code>:</p>
+<pre><code class="language-python">from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('war/', include('warriors_app.urls')),
+]
+</code></pre>
+<h3 id="43">4.3. Проверка работы</h3>
+<ol>
+<li>Запускаем сервер: <code>python manage.py runserver</code>.</li>
+<li>
+<p>Переходим в браузере по адресу:</p>
+</li>
+<li>
+<p><code>http://127.0.0.1:8000/war/skills/</code> — просмотр списка скиллов;</p>
+</li>
+<li>
+<p><code>http://127.0.0.1:8000/war/skills/create/</code> — создание нового умения.</p>
+</li>
+<li>
+<p>Для создания указываем JSON в формате:</p>
+</li>
+</ol>
+<pre><code class="language-json">{
+  &quot;skill&quot;: {
+    &quot;title&quot;: &quot;Python&quot;
+  }
+}
+</code></pre>
+<p><strong>Скриншоты:</strong>  </p>
+<ul>
+<li>
+<p><em>Список умений (GET /war/skills/)</em><br />
+<img alt="Список скиллов" src="../img/lab3_2_skills_list.png" /></p>
+</li>
+<li>
+<p><em>Создание нового умения (POST /war/skills/create/)</em><br />
+<img alt="Создание скилла" src="../img/lab3_2_skills_create.png" /></p>
+</li>
+</ul>
+<hr />
+<h2 id="5-listapiview">5. Эндпоинт: все воины и их профессии (ListAPIView)</h2>
+<p><strong>Пункт 1 практического задания блока:</strong><br />
+Вывод полной информации о всех воинах и их профессиях (в одном запросе).</p>
+<h3 id="51">5.1. Представление</h3>
+<p><code>warriors_app/views.py</code>:</p>
+<pre><code class="language-python">class WarriorProfessionListAPIView(ListAPIView):
+    &quot;&quot;&quot;
+    Список всех воинов с подробной информацией о профессии.
+    &quot;&quot;&quot;
+    queryset = Warrior.objects.select_related('profession').all()
+    serializer_class = WarriorProfessionSerializer
+</code></pre>
+<h3 id="52-url-">5.2. URL-маршрут</h3>
+<p><code>warriors_app/urls.py</code> (добавление):</p>
+<pre><code class="language-python">urlpatterns = [
+    # ...
+    path(
+        'warriors/professions/',
+        WarriorProfessionListAPIView.as_view(),
+        name='warrior-profession-list',
+    ),
+]
+</code></pre>
+<h3 id="53">5.3. Проверка</h3>
+<p>Запрос:</p>
+<pre><code class="language-text">GET http://127.0.0.1:8000/war/warriors/professions/
+</code></pre>
+<p>Пример ответа:</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;race&quot;: &quot;d&quot;,
+    &quot;name&quot;: &quot;Алексей&quot;,
+    &quot;level&quot;: 10,
+    &quot;profession&quot;: {
+      &quot;id&quot;: 1,
+      &quot;title&quot;: &quot;Разработчик&quot;,
+      &quot;description&quot;: &quot;Пишет код и чинит баги&quot;
+    },
+    &quot;skill&quot;: [1, 2]
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;race&quot;: &quot;t&quot;,
+    &quot;name&quot;: &quot;Иван&quot;,
+    &quot;level&quot;: 15,
+    &quot;profession&quot;: {
+      &quot;id&quot;: 2,
+      &quot;title&quot;: &quot;Тимлид&quot;,
+      &quot;description&quot;: &quot;Руководит разработчиками&quot;
+    },
+    &quot;skill&quot;: [3]
+  }
+]
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Воины и их профессии" src="../img/lab3_2_warriors_professions.png" /></p>
+<hr />
+<h2 id="6">6. Эндпоинт: все воины и их скиллы</h2>
+<p><strong>Пункт 2 практического задания:</strong><br />
+Вывод полной информации о всех воинах и их скиллах (в одном запросе).</p>
+<h3 id="61">6.1. Представление</h3>
+<p><code>warriors_app/views.py</code>:</p>
+<pre><code class="language-python">class WarriorSkillListAPIView(ListAPIView):
+    &quot;&quot;&quot;
+    Список всех воинов и их умений.
+    Для вывода умений используется SlugRelatedField (только названия).
+    &quot;&quot;&quot;
+    queryset = Warrior.objects.prefetch_related('skill').all()
+    serializer_class = WarriorSkillSerializer
+</code></pre>
+<h3 id="62-url-">6.2. URL-маршрут</h3>
+<p><code>warriors_app/urls.py</code>:</p>
+<pre><code class="language-python">urlpatterns = [
+    # ...
+    path(
+        'warriors/skills/',
+        WarriorSkillListAPIView.as_view(),
+        name='warrior-skill-list',
+    ),
+]
+</code></pre>
+<h3 id="63">6.3. Проверка</h3>
+<p>Запрос:</p>
+<pre><code class="language-text">GET http://127.0.0.1:8000/war/warriors/skills/
+</code></pre>
+<p>Пример ответа:</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;race&quot;: &quot;d&quot;,
+    &quot;name&quot;: &quot;Алексей&quot;,
+    &quot;level&quot;: 10,
+    &quot;profession&quot;: 1,
+    &quot;skill&quot;: [&quot;Python&quot;, &quot;Django&quot;]
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;race&quot;: &quot;t&quot;,
+    &quot;name&quot;: &quot;Иван&quot;,
+    &quot;level&quot;: 15,
+    &quot;profession&quot;: 2,
+    &quot;skill&quot;: [&quot;REST&quot;]
+  }
+]
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Воины и их скиллы" src="../img/lab3_2_warriors_skills.png" /></p>
+<hr />
+<h2 id="7-retrieve-update-destroy">7. Эндпоинты для работы с одним воином (Retrieve / Update / Destroy)</h2>
+<p><strong>Пункты 3–5 практического задания:</strong></p>
+<ul>
+<li>Вывод полной информации о войне (по id), его профессиях и скилах.  </li>
+<li>Удаление воина по id.  </li>
+<li>Редактирование информации о войне.</li>
+</ul>
+<p>Для каждого пункта реализован отдельный generic-класс и отдельный URL.</p>
+<h3 id="71-id-retrieveapiview">7.1. Полная информация о войне по id (RetrieveAPIView)</h3>
+<p><code>warriors_app/views.py</code>:</p>
+<pre><code class="language-python">class WarriorFullDetailView(RetrieveAPIView):
+    &quot;&quot;&quot;
+    Пункт 3:
+    Вывод полной информации о войне (по id), его профессии и скилах.
+    Используется вложенный сериализатор WarriorNestedSerializer.
+    &quot;&quot;&quot;
+    queryset = Warrior.objects.select_related('profession').prefetch_related('skill').all()
+    serializer_class = WarriorNestedSerializer
+    lookup_field = 'id'
+</code></pre>
+<p>URL:</p>
+<pre><code class="language-python">urlpatterns = [
+    # ...
+    path(
+        'warriors/&lt;int:id&gt;/full/',
+        WarriorFullDetailView.as_view(),
+        name='warrior-full-detail',
+    ),
+]
+</code></pre>
+<p>Запрос:</p>
+<pre><code class="language-text">GET http://127.0.0.1:8000/war/warriors/1/full/
+</code></pre>
+<p>Пример ответа:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;race&quot;: &quot;d&quot;,
+  &quot;name&quot;: &quot;Алексей&quot;,
+  &quot;level&quot;: 10,
+  &quot;profession&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Разработчик&quot;,
+    &quot;description&quot;: &quot;Пишет код и чинит баги&quot;
+  },
+  &quot;skill&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;title&quot;: &quot;Python&quot;
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;title&quot;: &quot;Django&quot;
+    }
+  ]
+}
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Полная информация о войне по id" src="../img/lab3_2_warrior_full_detail.png" /></p>
+<hr />
+<h3 id="72-id-destroyapiview">7.2. Удаление воина по id (DestroyAPIView)</h3>
+<p><code>warriors_app/views.py</code>:</p>
+<pre><code class="language-python">class WarriorDeleteView(DestroyAPIView):
+    &quot;&quot;&quot;
+    Пункт 4:
+    Удаление воина по id.
+    &quot;&quot;&quot;
+    queryset = Warrior.objects.all()
+    serializer_class = WarriorSerializer
+    lookup_field = 'id'
+</code></pre>
+<p>URL:</p>
+<pre><code class="language-python">urlpatterns = [
+    # ...
+    path(
+        'warriors/&lt;int:id&gt;/delete/',
+        WarriorDeleteView.as_view(),
+        name='warrior-delete',
+    ),
+]
+</code></pre>
+<p>Проверка:</p>
+<ol>
+<li>Открыть в браузере <code>http://127.0.0.1:8000/war/warriors/1/delete/</code>.</li>
+<li>В выпадающем списке методов выбрать <strong>DELETE</strong>.</li>
+<li>Нажать кнопку <strong>DELETE</strong>.</li>
+</ol>
+<p><strong>Скриншот:</strong><br />
+<img alt="Удаление воина по id" src="../img/lab3_2_warrior_delete.png" /></p>
+<hr />
+<h3 id="73-id-updateapiview">7.3. Редактирование информации о войне по id (UpdateAPIView)</h3>
+<p><code>warriors_app/views.py</code>:</p>
+<pre><code class="language-python">class WarriorUpdateView(UpdateAPIView):
+    &quot;&quot;&quot;
+    Пункт 5:
+    Редактирование информации о войне по id.
+    &quot;&quot;&quot;
+    queryset = Warrior.objects.all()
+    serializer_class = WarriorSerializer
+    lookup_field = 'id'
+</code></pre>
+<p>URL:</p>
+<pre><code class="language-python">urlpatterns = [
+    # ...
+    path(
+        'warriors/&lt;int:id&gt;/update/',
+        WarriorUpdateView.as_view(),
+        name='warrior-update',
+    ),
+]
+</code></pre>
+<p>Проверка:</p>
+<ol>
+<li>Открыть <code>http://127.0.0.1:8000/war/warriors/1/update/</code>.</li>
+<li>В форме изменить необходимые поля
+   (например, увеличить <code>level</code> и поменять <code>profession</code>).</li>
+<li>Выбрать метод <strong>PUT</strong> или <strong>PATCH</strong> и отправить запрос.</li>
+</ol>
+<p>После успешного обновления можно повторно запросить:</p>
+<pre><code class="language-text">GET http://127.0.0.1:8000/war/warriors/1/full/
+</code></pre>
+<p>и убедиться, что изменения применились.</p>
+<p><strong>Скриншот:</strong><br />
+<img alt="Редактирование воина по id" src="../img/lab3_2_warrior_update.png" /></p>
+<hr />
+<h2 id="8">8. Вывод</h2>
+<p>В ходе практической работы 3.2 были выполнены следующие шаги:</p>
+<ol>
+<li>Создан проект <code>warriors_project</code> и приложение <code>warriors_app</code>, настроен Django REST Framework.</li>
+<li>Описаны модели <code>Warrior</code>, <code>Profession</code>, <code>Skill</code>, <code>SkillOfWarrior</code> и зарегистрированы в админке.</li>
+<li>Реализованы сериализаторы:</li>
+<li>базовые (<code>WarriorSerializer</code>, <code>ProfessionSerializer</code>, <code>SkillSerializer</code>);</li>
+<li>вложенные (<code>WarriorProfessionSerializer</code>, <code>WarriorSkillSerializer</code>, <code>WarriorNestedSerializer</code>).</li>
+<li>С помощью <code>APIView</code> реализованы эндпоинты для просмотра и добавления умений.</li>
+<li>С помощью generic-классов <code>ListAPIView</code>, <code>RetrieveAPIView</code>, <code>DestroyAPIView</code>, <code>UpdateAPIView</code> реализованы:</li>
+<li>вывод списка воинов с профессиями;</li>
+<li>вывод списка воинов с их скиллами;</li>
+<li>вывод полной информации о войне (по id), включая профессию и список умений;</li>
+<li>удаление воина по id;</li>
+<li>редактирование информации о войне.</li>
+<li>Работа всех эндпоинтов проверена через DRF browsable API, подготовлены скриншоты для отчёта.</li>
+</ol>
+<p>Проект демонстрирует использование Django REST Framework для построения CRUD‑API со сложными связями между моделями и вложенной сериализацией данных.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab3_pract_3.1/" class="btn btn-neutral float-left" title="Практическая работа 3.1"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab3_rest_airport/" class="btn btn-neutral float-right" title="Реализация серверной части на Django REST Framework">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab3_pract_3.1/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab3_rest_airport/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

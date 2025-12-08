@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Практическая работа №1 — Знакомство с Django - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 \u21161 \u2014 \u0417\u043d\u0430\u043a\u043e\u043c\u0441\u0442\u0432\u043e \u0441 Django";
+        var mkdocs_page_input_path = "lab2_task1.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Практическая работа №1 — Знакомство с Django</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Цель работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-django">Практическое задание 1 — Установка Django и создание проекта</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#21">Практическое задание 2.1 — Создание модели данных об автовладельцах</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#22">Практическое задание 2.2 — Создание и применение миграций</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">Практическое задание 3 — Работа с административной панелью</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4">Практическое задание 4 — Создание контроллера и шаблона для владельца</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-urls">Практическое задание 5 — Настройка маршрутизации (urls)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#no1">Результаты выполнения практической работы №1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Вывод</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Доска домашних заданий (Django)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3: Django rest</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.1/">Практическая работа 3.1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.2/">Практическая работа 3.2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_rest_airport/">Реализация серверной части на Django REST Framework</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4_report/">Vue.js клиент для системы управления аэропортом</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №2: Django</li>
+      <li class="breadcrumb-item active">Практическая работа №1 — Знакомство с Django</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no1-django">Практическая работа №1 — Знакомство с Django (установка и первое приложение)</h1>
+<p><strong>Автор:</strong> Ермаков Максим<br />
+<strong>Группа:</strong> К3340  </p>
+<hr />
+<h2 id="_1">Цель работы</h2>
+<p>Познакомиться с Django Web Framework, установить фреймворк, создать первый проект и приложение,<br />
+написать первую модель данных, выполнить миграции, подключить административную панель и настроить маршрутизацию.</p>
+<hr />
+<h2 id="1-django">Практическое задание 1 — Установка Django и создание проекта</h2>
+<ol>
+<li>
+<p>Создано виртуальное окружение и установлена библиотека Django:
+   <code>bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install django</code></p>
+</li>
+<li>
+<p>Проверена установка:
+   <code>bash
+   pip freeze</code>
+   Убедились, что Django установлен (версия 5.2.7).</p>
+</li>
+<li>
+<p>Создан проект Django:
+   <code>bash
+   django-admin startproject django_project_ermakov</code></p>
+</li>
+<li>
+<p>Создано приложение:
+   <code>bash
+   python manage.py startapp project_first_app</code></p>
+</li>
+<li>
+<p>Добавлено приложение в <code>settings.py</code>:
+   <code>python
+   INSTALLED_APPS = [
+       'django.contrib.admin',
+       'django.contrib.auth',
+       ...
+       'project_first_app',
+   ]</code></p>
+</li>
+<li>
+<p>Выполнены миграции и запущен сервер:
+   <code>bash
+   python manage.py makemigrations
+   python manage.py migrate
+   python manage.py runserver</code></p>
+</li>
+<li>
+<p>Проверено отображение стандартной стартовой страницы Django по адресу <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>.</p>
+</li>
+</ol>
+<hr />
+<h2 id="21">Практическое задание 2.1 — Создание модели данных об автовладельцах</h2>
+<p>Созданы модели, описывающие структуру данных проекта:</p>
+<pre><code class="language-python">from django.db import models
+
+class Owner(models.Model):
+    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    birth_date = models.DateField(null=True, blank=True)
+
+class Car(models.Model):
+    plate_number = models.CharField(max_length=15, unique=True)
+    make = models.CharField(max_length=20)
+    model = models.CharField(max_length=20)
+    color = models.CharField(max_length=30, null=True, blank=True)
+
+class Ownership(models.Model):
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name='ownerships')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ownerships')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField(null=True, blank=True)
+</code></pre>
+<p>Модель отражает схему данных из методички: владельцы, автомобили и связь владения с датами.</p>
+<hr />
+<h2 id="22">Практическое задание 2.2 — Создание и применение миграций</h2>
+<p>Созданы и применены миграции:</p>
+<pre><code class="language-bash">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<p>Результат — создана база данных <code>db.sqlite3</code>, таблицы сформированы на основе моделей.</p>
+<hr />
+<h2 id="3">Практическое задание 3 — Работа с административной панелью</h2>
+<ol>
+<li>В <code>admin.py</code> зарегистрированы модели:
+   ```python
+   from django.contrib import admin
+   from .models import Owner, Car, Ownership</li>
+</ol>
+<p>admin.site.register(Owner)
+   admin.site.register(Car)
+   admin.site.register(Ownership)
+   ```</p>
+<ol>
+<li>
+<p>Создан суперпользователь:
+   <code>bash
+   python manage.py createsuperuser</code></p>
+</li>
+<li>
+<p>Запущен сервер и выполнен вход в админ-панель: <a href="http://127.0.0.1:8000/admin/">http://127.0.0.1:8000/admin/</a></p>
+</li>
+<li>
+<p>Через интерфейс добавлены:</p>
+</li>
+<li>2 владельца;</li>
+<li>4 автомобиля;</li>
+<li>для каждого владельца — минимум 3 автомобиля без пересечений дат владения.</li>
+</ol>
+<hr />
+<h2 id="4">Практическое задание 4 — Создание контроллера и шаблона для владельца</h2>
+<ol>
+<li>В <code>views.py</code> создан контроллер:</li>
+</ol>
+<p>```python
+   from django.http import Http404
+   from django.shortcuts import render
+   from .models import Owner</p>
+<p>def owner_detail(request, owner_id):
+       try:
+           owner = Owner.objects.get(pk=owner_id)
+       except Owner.DoesNotExist:
+           raise Http404("Owner does not exist")
+       return render(request, 'owner.html', {'owner': owner})
+   ```</p>
+<ol>
+<li>Создан шаблон <code>templates/owner.html</code>:</li>
+</ol>
+<p>```html
+   <!DOCTYPE html></p>
+<html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <title>Owner {{ owner.id }}</title>
+   </head>
+   <body>
+       <h1>Информация о владельце</h1>
+       <p>Имя: {{ owner.first_name }}</p>
+       <p>Фамилия: {{ owner.last_name }}</p>
+       <p>Дата рождения: {{ owner.birth_date }}</p>
+   </body>
+   </html>
+<p>```</p>
+<ol>
+<li>Проверено: страница владельца отображается корректно при обращении по адресу <code>/owner/1</code>.</li>
+</ol>
+<hr />
+<h2 id="5-urls">Практическое задание 5 — Настройка маршрутизации (urls)</h2>
+<ol>
+<li>В <code>project_first_app/urls.py</code> создан файл маршрутов:
+   ```python
+   from django.urls import path
+   from . import views</li>
+</ol>
+<p>urlpatterns = [
+       path('owner/<int:owner_id>/', views.owner_detail, name='owner_detail'),
+   ]
+   ```</p>
+<ol>
+<li>В <code>django_project_ermakov/urls.py</code> добавлено подключение маршрутов приложения:
+   ```python
+   from django.contrib import admin
+   from django.urls import path, include</li>
+</ol>
+<p>urlpatterns = [
+       path('admin/', admin.site.urls),
+       path('', include('project_first_app.urls')),
+   ]
+   ```</p>
+<ol>
+<li>Проверено: переход по адресу <a href="http://127.0.0.1:8000/owner/1">http://127.0.0.1:8000/owner/1</a> отображает информацию о первом владельце.</li>
+</ol>
+<hr />
+<h2 id="no1">Результаты выполнения практической работы №1</h2>
+<p>✅ Установлен Django и создан проект.<br />
+✅ Созданы модели данных и выполнены миграции.<br />
+✅ Настроена административная панель, добавлены тестовые данные.<br />
+✅ Создан контроллер и шаблон для отображения владельца.<br />
+✅ Настроена маршрутизация.  </p>
+<hr />
+<h2 id="_2">Вывод</h2>
+<p>В ходе практической работы №1 был освоен базовый цикл разработки на Django:<br />
+установка фреймворка, создание проекта и приложения, описание моделей, выполнение миграций, подключение админ-панели и настройка маршрутов для отображения информации из базы данных.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../task5/" class="btn btn-neutral float-left" title="Задание 5: Веб-сервер (GET/POST)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab2_task2/" class="btn btn-neutral float-right" title="Практическая работа №2 — Реализация CRUD">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../task5/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab2_task2/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

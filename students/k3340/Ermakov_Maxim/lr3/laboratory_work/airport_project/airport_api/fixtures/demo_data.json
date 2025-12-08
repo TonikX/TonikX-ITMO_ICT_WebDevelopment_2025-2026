@@ -1,0 +1,708 @@
+[
+  {
+    "model": "airport_api.airport",
+    "pk": "LED",
+    "fields": {
+      "country": "Russia",
+      "status": "active",
+      "city": "Saint Petersburg",
+      "name": "Pulkovo"
+    }
+  },
+  {
+    "model": "airport_api.airport",
+    "pk": "SVO",
+    "fields": {
+      "country": "Russia",
+      "status": "active",
+      "city": "Moscow",
+      "name": "Sheremetyevo"
+    }
+  },
+  {
+    "model": "airport_api.airport",
+    "pk": "LHR",
+    "fields": {
+      "country": "UK",
+      "status": "active",
+      "city": "London",
+      "name": "Heathrow"
+    }
+  },
+  {
+    "model": "airport_api.company",
+    "pk": 1,
+    "fields": {
+      "name": "Northern Sky Airlines",
+      "country": "Russia",
+      "company_type": "carrier"
+    }
+  },
+  {
+    "model": "airport_api.company",
+    "pk": 2,
+    "fields": {
+      "name": "Pulkovo Airport Authority",
+      "country": "Russia",
+      "company_type": "airport_owner"
+    }
+  },
+  {
+    "model": "airport_api.planetype",
+    "pk": 1,
+    "fields": {
+      "name": "Airbus A320",
+      "seat_count": 180,
+      "cruise_speed": 840.0
+    }
+  },
+  {
+    "model": "airport_api.planetype",
+    "pk": 2,
+    "fields": {
+      "name": "Boeing 737-800",
+      "seat_count": 189,
+      "cruise_speed": 820.0
+    }
+  },
+  {
+    "model": "airport_api.plane",
+    "pk": 1,
+    "fields": {
+      "company": 1,
+      "plane_type": 1,
+      "reg_number": "RA-001AA",
+      "status": "active",
+      "flight_hours": 5000.0,
+      "last_technical_service": "2024-01-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "airport_api.plane",
+    "pk": 2,
+    "fields": {
+      "company": 1,
+      "plane_type": 1,
+      "reg_number": "RA-002AA",
+      "status": "maintenance",
+      "flight_hours": 6200.0,
+      "last_technical_service": "2023-12-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "airport_api.plane",
+    "pk": 3,
+    "fields": {
+      "company": 1,
+      "plane_type": 2,
+      "reg_number": "RA-003BB",
+      "status": "active",
+      "flight_hours": 3000.0,
+      "last_technical_service": "2024-02-15T12:00:00Z"
+    }
+  },
+  {
+    "model": "airport_api.route",
+    "pk": 1,
+    "fields": {
+      "departure_airport": "LED",
+      "destination_airport": "LHR",
+      "distance_km": 2100.0
+    }
+  },
+  {
+    "model": "airport_api.route",
+    "pk": 2,
+    "fields": {
+      "departure_airport": "LED",
+      "destination_airport": "SVO",
+      "distance_km": 600.0
+    }
+  },
+  {
+    "model": "airport_api.flight",
+    "pk": 1,
+    "fields": {
+      "flight_number": "NS101",
+      "route": 1,
+      "operating_company": 1
+    }
+  },
+  {
+    "model": "airport_api.flight",
+    "pk": 2,
+    "fields": {
+      "flight_number": "NS102",
+      "route": 2,
+      "operating_company": 1
+    }
+  },
+  {
+    "model": "airport_api.flightinstance",
+    "pk": 1,
+    "fields": {
+      "flight": 1,
+      "plane": 1,
+      "status": "scheduled",
+      "departure_time": "2024-03-01T08:00:00Z",
+      "departure_time_fact": null,
+      "arrival_time": "2024-03-01T11:00:00Z",
+      "arrival_time_fact": null
+    }
+  },
+  {
+    "model": "airport_api.flightinstance",
+    "pk": 2,
+    "fields": {
+      "flight": 1,
+      "plane": 3,
+      "status": "scheduled",
+      "departure_time": "2024-03-02T08:00:00Z",
+      "departure_time_fact": null,
+      "arrival_time": "2024-03-02T11:00:00Z",
+      "arrival_time_fact": null
+    }
+  },
+  {
+    "model": "airport_api.flightinstance",
+    "pk": 3,
+    "fields": {
+      "flight": 1,
+      "plane": 1,
+      "status": "scheduled",
+      "departure_time": "2024-03-03T08:00:00Z",
+      "departure_time_fact": null,
+      "arrival_time": "2024-03-03T11:00:00Z",
+      "arrival_time_fact": null
+    }
+  },
+  {
+    "model": "airport_api.flightinstance",
+    "pk": 4,
+    "fields": {
+      "flight": 2,
+      "plane": 3,
+      "status": "scheduled",
+      "departure_time": "2024-03-01T15:00:00Z",
+      "departure_time_fact": null,
+      "arrival_time": "2024-03-01T16:30:00Z",
+      "arrival_time_fact": null
+    }
+  },
+  {
+    "model": "airport_api.transitstop",
+    "pk": 1,
+    "fields": {
+      "flight_instance": 1,
+      "airport": "SVO",
+      "stop_order": 1,
+      "arrival_time": "2024-03-01T09:00:00Z",
+      "departure_time": "2024-03-01T09:45:00Z"
+    }
+  },
+  {
+    "model": "airport_api.passenger",
+    "pk": 1,
+    "fields": {
+      "full_name": "Ivan Petrov",
+      "passport_serial": "4010",
+      "passport_number": "123456",
+      "passport_region": "GU MVD SPb",
+      "birth_date": "1990-05-10",
+      "phone_number": "+7-900-000-00-01",
+      "email": "ivan.petrov@example.com"
+    }
+  },
+  {
+    "model": "airport_api.passenger",
+    "pk": 2,
+    "fields": {
+      "full_name": "Anna Smirnova",
+      "passport_serial": "4011",
+      "passport_number": "654321",
+      "passport_region": "GU MVD Moscow",
+      "birth_date": "1992-08-20",
+      "phone_number": "+7-900-000-00-02",
+      "email": "anna.smirnova@example.com"
+    }
+  },
+  {
+    "model": "airport_api.passenger",
+    "pk": 3,
+    "fields": {
+      "full_name": "John Smith",
+      "passport_serial": "AB",
+      "passport_number": "987654",
+      "passport_region": "UK Gov",
+      "birth_date": "1985-12-01",
+      "phone_number": "+44-20-0000-0000",
+      "email": "john.smith@example.com"
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 1,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "1A",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 2,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "1B",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 3,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "2A",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 4,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "2B",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 5,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "3A",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 6,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "3B",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 7,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "4A",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 8,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "4B",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 9,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "5A",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 10,
+    "fields": {
+      "flight_instance": 1,
+      "seat_number": "5B",
+      "seat_type": "economy",
+      "base_price": "15000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 1,
+    "fields": {
+      "flight_instance": 1,
+      "passenger": 1,
+      "seat": 1,
+      "sale_channel": "online",
+      "status": "paid",
+      "additional_fee": "500.00"
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 2,
+    "fields": {
+      "flight_instance": 1,
+      "passenger": 2,
+      "seat": 2,
+      "sale_channel": "online",
+      "status": "booked",
+      "additional_fee": "0.00"
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 3,
+    "fields": {
+      "flight_instance": 1,
+      "passenger": 3,
+      "seat": 3,
+      "sale_channel": "agency",
+      "status": "paid",
+      "additional_fee": "1000.00"
+    }
+  },
+  {
+    "model": "airport_api.crewmember",
+    "pk": 1,
+    "fields": {
+      "company": 1,
+      "full_name": "Captain Alexei Morozov",
+      "birth_date": "1975-04-15",
+      "education": "Higher flight school",
+      "experience_years": 20,
+      "email": "alexei.morozov@example.com",
+      "phone_number": "+7-900-000-10-01",
+      "passport_serial": "4012",
+      "passport_number": "111111",
+      "passport_region": "GU MVD SPb",
+      "role": "captain",
+      "is_active": true,
+      "is_allowed": true
+    }
+  },
+  {
+    "model": "airport_api.crewmember",
+    "pk": 2,
+    "fields": {
+      "company": 1,
+      "full_name": "First Officer Pavel Ivanov",
+      "birth_date": "1980-06-01",
+      "education": "Higher flight school",
+      "experience_years": 15,
+      "email": "pavel.ivanov@example.com",
+      "phone_number": "+7-900-000-10-02",
+      "passport_serial": "4013",
+      "passport_number": "222222",
+      "passport_region": "GU MVD SPb",
+      "role": "copilot",
+      "is_active": true,
+      "is_allowed": true
+    }
+  },
+  {
+    "model": "airport_api.crewmember",
+    "pk": 3,
+    "fields": {
+      "company": 1,
+      "full_name": "Senior Steward Maria Volkova",
+      "birth_date": "1988-01-20",
+      "education": "College",
+      "experience_years": 10,
+      "email": "maria.volkova@example.com",
+      "phone_number": "+7-900-000-10-03",
+      "passport_serial": "4014",
+      "passport_number": "333333",
+      "passport_region": "GU MVD SPb",
+      "role": "steward",
+      "is_active": true,
+      "is_allowed": true
+    }
+  },
+  {
+    "model": "airport_api.crewmember",
+    "pk": 4,
+    "fields": {
+      "company": 1,
+      "full_name": "Steward Sergey Kuznetsov",
+      "birth_date": "1990-09-09",
+      "education": "College",
+      "experience_years": 8,
+      "email": "sergey.kuznetsov@example.com",
+      "phone_number": "+7-900-000-10-04",
+      "passport_serial": "4015",
+      "passport_number": "444444",
+      "passport_region": "GU MVD SPb",
+      "role": "steward",
+      "is_active": true,
+      "is_allowed": true
+    }
+  },
+  {
+    "model": "airport_api.crew",
+    "pk": 1,
+    "fields": {
+      "crew_member": 1,
+      "flight_instance": 1,
+      "role": "captain",
+      "medical_check_date": "2024-02-20T09:00:00Z",
+      "medical_status": "Допущен",
+      "medical_reason": ""
+    }
+  },
+  {
+    "model": "airport_api.crew",
+    "pk": 2,
+    "fields": {
+      "crew_member": 2,
+      "flight_instance": 1,
+      "role": "copilot",
+      "medical_check_date": "2024-02-20T09:00:00Z",
+      "medical_status": "Допущен",
+      "medical_reason": ""
+    }
+  },
+  {
+    "model": "airport_api.crew",
+    "pk": 3,
+    "fields": {
+      "crew_member": 3,
+      "flight_instance": 1,
+      "role": "senior steward",
+      "medical_check_date": "2024-02-18T09:00:00Z",
+      "medical_status": "Допущен",
+      "medical_reason": ""
+    }
+  },
+  {
+    "model": "airport_api.crew",
+    "pk": 4,
+    "fields": {
+      "crew_member": 4,
+      "flight_instance": 1,
+      "role": "steward",
+      "medical_check_date": "2024-02-18T09:00:00Z",
+      "medical_status": "Допущен",
+      "medical_reason": ""
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 11,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "1A",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 12,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "1B",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 13,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "2A",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 14,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "2B",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 15,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "3A",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 16,
+    "fields": {
+      "flight_instance": 2,
+      "seat_number": "3B",
+      "seat_type": "economy",
+      "base_price": "8000.00",
+      "is_booked": false
+    }
+  },
+
+  {
+    "model": "airport_api.seat",
+    "pk": 17,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "1A",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 18,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "1B",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 19,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "2A",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": true
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 20,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "2B",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 21,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "3A",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": false
+    }
+  },
+  {
+    "model": "airport_api.seat",
+    "pk": 22,
+    "fields": {
+      "flight_instance": 3,
+      "seat_number": "3B",
+      "seat_type": "economy",
+      "base_price": "9000.00",
+      "is_booked": false
+    }
+  },
+
+  {
+    "model": "airport_api.ticket",
+    "pk": 4,
+    "fields": {
+      "flight_instance": 2,
+      "passenger": 1,
+      "seat": 11,
+      "sale_channel": "online",
+      "status": "paid",
+      "additional_fee": "0.00"
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 5,
+    "fields": {
+      "flight_instance": 2,
+      "passenger": 2,
+      "seat": 12,
+      "sale_channel": "online",
+      "status": "booked",
+      "additional_fee": "0.00"
+    }
+  },
+
+  {
+    "model": "airport_api.ticket",
+    "pk": 6,
+    "fields": {
+      "flight_instance": 3,
+      "passenger": 1,
+      "seat": 17,
+      "sale_channel": "online",
+      "status": "paid",
+      "additional_fee": "0.00"
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 7,
+    "fields": {
+      "flight_instance": 3,
+      "passenger": 2,
+      "seat": 18,
+      "sale_channel": "online",
+      "status": "paid",
+      "additional_fee": "0.00"
+    }
+  },
+  {
+    "model": "airport_api.ticket",
+    "pk": 8,
+    "fields": {
+      "flight_instance": 3,
+      "passenger": 3,
+      "seat": 19,
+      "sale_channel": "agency",
+      "status": "booked",
+      "additional_fee": "500.00"
+    }
+  }
+
+]
