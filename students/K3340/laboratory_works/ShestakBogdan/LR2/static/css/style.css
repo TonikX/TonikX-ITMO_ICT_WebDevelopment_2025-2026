@@ -1,0 +1,166 @@
+body {
+  background-color: #121212;
+  color: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🔴 Заголовки */
+h1, h2, h3, h4 {
+  color: #ff3b3b;
+  text-shadow: 0 0 10px rgba(255, 59, 59, 0.4);
+}
+
+/* 🔥 Навбар */
+.navbar {
+  background-color: #000 !important;
+}
+.navbar-brand:hover {
+  color: #ff3b3b !important;
+}
+
+/* 🩸 Кнопки */
+.btn-danger {
+  background-color: #ff3b3b;
+  border-color: #ff3b3b;
+}
+.btn-danger:hover {
+  background-color: #ff6666;
+  border-color: #ff6666;
+  box-shadow: 0 0 8px rgba(255, 59, 59, 0.5);
+}
+.btn-outline-danger {
+  border-color: #ff3b3b;
+  color: #ff3b3b;
+}
+.btn-outline-danger:hover {
+  background-color: #ff3b3b;
+  color: #fff;
+}
+
+/* 🖤 Карточки и таблицы */
+.card, .table {
+  background-color: #1a1a1a;
+  border-color: #2a2a2a;
+}
+.table th {
+  color: #ff3b3b;
+}
+.table-hover tbody tr:hover {
+  background-color: #2a2a2a;
+}
+
+/* ✨ Формы */
+input, select, textarea {
+  background-color: #181818;
+  color: #fff;
+  border: 1px solid #333;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #ff3b3b;
+  box-shadow: 0 0 6px rgba(255, 59, 59, 0.4);
+}
+
+/* 📊 Таблицы номеров */
+.table {
+  background-color: #1a1a1a;
+  color: #f1f1f1;
+  border-color: #2a2a2a;
+}
+
+.table thead th {
+  color: #ff3b3b; /* красные заголовки */
+  font-weight: 600;
+  border-bottom: 2px solid #ff3b3b;
+}
+
+.table tbody td {
+  color: #eaeaea; /* белый текст */
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: #2a2a2a;
+  transition: 0.2s;
+}
+
+/* 🟢 Кнопка "Забронировать" */
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn-success:hover {
+  background-color: #34d058;
+  border-color: #34d058;
+  box-shadow: 0 0 6px rgba(52, 208, 88, 0.5);
+}
+
+/* ⚪ Кнопка "Оставить отзыв" */
+.btn-secondary {
+  background-color: #444;
+  border-color: #555;
+  color: #eaeaea;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+  color: #fff;
+  box-shadow: 0 0 6px rgba(255, 59, 59, 0.3);
+}
+
+/* ✨ Выровнять кнопки */
+.table .btn {
+  min-width: 120px;
+  margin-right: 5px;
+}
+
+.table tbody tr:hover {
+  background-color: #222;
+  box-shadow: inset 0 0 10px rgba(255, 59, 59, 0.2);
+}
+
+/* 💬 Блок отзывов */
+.review-card {
+  background-color: #1b1b1b;
+  border: 1px solid #2c2c2c;
+  color: #f1f1f1;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 8px rgba(255, 59, 59, 0.15);
+  transition: 0.2s;
+}
+
+.review-card:hover {
+  border-color: #ff3b3b;
+  box-shadow: 0 0 12px rgba(255, 59, 59, 0.3);
+}
+
+.review-card strong {
+  color: #ff3b3b;
+}
+
+.review-meta {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.review-text {
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+/* 🩸 Заголовок раздела */
+h4, h5.review-title {
+  color: #ff3b3b;
+  margin-bottom: 15px;
+}
+
+/* Сообщение "нет отзывов" */
+.no-reviews {
+  color: #888;
+  font-style: italic;
+  margin-top: 10px;
+}
