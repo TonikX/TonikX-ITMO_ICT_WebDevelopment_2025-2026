@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     # для токен-авторизации и Djoser
     'rest_framework.authtoken',
     'djoser',
+    "corsheaders",
     # наше приложение
     'airport_api',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,3 +157,5 @@ REST_FRAMEWORK = {
 DJOSER = {
     "LOGIN_FIELD": "username",  # будем логиниться по username
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
