@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Реализация серверной части на Django REST Framework - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0441\u0435\u0440\u0432\u0435\u0440\u043d\u043e\u0439 \u0447\u0430\u0441\u0442\u0438 \u043d\u0430 Django REST Framework";
+        var mkdocs_page_input_path = "lab3_rest_airport.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Доска домашних заданий (Django)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3: Django rest</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.1/">Практическая работа 3.1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.2/">Практическая работа 3.2</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Реализация серверной части на Django REST Framework</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#django-rest-framework">Реализация серверной части на Django REST Framework</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4_report/">Vue.js клиент для системы управления аэропортом</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №3: Django rest</li>
+      <li class="breadcrumb-item active">Реализация серверной части на Django REST Framework</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no3"><strong>Лабораторная работа №3</strong></h1>
+<h2 id="django-rest-framework"><strong>Реализация серверной части на Django REST Framework</strong></h2>
+<p><strong>Дисциплина:</strong> Web-программирование
+<strong>Исполнитель:</strong> <em>Ермаков Максим Олегович</em></p>
+<hr />
+<h1 id="_1"><strong>Цель работы</strong></h1>
+<p>Овладеть практическими навыками разработки backend-части web-приложения с использованием Django и Django REST Framework.
+Реализовать REST-API для предметной области согласно варианту, а также обеспечить авторизацию/регистрацию через Djoser.</p>
+<hr />
+<h1 id="_2"><strong>Вариант: "Административная система аэропорта авиакомпании"</strong></h1>
+<p>Разрабатываемая система должна хранить и обрабатывать информацию:</p>
+<ul>
+<li>о самолетах, типах самолетов и авиакомпаниях;</li>
+<li>о маршрутах, рейсах, конкретных вылетах;</li>
+<li>о транзитных посадках;</li>
+<li>о пассажирах, местах и билетах;</li>
+<li>о сотрудниках авиакомпании (экипаже);</li>
+<li>
+<p>о различных аналитических запросах:</p>
+</li>
+<li>
+<p>определение наиболее часто летающей марки самолёта на маршруте;</p>
+</li>
+<li>поиск недозаполненных рейсов (меньше ХХ %);</li>
+<li>определение свободных мест на рейс;</li>
+<li>количество самолётов в ремонте;</li>
+<li>количество сотрудников компании;</li>
+<li>отчёт по бортам компании-владельца по маркам.</li>
+</ul>
+<hr />
+<h1 id="1"><strong>1. Подготовка проекта</strong></h1>
+<h3 id="_3">Создание виртуального окружения:</h3>
+<pre><code class="language-bash">python3 -m venv venv
+source venv/bin/activate
+</code></pre>
+<h3 id="_4">Установка зависимостей:</h3>
+<pre><code class="language-bash">pip install django djangorestframework djoser drf-yasg
+</code></pre>
+<h3 id="_5">Создание проекта и приложения:</h3>
+<pre><code class="language-bash">django-admin startproject airport_project .
+python manage.py startapp airport_api
+</code></pre>
+<hr />
+<h1 id="2-django-drf"><strong>2. Настройка Django и DRF</strong></h1>
+<h3 id="settingspy">В <code>settings.py</code> подключены приложения:</h3>
+<pre><code class="language-python">INSTALLED_APPS = [
+    ...,
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'airport_api',
+]
+</code></pre>
+<h3 id="drf">Добавлены настройки DRF и авторизации:</h3>
+<pre><code class="language-python">REST_FRAMEWORK = {
+    &quot;DEFAULT_AUTHENTICATION_CLASSES&quot;: [
+        &quot;rest_framework.authentication.TokenAuthentication&quot;,
+        &quot;rest_framework.authentication.SessionAuthentication&quot;,
+    ],
+    &quot;DEFAULT_PERMISSION_CLASSES&quot;: [
+        &quot;rest_framework.permissions.IsAuthenticatedOrReadOnly&quot;,
+    ]
+}
+
+DJOSER = {
+    &quot;LOGIN_FIELD&quot;: &quot;username&quot;,
+}
+</code></pre>
+<hr />
+<h1 id="3"><strong>3. Проектирование БД и модели</strong></h1>
+<p>Схема базы была разработана заранее (ER-диаграмма).
+Сущности отражают предметную область аэропорта.</p>
+<h3 id="_6">Пример ключевых моделей (фрагменты):</h3>
+<pre><code class="language-python">class Company(models.Model):
+    name = models.CharField(max_length=200)
+    country = models.CharField(max_length=100)
+    company_type = models.CharField(max_length=20)
+</code></pre>
+<pre><code class="language-python">class Plane(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    plane_type = models.ForeignKey(PlaneType, on_delete=models.PROTECT)
+    reg_number = models.CharField(max_length=20, unique=True)
+    status = models.CharField(max_length=20)
+</code></pre>
+<pre><code class="language-python">class FlightInstance(models.Model):
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    plane = models.ForeignKey(Plane, on_delete=models.PROTECT)
+    departure_time = models.DateTimeField()
+    arrival_time = models.DateTimeField()
+</code></pre>
+<pre><code class="language-python">class Ticket(models.Model):
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    seat = models.OneToOneField(Seat, on_delete=models.PROTECT)
+    flight_instance = models.ForeignKey(FlightInstance, on_delete=models.CASCADE)
+</code></pre>
+<hr />
+<h1 id="4"><strong>4. Миграции</strong></h1>
+<pre><code class="language-bash">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<hr />
+<h1 id="5"><strong>5. Наполнение БД</strong></h1>
+<p>Создан файл <code>fixtures/demo_data.json</code>.
+Данные загружены:</p>
+<pre><code class="language-bash">python manage.py loaddata airport_api/fixtures/demo_data.json
+</code></pre>
+<p>Теперь API возвращает реальные данные.</p>
+<hr />
+<h1 id="6-serializerspy"><strong>6. Сериализаторы (serializers.py)</strong></h1>
+<p>Для каждой модели создан <code>ModelSerializer</code>. Пример:</p>
+<pre><code class="language-python">class PlaneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plane
+        fields = &quot;__all__&quot;
+</code></pre>
+<hr />
+<h1 id="7-crud-"><strong>7. Реализация CRUD-эндпоинтов</strong></h1>
+<p>Для всех моделей реализованы стандартные CRUD-операции:</p>
+<pre><code class="language-python">class PlaneListCreateView(generics.ListCreateAPIView):
+    queryset = Plane.objects.all()
+    serializer_class = PlaneSerializer
+
+class PlaneDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Plane.objects.all()
+    serializer_class = PlaneSerializer
+</code></pre>
+<hr />
+<h1 id="8-get-"><strong>8. Вложенные GET-запросы</strong></h1>
+<h2 id="81-">8.1. Один-ко-многим: маршрут + рейсы</h2>
+<pre><code class="language-python">class RouteWithFlightsView(generics.RetrieveAPIView):
+    queryset = Route.objects.all()
+    serializer_class = RouteWithFlightsSerializer
+</code></pre>
+<p>Запрос:</p>
+<pre><code>GET /api/routes/&lt;id&gt;/with-flights/
+</code></pre>
+<h2 id="82-">8.2. Многие-ко-многим: вылет + экипаж</h2>
+<pre><code class="language-python">class FlightInstanceWithCrewView(generics.RetrieveAPIView):
+    queryset = FlightInstance.objects.all()
+    serializer_class = FlightInstanceWithCrewSerializer
+</code></pre>
+<p>Запрос:</p>
+<pre><code>GET /api/flight-instances/&lt;id&gt;/with-crew/
+</code></pre>
+<hr />
+<h1 id="9"><strong>9. Аналитические запросы</strong></h1>
+<p>Ниже — примеры реальных эндпоинтов.</p>
+<h2 id="91">9.1. Наиболее часто летающая марка самолёта</h2>
+<pre><code class="language-python">class RouteTopPlaneTypeView(APIView):
+    def get(self, request, pk):
+        plane_type = (
+            PlaneType.objects
+            .filter(planes__flight_instances__flight__route_id=pk)
+            .annotate(flights_count=Count(&quot;planes__flight_instances&quot;))
+            .order_by(&quot;-flights_count&quot;)
+            .first()
+        )
+        ...
+</code></pre>
+<h2 id="92">9.2. Недозаполненные рейсы</h2>
+<pre><code class="language-python">class UnderfilledRoutesView(APIView):
+    def get(self, request):
+        percent = float(request.query_params.get(&quot;percent&quot;, 70))
+        ...
+</code></pre>
+<h2 id="93">9.3. Свободные места</h2>
+<pre><code class="language-python">class FlightInstanceFreeSeatsView(APIView):
+    def get(self, request, pk):
+        seats = Seat.objects.filter(
+            flight_instance_id=pk,
+            is_booked=False,
+            ticket__isnull=True,
+        )
+</code></pre>
+<h2 id="94">9.4. Самолёты в ремонте</h2>
+<pre><code class="language-python">class PlanesInMaintenanceView(APIView):
+    &quot;&quot;&quot;
+    Возвращает количество самолётов со статусом 'maintenance'.
+    &quot;&quot;&quot;
+    def get(self, request):
+        count = Plane.objects.filter(status=&quot;maintenance&quot;).count()
+        return Response({&quot;planes_in_maintenance&quot;: count})
+</code></pre>
+<h2 id="95">9.5. Количество сотрудников компании</h2>
+<pre><code class="language-python">class CompanyEmployeesCountView(APIView):
+    &quot;&quot;&quot;
+    Возвращает количество активных сотрудников компании.
+    &quot;&quot;&quot;
+    def get(self, request, pk):
+        company_id = pk
+        total = CrewMember.objects.filter(
+            company_id=company_id,
+            is_active=True,
+        ).count()
+        return Response({
+            &quot;company_id&quot;: company_id,
+            &quot;active_employees&quot;: total,
+        })
+</code></pre>
+<h2 id="96">9.6. Отчёт по бортам компании</h2>
+<pre><code class="language-python">class CompanyPlanesReportView(APIView):
+    def get(self, request, pk):
+        company_id = pk
+
+        company = Company.objects.filter(id=company_id).first()
+        if not company:
+            return Response({&quot;detail&quot;: &quot;Компания не найдена.&quot;}, status=404)
+
+        planes_qs = Plane.objects.filter(company_id=company_id)
+
+        total_planes = planes_qs.count()
+
+        type_stats = (
+            PlaneType.objects
+            .filter(planes__in=planes_qs)
+            .annotate(planes_count=Count(&quot;planes&quot;))
+            .distinct()
+        )
+
+        types_data = []
+        for pt in type_stats:
+            types_data.append({
+                &quot;plane_type_id&quot;: pt.id,
+                &quot;plane_type_name&quot;: pt.name,
+                &quot;seat_count&quot;: pt.seat_count,
+                &quot;cruise_speed&quot;: pt.cruise_speed,
+                &quot;planes_count&quot;: pt.planes_count,
+            })
+
+        return Response({
+            &quot;company_id&quot;: company.id,
+            &quot;company_name&quot;: company.name,
+            &quot;total_planes&quot;: total_planes,
+            &quot;by_plane_type&quot;: types_data,
+        })
+</code></pre>
+<hr />
+<h1 id="10-djoser"><strong>10. Авторизация и регистрация (Djoser)</strong></h1>
+<p>Подключены URL:</p>
+<pre><code class="language-python">path(&quot;auth/&quot;, include(&quot;djoser.urls&quot;)),
+path(&quot;auth/&quot;, include(&quot;djoser.urls.authtoken&quot;)),
+</code></pre>
+<p>⚙️ Доступные методы:</p>
+<ul>
+<li><code>POST /auth/users/</code> — регистрация</li>
+<li><code>POST /auth/token/login/</code> — получить токен</li>
+<li><code>POST /auth/token/logout/</code> — выйти</li>
+<li><code>GET /auth/users/me/</code> — текущий пользователь по токену</li>
+</ul>
+<p>Пример запроса:</p>
+<pre><code class="language-http">POST /auth/token/login/
+{
+  &quot;username&quot;: &quot;testuser&quot;,
+  &quot;password&quot;: &quot;qwerty123&quot;
+}
+</code></pre>
+<hr />
+<hr />
+<h1 id="_7"><strong>Вывод</strong></h1>
+<p>В ходе лабораторной работы был создан полный REST-backend для системы учёта рейсов аэропорта:</p>
+<ul>
+<li>реализована база данных с множеством связанных сущностей;</li>
+<li>созданы сериализаторы, CRUD и вложенные запросы;</li>
+<li>реализованы сокращённые и расширенные представления данных;</li>
+<li>выполнены аналитические запросы согласно варианту задания;</li>
+<li>добавлена токен-авторизация и регистрация пользователей через Djoser;</li>
+<li>выполнено наполнение БД и проверка API через браузер и инструменты разработки.</li>
+</ul>
+<p>Система полностью готова к использованию и дальнейшему расширению.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab3_pract_3.2/" class="btn btn-neutral float-left" title="Практическая работа 3.2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab4_report/" class="btn btn-neutral float-right" title="Vue.js клиент для системы управления аэропортом">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab3_pract_3.2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab4_report/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

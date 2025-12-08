@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Практическая работа №2 — Реализация CRUD - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 \u21162 \u2014 \u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f CRUD";
+        var mkdocs_page_input_path = "lab2_task2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Практическая работа №2 — Реализация CRUD</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Цель работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1">Задача 1 — Доработка модели данных (связь «многие ко многим»)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Цель</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Ход выполнения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Результат</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">Задача 2 — Работа с представлениями (контроллерами)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">Цель</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#21">2.1 Представления на функциях</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22">2.2 Представления на классах</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">Список автомобилей</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">Детальная информация о машине</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">Обновление автомобиля</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">Удаление автомобиля</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">Результат</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">Задача 3 — Работа с формами и представлениями</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">Цель</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#31-fbv">3.1 Формы на основе функций (FBV)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-cbv">3.2 Формы на основе классов (CBV)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">Создание автомобиля</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_13">Удаление автомобиля</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">Результат</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_15">Вывод</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Доска домашних заданий (Django)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3: Django rest</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.1/">Практическая работа 3.1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.2/">Практическая работа 3.2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_rest_airport/">Реализация серверной части на Django REST Framework</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4_report/">Vue.js клиент для системы управления аэропортом</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №2: Django</li>
+      <li class="breadcrumb-item active">Практическая работа №2 — Реализация CRUD</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no2-crud-django">Практическая работа №2 — Реализация CRUD в Django</h1>
+<p><strong>Автор:</strong> Ермаков Максим<br />
+<strong>Группа:</strong> К3340  </p>
+<hr />
+<h2 id="_1">Цель работы</h2>
+<p>Освоить принципы реализации CRUD-интерфейсов (Create, Read, Update, Delete) средствами Django, используя функциональные и классовые представления, формы и шаблоны.</p>
+<hr />
+<h2 id="1">Задача 1 — Доработка модели данных (связь «многие ко многим»)</h2>
+<h3 id="_2">Цель</h3>
+<p>Правильно реализовать связь между владельцем, автомобилем и владением, используя механизм ManyToMany.</p>
+<h3 id="_3">Ход выполнения</h3>
+<p>В модели <code>Owner</code> добавлено поле <code>cars</code>, использующее ассоциативную сущность <code>Ownership</code> для связи с автомобилями.</p>
+<pre><code class="language-python">from django.db import models
+
+class Owner(models.Model):
+    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    birth_date = models.DateField(null=True, blank=True)
+    cars = models.ManyToManyField('Car', through='Ownership', related_name='owners')
+
+    def __str__(self):
+        return f&quot;{self.last_name} {self.first_name}&quot;
+
+
+class Car(models.Model):
+    plate_number = models.CharField(max_length=15, unique=True)
+    make = models.CharField(max_length=20)
+    model = models.CharField(max_length=20)
+    color = models.CharField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return f&quot;{self.make} {self.model} ({self.plate_number})&quot;
+
+
+class Ownership(models.Model):
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name='ownerships')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ownerships')
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = [('owner', 'car', 'start_date')]
+</code></pre>
+<h3 id="_4">Результат</h3>
+<p>Связь между владельцем и автомобилем реализована корректно через модель <code>Ownership</code>, что обеспечивает возможность хранить периоды владения и исключать пересечения по датам.</p>
+<hr />
+<h2 id="2">Задача 2 — Работа с представлениями (контроллерами)</h2>
+<h3 id="_5">Цель</h3>
+<p>Научиться использовать два подхода к построению представлений (views):<br />
+- <strong>функциональные</strong> (Function-Based Views, FBV),<br />
+- <strong>классовые</strong> (Class-Based Views, CBV).</p>
+<hr />
+<h3 id="21">2.1 Представления на функциях</h3>
+<p>Пример FBV для вывода всех владельцев:</p>
+<pre><code class="language-python">from django.shortcuts import render
+from .models import Owner
+
+def owners_list(request):
+    owners = Owner.objects.all()
+    return render(request, &quot;owners_list.html&quot;, {&quot;owners&quot;: owners})
+</code></pre>
+<p>Шаблон <code>owners_list.html</code>:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Owners list&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Список владельцев&lt;/h1&gt;
+&lt;ul&gt;
+{% for owner in owners %}
+  &lt;li&gt;{{ owner.last_name }} {{ owner.first_name }} — {{ owner.birth_date }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Адресация (<code>urls.py</code>):</p>
+<pre><code class="language-python">from django.urls import path
+from .views import owners_list
+
+urlpatterns = [
+    path('owners/', owners_list, name='owners_list'),
+]
+</code></pre>
+<hr />
+<h3 id="22">2.2 Представления на классах</h3>
+<h4 id="_6">Список автомобилей</h4>
+<pre><code class="language-python">from django.views.generic import ListView
+from .models import Car
+
+class CarListView(ListView):
+    model = Car
+    template_name = 'car_list.html'
+    ordering = ['make']
+</code></pre>
+<p>Шаблон <code>car_list.html</code>:</p>
+<pre><code class="language-html">&lt;h1&gt;Список автомобилей&lt;/h1&gt;
+&lt;ul&gt;
+{% for car in object_list %}
+  &lt;li&gt;&lt;a href=&quot;/cars/{{ car.pk }}/&quot;&gt;{{ car.make }} {{ car.model }}&lt;/a&gt;&lt;/li&gt;
+{% empty %}
+  &lt;li&gt;Нет автомобилей&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+<h4 id="_7">Детальная информация о машине</h4>
+<pre><code class="language-python">from django.views.generic import DetailView
+
+class CarDetailView(DetailView):
+    model = Car
+    template_name = 'car_detail.html'
+</code></pre>
+<p>Шаблон <code>car_detail.html</code>:</p>
+<pre><code class="language-html">&lt;h1&gt;{{ object.make }} {{ object.model }}&lt;/h1&gt;
+&lt;p&gt;Номер: {{ object.plate_number }}&lt;/p&gt;
+&lt;p&gt;Цвет: {{ object.color }}&lt;/p&gt;
+&lt;a href=&quot;/cars/{{ object.pk }}/update/&quot;&gt;Редактировать&lt;/a&gt;
+</code></pre>
+<h4 id="_8">Обновление автомобиля</h4>
+<pre><code class="language-python">from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+
+class CarUpdateView(UpdateView):
+    model = Car
+    fields = ['plate_number', 'make', 'model', 'color']
+    template_name = 'car_form.html'
+    success_url = reverse_lazy('car_list')
+</code></pre>
+<h4 id="_9">Удаление автомобиля</h4>
+<pre><code class="language-python">from django.views.generic.edit import DeleteView
+
+class CarDeleteView(DeleteView):
+    model = Car
+    template_name = 'car_confirm_delete.html'
+    success_url = reverse_lazy('car_list')
+</code></pre>
+<p>Адресация:</p>
+<pre><code class="language-python">path('cars/', CarListView.as_view(), name='car_list'),
+path('cars/&lt;int:pk&gt;/', CarDetailView.as_view(), name='car_detail'),
+path('cars/&lt;int:pk&gt;/update/', CarUpdateView.as_view(), name='car_update'),
+path('cars/&lt;int:pk&gt;/delete/', CarDeleteView.as_view(), name='car_delete'),
+</code></pre>
+<h3 id="_10">Результат</h3>
+<p>Созданы FBV и CBV-представления, позволяющие просматривать владельцев и автомобили, а также редактировать и удалять записи.</p>
+<hr />
+<h2 id="3">Задача 3 — Работа с формами и представлениями</h2>
+<h3 id="_11">Цель</h3>
+<p>Освоить работу с Django-формами, реализовать ввод и редактирование данных через веб-интерфейс.</p>
+<hr />
+<h3 id="31-fbv">3.1 Формы на основе функций (FBV)</h3>
+<p><strong>Форма для создания владельца:</strong></p>
+<p><code>forms.py</code>:</p>
+<pre><code class="language-python">from django import forms
+from .models import Owner
+
+class OwnerForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = ['last_name', 'first_name', 'birth_date']
+</code></pre>
+<p><strong>Контроллер:</strong></p>
+<pre><code class="language-python">from django.shortcuts import render
+from .forms import OwnerForm
+
+def owner_create(request):
+    form = OwnerForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    return render(request, &quot;owner_create.html&quot;, {&quot;form&quot;: form})
+</code></pre>
+<p><strong>Шаблон <code>owner_create.html</code>:</strong></p>
+<pre><code class="language-html">&lt;h1&gt;Добавить владельца&lt;/h1&gt;
+&lt;form method=&quot;post&quot;&gt;{% csrf_token %}
+  {{ form.as_p }}
+  &lt;input type=&quot;submit&quot; value=&quot;Сохранить&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<p><strong>URL:</strong></p>
+<pre><code class="language-python">path('owners/create/', owner_create, name='owner_create'),
+</code></pre>
+<hr />
+<h3 id="32-cbv">3.2 Формы на основе классов (CBV)</h3>
+<h4 id="_12">Создание автомобиля</h4>
+<pre><code class="language-python">from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .models import Car
+
+class CarCreateView(CreateView):
+    model = Car
+    fields = ['plate_number', 'make', 'model', 'color']
+    template_name = 'car_form.html'
+    success_url = reverse_lazy('car_list')
+</code></pre>
+<h4 id="_13">Удаление автомобиля</h4>
+<pre><code class="language-python">class CarDeleteView(DeleteView):
+    model = Car
+    template_name = 'car_confirm_delete.html'
+    success_url = reverse_lazy('car_list')
+</code></pre>
+<p>Шаблоны для Create/Update одинаковые (<code>car_form.html</code>):</p>
+<pre><code class="language-html">&lt;h1&gt;Редактирование автомобиля&lt;/h1&gt;
+&lt;form method=&quot;post&quot;&gt;{% csrf_token %}
+  {{ form.as_p }}
+  &lt;input type=&quot;submit&quot; value=&quot;Сохранить&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Удаление (<code>car_confirm_delete.html</code>):</p>
+<pre><code class="language-html">&lt;h1&gt;Удалить автомобиль&lt;/h1&gt;
+&lt;p&gt;Вы уверены, что хотите удалить {{ object }}?&lt;/p&gt;
+&lt;form method=&quot;post&quot;&gt;{% csrf_token %}
+  &lt;input type=&quot;submit&quot; value=&quot;Удалить&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<hr />
+<h3 id="_14">Результат</h3>
+<p>✅ Реализованы формы для создания владельцев (FBV) и автомобилей (CBV).<br />
+✅ Настроены шаблоны и маршруты.<br />
+✅ Проверено добавление, обновление и удаление записей в базе.</p>
+<hr />
+<h2 id="_15">Вывод</h2>
+<p>В ходе практической работы №2 были реализованы все основные CRUD-операции в Django:<br />
+- просмотр списков и деталей объектов;<br />
+- добавление и редактирование данных через формы;<br />
+- удаление записей из базы данных.<br />
+Освоены оба подхода к построению представлений — функциональный (FBV) и классовый (CBV).</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab2_task1/" class="btn btn-neutral float-left" title="Практическая работа №1 — Знакомство с Django"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab2_task3/" class="btn btn-neutral float-right" title="Практическая работа №3 — Расширение модели пользователя">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab2_task1/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab2_task3/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

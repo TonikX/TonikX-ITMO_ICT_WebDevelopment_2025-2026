@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b45d86a4-259a-42f1-9f2d-746636dfce9d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab3_pract_3.1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab3_pract_3.1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab3_pract_3.2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab3_pract_3.2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab3_rest_airport/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab3_rest_airport/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search/search_index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task4/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task4/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task5/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task5/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/test/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_api/fixtures/demo_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_api/fixtures/demo_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_project/urls.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="34KrZzRHCj4jdZwY9Zm7gNaF3Ma" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.task1.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lab3&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/maksim/Documents/GitHub/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Ermakov_Maxim/lr3&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3" />
+      <recent name="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/documentation/docs" />
+      <recent name="$PROJECT_DIR$/documentation/docs/img" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b45d86a4-259a-42f1-9f2d-746636dfce9d" name="Changes" comment="" />
+      <created>1760973163871</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760973163871</updated>
+    </task>
+    <servers />
+  </component>
+</project>
