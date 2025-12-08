@@ -1,0 +1,155 @@
+html {
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-montserrat), sans-serif;
+}
+
+body.light-theme {
+  background-color: var(--color-bg-light);
+  --color: var(--color-text-contrast-light);
+  color: var(--color);
+  --section-bg: var(--color-section-light);
+  --sidebar-text: var(--color-text-light);
+  --contrast: var(--color-section-contrast-light);
+  --header-icons-bg: var(--color-bg-light);
+  --border: 1px solid #9A97C5;
+  --form-input-bg: var(--color-bg-light);
+}
+body.dark-theme {
+  background-color: var(--color-bg-dark);
+  --color: var(--color-text-contrast-dark);
+  color: var(--color);
+  --section-bg: var(--color-section-dark);
+  --sidebar-text: var(--color-text-dark);
+  --contrast: var(--color-section-contrast-dark);
+  --header-icons-bg: var(--color-section-contrast-dark);
+  --border: 1px solid #404955;
+  --form-input-bg: var(--color-bg-light);
+
+}
+
+h1, .h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: (--color-text);
+}
+
+h2, .h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: (--color-text);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Reset and base styles  */
+
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Links */
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Common */
+
+aside,
+nav,
+footer,
+header,
+section,
+main {
+  display: block;
+}
+
+ul,
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+/* Form */
+
+input,
+textarea,
+button,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background-color: transparent;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button,
+input[type="submit"] {
+  display: inline-block;
+  box-shadow: none;
+  background: transparent none;
+  cursor: pointer;
+}
+
+input:focus,
+input:active,
+button:focus,
+button:active {
+  outline: none;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+legend {
+  display: block;
+}
+
+input[type='file'] {
+  max-width: 100%;
+}

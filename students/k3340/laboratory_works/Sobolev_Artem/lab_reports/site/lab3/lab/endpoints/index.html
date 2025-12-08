@@ -1,0 +1,3648 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../controllers/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Эндпоинты - Отчёты по лабораторным работам</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#endpoints" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Отчёты по лабораторным работам" class="md-header__button md-logo" aria-label="Отчёты по лабораторным работам" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчёты по лабораторным работам
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Эндпоинты
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Отчёты по лабораторным работам" class="md-nav__button md-logo" aria-label="Отчёты по лабораторным работам" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчёты по лабораторным работам
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная страница
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Practical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная часть
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная часть
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Эндпоинты
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Эндпоинты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация (Authentication)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пользователи (Users)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#admin-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Административные операции с пользователями (Admin Users)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Работники (Workers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Паспорт (Passport)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#employment-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Трудовой договор (Employment Contract)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Штат (Staff)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workshops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цеха (Workshops)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ряды (Rows)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Клетки (Cages)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-cages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Назначение клеток работникам (Worker Cages)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breeds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Породы (Breeds)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chickens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Куры (Chickens)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chicken-movements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Перемещения кур (Chicken Movements)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#egg-production-month" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Производство яиц по месяцам (Egg Production Month)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рационы (Diets)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dismissals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Увольнения (Dismissals)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#director-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Отчеты директора (Director Reports)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../controllers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Контроллеры
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация (Authentication)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пользователи (Users)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#admin-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Административные операции с пользователями (Admin Users)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Работники (Workers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Паспорт (Passport)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#employment-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Трудовой договор (Employment Contract)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Штат (Staff)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workshops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цеха (Workshops)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ряды (Rows)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Клетки (Cages)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-cages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Назначение клеток работникам (Worker Cages)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breeds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Породы (Breeds)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chickens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Куры (Chickens)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chicken-movements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Перемещения кур (Chicken Movements)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#egg-production-month" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Производство яиц по месяцам (Egg Production Month)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рационы (Diets)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dismissals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Увольнения (Dismissals)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#director-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Отчеты директора (Director Reports)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="endpoints">Endpoints</h1>
+<h2 id="authentication">Аутентификация (Authentication)</h2>
+<p><strong>POST</strong>: <code>/auth/login</code></p>
+<p>Назначение: аутентификация по email и паролю. На успех устанавливается cookie Authorization.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;email&quot;: &quot;user@example.com&quot;,
+  &quot;password&quot;: &quot;secret&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 5,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;lastLogin&quot;: &quot;2024-01-01T12:34:56&quot;,
+    &quot;token&quot;: &quot;&lt;access-token&gt;&quot;,
+    &quot;refreshToken&quot;: &quot;&lt;refresh-token&gt;&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }]
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/auth/refresh/token?token=&lt;refreshToken&gt;</code></p>
+<p>Назначение: получить новый access-токен по refresh-токену. На успех устанавливается новая cookie Authorization.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>token</code> (query) - refresh токен</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 5,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;lastLogin&quot;: &quot;2024-01-01T12:34:56&quot;,
+    &quot;token&quot;: &quot;&lt;new-access-token&gt;&quot;,
+    &quot;refreshToken&quot;: &quot;&lt;refresh-token&gt;&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }]
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>POST</strong>: <code>/auth/register</code></p>
+<p>Назначение: регистрация нового пользователя и немедленная аутентификация; cookie Authorization устанавливается в ответе.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;username&quot;: &quot;john&quot;,
+  &quot;email&quot;: &quot;user@example.com&quot;,
+  &quot;password&quot;: &quot;secret&quot;,
+  &quot;confirmPassword&quot;: &quot;secret&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 6,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;lastLogin&quot;: &quot;2024-01-01T12:34:56&quot;,
+    &quot;token&quot;: &quot;&lt;access-token&gt;&quot;,
+    &quot;refreshToken&quot;: &quot;&lt;refresh-token&gt;&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }]
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<hr />
+<h2 id="users">Пользователи (Users)</h2>
+<p><strong>GET</strong>: <code>/api/v1/users/id/{userId}</code></p>
+<p>Назначение: получение пользователя по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>userId</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 5,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-02T11:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>GET</strong>: <code>/api/v1/users/username/{username}</code></p>
+<p>Назначение: получение пользователя по имени пользователя.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>username</code> (path) - имя пользователя</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 5,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-02T11:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/users</code></p>
+<p>Назначение: создание нового пользователя.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;username&quot;: &quot;john&quot;,
+  &quot;password&quot;: &quot;secret&quot;,
+  &quot;email&quot;: &quot;user@example.com&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;PENDING&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/users/id/7</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/users/{userId}</code></p>
+<p>Назначение: полная замена пользователя по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>userId</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;username&quot;: &quot;john&quot;,
+  &quot;password&quot;: &quot;secret&quot;,
+  &quot;email&quot;: &quot;user@example.com&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-04T09:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/users/{userId}</code></p>
+<p>Назначение: частичное обновление пользователя по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>userId</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;username&quot;: &quot;johnny&quot;,
+  &quot;password&quot;: &quot;new-secret&quot;,
+  &quot;email&quot;: &quot;johnny@example.com&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;username&quot;: &quot;johnny&quot;,
+    &quot;email&quot;: &quot;johnny@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/users/{userId}</code></p>
+<p>Назначение: удаление пользователя по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>userId</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="admin-users">Административные операции с пользователями (Admin Users)</h2>
+<p><strong>PATCH</strong>: <code>/api/v1/admin/users/{id}/role</code></p>
+<p>Назначение: изменение роли пользователя. Требует ETag для оптимистичной блокировки.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;roleId&quot;: 2
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 2, &quot;name&quot;: &quot;ROLE_ADMIN&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 2, &quot;name&quot;: &quot;ROLE_ADMIN&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-05T10:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/admin/users/{id}/activate</code></p>
+<p>Назначение: активация пользователя (установка статуса ACTIVE). Требует ETag.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;ACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-05T10:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/admin/users/{id}/deactivate</code></p>
+<p>Назначение: деактивация пользователя (установка статуса INACTIVE). Требует ETag.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор пользователя</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;username&quot;: &quot;john&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;role&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; },
+    &quot;registrationStatus&quot;: &quot;INACTIVE&quot;,
+    &quot;roles&quot;: [{ &quot;id&quot;: 1, &quot;name&quot;: &quot;ROLE_USER&quot; }],
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-05T10:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<hr />
+<h2 id="workers">Работники (Workers)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workers</code></p>
+<p>Назначение: получение списка всех работников.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;firstName&quot;: &quot;Ivan&quot;,
+      &quot;lastName&quot;: &quot;Ivanov&quot;,
+      &quot;patronymic&quot;: &quot;Petrovich&quot;,
+      &quot;cages&quot;: [],
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;firstName&quot;: &quot;Petr&quot;,
+      &quot;lastName&quot;: &quot;Petrov&quot;,
+      &quot;patronymic&quot;: null,
+      &quot;cages&quot;: [],
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/workers/{id}</code></p>
+<p>Назначение: получение работника по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор работника</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;firstName&quot;: &quot;Ivan&quot;,
+    &quot;lastName&quot;: &quot;Ivanov&quot;,
+    &quot;patronymic&quot;: &quot;Petrovich&quot;,
+    &quot;cages&quot;: [],
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/workers</code></p>
+<p>Назначение: создание нового работника.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;firstName&quot;: &quot;Ivan&quot;,
+  &quot;lastName&quot;: &quot;Ivanov&quot;,
+  &quot;patronymic&quot;: &quot;Petrovich&quot;
+}
+</code></pre>
+<p>Ответ: 201 Created</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;firstName&quot;: &quot;Ivan&quot;,
+    &quot;lastName&quot;: &quot;Ivanov&quot;,
+    &quot;patronymic&quot;: &quot;Petrovich&quot;,
+    &quot;cages&quot;: [],
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/workers/3</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/workers/{id}</code></p>
+<p>Назначение: полная замена работника по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;firstName&quot;: &quot;Ivan&quot;,
+  &quot;lastName&quot;: &quot;Ivanov&quot;,
+  &quot;patronymic&quot;: &quot;Petrovich&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;firstName&quot;: &quot;Ivan&quot;,
+    &quot;lastName&quot;: &quot;Ivanov&quot;,
+    &quot;patronymic&quot;: &quot;Petrovich&quot;,
+    &quot;cages&quot;: [],
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/workers/{id}</code></p>
+<p>Назначение: частичное обновление работника по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;lastName&quot;: &quot;Sidorov&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;firstName&quot;: &quot;Ivan&quot;,
+    &quot;lastName&quot;: &quot;Sidorov&quot;,
+    &quot;patronymic&quot;: &quot;Petrovich&quot;,
+    &quot;cages&quot;: [],
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/workers/{id}</code></p>
+<p>Назначение: удаление работника по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="passport">Паспорт (Passport)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workers/{workerId}/passport</code></p>
+<p>Назначение: получение паспорта работника по идентификатору работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;series&quot;: &quot;1234&quot;,
+    &quot;number&quot;: &quot;567890&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-02T11:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/workers/{workerId}/passport</code></p>
+<p>Назначение: создание паспорта для работника. Каждый работник может иметь только один паспорт.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;series&quot;: &quot;1234&quot;,
+  &quot;number&quot;: &quot;567890&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;series&quot;: &quot;1234&quot;,
+    &quot;number&quot;: &quot;567890&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>PUT</strong>: <code>/api/v1/workers/{workerId}/passport</code></p>
+<p>Назначение: полная замена паспорта работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;series&quot;: &quot;1234&quot;,
+  &quot;number&quot;: &quot;567890&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;series&quot;: &quot;1234&quot;,
+    &quot;number&quot;: &quot;567890&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/workers/{workerId}/passport</code></p>
+<p>Назначение: частичное обновление паспорта работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;series&quot;: &quot;5678&quot;,
+  &quot;number&quot;: &quot;901234&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;series&quot;: &quot;5678&quot;,
+    &quot;number&quot;: &quot;901234&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/workers/{workerId}/passport</code></p>
+<p>Назначение: удаление паспорта работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="employment-contract">Трудовой договор (Employment Contract)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workers/{workerId}/contract</code></p>
+<p>Назначение: получение трудового договора работника по идентификатору работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;contractNumber&quot;: &quot;CN-001&quot;,
+    &quot;salary&quot;: 50000,
+    &quot;position&quot;: &quot;Developer&quot;,
+    &quot;firstNameWorker&quot;: &quot;Ivan&quot;,
+    &quot;lastNameWorker&quot;: &quot;Ivanov&quot;,
+    &quot;startDate&quot;: &quot;2024-01-01&quot;,
+    &quot;endDate&quot;: &quot;2025-01-01&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-02T11:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/workers/{workerId}/contract</code></p>
+<p>Назначение: создание трудового договора для работника. Каждый работник может иметь только один активный договор.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;contractNumber&quot;: &quot;CN-001&quot;,
+  &quot;salary&quot;: 50000,
+  &quot;position&quot;: &quot;Developer&quot;,
+  &quot;startDate&quot;: &quot;2024-01-01&quot;,
+  &quot;endDate&quot;: &quot;2025-01-01&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;contractNumber&quot;: &quot;CN-001&quot;,
+    &quot;salary&quot;: 50000,
+    &quot;position&quot;: &quot;Developer&quot;,
+    &quot;firstNameWorker&quot;: &quot;Ivan&quot;,
+    &quot;lastNameWorker&quot;: &quot;Ivanov&quot;,
+    &quot;startDate&quot;: &quot;2024-01-01&quot;,
+    &quot;endDate&quot;: &quot;2025-01-01&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/workers/{workerId}/contract</code></p>
+<p>Назначение: полная замена трудового договора работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;contractNumber&quot;: &quot;CN-001&quot;,
+  &quot;salary&quot;: 60000,
+  &quot;position&quot;: &quot;Senior Developer&quot;,
+  &quot;startDate&quot;: &quot;2024-01-01&quot;,
+  &quot;endDate&quot;: &quot;2025-01-01&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;contractNumber&quot;: &quot;CN-001&quot;,
+    &quot;salary&quot;: 60000,
+    &quot;position&quot;: &quot;Senior Developer&quot;,
+    &quot;firstNameWorker&quot;: &quot;Ivan&quot;,
+    &quot;lastNameWorker&quot;: &quot;Ivanov&quot;,
+    &quot;startDate&quot;: &quot;2024-01-01&quot;,
+    &quot;endDate&quot;: &quot;2025-01-01&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/workers/{workerId}/contract</code></p>
+<p>Назначение: частичное обновление трудового договора работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;position&quot;: &quot;Lead Developer&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;contractNumber&quot;: &quot;CN-001&quot;,
+    &quot;salary&quot;: 60000,
+    &quot;position&quot;: &quot;Lead Developer&quot;,
+    &quot;firstNameWorker&quot;: &quot;Ivan&quot;,
+    &quot;lastNameWorker&quot;: &quot;Ivanov&quot;,
+    &quot;startDate&quot;: &quot;2024-01-01&quot;,
+    &quot;endDate&quot;: &quot;2025-01-01&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/workers/{workerId}/contract</code></p>
+<p>Назначение: удаление трудового договора работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="staff">Штат (Staff)</h2>
+<p><strong>GET</strong>: <code>/api/v1/staff</code></p>
+<p>Назначение: получение списка всех должностей в системе.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 7,
+      &quot;position&quot;: &quot;Manager&quot;,
+      &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 8,
+      &quot;position&quot;: &quot;Developer&quot;,
+      &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/staff/{id}</code></p>
+<p>Назначение: получение должности по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор должности</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;position&quot;: &quot;Manager&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/staff</code></p>
+<p>Назначение: создание новой должности. Название должно быть уникальным.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;position&quot;: &quot;Manager&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 9,
+    &quot;position&quot;: &quot;Manager&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/staff/9</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/staff/{id}</code></p>
+<p>Назначение: полная замена должности по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор должности</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;position&quot;: &quot;Senior Manager&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;position&quot;: &quot;Senior Manager&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/staff/{id}</code></p>
+<p>Назначение: частичное обновление должности по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор должности</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;position&quot;: &quot;Lead&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 7,
+    &quot;position&quot;: &quot;Lead&quot;,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/staff/{id}</code></p>
+<p>Назначение: удаление должности по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор должности</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="workshops">Цеха (Workshops)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workshops</code></p>
+<p>Назначение: получение списка всех цехов в системе.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;workshopNumber&quot;: 1,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;workshopNumber&quot;: 2,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/workshops/{id}</code></p>
+<p>Назначение: получение цеха по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;workshopNumber&quot;: 1,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/workshops</code></p>
+<p>Назначение: создание нового цеха.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;workshopNumber&quot;: 3
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;workshopNumber&quot;: 3,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/workshops/3</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/workshops/{id}</code></p>
+<p>Назначение: полная замена цеха по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;workshopNumber&quot;: 4
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;workshopNumber&quot;: 4,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/workshops/{id}</code></p>
+<p>Назначение: частичное обновление цеха по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;workshopNumber&quot;: 5
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;workshopNumber&quot;: 5,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/workshops/{id}</code></p>
+<p>Назначение: удаление цеха по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="rows">Ряды (Rows)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workshops/{workshopId}/rows</code></p>
+<p>Назначение: получение списка всех рядов в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;rowNumber&quot;: 1,
+      &quot;workshopId&quot;: 1,
+      &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;rowNumber&quot;: 2,
+      &quot;workshopId&quot;: 1,
+      &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/workshops/{workshopId}/rows/{rowNumber}</code></p>
+<p>Назначение: получение ряда по номеру в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+<li><code>rowNumber</code> (path) - номер ряда</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;rowNumber&quot;: 1,
+    &quot;workshopId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/workshops/{workshopId}/rows</code></p>
+<p>Назначение: создание нового ряда в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;rowNumber&quot;: 3
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;rowNumber&quot;: 3,
+    &quot;workshopId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/workshops/1/rows/3</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/workshops/{workshopId}/rows/{rowNumber}</code></p>
+<p>Назначение: полная замена ряда по номеру в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+<li><code>rowNumber</code> (path) - номер ряда</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;rowNumber&quot;: 4
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;rowNumber&quot;: 4,
+    &quot;workshopId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/workshops/{workshopId}/rows/{rowNumber}</code></p>
+<p>Назначение: частичное обновление ряда по номеру в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+<li><code>rowNumber</code> (path) - номер ряда</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;rowNumber&quot;: 5
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;rowNumber&quot;: 5,
+    &quot;workshopId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2024-01-01T10:00:00&quot;,
+    &quot;updatedAt&quot;: &quot;2024-01-03T12:00:00&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/workshops/{workshopId}/rows/{rowNumber}</code></p>
+<p>Назначение: удаление ряда по номеру в цехе.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workshopId</code> (path) - идентификатор цеха</li>
+<li><code>rowNumber</code> (path) - номер ряда</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="cages">Клетки (Cages)</h2>
+<p><strong>GET</strong>: <code>/api/v1/rows/{rowId}/cage</code></p>
+<p>Назначение: получение списка всех клеток в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;cageNumber&quot;: 1,
+      &quot;rowId&quot;: 1,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;cageNumber&quot;: 2,
+      &quot;rowId&quot;: 1,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/rows/{rowId}/cage/{cageNumber}</code></p>
+<p>Назначение: получение клетки по номеру в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+<li><code>cageNumber</code> (path) - номер клетки</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;cageNumber&quot;: 1,
+    &quot;rowId&quot;: 1,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/rows/{rowId}/cage</code></p>
+<p>Назначение: создание новой клетки в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;cageNumber&quot;: 3
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;cageNumber&quot;: 3,
+    &quot;rowId&quot;: 1,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/rows/1/cage/3</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/rows/{rowId}/cage/{cageNumber}</code></p>
+<p>Назначение: полная замена клетки по номеру в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+<li><code>cageNumber</code> (path) - номер клетки</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;cageNumber&quot;: 4
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;cageNumber&quot;: 4,
+    &quot;rowId&quot;: 1,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/rows/{rowId}/cage/{cageNumber}</code></p>
+<p>Назначение: частичное обновление клетки по номеру в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+<li><code>cageNumber</code> (path) - номер клетки</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;cageNumber&quot;: 5
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;cageNumber&quot;: 5,
+    &quot;rowId&quot;: 1,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/rows/{rowId}/cage/{cageNumber}</code></p>
+<p>Назначение: удаление клетки по номеру в ряду.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>rowId</code> (path) - идентификатор ряда</li>
+<li><code>cageNumber</code> (path) - номер клетки</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="worker-cages">Назначение клеток работникам (Worker Cages)</h2>
+<p><strong>GET</strong>: <code>/api/v1/workers/{workerId}/cages</code></p>
+<p>Назначение: получение всех клеток, назначенных работнику.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;cageNumber&quot;: 1,
+      &quot;rowId&quot;: 1,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;cageNumber&quot;: 2,
+      &quot;rowId&quot;: 1,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/workers/cages/{cageId}/workers</code></p>
+<p>Назначение: получение всех работников, назначенных на клетку.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>cageId</code> (path) - идентификатор клетки</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;firstName&quot;: &quot;Ivan&quot;,
+      &quot;lastName&quot;: &quot;Ivanov&quot;,
+      &quot;patronymic&quot;: &quot;Petrovich&quot;,
+      &quot;cages&quot;: [],
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>POST</strong>: <code>/api/v1/workers/{workerId}/cages/{cageId}</code></p>
+<p>Назначение: назначение клетки работнику.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+<li><code>cageId</code> (path) - идентификатор клетки</li>
+</ul>
+<p>Ответ: 201 Created</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: null,
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>DELETE</strong>: <code>/api/v1/workers/{workerId}/cages/{cageId}</code></p>
+<p>Назначение: снятие назначения клетки с работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+<li><code>cageId</code> (path) - идентификатор клетки</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="breeds">Породы (Breeds)</h2>
+<p><strong>POST</strong>: <code>/api/v1/breeds</code></p>
+<p>Назначение: создание новой породы. Название должно быть уникальным.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Leghorn&quot;,
+  &quot;eggsNumber&quot;: 280,
+  &quot;weight&quot;: 2500
+}
+</code></pre>
+<p>Ответ: 201 Created</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Leghorn&quot;,
+    &quot;eggsNumber&quot;: 280,
+    &quot;weight&quot;: 2500,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/breeds/3</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>GET</strong>: <code>/api/v1/breeds</code></p>
+<p>Назначение: получение списка всех активных пород.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 3,
+      &quot;name&quot;: &quot;Leghorn&quot;,
+      &quot;eggsNumber&quot;: 280,
+      &quot;weight&quot;: 2500,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 4,
+      &quot;name&quot;: &quot;Rhode Island Red&quot;,
+      &quot;eggsNumber&quot;: 260,
+      &quot;weight&quot;: 3000,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/breeds/{id}</code></p>
+<p>Назначение: получение породы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор породы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Leghorn&quot;,
+    &quot;eggsNumber&quot;: 280,
+    &quot;weight&quot;: 2500,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/breeds/{id}</code></p>
+<p>Назначение: полная замена породы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор породы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Leghorn Modified&quot;,
+  &quot;eggsNumber&quot;: 300,
+  &quot;weight&quot;: 2700
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Leghorn Modified&quot;,
+    &quot;eggsNumber&quot;: 300,
+    &quot;weight&quot;: 2700,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/breeds/{id}</code></p>
+<p>Назначение: частичное обновление породы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор породы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Leghorn Updated&quot;
+}
+</code></pre>
+<p>Или:</p>
+<pre><code class="language-json">{
+  &quot;eggsNumber&quot;: 290,
+  &quot;weight&quot;: 2600
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Leghorn Updated&quot;,
+    &quot;eggsNumber&quot;: 290,
+    &quot;weight&quot;: 2600,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/breeds/{id}</code></p>
+<p>Назначение: удаление породы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор породы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="chickens">Куры (Chickens)</h2>
+<p><strong>POST</strong>: <code>/api/v1/chickens</code></p>
+<p>Назначение: создание новой курицы.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Clucky&quot;,
+  &quot;weight&quot;: 2500,
+  &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+  &quot;breedId&quot;: 1,
+  &quot;cageId&quot;: 5
+}
+</code></pre>
+<p>Ответ: 201 Created</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;name&quot;: &quot;Clucky&quot;,
+    &quot;weight&quot;: 2500,
+    &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+    &quot;breedId&quot;: 1,
+    &quot;cageId&quot;: 5,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/chickens/10</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>GET</strong>: <code>/api/v1/chickens</code></p>
+<p>Назначение: получение списка всех кур.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 10,
+      &quot;name&quot;: &quot;Clucky&quot;,
+      &quot;weight&quot;: 2500,
+      &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+      &quot;breedId&quot;: 1,
+      &quot;cageId&quot;: 5,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 11,
+      &quot;name&quot;: &quot;Feathers&quot;,
+      &quot;weight&quot;: 2300,
+      &quot;birthDate&quot;: &quot;2023-03-20&quot;,
+      &quot;breedId&quot;: 2,
+      &quot;cageId&quot;: 5,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{id}</code></p>
+<p>Назначение: получение курицы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;name&quot;: &quot;Clucky&quot;,
+    &quot;weight&quot;: 2500,
+    &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+    &quot;breedId&quot;: 1,
+    &quot;cageId&quot;: 5,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/chickens/{id}</code></p>
+<p>Назначение: полная замена курицы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Clucky Updated&quot;,
+  &quot;weight&quot;: 2600,
+  &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+  &quot;breedId&quot;: 1,
+  &quot;cageId&quot;: 6
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;name&quot;: &quot;Clucky Updated&quot;,
+    &quot;weight&quot;: 2600,
+    &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+    &quot;breedId&quot;: 1,
+    &quot;cageId&quot;: 6,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/chickens/{id}</code></p>
+<p>Назначение: частичное обновление курицы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;weight&quot;: 2700
+}
+</code></pre>
+<p>Или:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Clucky New&quot;,
+  &quot;cageId&quot;: 7
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 10,
+    &quot;name&quot;: &quot;Clucky New&quot;,
+    &quot;weight&quot;: 2700,
+    &quot;birthDate&quot;: &quot;2023-01-15&quot;,
+    &quot;breedId&quot;: 1,
+    &quot;cageId&quot;: 7,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/chickens/{id}</code></p>
+<p>Назначение: удаление курицы по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="chicken-movements">Перемещения кур (Chicken Movements)</h2>
+<p><strong>GET</strong>: <code>/api/v1/chicken-movements/{id}</code></p>
+<p>Назначение: получение перемещения по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор перемещения</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 15,
+    &quot;chickenId&quot;: 7,
+    &quot;fromCageId&quot;: 5,
+    &quot;toCageId&quot;: 8,
+    &quot;movedAt&quot;: &quot;2024-01-15T10:30:00&quot;
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{chickenId}/movements</code></p>
+<p>Назначение: получение всех перемещений курицы, отсортированных от новых к старым.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 15,
+      &quot;chickenId&quot;: 7,
+      &quot;fromCageId&quot;: 8,
+      &quot;toCageId&quot;: 10,
+      &quot;movedAt&quot;: &quot;2024-01-20T14:00:00&quot;
+    },
+    {
+      &quot;id&quot;: 14,
+      &quot;chickenId&quot;: 7,
+      &quot;fromCageId&quot;: 5,
+      &quot;toCageId&quot;: 8,
+      &quot;movedAt&quot;: &quot;2024-01-15T10:30:00&quot;
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{chickenId}/movements/current</code></p>
+<p>Назначение: получение текущего местоположения курицы (последнее перемещение, текущая клетка определяется по <code>toCageId</code>).</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 15,
+    &quot;chickenId&quot;: 7,
+    &quot;fromCageId&quot;: 8,
+    &quot;toCageId&quot;: 10,
+    &quot;movedAt&quot;: &quot;2024-01-20T14:00:00&quot;
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>POST</strong>: <code>/api/v1/chickens/{chickenId}/movements</code></p>
+<p>Назначение: создание нового перемещения (переселения) курицы. Если <code>fromCageId</code> не указан, используется текущая клетка курицы (может быть null для первого размещения). <code>toCageId</code> обязателен.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;fromCageId&quot;: 5,
+  &quot;toCageId&quot;: 8
+}
+</code></pre>
+<p>Или (без fromCageId):</p>
+<pre><code class="language-json">{
+  &quot;toCageId&quot;: 8
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 16,
+    &quot;chickenId&quot;: 7,
+    &quot;fromCageId&quot;: 5,
+    &quot;toCageId&quot;: 8,
+    &quot;movedAt&quot;: &quot;2024-01-21T09:00:00&quot;
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<hr />
+<h2 id="egg-production-month">Производство яиц по месяцам (Egg Production Month)</h2>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions</code></p>
+<p>Назначение: получение всех записей производства яиц для курицы.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;month&quot;: 1,
+      &quot;year&quot;: 2024,
+      &quot;count&quot;: 25,
+      &quot;chickenId&quot;: 1,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;month&quot;: 2,
+      &quot;year&quot;: 2024,
+      &quot;count&quot;: 28,
+      &quot;chickenId&quot;: 1,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}</code></p>
+<p>Назначение: получение всех записей производства яиц для курицы за год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;month&quot;: 1,
+      &quot;year&quot;: 2024,
+      &quot;count&quot;: 25,
+      &quot;chickenId&quot;: 1,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;month&quot;: 2,
+      &quot;year&quot;: 2024,
+      &quot;count&quot;: 28,
+      &quot;chickenId&quot;: 1,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}/{month}</code></p>
+<p>Назначение: получение записи производства яиц для курицы за конкретный месяц и год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+<li><code>month</code> (path) - месяц (1-12)</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;month&quot;: 1,
+    &quot;year&quot;: 2024,
+    &quot;count&quot;: 25,
+    &quot;chickenId&quot;: 1,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}/{month}</code></p>
+<p>Назначение: создание записи производства яиц для курицы за месяц и год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+<li><code>month</code> (path) - месяц (1-12)</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;count&quot;: 25
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;month&quot;: 1,
+    &quot;year&quot;: 2024,
+    &quot;count&quot;: 25,
+    &quot;chickenId&quot;: 1,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}/{month}</code></p>
+<p>Назначение: полная замена записи производства яиц для курицы за месяц и год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+<li><code>month</code> (path) - месяц (1-12)</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;count&quot;: 30
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;month&quot;: 1,
+    &quot;year&quot;: 2024,
+    &quot;count&quot;: 30,
+    &quot;chickenId&quot;: 1,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}/{month}</code></p>
+<p>Назначение: частичное обновление записи производства яиц для курицы за месяц и год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+<li><code>month</code> (path) - месяц (1-12)</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;count&quot;: 32
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;month&quot;: 1,
+    &quot;year&quot;: 2024,
+    &quot;count&quot;: 32,
+    &quot;chickenId&quot;: 1,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/chickens/{chickenId}/egg-productions/{year}/{month}</code></p>
+<p>Назначение: удаление записи производства яиц для курицы за месяц и год.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>chickenId</code> (path) - идентификатор курицы</li>
+<li><code>year</code> (path) - год</li>
+<li><code>month</code> (path) - месяц (1-12)</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="diets">Рационы (Diets)</h2>
+<p><strong>GET</strong>: <code>/api/v1/diets</code></p>
+<p>Назначение: получение списка всех рационов в системе.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;title&quot;: &quot;Летний рацион&quot;,
+      &quot;code&quot;: &quot;SUMMER-001&quot;,
+      &quot;description&quot;: &quot;Рацион для летнего периода&quot;,
+      &quot;season&quot;: &quot;SUMMER&quot;,
+      &quot;version&quot;: 0
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;title&quot;: &quot;Зимний рацион&quot;,
+      &quot;code&quot;: &quot;WINTER-001&quot;,
+      &quot;description&quot;: &quot;Рацион для зимнего периода&quot;,
+      &quot;season&quot;: &quot;WINTER&quot;,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/diets/{id}</code></p>
+<p>Назначение: получение рациона по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор рациона</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Летний рацион&quot;,
+    &quot;code&quot;: &quot;SUMMER-001&quot;,
+    &quot;description&quot;: &quot;Рацион для летнего периода&quot;,
+    &quot;season&quot;: &quot;SUMMER&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/diets</code></p>
+<p>Назначение: создание нового рациона.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Летний рацион&quot;,
+  &quot;code&quot;: &quot;SUMMER-001&quot;,
+  &quot;description&quot;: &quot;Рацион для летнего периода&quot;,
+  &quot;season&quot;: &quot;SUMMER&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Летний рацион&quot;,
+    &quot;code&quot;: &quot;SUMMER-001&quot;,
+    &quot;description&quot;: &quot;Рацион для летнего периода&quot;,
+    &quot;season&quot;: &quot;SUMMER&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>Location</code>: <code>/api/v1/diets/1</code></li>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/diets/{id}</code></p>
+<p>Назначение: полная замена рациона по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор рациона</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Летний рацион обновленный&quot;,
+  &quot;code&quot;: &quot;SUMMER-002&quot;,
+  &quot;description&quot;: &quot;Обновленный рацион для летнего периода&quot;,
+  &quot;season&quot;: &quot;SUMMER&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Летний рацион обновленный&quot;,
+    &quot;code&quot;: &quot;SUMMER-002&quot;,
+    &quot;description&quot;: &quot;Обновленный рацион для летнего периода&quot;,
+    &quot;season&quot;: &quot;SUMMER&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/diets/{id}</code></p>
+<p>Назначение: частичное обновление рациона по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор рациона</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Летний рацион улучшенный&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Летний рацион улучшенный&quot;,
+    &quot;code&quot;: &quot;SUMMER-002&quot;,
+    &quot;description&quot;: &quot;Обновленный рацион для летнего периода&quot;,
+    &quot;season&quot;: &quot;SUMMER&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<p><strong>DELETE</strong>: <code>/api/v1/diets/{id}</code></p>
+<p>Назначение: удаление рациона по идентификатору.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>id</code> (path) - идентификатор рациона</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Ответ: 204 No Content</p>
+<hr />
+<h2 id="dismissals">Увольнения (Dismissals)</h2>
+<p><strong>GET</strong>: <code>/api/v1/dismissals/workers/{workerId}</code></p>
+<p>Назначение: получение всех увольнений работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;dismissalDate&quot;: &quot;2024-01-15&quot;,
+      &quot;reason&quot;: &quot;По собственному желанию&quot;,
+      &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+      &quot;whoDismiss&quot;: &quot;Petr Petrov&quot;,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/dismissals/dismissed/{dismissedId}</code></p>
+<p>Назначение: получение всех увольнений, выполненных конкретным пользователем.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>dismissedId</code> (path) - идентификатор пользователя, который выполнил увольнение</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;dismissalDate&quot;: &quot;2024-01-15&quot;,
+      &quot;reason&quot;: &quot;По собственному желанию&quot;,
+      &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+      &quot;whoDismiss&quot;: &quot;Petr Petrov&quot;,
+      &quot;version&quot;: 0
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/dismissals/workers/{workerId}/dismissed/{dismissedId}</code></p>
+<p>Назначение: получение увольнения по работнику и пользователю, который выполнил увольнение.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+<li><code>dismissedId</code> (path) - идентификатор пользователя, который выполнил увольнение</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;dismissalDate&quot;: &quot;2024-01-15&quot;,
+    &quot;reason&quot;: &quot;По собственному желанию&quot;,
+    &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+    &quot;whoDismiss&quot;: &quot;Petr Petrov&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>POST</strong>: <code>/api/v1/dismissals</code></p>
+<p>Назначение: создание нового увольнения.</p>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;workerId&quot;: 1,
+  &quot;dismissalDate&quot;: &quot;2024-01-15&quot;,
+  &quot;reason&quot;: &quot;По собственному желанию&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;dismissalDate&quot;: &quot;2024-01-15&quot;,
+    &quot;reason&quot;: &quot;По собственному желанию&quot;,
+    &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+    &quot;whoDismiss&quot;: &quot;Current User&quot;,
+    &quot;version&quot;: 0
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"0"</code></li>
+</ul>
+<p><strong>PUT</strong>: <code>/api/v1/dismissals/{workerId}</code></p>
+<p>Назначение: полная замена увольнения по идентификатору работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса:</p>
+<pre><code class="language-json">{
+  &quot;dismissalDate&quot;: &quot;2024-01-16&quot;,
+  &quot;reason&quot;: &quot;По соглашению сторон&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;dismissalDate&quot;: &quot;2024-01-16&quot;,
+    &quot;reason&quot;: &quot;По соглашению сторон&quot;,
+    &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+    &quot;whoDismiss&quot;: &quot;Petr Petrov&quot;,
+    &quot;version&quot;: 1
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"1"</code></li>
+</ul>
+<p><strong>PATCH</strong>: <code>/api/v1/dismissals/{workerId}</code></p>
+<p>Назначение: частичное обновление увольнения по идентификатору работника.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>workerId</code> (path) - идентификатор работника</li>
+</ul>
+<p>Заголовки запроса:</p>
+<ul>
+<li><code>If-Match</code> (обязательный) - ETag текущей версии ресурса</li>
+</ul>
+<p>Тело запроса (все поля опциональны):</p>
+<pre><code class="language-json">{
+  &quot;reason&quot;: &quot;Обновленная причина&quot;
+}
+</code></pre>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: 1,
+    &quot;dismissalDate&quot;: &quot;2024-01-16&quot;,
+    &quot;reason&quot;: &quot;Обновленная причина&quot;,
+    &quot;worker&quot;: &quot;Ivan Ivanov&quot;,
+    &quot;whoDismiss&quot;: &quot;Petr Petrov&quot;,
+    &quot;version&quot;: 2
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p>Заголовки ответа:</p>
+<ul>
+<li><code>ETag</code>: <code>"2"</code></li>
+</ul>
+<hr />
+<h2 id="director-reports">Отчеты директора (Director Reports)</h2>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/factory/monthly?year={year}&amp;month={month}</code></p>
+<p>Назначение: получение месячного отчета по всей фабрике с агрегированными метриками.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>year</code> (query, обязательный) - год</li>
+<li><code>month</code> (query, обязательный) - месяц (1-12)</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;totalEggs&quot;: 15000,
+    &quot;totalChickens&quot;: 500,
+    &quot;averageEggsPerChicken&quot;: 30
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/breeds/egg-diff</code></p>
+<p>Назначение: получение отчета о разнице между метриками каждой породы и средними показателями фабрики.</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;breedId&quot;: 1,
+      &quot;breedName&quot;: &quot;Leghorn&quot;,
+      &quot;eggsDifference&quot;: 5.2,
+      &quot;factoryAverage&quot;: 30
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/chickens/by-workshop-and-breed</code></p>
+<p>Назначение: получение распределения кур по цехам и породам (сколько кур каждой породы находится в каждом цехе).</p>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;workshopId&quot;: 1,
+      &quot;workshopNumber&quot;: 1,
+      &quot;breedId&quot;: 1,
+      &quot;breedName&quot;: &quot;Leghorn&quot;,
+      &quot;chickenCount&quot;: 150
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/chickens/top-workshop-by-breed?breedId={breedId}</code></p>
+<p>Назначение: получение цеха с наибольшим количеством кур указанной породы.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>breedId</code> (query, обязательный) - идентификатор породы</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: {
+    &quot;workshopId&quot;: 1,
+    &quot;workshopNumber&quot;: 1,
+    &quot;breedId&quot;: 1,
+    &quot;breedName&quot;: &quot;Leghorn&quot;,
+    &quot;chickenCount&quot;: 150
+  },
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/chickens/egg-stats?weight={weight}&amp;breedId={breedId}&amp;birthDate={birthDate}</code></p>
+<p>Назначение: получение статистики по яйцам для каждой курицы с фильтрацией по весу, породе или дате рождения.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>weight</code> (query, опциональный) - фильтр по весу курицы</li>
+<li><code>breedId</code> (query, опциональный) - фильтр по идентификатору породы</li>
+<li><code>birthDate</code> (query, опциональный) - фильтр по дате рождения (формат: YYYY-MM-DD)</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;chickenId&quot;: 1,
+      &quot;chickenName&quot;: &quot;Clucky&quot;,
+      &quot;totalEggs&quot;: 300,
+      &quot;averageEggsPerMonth&quot;: 25
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>GET</strong>: <code>/api/v1/reports/director/workers/daily-avg-eggs?year={year}&amp;month={month}</code></p>
+<p>Назначение: получение среднего количества яиц в день, собранных каждым работником за указанный месяц.</p>
+<p>Параметры:</p>
+<ul>
+<li><code>year</code> (query, обязательный) - год</li>
+<li><code>month</code> (query, обязательный) - месяц (1-12)</li>
+</ul>
+<p>Ответ:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;&quot;,
+  &quot;payload&quot;: [
+    {
+      &quot;workerId&quot;: 1,
+      &quot;workerName&quot;: &quot;Ivan Ivanov&quot;,
+      &quot;dailyAverageEggs&quot;: 150.5
+    }
+  ],
+  &quot;success&quot;: true
+}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
