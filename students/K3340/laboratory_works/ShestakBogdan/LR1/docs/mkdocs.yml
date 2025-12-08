@@ -1,0 +1,10 @@
+site_name: WEB
+nav:
+- Home: index.md
+- Работы:
+  - ЛР1: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/lab1.md
+  - Заданне 1: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/task1.md
+  - Заданне 2: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/task2.md
+  - Заданне 3: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/task3.md
+  - Заданне 4: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/task4.md
+  - Заданне 5: students/K3340/laboratory_works/ShestalBogdan/LR1/DOC/task5.md
