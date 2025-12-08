@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Статистика - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-graph-up"></i> Статистика</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Overall Statistics -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_assignments }}</div>
+            <div class="stat-label">Всего заданий</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_submissions }}</div>
+            <div class="stat-label">Всего сдач</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_grades }}</div>
+            <div class="stat-label">Оценено работ</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-number">
+                {% if total_submissions > 0 %}
+                    {{ total_grades|floatformat:0 }}/{{ total_submissions }}
+                {% else %}
+                    0
+                {% endif %}
+            </div>
+            <div class="stat-label">Процент оцененных</div>
+        </div>
+    </div>
+</div>
+
+<!-- Subject Statistics -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-book"></i> Статистика по предметам
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if subject_stats %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Предмет</th>
+                                    <th>Заданий</th>
+                                    <th>Сдач</th>
+                                    <th>Средняя оценка</th>
+                                    <th>Процент выполнения</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject in subject_stats %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ subject.name }}</strong>
+                                            {% if subject.description %}
+                                                <br><small class="text-muted">{{ subject.description|truncatechars:50 }}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ subject.assignment_count }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-info">{{ subject.submission_count }}</span>
+                                        </td>
+                                        <td>
+                                            {% if subject.avg_grade %}
+                                                <span class="grade-points" data-max-points="100">
+                                                    {{ subject.avg_grade|floatformat:1 }}
+                                                </span>
+                                            {% else %}
+                                                <span class="text-muted">Нет оценок</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if subject.assignment_count > 0 %}
+                                                {% widthratio subject.submission_count subject.assignment_count 100 %}%
+                                            {% else %}
+                                                0%
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-book display-1 text-muted"></i>
+                        <p class="text-muted mt-3">Нет данных по предметам</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Students -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-trophy"></i> Топ студентов по среднему баллу
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if top_students %}
+                    <div class="row">
+                        {% for student in top_students %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="avatar-circle mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                            {{ student.first_name|first }}{{ student.last_name|first }}
+                                        </div>
+                                        <h6 class="card-title">{{ student.get_full_name }}</h6>
+                                        {% if student.student_id %}
+                                            <p class="text-muted small">{{ student.student_id }}</p>
+                                        {% endif %}
+                                        <div class="mb-2">
+                                            <span class="grade-points h4" data-max-points="100">
+                                                {{ student.avg_grade|floatformat:1 }}
+                                            </span>
+                                            <span class="text-muted">/ 100</span>
+                                        </div>
+                                        <p class="text-muted small">
+                                            <i class="bi bi-file-text"></i> {{ student.submission_count }} сдач
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-trophy display-1 text-muted"></i>
+                        <p class="text-muted mt-3">Нет данных о студентах</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Grade Distribution Chart -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-bar-chart"></i> Распределение оценок
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="grade-distribution excellent">
+                            <div class="grade-count h3">0</div>
+                            <div class="grade-label">Отлично (90-100%)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="grade-distribution good">
+                            <div class="grade-count h3">0</div>
+                            <div class="grade-label">Хорошо (80-89%)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="grade-distribution satisfactory">
+                            <div class="grade-count h3">0</div>
+                            <div class="grade-label">Удовлетворительно (70-79%)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-3">
+                        <div class="grade-distribution poor">
+                            <div class="grade-count h3">0</div>
+                            <div class="grade-label">Неудовлетворительно (<70%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), #0a58ca);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.grade-distribution {
+    padding: 1rem;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.grade-distribution.excellent {
+    border-color: var(--success-color);
+    background: rgba(25, 135, 84, 0.1);
+}
+
+.grade-distribution.good {
+    border-color: var(--info-color);
+    background: rgba(13, 202, 240, 0.1);
+}
+
+.grade-distribution.satisfactory {
+    border-color: var(--warning-color);
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.grade-distribution.poor {
+    border-color: var(--danger-color);
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.grade-count {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.grade-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Grade color coding
+    document.addEventListener('DOMContentLoaded', function() {
+        const gradeElements = document.querySelectorAll('.grade-points');
+        gradeElements.forEach(function(element) {
+            const points = parseFloat(element.textContent);
+            const maxPoints = parseInt(element.dataset.maxPoints);
+            const percentage = (points / maxPoints) * 100;
+            
+            element.classList.remove('grade-excellent', 'grade-good', 'grade-satisfactory', 'grade-poor');
+            
+            if (percentage >= 90) {
+                element.classList.add('grade-excellent');
+            } else if (percentage >= 80) {
+                element.classList.add('grade-good');
+            } else if (percentage >= 70) {
+                element.classList.add('grade-satisfactory');
+            } else {
+                element.classList.add('grade-poor');
+            }
+        });
+    });
+</script>
+{% endblock %}
