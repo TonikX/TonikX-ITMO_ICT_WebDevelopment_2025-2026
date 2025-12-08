@@ -1,0 +1,7 @@
+Django==4.2.7
+djangorestframework==3.14.0
+djoser==2.1.0
+django-cors-headers==4.3.1
+mkdocs==1.6.1
+mkdocs-material==9.6.20
+requests==2.32.5
