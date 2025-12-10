@@ -1,0 +1,97 @@
+First Task Creating objects
+Created proprietor: Сергей Иванов
+Created proprietor: Мария Петрова
+Created proprietor: Никита Сидоров
+Created proprietor: Оксана Козлова
+Created proprietor: Виктор Морозов
+Created proprietor: Ирина Новикова
+Created proprietor: Павел Волков
+Created vehicle: Toyota Camry (A123BC777)
+Created vehicle: BMW X5 (B456CD888)
+Created vehicle: Audi A4 (C789DE999)
+Created vehicle: Toyota Corolla (D012EF111)
+Created vehicle: Mercedes E-Class (E345FG222)
+Created vehicle: Honda Civic (F678GH333)
+Created license: 111111 - Сергей Иванов
+Created license: 222222 - Мария Петрова
+Created license: 333333 - Никита Сидоров
+Created license: 444444 - Оксана Козлова
+Created license: 555555 - Виктор Морозов
+Created license: 666666 - Ирина Новикова
+Created license: 777777 - Павел Волков
+Created ownership record: Сергей Иванов - Toyota Camry (A123BC777)
+Created ownership record: Сергей Иванов - Toyota Corolla (D012EF111)
+Created ownership record: Мария Петрова - BMW X5 (B456CD888)
+Created ownership record: Никита Сидоров - Audi A4 (C789DE999)
+Created ownership record: Никита Сидоров - Mercedes E-Class (E345FG222)
+Created ownership record: Никита Сидоров - Honda Civic (F678GH333)
+Created ownership record: Оксана Козлова - Toyota Camry (A123BC777)
+Created ownership record: Виктор Морозов - BMW X5 (B456CD888)
+Created ownership record: Виктор Морозов - Toyota Corolla (D012EF111)
+Created ownership record: Ирина Новикова - Mercedes E-Class (E345FG222)
+Created ownership record: Павел Волков - Audi A4 (C789DE999)
+Created ownership record: Павел Волков - Honda Civic (F678GH333)
+
+Total created: 7 proprietors, 6 vehicles, 7 licenses, 12 ownerships
+
+Second Task Simple queries
+1. All Toyota vehicles:
+   Toyota Camry (A123BC777)
+   Toyota Corolla (D012EF111)
+
+2. All proprietors named Сергей:
+   Сергей Иванов
+
+3. Get license by proprietor id:
+   Proprietor: Сергей Иванов
+   Proprietor ID: 15
+   License: 111111 - Сергей Иванов
+
+4. Owners of red cars:
+   Сергей Иванов
+   Никита Сидоров
+   Оксана Козлова
+   Павел Волков
+
+5. Owners with ownership starting from 2010 or later:
+   Никита Сидоров
+   Виктор Морозов
+   Ирина Новикова
+   Павел Волков
+   Сергей Иванов
+   Мария Петрова
+   Оксана Козлова
+
+Third Task Aggregations
+1. Earliest driver license issue date:
+   2010-01-15
+
+2. Latest ownership start date:
+   2022-01-01
+
+3. Number of cars per proprietor:
+   Павел Волков: 2 cars
+   Сергей Иванов: 2 cars
+   Оксана Козлова: 1 cars
+   Виктор Морозов: 2 cars
+   Ирина Новикова: 1 cars
+   Мария Петрова: 1 cars
+   Никита Сидоров: 3 cars
+
+4. Count of cars by brand:
+   Audi: 1 cars
+   Honda: 1 cars
+   Mercedes: 1 cars
+   Toyota: 2 cars
+   BMW: 1 cars
+
+5. Proprietors sorted by license issue date:
+   Сергей Иванов (license issued: 2010-01-15)
+   Никита Сидоров (license issued: 2011-06-10)
+   Мария Петрова (license issued: 2012-03-20)
+   Оксана Козлова (license issued: 2013-09-05)
+   Виктор Морозов (license issued: 2014-12-30)
+   Ирина Новикова (license issued: 2015-02-14)
+   Павел Волков (license issued: 2016-08-19)
+
+All tasks completed successfully :)
