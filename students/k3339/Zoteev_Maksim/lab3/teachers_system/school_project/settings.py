@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
     # Local apps
     'school',
 ]
@@ -153,4 +154,20 @@ DJOSER = {
         'user': 'djoser.serializers.UserSerializer',
         'current_user': 'djoser.serializers.UserSerializer',
     },
+}
+
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Введите токен в формате: Token <ваш_токен>'
+        }
+    },
+    'USE_SESSION_AUTH': True,
+    'LOGIN_URL': 'admin:login',
+    'LOGOUT_URL': 'admin:logout',
 }
