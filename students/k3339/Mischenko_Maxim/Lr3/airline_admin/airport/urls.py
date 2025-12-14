@@ -1,19 +1,11 @@
-from rest_framework import routers
-from django.urls import path, include
+from django.urls import path
 from . import views
 
-router = routers.DefaultRouter()
-router.register(r"companies", views.CompanyViewSet)
-router.register(r"plane-types", views.PlaneTypeViewSet)
-router.register(r"aircrafts", views.AircraftViewSet)
-router.register(r"airports", views.AirportViewSet)
-router.register(r"crew-members", views.CrewMemberViewSet)
-router.register(r"crews", views.CrewViewSet)
-router.register(r"crew-assignments", views.CrewAssignmentViewSet)
-router.register(r"flights", views.FlightViewSet)
-router.register(r"stopovers", views.StopoverViewSet)
-router.register(r"crew-permissions", views.CrewMemberFlightPermissionViewSet)
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path('mark/top/', views.mark_top, name='mark_top'),
+    path('mark/all/', views.mark_all, name='mark_all'),
+    path('routes/pick/', views.routes_pick, name='routes_pick'),
+    path('flights/<int:id>/available_seats/', views.flights_available_seats, name='flights_available_seats'),
+    path('planes/in_repair/', views.planes_in_repair, name='planes_in_repair'),
+    path('employees/count/', views.employees_count, name='employees_count'),
 ]

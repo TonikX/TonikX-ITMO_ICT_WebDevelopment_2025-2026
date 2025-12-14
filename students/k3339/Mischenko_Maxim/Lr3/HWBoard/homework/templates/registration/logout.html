@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-  <h2>Вы действительно хотите выйти?</h2>
-  <form method="post" action="{% url 'homework:logout' %}">
-    {% csrf_token %}
-    <button type="submit">Выйти</button>
-  </form>
-{% endblock %}
