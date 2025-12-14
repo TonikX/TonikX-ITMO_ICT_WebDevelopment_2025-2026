@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #dc3545;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            border-bottom: 3px solid #dc3545;
+            padding-bottom: 15px;
+        }
+        .warning-icon {
+            font-size: 4em;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .owner-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #dc3545;
+        }
+        .owner-info h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .owner-info p {
+            margin: 8px 0;
+            color: #555;
+        }
+        .owner-info strong {
+            color: #333;
+        }
+        .warning-text {
+            color: #dc3545;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border: none;
+            border-radius: 25px;
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220,53,69,0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 5px 15px rgba(108,117,125,0.3);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(108,117,125,0.4);
+        }
+        .actions {
+            margin-top: 30px;
+        }
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-icon">⚠️</div>
+        <h1>{{ title }}</h1>
+        
+        <div class="owner-info">
+            <h3>{{ owner.first_name }} {{ owner.last_name }}</h3>
+            <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+            <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+            <p><strong>Дата рождения:</strong> {{ owner.birth_date }}</p>
+        </div>
+        
+        <div class="warning-text">
+            Вы уверены, что хотите удалить этого владельца?<br>
+            Это действие нельзя отменить!
+        </div>
+        
+        <div class="actions">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn">🗑️ Да, удалить</button>
+            </form>
+            <a href="/owners/" class="btn btn-secondary">❌ Отмена</a>
+        </div>
+    </div>
+</body>
+</html>

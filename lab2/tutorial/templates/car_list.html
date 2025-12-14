@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 15px;
+        }
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .car-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+        .car-card h3 {
+            color: #28a745;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        .car-info {
+            margin-bottom: 15px;
+        }
+        .car-info p {
+            margin: 8px 0;
+            color: #555;
+        }
+        .car-info strong {
+            color: #333;
+        }
+        .car-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 20px;
+            margin: 0 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(40,167,69,0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40,167,69,0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 3px 10px rgba(108,117,125,0.3);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 5px 15px rgba(108,117,125,0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            box-shadow: 0 3px 10px rgba(220,53,69,0.3);
+        }
+        .btn-danger:hover {
+            box-shadow: 0 5px 15px rgba(220,53,69,0.4);
+        }
+        .navigation {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .no-data {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px;
+            font-size: 1.2em;
+        }
+        .stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .stats h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        .stats p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 {{ title }}</h1>
+        
+        <div class="stats">
+            <h2>📊 Статистика</h2>
+            <p>Всего автомобилей в системе: {{ cars|length }}</p>
+        </div>
+
+        {% if cars %}
+            <div class="cars-grid">
+                {% for car in cars %}
+                <div class="car-card">
+                    <h3>{{ car.brand }} {{ car.model }}</h3>
+                    <div class="car-info">
+                        <p><strong>Марка:</strong> {{ car.brand }}</p>
+                        <p><strong>Модель:</strong> {{ car.model }}</p>
+                        <p><strong>Цвет:</strong> {{ car.color }}</p>
+                        <p><strong>Гос. номер:</strong> {{ car.state_number }}</p>
+                    </div>
+                    <div class="car-actions">
+                        <a href="/cars/{{ car.id }}/" class="btn">👁️ Подробнее</a>
+                        <a href="/cars/{{ car.id }}/update/" class="btn btn-secondary">✏️ Редактировать</a>
+                        <a href="/cars/{{ car.id }}/delete/" class="btn btn-danger">🗑️ Удалить</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-data">
+                <p>Автомобили не найдены</p>
+            </div>
+        {% endif %}
+
+        <div class="navigation">
+            <a href="/" class="btn btn-secondary">🏠 Главная</a>
+            <a href="/owners/" class="btn btn-secondary">👥 Владельцы</a>
+            <a href="/admin/" class="btn btn-secondary">🔧 Админ-панель</a>
+            <a href="/cars/create/" class="btn">➕ Добавить автомобиль</a>
+        </div>
+    </div>
+</body>
+</html>
