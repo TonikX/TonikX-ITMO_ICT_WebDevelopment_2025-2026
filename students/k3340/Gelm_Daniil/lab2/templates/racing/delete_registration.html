@@ -1,0 +1,28 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Удаление регистрации - Табло автогонок{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3><i class="bi bi-exclamation-triangle"></i> Удаление регистрации</h3>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить регистрацию на гонку:</p>
+                <p><strong>{{ registration.race.name }}</strong></p>
+                <p class="text-danger">Это действие нельзя отменить!</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                    <a href="{% url 'racer_profile' %}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
