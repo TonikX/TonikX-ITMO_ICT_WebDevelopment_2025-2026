@@ -1,0 +1,280 @@
+.crud-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.crud-page .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.crud-page .page-header h1 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.btn-primary {
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #5558e3;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #3a3a5c;
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #4a4a6c;
+}
+
+.extra-info {
+  margin-bottom: 24px;
+}
+
+.page-actions {
+  margin-bottom: 24px;
+}
+
+.crud-page .table-container {
+  background: #1a1a2e;
+  border: 1px solid #2a2a45;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.crud-page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crud-page th,
+.crud-page td {
+  text-align: left;
+  padding: 16px 20px;
+  border-bottom: 1px solid #2a2a45;
+}
+
+.crud-page th {
+  background: #252540;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.crud-page td {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.crud-page tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.crud-page tbody tr:hover td {
+  background: #252540;
+}
+
+.empty-message {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 48px 20px !important;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  background: #3a3a5c;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  background: #6366f1;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #1a1a2e;
+  border: 1px solid #2a2a45;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid #2a2a45;
+}
+
+.modal-header h2 {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: #ffffff;
+}
+
+.modal-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+.modal-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-form .form-group.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-form .form-group.checkbox-group label {
+  order: 2;
+}
+
+.modal-form .form-group.checkbox-group input {
+  order: 1;
+  width: 20px;
+  height: 20px;
+}
+
+.modal-form label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modal-form .required {
+  color: #f87171;
+  margin-left: 4px;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  background: #0f0f1a;
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.modal-form input::placeholder,
+.modal-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.modal-form select {
+  cursor: pointer;
+}
+
+.modal-form select option {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 8px;
+}

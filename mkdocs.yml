@@ -1,5 +1,5 @@
-site_name: Lab 3 - Django Web Applications
-site_description: Documentation for Lab 3 assignment - Django web development
+site_name: Labs 3 & 4
+site_description: Documentation for Labs 3 & 4
 site_author: Zoteev Maksim
 
 theme:
@@ -27,7 +27,9 @@ nav:
   - Home: index.md
   - Lab 3:
       - Overview: lab3/index.md
-  - Practical Tasks:
-      - Task 1: lab3/task1.md
-      - Task 2: lab3/task2.md
-      - Task 3: lab3/task3.md
+      - Practical Tasks:
+          - Task 1: lab3/task1.md
+          - Task 2: lab3/task2.md
+          - Task 3: lab3/task3.md
+  - Lab 4:
+      - React Frontend: lab4/index.md
