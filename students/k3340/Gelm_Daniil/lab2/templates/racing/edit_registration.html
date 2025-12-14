@@ -1,0 +1,24 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Редактирование регистрации - Табло автогонок{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="bi bi-pencil"></i> Редактирование регистрации</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Гонка:</strong> {{ registration.race.name }}</p>
+                <p><strong>Гонщик:</strong> {{ registration.racer.full_name }}</p>
+                <hr>
+                <p class="text-muted">Примечание: время заезда, результат и позиция могут быть установлены только администратором через панель администратора.</p>
+                <p class="text-info">Редактирование регистрации не требуется, так как все данные заполняются администратором.</p>
+                <a href="{% url 'racer_profile' %}" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

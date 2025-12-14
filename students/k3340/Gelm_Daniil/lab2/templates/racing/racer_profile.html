@@ -1,0 +1,76 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Мой профиль - Табло автогонок{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12">
+        <h1><i class="bi bi-person-badge"></i> Профиль гонщика</h1>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>Информация о гонщике</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>ФИО:</strong> {{ racer.full_name }}</p>
+                <p><strong>Команда:</strong> {{ racer.team_name }}</p>
+                <p><strong>Класс:</strong> {{ racer.get_racer_class_display }}</p>
+                <p><strong>Опыт:</strong> {{ racer.get_experience_display }}</p>
+                <p><strong>Описание автомобиля:</strong></p>
+                <p>{{ racer.car_description }}</p>
+                <p><strong>Описание участника:</strong></p>
+                <p>{{ racer.racer_description }}</p>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5><i class="bi bi-list-check"></i> Мои регистрации на гонки ({{ registrations.count }})</h5>
+            </div>
+            <div class="card-body">
+                {% if registrations %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Гонка</th>
+                                    <th>Дата</th>
+                                    <th>Место</th>
+                                    <th>Время заезда</th>
+                                    <th>Результат</th>
+                                    <th>Позиция</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reg in registrations %}
+                                    <tr>
+                                        <td><a href="{% url 'race_detail' reg.race.id %}">{{ reg.race.name }}</a></td>
+                                        <td>{{ reg.race.date|date:"d.m.Y" }}</td>
+                                        <td>{{ reg.race.location }}</td>
+                                        <td>{% if reg.race_time %}{{ reg.race_time }}{% else %}-{% endif %}</td>
+                                        <td>{% if reg.result %}{{ reg.result }}{% else %}-{% endif %}</td>
+                                        <td>{% if reg.position %}{{ reg.position }}{% else %}-{% endif %}</td>
+                                        <td>
+                                            <a href="{% url 'edit_registration' reg.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="{% url 'delete_registration' reg.id %}" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">У вас пока нет регистраций на гонки.</p>
+                    <a href="{% url 'index' %}" class="btn btn-primary">Посмотреть гонки</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
