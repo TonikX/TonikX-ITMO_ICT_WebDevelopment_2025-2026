@@ -1,0 +1,30 @@
+{% extends 'racing/base.html' %}
+
+{% block title %}Регистрация на гонку - Табло автогонок{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="bi bi-person-plus"></i> Регистрация на гонку</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Гонка:</strong> {{ race.name }}</p>
+                <p><strong>Дата:</strong> {{ race.date|date:"d.m.Y" }}</p>
+                <p><strong>Место:</strong> {{ race.location }}</p>
+                <hr>
+                <p>Вы уверены, что хотите зарегистрироваться на эту гонку?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> Подтвердить регистрацию
+                    </button>
+                    <a href="{% url 'race_detail' race.id %}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
