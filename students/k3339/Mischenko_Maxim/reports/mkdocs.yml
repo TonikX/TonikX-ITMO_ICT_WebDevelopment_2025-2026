@@ -12,6 +12,8 @@ nav:
     - Использование: lab2/usage.md
     - Модели данных: lab2/models.md
     - Представления: lab2/views.md
+  - Lab 3:
+    - API Endpoints: lab3/lab3.md
 theme:
   name: material
   language: en
