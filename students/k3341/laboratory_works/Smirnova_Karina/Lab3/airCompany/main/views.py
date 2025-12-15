@@ -8,11 +8,11 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_protect
 
-from .models import AirlineCompany, Plane, Crew, Route, Flight, TransitLanding, CrewMember
-from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer, \
-    TransitLandingSerializer, CrewMemberSerializer, AirlineCompanyAndPlanesAndCrewMembersSerializer, \
+from .models import AirlineCompany, Plane, Crew, Route, Flight, CrewMember
+from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer,\
+    CrewMemberSerializer, AirlineCompanyAndPlanesAndCrewMembersSerializer, \
     PlaneWithFlightsSerializer, CrewAndMembersSerializer, RouteWithFlightsSerializer, \
-    FlightWithTransitLandingsSerializer, FlightEverythingSerializer
+    FlightWithTransitLandingsSerializer, FlightEverythingSerializer, FlightWithPlaneSerializer
 
 
 class AirlineCompanyViewSet(viewsets.ModelViewSet):
@@ -35,7 +35,7 @@ class PlaneViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PlaneWithFlightsSerializer
-        return PlaneSerializer
+        return FlightWithPlaneSerializer
 
 class CrewViewSet(viewsets.ModelViewSet):
     """
@@ -69,9 +69,9 @@ class FlightViewSet(viewsets.ModelViewSet):
         return FlightSerializer
 
 
-class TransitLandingViewSet(viewsets.ModelViewSet):
-    queryset = TransitLanding.objects.all()
-    serializer_class = TransitLandingSerializer
+# class TransitLandingViewSet(viewsets.ModelViewSet):
+#     queryset = TransitLanding.objects.all()
+#     serializer_class = TransitLandingSerializer
 
 class MostPopularPaneType(APIView):
     def get(self, request, route_id):

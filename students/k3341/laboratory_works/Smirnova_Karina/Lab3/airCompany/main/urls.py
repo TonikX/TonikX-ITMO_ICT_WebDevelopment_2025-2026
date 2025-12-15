@@ -9,7 +9,7 @@ from drf_yasg.views import get_schema_view
 
 from .views import (
     AirlineCompanyViewSet, PlaneViewSet, CrewViewSet,
-    RouteViewSet, FlightViewSet, TransitLandingViewSet, CrewMemberViewSet, MostPopularPaneType, RoutesBelowCapacity,
+    RouteViewSet, FlightViewSet, CrewMemberViewSet, MostPopularPaneType, RoutesBelowCapacity,
     AvailableSeats, PlanesUnderRepair, TotalEmployees, auth_demo
 )
 
@@ -33,7 +33,7 @@ router.register(r'planes', PlaneViewSet)
 router.register(r'crews', CrewViewSet)
 router.register(r'routes', RouteViewSet)
 router.register(r'flights', FlightViewSet)
-router.register(r'transit-landings', TransitLandingViewSet)
+# router.register(r'transit-landings', TransitLandingViewSet)
 router.register(r'crew-members', CrewMemberViewSet)
 
 schema_view = get_schema_view(

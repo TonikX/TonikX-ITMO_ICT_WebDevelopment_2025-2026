@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from rest_framework import serializers
-from .models import AirlineCompany, Plane, Crew, CrewMember, Route, Flight, TransitLanding
+from .models import AirlineCompany, Plane, Crew, CrewMember, Route, Flight
 
 class AirlineCompanySerializer(serializers.ModelSerializer):
     """
@@ -54,16 +54,16 @@ class FlightSerializer(serializers.ModelSerializer):
         model = Flight
         fields = '__all__'
 
-class TransitLandingSerializer(serializers.ModelSerializer):
-    """
-    Простой сериализатор для модели TransitLanding.
-    """
-    landing_datetime = serializers.DateTimeField(format=None, input_formats=None)
-    takeoff_datetime = serializers.DateTimeField(format=None, input_formats=None)
-
-    class Meta:
-        model = TransitLanding
-        fields = '__all__'
+# class TransitLandingSerializer(serializers.ModelSerializer):
+#     """
+#     Простой сериализатор для модели TransitLanding.
+#     """
+#     landing_datetime = serializers.DateTimeField(format=None, input_formats=None)
+#     takeoff_datetime = serializers.DateTimeField(format=None, input_formats=None)
+#
+#     class Meta:
+#         model = TransitLanding
+#         fields = '__all__'
 
 # Сериализаторы со связями
 
@@ -121,7 +121,7 @@ class FlightWithTransitLandingsSerializer(serializers.ModelSerializer):
     """
     Сериализатор для Flight + вложенные transit landings.
     """
-    transitlandings = TransitLandingSerializer(many=True, read_only=True, source='transitlanding_set')
+    # transitlandings = TransitLandingSerializer(many=True, read_only=True, source='transitlanding_set')
 
     class Meta:
         model = Flight
@@ -168,4 +168,22 @@ class FlightEverythingSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'flight_number', 'route', 'plane', 'crew',
             'departure_datetime', 'arrival_datetime', 'sold_tickets'
+        ]
+
+class FlightWithPlaneSerializer(serializers.ModelSerializer):
+    plane = PlaneSerializer(read_only=True)
+    route = serializers.SerializerMethodField()
+
+    def get_route(self, obj):
+        return {
+            "id": obj.route.id,
+            "departure_point": obj.route.departure_point,
+            "destination_point": obj.route.destination_point
+        }
+
+    class Meta:
+        model = Flight
+        fields = [
+            'id', 'flight_number', 'route', 'departure_datetime', 'arrival_datetime',
+            'sold_tickets', 'plane', 'crew'
         ]
