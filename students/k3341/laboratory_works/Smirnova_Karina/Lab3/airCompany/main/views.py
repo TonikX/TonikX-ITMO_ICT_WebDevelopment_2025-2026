@@ -9,10 +9,20 @@ from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_protect
 
 from .models import AirlineCompany, Plane, Crew, Route, Flight, CrewMember
-from .serializers import AirlineCompanySerializer, PlaneSerializer, CrewSerializer, RouteSerializer, FlightSerializer,\
-    CrewMemberSerializer, AirlineCompanyAndPlanesAndCrewMembersSerializer, \
-    PlaneWithFlightsSerializer, CrewAndMembersSerializer, RouteWithFlightsSerializer, \
-    FlightWithTransitLandingsSerializer, FlightEverythingSerializer, FlightWithPlaneSerializer
+from .serializers import (
+    AirlineCompanySerializer,
+    PlaneSerializer,
+    CrewSerializer,
+    RouteSerializer,
+    FlightSerializer,
+    CrewMemberSerializer,
+    AirlineCompanyAndPlanesAndCrewMembersSerializer,
+    PlaneWithFlightsSerializer,
+    CrewAndMembersSerializer,
+    RouteWithFlightsSerializer,
+    FlightEverythingSerializer,
+    FlightWithPlaneSerializer
+)
 
 
 class AirlineCompanyViewSet(viewsets.ModelViewSet):
@@ -68,12 +78,7 @@ class FlightViewSet(viewsets.ModelViewSet):
             return FlightEverythingSerializer
         return FlightSerializer
 
-
-# class TransitLandingViewSet(viewsets.ModelViewSet):
-#     queryset = TransitLanding.objects.all()
-#     serializer_class = TransitLandingSerializer
-
-class MostPopularPaneType(APIView):
+class MostPopularPlaneType(APIView):
     def get(self, request, route_id):
         # Фильтруем рейсы по маршруту
         flights = Flight.objects.filter(route_id=route_id)
@@ -94,8 +99,6 @@ class MostPopularPaneType(APIView):
         }, status=status.HTTP_200_OK)
 
 class RoutesBelowCapacity(APIView):
-    # permission_classes = [IsAuthenticated]
-
     def get(self, request, percentage):
         try:
             # Рассчитываем порог заполненности
@@ -127,8 +130,6 @@ class AvailableSeats(APIView):
         return Response({'available_seats': available_seats}, status=status.HTTP_200_OK)
 
 class PlanesUnderRepair(APIView):
-    # permission_classes = [IsAuthenticated]
-
     def get(self, request):
         # Подсчитываем количество самолетов в ремонте
         under_repair_count = Plane.objects.filter(in_repair=True).count()
@@ -136,8 +137,6 @@ class PlanesUnderRepair(APIView):
         return Response({'planes_under_repair': under_repair_count}, status=status.HTTP_200_OK)
 
 class TotalEmployees(APIView):
-    # permission_classes = [IsAuthenticated]
-
     def get(self, request, company_id):
         try:
             # Получаем компанию-авиаперевозчика по ID
@@ -153,11 +152,7 @@ class TotalEmployees(APIView):
 @csrf_protect
 def auth_demo(request):
     """
-    Обрабатывает три действия (в поле action формы):
-    - login: аутентифицирует (username/password), делает django_login и создаёт Token (Token.objects.get_or_create),
-             сохраняет token.key в request.session['auth_token'].
-    - me: показывает данные текущего пользователя (из request.user если сессия есть, иначе пытается по токену в сессии).
-    - logout: удаляет Token (если есть) и делает django_logout.
+    Обработчик страниц авторизации.
     """
     message = ''
     token = request.session.get('auth_token')
@@ -190,7 +185,6 @@ def auth_demo(request):
                     'is_staff': u.is_staff,
                 }
             else:
-                # пробуем по токену из сессии
                 token_key = request.session.get('auth_token')
                 if token_key:
                     try:
@@ -205,18 +199,16 @@ def auth_demo(request):
                         }
                         message = 'Пользователь найден по токену из сессии.'
                     except Token.DoesNotExist:
-                        message = 'Токен в сессии не найден в базе.'
+                        message = 'Токен в сессии не найден.'
                 else:
                     message = 'Нет активной сессии и токена. Сначала выполните вход.'
         elif action == 'logout':
-            # Если пользователь аутентифицирован, удаляем токен пользователя
             if request.user.is_authenticated:
                 Token.objects.filter(user=request.user).delete()
                 django_logout(request)
                 request.session.pop('auth_token', None)
                 message = 'Вышли из сессии и удалили токен.'
             else:
-                # Попробуем удалить по токену из сессии
                 token_key = request.session.pop('auth_token', None)
                 if token_key:
                     Token.objects.filter(key=token_key).delete()
@@ -224,7 +216,6 @@ def auth_demo(request):
                 else:
                     message = 'Нет активной сессии и токена для удаления.'
 
-    # Приведём user_info в читаемый вид (строка JSON-like) для шаблона
     if user_info:
         import json
         user_info = json.dumps(user_info, ensure_ascii=False, indent=2)

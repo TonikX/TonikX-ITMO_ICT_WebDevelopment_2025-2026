@@ -52,18 +52,10 @@ class FlightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flight
-        fields = '__all__'
-
-# class TransitLandingSerializer(serializers.ModelSerializer):
-#     """
-#     Простой сериализатор для модели TransitLanding.
-#     """
-#     landing_datetime = serializers.DateTimeField(format=None, input_formats=None)
-#     takeoff_datetime = serializers.DateTimeField(format=None, input_formats=None)
-#
-#     class Meta:
-#         model = TransitLanding
-#         fields = '__all__'
+        fields = [
+            'id', 'flight_number', 'route', 'departure_point', 'arrival_point',
+            'departure_datetime', 'arrival_datetime', 'sold_tickets', 'plane', 'crew', 'is_transit'
+        ]
 
 # Сериализаторы со связями
 
@@ -88,7 +80,10 @@ class FlightInRouteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flight
-        fields = ['id', 'flight_number', 'departure_datetime', 'arrival_datetime', 'plane']
+        fields = [
+            'id', 'flight_number', 'departure_point', 'arrival_point',
+            'departure_datetime', 'arrival_datetime', 'plane', 'is_transit'
+        ]
 
 class RouteWithFlightsSerializer(serializers.ModelSerializer):
     """
@@ -99,38 +94,19 @@ class RouteWithFlightsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = [
-            'id', 'departure_point', 'destination_point',
-            'distance', 'landing_points', 'transit_landings',
-            'flights'
+            'id', 'departure_point', 'destination_point', 'distance', 'landing_points', 'flights'
         ]
 
 class AirlineCompanyAndPlanesAndCrewMembersSerializer(serializers.ModelSerializer):
     """
     Сериализатор для AirlineCompany + вложенные самолеты и члены экипажа.
     """
-    # one-to-many: company -> planes
     planes = PlaneSerializer(many=True, read_only=True, source='plane_set')
-    # many-to-many: company -> crew members (обратная сторона CrewMember.company)
     crew_members = CrewMemberSerializer(many=True, read_only=True)
 
     class Meta:
         model = AirlineCompany
         fields = ['id', 'name', 'planes', 'crew_members']
-
-class FlightWithTransitLandingsSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для Flight + вложенные transit landings.
-    """
-    # transitlandings = TransitLandingSerializer(many=True, read_only=True, source='transitlanding_set')
-
-    class Meta:
-        model = Flight
-
-        fields = [
-            'id', 'flight_number', 'route', 'route_id',
-            'departure_datetime', 'arrival_datetime', 'sold_tickets',
-            'transitlandings'
-        ]
 
 class FlightInPlaneSerializer(serializers.ModelSerializer):
     """
@@ -142,7 +118,10 @@ class FlightInPlaneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flight
-        fields = ['id', 'flight_number', 'route', 'departure_datetime', 'arrival_datetime', 'sold_tickets']
+        fields = [
+            'id', 'flight_number', 'route', 'departure_point', 'arrival_point',
+            'departure_datetime', 'arrival_datetime', 'sold_tickets', 'is_transit'
+        ]
 
 class PlaneWithFlightsSerializer(serializers.ModelSerializer):
     """
@@ -166,8 +145,8 @@ class FlightEverythingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = [
-            'id', 'flight_number', 'route', 'plane', 'crew',
-            'departure_datetime', 'arrival_datetime', 'sold_tickets'
+            'id', 'flight_number', 'route', 'departure_point', 'arrival_point',
+            'plane', 'crew', 'departure_datetime', 'arrival_datetime', 'sold_tickets', 'is_transit'
         ]
 
 class FlightWithPlaneSerializer(serializers.ModelSerializer):
@@ -184,6 +163,6 @@ class FlightWithPlaneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = [
-            'id', 'flight_number', 'route', 'departure_datetime', 'arrival_datetime',
-            'sold_tickets', 'plane', 'crew'
+            'id', 'flight_number', 'route', 'departure_point', 'arrival_point',
+            'departure_datetime', 'arrival_datetime', 'sold_tickets', 'plane', 'crew', 'is_transit'
         ]
