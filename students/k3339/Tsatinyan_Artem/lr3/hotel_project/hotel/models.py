@@ -71,7 +71,7 @@ class CleaningSchedule(models.Model):
     weekday = models.IntegerField("День недели", choices=WEEKDAY_CHOICES)
 
     class Meta:
-        unique_together = ("floor", "weekday")
+        unique_together = ("employee", "floor", "weekday")
 
     def __str__(self):
         return f"{self.employee} — этаж {self.floor}, {self.get_weekday_display()}"
