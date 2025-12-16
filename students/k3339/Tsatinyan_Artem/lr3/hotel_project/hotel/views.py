@@ -6,6 +6,8 @@ from django.utils.dateparse import parse_date
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from django.db import models
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -52,11 +54,72 @@ class CleaningScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = CleaningScheduleSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['employee', 'floor', 'weekday']
+
 
 class StayViewSet(viewsets.ModelViewSet):
     queryset = Stay.objects.all()
     serializer_class = StaySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['room', 'client', 'check_in', 'check_out']
+    ordering_fields = ['check_in', 'check_out']
+    ordering = ['-check_in']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        status_param = self.request.query_params.get('status')
+        today = date.today()
+
+        if status_param == 'current_and_future':
+            return queryset.filter(
+                models.Q(check_out__isnull=True) | models.Q(check_out__gte=today)
+            )
+
+        if status_param == 'active':
+            return queryset.filter(check_in__lte=today).filter(
+                models.Q(check_out__isnull=True) | models.Q(check_out__gte=today)
+            )
+        elif status_param == 'future':
+            return queryset.filter(check_in__gt=today)
+        elif status_param == 'history':
+            return queryset.filter(check_out__lt=today)
+
+        return queryset
+
+class WhoCleanedRoomView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        room_number = request.query_params.get("room_number")
+        date_str = request.query_params.get("date")
+
+        if not room_number or not date_str:
+            return Response({"detail": "Нужны room_number и date (YYYY-MM-DD)"}, status=400)
+
+        try:
+            target_date = parse_date(date_str)
+            weekday = target_date.weekday()
+
+            room = Room.objects.get(number=room_number)
+
+            schedule = CleaningSchedule.objects.filter(
+                floor=room.floor,
+                weekday=weekday,
+                employee__is_active=True
+            ).select_related('employee').first()
+
+            if not schedule:
+                return Response({"detail": "На этот день/этаж уборщик не назначен"}, status=404)
+
+            return Response(EmployeeSerializer(schedule.employee).data)
+
+        except Room.DoesNotExist:
+            return Response({"detail": "Комната не найдена"}, status=404)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=400)
 
 class ClientsInRoomView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -209,49 +272,33 @@ class FreeRoomsView(APIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter(
-                'date',
-                openapi.IN_QUERY,
-                description='Дата, на которую ищем свободные номера (YYYY-MM-DD). '
-                            'Если не указана — используется сегодняшняя.',
-                type=openapi.TYPE_STRING,
-                format=openapi.FORMAT_DATE,
-                required=False,
-            ),
+            openapi.Parameter('check_in', openapi.IN_QUERY, type=openapi.TYPE_STRING, format=openapi.FORMAT_DATE, required=True),
+            openapi.Parameter('check_out', openapi.IN_QUERY, type=openapi.TYPE_STRING, format=openapi.FORMAT_DATE, required=True),
         ],
-        responses={
-            200: openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'date': openapi.Schema(type=openapi.TYPE_STRING),
-                    'free_rooms': openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Items(type=openapi.TYPE_OBJECT),
-                    ),
-                },
-            )
-        },
     )
     def get(self, request):
-        date_str = request.query_params.get("date")
-        if date_str:
-            target_date = parse_date(date_str)
-        else:
-            target_date = date.today()
+        check_in_str = request.query_params.get("check_in")
+        check_out_str = request.query_params.get("check_out")
 
-        occupied_rooms = Room.objects.filter(
-            stays__check_in__lte=target_date
+        if not check_in_str or not check_out_str:
+            return Response({"detail": "Нужны check_in и check_out"}, status=400)
+
+        start = parse_date(check_in_str)
+        end = parse_date(check_out_str)
+
+        if not start or not end:
+            return Response({"detail": "Некорректный формат дат"}, status=400)
+
+        occupied_rooms_ids = Stay.objects.filter(
+            check_in__lt=end
         ).filter(
-            models.Q(stays__check_out__isnull=True)
-            | models.Q(stays__check_out__gte=target_date)
-        ).distinct()
+            models.Q(check_out__isnull=True) | models.Q(check_out__gt=start)
+        ).values_list('room_id', flat=True)
 
-        free_rooms = Room.objects.exclude(id__in=occupied_rooms)
+        free_rooms = Room.objects.exclude(id__in=occupied_rooms_ids)
         serializer = RoomSerializer(free_rooms, many=True)
-        return Response(
-            {"date": str(target_date), "free_rooms": serializer.data}
-        )
 
+        return Response(serializer.data)
 
 class ClientsSameDaysView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -482,9 +529,9 @@ class CheckInActionView(APIView):
 
             overlaps = Stay.objects.filter(
                 room=room,
-                check_in__lte=end_for_overlap,
+                check_in__lt=end_for_overlap,
             ).filter(
-                Q(check_out__isnull=True) | Q(check_out__gte=check_in)
+                Q(check_out__isnull=True) | Q(check_out__gt=check_in)
             )
 
             if overlaps.exists():

@@ -17,6 +17,7 @@ from .views import (
     HireEmployeeActionView,
     RoomsWithClientsView,
     ClientsWithRoomsView,
+    WhoCleanedRoomView,
 )
 
 router = DefaultRouter()
@@ -38,4 +39,5 @@ urlpatterns = [
     path("reports/quarter/", QuarterReportView.as_view()),
     path("m2m/rooms-with-clients/", RoomsWithClientsView.as_view()),
     path("m2m/clients-with-rooms/", ClientsWithRoomsView.as_view()),
+    path("reports/who-cleaned/", WhoCleanedRoomView.as_view()),
 ]

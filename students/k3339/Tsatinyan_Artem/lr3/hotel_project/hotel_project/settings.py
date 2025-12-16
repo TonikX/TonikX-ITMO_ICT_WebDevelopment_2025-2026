@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "rest_framework.authtoken",
+    'django_filters',
     "djoser",
     "drf_yasg",
     'corsheaders',
@@ -56,6 +57,10 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     "LOGIN_FIELD": "username",
+    "SERIALIZERS": {
+        'user_create': 'hotel.serializers.CustomUserCreateSerializer',
+        'current_user': 'hotel.serializers.CustomUserSerializer',
+    },
 }
 
 SWAGGER_SETTINGS = {

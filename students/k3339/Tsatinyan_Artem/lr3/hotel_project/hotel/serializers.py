@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Room, Client, Employee, CleaningSchedule, Stay
 from datetime import date
 from django.db import transaction
+from djoser.serializers import UserCreateSerializer, UserSerializer
+from django.contrib.auth import get_user_model
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +30,15 @@ class CleaningScheduleSerializer(serializers.ModelSerializer):
 
 
 class StaySerializer(serializers.ModelSerializer):
+    client = ClientSerializer(read_only=True)
+    room = RoomSerializer(read_only=True)
+    client_id = serializers.PrimaryKeyRelatedField(
+        queryset=Client.objects.all(), source='client', write_only=True
+    )
+    room_id = serializers.PrimaryKeyRelatedField(
+        queryset=Room.objects.all(), source='room', write_only=True
+    )
+
     class Meta:
         model = Stay
         fields = "__all__"
@@ -131,3 +142,15 @@ class ClientWithRoomsSerializer(serializers.ModelSerializer):
             "city",
             "rooms",
         ]
+
+User = get_user_model()
+
+class CustomUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name')
+
+class CustomUserSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        model = User
+        fields = ('id', 'email', 'username', 'first_name', 'last_name')

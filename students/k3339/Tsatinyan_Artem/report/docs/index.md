@@ -3,3 +3,4 @@
 - [Лаба 1](lr1/index.md)
 - [Лаба 2](lr2/index.md)
 - [Лаба 3](lr3/index.md)
+- [Лаба 4](lr4/index.md)
