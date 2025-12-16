@@ -3,26 +3,29 @@ theme:
   name: material
 
 plugins:
-  - search
-  - swagger-ui-tag
+    - search
+    - swagger-ui-tag
 
+markdown_extensions:
+  - attr_list
+  - md_in_html
 
 nav:
-  - ЛР 1:
-      - Главная: lab1/index.md
-      - Задание 1: lab1/task1.md
-      - Задание 2: lab1/task2.md
-      - Задание 3: lab1/task3.md
-      - Задание 4: lab1/task4.md
-      - Задание 5: lab1/task5.md
-  - ЛР 2:
-      - Главная: lab2/index.md
-      - Запуск и использование: lab2/startup.md
-      - API и интерфейс: lab2/api.md
-      - Администрирование: lab2/admin.md
-  - ЛР 3:
-      - Главная: lab3/index.md
-      - Отчет: lab3/report.md
-      - Модель БД: lab3/dbmodel.md
-      - Документация API: lab3/api.md
-      - Практика: lab3/practice.md
+    - ЛР 1:
+          - Главная: lab1/index.md
+          - Задание 1: lab1/task1.md
+          - Задание 2: lab1/task2.md
+          - Задание 3: lab1/task3.md
+          - Задание 4: lab1/task4.md
+          - Задание 5: lab1/task5.md
+    - ЛР 2:
+          - Главная: lab2/index.md
+          - Запуск и использование: lab2/startup.md
+          - API и интерфейс: lab2/api.md
+          - Администрирование: lab2/admin.md
+    - ЛР 3:
+          - Главная: lab3/index.md
+          - Отчет: lab3/report.md
+          - Модель БД: lab3/dbmodel.md
+          - Документация API: lab3/api.md
+          - Практика: lab3/practice.md

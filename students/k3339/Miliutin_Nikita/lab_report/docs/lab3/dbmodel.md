@@ -1,10 +1,7 @@
 # Модель базы данных
 
-<p align="center">
-  <img src="images/dbmodel.png" width="850">
-  <br>
-  <em>Рисунок 1 — ER/DB модель базы данных проекта</em>
-</p>
+![Модель БД](images/dbmodel.png)
+
 
 ---
 
