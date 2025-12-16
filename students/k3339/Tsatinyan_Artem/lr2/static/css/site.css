@@ -1,0 +1,70 @@
+/* ---------- Глобально ---------- */
+:root{
+    --brand:#6c5ce7;
+    --brand-2:#a29bfe;
+    --bg:#0f1115;
+    --panel:#161a22;
+    --text:#eaeef7;
+    --muted:#9aa4b2;
+}
+html,body{height:100%}
+body{
+    background: radial-gradient(1200px 800px at 10% -10%, #1f2440 0%, #0f1115 40%, #0b0e14 100%) fixed;
+    color: var(--text);
+}
+
+/* ---------- Навбар ---------- */
+.navbar-dark.bg-dark{ background:#0e1320 !important; border-bottom:1px solid #20273a; }
+.navbar .form-control { background:#0f1322; color:var(--text); border:1px solid #283148; }
+.navbar .form-control::placeholder{ color:#6c7486; }
+
+/* ---------- Контейнер/заголовки ---------- */
+.container{ max-width: 980px; }
+h1,h3{ color:var(--text); }
+
+/* ---------- Карточки списка конференций ---------- */
+.conf-list .list-group-item{
+    background: linear-gradient(180deg, #131a28 0%, #101623 100%);
+    border:1px solid #1f2740;
+    color:var(--text);
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    border-radius: 14px; margin-bottom: .75rem;
+}
+.conf-list .list-group-item:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    border-color:#313d66;
+}
+.conf-list h5{ margin:0; font-weight:700; }
+.conf-list small{ color:var(--muted); }
+.badge.bg-secondary{ background: #2e3654 !important; }
+
+/* ---------- Детальная страница ---------- */
+.conf-meta p{ margin-bottom:.5rem; }
+.conf-panel{
+    background:#121828; border:1px solid #202b44; border-radius:16px; padding:1rem 1.25rem; margin-bottom:1rem;
+}
+
+/* ---------- Таблицы участников ---------- */
+.table{ color:var(--text); }
+.table thead{ background:#151b2a; }
+.table-striped tbody tr:nth-of-type(odd){ background:#0f1524; }
+.table-striped tbody tr:nth-of-type(even){ background:#0c1220; }
+.table td, .table th{ border-color:#1f2740 !important; }
+
+/* ---------- Пагинация ---------- */
+.pagination .page-link{
+    background:#0f1524; border:1px solid #283148; color:var(--text);
+}
+.pagination .page-link:hover{ border-color:#44507a; }
+.page-item.disabled .page-link{ color:#6c7486; }
+
+/* ---------- Формы ---------- */
+button.btn-primary{ background:var(--brand); border-color:var(--brand); }
+button.btn-primary:hover{ background:#5847e3; border-color:#5847e3; }
+.btn-outline-primary{ border-color:var(--brand-2); color:var(--brand-2); }
+.btn-outline-primary:hover{ background:var(--brand-2); color:#0b0e14; }
+
+/* ---------- Карточки отзывов ---------- */
+.card{ background:#121828; border:1px solid #202b44; }
+.card .text-muted{ color:#8a93a8 !important; }
