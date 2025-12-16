@@ -2,6 +2,13 @@ site_name: Отчёты по лабораторным
 theme:
   name: material
 
+plugins:
+  - search
+  - openapi_markdown:
+      enabled: true
+      openapi_file: docs/lab3/openapi.json
+      output_file: lab3/api_doc.md
+
 nav:
   - ЛР 1:
       - Главная: lab1/index.md
@@ -15,3 +22,9 @@ nav:
       - Запуск и использование: lab2/startup.md
       - API и интерфейс: lab2/api.md
       - Администрирование: lab2/admin.md
+  - ЛР 3:
+      - Главная: lab3/index.md
+      - Отчет: lab3/report.md
+      - Модель БД: lab3/dbmodel.md
+      - Документация API: lab3/api_doc.md
+      - Практика: lab3/practice.md
