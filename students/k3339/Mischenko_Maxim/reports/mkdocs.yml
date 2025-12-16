@@ -12,6 +12,12 @@ nav:
     - Использование: lab2/usage.md
     - Модели данных: lab2/models.md
     - Представления: lab2/views.md
+  - Lab 4:
+    - Обзор: lab4/index.md
+    - Установка: lab4/installation.md
+    - Модели данных: lab4/models.md
+    - API: lab4/api.md
+    - Фронтенд: lab4/frontend.md
 theme:
   name: material
   language: en
