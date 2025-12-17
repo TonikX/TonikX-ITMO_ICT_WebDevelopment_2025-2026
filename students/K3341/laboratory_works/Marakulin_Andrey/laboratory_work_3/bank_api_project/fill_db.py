@@ -3,8 +3,6 @@ import django
 import random
 from datetime import date, timedelta
 from decimal import Decimal
-
-# Настройка окружения Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bank_api_project.settings')
 django.setup()
 
@@ -12,8 +10,7 @@ from banking.models import *
 
 
 def run():
-    print("--- Очистка старых данных (на всякий случай) ---")
-    # Удаляем в обратном порядке зависимости
+    print(" Очистка старых данных (на всякий случай) ")
     PayoutSchedule.objects.all().delete()
     AccrualSchedule.objects.all().delete()
     Loan.objects.all().delete()
@@ -28,25 +25,20 @@ def run():
     DepositType.objects.all().delete()
     LoanType.objects.all().delete()
 
-    print("--- Создание справочников ---")
+    print(" Создание справочников ")
 
-    # 1. Валюты
     rub = Currency.objects.create(code='RUB', name='Российский Рубль')
     usd = Currency.objects.create(code='USD', name='Доллар США')
     eur = Currency.objects.create(code='EUR', name='Евро')
 
-    # 2. Курсы валют (для аналитики)
-    # Создаем колебания курса за последние 5 дней
     for i in range(5):
         d = date.today() - timedelta(days=i)
         ExchangeRate.objects.create(currency=usd, date=d, buy_price=90 + i, sell_price=95 + i, multiplicity=1)
         ExchangeRate.objects.create(currency=eur, date=d, buy_price=100 + i, sell_price=105 + i, multiplicity=1)
 
-    # 3. Должности
     pos_manager = Position.objects.create(name='Менеджер', salary=50000, vacancies_count=2)
     pos_boss = Position.objects.create(name='Начальник отдела', salary=100000, vacancies_count=1)
 
-    # 4. Сотрудники
     emp1 = Employee.objects.create(
         fio='Смирнова Анна Ивановна', dob='1990-05-15', address='ул. Ленина 1',
         phone='89001112233', passport_data='4010 123123', salary=50000
@@ -56,7 +48,6 @@ def run():
         phone='89005556677', passport_data='4011 987987', salary=100000
     )
 
-    # 5. Занимаемые должности (OccupiedPosition) - Важно для processed_by
     occ_emp1 = OccupiedPosition.objects.create(
         employee=emp1, position=pos_manager, start_date='2023-01-01'
     )
@@ -64,7 +55,6 @@ def run():
         employee=emp2, position=pos_boss, start_date='2022-01-01'
     )
 
-    # 6. Типы продуктов
     dt_vip = DepositType.objects.create(
         name='VIP Вклад', description='Для богатых', min_term=12, min_sum=1000000, term=12, interest_rate=15.5
     )
@@ -79,7 +69,7 @@ def run():
         name='Наличными', loan_type='Потребительский', term=24, interest_rate=25.0
     )
 
-    print("--- Создание Клиентов и Паспортов ---")
+    print(" Создание Клиентов и Паспортов ")
 
     clients_data = [
         ('Иванов Иван Иванович', '4020', '100100'),
@@ -99,30 +89,29 @@ def run():
         )
         passports_list.append(passport)
 
-    print("--- Создание Вкладов, Кредитов и Графиков ---")
+    print(" Создание Вкладов, Кредитов и Графиков ")
 
-    # Для каждого паспорта создадим по 1 вкладу и 1 кредиту, чтобы работала аналитика портфеля
     for i, passport in enumerate(passports_list):
-        # --- ВКЛАД ---
+
         dep = Deposit.objects.create(
             deposit_type=dt_simple,
             currency=rub,
             passport=passport,
-            processed_by=occ_emp1,  # Оформил менеджер
+            processed_by=occ_emp1,
             contract_number=f"DEP-{i + 1}",
             contract_data="Текст договора...",
-            deposit_sum=Decimal(100000 * (i + 1)),  # 100k, 200k, 300k
+            deposit_sum=Decimal(100000 * (i + 1)),
             deposit_date='2024-01-01',
             return_date='2024-06-01'
         )
 
-        # График начислений для вклада (3 записи)
+
         for m in range(1, 4):
             AccrualSchedule.objects.create(
                 deposit=dep, date=date(2024, m, 15), sum=Decimal(1000 * (i + 1)), number=m
             )
 
-        # --- КРЕДИТ ---
+
         loan = Loan.objects.create(
             loan_type=lt_cash,
             currency=rub,
@@ -130,14 +119,14 @@ def run():
             processed_by=occ_emp1,
             contract_number=f"LOAN-{i + 1}",
             contract_data="Договор кредита...",
-            sum_credit=Decimal(50000 * (i + 1)),  # 50k, 100k, 150k
+            sum_credit=Decimal(50000 * (i + 1)),
             payout_count=12,
             monthly_payment=Decimal(5000),
             date_issue='2024-02-01',
             close_date='2025-02-01'
         )
 
-        # График выплат для кредита (3 записи)
+
         for m in range(3, 6):
             PayoutSchedule.objects.create(
                 loan=loan,
@@ -148,7 +137,7 @@ def run():
                 number=m - 2
             )
 
-    print("--- Успешно! База наполнена данными ---")
+    print(" Успешно! База наполнена данными ")
 
 
 if __name__ == '__main__':
