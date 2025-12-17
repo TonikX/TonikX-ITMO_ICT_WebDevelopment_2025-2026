@@ -1,0 +1,1882 @@
+basePath: /api/v1
+definitions:
+  internal_delivery_http_handler.AuthResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user:
+        $ref: '#/definitions/internal_delivery_http_handler.UserResponse'
+    type: object
+  internal_delivery_http_handler.ClassResponse:
+    properties:
+      academic_year_id:
+        type: integer
+      class_teacher_id:
+        type: integer
+      created_at:
+        type: string
+      grade:
+        type: integer
+      id:
+        type: integer
+      letter:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_delivery_http_handler.CreateClassRequest:
+    properties:
+      academic_year_id:
+        type: integer
+      class_teacher_id:
+        type: integer
+      grade:
+        type: integer
+      letter:
+        type: string
+    type: object
+  internal_delivery_http_handler.CreateGradeRequest:
+    properties:
+      grade:
+        type: integer
+      grading_period_id:
+        type: integer
+      student_id:
+        type: integer
+      subject_id:
+        type: integer
+    type: object
+  internal_delivery_http_handler.CreateScheduleRequest:
+    properties:
+      class_id:
+        type: integer
+      classroom_id:
+        type: integer
+      lesson_number:
+        type: integer
+      subject_id:
+        type: integer
+      teacher_id:
+        type: integer
+      weekday_id:
+        type: integer
+    type: object
+  internal_delivery_http_handler.CreateStudentRequest:
+    properties:
+      class_id:
+        type: integer
+      first_name:
+        type: string
+      gender_id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+    type: object
+  internal_delivery_http_handler.CreateTeacherRequest:
+    properties:
+      classroom_id:
+        type: integer
+      first_name:
+        type: string
+      last_name:
+        type: string
+      middle_name:
+        type: string
+    type: object
+  internal_delivery_http_handler.GradeResponse:
+    properties:
+      created_at:
+        type: string
+      grade:
+        type: integer
+      grading_period_id:
+        type: integer
+      id:
+        type: integer
+      student_id:
+        type: integer
+      subject_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  internal_delivery_http_handler.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_delivery_http_handler.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  internal_delivery_http_handler.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      teacher_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  internal_delivery_http_handler.ScheduleResponse:
+    properties:
+      class_id:
+        type: integer
+      classroom_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      lesson_number:
+        type: integer
+      subject_id:
+        type: integer
+      teacher_id:
+        type: integer
+      updated_at:
+        type: string
+      weekday_id:
+        type: integer
+    type: object
+  internal_delivery_http_handler.StudentResponse:
+    properties:
+      class_id:
+        type: integer
+      created_at:
+        type: string
+      first_name:
+        type: string
+      gender_id:
+        type: integer
+      id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_delivery_http_handler.TeacherResponse:
+    properties:
+      classroom_id:
+        type: integer
+      created_at:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_delivery_http_handler.UpdateClassRequest:
+    properties:
+      academic_year_id:
+        type: integer
+      class_teacher_id:
+        type: integer
+      grade:
+        type: integer
+      letter:
+        type: string
+    type: object
+  internal_delivery_http_handler.UpdateGradeRequest:
+    properties:
+      grade:
+        type: integer
+      grading_period_id:
+        type: integer
+      student_id:
+        type: integer
+      subject_id:
+        type: integer
+    type: object
+  internal_delivery_http_handler.UpdateScheduleRequest:
+    properties:
+      class_id:
+        type: integer
+      classroom_id:
+        type: integer
+      lesson_number:
+        type: integer
+      subject_id:
+        type: integer
+      teacher_id:
+        type: integer
+      weekday_id:
+        type: integer
+    type: object
+  internal_delivery_http_handler.UpdateStudentRequest:
+    properties:
+      class_id:
+        type: integer
+      first_name:
+        type: string
+      gender_id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+    type: object
+  internal_delivery_http_handler.UpdateTeacherRequest:
+    properties:
+      classroom_id:
+        type: integer
+      first_name:
+        type: string
+      last_name:
+        type: string
+      middle_name:
+        type: string
+    type: object
+  internal_delivery_http_handler.UserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      role:
+        type: string
+      teacher_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  school-service_internal_domain_usecase.ClassPerformanceReport:
+    properties:
+      class_id:
+        type: integer
+      class_name:
+        type: string
+      homeroom_teacher:
+        $ref: '#/definitions/school-service_internal_domain_usecase.HomeroomTeacherInfo'
+      overall_average_grade:
+        type: number
+      students_count:
+        type: integer
+      subject_performance:
+        items:
+          $ref: '#/definitions/school-service_internal_domain_usecase.SubjectPerformanceInfo'
+        type: array
+    type: object
+  school-service_internal_domain_usecase.HomeroomTeacherInfo:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      middle_name:
+        type: string
+    type: object
+  school-service_internal_domain_usecase.SubjectPerformanceInfo:
+    properties:
+      average_grade:
+        type: number
+      grades_count:
+        type: integer
+      subject_id:
+        type: integer
+      subject_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@school-service.com
+    name: API Support
+  description: API для управления школьной системой
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: School Management Service API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Выполняет аутентификацию пользователя и возвращает токены
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Вход пользователя
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Отзывает refresh токен пользователя
+      parameters:
+      - description: Refresh токен
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Выход пользователя
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Обновляет access токен используя refresh токен
+      parameters:
+      - description: Refresh токен
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновление access токена
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя в системе
+      parameters:
+      - description: Данные для регистрации
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Регистрация нового пользователя
+      tags:
+      - auth
+  /classes:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех классов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.ClassResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список классов
+      tags:
+      - classes
+    post:
+      consumes:
+      - application/json
+      description: Создает новый класс в системе
+      parameters:
+      - description: Данные класса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.CreateClassRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ClassResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать класс
+      tags:
+      - classes
+  /classes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Выполняет soft delete класса
+      parameters:
+      - description: ID класса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить класс
+      tags:
+      - classes
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию о классе по его ID
+      parameters:
+      - description: ID класса
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ClassResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить класс по ID
+      tags:
+      - classes
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о классе
+      parameters:
+      - description: ID класса
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные класса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.UpdateClassRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ClassResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Обновить класс
+      tags:
+      - classes
+  /classes/academic-year/{academicYearId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех классов указанного учебного года
+      parameters:
+      - description: ID учебного года
+        in: path
+        name: academicYearId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.ClassResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список классов учебного года
+      tags:
+      - classes
+  /grades:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список оценок
+      tags:
+      - grades
+    post:
+      consumes:
+      - application/json
+      description: Создает новую оценку в системе
+      parameters:
+      - description: Данные оценки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.CreateGradeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать оценку
+      tags:
+      - grades
+  /grades/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет оценку из системы
+      parameters:
+      - description: ID оценки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить оценку
+      tags:
+      - grades
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию об оценке по её ID
+      parameters:
+      - description: ID оценки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить оценку по ID
+      tags:
+      - grades
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию об оценке
+      parameters:
+      - description: ID оценки
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные оценки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.UpdateGradeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Обновить оценку
+      tags:
+      - grades
+  /grades/class/{classId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок всех учеников указанного класса
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Оценки класса
+      tags:
+      - grades
+  /grades/class/{classId}/grading-period/{gradingPeriodId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок указанного класса за указанный оценочный
+        период
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      - description: ID оценочного периода
+        in: path
+        name: gradingPeriodId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Оценки класса за период
+      tags:
+      - grades
+  /grades/class/{classId}/subject/{subjectId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок указанного класса по указанному предмету
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      - description: ID предмета
+        in: path
+        name: subjectId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Оценки класса по предмету
+      tags:
+      - grades
+  /grades/student/{studentId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок указанного ученика
+      parameters:
+      - description: ID ученика
+        in: path
+        name: studentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Оценки ученика
+      tags:
+      - grades
+  /grades/subject/{subjectId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех оценок по указанному предмету
+      parameters:
+      - description: ID предмета
+        in: path
+        name: subjectId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.GradeResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Оценки по предмету
+      tags:
+      - grades
+  /info/classrooms-count-by-type:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает количество кабинетов для базовых и профильных дисциплин
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Количество кабинетов по типам
+      tags:
+      - info
+  /info/students-count-by-gender:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает количество мальчиков и девочек в каждом классе
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              additionalProperties:
+                type: integer
+              type: object
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Количество мальчиков/девочек по классам
+      tags:
+      - info
+  /info/teachers-by-same-subjects:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список учителей, которые преподают те же предметы, что
+        и указанный учитель
+      parameters:
+      - description: ID учителя
+        in: query
+        name: teacherId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.TeacherResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Учителя с теми же предметами
+      tags:
+      - info
+  /info/teachers-count-by-subject:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает количество учителей, преподающих каждый предмет
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Количество учителей по предметам
+      tags:
+      - info
+  /reports/class-performance:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает отчет об успеваемости класса, включая средние оценки
+        по предметам, общий средний балл, количество учеников и классного руководителя
+      parameters:
+      - description: ID класса
+        in: query
+        name: classId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/school-service_internal_domain_usecase.ClassPerformanceReport'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Отчет об успеваемости класса
+      tags:
+      - reports
+  /schedules:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех записей расписания
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список записей расписания
+      tags:
+      - schedules
+    post:
+      consumes:
+      - application/json
+      description: Создает новую запись в расписании
+      parameters:
+      - description: Данные расписания
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.CreateScheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать запись расписания
+      tags:
+      - schedules
+  /schedules/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет запись из расписания
+      parameters:
+      - description: ID записи расписания
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить запись расписания
+      tags:
+      - schedules
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию о записи расписания по её ID
+      parameters:
+      - description: ID записи расписания
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить запись расписания по ID
+      tags:
+      - schedules
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о записи расписания
+      parameters:
+      - description: ID записи расписания
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные расписания
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.UpdateScheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Обновить запись расписания
+      tags:
+      - schedules
+  /schedules/class/{classId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает расписание для указанного класса
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Расписание класса
+      tags:
+      - schedules
+  /schedules/class/{classId}/weekday/{weekdayId}/lesson/{lessonNumber}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает предмет, который преподается в указанном классе в указанный
+        день недели на указанном уроке
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      - description: ID дня недели
+        in: path
+        name: weekdayId
+        required: true
+        type: integer
+      - description: Номер урока
+        in: path
+        name: lessonNumber
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.ScheduleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Предмет в классе на день X урок Y
+      tags:
+      - schedules
+  /students:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех учеников
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.StudentResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список учеников
+      tags:
+      - students
+    post:
+      consumes:
+      - application/json
+      description: Создает нового ученика в системе
+      parameters:
+      - description: Данные ученика
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.CreateStudentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.StudentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать ученика
+      tags:
+      - students
+  /students/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Выполняет soft delete ученика
+      parameters:
+      - description: ID ученика
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить ученика
+      tags:
+      - students
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию об ученике по его ID
+      parameters:
+      - description: ID ученика
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.StudentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить ученика по ID
+      tags:
+      - students
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию об ученике
+      parameters:
+      - description: ID ученика
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные ученика
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.UpdateStudentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.StudentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Обновить ученика
+      tags:
+      - students
+  /students/class/{classId}:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех учеников указанного класса
+      parameters:
+      - description: ID класса
+        in: path
+        name: classId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.StudentResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список учеников класса
+      tags:
+      - students
+  /teachers:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех учителей
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_delivery_http_handler.TeacherResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Список учителей
+      tags:
+      - teachers
+    post:
+      consumes:
+      - application/json
+      description: Создает нового учителя в системе
+      parameters:
+      - description: Данные учителя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.CreateTeacherRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.TeacherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Создать учителя
+      tags:
+      - teachers
+  /teachers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Выполняет soft delete учителя
+      parameters:
+      - description: ID учителя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Удалить учителя
+      tags:
+      - teachers
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию об учителе по его ID
+      parameters:
+      - description: ID учителя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.TeacherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Получить учителя по ID
+      tags:
+      - teachers
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию об учителе
+      parameters:
+      - description: ID учителя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные учителя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_delivery_http_handler.UpdateTeacherRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_delivery_http_handler.TeacherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Обновить учителя
+      tags:
+      - teachers
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

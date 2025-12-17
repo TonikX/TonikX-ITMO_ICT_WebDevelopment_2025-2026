@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -19,6 +20,8 @@ const (
 	defaultDBMaxOpenConns       = 25
 	defaultDBMaxIdleConns       = 5
 	defaultDBConnMaxLifetimeMin = 5
+	defaultDBConnMaxIdleTimeMin = 10
+	defaultDBPingTimeoutSec     = 5
 	defaultJWTSecret            = "your-secret-key-change-in-production"
 	defaultJWTAccessTokenTTLMin = 15
 	defaultJWTRefreshTokenTTLHr = 168
@@ -29,6 +32,15 @@ const (
 	defaultHTTPReadTimeoutSec   = 15
 	defaultHTTPWriteTimeoutSec  = 15
 	defaultHTTPIdleTimeoutSec   = 60
+	defaultCORSAllowCredentials = false
+	defaultCORSMaxAge           = 300
+)
+
+var (
+	defaultCORSAllowedOrigins = []string{"*"}
+	defaultCORSAllowedMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"}
+	defaultCORSAllowedHeaders = []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "X-Requested-With"}
+	defaultCORSExposedHeaders = []string{"Link"}
 )
 
 // Config содержит всю конфигурацию приложения
@@ -38,6 +50,7 @@ type Config struct {
 	JWT      JWTConfig
 	Logging  LoggingConfig
 	HTTP     HTTPConfig
+	CORS     CORSConfig
 }
 
 // AppConfig содержит конфигурацию уровня приложения
@@ -58,6 +71,8 @@ type DatabaseConfig struct {
 	MaxOpenConns    int
 	MaxIdleConns    int
 	ConnMaxLifetime time.Duration
+	ConnMaxIdleTime time.Duration
+	PingTimeout     time.Duration
 }
 
 // DSN возвращает строку подключения к базе данных
@@ -75,8 +90,9 @@ type JWTConfig struct {
 
 // LoggingConfig содержит конфигурацию логирования
 type LoggingConfig struct {
-	Level  string
-	Format string
+	Level     string
+	Format    string
+	AddSource bool
 }
 
 // HTTPConfig содержит конфигурацию HTTP сервера
@@ -86,6 +102,16 @@ type HTTPConfig struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	IdleTimeout  time.Duration
+}
+
+// CORSConfig содержит конфигурацию CORS
+type CORSConfig struct {
+	AllowedOrigins   []string
+	AllowedMethods   []string
+	AllowedHeaders   []string
+	ExposedHeaders   []string
+	AllowCredentials bool
+	MaxAge           int
 }
 
 // Load загружает конфигурацию из переменных окружения
@@ -106,6 +132,8 @@ func Load() (*Config, error) {
 			MaxOpenConns:    getEnvInt("DB_MAX_OPEN_CONNS", defaultDBMaxOpenConns),
 			MaxIdleConns:    getEnvInt("DB_MAX_IDLE_CONNS", defaultDBMaxIdleConns),
 			ConnMaxLifetime: getEnvDuration("DB_CONN_MAX_LIFETIME", defaultDBConnMaxLifetimeMin*time.Minute),
+			ConnMaxIdleTime: getEnvDuration("DB_CONN_MAX_IDLE_TIME", defaultDBConnMaxIdleTimeMin*time.Minute),
+			PingTimeout:     getEnvDuration("DB_PING_TIMEOUT", defaultDBPingTimeoutSec*time.Second),
 		},
 		JWT: JWTConfig{
 			Secret:          getEnv("JWT_SECRET", defaultJWTSecret),
@@ -113,8 +141,9 @@ func Load() (*Config, error) {
 			RefreshTokenTTL: getEnvDuration("JWT_REFRESH_TOKEN_TTL", defaultJWTRefreshTokenTTLHr*time.Hour),
 		},
 		Logging: LoggingConfig{
-			Level:  getEnv("LOG_LEVEL", defaultLogLevel),
-			Format: getEnv("LOG_FORMAT", defaultLogFormat),
+			Level:     getEnv("LOG_LEVEL", defaultLogLevel),
+			Format:    getEnv("LOG_FORMAT", defaultLogFormat),
+			AddSource: getEnvBool("LOG_ADD_SOURCE", false),
 		},
 		HTTP: HTTPConfig{
 			Port:         getEnvInt("HTTP_PORT", defaultHTTPPort),
@@ -122,6 +151,14 @@ func Load() (*Config, error) {
 			ReadTimeout:  getEnvDuration("READ_TIMEOUT", defaultHTTPReadTimeoutSec*time.Second),
 			WriteTimeout: getEnvDuration("WRITE_TIMEOUT", defaultHTTPWriteTimeoutSec*time.Second),
 			IdleTimeout:  getEnvDuration("IDLE_TIMEOUT", defaultHTTPIdleTimeoutSec*time.Second),
+		},
+		CORS: CORSConfig{
+			AllowedOrigins:   getEnvSlice("CORS_ALLOWED_ORIGINS", defaultCORSAllowedOrigins),
+			AllowedMethods:   getEnvSlice("CORS_ALLOWED_METHODS", defaultCORSAllowedMethods),
+			AllowedHeaders:   getEnvSlice("CORS_ALLOWED_HEADERS", defaultCORSAllowedHeaders),
+			ExposedHeaders:   getEnvSlice("CORS_EXPOSED_HEADERS", defaultCORSExposedHeaders),
+			AllowCredentials: getEnvBool("CORS_ALLOW_CREDENTIALS", defaultCORSAllowCredentials),
+			MaxAge:           getEnvInt("CORS_MAX_AGE", defaultCORSMaxAge),
 		},
 	}
 
@@ -181,6 +218,24 @@ func getEnvDuration(key string, defaultValue time.Duration) time.Duration {
 	if value := os.Getenv(key); value != "" {
 		if duration, err := time.ParseDuration(value); err == nil {
 			return duration
+		}
+	}
+	return defaultValue
+}
+
+func getEnvSlice(key string, defaultValue []string) []string {
+	if value := os.Getenv(key); value != "" {
+		// Разделяем по запятой и очищаем пробелы
+		parts := strings.Split(value, ",")
+		result := make([]string, 0, len(parts))
+		for _, part := range parts {
+			trimmed := strings.TrimSpace(part)
+			if trimmed != "" {
+				result = append(result, trimmed)
+			}
+		}
+		if len(result) > 0 {
+			return result
 		}
 	}
 	return defaultValue

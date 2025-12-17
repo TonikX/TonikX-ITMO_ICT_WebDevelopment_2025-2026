@@ -1,0 +1,62 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+api.exe
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+coverage
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+docs/
+*.md
+!../../../../../README.md
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Environment
+.env
+.env.local
+env.example
+
+# Tests
+tests/
+*_test.go
+
+# Swagger generated files
+docs/swagger/
+
+# Build artifacts
+*.log
+

@@ -1,0 +1,2290 @@
+openapi: 3.0.3
+info:
+  title: School Management Service API
+  description: |
+    REST API для управления школьной системой. 
+    Предоставляет функционал для управления учителями, учениками, классами, расписанием, оценками и отчетностью.
+    
+    ## Аутентификация
+    API использует JWT токены для аутентификации. Для получения токенов необходимо:
+    1. Зарегистрироваться через `/api/v1/auth/register`
+    2. Войти через `/api/v1/auth/login`
+    3. Использовать полученный `access_token` в заголовке `Authorization: Bearer <token>`
+    
+    ## Роли пользователей
+    - `admin` - администратор системы
+    - `head_teacher` - завуч
+    - `teacher` - учитель
+    
+    ## Ошибки
+    Все ошибки возвращаются в формате:
+    ```json
+    {
+      "error": {
+        "code": "ERROR_CODE",
+        "message": "Описание ошибки",
+        "entity": "EntityName",
+        "field": "field_name",
+        "value": "invalid_value"
+      }
+    }
+    ```
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@school-service.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер разработки
+  - url: https://api.school-service.com
+    description: Production сервер
+
+tags:
+  - name: auth
+    description: Аутентификация и авторизация
+  - name: teachers
+    description: Управление учителями
+  - name: students
+    description: Управление учениками
+  - name: classes
+    description: Управление классами
+  - name: schedules
+    description: Управление расписанием
+  - name: grades
+    description: Управление оценками
+  - name: info
+    description: Информационные запросы
+  - name: reports
+    description: Отчеты
+  - name: health
+    description: Проверка здоровья сервиса
+
+paths:
+  /health:
+    get:
+      tags:
+        - health
+      summary: Полная проверка здоровья
+      description: Возвращает статус всех компонентов системы
+      responses:
+        '200':
+          description: Сервис работает
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Сервис недоступен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /health/ready:
+    get:
+      tags:
+        - health
+      summary: Проверка готовности
+      description: Проверяет готовность сервиса к обработке запросов
+      responses:
+        '200':
+          description: Сервис готов
+        '503':
+          description: Сервис не готов
+
+  /health/live:
+    get:
+      tags:
+        - health
+      summary: Проверка жизнеспособности
+      description: Проверяет, что сервис работает
+      responses:
+        '200':
+          description: Сервис жив
+
+  /api/v1/auth/register:
+    post:
+      tags:
+        - auth
+      summary: Регистрация нового пользователя
+      description: Регистрирует нового пользователя в системе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              username: teacher1
+              email: teacher1@school.com
+              password: SecurePass123!
+              role: teacher
+              teacher_id: 1
+      responses:
+        '201':
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Пользователь уже существует
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - auth
+      summary: Вход пользователя
+      description: Выполняет аутентификацию пользователя и возвращает токены
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              username: teacher1
+              password: SecurePass123!
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: Обновление access токена
+      description: Обновляет access токен используя refresh токен
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            example:
+              refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: Токен успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неверный или истекший refresh токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Выход пользователя
+      description: Отзывает refresh токен пользователя
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Успешный выход
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logout successful
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/teachers:
+    get:
+      tags:
+        - teachers
+      summary: Список учителей
+      description: Возвращает список всех учителей
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список учителей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeacherResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - teachers
+      summary: Создать учителя
+      description: Создает нового учителя в системе
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeacherRequest'
+            example:
+              first_name: Иван
+              last_name: Петров
+              middle_name: Сергеевич
+              classroom_id: 1
+      responses:
+        '201':
+          description: Учитель успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/teachers/{id}:
+    get:
+      tags:
+        - teachers
+      summary: Получить учителя по ID
+      description: Возвращает информацию об учителе по его ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID учителя
+      responses:
+        '200':
+          description: Информация об учителе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherResponse'
+        '404':
+          description: Учитель не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - teachers
+      summary: Обновить учителя
+      description: Обновляет информацию об учителе
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID учителя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacherRequest'
+      responses:
+        '200':
+          description: Учитель успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Учитель не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - teachers
+      summary: Удалить учителя
+      description: Выполняет soft delete учителя
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID учителя
+      responses:
+        '204':
+          description: Учитель успешно удален
+        '404':
+          description: Учитель не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/students:
+    get:
+      tags:
+        - students
+      summary: Список учеников
+      description: Возвращает список всех учеников
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список учеников
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - students
+      summary: Создать ученика
+      description: Создает нового ученика в системе
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudentRequest'
+            example:
+              first_name: Петр
+              last_name: Иванов
+              middle_name: Александрович
+              gender_id: 1
+              class_id: 1
+      responses:
+        '201':
+          description: Ученик успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/students/{id}:
+    get:
+      tags:
+        - students
+      summary: Получить ученика по ID
+      description: Возвращает информацию об ученике по его ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID ученика
+      responses:
+        '200':
+          description: Информация об ученике
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '404':
+          description: Ученик не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - students
+      summary: Обновить ученика
+      description: Обновляет информацию об ученике
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID ученика
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudentRequest'
+      responses:
+        '200':
+          description: Ученик успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Ученик не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - students
+      summary: Удалить ученика
+      description: Выполняет soft delete ученика
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID ученика
+      responses:
+        '204':
+          description: Ученик успешно удален
+        '404':
+          description: Ученик не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/students/class/{classId}:
+    get:
+      tags:
+        - students
+      summary: Список учеников класса
+      description: Возвращает список всех учеников указанного класса
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '200':
+          description: Список учеников класса
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/classes:
+    get:
+      tags:
+        - classes
+      summary: Список классов
+      description: Возвращает список всех классов
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список классов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - classes
+      summary: Создать класс
+      description: Создает новый класс в системе
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClassRequest'
+            example:
+              grade: 5
+              letter: А
+              academic_year_id: 1
+              class_teacher_id: 1
+      responses:
+        '201':
+          description: Класс успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/classes/{id}:
+    get:
+      tags:
+        - classes
+      summary: Получить класс по ID
+      description: Возвращает информацию о классе по его ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '200':
+          description: Информация о классе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - classes
+      summary: Обновить класс
+      description: Обновляет информацию о классе
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClassRequest'
+      responses:
+        '200':
+          description: Класс успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - classes
+      summary: Удалить класс
+      description: Выполняет soft delete класса
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '204':
+          description: Класс успешно удален
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/classes/academic-year/{academicYearId}:
+    get:
+      tags:
+        - classes
+      summary: Список классов учебного года
+      description: Возвращает список всех классов указанного учебного года
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: academicYearId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID учебного года
+      responses:
+        '200':
+          description: Список классов учебного года
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassResponse'
+        '404':
+          description: Учебный год не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/schedules:
+    get:
+      tags:
+        - schedules
+      summary: Список записей расписания
+      description: Возвращает список всех записей расписания
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список записей расписания
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - schedules
+      summary: Создать запись расписания
+      description: Создает новую запись в расписании
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateScheduleRequest'
+            example:
+              class_id: 1
+              weekday_id: 1
+              lesson_number: 1
+              subject_id: 1
+              teacher_id: 1
+              classroom_id: 1
+      responses:
+        '201':
+          description: Запись расписания успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/schedules/{id}:
+    get:
+      tags:
+        - schedules
+      summary: Получить запись расписания по ID
+      description: Возвращает информацию о записи расписания по её ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID записи расписания
+      responses:
+        '200':
+          description: Информация о записи расписания
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleResponse'
+        '404':
+          description: Запись расписания не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - schedules
+      summary: Обновить запись расписания
+      description: Обновляет информацию о записи расписания
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID записи расписания
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateScheduleRequest'
+      responses:
+        '200':
+          description: Запись расписания успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Запись расписания не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - schedules
+      summary: Удалить запись расписания
+      description: Удаляет запись из расписания
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID записи расписания
+      responses:
+        '204':
+          description: Запись расписания успешно удалена
+        '404':
+          description: Запись расписания не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/schedules/class/{classId}:
+    get:
+      tags:
+        - schedules
+      summary: Расписание класса
+      description: Возвращает расписание для указанного класса
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '200':
+          description: Расписание класса
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/schedules/class/{classId}/weekday/{weekdayId}/lesson/{lessonNumber}:
+    get:
+      tags:
+        - schedules
+      summary: Предмет в классе на день X урок Y
+      description: Возвращает предмет, который преподается в указанном классе в указанный день недели на указанном уроке
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+        - name: weekdayId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID дня недели (1-7)
+        - name: lessonNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+          description: Номер урока
+      responses:
+        '200':
+          description: Информация о предмете
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleResponse'
+        '404':
+          description: Запись расписания не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades:
+    get:
+      tags:
+        - grades
+      summary: Список оценок
+      description: Возвращает список всех оценок
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список оценок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - grades
+      summary: Создать оценку
+      description: Создает новую оценку в системе
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGradeRequest'
+            example:
+              student_id: 1
+              subject_id: 1
+              grading_period_id: 1
+              grade: 5
+      responses:
+        '201':
+          description: Оценка успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/{id}:
+    get:
+      tags:
+        - grades
+      summary: Получить оценку по ID
+      description: Возвращает информацию об оценке по её ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID оценки
+      responses:
+        '200':
+          description: Информация об оценке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Оценка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - grades
+      summary: Обновить оценку
+      description: Обновляет информацию об оценке
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID оценки
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGradeRequest'
+      responses:
+        '200':
+          description: Оценка успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Оценка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - grades
+      summary: Удалить оценку
+      description: Удаляет оценку из системы
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID оценки
+      responses:
+        '204':
+          description: Оценка успешно удалена
+        '404':
+          description: Оценка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/student/{studentId}:
+    get:
+      tags:
+        - grades
+      summary: Оценки ученика
+      description: Возвращает список всех оценок указанного ученика
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID ученика
+      responses:
+        '200':
+          description: Список оценок ученика
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Ученик не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/class/{classId}:
+    get:
+      tags:
+        - grades
+      summary: Оценки класса
+      description: Возвращает список всех оценок всех учеников указанного класса
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '200':
+          description: Список оценок класса
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/subject/{subjectId}:
+    get:
+      tags:
+        - grades
+      summary: Оценки по предмету
+      description: Возвращает список всех оценок по указанному предмету
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID предмета
+      responses:
+        '200':
+          description: Список оценок по предмету
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Предмет не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/class/{classId}/subject/{subjectId}:
+    get:
+      tags:
+        - grades
+      summary: Оценки класса по предмету
+      description: Возвращает список всех оценок указанного класса по указанному предмету
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID предмета
+      responses:
+        '200':
+          description: Список оценок класса по предмету
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Класс или предмет не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/grades/class/{classId}/grading-period/{gradingPeriodId}:
+    get:
+      tags:
+        - grades
+      summary: Оценки класса за период
+      description: Возвращает список всех оценок указанного класса за указанный оценочный период
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+        - name: gradingPeriodId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID оценочного периода
+      responses:
+        '200':
+          description: Список оценок класса за период
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeResponse'
+        '404':
+          description: Класс или период не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/info/teachers-count-by-subject:
+    get:
+      tags:
+        - info
+      summary: Количество учителей по предметам
+      description: Возвращает количество учителей, преподающих каждый предмет
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Количество учителей по предметам
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeachersCountBySubjectResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/info/teachers-by-same-subjects:
+    get:
+      tags:
+        - info
+      summary: Учителя с теми же предметами
+      description: Возвращает список учителей, которые преподают те же предметы, что и указанный учитель
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: teacher_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: ID учителя
+      responses:
+        '200':
+          description: Список учителей с теми же предметами
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeacherResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Учитель не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/info/students-count-by-gender:
+    get:
+      tags:
+        - info
+      summary: Количество мальчиков/девочек по классам
+      description: Возвращает количество мальчиков и девочек в каждом классе
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Количество мальчиков и девочек по классам
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentsCountByGenderResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/info/classrooms-count-by-type:
+    get:
+      tags:
+        - info
+      summary: Количество кабинетов по типам
+      description: Возвращает количество кабинетов для базовых и профильных дисциплин
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Количество кабинетов по типам
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassroomsCountByTypeResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/reports/class-performance:
+    get:
+      tags:
+        - reports
+      summary: Отчет об успеваемости класса
+      description: Возвращает отчет об успеваемости класса, включая средние оценки по предметам, общий средний балл, количество учеников и классного руководителя
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: class_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: ID класса
+      responses:
+        '200':
+          description: Отчет об успеваемости класса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassPerformanceReportResponse'
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Класс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Неавторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT токен доступа. Получите токен через `/api/v1/auth/login` или `/api/v1/auth/register`
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Код ошибки
+              example: NOT_FOUND
+            message:
+              type: string
+              description: Сообщение об ошибке
+              example: Teacher not found
+            entity:
+              type: string
+              description: Сущность, связанная с ошибкой
+              example: Teacher
+            field:
+              type: string
+              description: Поле, связанное с ошибкой
+              example: id
+            value:
+              type: string
+              description: Значение, вызвавшее ошибку
+              example: "999"
+            reason:
+              type: string
+              description: Причина ошибки
+              example: Resource does not exist
+            additional:
+              type: object
+              description: Дополнительная информация об ошибке
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        timestamp:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        checks:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              status:
+                type: string
+                example: ok
+              message:
+                type: string
+                example: Database connection successful
+
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - password
+        - role
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: Имя пользователя
+          example: teacher1
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          description: Email адрес
+          example: teacher1@school.com
+        password:
+          type: string
+          minLength: 8
+          description: Пароль (минимум 8 символов)
+          example: SecurePass123!
+        role:
+          type: string
+          enum: [admin, head_teacher, teacher]
+          description: Роль пользователя
+          example: teacher
+        teacher_id:
+          type: integer
+          description: ID учителя (если роль - teacher)
+          example: 1
+
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Имя пользователя
+          example: teacher1
+        password:
+          type: string
+          description: Пароль
+          example: SecurePass123!
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+          description: Refresh токен
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: JWT access токен
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refresh_token:
+          type: string
+          description: JWT refresh токен
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+          $ref: '#/components/schemas/UserResponse'
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: teacher1
+        email:
+          type: string
+          nullable: true
+          example: teacher1@school.com
+        role:
+          type: string
+          example: teacher
+        teacher_id:
+          type: integer
+          nullable: true
+          example: 1
+        is_active:
+          type: boolean
+          example: true
+
+    CreateTeacherRequest:
+      type: object
+      required:
+        - first_name
+        - last_name
+      properties:
+        first_name:
+          type: string
+          maxLength: 50
+          description: Имя
+          example: Иван
+        last_name:
+          type: string
+          maxLength: 50
+          description: Фамилия
+          example: Петров
+        middle_name:
+          type: string
+          maxLength: 50
+          nullable: true
+          description: Отчество
+          example: Сергеевич
+        classroom_id:
+          type: integer
+          nullable: true
+          description: ID закрепленного кабинета
+          example: 1
+
+    UpdateTeacherRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 50
+          example: Иван
+        last_name:
+          type: string
+          maxLength: 50
+          example: Петров
+        middle_name:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: Сергеевич
+        classroom_id:
+          type: integer
+          nullable: true
+          example: 1
+
+    TeacherResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          example: Иван
+        last_name:
+          type: string
+          example: Петров
+        middle_name:
+          type: string
+          nullable: true
+          example: Сергеевич
+        classroom_id:
+          type: integer
+          nullable: true
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+
+    CreateStudentRequest:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - gender_id
+        - class_id
+      properties:
+        first_name:
+          type: string
+          maxLength: 50
+          description: Имя
+          example: Петр
+        last_name:
+          type: string
+          maxLength: 50
+          description: Фамилия
+          example: Иванов
+        middle_name:
+          type: string
+          maxLength: 50
+          nullable: true
+          description: Отчество
+          example: Александрович
+        gender_id:
+          type: integer
+          description: ID пола
+          example: 1
+        class_id:
+          type: integer
+          description: ID класса
+          example: 1
+
+    UpdateStudentRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 50
+          example: Петр
+        last_name:
+          type: string
+          maxLength: 50
+          example: Иванов
+        middle_name:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: Александрович
+        gender_id:
+          type: integer
+          example: 1
+        class_id:
+          type: integer
+          example: 1
+
+    StudentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          example: Петр
+        last_name:
+          type: string
+          example: Иванов
+        middle_name:
+          type: string
+          nullable: true
+          example: Александрович
+        gender_id:
+          type: integer
+          example: 1
+        class_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+
+    CreateClassRequest:
+      type: object
+      required:
+        - grade
+        - letter
+        - academic_year_id
+      properties:
+        grade:
+          type: integer
+          minimum: 1
+          maximum: 11
+          description: Номер класса (1-11)
+          example: 5
+        letter:
+          type: string
+          maxLength: 5
+          description: Буква класса
+          example: А
+        academic_year_id:
+          type: integer
+          description: ID учебного года
+          example: 1
+        class_teacher_id:
+          type: integer
+          nullable: true
+          description: ID классного руководителя
+          example: 1
+
+    UpdateClassRequest:
+      type: object
+      properties:
+        grade:
+          type: integer
+          minimum: 1
+          maximum: 11
+          example: 5
+        letter:
+          type: string
+          maxLength: 5
+          example: А
+        academic_year_id:
+          type: integer
+          example: 1
+        class_teacher_id:
+          type: integer
+          nullable: true
+          example: 1
+
+    ClassResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        grade:
+          type: integer
+          example: 5
+        letter:
+          type: string
+          example: А
+        academic_year_id:
+          type: integer
+          example: 1
+        class_teacher_id:
+          type: integer
+          nullable: true
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+
+    CreateScheduleRequest:
+      type: object
+      required:
+        - class_id
+        - weekday_id
+        - lesson_number
+        - subject_id
+        - teacher_id
+        - classroom_id
+      properties:
+        class_id:
+          type: integer
+          description: ID класса
+          example: 1
+        weekday_id:
+          type: integer
+          minimum: 1
+          maximum: 7
+          description: ID дня недели (1-7)
+          example: 1
+        lesson_number:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: Номер урока (1-10)
+          example: 1
+        subject_id:
+          type: integer
+          description: ID предмета
+          example: 1
+        teacher_id:
+          type: integer
+          description: ID учителя
+          example: 1
+        classroom_id:
+          type: integer
+          description: ID кабинета
+          example: 1
+
+    UpdateScheduleRequest:
+      type: object
+      properties:
+        class_id:
+          type: integer
+          example: 1
+        weekday_id:
+          type: integer
+          minimum: 1
+          maximum: 7
+          example: 1
+        lesson_number:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 1
+        subject_id:
+          type: integer
+          example: 1
+        teacher_id:
+          type: integer
+          example: 1
+        classroom_id:
+          type: integer
+          example: 1
+
+    ScheduleResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        class_id:
+          type: integer
+          example: 1
+        weekday_id:
+          type: integer
+          example: 1
+        lesson_number:
+          type: integer
+          example: 1
+        subject_id:
+          type: integer
+          example: 1
+        teacher_id:
+          type: integer
+          example: 1
+        classroom_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+
+    CreateGradeRequest:
+      type: object
+      required:
+        - student_id
+        - subject_id
+        - grading_period_id
+        - grade
+      properties:
+        student_id:
+          type: integer
+          description: ID ученика
+          example: 1
+        subject_id:
+          type: integer
+          description: ID предмета
+          example: 1
+        grading_period_id:
+          type: integer
+          description: ID оценочного периода
+          example: 1
+        grade:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Оценка (1-5)
+          example: 5
+
+    UpdateGradeRequest:
+      type: object
+      properties:
+        student_id:
+          type: integer
+          example: 1
+        subject_id:
+          type: integer
+          example: 1
+        grading_period_id:
+          type: integer
+          example: 1
+        grade:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+
+    GradeResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        student_id:
+          type: integer
+          example: 1
+        subject_id:
+          type: integer
+          example: 1
+        grading_period_id:
+          type: integer
+          example: 1
+        grade:
+          type: integer
+          example: 5
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+
+    TeachersCountBySubjectResponse:
+      type: object
+      properties:
+        subject_id:
+          type: integer
+          example: 1
+        subject_name:
+          type: string
+          example: Математика
+        teachers_count:
+          type: integer
+          example: 3
+
+    StudentsCountByGenderResponse:
+      type: object
+      properties:
+        class_id:
+          type: integer
+          example: 1
+        class_name:
+          type: string
+          example: 5А
+        boys_count:
+          type: integer
+          example: 12
+        girls_count:
+          type: integer
+          example: 15
+
+    ClassroomsCountByTypeResponse:
+      type: object
+      properties:
+        subject_type_id:
+          type: integer
+          example: 1
+        subject_type_name:
+          type: string
+          example: Базовый
+        classrooms_count:
+          type: integer
+          example: 10
+
+    ClassPerformanceReportResponse:
+      type: object
+      properties:
+        class_id:
+          type: integer
+          example: 1
+        class_name:
+          type: string
+          example: 5А
+        students_count:
+          type: integer
+          example: 27
+        class_teacher:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+              example: 1
+            first_name:
+              type: string
+              example: Иван
+            last_name:
+              type: string
+              example: Петров
+            middle_name:
+              type: string
+              nullable: true
+              example: Сергеевич
+        overall_average:
+          type: number
+          format: float
+          nullable: true
+          description: Общий средний балл класса
+          example: 4.2
+        subjects_performance:
+          type: array
+          items:
+            type: object
+            properties:
+              subject_id:
+                type: integer
+                example: 1
+              subject_name:
+                type: string
+                example: Математика
+              average_grade:
+                type: number
+                format: float
+                nullable: true
+                example: 4.5
+              grades_count:
+                type: integer
+                example: 54
+
