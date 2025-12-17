@@ -32,4 +32,7 @@ nav:
           - Task 2: lab3/task2.md
           - Task 3: lab3/task3.md
   - Lab 4:
-      - React Frontend: lab4/index.md
+      - Overview: lab4/index.md
+      - Practical Tasks:
+          - Task 1 (Vue.js): lab4/task1.md
+          - School System: lab4/task2.md
