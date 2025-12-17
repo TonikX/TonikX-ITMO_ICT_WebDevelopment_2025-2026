@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-# --- Вспомогательные сериализаторы ---
 
 class AccrualScheduleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,12 +21,8 @@ class PassportSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# --- Основные сериализаторы с вложенностью ---
 
 class ClientSerializer(serializers.ModelSerializer):
-    # Вложенность: Один Клиент -> Много Паспортов
-    # read_only=True значит, что мы показываем паспорта при чтении,
-    # но при создании клиента не обязаны сразу передавать паспорта.
     passports = PassportSerializer(many=True, read_only=True)
 
     class Meta:
@@ -36,8 +31,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class DepositSerializer(serializers.ModelSerializer):
-    # Вложенность: Один Вклад -> Много Начислений
-    accruals = AccrualScheduleSerializer(many=True, read_only=True, source='accruals')
+    accruals = AccrualScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Deposit
@@ -45,15 +39,13 @@ class DepositSerializer(serializers.ModelSerializer):
 
 
 class LoanSerializer(serializers.ModelSerializer):
-    # Вложенность: Один Кредит -> Много Выплат
-    payouts = PayoutScheduleSerializer(many=True, read_only=True, source='payouts')
+    payouts = PayoutScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Loan
         fields = '__all__'
 
 
-# --- Обычные сериализаторы для остальных справочников ---
 
 class CurrencySerializer(serializers.ModelSerializer):
     class Meta:

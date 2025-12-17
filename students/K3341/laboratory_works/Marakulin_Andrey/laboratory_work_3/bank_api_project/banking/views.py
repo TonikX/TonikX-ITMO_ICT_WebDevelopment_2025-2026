@@ -10,30 +10,22 @@ class BaseViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-# 1. КЛИЕНТЫ + АНАЛИТИКА "ПОРТФЕЛЬ КЛИЕНТА"
 class ClientViewSet(BaseViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
     @action(detail=True, methods=['get'])
     def portfolio(self, request, pk=None):
-        """
-        Агрегационный запрос: Считает общую сумму вкладов и кредитов клиента.
-        Связь сложная: Клиент -> Паспорта -> Вклады/Кредиты
-        """
         client = self.get_object()
 
-        # Сумма всех вкладов по всем паспортам клиента
         total_deposits = Deposit.objects.filter(
             passport__client=client
         ).aggregate(total=Sum('deposit_sum'))['total'] or 0
 
-        # Сумма всех кредитов по всем паспортам клиента
         total_loans = Loan.objects.filter(
             passport__client=client
         ).aggregate(total=Sum('sum_credit'))['total'] or 0
 
-        # Баланс (активы - пассивы)
         balance = total_deposits - total_loans
 
         return Response({
@@ -49,16 +41,12 @@ class PassportViewSet(BaseViewSet):
     serializer_class = PassportSerializer
 
 
-# 2. ВАЛЮТЫ + АНАЛИТИКА "ДИНАМИКА КУРСА"
 class CurrencyViewSet(BaseViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
 
     @action(detail=True, methods=['get'])
     def analytics(self, request, pk=None):
-        """
-        Агрегационный запрос: Статистика по курсу валюты (мин, макс, среднее)
-        """
         currency = self.get_object()
         stats = ExchangeRate.objects.filter(currency=currency).aggregate(
             min_sell=Min('sell_price'),
@@ -77,29 +65,20 @@ class ExchangeRateViewSet(BaseViewSet):
     serializer_class = ExchangeRateSerializer
 
 
-# 3. СОТРУДНИКИ + АНАЛИТИКА "ЭФФЕКТИВНОСТЬ"
 class EmployeeViewSet(BaseViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
     @action(detail=True, methods=['get'])
     def kpi(self, request, pk=None):
-        """
-        Агрегационный запрос: Эффективность сотрудника.
-        Считаем, сколько договоров (вкладов и кредитов) оформил сотрудник
-        через свои занимаемые должности.
-        """
         employee = self.get_object()
 
-        # Получаем все должности, которые занимал этот сотрудник
         positions_ids = OccupiedPosition.objects.filter(employee=employee).values_list('id', flat=True)
 
-        # Считаем оформленные вклады
         deposits_count = Deposit.objects.filter(processed_by__in=positions_ids).count()
         deposits_sum = Deposit.objects.filter(processed_by__in=positions_ids).aggregate(Sum('deposit_sum'))[
                            'deposit_sum__sum'] or 0
 
-        # Считаем оформленные кредиты
         loans_count = Loan.objects.filter(processed_by__in=positions_ids).count()
         loans_sum = Loan.objects.filter(processed_by__in=positions_ids).aggregate(Sum('sum_credit'))[
                         'sum_credit__sum'] or 0
