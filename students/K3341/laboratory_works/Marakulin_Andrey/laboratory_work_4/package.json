@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "axios": "^1.13.2",
+    "pinia": "^3.0.4",
+    "vite-plugin-vuetify": "^2.1.2",
+    "vue-router": "^4.6.4",
+    "vuetify": "^3.11.4"
+  }
+}
