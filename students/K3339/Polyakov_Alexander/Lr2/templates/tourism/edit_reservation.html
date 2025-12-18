@@ -1,0 +1,56 @@
+{% extends 'tourism/base.html' %}
+
+{% block title %}Редактировать резервирование - Туристическое агентство{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-edit"></i> Редактировать резервирование</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>{{ reservation.tour.title }}</h5>
+                        <p><strong><i class="fas fa-building"></i> Агентство:</strong> {{ reservation.tour.agency }}</p>
+                        <p><strong><i class="fas fa-globe"></i> Страна:</strong> {{ reservation.tour.country }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong><i class="fas fa-calendar"></i> Период:</strong></p>
+                        <p>{{ reservation.tour.start_date|date:"d.m.Y" }} - {{ reservation.tour.end_date|date:"d.m.Y" }}</p>
+                        <p><strong><i class="fas fa-ruble-sign"></i> Цена:</strong> {{ reservation.tour.price }} ₽</p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.participants_count.id_for_label }}" class="form-label">
+                            <i class="fas fa-users"></i> Количество участников
+                        </label>
+                        {{ form.participants_count }}
+                        {% if form.participants_count.errors %}
+                            <div class="text-danger">
+                                {% for error in form.participants_count.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'tourism:my_reservations' %}" class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-arrow-left"></i> Отмена
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Сохранить изменения
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

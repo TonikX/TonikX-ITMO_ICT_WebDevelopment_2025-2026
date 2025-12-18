@@ -1,0 +1,20 @@
+site_name: Лабораторная работа 1 - Сетевые технологии
+
+nav:
+  - Главная: index.md
+  - Задача 1 - UDP: task1.md
+  - Задача 2 - TCP: task2.md
+  - Задача 3 - HTTP статика: task3.md
+  - Задача 4 - Чат-сервер: task4.md
+  - Задача 5 - HTTP с формами: task5.md
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share

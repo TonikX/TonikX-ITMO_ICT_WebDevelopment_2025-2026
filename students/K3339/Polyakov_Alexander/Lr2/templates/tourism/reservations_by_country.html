@@ -1,0 +1,123 @@
+{% extends 'tourism/base.html' %}
+
+{% block title %}Резервирования по стране - Туристическое агентство{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">
+            <i class="fas fa-globe"></i> Проданные туры: {{ country }}
+        </h1>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="mb-0">
+                    <strong>Страна:</strong> {{ country }}<br>
+                    <strong>Всего проданных туров:</strong> {{ page_obj.paginator.count }}
+                </p>
+            </div>
+        </div>
+
+        {% for reservation in page_obj %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                            <i class="fas fa-user"></i> {{ reservation.user.username }}
+                            {% if reservation.user.email %}
+                                <small class="text-muted">({{ reservation.user.email }})</small>
+                            {% endif %}
+                        </h5>
+                        <p class="card-text">
+                            <strong><i class="fas fa-map-marked-alt"></i> Тур:</strong> 
+                            <a href="{% url 'tourism:tour_detail' reservation.tour.id %}">{{ reservation.tour.title }}</a><br>
+                            <strong><i class="fas fa-building"></i> Агентство:</strong> {{ reservation.tour.agency }}<br>
+                            <strong><i class="fas fa-calendar"></i> Период:</strong> 
+                            {{ reservation.tour.start_date|date:"d.m.Y" }} - {{ reservation.tour.end_date|date:"d.m.Y" }}<br>
+                            <strong><i class="fas fa-users"></i> Участников:</strong> {{ reservation.participants_count }}<br>
+                            <strong><i class="fas fa-ruble-sign"></i> Цена:</strong> {{ reservation.tour.price }} ₽<br>
+                            <strong><i class="fas fa-clock"></i> Дата создания:</strong> 
+                            {{ reservation.created_at|date:"d.m.Y H:i" }}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-end mb-3">
+                            <span class="badge bg-success fs-6">
+                                <i class="fas fa-check"></i> Подтверждено
+                            </span>
+                        </div>
+                        
+                        <form method="post" action="{% url 'tourism:cancel_reservation_admin' reservation.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm w-100" 
+                                    onclick="return confirm('Вы уверены, что хотите отменить это резервирование?');">
+                                <i class="fas fa-times"></i> Отменить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> Нет подтвержденных резервирований для этой страны
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        <div class="mt-4">
+            <a href="{% url 'tourism:tours_by_country' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Назад к списку стран
+            </a>
+            <a href="{% url 'tourism:admin_reservations' %}" class="btn btn-outline-primary">
+                <i class="fas fa-calendar-check"></i> Все резервирования
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

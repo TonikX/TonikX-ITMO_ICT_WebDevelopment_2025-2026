@@ -1,0 +1,63 @@
+{% extends 'tourism/base.html' %}
+
+{% block title %}Туры по странам - Туристическое агентство{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">
+            <i class="fas fa-globe"></i> Проданные туры по странам
+        </h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-globe"></i> Страна</th>
+                                <th><i class="fas fa-chart-bar"></i> Количество проданных туров</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tour_data in tours_by_country %}
+                            <tr>
+                                <td>
+                                    <strong>{{ tour_data.country }}</strong>
+                                </td>
+                                <td>
+                                    {% if user.is_staff %}
+                                        <a href="{% url 'tourism:reservations_by_country' tour_data.country %}" 
+                                           class="text-decoration-none"
+                                           title="Нажмите для просмотра резервирований">
+                                            <span class="badge bg-primary fs-6" style="cursor: pointer;">
+                                                {{ tour_data.total_tours }} <i class="fas fa-external-link-alt"></i>
+                                            </span>
+                                        </a>
+                                    {% else %}
+                                        <span class="badge bg-primary fs-6">{{ tour_data.total_tours }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">
+                                    <i class="fas fa-info-circle"></i> Нет данных о проданных турах
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="{% url 'tourism:tour_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left"></i> Назад к списку туров
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

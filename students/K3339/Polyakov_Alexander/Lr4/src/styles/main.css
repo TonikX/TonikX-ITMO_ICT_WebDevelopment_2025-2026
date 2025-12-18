@@ -1,0 +1,136 @@
+:root {
+  font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Helvetica Neue', Arial, sans-serif;
+  background-color: #0f172a;
+  color: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 20% 20%, #1e293b 0, #0f172a 40%), #0f172a;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.app-shell .v-application__wrap {
+  background: transparent;
+}
+
+.app-nav {
+  background: linear-gradient(180deg, #0b1223 0%, #111827 60%, #0f172a 100%);
+  color: #e2e8f0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-nav .v-list-subheader {
+  color: #93b6ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.app-nav .v-list-item {
+  border-radius: 8px;
+  margin: 4px 8px;
+}
+
+.app-nav .v-list-item--active,
+.app-nav .v-list-item:hover {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.25));
+}
+
+.app-bar {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(6px);
+}
+
+.app-main {
+  background: radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.15), transparent 35%),
+    radial-gradient(circle at 10% 80%, rgba(236, 72, 153, 0.12), transparent 30%),
+    #0b1223;
+  padding: 64px 32px 32px;
+  min-height: 100vh;
+  transition: padding-left 160ms ease;
+}
+
+.app-main h1,
+.app-main h2,
+.app-main h3,
+.app-main h4,
+.app-main h5,
+.app-main h6 {
+  color: #fff;
+}
+
+.app-main.with-drawer {
+  padding-left: 300px;
+}
+
+@media (max-width: 1280px) {
+  .app-main.with-drawer {
+    padding-left: 260px;
+  }
+}
+
+@media (max-width: 960px) {
+  .app-main.with-drawer {
+    padding-left: 0;
+  }
+}
+
+.v-card {
+  border-radius: 14px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.v-data-table {
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.v-data-table-header {
+  background: #f5f7fb;
+}
+
+.v-alert {
+  border-radius: 12px !important;
+}
+
+.v-field {
+  border-radius: 12px !important;
+}
+
+.v-btn {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  border-radius: 10px;
+}
+
+.v-container {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.v-chip {
+  font-weight: 600;
+}
+
+.hover-card {
+  background: linear-gradient(145deg, #fdfefe, #f1f5ff);
+}
+
+.hover-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(59, 130, 246, 0.18);
+}
+

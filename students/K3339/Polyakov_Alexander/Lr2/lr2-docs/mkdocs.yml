@@ -1,0 +1,21 @@
+site_name: Лабораторная работа 2 - Django веб-приложение
+
+nav:
+  - Главная: index.md
+  - Установка и настройка: setup.md
+  - Модели данных: models.md
+  - Представления и URL: views.md
+  - Формы: forms.md
+  - Шаблоны: templates.md
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+

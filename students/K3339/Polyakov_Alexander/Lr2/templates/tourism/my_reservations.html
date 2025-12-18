@@ -1,0 +1,125 @@
+{% extends 'tourism/base.html' %}
+
+{% block title %}Мои резервирования - Туристическое агентство{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">
+            <i class="fas fa-calendar-check"></i> Мои резервирования
+        </h1>
+        
+        {% for reservation in page_obj %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">{{ reservation.tour.title }}</h5>
+                        <p class="card-text">
+                            <strong><i class="fas fa-building"></i> Агентство:</strong> {{ reservation.tour.agency }}<br>
+                            <strong><i class="fas fa-globe"></i> Страна:</strong> {{ reservation.tour.country }}<br>
+                            <strong><i class="fas fa-calendar"></i> Период:</strong> 
+                            {{ reservation.tour.start_date|date:"d.m.Y" }} - {{ reservation.tour.end_date|date:"d.m.Y" }}<br>
+                            <strong><i class="fas fa-users"></i> Участников:</strong> {{ reservation.participants_count }}<br>
+                            <strong><i class="fas fa-ruble-sign"></i> Цена:</strong> {{ reservation.tour.price }} ₽
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-end">
+                            <span class="badge 
+                                {% if reservation.status == 'confirmed' %}bg-success
+                                {% elif reservation.status == 'pending' %}bg-warning
+                                {% else %}bg-danger{% endif %} fs-6">
+                                {% if reservation.status == 'confirmed' %}
+                                    <i class="fas fa-check"></i> Подтверждено
+                                {% elif reservation.status == 'pending' %}
+                                    <i class="fas fa-clock"></i> Ожидает подтверждения
+                                {% else %}
+                                    <i class="fas fa-times"></i> Отменено
+                                {% endif %}
+                            </span>
+                            <p class="text-muted mt-2">
+                                <small>Создано: {{ reservation.created_at|date:"d.m.Y H:i" }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="{% url 'tourism:tour_detail' reservation.tour.id %}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye"></i> Подробнее о туре
+                        </a>
+                    </div>
+                    <div>
+                        {% if reservation.status != 'cancelled' %}
+                            <a href="{% url 'tourism:edit_reservation' reservation.id %}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-edit"></i> Редактировать
+                            </a>
+                            <a href="{% url 'tourism:delete_reservation' reservation.id %}" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i> Удалить
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> У вас пока нет резервирований
+            <br>
+            <a href="{% url 'tourism:tour_list' %}" class="btn btn-primary mt-2">
+                <i class="fas fa-search"></i> Посмотреть туры
+            </a>
+        </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

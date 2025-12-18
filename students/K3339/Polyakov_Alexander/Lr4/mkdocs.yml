@@ -1,0 +1,6 @@
+site_name: Lr4 Frontend
+theme:
+  name: material
+nav:
+  - Документация: index.md
+
