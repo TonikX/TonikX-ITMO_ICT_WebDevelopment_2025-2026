@@ -1,0 +1,235 @@
+{% extends "hotel_app/base.html" %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <v-row>
+        <v-col cols="12" md="4">
+            <v-card class="pa-4 mb-4 card-hover stat-card" color="blue-darken-1" dark>
+                <v-card-title class="text-h5">
+                    <v-icon icon="mdi-account-circle" class="mr-2"></v-icon>
+                    Профиль
+                </v-card-title>
+                <v-card-text>
+                    <div v-if="userData" class="mt-4">
+                        <p><strong>Email:</strong> [[ userData.email ]]</p>
+                        <p><strong>Имя пользователя:</strong> [[ userData.username ]]</p>
+                        <p><strong>Роль:</strong> [[ getUserRole() ]]</p>
+                        <p><strong>ID:</strong> [[ userData.id ]]</p>
+                    </div>
+                </v-card-text>
+            </v-card>
+            
+            <v-card class="pa-4 card-hover">
+                <v-card-title class="text-h6">
+                    <v-icon icon="mdi-security" class="mr-2"></v-icon>
+                    Безопасность
+                </v-card-title>
+                <v-card-text>
+                    <v-form @submit.prevent="handlePasswordChange" ref="passwordForm">
+                        <v-text-field
+                            v-model="passwordData.current_password"
+                            label="Текущий пароль"
+                            :type="showCurrentPassword ? 'text' : 'password'"
+                            required
+                            prepend-inner-icon="mdi-lock"
+                            :append-inner-icon="showCurrentPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                            @click:append-inner="showCurrentPassword = !showCurrentPassword"
+                            variant="outlined"
+                            class="mb-3"
+                        ></v-text-field>
+                        
+                        <v-text-field
+                            v-model="passwordData.new_password"
+                            label="Новый пароль"
+                            :type="showNewPassword ? 'text' : 'password'"
+                            required
+                            prepend-inner-icon="mdi-lock-plus"
+                            :append-inner-icon="showNewPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                            @click:append-inner="showNewPassword = !showNewPassword"
+                            variant="outlined"
+                            class="mb-3"
+                        ></v-text-field>
+                        
+                        <v-btn 
+                            type="submit" 
+                            color="warning" 
+                            block
+                            :loading="changingPassword"
+                        >
+                            Изменить пароль
+                        </v-btn>
+                    </v-form>
+                </v-card-text>
+            </v-card>
+        </v-col>
+        
+        <v-col cols="12" md="8">
+            <v-card class="pa-4 mb-4 card-hover">
+                <v-card-title class="text-h6">
+                    <v-icon icon="mdi-account-edit" class="mr-2"></v-icon>
+                    Редактирование профиля
+                </v-card-title>
+                <v-card-text>
+                    <v-form @submit.prevent="handleProfileUpdate" ref="profileForm">
+                        <v-row>
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="profileData.email"
+                                    label="Email"
+                                    type="email"
+                                    required
+                                    prepend-inner-icon="mdi-email"
+                                    variant="outlined"
+                                    class="mb-3"
+                                ></v-text-field>
+                            </v-col>
+                            
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="profileData.username"
+                                    label="Имя пользователя"
+                                    required
+                                    prepend-inner-icon="mdi-account"
+                                    variant="outlined"
+                                    class="mb-3"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        
+                        <v-row>
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="profileData.first_name"
+                                    label="Имя"
+                                    prepend-inner-icon="mdi-account-details"
+                                    variant="outlined"
+                                    class="mb-3"
+                                ></v-text-field>
+                            </v-col>
+                            
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="profileData.last_name"
+                                    label="Фамилия"
+                                    prepend-inner-icon="mdi-account-details"
+                                    variant="outlined"
+                                    class="mb-3"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        
+                        <v-btn 
+                            type="submit" 
+                            color="primary" 
+                            :loading="updatingProfile"
+                        >
+                            Сохранить изменения
+                        </v-btn>
+                    </v-form>
+                </v-card-text>
+            </v-card>
+            
+            <v-card class="pa-4 card-hover stat-card" color="green-darken-2" dark>
+                <v-card-title class="text-h6">
+                    <v-icon icon="mdi-information" class="mr-2"></v-icon>
+                    Информация о системе
+                </v-card-title>
+                <v-card-text>
+                    <p>Версия API: 1.0</p>
+                    <p>База данных: SQLite</p>
+                    <p>Аутентификация: Token-based</p>
+                    <p>Статус: <v-chip color="success" size="small">Активен</v-chip></p>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
+</div>
+
+<script>
+    const profileApp = createApp({
+        setup() {
+            const userData = ref(app.config.globalProperties.userData);
+            const profileData = ref({
+                email: userData.value?.email || '',
+                username: userData.value?.username || '',
+                first_name: userData.value?.first_name || '',
+                last_name: userData.value?.last_name || ''
+            });
+            
+            const passwordData = ref({
+                current_password: '',
+                new_password: ''
+            });
+            
+            const showCurrentPassword = ref(false);
+            const showNewPassword = ref(false);
+            const updatingProfile = ref(false);
+            const changingPassword = ref(false);
+            
+            const getUserRole = () => {
+                if (!userData.value) return 'Гость';
+                if (userData.value.is_admin) return 'Администратор';
+                if (userData.value.is_hotel_staff) return 'Сотрудник гостиницы';
+                return 'Пользователь';
+            };
+            
+            const handleProfileUpdate = async () => {
+                updatingProfile.value = true;
+                try {
+                    const result = await app.config.globalProperties.updateProfile(profileData.value);
+                    if (result.success) {
+                        userData.value = result.data;
+                    }
+                } finally {
+                    updatingProfile.value = false;
+                }
+            };
+            
+            const handlePasswordChange = async () => {
+                changingPassword.value = true;
+                try {
+                    const result = await app.config.globalProperties.changePassword(
+                        passwordData.value.current_password,
+                        passwordData.value.new_password
+                    );
+                    if (result.success) {
+                        passwordData.value = { current_password: '', new_password: '' };
+                    }
+                } finally {
+                    changingPassword.value = false;
+                }
+            };
+            
+            // Обновляем userData при изменениях
+            watch(() => app.config.globalProperties.userData, (newVal) => {
+                userData.value = newVal;
+                if (newVal) {
+                    profileData.value = {
+                        email: newVal.email || '',
+                        username: newVal.username || '',
+                        first_name: newVal.first_name || '',
+                        last_name: newVal.last_name || ''
+                    };
+                }
+            });
+            
+            return {
+                userData,
+                profileData,
+                passwordData,
+                showCurrentPassword,
+                showNewPassword,
+                updatingProfile,
+                changingPassword,
+                getUserRole,
+                handleProfileUpdate,
+                handlePasswordChange
+            };
+        }
+    });
+    
+    profileApp.use(vuetify).mount('.profile-container');
+</script>
+{% endblock %}

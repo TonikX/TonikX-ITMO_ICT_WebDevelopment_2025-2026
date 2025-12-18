@@ -1,0 +1,114 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Список отелей{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Список отелей</h1>
+
+    <!-- Форма поиска -->
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control"
+                   placeholder="Поиск отелей по названию, описанию или адресу..."
+                   value="{{ search_query|default:'' }}">
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </form>
+
+    <!-- Отладочная информация -->
+    <div class="alert alert-info">
+        <p><strong>Отладочная информация:</strong></p>
+        <ul class="mb-0">
+        <li>Всего отелей в базе: {{ page_obj.paginator.count }}</li>
+        <li>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</li>
+        <li>Показано отелей: {{ page_obj|length }}</li>
+        {% if search_query %}
+        <li>Поисковый запрос: "{{ search_query }}"</li>
+        {% endif %}
+        </ul>
+    </div>
+
+    <!-- Список отелей -->
+    {% for hotel in hotels %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>{{ hotel.name }}</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Владелец:</strong> {{ hotel.owner }}</p>
+            <p><strong>Адрес:</strong> {{ hotel.address }}</p>
+            <p><strong>Описание:</strong> {{ hotel.description }}</p>
+            <p><strong>Удобства:</strong> {{ hotel.amenities }}</p>
+
+            {% if hotel.room_types.all %}
+            <h5>Типы номеров:</h5>
+            <div class="row">
+                {% for room_type in hotel.room_types.all %}
+                <div class="col-md-6 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ room_type.name }}</h6>
+                            <p class="card-text">
+                                <strong>Стоимость:</strong> {{ room_type.cost }} руб.<br>
+                                <strong>Вместимость:</strong> {{ room_type.capacity }} человек
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-warning">Нет доступных номеров</div>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-warning">
+        <h4>Отелей не найдено</h4>
+        <p>Попробуйте изменить поисковый запрос или добавьте отели через админ-панель.</p>
+        <a href="/admin/hotels/hotel/add/" class="btn btn-primary">Добавить отель</a>
+    </div>
+    {% endfor %}
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                Назад
+            </a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                    {{ num }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                Вперед
+            </a>
+        </li>
+        {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

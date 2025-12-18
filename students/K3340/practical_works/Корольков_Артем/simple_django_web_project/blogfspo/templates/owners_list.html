@@ -1,0 +1,277 @@
+<!-- templates/owners_list.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список владельцев</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+         .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary { background: #007bff; }
+        .btn-success { background: #28a745; }
+        .btn-secondary { background: #6c757d; }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .message {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .owners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .owner-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #007bff;
+        }
+        .owner-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .owner-info {
+            margin-bottom: 15px;
+        }
+        .cars-section, .licenses-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .car-item, .license-item {
+            background: #f8f9fa;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #007bff;
+        }
+        .detail-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .detail-link:hover {
+            background: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-link:hover {
+            background: #545b62;
+        }
+        .no-data {
+            color: #999;
+            font-style: italic;
+        }.empty-state {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .empty-state h2 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .empty-state p {
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .passport-info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Список всех владельцев</h1>
+            <p>Всего владельцев: {{ owners_with_info|length }}</p>
+        </div>
+
+        <!-- Панель действий -->
+        <div class="header-actions">
+            <a href="{% url 'owner_create' %}" class="btn btn-success">
+                Добавить нового владельца
+            </a>
+            <div>
+                <a href="{% url 'automobiles_home' %}" class="btn btn-secondary">На главную</a>
+                <a href="{% url 'cars_list_class' %}" class="btn btn-primary">Список автомобилей</a>
+            </div>
+        </div>
+
+        {% if owners_with_info %}
+            <div class="owners-grid">
+                {% for owner_data in owners_with_info %}
+                <div class="owner-card">
+                    <div class="owner-name">
+                        {{ owner_data.owner.get_full_name }}
+                    </div>
+
+                    <div class="owner-info">
+                        <strong>ID:</strong> {{ owner_data.owner.id }}<br>
+                        {% if owner_data.owner.phone %}
+                            <strong>Телефон:</strong> {{ owner_data.owner.phone }}<br>
+                        {% endif %}
+                        {% if owner_data.owner.birth_date %}
+                            <strong>Дата рождения:</strong> {{ owner_data.owner.birth_date|date:"d.m.Y" }}
+                        {% endif %}
+                    </div>
+
+                    <div class="passport-info">
+                        {% if owner_data.owner.passport_number %}
+                            <strong>Паспорт:</strong> {{ owner_data.owner.passport_number }}<br>
+                        {% endif %}
+                        {% if owner_data.owner.nationality %}
+                            <strong>Национальность:</strong> {{ owner_data.owner.get_nationality_display }}
+                        {% endif %}
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">{{ owner_data.all_cars_count }}</div>
+                            <div>всего авто</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">{{ owner_data.current_cars|length }}</div>
+                            <div>текущих</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">{{ owner_data.licenses|length }}</div>
+                            <div>удостоверений</div>
+                        </div>
+                    </div>
+
+                    <div class="cars-section">
+                        <strong>Текущие автомобили:</strong>
+                        {% if owner_data.current_cars %}
+                            {% for ownership in owner_data.current_cars %}
+                            <div class="car-item">
+                                {{ ownership.car.brand }} {{ ownership.car.model }}
+                                <br><small>с {{ ownership.start_date|date:"d.m.Y" }}</small>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-data">Нет текущих автомобилей</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="licenses-section">
+                        <strong>Водительские удостоверения:</strong>
+                        {% if owner_data.licenses %}
+                            {% for license in owner_data.licenses %}
+                            <div class="license-item">
+                                {{ license.license_number }} ({{ license.get_license_type_display }})
+                                <br><small>Выдано {{ license.issue_date|date:"d.m.Y" }}</small>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-data">Нет удостоверений</div>
+                        {% endif %}
+                    </div>
+
+                    <a href="{% url 'owner_detail' owner_data.owner.id %}" class="detail-link">
+                        Подробнее о владельце
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px;">
+                <h2>Владельцы не найдены</h2>
+                <p>Добавьте владельцев через админ-панель</p>
+            </div>
+        {% endif %}
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'automobiles_home' %}" class="back-link">На главную</a>
+            <a href="{% url 'cars_list' %}" class="back-link">Список автомобилей</a>
+        </div>
+    </div>
+</body>
+</html>

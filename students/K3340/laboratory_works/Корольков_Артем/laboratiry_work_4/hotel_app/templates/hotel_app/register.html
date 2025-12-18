@@ -1,0 +1,178 @@
+{% extends "hotel_app/base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="register-container" style="max-width: 500px; margin: 50px auto;">
+    <v-card class="pa-6" elevation="8">
+        <v-card-title class="text-center mb-4">
+            <v-icon icon="mdi-account-plus" size="large" class="mr-2"></v-icon>
+            Регистрация
+        </v-card-title>
+        
+        <v-form @submit.prevent="handleRegister" ref="registerForm">
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="formData.email"
+                        label="Email"
+                        type="email"
+                        :rules="emailRules"
+                        required
+                        prepend-inner-icon="mdi-email"
+                        variant="outlined"
+                        class="mb-3"
+                    ></v-text-field>
+                </v-col>
+                
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="formData.username"
+                        label="Имя пользователя"
+                        :rules="usernameRules"
+                        required
+                        prepend-inner-icon="mdi-account"
+                        variant="outlined"
+                        class="mb-3"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="formData.password"
+                        label="Пароль"
+                        :type="showPassword ? 'text' : 'password'"
+                        :rules="passwordRules"
+                        required
+                        prepend-inner-icon="mdi-lock"
+                        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                        @click:append-inner="showPassword = !showPassword"
+                        variant="outlined"
+                        class="mb-3"
+                    ></v-text-field>
+                </v-col>
+                
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="formData.re_password"
+                        label="Подтвердите пароль"
+                        :type="showConfirmPassword ? 'text' : 'password'"
+                        :rules="confirmPasswordRules"
+                        required
+                        prepend-inner-icon="mdi-lock-check"
+                        :append-inner-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                        @click:append-inner="showConfirmPassword = !showConfirmPassword"
+                        variant="outlined"
+                        class="mb-3"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            
+            <v-checkbox
+                v-model="formData.is_hotel_staff"
+                label="Я сотрудник гостиницы"
+                color="primary"
+                class="mb-4"
+            ></v-checkbox>
+            
+            <v-btn 
+                type="submit" 
+                color="primary" 
+                size="large" 
+                block
+                :loading="loading"
+            >
+                Зарегистрироваться
+            </v-btn>
+            
+            <v-divider class="my-4"></v-divider>
+            
+            <div class="text-center">
+                <p class="mb-2">Уже есть аккаунт?</p>
+                <v-btn 
+                    variant="outlined" 
+                    color="secondary" 
+                    @click="goToLogin"
+                    block
+                >
+                    Войти
+                </v-btn>
+            </div>
+        </v-form>
+    </v-card>
+</div>
+
+<script>
+    const registerApp = createApp({
+        setup() {
+            const formData = ref({
+                email: '',
+                username: '',
+                password: '',
+                re_password: '',
+                is_hotel_staff: false
+            });
+            
+            const showPassword = ref(false);
+            const showConfirmPassword = ref(false);
+            const loading = ref(false);
+            
+            const emailRules = [
+                v => !!v || 'Email обязателен',
+                v => /.+@.+\..+/.test(v) || 'Введите корректный email'
+            ];
+            
+            const usernameRules = [
+                v => !!v || 'Имя пользователя обязательно',
+                v => v.length >= 3 || 'Минимум 3 символа'
+            ];
+            
+            const passwordRules = [
+                v => !!v || 'Пароль обязателен',
+                v => v.length >= 6 || 'Минимум 6 символов'
+            ];
+            
+            const confirmPasswordRules = [
+                v => !!v || 'Подтвердите пароль',
+                v => v === formData.value.password || 'Пароли не совпадают'
+            ];
+            
+            const handleRegister = async () => {
+                loading.value = true;
+                try {
+                    const result = await app.config.globalProperties.register(formData.value);
+                    if (result.success) {
+                        // После успешной регистрации переходим на страницу входа
+                        setTimeout(() => {
+                            window.location.href = '/login/';
+                        }, 2000);
+                    }
+                } finally {
+                    loading.value = false;
+                }
+            };
+            
+            const goToLogin = () => {
+                window.location.href = '/login/';
+            };
+            
+            return {
+                formData,
+                showPassword,
+                showConfirmPassword,
+                loading,
+                emailRules,
+                usernameRules,
+                passwordRules,
+                confirmPasswordRules,
+                handleRegister,
+                goToLogin
+            };
+        }
+    });
+    
+    registerApp.use(vuetify).mount('.register-container');
+</script>
+{% endblock %}
