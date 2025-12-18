@@ -26,6 +26,9 @@ nav:
       - Практическая работа 3.1: lab3/practice1.md
       - Практическая работа 3.1: lab3/practice2.md
       - Система управления библиотекой: lab3/lab3.md
+  - ЛР4:
+      - Запуск проекта: lab4/lab4_run.md
+      - Разработка: lab4/frontend.md
 
 theme:
   name: material

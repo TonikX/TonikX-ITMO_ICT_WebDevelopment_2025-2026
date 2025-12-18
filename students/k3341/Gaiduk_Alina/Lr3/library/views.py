@@ -130,7 +130,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     # АНАЛИТИЧЕСКИЙ ЗАПРОС
     @extend_schema(
         summary='Книги издательства',
-        description='Получить список всех книг, изданных данным издательством (вложенные объекты). Требуется JWT аутентификация.',
+        description='Получить список всех книг, изданных данным издательством. Требуется JWT аутентификация.',
         responses={200: BookSerializer(many=True)},
         tags=['Publishers'],
         auth=AUTH_DOCS,
@@ -379,7 +379,7 @@ class ReaderViewSet(viewsets.ModelViewSet):
     ordering = ['full_name']
     filterset_fields = ['hall', 'education_level', 'has_academic_degree', 'is_active']
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (книги закрепленные за читателем)
     @extend_schema(
         summary='Книги закреплённые за читателем',
         description='Получить список всех книг, которые закреплены за указанным читателем и ещё не возвращены. Требуется JWT аутентификация.',
@@ -399,7 +399,7 @@ class ReaderViewSet(viewsets.ModelViewSet):
         serializer = BookIssueSerializer(issues, many=True)
         return Response(serializer.data)
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (колво читателей меньше 20 лет)
     @extend_schema(
         summary='Статистика по возрасту читателей',
         description='Получить количество активных читателей младше указанного возраста. Требуется JWT аутентификация.',
@@ -435,7 +435,7 @@ class ReaderViewSet(viewsets.ModelViewSet):
             'readers_count': count
         })
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (образование)
     @extend_schema(
         summary='Статистика по образованию читателей',
         description='Получить процентное соотношение активных читателей по уровню образования. Включает: начальное, среднее, высшее образование, не указано, и наличие учёной степени. Проценты считаются от общего количества активных читателей. Требуется JWT аутентификация.',
@@ -648,7 +648,7 @@ class BookIssueViewSet(viewsets.ModelViewSet):
     ordering = ['-issue_date']
     filterset_fields = ['reader', 'copy', 'hall', 'issue_date', 'return_date']
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (книга, взятая более месяца назад)
     @extend_schema(
         summary='Просроченные выдачи',
         description='Получить список выдач книг, которые были выданы более месяца назад и ещё не возвращены. Требуется JWT аутентификация.',
@@ -668,7 +668,7 @@ class BookIssueViewSet(viewsets.ModelViewSet):
         serializer = BookIssueSerializer(issues, many=True)
         return Response(serializer.data)
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (книги, количество которых lte 2)
     @extend_schema(
         summary='Читатели с редкими книгами',
         description='Получить список активных выдач книг, у которых общее количество экземпляров в библиотеке (во всех залах) не превышает 2. Требуется JWT аутентификация.',
@@ -1049,7 +1049,8 @@ class StaffViewSet(viewsets.ModelViewSet):
         """Запрещаем создание сотрудника через стандартный POST /api/staff/."""
         from rest_framework.exceptions import MethodNotAllowed
         raise MethodNotAllowed('POST', detail='Используйте /api/staff/register-staff/ для регистрации нового сотрудника с секретным ключом.')
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (регистрация нового читателя)
     @extend_schema(
         summary='Регистрация нового читателя',
         description='Зарегистрировать нового читателя в библиотеке. Требуется JWT аутентификация.',
@@ -1082,7 +1083,8 @@ class StaffViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         staff = serializer.save()
         return Response(StaffSerializer(staff).data, status=status.HTTP_201_CREATED)
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (деактивация читателей)
     @extend_schema(
         summary='Исключить неактивных читателей',
         description='Исключить читателей, которые записались в библиотеку более года назад и не прошли перерегистрацию. Требуется JWT аутентификация.',
@@ -1108,7 +1110,8 @@ class StaffViewSet(viewsets.ModelViewSet):
             'deactivated_count': count,
             'message': f'Исключено {count} читателей.'
         })
-    
+
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (списать книгу)
     @extend_schema(
         summary='Списать книгу',
         description='Пометить экземпляр книги как списанный. Книга не должна быть выдана читателю. Требуется JWT аутентификация.',
@@ -1183,7 +1186,7 @@ class StaffViewSet(viewsets.ModelViewSet):
         serializer = BookCopySerializer(copy)
         return Response(serializer.data)
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (принять книгу в фонд)
     @extend_schema(
         summary='Принять книгу в фонд',
         description='Принять книгу в фонд библиотеки. Если книги ещё нет в библиотеке, создаёт её, затем создаёт экземпляр книги и обновляет склад. Требуется JWT аутентификация.\n\n**Вариант 1: Принять экземпляр существующей книги**\n- Укажите `book_id` существующей книги\n- Укажите `hall` и `inventory_number` для экземпляра\n\n**Вариант 2: Принять новую книгу**\n- Не указывайте `book_id`\n- Укажите `title` и `cipher` (обязательно)\n- Опционально: `publisher`, `publish_year`, `section`, `author_ids`\n- Укажите `hall` и `inventory_number` для экземпляра',
@@ -1221,7 +1224,7 @@ class StaffViewSet(viewsets.ModelViewSet):
             return Response(copy_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # АНАЛИТИЧЕСКИЙ ЗАПРОС
+    # АНАЛИТИЧЕСКИЙ ЗАПРОС (отчет)
     @extend_schema(
         summary='Отчёт за месяц',
         description='Получить отчёт о работе библиотеки за указанный месяц. Включает: количество книг и читателей на каждый день в каждом зале и в библиотеке в целом, количество читателей, записавшихся в каждый зал и в библиотеку за отчетный месяц. Требуется JWT аутентификация.',

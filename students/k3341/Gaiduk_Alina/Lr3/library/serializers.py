@@ -165,7 +165,7 @@ class ReaderSerializer(serializers.ModelSerializer):
             'last_reregistration_date', 'is_active', 'created_at', 'updated_at'
         ]
         read_only_fields = [
-            'reader_id', 'registration_date', 'last_reregistration_date',
+            'reader_id', 'registration_date',
             'created_at', 'updated_at'
         ]
     
@@ -254,10 +254,10 @@ class HallBookStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = HallBookStock
         fields = [
-            'hall', 'hall_name', 'book', 'book_title',
+            'id', 'hall', 'hall_name', 'book', 'book_title',
             'copies_total', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class StaffSerializer(serializers.ModelSerializer):

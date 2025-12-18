@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b81cf561-249e-4859-bacc-642f9eb1810d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lab_reports/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/lab_reports/mkdocs.yml" afterDir="false" />
-    </list>
+    <list default="true" id="b81cf561-249e-4859-bacc-642f9eb1810d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,26 +13,37 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="36D6sxtmrAwaaL7peCIN1Ym4pnL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "lab3",
-    "last_opened_file_path": "C:/Users/Alina/Desktop/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3341/Gaiduk_Alina",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lab3&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Alina/Desktop/lab4_web/prompt&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Alina\\Desktop\\lab4_web\\lr4_frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alina\Desktop\lab4_web\prompt" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Gaiduk_Alina" type="Python.DjangoServer" factoryName="Django server">
       <module name="Gaiduk_Alina" />
@@ -74,6 +86,10 @@
       <option name="presentableId" value="Default" />
       <updated>1764529008408</updated>
       <workItem from="1764529009690" duration="51000" />
+      <workItem from="1765982392057" duration="1693000" />
+      <workItem from="1765988872975" duration="306000" />
+      <workItem from="1765989654300" duration="16151000" />
+      <workItem from="1766047028085" duration="8006000" />
     </task>
     <servers />
   </component>
