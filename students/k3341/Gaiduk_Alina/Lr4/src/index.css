@@ -1,0 +1,131 @@
+/* Импорт шрифта Inter из Google Fonts с различными весами (300, 400, 500, 600, 700, 800) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Сброс стилей для всех элементов */
+* {
+  margin: 0; /* Убираем внешние отступы */
+  padding: 0; /* Убираем внутренние отступы */
+  box-sizing: border-box; /* Включаем box-sizing: border-box для всех элементов */
+}
+
+/* Стили для body */
+body {
+  margin: 0; /* Убираем внешние отступы */
+  /* Настройка семейства шрифтов: сначала Inter, затем системные шрифты как fallback */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  /* Сглаживание шрифтов для лучшего отображения в WebKit браузерах (Chrome, Safari) */
+  -webkit-font-smoothing: antialiased;
+  /* Сглаживание шрифтов для лучшего отображения в Firefox на macOS */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Стили для элементов с кодом (code, pre) */
+code {
+  /* Моноширинный шрифт для кода */
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Стилизация полосы прокрутки для WebKit браузеров (Chrome, Safari, Edge) */
+/* Ширина и высота полосы прокрутки */
+::-webkit-scrollbar {
+  width: 8px; /* Ширина вертикальной полосы прокрутки */
+  height: 8px; /* Высота горизонтальной полосы прокрутки */
+}
+
+/* Фон (трек) полосы прокрутки */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Светло-серый фон */
+  border-radius: 10px; /* Скругление углов */
+}
+
+/* Ползунок (thumb) полосы прокрутки */
+::-webkit-scrollbar-thumb {
+  /* Градиентный фон от индиго к фиолетовому */
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 10px; /* Скругление углов */
+}
+
+/* Ползунок при наведении */
+::-webkit-scrollbar-thumb:hover {
+  /* Более темный градиент при наведении */
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+/* Определение анимации появления (fade-in) */
+@keyframes fadeIn {
+  /* Начальное состояние: прозрачный, сдвинут вниз на 10px */
+  from {
+    opacity: 0; /* Полностью прозрачный */
+    transform: translateY(10px); /* Сдвиг вниз на 10px */
+  }
+  /* Конечное состояние: непрозрачный, без сдвига */
+  to {
+    opacity: 1; /* Полностью непрозрачный */
+    transform: translateY(0); /* Без сдвига */
+  }
+}
+
+/* Класс для применения анимации появления */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out; /* Применяем анимацию с длительностью 0.3s и плавным ускорением/замедлением */
+}
+
+/* Стили для таблиц DataGrid из Material-UI */
+/* Основной контейнер таблицы - без рамки, скругленные углы */
+.MuiDataGrid-root {
+  border: none !important; /* Убираем рамку */
+  border-radius: 12px !important; /* Скругление углов 12px */
+}
+
+/* Заголовки колонок - светло-серый фон, скругленные верхние углы */
+.MuiDataGrid-columnHeaders {
+  background-color: #f1f5f9 !important; /* Светло-серый фон */
+  border-radius: 12px 12px 0 0 !important; /* Скругление только верхних углов */
+  border-bottom: 1px solid #e2e8f0 !important; /* Нижняя граница */
+  min-height: 56px !important; /* Минимальная высота заголовков */
+}
+
+/* Убираем обводку при фокусе на заголовках и ячейках */
+.MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-columnHeader:focus-within,
+.MuiDataGrid-cell:focus,
+.MuiDataGrid-cell:focus-within {
+  outline: none !important; /* Убираем стандартную обводку браузера */
+}
+
+/* Ячейки таблицы - тонкая нижняя граница */
+.MuiDataGrid-cell {
+  border-bottom: 1px solid #f1f5f9 !important; /* Тонкая серая граница снизу */
+}
+
+/* Строка при наведении - легкая фиолетовая подсветка */
+.MuiDataGrid-row:hover {
+  background-color: rgba(99, 102, 241, 0.04) !important; /* Очень светлая фиолетовая подсветка */
+}
+
+/* Выбранная строка - более яркая фиолетовая подсветка */
+.MuiDataGrid-row.Mui-selected {
+  background-color: rgba(99, 102, 241, 0.08) !important; /* Светлая фиолетовая подсветка */
+}
+
+/* Выбранная строка при наведении - еще ярче */
+.MuiDataGrid-row.Mui-selected:hover {
+  background-color: rgba(99, 102, 241, 0.12) !important; /* Более яркая фиолетовая подсветка */
+}
+
+/* Нижняя часть таблицы (пагинация) - светло-серый фон, скругленные нижние углы */
+.MuiDataGrid-footerContainer {
+  border-top: 1px solid #e2e8f0 !important; /* Верхняя граница */
+  background-color: #f8fafc !important; /* Светло-серый фон */
+  border-radius: 0 0 12px 12px !important; /* Скругление только нижних углов */
+  min-height: 52px !important; /* Минимальная высота футера */
+}
+
+/* Область прокрутки таблицы */
+.MuiDataGrid-virtualScroller {
+  overflow: auto !important; /* Включаем прокрутку для виртуального скроллера */
+}
+
