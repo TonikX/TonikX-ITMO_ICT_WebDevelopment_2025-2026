@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список владельцев автомобилей</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        tr:hover { background-color: #ddd; }
+        a { color: #4CAF50; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; padding: 8px 16px; background-color: #4CAF50; color: white; border-radius: 4px; }
+        .nav a:hover { background-color: #45a049; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/owners/">Владельцы</a>
+        <a href="/cars/">Автомобили</a>
+        <a href="/admin/">Админ-панель</a>
+    </div>
+
+    <h1>Список владельцев автомобилей</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <a href="/owner/create/" class="btn" style="background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 4px; text-decoration: none;">➕ Добавить владельца</a>
+    </div>
+    
+    {% if owners %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Паспорт</th>
+                <th>Национальность</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for owner in owners %}
+            <tr>
+                <td>{{ owner.id }}</td>
+                <td>{{ owner.username }}</td>
+                <td>{{ owner.last_name }}</td>
+                <td>{{ owner.first_name }}</td>
+                <td>{{ owner.email|default:"—" }}</td>
+                <td>{{ owner.passport_number|default:"—" }}</td>
+                <td>{{ owner.nationality|default:"—" }}</td>
+                <td><a href="/owner/{{ owner.id }}/">Подробнее</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Нет зарегистрированных владельцев.</p>
+    {% endif %}
+</body>
+</html>
+
