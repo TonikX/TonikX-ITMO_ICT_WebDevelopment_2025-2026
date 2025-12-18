@@ -1,116 +1,95 @@
 import { createTheme } from '@mui/material/styles'
 
-// Основная тема приложения - цвета, шрифты, стили компонентов
 const theme = createTheme({
-  // Палитра цветов приложения
   palette: {
-    mode: 'light', // Светлая тема
-    // Основной цвет (primary) - используется для основных действий и акцентов
+    mode: 'light',
     primary: {
-      main: '#6366f1', // Индиго - основной оттенок
-      light: '#818cf8', // Светлый оттенок
-      dark: '#4f46e5', // Темный оттенок
-      contrastText: '#ffffff', // Цвет текста для контраста с основным цветом
+      main: '#6366f1',
+      light: '#818cf8',
+      dark: '#4f46e5',
+      contrastText: '#ffffff',
     },
-    // Вторичный цвет (secondary) - используется для дополнительных действий
     secondary: {
-      main: '#ec4899', // Розовый - основной оттенок
-      light: '#f472b6', // Светлый оттенок
-      dark: '#db2777', // Темный оттенок
-      contrastText: '#ffffff', // Цвет текста для контраста с вторичным цветом
+      main: '#ec4899',
+      light: '#f472b6',
+      dark: '#db2777',
+      contrastText: '#ffffff',
     },
-    // Цвет успеха (для успешных операций)
     success: {
-      main: '#10b981', // Зеленый - основной оттенок
-      light: '#34d399', // Светлый оттенок
-      dark: '#059669', // Темный оттенок
+      main: '#10b981',
+      light: '#34d399',
+      dark: '#059669',
     },
-    // Цвет ошибки (для ошибок и предупреждений об опасных действиях)
     error: {
-      main: '#ef4444', // Красный - основной оттенок
-      light: '#f87171', // Светлый оттенок
-      dark: '#dc2626', // Темный оттенок
+      main: '#ef4444',
+      light: '#f87171',
+      dark: '#dc2626',
     },
-    // Цвет предупреждения (для предупреждений)
     warning: {
-      main: '#f59e0b', // Оранжевый - основной оттенок
-      light: '#fbbf24', // Светлый оттенок
-      dark: '#d97706', // Темный оттенок
+      main: '#f59e0b',
+      light: '#fbbf24',
+      dark: '#d97706',
     },
-    // Цвет информации (для информационных сообщений)
     info: {
-      main: '#3b82f6', // Синий - основной оттенок
-      light: '#60a5fa', // Светлый оттенок
-      dark: '#2563eb', // Темный оттенок
+      main: '#3b82f6',
+      light: '#60a5fa',
+      dark: '#2563eb',
     },
-    // Цвета фона
     background: {
-      default: '#f8fafc', // Цвет фона по умолчанию (светло-серый)
-      paper: '#ffffff', // Цвет фона для карточек и панелей (белый)
+      default: '#f8fafc',
+      paper: '#ffffff',
     },
-    // Цвета текста
     text: {
-      primary: '#0f172a', // Основной цвет текста (темно-синий)
-      secondary: '#64748b', // Вторичный цвет текста (серый)
+      primary: '#0f172a',
+      secondary: '#64748b',
     },
   },
-  // Настройки типографики (шрифты, размеры, веса)
   typography: {
-    // Семейство шрифтов (приоритет: Inter, затем Roboto, затем системные)
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    // Стили для заголовка первого уровня (H1)
     h1: {
-      fontSize: '2.5rem', // Размер шрифта 2.5rem
-      fontWeight: 700, // Жирный шрифт
-      letterSpacing: '-0.02em', // Уменьшенный межбуквенный интервал
+      fontSize: '2.5rem',
+      fontWeight: 700,
+      letterSpacing: '-0.02em',
     },
-    // Стили для заголовка второго уровня (H2)
     h2: {
-      fontSize: '2rem', // Размер шрифта 2rem
-      fontWeight: 700, // Жирный шрифт
-      letterSpacing: '-0.01em', // Уменьшенный межбуквенный интервал
+      fontSize: '2rem',
+      fontWeight: 700,
+      letterSpacing: '-0.01em',
     },
-    // Стили для заголовка третьего уровня (H3)
     h3: {
-      fontSize: '1.75rem', // Размер шрифта 1.75rem
-      fontWeight: 600, // Полужирный шрифт
-      letterSpacing: '-0.01em', // Уменьшенный межбуквенный интервал
+      fontSize: '1.75rem',
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
     },
-    // Стили для заголовка четвертого уровня (H4)
     h4: {
-      fontSize: '1.5rem', // Размер шрифта 1.5rem
-      fontWeight: 600, // Полужирный шрифт
-      letterSpacing: '-0.01em', // Уменьшенный межбуквенный интервал
+      fontSize: '1.5rem',
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
     },
-    // Стили для заголовка пятого уровня (H5)
     h5: {
-      fontSize: '1.25rem', // Размер шрифта 1.25rem
-      fontWeight: 600, // Полужирный шрифт
+      fontSize: '1.25rem',
+      fontWeight: 600,
     },
-    // Стили для заголовка шестого уровня (H6)
     h6: {
-      fontSize: '1rem', // Размер шрифта 1rem
-      fontWeight: 600, // Полужирный шрифт
+      fontSize: '1rem',
+      fontWeight: 600,
     },
-    // Стили для текста кнопок
     button: {
-      textTransform: 'none', // Без преобразования текста в верхний регистр
-      fontWeight: 600, // Полужирный шрифт
+      textTransform: 'none',
+      fontWeight: 600,
     },
   },
-  // Настройки формы элементов (скругление углов)
   shape: {
-    borderRadius: 12, // Скругление углов по умолчанию (12px)
+    borderRadius: 12,
   },
-  // Массив теней для различных уровней elevation (0-24)
   shadows: [
-    'none', // Уровень 0 - без тени
-    '0 1px 2px 0 rgb(0 0 0 / 0.05)', // Уровень 1 - очень легкая тень
-    '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)', // Уровень 2 - легкая тень
-    '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)', // Уровень 3 - средняя тень
-    '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)', // Уровень 4 - заметная тень
-    '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)', // Уровень 5 - выраженная тень
-    '0 25px 50px -12px rgb(0 0 0 / 0.25)', // Уровень 6+ - сильная тень для модальных окон
+    'none',
+    '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+    '0 25px 50px -12px rgb(0 0 0 / 0.25)',
     '0 25px 50px -12px rgb(0 0 0 / 0.25)',
     '0 25px 50px -12px rgb(0 0 0 / 0.25)',
     '0 25px 50px -12px rgb(0 0 0 / 0.25)',
@@ -131,80 +110,69 @@ const theme = createTheme({
     '0 25px 50px -12px rgb(0 0 0 / 0.25)',
   ],
   components: {
-    // Стили для кнопок
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 10, // Скругление углов
-          padding: '10px 24px', // Внутренние отступы
-          fontSize: '0.9375rem', // Размер шрифта
-          boxShadow: 'none', // Без тени по умолчанию
-          transition: 'all 0.2s ease-in-out', // Плавная анимация
+          borderRadius: 10,
+          padding: '10px 24px',
+          fontSize: '0.9375rem',
+          boxShadow: 'none',
+          transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)', // Тень при наведении
-            transform: 'translateY(-1px)', // Легкий подъем
+            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+            transform: 'translateY(-1px)',
           },
         },
         contained: {
-          // Градиентный фон для основных кнопок
           background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
           '&:hover': {
-            // Более темный градиент при наведении
             background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
           },
         },
       },
     },
-    // Стили для карточек и панелей
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 16, // Скругление углов
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)', // Легкая тень
+          borderRadius: 16,
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         },
         elevation1: {
-          // Легкая тень для первого уровня
           boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         },
         elevation2: {
-          // Средняя тень для второго уровня
           boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         },
         elevation3: {
-          // Более выраженная тень для третьего уровня
           boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
         },
       },
     },
-    // Стили для карточек - с эффектом подъема при наведении
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16, // Скругление углов
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)', // Легкая тень
-          transition: 'all 0.3s ease-in-out', // Плавная анимация
+          borderRadius: 16,
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          transition: 'all 0.3s ease-in-out',
           '&:hover': {
-            boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)', // Усиленная тень
-            transform: 'translateY(-4px)', // Подъем карточки
+            boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+            transform: 'translateY(-4px)',
           },
         },
       },
     },
-    // Стили для полей ввода
     MuiTextField: {
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 10, // Скругление углов
-            transition: 'all 0.2s ease-in-out', // Плавная анимация
+            borderRadius: 10,
+            transition: 'all 0.2s ease-in-out',
             '&:hover': {
-              // Фиолетовая рамка при наведении
               '& .MuiOutlinedInput-notchedOutline': {
                 borderColor: '#6366f1',
               },
             },
             '&.Mui-focused': {
-              // Более толстая рамка при фокусе
               '& .MuiOutlinedInput-notchedOutline': {
                 borderWidth: 2,
               },
@@ -213,46 +181,41 @@ const theme = createTheme({
         },
       },
     },
-    // Стили для меток (чипсов)
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 8, // Скругление углов
-          fontWeight: 500, // Средняя жирность шрифта
+          borderRadius: 8,
+          fontWeight: 500,
         },
       },
     },
-    // Стили для боковой панели
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          borderRadius: 0, // Без скругления
-          borderRight: 'none', // Без правой границы
-          boxShadow: '4px 0 24px rgba(0, 0, 0, 0.06)', // Тень справа
+          borderRadius: 0,
+          borderRight: 'none',
+          boxShadow: '4px 0 24px rgba(0, 0, 0, 0.06)',
         },
       },
     },
-    // Стили для верхней панели (AppBar)
     MuiAppBar: {
       styleOverrides: {
         root: {
-          boxShadow: 'none', // Без тени для плоского вида
-          borderRadius: 0, // Без скругления углов
+          boxShadow: 'none',
+          borderRadius: 0,
         },
       },
     },
-    // Стили для контейнера - боковые отступы
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingLeft: '24px', // Отступ слева 24px
-          paddingRight: '24px', // Отступ справа 24px
+          paddingLeft: '24px',
+          paddingRight: '24px',
         },
       },
     },
   },
 })
 
-// Экспортируем тему для использования в приложении
 export default theme
 

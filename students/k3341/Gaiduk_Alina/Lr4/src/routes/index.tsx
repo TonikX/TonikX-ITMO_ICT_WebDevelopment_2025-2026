@@ -29,15 +29,14 @@ import { HallReadersPage } from '../pages/HallReadersPage'
 import { ReaderDetailPage } from '../pages/ReaderDetailPage'
 import { ReaderEditPage } from '../pages/ReaderEditPage'
 
-// Компонент с определением всех маршрутов приложения
+// компонент с определением всех маршрутов приложения
 export const AppRoutes = () => {
   return (
-    // Компонент Routes из react-router-dom для определения маршрутов
     <Routes>
-      {/* Публичные маршруты (доступны без аутентификации) */}
+      {/* публичные маршруты (доступны без аутентификации) */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Защищенные маршруты (требуют аутентификации) */}
+      {/* защищенные маршруты (требуют аутентификации) */}
       {/* RequireAuth проверяет наличие токенов, AppLayout предоставляет общий layout */}
       <Route
         element={
@@ -46,77 +45,75 @@ export const AppRoutes = () => {
           </RequireAuth>
         }
       >
-        {/* Главная страница - перенаправляет на страницу книг */}
+        {/* главная страница - перенаправляет на страницу книг */}
         <Route path="/" element={<Navigate to="/books" replace />} />
-        {/* Страница профиля пользователя */}
+        {/* страница профиля пользователя */}
         <Route path="/profile" element={<ProfilePage />} />
-        {/* Страница регистрации нового сотрудника */}
+        {/* страница регистрации нового сотрудника */}
         <Route path="/register-staff" element={<RegisterStaffPage />} />
 
-        {/* Справочники (Dictionaries) */}
-        {/* Страница со списком авторов */}
+        {/* страница со списком авторов */}
         <Route path="/authors" element={<AuthorsPage />} />
-        {/* Страница со списком издательств */}
+        {/* страница со списком издательств */}
         <Route path="/publishers" element={<PublishersPage />} />
-        {/* Страница со списком книг конкретного издательства (динамический параметр :id) */}
+        {/* страница со списком книг конкретного издательства (динамический параметр :id) */}
         <Route path="/publishers/:id/books" element={<PublisherBooksPage />} />
-        {/* Страница со списком разделов книг */}
+        {/* страница со списком разделов книг */}
         <Route path="/sections" element={<SectionsPage />} />
-        {/* Страница со списком залов */}
+        {/* страница со списком залов */}
         <Route path="/halls" element={<HallsPage />} />
-        {/* Страница со списком читателей конкретного зала (динамический параметр :id) */}
+        {/* страница со списком читателей конкретного зала (динамический параметр :id) */}
         <Route path="/halls/:id/readers" element={<HallReadersPage />} />
 
-        {/* Книги (Books) */}
-        {/* Страница со списком книг */}
+        {/* книги */}
+        {/* страница со списком книг */}
         <Route path="/books" element={<BooksPage />} />
-        {/* Страница с детальной информацией о книге (динамический параметр :id) */}
+        {/* страница с детальной информацией о книге (динамический параметр :id) */}
         <Route path="/books/:id" element={<BookDetailPage />} />
 
-        {/* Экземпляры книг и остатки (Copies & Stock) */}
-        {/* Страница со списком экземпляров книг */}
+        {/* экземпляры книг и остатки (Copies & Stock) */}
+        {/* страница со списком экземпляров книг */}
         <Route path="/copies" element={<CopiesPage />} />
-        {/* Страница принятия книги в фонд */}
+        {/* страница принятия книги в фонд */}
         <Route path="/accept-book" element={<AcceptBookPage />} />
-        {/* Страница списания книги */}
+        {/* страница списания книги */}
         <Route path="/writeoff-book" element={<WriteoffBookPage />} />
-        {/* Страница остатков книг по залам */}
+        {/* страница остатков книг по залам */}
         <Route path="/stocks" element={<StocksPage />} />
 
-        {/* Читатели (Readers) */}
-        {/* Страница со списком читателей */}
+        {/* читатели */}
+        {/* страница со списком читателей */}
         <Route path="/readers" element={<ReadersPage />} />
-        {/* Страница с детальной информацией о читателе (динамический параметр :id) */}
+        {/* страница с детальной информацией о читателе (динамический параметр :id) */}
         <Route path="/readers/:id" element={<ReaderDetailPage />} />
-        {/* Страница редактирования читателя (динамический параметр :id) */}
+        {/* страница редактирования читателя (динамический параметр :id) */}
         <Route path="/readers/:id/edit" element={<ReaderEditPage />} />
-        {/* Страница регистрации нового читателя */}
+        {/* страница регистрации нового читателя */}
         <Route path="/register-reader" element={<RegisterReaderPage />} />
-        {/* Страница деактивации старых читателей */}
+        {/* страница деактивации старых читателей */}
         <Route path="/deactivate-readers" element={<DeactivateReadersPage />} />
 
-        {/* Выдачи книг (Issues) */}
-        {/* Страница со списком выдач книг */}
+        {/* выдачи */}
+        {/* страница со списком выдач книг */}
         <Route path="/issues" element={<IssuesPage />} />
-        {/* Страница выдачи книги читателю */}
+        {/* страница выдачи книги читателю */}
         <Route path="/issue-book" element={<IssueBookPage />} />
 
-        {/* Аналитика (Analytics) */}
-        {/* Страница со списком просроченных выдач */}
+        {/* аналитика */}
+        {/* страница со списком просроченных выдач */}
         <Route path="/analytics/overdue" element={<OverduePage />} />
-        {/* Страница со списком редких книг */}
+        {/* страница со списком редких книг */}
         <Route path="/analytics/rare-books" element={<RareBooksPage />} />
-        {/* Страница со статистикой по возрасту читателей */}
+        {/* страница со статистикой по возрасту читателей */}
         <Route path="/analytics/age" element={<AgeStatisticsPage />} />
-        {/* Страница со статистикой по образованию читателей */}
+        {/* страница со статистикой по образованию читателей */}
         <Route path="/analytics/education" element={<EducationStatisticsPage />} />
 
-        {/* Отчеты (Reports) */}
-        {/* Страница месячного отчета */}
+        {/* отчет */}
         <Route path="/reports/monthly" element={<MonthlyReportPage />} />
       </Route>
 
-      {/* Fallback маршрут для всех несуществующих путей - перенаправляет на главную */}
+      {/* маршрут для всех несуществующих путей - перенаправляет на главную */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

@@ -36,13 +36,13 @@ import { useNotification, useDeleteConfirm } from '../hooks' // кастомны
 
 // компонент страницы каталога книг
 export const BooksPage: React.FC = () => {
-  const [books, setBooks] = useState<Book[]>([]) // локальное состояние: список книг
-  const [publishers, setPublishers] = useState<Publisher[]>([]) // список издательств
-  const [sections, setSections] = useState<BookSection[]>([]) // список разделов
-  const [authors, setAuthors] = useState<Author[]>([]) // список авторов
-  const [loading, setLoading] = useState(true) // флаг загрузки данных
-  const [openDialog, setOpenDialog] = useState(false) // открыто ли модальное окно создания/редактирования книги
-  const [editingBook, setEditingBook] = useState<Book | null>(null) // книга, которую редактируем (или null для создания)
+  const [books, setBooks] = useState<Book[]>([])
+  const [publishers, setPublishers] = useState<Publisher[]>([])
+  const [sections, setSections] = useState<BookSection[]>([])
+  const [authors, setAuthors] = useState<Author[]>([])
+  const [loading, setLoading] = useState(true)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [editingBook, setEditingBook] = useState<Book | null>(null)
   
   const { notification, showSuccess, showError, hideNotification } = useNotification() // хук уведомлений: показ успеха/ошибок
   const { deleteConfirm, openDeleteConfirm, closeDeleteConfirm } = useDeleteConfirm() // хук подтверждения удаления книги
@@ -63,35 +63,15 @@ export const BooksPage: React.FC = () => {
   // эффект, который один раз загружает исходные данные при монтировании страницы
   useEffect(() => {
     loadData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Отслеживание изменений в state для отладки
-  useEffect(() => {
-    console.log('🔄 Books state changed:', books.length, 'books')
-    if (books.length > 0) {
-      console.log('📚 First book in state:', books[0])
-      console.log('📚 All books IDs:', books.map(b => b.book_id))
-    } else {
-      console.warn('⚠️ Books array is empty!')
-    }
-  }, [books])
-
-  // мемоизированная функция загрузки данных книг и связанных сущностей
+  // функция загрузки данных книг и связанных сущностей
   const loadData = useCallback(async () => {
     try {
       setLoading(true)
-      console.log('🔄 Загрузка данных...')
       
       const booksData = await booksAPI.getAll()
-      console.log('📚 Books data received:', booksData)
-      console.log('📚 Books data type:', typeof booksData, Array.isArray(booksData))
-      console.log('📚 Books data length:', Array.isArray(booksData) ? booksData.length : 'not array')
-      
-      if (Array.isArray(booksData) && booksData.length > 0) {
-        console.log('📚 First book structure:', JSON.stringify(booksData[0], null, 2))
-        console.log('📚 First book book_id:', booksData[0].book_id)
-      }
+
       
       const [publishersData, sectionsData, authorsData] = await Promise.all([
         publishersAPI.getAll(),
@@ -103,23 +83,15 @@ export const BooksPage: React.FC = () => {
       const publishersArray = Array.isArray(publishersData) ? publishersData : []
       const sectionsArray = Array.isArray(sectionsData) ? sectionsData : []
       const authorsArray = Array.isArray(authorsData) ? authorsData : []
-      
-      console.log('✅ Before setState - booksArray:', booksArray.length, booksArray)
+
       
       setBooks(booksArray)
       setPublishers(publishersArray)
       setSections(sectionsArray)
       setAuthors(authorsArray)
-      
-      console.log('✅ State updated. Books in state:', booksArray.length)
-      if (booksArray.length > 0) {
-        console.log('✅ First book after setState:', booksArray[0])
-      }
+
     } catch (error) {
-      console.error('❌ Error loading data:', error)
-      if (error instanceof Error) {
-        console.error('❌ Error details:', error.message, error.stack)
-      }
+      console.error('ошибка загрузки данных')
       showError(error)
     } finally {
       setLoading(false)
