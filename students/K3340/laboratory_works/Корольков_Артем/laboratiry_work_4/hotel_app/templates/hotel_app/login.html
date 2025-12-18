@@ -1,0 +1,111 @@
+{% extends "hotel_app/base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="login-container" style="max-width: 400px; margin: 100px auto;">
+    <v-card class="pa-6" elevation="8">
+        <v-card-title class="text-center mb-4">
+            <v-icon icon="mdi-login" size="large" class="mr-2"></v-icon>
+            Вход в систему
+        </v-card-title>
+        
+        <v-form @submit.prevent="handleLogin" ref="loginForm">
+            <v-text-field
+                v-model="email"
+                label="Email"
+                type="email"
+                :rules="emailRules"
+                required
+                prepend-inner-icon="mdi-email"
+                variant="outlined"
+                class="mb-4"
+            ></v-text-field>
+            
+            <v-text-field
+                v-model="password"
+                label="Пароль"
+                :type="showPassword ? 'text' : 'password'"
+                :rules="passwordRules"
+                required
+                prepend-inner-icon="mdi-lock"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner="showPassword = !showPassword"
+                variant="outlined"
+                class="mb-4"
+            ></v-text-field>
+            
+            <v-btn 
+                type="submit" 
+                color="primary" 
+                size="large" 
+                block
+                :loading="loading"
+            >
+                Войти
+            </v-btn>
+            
+            <v-divider class="my-4"></v-divider>
+            
+            <div class="text-center">
+                <p class="mb-2">Нет аккаунта?</p>
+                <v-btn 
+                    variant="outlined" 
+                    color="secondary" 
+                    @click="goToRegister"
+                    block
+                >
+                    Зарегистрироваться
+                </v-btn>
+            </div>
+        </v-form>
+    </v-card>
+</div>
+
+<script>
+    const loginApp = createApp({
+        setup() {
+            const email = ref('');
+            const password = ref('');
+            const showPassword = ref(false);
+            const loading = ref(false);
+            
+            const emailRules = [
+                v => !!v || 'Email обязателен',
+                v => /.+@.+\..+/.test(v) || 'Введите корректный email'
+            ];
+            
+            const passwordRules = [
+                v => !!v || 'Пароль обязателен',
+                v => v.length >= 6 || 'Пароль должен содержать минимум 6 символов'
+            ];
+            
+            const handleLogin = async () => {
+                loading.value = true;
+                try {
+                    await app.config.globalProperties.login(email.value, password.value);
+                } finally {
+                    loading.value = false;
+                }
+            };
+            
+            const goToRegister = () => {
+                window.location.href = '/register/';
+            };
+            
+            return {
+                email,
+                password,
+                showPassword,
+                loading,
+                emailRules,
+                passwordRules,
+                handleLogin,
+                goToRegister
+            };
+        }
+    });
+    
+    loginApp.use(vuetify).mount('.login-container');
+</script>
+{% endblock %}

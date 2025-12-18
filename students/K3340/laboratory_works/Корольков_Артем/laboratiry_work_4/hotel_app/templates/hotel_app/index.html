@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система управления гостиницей</title>
+
+    <!-- Vuetify через CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.14/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+    <!-- Vue.js, Vuetify и Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.14/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .auth-card {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .page-content {
+            padding: 20px;
+        }
+        .stat-card {
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .error-message {
+            color: #f44336;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #ffebee;
+        }
+        .success-message {
+            color: #4caf50;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #e8f5e9;
+        }
+        .clickable-row {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .clickable-row:hover {
+            background-color: #f5f5f5;
+        }
+        .analytics-card {
+            height: 100%;
+            transition: all 0.3s;
+        }
+        .analytics-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Загрузочный экран -->
+        <div v-if="loading" class="loading-overlay">
+            <div style="text-align: center;">
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                    size="64"
+                ></v-progress-circular>
+                <p style="margin-top: 20px;">Загрузка приложения...</p>
+            </div>
+        </div>
+
+        <!-- Основное приложение -->
+        <template v-if="!loading">
+            <v-app>
+                <!-- Навигационная панель -->
+                <v-navigation-drawer
+                    v-model="drawer"
+                    app
+                    clipped
+                    v-if="isAuthenticated"
+                >
+                    <v-list dense>
+                        <v-list-item @click="currentView = 'dashboard'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-view-dashboard</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Панель управления</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-group prepend-icon="mdi-bed">
+                            <template v-slot:activator>
+                                <v-list-item-title>Номера</v-list-item-title>
+                            </template>
+                            <v-list-item @click="currentView = 'rooms'">
+                                <v-list-item-title>Все номера</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="currentView = 'roomTypes'">
+                                <v-list-item-title>Типы номеров</v-list-item-title>
+                            </v-list-item>
+                        </v-list-group>
+
+                        <v-list-item @click="currentView = 'clients'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-group</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Клиенты</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-group prepend-icon="mdi-account-tie">
+                            <template v-slot:activator>
+                                <v-list-item-title>Сотрудники</v-list-item-title>
+                            </template>
+                            <v-list-item @click="currentView = 'staff'">
+                                <v-list-item-title>Все сотрудники</v-list-item-title>
+                            </v-list-item>
+                        </v-list-group>
+
+                        <v-list-group prepend-icon="mdi-room-service">
+                            <template v-slot:activator>
+                                <v-list-item-title>Услуги</v-list-item-title>
+                            </template>
+                            <v-list-item @click="currentView = 'hotelServices'">
+                                <v-list-item-title>Все услуги</v-list-item-title>
+                            </v-list-item>
+                        </v-list-group>
+
+                        <v-list-item @click="currentView = 'stays'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-calendar-check</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Проживания</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-group prepend-icon="mdi-chart-bar">
+                            <template v-slot:activator>
+                                <v-list-item-title>Аналитика</v-list-item-title>
+                            </template>
+                            <v-list-item @click="currentView = 'analytics'">
+                                <v-list-item-title>Аналитические запросы</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="currentView = 'quarterlyReport'">
+                                <v-list-item-title>Квартальный отчет</v-list-item-title>
+                            </v-list-item>
+                        </v-list-group>
+
+                        <v-list-item @click="currentView = 'profile'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-cog</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Профиль</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-navigation-drawer>
+
+                <!-- Шапка -->
+                <v-app-bar app clipped-left color="primary" dark>
+                    <v-app-bar-nav-icon
+                        @click.stop="drawer = !drawer"
+                        v-if="isAuthenticated"
+                    ></v-app-bar-nav-icon>
+                    <v-toolbar-title>
+                        <v-icon left>mdi-hotel</v-icon>
+                        Система управления гостиницей
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <div v-if="isAuthenticated">
+                        <span class="mr-3">Привет, [[ user.email ]]</span>
+                        <v-btn color="error" @click="logout" small>
+                            <v-icon left small>mdi-logout</v-icon>
+                            Выйти
+                        </v-btn>
+                    </div>
+                    <div v-else>
+                        <v-btn color="success" @click="currentView = 'login'" small>
+                            <v-icon left small>mdi-login</v-icon>
+                            Войти
+                        </v-btn>
+                        <v-btn color="info" @click="currentView = 'register'" small class="ml-2">
+                            <v-icon left small>mdi-account-plus</v-icon>
+                            Регистрация
+                        </v-btn>
+                    </div>
+                </v-app-bar>
+
+                <!-- Основной контент -->
+                <v-main>
+                    <v-container fluid class="page-content">
+
+                        <!-- ========== КОМПОНЕНТ ВХОДА ========== -->
+                        <div v-if="!isAuthenticated && currentView === 'login'">
+                            <v-card class="auth-card">
+                                <v-card-title class="headline grey lighten-2">
+                                    <v-icon left>mdi-login</v-icon>
+                                    Вход в систему
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form v-model="loginForm.valid" @submit.prevent="login">
+                                        <v-text-field
+                                            v-model="loginForm.email"
+                                            label="Email"
+                                            type="email"
+                                            :rules="emailRules"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-email"
+                                        ></v-text-field>
+                                        <v-text-field
+                                            v-model="loginForm.password"
+                                            label="Пароль"
+                                            type="password"
+                                            :rules="passwordRules"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-lock"
+                                        ></v-text-field>
+                                        <div v-if="loginForm.error" class="error-message">
+                                            <v-icon small left>mdi-alert</v-icon>
+                                            [[ loginForm.error ]]
+                                        </div>
+                                        <v-btn
+                                            type="submit"
+                                            color="primary"
+                                            :disabled="!loginForm.valid"
+                                            :loading="loginForm.loading"
+                                            block
+                                            large
+                                        >
+                                            <v-icon left>mdi-login</v-icon>
+                                            Войти
+                                        </v-btn>
+                                        <v-btn
+                                            text
+                                            @click="currentView = 'register'"
+                                            block
+                                            class="mt-2"
+                                        >
+                                            Нет аккаунта? Зарегистрируйтесь
+                                        </v-btn>
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== КОМПОНЕНТ РЕГИСТРАЦИИ ========== -->
+                        <div v-if="!isAuthenticated && currentView === 'register'">
+                            <v-card class="auth-card">
+                                <v-card-title class="headline grey lighten-2">
+                                    <v-icon left>mdi-account-plus</v-icon>
+                                    Регистрация
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form v-model="registerForm.valid" @submit.prevent="register">
+                                        <v-text-field
+                                            v-model="registerForm.email"
+                                            label="Email"
+                                            type="email"
+                                            :rules="emailRules"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-email"
+                                        ></v-text-field>
+                                        <v-text-field
+                                            v-model="registerForm.username"
+                                            label="Имя пользователя"
+                                            :rules="usernameRules"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-account"
+                                        ></v-text-field>
+                                        <v-text-field
+                                            v-model="registerForm.password"
+                                            label="Пароль"
+                                            type="password"
+                                            :rules="passwordRules"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-lock"
+                                        ></v-text-field>
+                                        <v-text-field
+                                            v-model="registerForm.passwordConfirm"
+                                            label="Подтверждение пароля"
+                                            type="password"
+                                            :rules="[v => v === registerForm.password || 'Пароли не совпадают']"
+                                            required
+                                            outlined
+                                            prepend-icon="mdi-lock-check"
+                                        ></v-text-field>
+                                        <div v-if="registerForm.error" class="error-message">
+                                            <v-icon small left>mdi-alert</v-icon>
+                                            [[ registerForm.error ]]
+                                        </div>
+                                        <v-btn
+                                            type="submit"
+                                            color="primary"
+                                            :disabled="!registerForm.valid"
+                                            :loading="registerForm.loading"
+                                            block
+                                            large
+                                        >
+                                            <v-icon left>mdi-account-plus</v-icon>
+                                            Зарегистрироваться
+                                        </v-btn>
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== ПАНЕЛЬ УПРАВЛЕНИЯ ========== -->
+                        <div v-if="isAuthenticated && currentView === 'dashboard'">
+                            <h1 class="display-1 mb-6">Панель управления</h1>
+
+                            <!-- Статистика -->
+                            <v-row>
+                                <v-col cols="12" md="3" v-for="(stat, index) in dashboardStats" :key="index">
+                                    <v-card class="stat-card" :color="stat.color" dark>
+                                        <v-card-title class="subtitle-1">[[ stat.title ]]</v-card-title>
+                                        <v-card-text class="display-1 text-center">[[ stat.value ]]</v-card-text>
+                                        <v-card-actions>
+                                            <v-icon>[[ stat.icon ]]</v-icon>
+                                            <v-spacer></v-spacer>
+                                            <small>[[ stat.description ]]</small>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+
+                            <!-- Быстрые действия -->
+                            <v-row class="mt-6">
+                                <v-col cols="12">
+                                    <v-card>
+                                        <v-card-title>Быстрые действия</v-card-title>
+                                        <v-card-text>
+                                            <v-btn color="primary" @click="currentView = 'clients'; showClientDialog = true" class="mr-2 mb-2">
+                                                <v-icon left>mdi-account-plus</v-icon>
+                                                Добавить клиента
+                                            </v-btn>
+                                            <v-btn color="success" @click="currentView = 'rooms'; showRoomDialog = true" class="mr-2 mb-2">
+                                                <v-icon left>mdi-bed-plus</v-icon>
+                                                Добавить номер
+                                            </v-btn>
+                                            <v-btn color="info" @click="currentView = 'stays'; showStayDialog = true" class="mr-2 mb-2">
+                                                <v-icon left>mdi-calendar-plus</v-icon>
+                                                Заселить клиента
+                                            </v-btn>
+                                            <v-btn color="warning" @click="currentView = 'staff'; showStaffDialog = true" class="mr-2 mb-2">
+                                                <v-icon left>mdi-account-plus</v-icon>
+                                                Добавить сотрудника
+                                            </v-btn>
+                                            <v-btn color="deep-purple" @click="currentView = 'analytics'" class="mr-2 mb-2">
+                                                <v-icon left>mdi-chart-bar</v-icon>
+                                                Аналитика
+                                            </v-btn>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+
+                            <!-- Последние активности -->
+                            <v-row class="mt-4">
+                                <v-col cols="12" md="6">
+                                    <v-card>
+                                        <v-card-title>
+                                            <v-icon left>mdi-clock-outline</v-icon>
+                                            Последние клиенты
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-list dense v-if="recentClients.length > 0">
+                                                <v-list-item v-for="client in recentClients" :key="client.id">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>[[ client.last_name ]] [[ client.first_name ]]</v-list-item-title>
+                                                        <v-list-item-subtitle>[[ client.city ]] • [[ formatDate(client.check_in_date) ]]</v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                            <p v-else class="text-center grey--text">Нет данных</p>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <v-card>
+                                        <v-card-title>
+                                            <v-icon left>mdi-bell-outline</v-icon>
+                                            Свободные номера
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-chip-group>
+                                                <v-chip v-for="room in availableRoomsList" :key="room.id" color="green" dark small>
+                                                    [[ room.room_number ]]
+                                                </v-chip>
+                                            </v-chip-group>
+                                            <p v-if="availableRoomsList.length === 0" class="text-center grey--text mt-4">Нет свободных номеров</p>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </div>
+
+                        <!-- ========== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ========== -->
+                        <div v-if="isAuthenticated && currentView === 'profile'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-account-cog</v-icon>
+                                    Профиль пользователя
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form v-model="profileForm.valid" @submit.prevent="updateProfile">
+                                        <v-text-field
+                                            v-model="user.email"
+                                            label="Email"
+                                            readonly
+                                            outlined
+                                            prepend-icon="mdi-email"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="profileForm.username"
+                                            label="Имя пользователя"
+                                            :rules="usernameRules"
+                                            outlined
+                                            prepend-icon="mdi-account"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="profileForm.currentPassword"
+                                            label="Текущий пароль"
+                                            type="password"
+                                            outlined
+                                            prepend-icon="mdi-lock"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="profileForm.newPassword"
+                                            label="Новый пароль"
+                                            type="password"
+                                            outlined
+                                            prepend-icon="mdi-lock-plus"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                            v-model="profileForm.confirmPassword"
+                                            label="Подтверждение пароля"
+                                            type="password"
+                                            outlined
+                                            prepend-icon="mdi-lock-check"
+                                        ></v-text-field>
+
+                                        <div v-if="profileForm.error" class="error-message">
+                                            <v-icon small left>mdi-alert</v-icon>
+                                            [[ profileForm.error ]]
+                                        </div>
+
+                                        <div v-if="profileForm.success" class="success-message">
+                                            <v-icon small left>mdi-check</v-icon>
+                                            [[ profileForm.success ]]
+                                        </div>
+
+                                        <v-btn
+                                            type="submit"
+                                            color="primary"
+                                            :loading="profileForm.loading"
+                                            :disabled="!profileForm.valid"
+                                        >
+                                            <v-icon left>mdi-content-save</v-icon>
+                                            Сохранить изменения
+                                        </v-btn>
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== НОМЕРА (CRUD) ========== -->
+                        <div v-if="isAuthenticated && currentView === 'rooms'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-bed</v-icon>
+                                    Управление номерами
+                                    <v-spacer></v-spacer>
+                                    <v-text-field
+                                        v-model="rooms.search"
+                                        append-icon="mdi-magnify"
+                                        label="Поиск номеров..."
+                                        single-line
+                                        hide-details
+                                        outlined
+                                        dense
+                                        class="mr-4"
+                                    ></v-text-field>
+                                    <v-btn color="primary" @click="openRoomDialog()">
+                                        <v-icon left>mdi-plus</v-icon>
+                                        Добавить номер
+                                    </v-btn>
+                                </v-card-title>
+
+                                <v-data-table
+                                    :headers="rooms.headers"
+                                    :items="rooms.items"
+                                    :search="rooms.search"
+                                    :loading="rooms.loading"
+                                    class="elevation-1"
+                                >
+                                    <template v-slot:item.is_available="{ item }">
+                                        <v-chip :color="item.is_available ? 'success' : 'error'" dark small>
+                                            [[ item.is_available ? 'Свободен' : 'Занят' ]]
+                                        </v-chip>
+                                    </template>
+
+                                    <template v-slot:item.has_phone="{ item }">
+                                        <v-icon :color="item.has_phone ? 'green' : 'red'">
+                                            [[ item.has_phone ? 'mdi-phone' : 'mdi-phone-off' ]]
+                                        </v-icon>
+                                    </template>
+
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="editRoom(item)" v-on="on" color="primary">
+                                                    <v-icon small>mdi-pencil</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Редактировать</span>
+                                        </v-tooltip>
+
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="deleteRoom(item)" v-on="on" color="error">
+                                                    <v-icon small>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Удалить</span>
+                                        </v-tooltip>
+                                    </template>
+                                </v-data-table>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== КЛИЕНТЫ (CRUD) ========== -->
+                        <div v-if="isAuthenticated && currentView === 'clients'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-account-group</v-icon>
+                                    Управление клиентами
+                                    <v-spacer></v-spacer>
+                                    <v-text-field
+                                        v-model="clients.search"
+                                        append-icon="mdi-magnify"
+                                        label="Поиск клиентов..."
+                                        single-line
+                                        hide-details
+                                        outlined
+                                        dense
+                                        class="mr-4"
+                                    ></v-text-field>
+                                    <v-btn color="primary" @click="openClientDialog()">
+                                        <v-icon left>mdi-plus</v-icon>
+                                        Добавить клиента
+                                    </v-btn>
+                                </v-card-title>
+
+                                <v-data-table
+                                    :headers="clients.headers"
+                                    :items="clients.items"
+                                    :search="clients.search"
+                                    :loading="clients.loading"
+                                    class="elevation-1"
+                                >
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="editClient(item)" v-on="on" color="primary">
+                                                    <v-icon small>mdi-pencil</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Редактировать</span>
+                                        </v-tooltip>
+
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="deleteClient(item)" v-on="on" color="error">
+                                                    <v-icon small>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Удалить</span>
+                                        </v-tooltip>
+                                    </template>
+                                </v-data-table>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== СОТРУДНИКИ (CRUD) ========== -->
+                        <div v-if="isAuthenticated && currentView === 'staff'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-account-tie</v-icon>
+                                    Управление сотрудниками
+                                    <v-spacer></v-spacer>
+                                    <v-text-field
+                                        v-model="staff.search"
+                                        append-icon="mdi-magnify"
+                                        label="Поиск сотрудников..."
+                                        single-line
+                                        hide-details
+                                        outlined
+                                        dense
+                                        class="mr-4"
+                                    ></v-text-field>
+                                    <v-btn color="primary" @click="openStaffDialog()">
+                                        <v-icon left>mdi-plus</v-icon>
+                                        Добавить сотрудника
+                                    </v-btn>
+                                </v-card-title>
+
+                                <v-data-table
+                                    :headers="staff.headers"
+                                    :items="staff.items"
+                                    :search="staff.search"
+                                    :loading="staff.loading"
+                                    class="elevation-1"
+                                >
+                                    <template v-slot:item.is_active="{ item }">
+                                        <v-chip :color="item.is_active ? 'success' : 'error'" dark small>
+                                            [[ item.is_active ? 'Работает' : 'Уволен' ]]
+                                        </v-chip>
+                                    </template>
+
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="editStaff(item)" v-on="on" color="primary">
+                                                    <v-icon small>mdi-pencil</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Редактировать</span>
+                                        </v-tooltip>
+
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="toggleStaffStatus(item)" v-on="on" :color="item.is_active ? 'error' : 'success'">
+                                                    <v-icon small>[[ item.is_active ? 'mdi-account-remove' : 'mdi-account-check' ]]</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>[[ item.is_active ? 'Уволить' : 'Нанять' ]]</span>
+                                        </v-tooltip>
+                                    </template>
+                                </v-data-table>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== ТИПЫ НОМЕРОВ (CRUD) ========== -->
+                        <div v-if="isAuthenticated && currentView === 'roomTypes'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-bed-empty</v-icon>
+                                    Типы номеров
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" @click="openRoomTypeDialog()">
+                                        <v-icon left>mdi-plus</v-icon>
+                                        Добавить тип
+                                    </v-btn>
+                                </v-card-title>
+
+                                <v-row class="pa-4">
+                                    <v-col cols="12" md="4" v-for="roomType in roomTypes" :key="roomType.id">
+                                        <v-card class="mb-4">
+                                            <v-card-title>[[ roomType.name ]]</v-card-title>
+                                            <v-card-text>
+                                                <p><strong>Вместимость:</strong> [[ roomType.capacity ]] человек</p>
+                                                <p><strong>Цена за сутки:</strong> [[ roomType.price_per_night ]] руб.</p>
+                                                <p v-if="roomType.description">[[ roomType.description ]]</p>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-btn small color="primary" @click="editRoomType(roomType)">
+                                                    <v-icon small left>mdi-pencil</v-icon>
+                                                    Изменить
+                                                </v-btn>
+                                                <v-btn small color="error" @click="deleteRoomType(roomType)">
+                                                    <v-icon small left>mdi-delete</v-icon>
+                                                    Удалить
+                                                </v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </div>
+
+                        <!-- ===== УСЛУГИ ГОСТИНИЦЫ ===== -->
+<div v-if="currentView === 'hotelServices'">
+    <h1 class="mb-6">Услуги гостиницы</h1>
+
+    <v-card>
+        <v-card-title>
+            <v-icon left color="indigo">mdi-room-service</v-icon>
+            Список услуг
+        </v-card-title>
+
+        <v-data-table
+            :headers="services.headers"
+            :items="services.items"
+            :loading="services.loading"
+            class="elevation-1"
+        >
+            <template v-slot:item.name="{ item }">
+                <strong>[[ item.name ]]</strong>
+            </template>
+
+            <template v-slot:item.description="{ item }">
+                <span class="grey--text text--darken-1">
+                    [[ item.description ]]
+                </span>
+            </template>
+
+            <template v-slot:no-data>
+                <v-alert type="info">
+                    Услуги не найдены
+                </v-alert>
+            </template>
+        </v-data-table>
+    </v-card>
+</div>
+
+
+                        <!-- ========== ПРОЖИВАНИЯ (CRUD) ========== -->
+                        <div v-if="isAuthenticated && currentView === 'stays'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-calendar-check</v-icon>
+                                    Проживания клиентов
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" @click="openStayDialog()">
+                                        <v-icon left>mdi-plus</v-icon>
+                                        Новое проживание
+                                    </v-btn>
+                                </v-card-title>
+
+                                <v-data-table
+                                    :headers="stays.headers"
+                                    :items="stays.items"
+                                    :loading="stays.loading"
+                                    class="elevation-1"
+                                >
+                                    <template v-slot:item.check_out_date="{ item }">
+                                        <span v-if="item.check_out_date">[[ formatDate(item.check_out_date) ]]</span>
+                                        <v-chip v-else color="warning" dark small>Текущее</v-chip>
+                                    </template>
+
+                                    <template v-slot:item.total_cost="{ item }">
+                                        [[ item.total_cost ]] руб.
+                                    </template>
+
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn icon small @click="checkOutClient(item)" v-on="on" color="error" v-if="!item.check_out_date">
+                                                    <v-icon small>mdi-logout</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Выселить клиента</span>
+                                        </v-tooltip>
+                                    </template>
+                                </v-data-table>
+                            </v-card>
+                        </div>
+
+                        <!-- ========== АНАЛИТИЧЕСКИЕ ЗАПРОСЫ ========== -->
+                        <div v-if="isAuthenticated && currentView === 'analytics'">
+                            <h1 class="display-1 mb-6">Аналитические запросы</h1>
+
+                            <v-row>
+                                <!-- Клиенты из города -->
+                                <v-col cols="12" md="6">
+                                    <v-card class="analytics-card">
+                                        <v-card-title>
+                                            <v-icon left color="blue">mdi-city</v-icon>
+                                            Клиенты из города
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-select
+                                                v-model="analytics.city"
+                                                :items="cities"
+                                                label="Выберите город"
+                                                outlined
+                                                dense
+                                            ></v-select>
+                                            <v-btn @click="getClientsByCity" color="blue" dark block>
+                                                <v-icon left>mdi-chart-pie</v-icon>
+                                                Получить статистику
+                                            </v-btn>
+                                            <div v-if="analytics.clientsByCity !== null" class="mt-4 text-center">
+                                                <h3 class="headline">[[ analytics.clientsByCity ]]</h3>
+                                                <p class="subtitle-1">клиентов из [[ analytics.city ]]</p>
+                                            </div>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+
+                                <!-- Свободные номера -->
+                                <v-col cols="12" md="6">
+                                    <v-card class="analytics-card">
+                                        <v-card-title>
+                                            <v-icon left color="green">mdi-bed-empty</v-icon>
+                                            Свободные номера
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <div class="text-center py-6">
+                                                <h1 class="display-3">[[ availableRoomsCount ]]</h1>
+                                                <p class="subtitle-1">свободных номеров</p>
+                                            </div>
+                                            <v-btn @click="loadRooms" color="green" dark block>
+                                                <v-icon left>mdi-refresh</v-icon>
+                                                Обновить
+                                            </v-btn>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </div>
+
+                        <!-- ========== КВАРТАЛЬНЫЙ ОТЧЕТ ========== -->
+                        <div v-if="isAuthenticated && currentView === 'quarterlyReport'">
+                            <v-card>
+                                <v-card-title>
+                                    <v-icon left>mdi-file-chart</v-icon>
+                                    Квартальный отчет
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-row>
+                                        <v-col cols="12" md="3">
+                                            <v-select
+                                                v-model="quarterReport.year"
+                                                :items="[2023, 2024, 2025]"
+                                                label="Год"
+                                                outlined
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="12" md="3">
+                                            <v-select
+                                                v-model="quarterReport.quarter"
+                                                :items="[
+                                                    { text: 'Первый квартал', value: 1 },
+                                                    { text: 'Второй квартал', value: 2 },
+                                                    { text: 'Третий квартал', value: 3 },
+                                                    { text: 'Четвертый квартал', value: 4 }
+                                                ]"
+                                                label="Квартал"
+                                                outlined
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="12" md="6">
+                                            <v-btn @click="generateQuarterlyReport" color="primary" large block :loading="quarterReport.loading">
+                                                <v-icon left>mdi-file-export</v-icon>
+                                                Сформировать отчет
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-divider class="my-6"></v-divider>
+
+                                    <!-- Результаты отчета -->
+                                    <div v-if="quarterReport.data">
+                                        <h3 class="headline mb-4">Отчет за [[ quarterReport.data.period ]]</h3>
+
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <v-card color="blue-grey lighten-5">
+                                                    <v-card-title>Общая статистика</v-card-title>
+                                                    <v-card-text>
+                                                        <v-list>
+                                                            <v-list-item>
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title>Общий доход</v-list-item-title>
+                                                                    <v-list-item-subtitle class="headline">[[ quarterReport.data.total_income ]] руб.</v-list-item-subtitle>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                            <v-list-item>
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title>Всего клиентов</v-list-item-title>
+                                                                    <v-list-item-subtitle class="title">[[ quarterReport.data.total_clients ]]</v-list-item-subtitle>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-card-text>
+                                                </v-card>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-card color="blue-grey lighten-5">
+                                                    <v-card-title>Номера по этажам</v-card-title>
+                                                    <v-card-text>
+                                                        <v-list dense>
+                                                            <v-list-item v-for="floor in quarterReport.data.rooms_by_floor" :key="floor.floor">
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title>[[ floor.floor ]] этаж</v-list-item-title>
+                                                                </v-list-item-content>
+                                                                <v-list-item-action>
+                                                                    [[ floor.room_count ]] номеров
+                                                                </v-list-item-action>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-card-text>
+                                                </v-card>
+                                            </v-col>
+                                        </v-row>
+
+                                        <!-- Детальная статистика по номерам -->
+                                        <v-card class="mt-6">
+                                            <v-card-title>Статистика по номерам</v-card-title>
+                                            <v-data-table
+                                                :headers="quarterReport.headers"
+                                                :items="quarterReport.data.room_statistics"
+                                                class="elevation-1"
+                                            >
+                                                <template v-slot:item.total_income="{ item }">
+                                                    [[ item.total_income ]] руб.
+                                                </template>
+                                            </v-data-table>
+                                        </v-card>
+                                    </div>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+
+                    </v-container>
+                </v-main>
+
+                <!-- ========== ДИАЛОГИ ДЛЯ ФОРМ ========== -->
+
+                <!-- Диалог для номера -->
+                <v-dialog v-model="showRoomDialog" max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">[[ editedRoom.id ? 'Редактирование' : 'Новый номер' ]]</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-form ref="roomForm">
+                                <v-text-field
+                                    v-model="editedRoom.room_number"
+                                    label="Номер комнаты"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedRoom.floor"
+                                    label="Этаж"
+                                    type="number"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-select
+                                    v-model="editedRoom.room_type"
+                                    :items="roomTypes"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Тип номера"
+                                    required
+                                    outlined
+                                ></v-select>
+
+                                <v-switch
+                                    v-model="editedRoom.has_phone"
+                                    label="Наличие телефона"
+                                ></v-switch>
+
+                                <v-switch
+                                    v-model="editedRoom.is_available"
+                                    label="Доступен для заселения"
+                                ></v-switch>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="closeRoomDialog">Отмена</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveRoom">Сохранить</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- Диалог для клиента -->
+                <v-dialog v-model="showClientDialog" max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">[[ editedClient.id ? 'Редактирование' : 'Новый клиент' ]]</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-form ref="clientForm">
+                                <v-text-field
+                                    v-model="editedClient.passport_number"
+                                    label="Номер паспорта"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedClient.last_name"
+                                    label="Фамилия"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedClient.first_name"
+                                    label="Имя"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedClient.middle_name"
+                                    label="Отчество"
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedClient.city"
+                                    label="Город"
+                                    required
+                                    outlined
+                                ></v-text-field>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="closeClientDialog">Отмена</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveClient">Сохранить</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- Диалог для сотрудника -->
+                <v-dialog v-model="showStaffDialog" max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">[[ editedStaff.id ? 'Редактирование' : 'Новый сотрудник' ]]</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-form ref="staffForm">
+                                <v-select
+                                    v-model="editedStaff.user"
+                                    :items="users"
+                                    item-text="email"
+                                    item-value="id"
+                                    label="Пользователь"
+                                    required
+                                    outlined
+                                ></v-select>
+
+                                <v-text-field
+                                    v-model="editedStaff.last_name"
+                                    label="Фамилия"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedStaff.first_name"
+                                    label="Имя"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedStaff.middle_name"
+                                    label="Отчество"
+                                    outlined
+                                ></v-text-field>
+
+                                <v-switch
+                                    v-model="editedStaff.is_active"
+                                    label="Работает"
+                                ></v-switch>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="closeStaffDialog">Отмена</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveStaff">Сохранить</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- Диалог для типа номера -->
+                <v-dialog v-model="showRoomTypeDialog" max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">[[ editedRoomType.id ? 'Редактирование' : 'Новый тип номера' ]]</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-form ref="roomTypeForm">
+                                <v-text-field
+                                    v-model="editedRoomType.name"
+                                    label="Название типа"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedRoomType.capacity"
+                                    label="Вместимость"
+                                    type="number"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="editedRoomType.price_per_night"
+                                    label="Цена за сутки"
+                                    type="number"
+                                    required
+                                    outlined
+                                ></v-text-field>
+
+                                <v-textarea
+                                    v-model="editedRoomType.description"
+                                    label="Описание"
+                                    outlined
+                                ></v-textarea>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="closeRoomTypeDialog">Отмена</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveRoomType">Сохранить</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- Диалог для проживания -->
+                <v-dialog v-model="showStayDialog" max-width="600px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">[[ editedStay.id ? 'Редактирование' : 'Новое проживание' ]]</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-form ref="stayForm">
+                                <v-select
+                                    v-model="editedStay.client"
+                                    :items="clients.items"
+                                    item-text="last_name"
+                                    item-value="id"
+                                    label="Клиент"
+                                    required
+                                    outlined
+                                ></v-select>
+
+                                <v-select
+                                    v-model="editedStay.room"
+                                    :items="availableRoomsForStay"
+                                    item-text="room_number"
+                                    item-value="id"
+                                    label="Номер"
+                                    required
+                                    outlined
+                                ></v-select>
+
+                                <v-menu
+                                    v-model="stayDateMenu"
+                                    :close-on-content-click="false"
+                                    transition="scale-transition"
+                                    offset-y
+                                    min-width="auto"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="editedStay.check_in_date"
+                                            label="Дата заселения"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            outlined
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                        v-model="editedStay.check_in_date"
+                                        @input="stayDateMenu = false"
+                                    ></v-date-picker>
+                                </v-menu>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="closeStayDialog">Отмена</v-btn>
+                            <v-btn color="blue darken-1" text @click="saveStay">Сохранить</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <!-- Snackbar для уведомлений -->
+                <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000">
+                    [[ snackbar.text ]]
+                    <template v-slot:action="{ attrs }">
+                        <v-btn text v-bind="attrs" @click="snackbar.show = false">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </template>
+                </v-snackbar>
+
+            </v-app>
+        </template>
+    </div>
+
+    <script>
+        // Используем пользовательские разделители для Vue, чтобы избежать конфликта с Django
+        Vue.config.delimiters = ['[[', ']]'];
+
+        new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            vuetify: new Vuetify({
+                theme: {
+                    themes: {
+                        light: {
+                            primary: '#1976D2',
+                            secondary: '#424242',
+                            accent: '#82B1FF',
+                            error: '#FF5252',
+                            info: '#2196F3',
+                            success: '#4CAF50',
+                            warning: '#FFC107'
+                        }
+                    }
+                }
+            }),
+            data: () => ({
+                // Состояние приложения
+                loading: true,
+                drawer: true,
+                currentView: 'dashboard',
+                isAuthenticated: false,
+                token: localStorage.getItem('token') || null,
+
+                // Пользователь
+                user: {
+                    email: '',
+                    username: ''
+                },
+
+                // Статистика
+                dashboardStats: [
+                    { title: 'Всего номеров', value: 0, icon: 'mdi-bed', color: 'blue', description: 'Все номера' },
+                    { title: 'Свободные номера', value: 0, icon: 'mdi-bed-empty', color: 'green', description: 'Доступно сейчас' },
+                    { title: 'Клиенты', value: 0, icon: 'mdi-account-group', color: 'orange', description: 'Всего клиентов' },
+                    { title: 'Сотрудники', value: 0, icon: 'mdi-account-tie', color: 'purple', description: 'Весь персонал' }
+                ],
+
+                // Последние клиенты
+                recentClients: [],
+
+                // Свободные номера
+                availableRoomsCount: 0,
+                availableRoomsList: [],
+
+                // Формы
+                loginForm: {
+                    email: '',
+                    password: '',
+                    valid: false,
+                    loading: false,
+                    error: null
+                },
+
+                registerForm: {
+                    email: '',
+                    username: '',
+                    password: '',
+                    passwordConfirm: '',
+                    valid: false,
+                    loading: false,
+                    error: null
+                },
+
+                profileForm: {
+                    username: '',
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                    valid: false,
+                    loading: false,
+                    error: null,
+                    success: null
+                },
+
+                // Модели данных
+                rooms: {
+                    search: '',
+                    loading: false,
+                    headers: [
+                        { text: 'Номер', value: 'room_number' },
+                        { text: 'Этаж', value: 'floor' },
+                        { text: 'Тип', value: 'room_type_name' },
+                        { text: 'Телефон', value: 'has_phone' },
+                        { text: 'Статус', value: 'is_available' },
+                        { text: 'Действия', value: 'actions', sortable: false }
+                    ],
+                    items: []
+                },
+
+                clients: {
+                    search: '',
+                    loading: false,
+                    headers: [
+                        { text: 'Паспорт', value: 'passport_number' },
+                        { text: 'Фамилия', value: 'last_name' },
+                        { text: 'Имя', value: 'first_name' },
+                        { text: 'Отчество', value: 'middle_name' },
+                        { text: 'Город', value: 'city' },
+                        { text: 'Дата заселения', value: 'check_in_date' },
+                        { text: 'Действия', value: 'actions', sortable: false }
+                    ],
+                    items: []
+                },
+
+                staff: {
+                    search: '',
+                    loading: false,
+                    headers: [
+                        { text: 'Фамилия', value: 'last_name' },
+                        { text: 'Имя', value: 'first_name' },
+                        { text: 'Отчество', value: 'middle_name' },
+                        { text: 'Статус', value: 'is_active' },
+                        { text: 'Email', value: 'user_email' },
+                        { text: 'Действия', value: 'actions', sortable: false }
+                    ],
+                    items: []
+                },
+
+                stays: {
+                    loading: false,
+                    headers: [
+                        { text: 'Клиент', value: 'client_name' },
+                        { text: 'Номер', value: 'room_number' },
+                        { text: 'Заселение', value: 'check_in_date' },
+                        { text: 'Выселение', value: 'check_out_date' },
+                        { text: 'Стоимость', value: 'total_cost' },
+                        { text: 'Действия', value: 'actions', sortable: false }
+                    ],
+                    items: []
+                },
+                services: {
+                    loading: false,
+                    headers: [
+                        { text: 'Название услуги', value: 'name' },
+                        { text: 'Описание', value: 'description' }
+                    ],
+                    items: []
+                },
+
+                // Аналитика
+                analytics: {
+                    city: 'Москва',
+                    clientsByCity: null,
+                    selectedClient: null,
+                    selectedDay: 'MON',
+                    selectedRoom: null,
+                    dateRange: [],
+                    dateMenu: false,
+                    cleanerResult: null
+                },
+
+                cities: ['Москва', 'Санкт-Петербург', 'Казань', 'Новосибирск', 'Екатеринбург'],
+                daysOfWeek: [
+                    { text: 'Понедельник', value: 'MON' },
+                    { text: 'Вторник', value: 'TUE' },
+                    { text: 'Среда', value: 'WED' },
+                    { text: 'Четверг', value: 'THU' },
+                    { text: 'Пятница', value: 'FRI' },
+                    { text: 'Суббота', value: 'SAT' },
+                    { text: 'Воскресенье', value: 'SUN' }
+                ],
+
+                // Квартальный отчет
+                quarterReport: {
+                    year: new Date().getFullYear(),
+                    quarter: 1,
+                    loading: false,
+                    data: null,
+                    headers: [
+                        { text: 'Номер комнаты', value: 'room__room_number' },
+                        { text: 'Тип номера', value: 'room__room_type__name' },
+                        { text: 'Количество клиентов', value: 'client_count' },
+                        { text: 'Общий доход', value: 'total_income' }
+                    ]
+                },
+
+                // Диалоги
+                showRoomDialog: false,
+                showClientDialog: false,
+                showStaffDialog: false,
+                showRoomTypeDialog: false,
+                showStayDialog: false,
+                stayDateMenu: false,
+
+                // Редактируемые объекты
+                editedRoom: {
+                    id: null,
+                    room_number: '',
+                    floor: 1,
+                    room_type: null,
+                    has_phone: true,
+                    is_available: true
+                },
+
+                editedClient: {
+                    id: null,
+                    passport_number: '',
+                    last_name: '',
+                    first_name: '',
+                    middle_name: '',
+                    city: ''
+                },
+
+                editedStaff: {
+                    id: null,
+                    user: null,
+                    last_name: '',
+                    first_name: '',
+                    middle_name: '',
+                    is_active: true
+                },
+
+                editedRoomType: {
+                    id: null,
+                    name: '',
+                    capacity: 1,
+                    price_per_night: 0,
+                    description: ''
+                },
+
+                editedStay: {
+                    id: null,
+                    client: null,
+                    room: null,
+                    check_in_date: new Date().toISOString().substr(0, 10),
+                    check_out_date: null
+                },
+
+                // Данные для выпадающих списков
+                roomTypes: [],
+                users: [],
+                availableRoomsForStay: [],
+
+                // Snackbar
+                snackbar: {
+                    show: false,
+                    text: '',
+                    color: 'success'
+                },
+
+                // Правила валидации
+                emailRules: [
+                    v => !!v || 'Email обязателен',
+                    v => /.+@.+\..+/.test(v) || 'Email должен быть валидным'
+                ],
+                usernameRules: [
+                    v => !!v || 'Имя пользователя обязательно',
+                    v => v.length >= 3 || 'Минимум 3 символа'
+                ],
+                passwordRules: [
+                    v => !!v || 'Пароль обязателен',
+                    v => v.length >= 6 || 'Минимум 6 символов'
+                ]
+            }),
+
+            created() {
+                this.initApp();
+                this.loadHotelServices();
+
+            },
+
+            mounted() {
+                this.loading = false;
+            },
+
+            watch: {
+                token(newToken) {
+                    if (newToken) {
+                        axios.defaults.headers.common['Authorization'] = 'Token ' + newToken;
+                    } else {
+                        delete axios.defaults.headers.common['Authorization'];
+                    }
+                }
+            },
+
+            methods: {
+                // Инициализация приложения
+                initApp() {
+                    axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+                    if (this.token) {
+                        axios.defaults.headers.common['Authorization'] = 'Token ' + this.token;
+                        this.checkAuth();
+                    } else {
+                        this.currentView = 'login';
+                    }
+                },
+
+                async loadHotelServices() {
+    this.services.loading = true;
+
+    try {
+        const response = await axios.get('/api/hotel-services/');
+        this.services.items = response.data;
+    } catch (error) {
+        console.error('Ошибка загрузки услуг:', error);
+        this.showSnackbar
+            ? this.showSnackbar('Ошибка загрузки услуг', 'error')
+            : alert('Ошибка загрузки услуг');
+    } finally {
+        this.services.loading = false;
+    }
+},
+
+                // Проверка аутентификации
+                async checkAuth() {
+                    try {
+                        const response = await axios.get('/auth/users/me/');
+                        this.user = response.data;
+                        this.isAuthenticated = true;
+                        this.currentView = 'dashboard';
+                        await this.loadDashboardData();
+                        this.showSnackbar('Добро пожаловать!', 'success');
+                    } catch (error) {
+                        console.error('Ошибка аутентификации:', error);
+                        this.logout();
+                    }
+                },
+
+                // Вход в систему
+                async login() {
+                    this.loginForm.loading = true;
+                    this.loginForm.error = null;
+
+                    try {
+                        const response = await axios.post('/auth/token/login/', {
+                            email: this.loginForm.email,
+                            password: this.loginForm.password
+                        });
+
+                        this.token = response.data.auth_token;
+                        localStorage.setItem('token', this.token);
+                        await this.checkAuth();
+                        this.showSnackbar('Вход выполнен успешно', 'success');
+                    } catch (error) {
+                        console.error('Ошибка входа:', error);
+                        this.loginForm.error = 'Ошибка входа. Проверьте email и пароль.';
+                        this.showSnackbar('Ошибка входа', 'error');
+                    } finally {
+                        this.loginForm.loading = false;
+                    }
+                },
+
+                // Регистрация
+                async register() {
+                    if (this.registerForm.password !== this.registerForm.passwordConfirm) {
+                        this.registerForm.error = 'Пароли не совпадают';
+                        return;
+                    }
+
+                    this.registerForm.loading = true;
+                    this.registerForm.error = null;
+
+                    try {
+                        await axios.post('/auth/users/', {
+                            email: this.registerForm.email,
+                            username: this.registerForm.username,
+                            password: this.registerForm.password
+                        });
+
+                        // Автоматический вход после регистрации
+                        await this.login();
+                        this.showSnackbar('Регистрация выполнена успешно', 'success');
+                    } catch (error) {
+                        console.error('Ошибка регистрации:', error);
+                        this.registerForm.error = error.response?.data?.email?.[0] || 'Ошибка регистрации';
+                        this.showSnackbar('Ошибка регистрации', 'error');
+                    } finally {
+                        this.registerForm.loading = false;
+                    }
+                },
+
+                // Выход из системы
+                logout() {
+                    localStorage.removeItem('token');
+                    this.token = null;
+                    this.isAuthenticated = false;
+                    this.currentView = 'login';
+                    this.showSnackbar('Вы вышли из системы', 'info');
+                },
+
+                // Обновление профиля
+                async updateProfile() {
+                    this.profileForm.loading = true;
+                    this.profileForm.error = null;
+                    this.profileForm.success = null;
+
+                    try {
+                        // Обновление данных пользователя
+                        await axios.put('/auth/users/me/', {
+                            username: this.profileForm.username
+                        });
+
+                        // Смена пароля, если указан новый
+                        if (this.profileForm.newPassword && this.profileForm.currentPassword) {
+                            if (this.profileForm.newPassword !== this.profileForm.confirmPassword) {
+                                throw new Error('Новые пароли не совпадают');
+                            }
+
+                            await axios.post('/auth/users/set_password/', {
+                                current_password: this.profileForm.currentPassword,
+                                new_password: this.profileForm.newPassword
+                            });
+                        }
+
+                        this.profileForm.success = 'Профиль успешно обновлен';
+                        this.showSnackbar('Профиль обновлен', 'success');
+
+                        // Обновляем данные пользователя
+                        await this.loadUserData();
+                    } catch (error) {
+                        console.error('Ошибка обновления профиля:', error);
+                        this.profileForm.error = error.response?.data?.detail || error.message;
+                        this.showSnackbar('Ошибка обновления профиля', 'error');
+                    } finally {
+                        this.profileForm.loading = false;
+                    }
+                },
+
+                // Загрузка данных пользователя
+                async loadUserData() {
+                    try {
+                        const response = await axios.get('/auth/users/me/');
+                        this.user = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки данных пользователя:', error);
+                    }
+                },
+
+                // Загрузка данных для дашборда
+                async loadDashboardData() {
+                    try {
+                        await Promise.all([
+                            this.loadRooms(),
+                            this.loadClients(),
+                            this.loadStaff(),
+                            this.loadStays(),
+                            this.loadRoomTypes(),
+                            this.loadUsers(),
+                            this.loadAvailableRooms()
+                        ]);
+                        this.updateDashboardStats();
+                        this.loadRecentClients();
+                    } catch (error) {
+                        console.error('Ошибка загрузки данных дашборда:', error);
+                    }
+                },
+
+                // Обновление статистики на дашборде
+                updateDashboardStats() {
+                    this.dashboardStats[0].value = this.rooms.items.length;
+                    this.dashboardStats[1].value = this.availableRoomsCount;
+                    this.dashboardStats[2].value = this.clients.items.length;
+                    this.dashboardStats[3].value = this.staff.items.length;
+                },
+
+                // Загрузка последних клиентов
+                loadRecentClients() {
+                    this.recentClients = [...this.clients.items]
+                        .sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date))
+                        .slice(0, 5);
+                },
+
+                // Загрузка свободных номеров
+                async loadAvailableRooms() {
+                    try {
+                        const response = await axios.get('/api/rooms/available_rooms/');
+                        this.availableRoomsCount = response.data.available_rooms;
+
+                        // Получаем список свободных номеров
+                        this.availableRoomsList = this.rooms.items.filter(room => room.is_available);
+                        this.availableRoomsForStay = this.rooms.items.filter(room => room.is_available);
+                    } catch (error) {
+                        console.error('Ошибка загрузки свободных номеров:', error);
+                    }
+                },
+
+                // CRUD для номеров
+                async loadRooms() {
+                    try {
+                        this.rooms.loading = true;
+                        const response = await axios.get('/api/rooms/');
+                        this.rooms.items = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки номеров:', error);
+                    } finally {
+                        this.rooms.loading = false;
+                    }
+                },
+
+                openRoomDialog(room = null) {
+                    if (room) {
+                        this.editedRoom = { ...room };
+                    } else {
+                        this.editedRoom = {
+                            id: null,
+                            room_number: '',
+                            floor: 1,
+                            room_type: null,
+                            has_phone: true,
+                            is_available: true
+                        };
+                    }
+                    this.showRoomDialog = true;
+                },
+
+                closeRoomDialog() {
+                    this.showRoomDialog = false;
+                    this.editedRoom = {
+                        id: null,
+                        room_number: '',
+                        floor: 1,
+                        room_type: null,
+                        has_phone: true,
+                        is_available: true
+                    };
+                },
+
+                async saveRoom() {
+                    try {
+                        if (this.editedRoom.id) {
+                            await axios.put(`/api/rooms/${this.editedRoom.id}/`, this.editedRoom);
+                            this.showSnackbar('Номер обновлен', 'success');
+                        } else {
+                            await axios.post('/api/rooms/', this.editedRoom);
+                            this.showSnackbar('Номер создан', 'success');
+                        }
+
+                        await this.loadRooms();
+                        await this.loadAvailableRooms();
+                        this.updateDashboardStats();
+                        this.closeRoomDialog();
+                    } catch (error) {
+                        console.error('Ошибка сохранения номера:', error);
+                        this.showSnackbar('Ошибка сохранения номера', 'error');
+                    }
+                },
+
+                async deleteRoom(room) {
+                    if (confirm(`Удалить номер ${room.room_number}?`)) {
+                        try {
+                            await axios.delete(`/api/rooms/${room.id}/`);
+                            await this.loadRooms();
+                            await this.loadAvailableRooms();
+                            this.updateDashboardStats();
+                            this.showSnackbar('Номер удален', 'success');
+                        } catch (error) {
+                            console.error('Ошибка удаления номера:', error);
+                            this.showSnackbar('Ошибка удаления номера', 'error');
+                        }
+                    }
+                },
+
+                // CRUD для клиентов
+                async loadClients() {
+                    try {
+                        this.clients.loading = true;
+                        const response = await axios.get('/api/clients/');
+                        this.clients.items = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки клиентов:', error);
+                    } finally {
+                        this.clients.loading = false;
+                    }
+                },
+
+                openClientDialog(client = null) {
+                    if (client) {
+                        this.editedClient = { ...client };
+                    } else {
+                        this.editedClient = {
+                            id: null,
+                            passport_number: '',
+                            last_name: '',
+                            first_name: '',
+                            middle_name: '',
+                            city: ''
+                        };
+                    }
+                    this.showClientDialog = true;
+                },
+
+                closeClientDialog() {
+                    this.showClientDialog = false;
+                    this.editedClient = {
+                        id: null,
+                        passport_number: '',
+                        last_name: '',
+                        first_name: '',
+                        middle_name: '',
+                        city: ''
+                    };
+                },
+
+                async saveClient() {
+                    try {
+                        if (this.editedClient.id) {
+                            await axios.put(`/api/clients/${this.editedClient.id}/`, this.editedClient);
+                            this.showSnackbar('Клиент обновлен', 'success');
+                        } else {
+                            await axios.post('/api/clients/', this.editedClient);
+                            this.showSnackbar('Клиент создан', 'success');
+                        }
+
+                        await this.loadClients();
+                        this.updateDashboardStats();
+                        this.loadRecentClients();
+                        this.closeClientDialog();
+                    } catch (error) {
+                        console.error('Ошибка сохранения клиента:', error);
+                        this.showSnackbar('Ошибка сохранения клиента', 'error');
+                    }
+                },
+
+                async deleteClient(client) {
+                    if (confirm(`Удалить клиента ${client.last_name} ${client.first_name}?`)) {
+                        try {
+                            await axios.delete(`/api/clients/${client.id}/`);
+                            await this.loadClients();
+                            this.updateDashboardStats();
+                            this.showSnackbar('Клиент удален', 'success');
+                        } catch (error) {
+                            console.error('Ошибка удаления клиента:', error);
+                            this.showSnackbar('Ошибка удаления клиента', 'error');
+                        }
+                    }
+                },
+
+                // CRUD для сотрудников
+                async loadStaff() {
+                    try {
+                        this.staff.loading = true;
+                        const response = await axios.get('/api/staff/');
+                        this.staff.items = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки сотрудников:', error);
+                    } finally {
+                        this.staff.loading = false;
+                    }
+                },
+
+                openStaffDialog(staff = null) {
+                    if (staff) {
+                        this.editedStaff = { ...staff };
+                    } else {
+                        this.editedStaff = {
+                            id: null,
+                            user: null,
+                            last_name: '',
+                            first_name: '',
+                            middle_name: '',
+                            is_active: true
+                        };
+                    }
+                    this.showStaffDialog = true;
+                },
+
+                closeStaffDialog() {
+                    this.showStaffDialog = false;
+                    this.editedStaff = {
+                        id: null,
+                        user: null,
+                        last_name: '',
+                        first_name: '',
+                        middle_name: '',
+                        is_active: true
+                    };
+                },
+
+                async saveStaff() {
+                    try {
+                        if (this.editedStaff.id) {
+                            await axios.put(`/api/staff/${this.editedStaff.id}/`, this.editedStaff);
+                            this.showSnackbar('Сотрудник обновлен', 'success');
+                        } else {
+                            await axios.post('/api/staff/', this.editedStaff);
+                            this.showSnackbar('Сотрудник создан', 'success');
+                        }
+
+                        await this.loadStaff();
+                        this.updateDashboardStats();
+                        this.closeStaffDialog();
+                    } catch (error) {
+                        console.error('Ошибка сохранения сотрудника:', error);
+                        this.showSnackbar('Ошибка сохранения сотрудника', 'error');
+                    }
+                },
+
+                async toggleStaffStatus(staff) {
+                    const action = staff.is_active ? 'fire' : 'hire';
+                    const message = staff.is_active ? 'Уволить' : 'Нанять';
+
+                    if (confirm(`${message} сотрудника ${staff.last_name} ${staff.first_name}?`)) {
+                        try {
+                            await axios.post(`/api/staff/${staff.id}/${action}/`);
+                            await this.loadStaff();
+                            this.updateDashboardStats();
+                            this.showSnackbar(`Сотрудник ${staff.is_active ? 'уволен' : 'нанят'}`, 'success');
+                        } catch (error) {
+                            console.error('Ошибка изменения статуса сотрудника:', error);
+                            this.showSnackbar('Ошибка изменения статуса', 'error');
+                        }
+                    }
+                },
+
+                // CRUD для типов номеров
+                async loadRoomTypes() {
+                    try {
+                        const response = await axios.get('/api/room-types/');
+                        this.roomTypes = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки типов номеров:', error);
+                    }
+                },
+
+                openRoomTypeDialog(roomType = null) {
+                    if (roomType) {
+                        this.editedRoomType = { ...roomType };
+                    } else {
+                        this.editedRoomType = {
+                            id: null,
+                            name: '',
+                            capacity: 1,
+                            price_per_night: 0,
+                            description: ''
+                        };
+                    }
+                    this.showRoomTypeDialog = true;
+                },
+
+                closeRoomTypeDialog() {
+                    this.showRoomTypeDialog = false;
+                    this.editedRoomType = {
+                        id: null,
+                        name: '',
+                        capacity: 1,
+                        price_per_night: 0,
+                        description: ''
+                    };
+                },
+
+                async saveRoomType() {
+                    try {
+                        if (this.editedRoomType.id) {
+                            await axios.put(`/api/room-types/${this.editedRoomType.id}/`, this.editedRoomType);
+                            this.showSnackbar('Тип номера обновлен', 'success');
+                        } else {
+                            await axios.post('/api/room-types/', this.editedRoomType);
+                            this.showSnackbar('Тип номера создан', 'success');
+                        }
+
+                        await this.loadRoomTypes();
+                        this.closeRoomTypeDialog();
+                    } catch (error) {
+                        console.error('Ошибка сохранения типа номера:', error);
+                        this.showSnackbar('Ошибка сохранения типа номера', 'error');
+                    }
+                },
+
+                async deleteRoomType(roomType) {
+                    if (confirm(`Удалить тип номера "${roomType.name}"?`)) {
+                        try {
+                            await axios.delete(`/api/room-types/${roomType.id}/`);
+                            await this.loadRoomTypes();
+                            this.showSnackbar('Тип номера удален', 'success');
+                        } catch (error) {
+                            console.error('Ошибка удаления типа номера:', error);
+                            this.showSnackbar('Ошибка удаления типа номера', 'error');
+                        }
+                    }
+                },
+
+                // CRUD для проживаний
+                async loadStays() {
+                    try {
+                        this.stays.loading = true;
+                        const response = await axios.get('/api/stays/');
+                        this.stays.items = response.data;
+                    } catch (error) {
+                        console.error('Ошибка загрузки проживаний:', error);
+                    } finally {
+                        this.stays.loading = false;
+                    }
+                },
+
+                openStayDialog(stay = null) {
+                    if (stay) {
+                        this.editedStay = { ...stay };
+                    } else {
+                        this.editedStay = {
+                            id: null,
+                            client: null,
+                            room: null,
+                            check_in_date: new Date().toISOString().substr(0, 10),
+                            check_out_date: null
+                        };
+                    }
+                    this.showStayDialog = true;
+                },
+
+                closeStayDialog() {
+                    this.showStayDialog = false;
+                    this.editedStay = {
+                        id: null,
+                        client: null,
+                        room: null,
+                        check_in_date: new Date().toISOString().substr(0, 10),
+                        check_out_date: null
+                    };
+                },
+
+                async saveStay() {
+                    try {
+                        if (this.editedStay.id) {
+                            await axios.put(`/api/stays/${this.editedStay.id}/`, this.editedStay);
+                            this.showSnackbar('Проживание обновлено', 'success');
+                        } else {
+                            await axios.post('/api/stays/', this.editedStay);
+                            this.showSnackbar('Клиент заселен', 'success');
+                        }
+
+                        await this.loadStays();
+                        await this.loadRooms();
+                        await this.loadAvailableRooms();
+                        this.updateDashboardStats();
+                        this.closeStayDialog();
+                    } catch (error) {
+                        console.error('Ошибка сохранения проживания:', error);
+                        this.showSnackbar('Ошибка сохранения проживания', 'error');
+                    }
+                },
+
+                async checkOutClient(stay) {
+                    if (confirm(`Выселить клиента из номера ${stay.room_number}?`)) {
+                        try {
+                            await axios.post(`/api/stays/${stay.id}/check_out/`);
+                            await this.loadStays();
+                            await this.loadRooms();
+                            await this.loadAvailableRooms();
+                            this.updateDashboardStats();
+                            this.showSnackbar('Клиент выселен', 'success');
+                        } catch (error) {
+                            console.error('Ошибка выселения клиента:', error);
+                            this.showSnackbar('Ошибка выселения клиента', 'error');
+                        }
+                    }
+                },
+
+                // Загрузка пользователей для выпадающего списка
+                async loadUsers() {
+                    try {
+                        // Здесь должен быть endpoint для получения пользователей
+                        // В реальном приложении используйте соответствующий endpoint
+                        this.users = [];
+                    } catch (error) {
+                        console.error('Ошибка загрузки пользователей:', error);
+                    }
+                },
+
+                // Аналитические запросы
+                async getClientsByCity() {
+                    try {
+                        const response = await axios.get(`/api/clients/from_city/?city=${this.analytics.city}`);
+                        this.analytics.clientsByCity = response.data.count;
+                        this.showSnackbar(`Найдено ${response.data.count} клиентов из ${this.analytics.city}`, 'success');
+                    } catch (error) {
+                        console.error('Ошибка получения клиентов по городу:', error);
+                        this.showSnackbar('Ошибка получения данных', 'error');
+                    }
+                },
+
+                async findCleaner() {
+                    if (!this.analytics.selectedClient) {
+                        this.showSnackbar('Выберите клиента', 'warning');
+                        return;
+                    }
+
+                    try {
+                        const response = await axios.get(
+                            `/api/cleaning-schedule/cleaner_for_client_room/?client_id=${this.analytics.selectedClient.id}&day_of_week=${this.analytics.selectedDay}`
+                        );
+
+                        if (response.data.detail === 'Уборщик не найден') {
+                            this.analytics.cleanerResult = 'Уборщик не найден для выбранного дня';
+                        } else {
+                            this.analytics.cleanerResult = `Уборщик: ${response.data.staff_name}, Этаж: ${response.data.floor}, День: ${response.data.day_of_week_display}`;
+                        }
+                    } catch (error) {
+                        console.error('Ошибка поиска уборщика:', error);
+                        this.showSnackbar('Ошибка поиска уборщика', 'error');
+                    }
+                },
+
+                async getRoomHistory() {
+                    if (!this.analytics.selectedRoom || this.analytics.dateRange.length !== 2) {
+                        this.showSnackbar('Выберите номер и период', 'warning');
+                        return;
+                    }
+
+                    try {
+                        // Здесь должен быть вызов соответствующего endpoint
+                        // Временная реализация
+                        this.showSnackbar('Функция в разработке', 'info');
+                    } catch (error) {
+                        console.error('Ошибка получения истории номера:', error);
+                        this.showSnackbar('Ошибка получения истории', 'error');
+                    }
+                },
+
+                // Квартальный отчет
+                async generateQuarterlyReport() {
+                    this.quarterReport.loading = true;
+
+                    try {
+                        const response = await axios.get(
+                            `/api/stays/quarterly_report/?year=${this.quarterReport.year}&quarter=${this.quarterReport.quarter}`
+                        );
+
+                        this.quarterReport.data = response.data;
+                        this.showSnackbar('Отчет сформирован', 'success');
+                    } catch (error) {
+                        console.error('Ошибка формирования отчета:', error);
+                        this.showSnackbar('Ошибка формирования отчета', 'error');
+                    } finally {
+                        this.quarterReport.loading = false;
+                    }
+                },
+
+                // Вспомогательные методы
+                formatDate(dateString) {
+                    if (!dateString) return '';
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('ru-RU');
+                },
+
+                showSnackbar(text, color = 'success') {
+                    this.snackbar.text = text;
+                    this.snackbar.color = color;
+                    this.snackbar.show = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
