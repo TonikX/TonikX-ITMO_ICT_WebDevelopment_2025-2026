@@ -1,0 +1,176 @@
+{% extends "hotel_app/base.html" %}
+
+{% block title %}Номера - Управление гостиницей{% endblock %}
+
+{% block content %}
+<div class="rooms-container">
+    <v-card class="mb-6">
+        <v-card-title class="text-h5">
+            <v-icon icon="mdi-bed" class="mr-2"></v-icon>
+            Управление номерами
+        </v-card-title>
+        <v-card-text>
+            <v-row>
+                <v-col cols="12" md="4">
+                    <v-text-field
+                        v-model="search"
+                        label="Поиск по номеру"
+                        prepend-inner-icon="mdi-magnify"
+                        variant="outlined"
+                        clearable
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <v-select
+                        v-model="floorFilter"
+                        :items="[1, 2, 3]"
+                        label="Фильтр по этажу"
+                        variant="outlined"
+                        clearable
+                    ></v-select>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <v-select
+                        v-model="availabilityFilter"
+                        :items="[
+                            {title: 'Все', value: null},
+                            {title: 'Доступные', value: true},
+                            {title: 'Занятые', value: false}
+                        ]"
+                        label="По доступности"
+                        variant="outlined"
+                    ></v-select>
+                </v-col>
+            </v-row>
+        </v-card-text>
+    </v-card>
+    
+    <v-row>
+        <v-col cols="12">
+            <v-card>
+                <v-card-title>
+                    Список номеров
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="loadRooms" :loading="loading">
+                        <v-icon icon="mdi-refresh" class="mr-2"></v-icon>
+                        Обновить
+                    </v-btn>
+                </v-card-title>
+                <v-card-text>
+                    <v-data-table
+                        :headers="headers"
+                        :items="filteredRooms"
+                        :loading="loading"
+                        items-per-page="10"
+                    >
+                        <template v-slot:item.is_available="{ item }">
+                            <v-chip :color="item.is_available ? 'green' : 'red'" size="small">
+                                {{ item.is_available ? 'Доступен' : 'Занят' }}
+                            </v-chip>
+                        </template>
+                        
+                        <template v-slot:item.actions="{ item }">
+                            <v-btn icon size="small" @click="editRoom(item)">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-btn icon size="small" @click="toggleAvailability(item)">
+                                <v-icon>{{ item.is_available ? 'mdi-bed' : 'mdi-bed-empty' }}</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
+</div>
+
+<script>
+const { createApp, ref, computed, onMounted } = Vue;
+
+createApp({
+    setup() {
+        const rooms = ref([]);
+        const loading = ref(false);
+        const search = ref('');
+        const floorFilter = ref(null);
+        const availabilityFilter = ref(null);
+        
+        const headers = [
+            { title: 'Номер', key: 'room_number' },
+            { title: 'Этаж', key: 'floor' },
+            { title: 'Тип', key: 'room_type_name' },
+            { title: 'Телефон', key: 'has_phone', align: 'center' },
+            { title: 'Доступность', key: 'is_available', align: 'center' },
+            { title: 'Действия', key: 'actions', align: 'center', sortable: false }
+        ];
+        
+        const filteredRooms = computed(() => {
+            return rooms.value.filter(room => {
+                // Поиск по номеру комнаты
+                if (search.value && !room.room_number.toLowerCase().includes(search.value.toLowerCase())) {
+                    return false;
+                }
+                
+                // Фильтр по этажу
+                if (floorFilter.value !== null && room.floor !== floorFilter.value) {
+                    return false;
+                }
+                
+                // Фильтр по доступности
+                if (availabilityFilter.value !== null && room.is_available !== availabilityFilter.value) {
+                    return false;
+                }
+                
+                return true;
+            });
+        });
+        
+        const loadRooms = async () => {
+            loading.value = true;
+            try {
+                const mainApp = window.mainApp._instance.proxy;
+                const result = await mainApp.getRooms();
+                
+                if (result.success) {
+                    rooms.value = result.data;
+                    mainApp.showMessage(`Загружено ${rooms.value.length} номеров`, 'success');
+                } else {
+                    mainApp.showMessage('Ошибка загрузки номеров', 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+            } finally {
+                loading.value = false;
+            }
+        };
+        
+        const editRoom = (room) => {
+            const mainApp = window.mainApp._instance.proxy;
+            mainApp.showMessage(`Редактирование комнаты ${room.room_number}`, 'info');
+        };
+        
+        const toggleAvailability = async (room) => {
+            const mainApp = window.mainApp._instance.proxy;
+            mainApp.showMessage(`Изменение статуса комнаты ${room.room_number}`, 'info');
+        };
+        
+        onMounted(() => {
+            loadRooms();
+        });
+        
+        return {
+            rooms,
+            loading,
+            search,
+            floorFilter,
+            availabilityFilter,
+            headers,
+            filteredRooms,
+            loadRooms,
+            editRoom,
+            toggleAvailability
+        };
+    }
+}).use(window.mainApp._context.components.Vuetify).mount('.rooms-container');
+</script>
+{% endblock %}
