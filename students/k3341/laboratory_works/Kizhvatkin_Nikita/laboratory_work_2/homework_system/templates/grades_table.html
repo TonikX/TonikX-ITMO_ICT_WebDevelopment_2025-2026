@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Таблица оценок{% endblock %}
+
+{% block content %}
+<h1>Таблица оценок</h1>
+
+{% if not is_teacher %}
+<div style="background-color: #f0f8ff; padding: 15px; margin-bottom: 20px; border-left: 4px solid #2196F3;">
+    <h3 style="margin-top: 0;">Ваша статистика</h3>
+    {% for data in grades_data %}
+        {% if data.student.id == user.id %}
+            <p><strong>Средний балл:</strong> {{ data.average_grade }}</p>
+            <p><strong>Сдано заданий:</strong> {{ data.total_submitted }}</p>
+            <p><strong>Оцененных работ:</strong> {{ data.total_graded }}</p>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
+<div style="overflow-x: auto; margin-bottom: 20px;">
+    <table border="1" cellpadding="8" style="border-collapse: collapse; min-width: 100%; font-size: 14px;">
+        <thead style="background-color: #f2f2f2;">
+            <tr>
+                <th rowspan="2" style="min-width: 150px;">Студент</th>
+                {% for homework in homeworks %}
+                <th colspan="1" style="text-align: center; min-width: 120px;">
+                    <div style="font-weight: bold;">{{ homework.subject }}</div>
+                    <div style="font-size: 12px; color: #666;">{{ homework.title|truncatechars:30 }}</div>
+                    <div style="font-size: 11px; color: #999;">до {{ homework.due_date|date:"d.m.Y" }}</div>
+                </th>
+                {% endfor %}
+                <th rowspan="2" style="min-width: 100px;">Средний балл</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in grades_data %}
+            <tr style="{% if data.student.id == user.id %}background-color: #f0f9ff;{% endif %}">
+                <td style="font-weight: {% if data.student.id == user.id %}bold{% else %}normal{% endif %};">
+                    {{ data.student.last_name }} {{ data.student.first_name }}
+                    {% if data.student.id == user.id %}<br><small style="color: #666;">(Вы)</small>{% endif %}
+                </td>
+                
+                {% for grade_info in data.grades %}
+                <td align="center" style="
+                    {% if grade_info.grade == 'Не сдано' %}background-color: #ffebee; color: #c62828;
+                    {% elif grade_info.grade == 'Не оценено' %}background-color: #fff3e0; color: #ef6c00;
+                    {% elif grade_info.grade == 5 %}background-color: #e8f5e9; color: #2e7d32;
+                    {% elif grade_info.grade == 4 %}background-color: #f1f8e9; color: #558b2f;
+                    {% elif grade_info.grade == 3 %}background-color: #fffde7; color: #f9a825;
+                    {% elif grade_info.grade == 2 %}background-color: #ffebee; color: #c62828;
+                    {% elif grade_info.grade == 1 %}background-color: #ffebee; color: #c62828;
+                    {% else %}background-color: #f5f5f5; color: #666;
+                    {% endif %}
+                ">
+                    <div style="font-size: 16px; font-weight: bold;">{{ grade_info.grade }}</div>
+                    <div style="font-size: 11px; margin-top: 3px;">
+                        {{ grade_info.status }}
+                        
+                        {# Безопасная проверка наличия submission_id #}
+                        {% if grade_info.submission_id %}
+                            <br><a href="{% url 'view_submission' grade_info.submission_id %}" 
+                                style="font-size: 10px; color: #1976d2;">
+                                просмотр
+                            </a>
+                        {% elif grade_info.grade == 'Не сдано' and not is_teacher %}
+                            <br><a href="{% url 'submit_homework' grade_info.homework_id %}" 
+                                style="font-size: 10px; color: #2196F3;">
+                                сдать
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+                {% endfor %}
+                
+                <td align="center" style="font-weight: bold; font-size: 16px;">
+                    {{ data.average_grade }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{{ homeworks|length|add:2 }}" style="text-align: center; padding: 20px;">
+                    Нет данных для отображения
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+    <h3 style="margin-top: 0;">Легенда:</h3>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #e8f5e9; border: 1px solid #c8e6c9;"></span> 5 - Отлично</div>
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #f1f8e9; border: 1px solid #dcedc8;"></span> 4 - Хорошо</div>
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #fffde7; border: 1px solid #fff9c4;"></span> 3 - Удовлетворительно</div>
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #ffebee; border: 1px solid #ffcdd2;"></span> 1-2 - Неудовлетворительно</div>
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #fff3e0; border: 1px solid #ffe0b2;"></span> Не оценено</div>
+        <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #ffebee; border: 1px solid #ffcdd2;"></span> Не сдано</div>
+    </div>
+</div>
+
+{% if is_teacher %}
+<div style="margin-top: 20px;">
+    <a href="/admin/homework_app/homeworksubmission/" class="button" style="
+        background-color: #4CAF50; color: white; padding: 10px 15px; 
+        text-decoration: none; border-radius: 4px; display: inline-block;
+    ">
+        ⚙️ Редактировать оценки в админ-панели
+    </a>
+</div>
+{% endif %}
+
+<style>
+    .button:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

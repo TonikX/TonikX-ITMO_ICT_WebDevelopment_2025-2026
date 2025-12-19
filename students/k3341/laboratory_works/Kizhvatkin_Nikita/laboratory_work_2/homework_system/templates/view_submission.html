@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Просмотр работы - {{ submission.homework.title }}{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <h1>Работа: {{ submission.homework.title }}</h1>
+    
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0;">📝 Информация о задании</h3>
+        <p><strong>Предмет:</strong> {{ submission.homework.subject }}</p>
+        <p><strong>Студент:</strong> {{ submission.student.last_name }} {{ submission.student.first_name }}</p>
+        <p><strong>Дата сдачи:</strong> {{ submission.submission_date|date:"d.m.Y H:i" }}</p>
+        <p><strong>Срок выполнения:</strong> {{ submission.homework.due_date|date:"d.m.Y" }}</p>
+        
+        {% if submission.grade %}
+            <p><strong>Оценка:</strong> 
+                <span style="
+                    font-size: 24px; font-weight: bold;
+                    {% if submission.grade == 5 %}color: #2e7d32;
+                    {% elif submission.grade == 4 %}color: #558b2f;
+                    {% elif submission.grade == 3 %}color: #f9a825;
+                    {% else %}color: #c62828;
+                    {% endif %}
+                ">
+                    {{ submission.grade }}
+                </span>
+            </p>
+        {% else %}
+            <p><strong>Оценка:</strong> <span style="color: #ef6c00;">Ожидает проверки</span></p>
+        {% endif %}
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <h3>📖 Текст задания</h3>
+        <div style="background-color: #fffde7; padding: 15px; border-left: 4px solid #ffd54f;">
+            {{ submission.homework.description|linebreaks }}
+        </div>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <h3>📄 Решение студента</h3>
+        <div style="background-color: #e8f5e9; padding: 15px; border-left: 4px solid #4caf50; white-space: pre-wrap;">
+            {{ submission.submission_text|linebreaks }}
+        </div>
+    </div>
+    
+    {% if submission.feedback %}
+    <div style="margin-bottom: 20px;">
+        <h3>💬 Комментарий преподавателя</h3>
+        <div style="background-color: #e3f2fd; padding: 15px; border-left: 4px solid #2196f3;">
+            {{ submission.feedback|linebreaks }}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="{% url 'grades_table' %}" style="
+            background-color: #2196F3; color: white; padding: 10px 20px; 
+            text-decoration: none; border-radius: 4px; margin-right: 10px;
+        ">
+            ← Назад к таблице
+        </a>
+        
+        {% if is_teacher %}
+        <a href="/admin/homework_app/homeworksubmission/{{ submission.id }}/change/" style="
+            background-color: #4CAF50; color: white; padding: 10px 20px; 
+            text-decoration: none; border-radius: 4px;
+        ">
+            ⚙️ Поставить оценку
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

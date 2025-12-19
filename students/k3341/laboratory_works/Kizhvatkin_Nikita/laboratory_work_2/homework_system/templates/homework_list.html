@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Домашние задания{% endblock %}
+
+{% block content %}
+<h1>Домашние задания</h1>
+
+<table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Предмет</th>
+            <th>Задание</th>
+            <th>Срок выполнения</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for homework in homeworks %}
+        <tr style="
+            {% if not is_teacher %}
+                {% if homework.is_submitted %}
+                    background-color: #e8f5e9;
+                {% elif homework.is_overdue %}
+                    background-color: #ffebee;
+                {% endif %}
+            {% endif %}
+        ">
+            <td>{{ homework.subject }}</td>
+            <td>
+                <strong>{{ homework.title }}</strong><br>
+                <small>{{ homework.description|truncatewords:20 }}</small>
+            </td>
+            <td>
+                {{ homework.due_date|date:"d.m.Y" }}
+                {% if homework.is_overdue and not is_teacher %}
+                    <br><span style="color: red;">⚠️ Просрочено</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if not is_teacher %}
+                    {% if homework.is_submitted %}
+                        ✅ Сдано
+                    {% elif homework.is_overdue %}
+                        ❌ Просрочено
+                    {% else %}
+                        📝 Активно
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {% if not is_teacher %}
+                    <a href="{% url 'submit_homework' homework.id %}">
+                        {% if homework.is_submitted %}
+                            Просмотреть/изменить
+                        {% else %}
+                            {% if homework.is_overdue %}
+                                Сдать (просрочено)
+                            {% else %}
+                                Сдать
+                            {% endif %}
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <a href="/admin/homework_app/homework/{{ homework.id }}/change/">Редактировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Нет заданий</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
