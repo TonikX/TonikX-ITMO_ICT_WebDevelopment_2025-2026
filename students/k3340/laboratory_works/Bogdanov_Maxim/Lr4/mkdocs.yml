@@ -1,0 +1,52 @@
+site_name: Отчет по лабораторной работе №4
+site_description: Разработка клиентской части веб-приложения для управления школьной системой
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темный режим
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлый режим
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+
+nav:
+  - Главная: index.md
+  - О проекте:
+    - Цель работы: about/objective.md
+    - Технологии: about/technologies.md
+  - Функционал:
+    - Обзор: functionality/overview.md
+    - Аутентификация: functionality/auth.md
+    - Управление данными: functionality/data-management.md
+    - Статистика и отчеты: functionality/reports.md
+  - Архитектура:
+    - Структура проекта: architecture/structure.md
+    - Основные компоненты: architecture/components.md
+    - Особенности реализации: architecture/features.md
+  - Запуск: getting-started.md
+  - Выводы: conclusions.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+

@@ -1,0 +1,24 @@
+{
+  "name": "school-management-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "pinia": "^2.1.7",
+    "vuetify": "^3.5.10",
+    "@mdi/font": "^7.4.47",
+    "axios": "^1.6.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.1.4",
+    "vite-plugin-vuetify": "^2.0.2"
+  }
+}
+

@@ -1,0 +1,86 @@
+site_name: Отчеты по лабораторным работам
+site_description: Лабораторные работы по веб-разработке - Backend и Frontend
+site_author: Богданов Максим
+
+docs_dir: lab_docs
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темный режим
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлый режим
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang: ru
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа 3:
+    - Обзор: lab3/index.md
+    - О проекте:
+      - Цель работы: lab3/about/objective.md
+      - Технологии: lab3/about/technologies.md
+    - Архитектура:
+      - Обзор: lab3/architecture/overview.md
+      - Структура проекта: lab3/architecture/structure.md
+      - База данных: lab3/architecture/database.md
+    - API:
+      - Документация: lab3/api/documentation.md
+      - Примеры: lab3/api/examples.md
+    - Развертывание:
+      - Быстрый старт: lab3/deployment/quick-start.md
+      - Docker: lab3/deployment/docker.md
+    - Выводы: lab3/conclusions.md
+  - Лабораторная работа 4:
+    - Обзор: lab4/index.md
+    - О проекте:
+      - Цель работы: lab4/about/objective.md
+      - Технологии: lab4/about/technologies.md
+    - Функционал:
+      - Обзор: lab4/functionality/overview.md
+      - Аутентификация: lab4/functionality/auth.md
+      - Управление данными: lab4/functionality/data-management.md
+      - Статистика и отчеты: lab4/functionality/reports.md
+    - Архитектура:
+      - Структура проекта: lab4/architecture/structure.md
+      - Основные компоненты: lab4/architecture/components.md
+      - Особенности реализации: lab4/architecture/features.md
+    - Запуск: lab4/getting-started.md
+    - Выводы: lab4/conclusions.md
+
