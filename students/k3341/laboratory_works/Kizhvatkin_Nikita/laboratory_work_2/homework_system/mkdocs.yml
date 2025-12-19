@@ -1,0 +1,14 @@
+site_name: Отчет по лабораторной работе 2. Кижваткин Никита, K3341
+
+theme:
+  name: readthedocs
+  language: ru
+  palette:
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.top
+
+nav:
+  - 'Главная': 'index.md'
+  - 'Вывод': 'conclusion.md'
