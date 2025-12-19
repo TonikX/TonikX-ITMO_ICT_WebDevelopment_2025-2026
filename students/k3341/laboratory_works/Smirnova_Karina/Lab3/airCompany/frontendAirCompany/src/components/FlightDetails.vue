@@ -1,19 +1,22 @@
 <template>
   <div class="flight-details">
-    <h1 v-if="flight.flight_number">Рейс №{{ flightId }}</h1>
-    <div class="section" v-if="flight.route">
-      <h2>Номер рейса:</h2>
-      <p><strong>Маршрут:</strong> {{ flight.route.departure_point }} → {{ flight.route.destination_point }}</p>
+    <h1>Рейс №{{ flight.flight_number }}</h1>
+    <div class="section">
+      <h2>Маршрут:</h2>
+      <p><strong>Пункт вылета:</strong> {{ flight.departure_point }}</p>
+      <p><strong>Пункт назначения:</strong> {{ flight.arrival_point }}</p>
+      <p><strong>Транзитный:</strong> {{ flight.is_transit ? 'Да' : 'Нет' }}</p>
       <p><strong>Дата вылета:</strong> {{ flight.departure_datetime }}</p>
       <p><strong>Дата прилета:</strong> {{ flight.arrival_datetime }}</p>
-      <p><strong>Количество проданных билетов:</strong> {{ flight.sold_tickets }}</p>
+      <p v-if="flight.plane"><strong>Количество проданных билетов:</strong> {{ flight.sold_tickets }} / {{ flight.plane.seats_capacity }}</p>
     </div>
     <div class="section" v-if="flight.plane">
       <h2>Самолет:</h2>
-      <p><strong>Номер самолета:</strong> {{ flight.plane.number }}</p>
-      <p><strong>Тип самолета:</strong> {{ flight.plane.type }}</p>
+      <p><strong>Номер:</strong> {{ flight.plane.number }}</p>
+      <p><strong>Тип:</strong> {{ flight.plane.type }}</p>
       <p><strong>Число мест:</strong> {{ flight.plane.seats_capacity }}</p>
-      <p><strong>Скорость полета:</strong> {{ flight.plane.flight_speed }}</p>
+      <p><strong>Скорость полета:</strong> {{ flight.plane.flight_speed }} км/ч</p>
+      <p v-if="flight.plane.in_repair"><strong>Состояние:</strong> В ремонте</p>
     </div>
     <div class="section" v-if="flight.crew && flight.crew.length > 0">
       <h2>Команда:</h2>
@@ -41,14 +44,13 @@ export default {
   props: ['id'],
   data() {
     return {
-      flightId: this.id,
       flight: {},
       error: null,
     };
   },
   async created() {
     try {
-      const response = await axiosInstance.get(`/api/flights/${this.flightId}/`);
+      const response = await axiosInstance.get(`/api/flights/${this.id}/`);
       this.flight = response.data;
     } catch (err) {
       this.error = 'Ошибка загрузки информации о рейсе.';

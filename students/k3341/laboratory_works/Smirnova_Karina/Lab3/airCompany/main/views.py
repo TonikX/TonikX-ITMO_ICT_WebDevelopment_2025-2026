@@ -1,6 +1,6 @@
 from django.db.models import Count, Avg
 from rest_framework import viewsets, permissions, status, filters
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
@@ -21,7 +21,7 @@ from .serializers import (
     CrewAndMembersSerializer,
     RouteWithFlightsSerializer,
     FlightEverythingSerializer,
-    FlightWithPlaneSerializer
+    FlightWithPlaneSerializer, PlaneWithCompanySerializer
 )
 
 
@@ -34,7 +34,9 @@ class AirlineCompanyViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return AirlineCompanyAndPlanesAndCrewMembersSerializer
-        return AirlineCompanySerializer
+        elif self.action == 'create':
+            return AirlineCompanySerializer
+        return AirlineCompanyAndPlanesAndCrewMembersSerializer
 
 class PlaneViewSet(viewsets.ModelViewSet):
     """
@@ -45,7 +47,9 @@ class PlaneViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return PlaneWithFlightsSerializer
-        return FlightWithPlaneSerializer
+        elif self.action in ['create', 'update']:
+            return PlaneSerializer
+        return PlaneWithCompanySerializer
 
 class CrewViewSet(viewsets.ModelViewSet):
     """
@@ -54,7 +58,7 @@ class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.prefetch_related('members').all()
 
     def get_serializer_class(self):
-        if self.action in ('list', 'retrieve', 'create', 'update', 'partial_update'):
+        if self.action in ('list', 'retrieve', 'update', 'partial_update'):
             return CrewAndMembersSerializer
         return CrewSerializer
 
@@ -64,6 +68,7 @@ class CrewMemberViewSet(viewsets.ModelViewSet):
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all().prefetch_related('flights')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -76,7 +81,13 @@ class FlightViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return FlightEverythingSerializer
+        if self.action in ('create', 'update'):
+            return FlightSerializer
         return FlightSerializer
+
+    def update(self, request, *args, **kwargs):
+        print("Данные запроса:", request.data)  # Вывод для проверки формата данных
+        return super().update(request, *args, **kwargs)
 
 class MostPopularPlaneType(APIView):
     def get(self, request, route_id):
@@ -148,6 +159,26 @@ class TotalEmployees(APIView):
         total_employees = CrewMember.objects.filter(company=company).count()
 
         return Response({'total_employees': total_employees}, status=status.HTTP_200_OK)
+
+class MostPopularPaneType(APIView):
+    def get(self, request, route_id):
+        # Фильтруем рейсы по маршруту
+        flights = Flight.objects.filter(route_id=route_id)
+
+        # Подсчитываем количество рейсов для каждой марки самолета
+        plane_counts = flights.values('plane__type').annotate(count=Count('id')).order_by('-count')
+
+        # Проверяем, есть ли данные
+        if not plane_counts:
+            return Response({"detail": "No flights found for the given route."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Получаем марку самолета с максимальным количеством рейсов
+        most_popular_plane = plane_counts.first()
+
+        return Response({
+            "plane_type": most_popular_plane['plane__type'],
+            "flight_count": most_popular_plane['count']
+        }, status=status.HTTP_200_OK)
 
 @csrf_protect
 def auth_demo(request):

@@ -10,8 +10,12 @@
     <h2>Связанные рейсы</h2>
     <div class="flight-card" v-for="flight in route.flights" :key="flight.id">
       <p><strong>Номер рейса:</strong> {{ flight.flight_number }}</p>
+      <p><strong>Пункт вылета:</strong> {{ flight.departure_point }}</p>
+      <p><strong>Пункт прилета:</strong> {{ flight.arrival_point }}</p>
       <p><strong>Дата вылета:</strong> {{ flight.departure_datetime }}</p>
       <p><strong>Дата прилета:</strong> {{ flight.arrival_datetime }}</p>
+      <p><strong>Транзитный:</strong> {{ flight.is_transit ? 'Да' : 'Нет' }}</p>
+      <p><strong>Количество проданных билетов:</strong> {{ flight.sold_tickets }}</p>
       <p><strong>Самолет:</strong> {{ flight.plane.number }}</p>
       <router-link :to="`/flight/${flight.id}`" class="button">Открыть информацию о рейсе</router-link>
     </div>
@@ -34,7 +38,7 @@ export default {
   async created() {
     try {
       const response = await axiosInstance.get(`/api/routes/${this.routeId}/`);
-      this.route = response.data; // Информация о маршруте и связанных рейсах
+      this.route = response.data;
     } catch (err) {
       this.error = 'Ошибка загрузки маршрута.';
       console.error(err);

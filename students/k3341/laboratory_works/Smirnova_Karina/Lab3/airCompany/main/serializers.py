@@ -19,6 +19,13 @@ class PlaneSerializer(serializers.ModelSerializer):
         model = Plane
         fields = '__all__'
 
+class PlaneWithCompanySerializer(serializers.ModelSerializer):
+    airline_company = AirlineCompanySerializer()
+
+    class Meta:
+        model = Plane
+        fields = ['id', 'number', 'type', 'seats_capacity', 'flight_speed', 'in_repair', 'airline_company']
+
 class CrewSerializer(serializers.ModelSerializer):
     """
     Простой сериализатор для модели Crew.
@@ -31,10 +38,19 @@ class CrewMemberSerializer(serializers.ModelSerializer):
     """
     Простой сериализатор для модели CrewMember.
     """
+
+    company = AirlineCompanySerializer(read_only=True)
+    company_id = serializers.PrimaryKeyRelatedField(
+        queryset=AirlineCompany.objects.all(),
+        write_only=True,
+        source='company'
+    )
     class Meta:
         model = CrewMember
-        fields = '__all__'
-
+        fields = [
+            'id', 'full_name', 'age', 'education', 'work_experience',
+            'passport_info', 'flight_authorization', 'position', 'company', 'company_id'
+        ]
 class RouteSerializer(serializers.ModelSerializer):
     """
     Простой сериализатор для модели Route.
@@ -47,8 +63,8 @@ class FlightSerializer(serializers.ModelSerializer):
     """
     Простой сериализатор для модели Flight.
     """
-    departure_datetime = serializers.DateTimeField(format=None, input_formats=None)
-    arrival_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    departure_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
+    arrival_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
 
     class Meta:
         model = Flight
@@ -67,6 +83,11 @@ class CrewAndMembersSerializer(serializers.ModelSerializer):
     member_ids = serializers.PrimaryKeyRelatedField(
         many=True, queryset=CrewMember.objects.all(), write_only=True, source='members', required=False
     )
+
+    # company = AirlineCompanySerializer(read_only=True)
+    # company_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=AirlineCompany.objects.all(), write_only=True, required=False, source='company'
+    # )
 
     class Meta:
         model = Crew
@@ -112,8 +133,8 @@ class FlightInPlaneSerializer(serializers.ModelSerializer):
     """
     Небольшой сериализатор для рейса внутри объекта Самолёта.
     """
-    departure_datetime = serializers.DateTimeField(format=None, input_formats=None)
-    arrival_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    departure_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
+    arrival_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
     route = RouteSerializer(read_only=True)
 
     class Meta:
@@ -135,8 +156,8 @@ class PlaneWithFlightsSerializer(serializers.ModelSerializer):
         fields = ['id', 'number', 'type', 'seats_capacity', 'flight_speed', 'in_repair', 'airline_company', 'flights']
 
 class FlightEverythingSerializer(serializers.ModelSerializer):
-    departure_datetime = serializers.DateTimeField(format=None, input_formats=None)
-    arrival_datetime = serializers.DateTimeField(format=None, input_formats=None)
+    departure_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
+    arrival_datetime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', input_formats=['%Y-%m-%d %H:%M'])
 
     route = RouteSerializer(read_only=True)
     plane = PlaneSerializer(read_only=True)
@@ -152,6 +173,9 @@ class FlightEverythingSerializer(serializers.ModelSerializer):
 class FlightWithPlaneSerializer(serializers.ModelSerializer):
     plane = PlaneSerializer(read_only=True)
     route = serializers.SerializerMethodField()
+
+    departure_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M", input_formats=["%Y-%m-%d %H:%M"])
+    arrival_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M", input_formats=["%Y-%m-%d %H:%M"])
 
     def get_route(self, obj):
         return {

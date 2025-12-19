@@ -11,7 +11,7 @@ class Plane(models.Model):
     type = models.CharField(max_length=50, verbose_name='Тип самолета')
     seats_capacity = models.IntegerField(verbose_name='Число мест')
     flight_speed = models.IntegerField(verbose_name='Скорость полета')
-    airline_company = models.ForeignKey(AirlineCompany, on_delete=models.CASCADE, verbose_name='Компания-авиаперевозчик')
+    airline_company = models.ForeignKey(AirlineCompany, on_delete=models.SET_NULL, verbose_name='Компания-авиаперевозчик', null=True)
     in_repair = models.BooleanField(default=False, verbose_name='В ремонте')
 
     def __str__(self):
@@ -29,8 +29,8 @@ class CrewMember(models.Model):
     work_experience = models.IntegerField(verbose_name='Стаж работы')
     passport_info = models.CharField(max_length=255, verbose_name='Паспортные данные')
     flight_authorization = models.BooleanField(default=False, verbose_name='Допуск к рейсу')
-    company = models.ManyToManyField(AirlineCompany, verbose_name='Компания, в которой работает',
-                                     related_name='crew_members')
+    company = models.ForeignKey(AirlineCompany, on_delete=models.SET_NULL, verbose_name='Компания, в которой работает',
+                                     related_name='crew_members', null=True)
     position = models.CharField(max_length=50,
                                 verbose_name='Должность (командир, второй пилот, штурман, стюардесса/стюард)')
 
@@ -49,11 +49,11 @@ class Route(models.Model):
 
 class Flight(models.Model):
     flight_number = models.IntegerField(verbose_name='Номер рейса')
-    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='flights', verbose_name='Маршрут')
+    route = models.ForeignKey(Route, on_delete=models.SET_NULL, related_name='flights', verbose_name='Маршрут', null=True)
     departure_datetime = models.DateTimeField(verbose_name='Дата и время вылета')
     arrival_datetime = models.DateTimeField(verbose_name='Дата и время прилета')
     sold_tickets = models.IntegerField(verbose_name='Количество проданных билетов')
-    plane = models.ForeignKey(Plane, on_delete=models.CASCADE, verbose_name='Самолет, обслуживающий рейс')
+    plane = models.ForeignKey(Plane, on_delete=models.SET_NULL, verbose_name='Самолет, обслуживающий рейс', null=True)
     crew = models.ManyToManyField(Crew, verbose_name='Экипаж, обслуживающий рейс')
 
     departure_point = models.CharField(max_length=255, verbose_name='Пункт вылета', null=False)
