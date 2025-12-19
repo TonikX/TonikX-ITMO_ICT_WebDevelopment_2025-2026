@@ -29,3 +29,25 @@ nav:
           - Модель БД: lab3/dbmodel.md
           - Документация API: lab3/api.md
           - Практика: lab3/practice.md
+    - ЛР 4:
+          - Главная: lab4/index.md
+          - Цель и задачи: lab4/goal.md
+          - Обзор проекта: lab4/project_overview.md
+          - Архитектура: lab4/architecture.md
+
+          - Интерфейсы:
+                - Auth: lab4/interfaces/auth.md
+                - Chickens: lab4/interfaces/chickens.md
+                - Cages: lab4/interfaces/cages.md
+                - Workshops: lab4/interfaces/workshops.md
+                - Employees: lab4/interfaces/employees.md
+                - EmployeeCage: lab4/interfaces/employee_cage.md
+                - Breeds: lab4/interfaces/breeds.md
+                - Diets: lab4/interfaces/diets.md
+                - BreedDietSeason: lab4/interfaces/breed_diet_season.md
+                - Analytics: lab4/interfaces/analytics.md
+                - ChickenMove: lab4/interfaces/chicken_move.md
+
+          - Результаты: lab4/results.md
+          - Вывод: lab4/conclusion.md
+
