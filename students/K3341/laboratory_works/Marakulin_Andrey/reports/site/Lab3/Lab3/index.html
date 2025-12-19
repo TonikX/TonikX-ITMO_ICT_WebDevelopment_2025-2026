@@ -12,7 +12,7 @@
         <link rel="prev" href="../../Lab2/Lab2/">
       
       
-        <link rel="next" href="../../Prac3_1/Prac3_1/">
+        <link rel="next" href="../../Lab4/Lab4/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -352,7 +352,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. Аутентификация и Djoser">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Аналитика и Агрегация данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Документирование API (Swagger)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Документирование API (Swagger)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -373,6 +391,28 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Lab4/Lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab4
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -412,6 +452,28 @@
   
   <span class="md-ellipsis">
     Prac3.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prac4_2/Prac4_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prac4.2
     
   </span>
   
@@ -490,7 +552,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. Аутентификация и Djoser">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Аналитика и Агрегация данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Документирование API (Swagger)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Документирование API (Swagger)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -526,7 +606,7 @@
 <h1 id="no3">Отчет по лабораторной работе №3</h1>
 <h3 id="api">Тема: Разработка серверной части (API) банковского приложения</h3>
 <h3 id="_1">Структура проекта</h3>
-<p>Проект представляет собой REST API приложение на Django + Django REST Framework. Реализована сложная структура базы данных и механизмы авторизации для дальнейшей интеграции с клиентской частью на Vue.js.</p>
+<p>Проект представляет собой REST API приложение на Django + Django REST Framework. Реализована сложная структура базы данных и механизмы авторизации для дальнейшей интеграции с клиентской частью.</p>
 <ol>
 <li>
 <p><strong>Проект <code>bank_api_project</code></strong></p>
@@ -540,18 +620,19 @@
 <ul>
 <li><code>models.py</code> — описывает структуру базы данных согласно варианту "Маракулин". Включает модели: <code>Client</code>, <code>Passport</code>, <code>Deposit</code>, <code>Loan</code>, <code>Employee</code> и справочники (<code>Currency</code>, <code>Position</code>).</li>
 <li><code>serializers.py</code> — отвечает за преобразование сложных типов данных (моделей Django) в JSON и обратно. Реализована поддержка вложенных структур (например, графики платежей внутри кредита).</li>
-<li><code>views.py</code> — содержит логику обработки запросов (API Views). Используются <code>ModelViewSet</code> для реализации полного CRUD функционала.</li>
+<li><code>views.py</code> — содержит логику обработки запросов (API Views). Используются <code>ModelViewSet</code> для реализации полного CRUD функционала, а также кастомные <code>@action</code> для аналитики.</li>
 <li><code>urls.py</code> — определяет маршруты (Router) для ресурсов API (<code>/api/v1/...</code>).</li>
+<li><code>admin.py</code> — конфигурация административной панели для управления всеми сущностями системы.</li>
 </ul>
 </li>
 </ol>
 <h2 id="1">1. Проектирование и реализация модели данных</h2>
-<p>Схема базы данных реализована с использованием Django ORM в строгом соответствии с выданным вариантом. Обеспечена целостность данных через использование <code>ForeignKey</code>, <code>PROTECT</code> и <code>CASCADE</code> ограничений.</p>
+<p>Схема базы данных реализована с использованием Django ORM. Обеспечена целостность данных через использование <code>ForeignKey</code>, <code>PROTECT</code> и <code>CASCADE</code> ограничений.</p>
 <p>Ключевые сущности:
-- <strong><code>Client</code> / <code>Passport</code></strong>: Хранение персональных данных.
-- <strong><code>Deposit</code> / <code>DepositType</code></strong>: Управление вкладами, включая типы вкладов и графики начислений.
-- <strong><code>Loan</code> / <code>LoanType</code></strong>: Управление кредитами, графиками выплат и типами кредитования.
-- <strong><code>Employee</code> / <code>Position</code></strong>: Кадровый учет, история должностей.</p>
+-   <strong><code>Client</code> / <code>Passport</code></strong>: Хранение персональных данных. Реализована связь один-ко-многим.
+-   <strong><code>Deposit</code> / <code>DepositType</code></strong>: Управление вкладами, включая типы вкладов и графики начислений (<code>AccrualSchedule</code>).
+-   <strong><code>Loan</code> / <code>LoanType</code></strong>: Управление кредитами, графиками выплат (<code>PayoutSchedule</code>) и типами кредитования.
+-   <strong><code>Employee</code> / <code>Position</code></strong>: Кадровый учет, история занимаемых должностей (<code>OccupiedPosition</code>).</p>
 <p><strong>Код:</strong></p>
 <p><em>banking/models.py (фрагмент):</em></p>
 <pre><code class="language-python">from django.db import models
@@ -575,50 +656,37 @@ class Deposit(models.Model):
     deposit_date = models.DateField(verbose_name=&quot;Дата вклада&quot;)
     return_date = models.DateField(verbose_name=&quot;Дата возврата&quot;)
 
-    class Meta:
-        verbose_name = &quot;Вклад&quot;
+    #...
 </code></pre>
 <h2 id="2-api-serializers-views">2. Реализация логики API (Serializers &amp; Views)</h2>
 <p>Для взаимодействия с клиентом используется Django REST Framework.
-- <strong>Сериализаторы (<code>Serializers</code>)</strong>: Описывают правила валидации и формат выходных данных.
-- <strong>Представления (<code>ViewSets</code>)</strong>: Обеспечивают стандартные методы API: <code>GET</code> (список/детально), <code>POST</code> (создание), <code>PUT</code>/<code>PATCH</code> (обновление), <code>DELETE</code> (удаление).</p>
+-   <strong>Сериализаторы (<code>Serializers</code>)</strong>: Описывают правила валидации и формат выходных данных. Реализована <strong>вложенная сериализация</strong> (Criterion 3): при запросе клиента отдаются его паспорта, при запросе кредита — график платежей.
+-   <strong>Представления (<code>ViewSets</code>)</strong>: Обеспечивают стандартные методы API: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>.</p>
 <p><strong>Код:</strong></p>
 <p><em>banking/serializers.py (фрагмент):</em></p>
 <pre><code class="language-python">from rest_framework import serializers
-from .models import Deposit, AccrualSchedule
-
-class AccrualScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AccrualSchedule
-        fields = '__all__'
+from .models import Deposit, AccrualSchedule, Loan, PayoutSchedule
 
 class DepositSerializer(serializers.ModelSerializer):
-    # Вложенный сериализатор для отображения графика начислений вместе с вкладом
     accruals = AccrualScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Deposit
         fields = '__all__'
-</code></pre>
-<p><em>banking/views.py (фрагмент):</em></p>
-<pre><code class="language-python">from rest_framework import viewsets, permissions
-from .models import Deposit
-from .serializers import DepositSerializer
 
-class DepositViewSet(viewsets.ModelViewSet):
-    &quot;&quot;&quot;
-    API endpoint для управления вкладами
-    &quot;&quot;&quot;
-    queryset = Deposit.objects.all()
-    serializer_class = DepositSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class LoanSerializer(serializers.ModelSerializer):
+    payouts = PayoutScheduleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Loan
+        fields = '__all__'
 </code></pre>
 <h2 id="3-djoser">3. Аутентификация и Djoser</h2>
-<p>Для реализации системы регистрации и входа используется библиотека <strong>Djoser</strong>. Настроена аутентификация по токенам (<code>TokenAuthentication</code>), что позволяет безопасно взаимодействовать с API внешним клиентам (Vue.js).</p>
+<p>Для реализации системы регистрации и входа используется библиотека <strong>Djoser</strong>. Настроена аутентификация по токенам (<code>TokenAuthentication</code>), что позволяет безопасно взаимодействовать с API внешним клиентам.</p>
 <p>Доступные эндпоинты:
-- <code>/auth/users/</code> — регистрация.
-- <code>/auth/token/login/</code> — получение токена.
-- <code>/auth/users/me/</code> — получение данных текущего пользователя.</p>
+-   <code>/auth/users/</code> — регистрация.
+-   <code>/auth/token/login/</code> — получение токена.
+-   <code>/auth/users/me/</code> — получение данных текущего пользователя.</p>
 <p><strong>Код:</strong></p>
 <p><em>settings.py (фрагмент):</em></p>
 <pre><code class="language-python">INSTALLED_APPS = [
@@ -640,11 +708,88 @@ REST_FRAMEWORK = {
     ),
 }
 </code></pre>
+<h2 id="4">4. Аналитика и Агрегация данных</h2>
+<p>В соответствии с требованиями (Criterion 4), реализованы дополнительные endpoints с аналитикой, использующие агрегационные функции SQL (<code>Sum</code>, <code>Count</code>, <code>Avg</code>, <code>Min</code>, <code>Max</code>).</p>
+<p>Реализованы действия:
+1.  <strong>Портфель клиента</strong>: Расчет общей суммы вкладов и долгов по кредитам.
+2.  <strong>KPI сотрудника</strong>: Подсчет количества и объема оформленных сотрудником договоров.
+3.  <strong>Статистика валют</strong>: Анализ колебаний курса (мин/макс/среднее).</p>
+<p><strong>Код:</strong></p>
+<p><em>banking/views.py (фрагмент):</em></p>
+<pre><code class="language-python">class ClientViewSet(BaseViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+    @action(detail=True, methods=['get'])
+    def portfolio(self, request, pk=None):
+        &quot;&quot;&quot;
+        Агрегационный запрос: Считает общую сумму вкладов и кредитов клиента.
+        &quot;&quot;&quot;
+        client = self.get_object()
+
+        total_deposits = Deposit.objects.filter(
+            passport__client=client
+        ).aggregate(total=Sum('deposit_sum'))['total'] or 0
+
+        total_loans = Loan.objects.filter(
+            passport__client=client
+        ).aggregate(total=Sum('sum_credit'))['total'] or 0
+
+        return Response({
+            'client': client.fio,
+            'total_deposits_amount': total_deposits,
+            'total_loans_amount': total_loans,
+            'net_balance': total_deposits - total_loans
+        })
+</code></pre>
+<h2 id="5-api-swagger">5. Документирование API (Swagger)</h2>
+<p>Для автоматической генерации документации подключена библиотека <code>drf-yasg</code>. Это позволяет тестировать запросы и просматривать структуру ответов через веб-интерфейс без написания внешней документации вручную.</p>
+<p>Доступные интерфейсы:
+-   <strong>Swagger UI</strong>: <code>/swagger/</code>
+-   <strong>ReDoc</strong>: <code>/redoc/</code></p>
+<p><strong>Код:</strong></p>
+<p><em>bank_api_project/urls.py (фрагмент):</em></p>
+<pre><code class="language-python">from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title=&quot;Bank API&quot;,
+      default_version='v1',
+      description=&quot;API для банковской системы (Лабораторная №3)&quot;,
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+urlpatterns = [
+    # ...
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
+]
+</code></pre>
 <h3 id="_2">Выводы</h3>
-<p>В ходе выполнения лабораторной работы была разработана серверная часть веб-приложения (API).
-- Спроектирована и реализована реляционная модель базы данных сложной структуры (более 10 таблиц).
-- Настроен Django REST Framework для сериализации данных и обработки HTTP-запросов.
-- Подключена система авторизации Djoser (Token Auth).</p>
+<p>В ходе выполнения лабораторной работы была разработана серверная часть веб-приложения (API).</p>
+<ul>
+<li>
+<p>Спроектирована и реализована реляционная модель базы данных сложной структуры (более 10 таблиц).</p>
+</li>
+<li>
+<p>Настроен Django REST Framework для сериализации данных, включая работу с вложенными объектами.</p>
+</li>
+<li>
+<p>Реализованы сложные агрегационные запросы для бизнес-аналитики.</p>
+</li>
+<li>
+<p>Подключена система авторизации Djoser (Token Auth).</p>
+</li>
+<li>
+<p>Реализована автодокументация API через Swagger.</p>
+</li>
+<li>
+<p>Произведена настройка CORS для будущей интеграции с Vue.js.</p>
+</li>
+</ul>
 
 
 

@@ -6,6 +6,17 @@
         <v-row>
           <v-col cols="12">
             <v-select
+              v-model="form.processed_by"
+              :items="positions"
+              item-title="desc"
+              item-value="id"
+              label="Кем оформлен (Сотрудник)"
+              required
+            ></v-select>
+          </v-col>
+
+          <v-col cols="12">
+            <v-select
               v-model="form.passport"
               :items="passports"
               item-title="selectTitle"
@@ -44,12 +55,23 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <v-text-field v-model="form.deposit_date" label="Дата начала" type="date" required></v-text-field>
+             <v-text-field v-model="form.return_sum" label="Сумма к возврату (план)" type="number"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field v-model="form.deposit_date" label="Дата открытия" type="date" required></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field v-model="form.return_date" label="Дата возврата" type="date" required></v-text-field>
           </v-col>
-           </v-row>
+
+          <v-col cols="12">
+            <v-textarea v-model="form.contract_data" label="Данные договора (текст)" rows="2"></v-textarea>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea v-model="form.deposit_data" label="Доп. данные вклада" rows="2"></v-textarea>
+          </v-col>
+        </v-row>
 
         <div class="d-flex gap-2 mt-4">
           <v-btn type="submit" color="primary">Сохранить</v-btn>
@@ -69,42 +91,53 @@ const route = useRoute();
 const router = useRouter();
 const isEdit = computed(() => !!route.params.id);
 
-// Списки для выбора
 const passports = ref([]);
 const depositTypes = ref([]);
 const currencies = ref([]);
+const positions = ref([]);
 
 const form = reactive({
   passport: null,
   deposit_type: null,
   currency: null,
+  processed_by: null,
   contract_number: '',
   deposit_sum: '',
+  return_sum: '',
   deposit_date: '',
   return_date: '',
-  processed_by: 1 // ВРЕМЕННО: ID должности сотрудника, чтобы бэкенд не ругался
+  contract_data: 'Типовой договор...',
+  deposit_data: ''
 });
 
 onMounted(async () => {
-  // Загружаем справочники
-  const [passReq, typeReq, currReq] = await Promise.all([
-    api.get('/api/v1/passports/'),
-    api.get('/api/v1/deposit-types/'),
-    api.get('/api/v1/currencies/')
-  ]);
+  try {
+    const [passReq, typeReq, currReq, posReq] = await Promise.all([
+      api.get('/api/v1/passports/'),
+      api.get('/api/v1/deposit-types/'),
+      api.get('/api/v1/currencies/'),
+      api.get('/api/v1/occupied-positions/')
+    ]);
 
-  // Формируем красивый заголовок для паспорта (Серия Номер - ФИО)
-  passports.value = passReq.data.map(p => ({
-    ...p,
-    selectTitle: `${p.series} ${p.number} (${p.fio})`
-  }));
-  depositTypes.value = typeReq.data;
-  currencies.value = currReq.data;
+    passports.value = passReq.data.map(p => ({
+      ...p,
+      selectTitle: `${p.series} ${p.number} (${p.fio})`
+    }));
+    depositTypes.value = typeReq.data;
+    currencies.value = currReq.data;
 
-  // Если редактирование - загружаем данные вклада
-  if (isEdit.value) {
-    const res = await api.get(`/api/v1/deposits/${route.params.id}/`);
-    Object.assign(form, res.data);
+
+    positions.value = posReq.data.map(pos => ({
+      id: pos.id,
+      desc: `Должность #${pos.id} (Сотрудник ${pos.employee})`
+    }));
+
+    if (isEdit.value) {
+      const res = await api.get(`/api/v1/deposits/${route.params.id}/`);
+      Object.assign(form, res.data);
+    }
+  } catch (e) {
+    console.error(e);
   }
 });
 
@@ -118,7 +151,11 @@ const submit = async () => {
     router.push('/deposits');
   } catch (e) {
     console.error(e);
-    alert('Ошибка при сохранении. Проверьте консоль.');
+    if (e.response && e.response.data) {
+        alert('Ошибка: ' + JSON.stringify(e.response.data));
+    } else {
+        alert('Ошибка сохранения');
+    }
   }
 };
 </script>
