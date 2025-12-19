@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Сдача задания{% endblock %}
+
+{% block content %}
+<h1>Сдача задания: {{ homework.title }}</h1>
+<p><strong>Предмет:</strong> {{ homework.subject }}</p>
+<p><strong>Срок выполнения:</strong> {{ homework.due_date }}</p>
+<p><strong>Описание:</strong></p>
+<div style="background-color: #f9f9f9; padding: 1rem; margin: 1rem 0;">
+    {{ homework.description|linebreaks }}
+</div>
+{% if homework.penalty_info %}
+<p><strong>Штрафы:</strong> {{ homework.penalty_info }}</p>
+{% endif %}
+
+{% if submission.grade %}
+<div style="background-color: #e6f7ff; padding: 1rem; margin: 1rem 0;">
+    <h3>Оценка: {{ submission.grade }}</h3>
+    {% if submission.feedback %}
+    <p><strong>Комментарий преподавателя:</strong> {{ submission.feedback }}</p>
+    {% endif %}
+</div>
+{% endif %}
+
+<h2>Ваше решение:</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить решение</button>
+</form>
+<a href="{% url 'homework_list' %}">Назад к списку заданий</a>
+{% endblock %}

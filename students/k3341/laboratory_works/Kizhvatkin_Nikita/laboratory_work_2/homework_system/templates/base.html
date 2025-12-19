@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Система домашних заданий{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+    <a href="{% url 'homework_list' %}">📚 Домашние задания</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'grades_table' %}">📊 Таблица оценок</a>
+            {% if user.is_staff %}
+                <a href="/admin/">👨‍🏫 Админ-панель</a>
+            {% endif %}
+            <a href="{% url 'logout' %}">🚪 Выйти ({{ user.get_full_name|default:user.username }})</a>
+        {% else %}
+            <a href="{% url 'login' %}">🔑 Войти</a>
+            <a href="{% url 'register' %}">📝 Регистрация</a>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

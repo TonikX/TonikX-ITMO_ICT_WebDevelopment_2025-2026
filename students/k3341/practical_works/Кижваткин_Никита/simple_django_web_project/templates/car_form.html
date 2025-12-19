@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if object %}Редактирование{% else %}Добавление{% endif %} автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .form-container {
+            max-width: 500px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-back {
+            background-color: #008CBA;
+        }
+    </style>
+</head>
+<body>
+    <h1>{% if object %}Редактирование{% else %}Добавление{% endif %} автомобиля</h1>
+    
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_brand">Марка:</label>
+                {{ form.brand }}
+                {% if form.brand.errors %}
+                <div style="color: red;">{{ form.brand.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_model">Модель:</label>
+                {{ form.model }}
+                {% if form.model.errors %}
+                <div style="color: red;">{{ form.model.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_color">Цвет:</label>
+                {{ form.color }}
+                {% if form.color.errors %}
+                <div style="color: red;">{{ form.color.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_state_number">Гос. номер:</label>
+                {{ form.state_number }}
+                {% if form.state_number.errors %}
+                <div style="color: red;">{{ form.state_number.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn">Сохранить</button>
+            <a href="{% url 'car_list' %}" class="btn btn-back" style="margin-left: 10px;">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>

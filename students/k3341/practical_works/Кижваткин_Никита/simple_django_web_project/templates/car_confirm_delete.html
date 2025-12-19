@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .confirmation {
+            max-width: 500px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-delete {
+            background-color: #f44336;
+        }
+        .btn-cancel {
+            background-color: #008CBA;
+        }
+    </style>
+</head>
+<body>
+    <h1>Удаление автомобиля</h1>
+    
+    <div class="confirmation">
+        <p>Вы уверены, что хотите удалить автомобиль "<strong>{{ object.brand }} {{ object.model }}</strong>" ({{ object.state_number }})?</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Да, удалить</button>
+            <a href="{% url 'car_list' %}" class="btn btn-cancel" style="margin-left: 10px;">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>
