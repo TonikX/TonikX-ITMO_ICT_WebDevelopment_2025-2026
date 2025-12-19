@@ -82,7 +82,7 @@ func (r *ReportRepository) GetSubjectAverageGrades(ctx context.Context, classID 
 		Select(
 			"s.id",
 			"s.name",
-			"COALESCE(AVG(g.value), 0) as average_grade",
+			"COALESCE(AVG(g.grade), 0) as average_grade",
 			"COUNT(g.id) as grades_count",
 		).
 		From("grades g").
@@ -123,7 +123,7 @@ func (r *ReportRepository) GetSubjectAverageGrades(ctx context.Context, classID 
 // GetOverallAverageGrade возвращает общий средний балл по классу
 func (r *ReportRepository) GetOverallAverageGrade(ctx context.Context, classID int) (float64, error) {
 	query := r.builder.
-		Select("COALESCE(AVG(g.value), 0)").
+		Select("COALESCE(AVG(g.grade), 0)").
 		From("grades g").
 		Join("students st ON g.student_id = st.id").
 		Where(squirrel.Eq{"st.class_id": classID}).

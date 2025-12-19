@@ -64,6 +64,7 @@ func main() {
 	reportRepo := repository.NewReportRepository(db.DB, appClock)
 	userRepo := repository.NewUserRepository(db.DB, appClock)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(db.DB, appClock)
+	referenceRepo := repository.NewReferenceRepository(db.DB)
 
 	passwordHasher := password.NewBcryptHasher(0)
 	jwtService := jwt.NewJWTService(jwt.JWTConfig{
@@ -82,9 +83,10 @@ func main() {
 	infoUC := usecase.NewInfoUseCase(infoRepo, teacherRepo, log)
 	reportUC := usecase.NewReportUseCase(reportRepo, teacherRepo, log)
 	authUC := usecase.NewAuthUseCase(userRepo, refreshTokenRepo, passwordHasher, jwtService, appClock, log, cfg.JWT.RefreshTokenTTL)
+	referenceUC := usecase.NewReferenceUseCase(referenceRepo)
 
 	// Настройка HTTP роутера
-	router := httphandler.Router(cfg, db, appClock, log, jwtService, teacherUC, studentUC, classUC, scheduleUC, gradeUC, infoUC, reportUC, authUC)
+	router := httphandler.Router(cfg, db, appClock, log, jwtService, teacherUC, studentUC, classUC, scheduleUC, gradeUC, infoUC, reportUC, authUC, referenceUC)
 
 	// Запуск HTTP сервера
 	addr := fmt.Sprintf("%s:%d", cfg.HTTP.Host, cfg.HTTP.Port)

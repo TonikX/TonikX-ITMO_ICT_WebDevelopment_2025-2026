@@ -41,6 +41,7 @@ func setupTestServer(t *testing.T) (*httptest.Server, func()) {
 	reportRepo := repository.NewReportRepository(db.DB, clock)
 	userRepo := repository.NewUserRepository(db.DB, clock)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(db.DB, clock)
+	referenceRepo := repository.NewReferenceRepository(db.DB)
 
 	passwordHasher := password.NewBcryptHasher(0)
 	jwtService := jwt.NewJWTService(jwt.JWTConfig{
@@ -59,8 +60,9 @@ func setupTestServer(t *testing.T) (*httptest.Server, func()) {
 	infoUC := usecase.NewInfoUseCase(infoRepo, teacherRepo, log)
 	reportUC := usecase.NewReportUseCase(reportRepo, teacherRepo, log)
 	authUC := usecase.NewAuthUseCase(userRepo, refreshTokenRepo, passwordHasher, jwtService, clock, log, cfg.JWT.RefreshTokenTTL)
+	referenceUC := usecase.NewReferenceUseCase(referenceRepo)
 
-	router := httphandler.Router(cfg, db, clock, log, jwtService, teacherUC, studentUC, classUC, scheduleUC, gradeUC, infoUC, reportUC, authUC)
+	router := httphandler.Router(cfg, db, clock, log, jwtService, teacherUC, studentUC, classUC, scheduleUC, gradeUC, infoUC, reportUC, authUC, referenceUC)
 
 	server := httptest.NewServer(router)
 
@@ -150,7 +152,6 @@ func TestAPI_AuthenticationFlow(t *testing.T) {
 	server, cleanup := setupTestServer(t)
 	defer cleanup()
 
-	var accessToken string
 	var refreshToken string
 
 	t.Run("Register new user", func(t *testing.T) {
@@ -172,8 +173,6 @@ func TestAPI_AuthenticationFlow(t *testing.T) {
 
 		if resp.Body["access_token"] == nil {
 			t.Error("access_token not found in response")
-		} else {
-			accessToken = resp.Body["access_token"].(string)
 		}
 
 		if resp.Body["refresh_token"] == nil {
@@ -290,7 +289,6 @@ func TestAPI_ProtectedEndpoints(t *testing.T) {
 		if resp.StatusCode != http.StatusOK {
 			t.Errorf("expected 200, got %d. Body: %v", resp.StatusCode, resp.Body)
 		}
-		_ = accessToken
 	})
 }
 

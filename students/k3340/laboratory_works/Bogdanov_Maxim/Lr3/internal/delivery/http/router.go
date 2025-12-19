@@ -1,12 +1,14 @@
 package http
 
 import (
+	httpSwagger "github.com/swaggo/http-swagger"
+	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
-	httpSwagger "github.com/swaggo/http-swagger"
-	_ "school-service/docs/swagger"
 	"school-service/internal/config"
 	"school-service/internal/delivery/http/handler"
 	httpmiddleware "school-service/internal/delivery/http/middleware"
@@ -17,7 +19,7 @@ import (
 	"school-service/internal/domain/usecase"
 )
 
-func Router(cfg *config.Config, db health.HealthChecker, clock clock.Clock, log logger.Logger, jwtService domain.JWTService, teacherUC usecase.TeacherUseCase, studentUC usecase.StudentUseCase, classUC usecase.ClassUseCase, scheduleUC usecase.ScheduleUseCase, gradeUC usecase.GradeUseCase, infoUC usecase.InfoUseCase, reportUC usecase.ReportUseCase, authUC usecase.AuthUseCase) http.Handler {
+func Router(cfg *config.Config, db health.HealthChecker, clock clock.Clock, log logger.Logger, jwtService domain.JWTService, teacherUC usecase.TeacherUseCase, studentUC usecase.StudentUseCase, classUC usecase.ClassUseCase, scheduleUC usecase.ScheduleUseCase, gradeUC usecase.GradeUseCase, infoUC usecase.InfoUseCase, reportUC usecase.ReportUseCase, authUC usecase.AuthUseCase, referenceUC usecase.ReferenceUseCase) http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(chimiddleware.RequestID)
@@ -29,6 +31,22 @@ func Router(cfg *config.Config, db health.HealthChecker, clock clock.Clock, log 
 	r.Use(httpmiddleware.CORS(cfg.CORS))
 
 	// Swagger UI
+	r.Get("/swagger/doc.json", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		swaggerPath := filepath.Join("docs", "swagger", "swagger.json")
+		file, err := os.Open(swaggerPath)
+		if err != nil {
+			// Если файл не найден, возвращаем пустой JSON
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("{}"))
+			return
+		}
+		defer file.Close()
+
+		w.WriteHeader(http.StatusOK)
+		_, _ = io.Copy(w, file)
+	})
 	r.Get("/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL("/swagger/doc.json"),
 	))
@@ -138,6 +156,17 @@ func Router(cfg *config.Config, db health.HealthChecker, clock clock.Clock, log 
 		reportHandler := handler.NewReportHandler(reportUC, log)
 		r.Route("/api/v1/reports", func(r chi.Router) {
 			r.Get("/class-performance", reportHandler.GetClassPerformanceReport)
+		})
+
+		// Справочные данные доступны всем аутентифицированным
+		referenceHandler := handler.NewReferenceHandler(referenceUC, log)
+		r.Route("/api/v1/reference", func(r chi.Router) {
+			r.Get("/subjects", referenceHandler.GetAllSubjects)
+			r.Get("/classrooms", referenceHandler.GetAllClassrooms)
+			r.Get("/academic-years", referenceHandler.GetAllAcademicYears)
+			r.Get("/grading-periods", referenceHandler.GetAllGradingPeriods)
+			r.Get("/grading-periods/academic-year/{academicYearId}", referenceHandler.GetGradingPeriodsByAcademicYear)
+			r.Get("/weekdays", referenceHandler.GetAllWeekdays)
 		})
 	})
 

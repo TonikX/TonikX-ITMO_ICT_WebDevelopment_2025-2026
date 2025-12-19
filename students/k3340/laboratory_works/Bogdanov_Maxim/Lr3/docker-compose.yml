@@ -87,6 +87,29 @@ services:
       - school_network
     restart: unless-stopped
 
+  seed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school_seed
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: school_db
+      DB_SSLMODE: disable
+    command: ["./seed"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - school_network
+    profiles:
+      - seed
+
 volumes:
   postgres_data:
 
