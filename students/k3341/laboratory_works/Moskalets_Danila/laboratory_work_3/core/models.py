@@ -2,6 +2,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.db.models import Avg
 
 
 class UserManager(BaseUserManager):
@@ -10,7 +11,6 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, email, password, **extra_fields):
-        """Создает и сохраняет пользователя с email и паролем"""
         if not email:
             raise ValueError('Email должен быть указан')
         email = self.normalize_email(email)
@@ -20,13 +20,11 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
-        """Создает обычного пользователя"""
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
-        """Создает суперпользователя"""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -63,7 +61,7 @@ class User(AbstractUser):
 
 
 class SecurityCompany(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         related_name='security_companies',
@@ -86,7 +84,6 @@ class SecurityCompany(models.Model):
 
     @property
     def average_rating(self):
-        from django.db.models import Avg
         result = self.reviews.aggregate(Avg('rating'))
         return result['rating__avg'] or 0
 
@@ -196,8 +193,10 @@ class ServiceDiscount(models.Model):
     def is_active(self):
         from django.utils import timezone
         now = timezone.now()
-        return self.start_date <= now <= self.end_date
 
+        if not self.start_date or not self.end_date:
+            return False
+        return self.start_date <= now <= self.end_date
 
 class ServiceRequest(models.Model):
     STATUS_CHOICES = [

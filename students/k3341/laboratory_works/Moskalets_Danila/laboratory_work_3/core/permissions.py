@@ -1,132 +1,145 @@
 from rest_framework import permissions
 
 
-class IsCompanyOwner(permissions.BasePermission):
-    """
-    Разрешает доступ только владельцу компании.
-    """
+class BaseCompanyPermission(permissions.BasePermission):
 
-    def has_object_permission(self, request, view, obj):
+    def _is_company_owner(self, obj, user):
+        """Проверяет, является ли пользователь владельцем компании объекта"""
         if hasattr(obj, 'user'):
-            return obj.user == request.user
-        # Для Service проверяем связь через security_company.user
+            return obj.user == user
         if hasattr(obj, 'security_company'):
-            return obj.security_company.user == request.user
+            return hasattr(obj.security_company, 'user') and obj.security_company.user == user
         return False
 
+    def _is_service_company_owner(self, obj, user):
+        """Проверяет владение через связь service -> security_company"""
+        if hasattr(obj, 'service') and hasattr(obj.service, 'security_company'):
+            return obj.service.security_company.user == user
+        return False
 
-class IsCompanyOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Разрешает редактирование только владельцам компаний. Чтение разрешено всем.
-    """
+    def _is_object_owner(self, obj, user):
+        """Проверяет, является ли пользователь владельцем объекта"""
+        return hasattr(obj, 'user') and obj.user == user
 
+    def _check_safe_methods(self, request):
+        """Проверяет безопасные методы HTTP"""
+        return request.method in permissions.SAFE_METHODS
+
+
+class IsCompanyOwner(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        return self._is_company_owner(obj, request.user)
+
+
+class IsCompanyOwnerOrReadOnly(BaseCompanyPermission):
     def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
+        if self._check_safe_methods(request):
             return True
-
-        # Для создания нужно быть авторизованным
         if view.action == 'create':
             return request.user.is_authenticated
-
-        # Для остальных действий проверка на уровне объекта
         return True
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if self._check_safe_methods(request):
             return True
-
-        # Редактирование/удаление: только владелец компании
-        # Проверяем разные возможные связи
-        if hasattr(obj, 'user'):
-            return obj.user == request.user
-        elif hasattr(obj, 'security_company') and hasattr(obj.security_company, 'user'):
-            return obj.security_company.user == request.user
-        return False
+        return self._is_company_owner(obj, request.user)
 
 
-
-class IsRequestOwnerOrCompanyOwner(permissions.BasePermission):
-    """
-    Разрешает доступ:
-    - Любому авторизованному для создания заявок
-    - Пользователю, создавшему заявку (для чтения/обновления)
-    - Владельцу компании, к которой относится услуга
-    - Администраторам
-    """
-
+class IsRequestOwnerOrCompanyOwner(BaseCompanyPermission):
     def has_permission(self, request, view):
-        if view.action == 'create':
-            return request.user.is_authenticated
-        if view.action == 'list':
+        if view.action in ['create', 'list']:
             return request.user.is_authenticated
         return True
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_staff:
             return True
-        if obj.user == request.user:
+        if self._is_object_owner(obj, request.user):
             return True
-        if hasattr(obj, 'service') and hasattr(obj.service, 'security_company'):
-            return obj.service.security_company.user == request.user
-
+        if self._is_service_company_owner(obj, request.user):
+            return True
         return False
 
 
-class IsServiceOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Разрешает редактирование услуги только владельцу компании.
-    Чтение разрешено всем.
-    """
-
+class IsServiceOwnerOrReadOnly(BaseCompanyPermission):
     def has_permission(self, request, view):
-        # Безопасные методы разрешены всем
-        if request.method in permissions.SAFE_METHODS:
+        if self._check_safe_methods(request):
             return True
-        # Для создания нужно быть авторизованным
         if view.action == 'create':
             return request.user.is_authenticated
         return True
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if self._check_safe_methods(request):
             return True
-        # Проверяем, что пользователь - владелец компании услуги
-        if hasattr(obj, 'security_company') and hasattr(obj.security_company, 'user'):
-            return obj.security_company.user == request.user
-
-        return False
+        return self._is_company_owner(obj, request.user)
 
 
-# permissions.py
-class IsDiscountOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Разрешает:
-    - Всем авторизованным просматривать активные скидки
-    - Владельцам компаний редактировать свои скидки
-    - Администраторам все
-    """
-
+class IsDiscountOwnerOrReadOnly(BaseCompanyPermission):
     def has_permission(self, request, view):
-        # GET, HEAD, OPTIONS разрешены всем (или всем авторизованным)
-        if request.method in permissions.SAFE_METHODS:
-            # Если хотим, чтобы скидки видели все, включая неавторизованных:
-            # return True
-            # Если только авторизованные:
+        if self._check_safe_methods(request):
             return request.user.is_authenticated
-
-        # Для создания/редактирования нужно быть авторизованным
         return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        # Безопасные методы разрешены всем (или авторизованным)
-        if request.method in permissions.SAFE_METHODS:
+        if self._check_safe_methods(request):
             return True
+        if request.user.is_staff:
+            return True
+        if self._is_service_company_owner(obj, request.user):
+            return True
+        return False
 
-        # Редактирование: только владелец компании или администратор
+
+class IsCompanyOwnerOrAdmin(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
         if request.user.is_staff:
             return True
 
-        if hasattr(obj, 'service') and hasattr(obj.service, 'security_company'):
-            return obj.service.security_company.user == request.user
+        return self._is_object_owner(obj, request.user)
 
+
+class IsCompanyOwnerOnly(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        return self._is_object_owner(obj, request.user)
+
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
+
+
+class IsRequestOwnerOrCompanyOwnerOrAdmin(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+        if user.is_staff:
+            return True
+        if obj.user == user:
+            return True
+        if hasattr(obj.service, 'security_company') and obj.service.security_company.user == user:
+            return True
         return False
+
+
+class IsRequestOwnerOrAdmin(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+        return user.is_staff or obj.user == user
+
+
+class IsFavoriteOwnerOrAdmin(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+        if user.is_staff:
+            return True
+        return hasattr(obj, 'user') and obj.user == user
+
+
+class IsReviewOwnerOrAdmin(BaseCompanyPermission):
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+        if user.is_staff:
+            return True
+        return hasattr(obj, 'user') and obj.user == user

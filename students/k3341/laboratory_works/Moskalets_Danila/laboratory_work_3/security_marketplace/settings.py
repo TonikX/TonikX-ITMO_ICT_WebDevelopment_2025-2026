@@ -152,9 +152,10 @@ REST_FRAMEWORK = {
 
 
 DJOSER = {
-    'USER_CREATE_PASSWORD_RETYPE': True,
+    'USER_CREATE_PASSWORD_RETYPE': False,
     'SEND_ACTIVATION_EMAIL': False,
-    'SET_PASSWORD_RETYPE': True,
+    'SET_PASSWORD_RETYPE': False,
+    'SERIALIZER_PASSWORD_CONFIRM': False,
     'TOKEN_MODEL': None,
     'SERIALIZERS': {
         'user_create': 'core.serializers.CustomUserCreateSerializer',
