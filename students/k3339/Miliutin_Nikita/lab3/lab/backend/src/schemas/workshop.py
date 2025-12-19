@@ -32,8 +32,14 @@ class WorkshopOut(WorkshopBase):
     Выход для GET /workshops/{workshop_id} и ответа после create/update.
     """
     workshop_id: int
+    model_config = ConfigDict(from_attributes=True)
+
+
+class WorkshopOutWithChickenCount(WorkshopOut):
+    chicken_count: int | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
 
 
 class WorkshopOutShort(BaseModel):

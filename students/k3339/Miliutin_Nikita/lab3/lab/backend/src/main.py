@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.diet import router as diet_router
 from src.api.workshop import router as workshop_router
@@ -14,7 +15,22 @@ from src.api.employee_cage import router as employee_cage_router
 from src.api.auth import router as auth_router
 from src.api.analytics import router as analytics_router
 
+
 app = FastAPI(title="Poultry Farm API")
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # базовые сущности
 app.include_router(diet_router)

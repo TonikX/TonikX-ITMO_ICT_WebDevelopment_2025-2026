@@ -8,11 +8,12 @@ from sqlalchemy.orm import Session, selectinload
 from src.crud.workshop import CRUDWorkshop
 from src.database import SessionLocal
 from src.models import Workshop
-from src.schemas.workshop import WorkshopCreate, WorkshopOut, WorkshopUpdate
+from src.schemas.workshop import WorkshopCreate, WorkshopOut, WorkshopUpdate, WorkshopOutWithChickenCount
 from src.deps.auth import get_current_user
 # если у тебя есть short-схема клетки:
 from src.schemas.cage import CageOutShort
 from pydantic import BaseModel, ConfigDict
+
 
 router = APIRouter(prefix="/workshops", tags=["Workshop"], dependencies=[Depends(get_current_user)])
 crud_workshop = CRUDWorkshop()
@@ -33,23 +34,45 @@ class WorkshopWithCagesOut(WorkshopOut):
     model_config = ConfigDict(from_attributes=True)
 
 
-@router.get("/", response_model=List[WorkshopOut])
+@router.get("/", response_model=List[WorkshopOutWithChickenCount])
 def list_workshops(
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=500),
     workshop_no: Optional[int] = Query(None, ge=1),
     name_ilike: Optional[str] = Query(None, min_length=1),
+    count_chickens: bool = Query(False),
     db: Session = Depends(get_db),
 ):
-    return list(
-        crud_workshop.list(
-            db,
-            skip=skip,
-            limit=limit,
-            workshop_no=workshop_no,
-            name_ilike=name_ilike,
+    if not count_chickens:
+        # обычный список, chicken_count будет None (из дефолта)
+        return list(
+            crud_workshop.list(
+                db,
+                skip=skip,
+                limit=limit,
+                workshop_no=workshop_no,
+                name_ilike=name_ilike,
+            )
         )
+
+    rows = crud_workshop.list_with_chicken_count(
+        db,
+        skip=skip,
+        limit=limit,
+        workshop_no=workshop_no,
+        name_ilike=name_ilike,
     )
+
+    # rows: [(Workshop, chicken_count), ...]
+    return [
+        WorkshopOutWithChickenCount(
+            workshop_id=ws.workshop_id,
+            workshop_no=ws.workshop_no,
+            name=ws.name,
+            chicken_count=int(cnt or 0),
+        )
+        for ws, cnt in rows
+    ]
 
 
 @router.get("/{workshop_id}", response_model=WorkshopOut)

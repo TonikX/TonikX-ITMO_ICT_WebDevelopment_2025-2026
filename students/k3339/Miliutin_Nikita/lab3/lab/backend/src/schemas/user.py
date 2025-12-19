@@ -24,7 +24,7 @@ class UserCreate(UserBase):
     password: str = Field(..., min_length=8, max_length=64)
 
 
-class UserUpdate(BaseModel):
+class UserUpdate(UserBase):
     """
     PATCH: можно менять только то, что разрешишь.
     Обычно: смена пароля/роли/активности.

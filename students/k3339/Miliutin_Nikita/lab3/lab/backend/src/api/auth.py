@@ -10,7 +10,8 @@ from src.security import create_access_token, hash_password, verify_password
 from src.crud.user import CRUDUser
 from src.database import SessionLocal
 from src.models import User, UserRole
-from src.schemas.user import UserCreate, UserOut
+from src.schemas.user import UserCreate, UserOut, UserUpdate
+from src.deps.auth import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 crud_user = CRUDUser()
@@ -61,3 +62,32 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
         extra={"role": user.role.value, "username": user.username},
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UserOut)
+def me(user=Depends(get_current_user)):
+    return user
+
+
+@router.patch("/me", response_model=UserOut)
+def update_me(
+    data: UserUpdate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    # ВАЖНО: "user" может быть из другой Session -> грузим его в текущей
+    db_user = db.get(User, user.user_id)  # если поле называется иначе, см. ниже
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    try:
+        hashed = hash_password(data.password) if data.password else None
+        return crud_user.update(
+            db,
+            db_user,
+            username=getattr(data, "username", None),
+            hashed_password=hashed,
+        )
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Update conflict")

@@ -10,7 +10,7 @@ from passlib.context import CryptContext
 # >>> вынеси в env при первой возможности
 SECRET_KEY = "CHANGE_ME_TO_LONG_RANDOM_SECRET"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 # <<<
 
 _pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
