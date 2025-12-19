@@ -1,6 +1,11 @@
 <template>
   <div class="create-form">
     <h1>Создать Самолет</h1>
+
+    <div v-if="!isAuthenticated" class="warning">
+      <p>Вы должны <router-link to="/login">войти</router-link>, чтобы создать маршрут.</p>
+    </div><br/>
+
     <form @submit.prevent="submitForm">
       <label for="number">Номер самолета:</label>
       <input type="text" id="number" v-model="plane.number" placeholder="Введите номер самолета" required />
@@ -32,8 +37,7 @@
 </template>
 
 <script>
-import { getAirlineCompanies } from '../api/index.js';
-import { createPlane } from '../api/index.js';
+import { getAirlineCompanies, createPlane } from '../api/index.js';
 
 export default {
   name: 'CreatePlane',
@@ -50,6 +54,11 @@ export default {
       companies: [],
       error: null,
     };
+  },
+  computed: {
+    isAuthenticated() {
+      return !!this.$store.state.auth.token;
+    },
   },
   async created() {
     try {
@@ -69,7 +78,18 @@ export default {
         this.resetForm();
         this.$router.push('/planes');
       } catch(err){
-        alert('Ошибка создания самолета.');
+        console.error('Ошибка создания рейса:', err);
+
+        if (err.response && err.response.status === 401) {
+          alert('Ошибка:  требуется авторизация.');
+        } else if (err. response && err.response.status === 403) {
+          alert('Ошибка: доступ запрещён.');
+        } else if (err.response && err.response.data) {
+          alert(`Ошибка создания рейса: ${err.response.data}`);
+        } else {
+          alert('Ошибка создания рейса.');
+        }
+
         console.error(err);
       }
     },

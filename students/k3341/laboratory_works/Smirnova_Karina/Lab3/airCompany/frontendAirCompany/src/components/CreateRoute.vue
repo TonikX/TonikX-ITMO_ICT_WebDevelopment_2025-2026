@@ -4,7 +4,7 @@
 
     <div v-if="!isAuthenticated" class="warning">
       <p>Вы должны <router-link to="/login">войти</router-link>, чтобы создать маршрут.</p>
-    </div>
+    </div><br/>
 
     <form @submit.prevent="submitForm">
       <label for="departure-point">Пункт вылета:</label>
@@ -64,6 +64,7 @@ export default {
           alert('Ошибка создания маршрута.');
         }
         console.error(err);
+
       }
     },
     resetForm() {

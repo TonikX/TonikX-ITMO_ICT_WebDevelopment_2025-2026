@@ -1,6 +1,11 @@
 <template>
   <div class="create-form">
     <h1>Создать Компанию</h1>
+
+    <div v-if="!isAuthenticated" class="warning">
+      <p>Вы должны <router-link to="/login">войти</router-link>, чтобы создать маршрут.</p>
+    </div><br/>
+
     <form @submit.prevent="submitForm">
       <label for="name">Название компании:</label>
       <input
@@ -27,6 +32,11 @@ export default {
       },
     };
   },
+  computed: {
+    isAuthenticated() {
+      return !!this.$store.state.auth.token;
+    },
+  },
   methods: {
     async submitForm() {
       if (!this.company.name.trim()) {
@@ -40,7 +50,18 @@ export default {
         this.resetForm();
         this.$router.push('/airlines');
       } catch (err) {
-        alert('Ошибка создания компании.');
+        console.error('Ошибка создания рейса:', err);
+
+        if (err.response && err.response.status === 401) {
+          alert('Ошибка:  требуется авторизация.');
+        } else if (err. response && err.response.status === 403) {
+          alert('Ошибка: доступ запрещён.');
+        } else if (err.response && err.response.data) {
+          alert(`Ошибка создания рейса: ${err.response.data}`);
+        } else {
+          alert('Ошибка создания рейса.');
+        }
+
         console.error(err);
       }
     },

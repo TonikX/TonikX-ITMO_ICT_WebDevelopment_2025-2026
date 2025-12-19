@@ -1,6 +1,6 @@
 from django.db.models import Count, Avg
-from rest_framework import viewsets, permissions, status, filters
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
@@ -21,7 +21,7 @@ from .serializers import (
     CrewAndMembersSerializer,
     RouteWithFlightsSerializer,
     FlightEverythingSerializer,
-    FlightWithPlaneSerializer, PlaneWithCompanySerializer
+    PlaneWithCompanySerializer
 )
 
 
@@ -30,6 +30,7 @@ class AirlineCompanyViewSet(viewsets.ModelViewSet):
     ViewSet для модели AirlineCompany с возможностью поиска по названию.
     """
     queryset = AirlineCompany.objects.all().prefetch_related('plane_set', 'crew_members')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -43,6 +44,7 @@ class PlaneViewSet(viewsets.ModelViewSet):
     ViewSet для модели Plane + рейсы
     """
     queryset = Plane.objects.select_related('airline_company').prefetch_related('flight_set__route').all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -56,6 +58,7 @@ class CrewViewSet(viewsets.ModelViewSet):
     ViewSet для модели Crew + члены экипажа
     """
     queryset = Crew.objects.prefetch_related('members').all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve', 'update', 'partial_update'):
@@ -65,6 +68,7 @@ class CrewViewSet(viewsets.ModelViewSet):
 class CrewMemberViewSet(viewsets.ModelViewSet):
     queryset = CrewMember.objects.prefetch_related('company').all()
     serializer_class = CrewMemberSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all().prefetch_related('flights')
@@ -77,6 +81,7 @@ class RouteViewSet(viewsets.ModelViewSet):
 
 class FlightViewSet(viewsets.ModelViewSet):
     queryset = Flight.objects.select_related('route', 'plane').prefetch_related('crew__members').all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):

@@ -1,6 +1,11 @@
 <template>
   <div class="create-form">
     <h1>Создать Команду</h1>
+
+    <div v-if="!isAuthenticated" class="warning">
+      <p>Вы должны <router-link to="/login">войти</router-link>, чтобы создать маршрут.</p>
+    </div><br/>
+
     <form @submit.prevent="submitForm">
       <label for="members">Члены команды:</label>
       <div id="members" class="checkbox-list">
@@ -23,8 +28,7 @@
 </template>
 
 <script>
-import { getCrewMembers } from '../api/index.js';
-import { createCrew } from '../api/index.js';
+import { getCrewMembers, createCrew } from '../api/index.js';
 
 export default {
   name: 'CreateCrew',
@@ -36,6 +40,11 @@ export default {
       members: [],
       error: null,
     };
+  },
+  computed: {
+    isAuthenticated() {
+      return !!this.$store.state.auth.token;
+    },
   },
   async created() {
     try {
@@ -55,7 +64,18 @@ export default {
         this.resetForm();
         this.$router.push('/crews');
       } catch (err) {
-        alert('Ошибка создания команды.');
+        console.error('Ошибка создания рейса:', err);
+
+        if (err.response && err.response.status === 401) {
+          alert('Ошибка:  требуется авторизация.');
+        } else if (err. response && err.response.status === 403) {
+          alert('Ошибка: доступ запрещён.');
+        } else if (err.response && err.response.data) {
+          alert(`Ошибка создания рейса: ${err.response.data}`);
+        } else {
+          alert('Ошибка создания рейса.');
+        }
+
         console.error(err);
       }
     },
