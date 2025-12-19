@@ -1,0 +1,848 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../Lab2/Lab2/">
+      
+      
+        <link rel="next" href="../../Lab4/Lab4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>Lab3 - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#no3" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Lab1/Lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Lab2/Lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Lab3
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab3
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тема: Разработка серверной части (API) банковского приложения
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура проекта
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Проектирование и реализация модели данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-api-serializers-views" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Реализация логики API (Serializers &amp; Views)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Аутентификация и Djoser
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Аналитика и Агрегация данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Документирование API (Swagger)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Документирование API (Swagger)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выводы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Lab4/Lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prac3_1/Prac3_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prac3.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prac3_2/Prac3_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prac3.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prac4_2/Prac4_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prac4.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тема: Разработка серверной части (API) банковского приложения
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура проекта
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Проектирование и реализация модели данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-api-serializers-views" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Реализация логики API (Serializers &amp; Views)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Аутентификация и Djoser
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Аналитика и Агрегация данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Документирование API (Swagger)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Документирование API (Swagger)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выводы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="no3">Отчет по лабораторной работе №3</h1>
+<h3 id="api">Тема: Разработка серверной части (API) банковского приложения</h3>
+<h3 id="_1">Структура проекта</h3>
+<p>Проект представляет собой REST API приложение на Django + Django REST Framework. Реализована сложная структура базы данных и механизмы авторизации для дальнейшей интеграции с клиентской частью.</p>
+<ol>
+<li>
+<p><strong>Проект <code>bank_api_project</code></strong></p>
+<ul>
+<li><code>bank_api_project/settings.py</code> — основной файл настроек: подключение <code>rest_framework</code>, <code>djoser</code> (авторизация), <code>drf_yasg</code> (документация) и <code>corsheaders</code>.</li>
+<li><code>bank_api_project/urls.py</code> — глобальная маршрутизация, включая подключение эндпоинтов авторизации и Swagger-документации.</li>
+</ul>
+</li>
+<li>
+<p><strong>Приложение <code>banking</code></strong></p>
+<ul>
+<li><code>models.py</code> — описывает структуру базы данных согласно варианту "Маракулин". Включает модели: <code>Client</code>, <code>Passport</code>, <code>Deposit</code>, <code>Loan</code>, <code>Employee</code> и справочники (<code>Currency</code>, <code>Position</code>).</li>
+<li><code>serializers.py</code> — отвечает за преобразование сложных типов данных (моделей Django) в JSON и обратно. Реализована поддержка вложенных структур (например, графики платежей внутри кредита).</li>
+<li><code>views.py</code> — содержит логику обработки запросов (API Views). Используются <code>ModelViewSet</code> для реализации полного CRUD функционала, а также кастомные <code>@action</code> для аналитики.</li>
+<li><code>urls.py</code> — определяет маршруты (Router) для ресурсов API (<code>/api/v1/...</code>).</li>
+<li><code>admin.py</code> — конфигурация административной панели для управления всеми сущностями системы.</li>
+</ul>
+</li>
+</ol>
+<h2 id="1">1. Проектирование и реализация модели данных</h2>
+<p>Схема базы данных реализована с использованием Django ORM. Обеспечена целостность данных через использование <code>ForeignKey</code>, <code>PROTECT</code> и <code>CASCADE</code> ограничений.</p>
+<p>Ключевые сущности:
+-   <strong><code>Client</code> / <code>Passport</code></strong>: Хранение персональных данных. Реализована связь один-ко-многим.
+-   <strong><code>Deposit</code> / <code>DepositType</code></strong>: Управление вкладами, включая типы вкладов и графики начислений (<code>AccrualSchedule</code>).
+-   <strong><code>Loan</code> / <code>LoanType</code></strong>: Управление кредитами, графиками выплат (<code>PayoutSchedule</code>) и типами кредитования.
+-   <strong><code>Employee</code> / <code>Position</code></strong>: Кадровый учет, история занимаемых должностей (<code>OccupiedPosition</code>).</p>
+<p><strong>Код:</strong></p>
+<p><em>banking/models.py (фрагмент):</em></p>
+<pre><code class="language-python">from django.db import models
+
+class Client(models.Model):
+    fio = models.CharField(max_length=255, verbose_name=&quot;ФИО&quot;)
+    address = models.TextField(verbose_name=&quot;Адрес&quot;)
+    phone = models.CharField(max_length=20, verbose_name=&quot;Телефон&quot;)
+    email = models.EmailField(verbose_name=&quot;Email&quot;, blank=True, null=True)
+
+    def __str__(self):
+        return self.fio
+
+class Deposit(models.Model):
+    deposit_type = models.ForeignKey('DepositType', on_delete=models.PROTECT, verbose_name=&quot;Тип вклада&quot;)
+    currency = models.ForeignKey('Currency', on_delete=models.PROTECT, verbose_name=&quot;Код валюты&quot;)
+    passport = models.ForeignKey('Passport', on_delete=models.PROTECT, verbose_name=&quot;Паспорт&quot;)
+
+    contract_number = models.CharField(max_length=50, verbose_name=&quot;Номер договора&quot;)
+    deposit_sum = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=&quot;Сумма вклада&quot;)
+    deposit_date = models.DateField(verbose_name=&quot;Дата вклада&quot;)
+    return_date = models.DateField(verbose_name=&quot;Дата возврата&quot;)
+
+    #...
+</code></pre>
+<h2 id="2-api-serializers-views">2. Реализация логики API (Serializers &amp; Views)</h2>
+<p>Для взаимодействия с клиентом используется Django REST Framework.
+-   <strong>Сериализаторы (<code>Serializers</code>)</strong>: Описывают правила валидации и формат выходных данных. Реализована <strong>вложенная сериализация</strong> (Criterion 3): при запросе клиента отдаются его паспорта, при запросе кредита — график платежей.
+-   <strong>Представления (<code>ViewSets</code>)</strong>: Обеспечивают стандартные методы API: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>.</p>
+<p><strong>Код:</strong></p>
+<p><em>banking/serializers.py (фрагмент):</em></p>
+<pre><code class="language-python">from rest_framework import serializers
+from .models import Deposit, AccrualSchedule, Loan, PayoutSchedule
+
+class DepositSerializer(serializers.ModelSerializer):
+    accruals = AccrualScheduleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Deposit
+        fields = '__all__'
+
+class LoanSerializer(serializers.ModelSerializer):
+    payouts = PayoutScheduleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Loan
+        fields = '__all__'
+</code></pre>
+<h2 id="3-djoser">3. Аутентификация и Djoser</h2>
+<p>Для реализации системы регистрации и входа используется библиотека <strong>Djoser</strong>. Настроена аутентификация по токенам (<code>TokenAuthentication</code>), что позволяет безопасно взаимодействовать с API внешним клиентам.</p>
+<p>Доступные эндпоинты:
+-   <code>/auth/users/</code> — регистрация.
+-   <code>/auth/token/login/</code> — получение токена.
+-   <code>/auth/users/me/</code> — получение данных текущего пользователя.</p>
+<p><strong>Код:</strong></p>
+<p><em>settings.py (фрагмент):</em></p>
+<pre><code class="language-python">INSTALLED_APPS = [
+    # ...
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'corsheaders', 
+    'banking',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+</code></pre>
+<h2 id="4">4. Аналитика и Агрегация данных</h2>
+<p>В соответствии с требованиями (Criterion 4), реализованы дополнительные endpoints с аналитикой, использующие агрегационные функции SQL (<code>Sum</code>, <code>Count</code>, <code>Avg</code>, <code>Min</code>, <code>Max</code>).</p>
+<p>Реализованы действия:
+1.  <strong>Портфель клиента</strong>: Расчет общей суммы вкладов и долгов по кредитам.
+2.  <strong>KPI сотрудника</strong>: Подсчет количества и объема оформленных сотрудником договоров.
+3.  <strong>Статистика валют</strong>: Анализ колебаний курса (мин/макс/среднее).</p>
+<p><strong>Код:</strong></p>
+<p><em>banking/views.py (фрагмент):</em></p>
+<pre><code class="language-python">class ClientViewSet(BaseViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+    @action(detail=True, methods=['get'])
+    def portfolio(self, request, pk=None):
+        &quot;&quot;&quot;
+        Агрегационный запрос: Считает общую сумму вкладов и кредитов клиента.
+        &quot;&quot;&quot;
+        client = self.get_object()
+
+        total_deposits = Deposit.objects.filter(
+            passport__client=client
+        ).aggregate(total=Sum('deposit_sum'))['total'] or 0
+
+        total_loans = Loan.objects.filter(
+            passport__client=client
+        ).aggregate(total=Sum('sum_credit'))['total'] or 0
+
+        return Response({
+            'client': client.fio,
+            'total_deposits_amount': total_deposits,
+            'total_loans_amount': total_loans,
+            'net_balance': total_deposits - total_loans
+        })
+</code></pre>
+<h2 id="5-api-swagger">5. Документирование API (Swagger)</h2>
+<p>Для автоматической генерации документации подключена библиотека <code>drf-yasg</code>. Это позволяет тестировать запросы и просматривать структуру ответов через веб-интерфейс без написания внешней документации вручную.</p>
+<p>Доступные интерфейсы:
+-   <strong>Swagger UI</strong>: <code>/swagger/</code>
+-   <strong>ReDoc</strong>: <code>/redoc/</code></p>
+<p><strong>Код:</strong></p>
+<p><em>bank_api_project/urls.py (фрагмент):</em></p>
+<pre><code class="language-python">from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title=&quot;Bank API&quot;,
+      default_version='v1',
+      description=&quot;API для банковской системы (Лабораторная №3)&quot;,
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+urlpatterns = [
+    # ...
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
+]
+</code></pre>
+<h3 id="_2">Выводы</h3>
+<p>В ходе выполнения лабораторной работы была разработана серверная часть веб-приложения (API).</p>
+<ul>
+<li>
+<p>Спроектирована и реализована реляционная модель базы данных сложной структуры (более 10 таблиц).</p>
+</li>
+<li>
+<p>Настроен Django REST Framework для сериализации данных, включая работу с вложенными объектами.</p>
+</li>
+<li>
+<p>Реализованы сложные агрегационные запросы для бизнес-аналитики.</p>
+</li>
+<li>
+<p>Подключена система авторизации Djoser (Token Auth).</p>
+</li>
+<li>
+<p>Реализована автодокументация API через Swagger.</p>
+</li>
+<li>
+<p>Произведена настройка CORS для будущей интеграции с Vue.js.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
