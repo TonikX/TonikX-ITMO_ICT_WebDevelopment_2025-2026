@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Список отелей{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Список отелей</h1>
+
+    <!-- 🔍 Поиск -->
+    <form method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Поиск отелей...">
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </form>
+
+    <!-- 📋 Список отелей -->
+    <div class="row">
+        {% for hotel in hotels %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'hotel_detail' hotel.id %}" class="text-decoration-none">
+                            {{ hotel.name }}
+                        </a>
+                    </h5>
+                    <p class="card-text"><strong>Адрес:</strong> {{ hotel.address }}</p>
+                    <p class="card-text">{{ hotel.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Отелей пока нет.</p>
+        {% endfor %}
+    </div>
+
+    <!-- 📄 Пагинация -->
+    {% if hotels.paginator.num_pages > 1 %}
+    <nav aria-label="Навигация по страницам">
+        <ul class="pagination justify-content-center">
+            {% if hotels.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?q={{ query }}&page={{ hotels.previous_page_number }}">← Назад</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">← Назад</span></li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Стр. {{ hotels.number }} из {{ hotels.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if hotels.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?q={{ query }}&page={{ hotels.next_page_number }}">Вперед →</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Вперед →</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Мои бронирования</h1>
+
+    <a href="{% url 'make_reservation' %}" class="btn btn-primary mb-3">➕ Новое бронирование</a>
+
+    {% for r in reservations %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ r.room.room_type }} ({{ r.room.hotel.name }})</h5>
+            <p class="card-text"><strong>Даты:</strong> {{ r.check_in }} — {{ r.check_out }}</p>
+            
+            <div class="d-flex gap-2">
+                <a href="{% url 'edit_reservation' r.id %}" class="btn btn-warning">Редактировать</a>
+                <form method="post" action="{% url 'delete_reservation' r.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>    
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info">У вас пока нет бронирований.</div>
+    {% endfor %}
+
+    <!-- Пагинация -->
+    {% if reservations.paginator.num_pages > 1 %}
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if reservations.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ reservations.previous_page_number }}">← Назад</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">← Назад</span></li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Стр. {{ reservations.number }} из {{ reservations.paginator.num_pages }}
+          </span>
+        </li>
+
+        {% if reservations.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ reservations.next_page_number }}">Вперед →</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Вперед →</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
