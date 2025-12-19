@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Задание 5: Веб-сервер (GET/POST) - Отчеты по лабораторным работам. Генне Константин, K3340</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "\u0417\u0430\u0434\u0430\u043d\u0438\u0435", url: "#_top", children: [
+          ]},
+          {title: "\u0420\u0435\u0448\u0435\u043d\u0438\u0435", url: "#_2", children: [
+              {title: "\u0421\u0435\u0440\u0432\u0435\u0440", url: "#_3" },
+          ]},
+          {title: "\u041f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u0435", url: "#_4", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-link">
+        Лабораторная работа №2
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../task4/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../task4/" class="btn btn-xs btn-link">
+        Задание 4: TCP Чат
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="_1">Задание</h1>
+<p>Написать простой веб-сервер для обработки GET и POST HTTP-запросов с помощью библиотеки socket в Python.</p>
+<p><strong>Требования:</strong></p>
+<ul>
+<li>Принять и записать информацию о дисциплине и оценке по дисциплине.</li>
+<li>Отдать информацию обо всех оценках по дисциплинам в виде HTML-страницы.</li>
+</ul>
+<hr />
+<h1 id="_2">Решение</h1>
+<h2 id="_3">Сервер</h2>
+<pre><code class="language-python">import socket
+import sys
+from request import Request
+from response import Response
+from HTTPError import HTTPError
+from email.parser import Parser
+
+
+MAX_LINE = 64 * 1024
+MAX_HEADERS = 100
+
+
+class MyHTTPServer:
+    # Параметры сервера
+    def __init__(self, host, port, server_name):
+        self._host = host
+        self._port = port
+        self._server_name = server_name
+
+    def serve_forever(self):
+    # 1. Запуск сервера на сокете, обработка входящих соединений
+        serv_sock = socket.socket(
+           socket.AF_INET,
+           socket.SOCK_STREAM,
+           proto=0
+        )
+
+        try:
+            serv_sock.bind((self._host, self._port))
+            serv_sock.listen()
+
+            print(f'Сервер запущен на сокете {self._host}:{self._port}')
+
+            while True:
+                conn, _ = serv_sock.accept()
+                try:
+                    self.serve_client(conn)
+                except Exception as e:
+                   print('Client serving failed 2', e)
+        finally:
+           serv_sock.close()
+
+
+    def serve_client(self, conn):
+    # 2. Обработка клиентского подключения
+        try:
+           req = self.parse_request(conn)
+           resp = self.handle_request(req)
+           self.send_response(conn, resp)
+        except ConnectionResetError:
+           conn = None
+        except Exception as e:
+           self.send_error(conn, e)
+
+        if conn:
+           req.rfile.close()
+           conn.close()
+
+
+    def parse_request(self, conn):
+    # 3. функция для обработки заголовка http+запроса. Python, сокет предоставляет возможность создать вокруг него некоторую обертку, которая предоставляет file object интерфейс. Это дайте возможность построчно обработать запрос. Заголовок всегда - первая строка. Первую строку нужно разбить на 3 элемента  (метод + url + версия протокола). URL необходимо разбить на адрес и параметры (isu.ifmo.ru/pls/apex/f?p=2143 , где isu.ifmo.ru/pls/apex/f, а p=2143 - параметр p со значением 2143)
+        rfile = conn.makefile('rb')
+        method, target, ver = self.parse_request_line(rfile)
+        headers = self.parse_headers(rfile)
+        host = headers.get('Host')
+        if not host:
+           raise HTTPError(400, 'Bad request', 'Host header is missing')
+        if host not in (self._server_name, f'{self._server_name}:{self._port}'):
+           raise HTTPError(404, 'not found')
+
+        return Request(method, target, ver, headers, rfile)
+
+
+    def parse_headers(self, rfile):
+    # 4. Функция для обработки headers. Необходимо прочитать все заголовки после первой строки до появления пустой строки и сохранить их в массив.
+        headers = []
+        while True:
+           line = rfile.readline(MAX_LINE + 1)
+           if len(line) &gt; MAX_LINE:
+              raise HTTPError(494, 'Request header too large')
+
+           if line in (b'\r\n', b'\n', b''):
+              break
+
+           headers.append(line)
+           if len(headers) &gt; MAX_HEADERS:
+              raise HTTPError(494, 'Too many headers')
+
+        sheaders = b''.join(headers).decode('iso-8859-1')
+
+        return Parser().parsestr(sheaders)
+
+
+    def parse_request_line(self, rfile):
+        raw = rfile.readline(MAX_LINE + 1)
+        if len(raw) &gt; MAX_LINE:
+            raise HTTPError(400, 'Bad request', 'Request line is too long')
+
+        req_line = str(raw, 'iso-8859-1')
+        req_line = req_line.rstrip('\r\n')
+        words = req_line.split()
+        if len(words) != 3:
+            raise HTTPError(400, 'Bad request', 'Malformed request line')
+
+        method, target, version = words
+        if version != 'HTTP/1.1':
+            raise HTTPError(505, 'HTTP Version Not Supported')
+
+        return method, target, version
+
+
+    def handle_request(self, req):
+    # 5. Функция для обработки url в соответствии с нужным методом. В случае данной работы, нужно будет создать набор условий, который обрабатывает GET или POST запрос. GET запрос должен возвращать данные. POST запрос должен записывать данные на основе переданных параметров.
+        if req.path == '/addMark' and req.method == 'POST':
+           return self.handle_post_marks(req)
+
+        if req.path == '/' and req.method == 'GET':
+           return self.handle_get_subjects()
+
+        if req.path == '/marks' and req.method == 'GET':
+            return self.handle_get_marks()
+
+        raise HTTPError(404, 'Not found')
+
+
+    def send_response(self, conn, resp):
+    # 6. Функция для отправки ответа. Необходимо записать в соединение status line вида HTTP/1.1 &lt;status_code&gt; &lt;reason&gt;. Затем, построчно записать заголовки и пустую строку, обозначающую конец секции заголовков.
+        wfile = conn.makefile('wb')
+        status_line = f'HTTP/1.1 {resp.status} {resp.reason}\r\n'
+        wfile.write(status_line.encode('iso-8859-1'))
+
+        if resp.headers:
+           for (key, value) in resp.headers:
+              header_line = f'{key}: {value}\r\n'
+              wfile.write(header_line.encode('iso-8859-1'))
+
+        wfile.write(b'\r\n')
+
+        if resp.body:
+           wfile.write(resp.body)
+
+        wfile.flush()
+        wfile.close()
+
+
+    def send_error(self, conn, err):
+        try:
+          status = err.status
+          reason = err.reason
+          body = (err.body or err.reason).encode('utf-8')
+        except:
+           status = 500
+           reason = b'Internal Server Error'
+           body = b'Internal Server Error'
+
+        resp = Response(status, reason, [('Content-Length', len(body))], body)
+        self.send_response(conn, resp)
+
+
+    def handle_get_marks(self):
+        contentType = 'text/html; charset=utf-8'
+
+        if all(not lst for lst in subjects.values()):
+            marks_html = '''
+                &lt;p&gt;Вы еще не добавили ни одной оценки.&lt;/p&gt;
+            '''
+        else:
+            marks_html = ''
+            for subject, marks in subjects.items():
+                marks_list = ', '.join([m for m in marks])
+
+                marks_html += f'''
+                &lt;div class=&quot;subject-group&quot;&gt;
+                    &lt;h3&gt;{subject}&lt;/h3&gt;
+                    &lt;p&gt;&lt;strong&gt;Оценки:&lt;/strong&gt; {marks_list}&lt;/p&gt;
+                    &lt;p&gt;&lt;strong&gt;Количество оценок:&lt;/strong&gt; {len(marks)}&lt;/p&gt;
+                    &lt;hr&gt;
+                &lt;/div&gt;
+                '''
+        body = f'''
+            &lt;h2&gt;Оценки по всем предметам&lt;/h2&gt; 
+            {marks_html}
+            &lt;div class=&quot;navigation&quot;&gt;
+                &lt;a href=&quot;/&quot; class=&quot;back-button&quot;&gt;Вернуться к проставлению оценок&lt;/a&gt;
+            &lt;/div&gt;
+            '''
+
+        body = body.encode('utf-8')
+
+        headers = [('Content-Type', contentType),
+               ('Content-Length', len(body))]
+
+        return Response(200, 'OK', headers, body)
+
+
+    def handle_post_marks(self, req):
+        global subjects
+
+        body = req.body
+
+        if not body:
+            raise HTTPError(400, 'Bad Request', 'No form data received')
+
+        sub = body.get('sub')[0]
+        mark = body.get('mark')[0]
+
+        subjects[sub].append(mark)
+
+        print(f'Пользователь поставил оценку. Дисциплина: {sub}. Оценка: {mark}')
+
+        # Перенаправление на главную страницу
+        headers = [('Location', '/')]
+
+        return Response(302, 'Found', headers)
+
+
+    def handle_get_subjects(self):
+        contentType = 'text/html; charset=utf-8'
+
+        subject_options = ''.join(
+            f'&lt;option value=&quot;{sub}&quot;&gt;{sub}&lt;/option&gt;' 
+            for sub in subjects.keys()
+        )
+
+        mark_options = ''.join(
+            f'&lt;option value=&quot;{mark}&quot;&gt;{mark}&lt;/option&gt;' 
+            for mark in MARKS
+        )
+
+        body = f'''
+            &lt;h2&gt;Добавить новую оценку&lt;/h2&gt;
+            &lt;form action=&quot;/addMark&quot; method=&quot;POST&quot; enctype=&quot;application/x-www-form-urlencoded&quot;&gt;
+                &lt;label&gt;Предмет: &lt;select name=&quot;sub&quot; required&gt;
+                    &lt;option value=&quot;&quot;&gt;-- Выберите --&lt;/option&gt;
+                    {subject_options}
+                &lt;/select&gt;&lt;/label&gt;&lt;br&gt;
+
+                &lt;label&gt;Оценка: &lt;select name=&quot;mark&quot; required&gt;
+                    &lt;option value=&quot;&quot;&gt;-- Выберите --&lt;/option&gt;
+                    {mark_options}
+                &lt;/select&gt;&lt;/label&gt;&lt;br&gt;
+
+                &lt;button type=&quot;submit&quot;&gt;Добавить оценку&lt;/button&gt;
+            &lt;/form&gt;
+
+            &lt;div class=&quot;navigation&quot;&gt;
+                &lt;a href=&quot;/marks&quot; class=&quot;back-button&quot;&gt;Посмотреть оценки по всем предметам&lt;/a&gt;
+            &lt;/div&gt;
+            '''
+
+        body = body.encode('utf-8')
+        headers = [('Content-Type', contentType),
+               ('Content-Length', len(body))]
+
+        return Response(200, 'OK', headers, body)
+
+
+def load_data(file_address):
+    try:
+        with open(file_address, 'r', encoding='utf-8') as f:
+            return [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        print(f&quot;Ошибка: Файл {file_address} не найден!&quot;)
+        return None
+    except Exception as e:
+        print(f&quot;Ошибка при чтении файла {file_address}: {e}&quot;)
+        return None
+
+
+def initialize_data():
+    global subjects, MARKS
+
+    subjects_data = load_data('Data/subjects.txt')
+    if subjects_data is None:
+        return False
+    elif not subjects_data:
+        print(&quot;Предупреждение: файл subjects.txt пуст&quot;)
+        return False
+    else:
+        subjects = {k: [] for k in subjects_data}
+
+    marks_data = load_data('Data/marks.txt')
+    if marks_data is None:
+        return False
+    elif not marks_data:
+        print(&quot;Предупреждение: файл marks.txt пуст&quot;)
+        return False
+    else:
+        MARKS = marks_data
+
+    return True
+
+
+if __name__ == '__main__':
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+    name = sys.argv[3]
+
+    # Инициализируем данные перед созданием сервера
+    if not initialize_data():
+        print(&quot;Ошибка: Не удалось загрузить необходимые файлы. Сервер не запущен.&quot;)
+        sys.exit(1)
+
+    serv = MyHTTPServer(host, port, name)
+
+    try:
+        serv.serve_forever()
+    except KeyboardInterrupt:
+        pass
+</code></pre>
+<p>Вспомогательные классы:</p>
+<p>request.py</p>
+<pre><code class="language-python">from functools import lru_cache
+from urllib.parse import parse_qs, urlparse
+
+
+class Request:
+    def __init__(self, method, target, version, headers, rfile):
+        self.method = method
+        self.target = target
+        self.version = version
+        self.headers = headers
+        self.rfile = rfile
+
+    @property
+    def path(self):
+        return self.url.path
+
+    @property
+    @lru_cache(maxsize=None)
+    def query(self):
+        return parse_qs(self.url.query)
+
+    @property
+    @lru_cache(maxsize=None)
+    def url(self):
+        return urlparse(self.target)
+
+
+    @property
+    def body(self):
+        try:
+            size = self.headers.get('Content-Length')
+            if not size:
+                return {}
+
+            content_length = int(size)
+            if content_length == 0:
+                return {}
+
+            raw_body = self.rfile.read(content_length)
+            if not raw_body:
+                return {}
+
+            body_str = raw_body.decode('utf-8')
+            return parse_qs(body_str)
+
+        except (ValueError, UnicodeDecodeError, Exception) as e:
+            print(f&quot;Error parsing request body: {e}&quot;)
+        return {}
+</code></pre>
+<p>response.py</p>
+<pre><code class="language-python">class Response:
+    def __init__(self, status, reason, headers=None, body=None):
+        self.status = status
+        self.reason = reason
+        self.headers = headers
+        self.body = body
+</code></pre>
+<p>HTTPError.py</p>
+<pre><code class="language-python">class HTTPError(Exception):
+    def __init__(self, status, reason, body=None):
+        super()
+        self.status = status
+        self.reason = reason
+        self.body = body
+</code></pre>
+<hr />
+<h1 id="_4">Пояснение</h1>
+<p>Сервер реализует простой HTTP/1.1-сервер на сокете. Он обрабатывает GET- и POST-запросы, хранит данные об оценках по предметам в памяти и отображает их через HTML-интерфейс.</p>
+<p><strong>1. Запуск сервера (<code>serve_forever</code>)</strong>
+Сервер создаёт TCP-сокет, привязывается к <code>127.0.0.1:9090</code>.
+В бесконечном цикле принимает входящие подключения. Работает только с одним подключением в однопоточном режиме.</p>
+<p><strong>2. Обработка запроса (<code>serve_client</code>)</strong>
+Для каждого подключения:
+  - Парсится HTTP-запрос (<code>parse_request</code>);
+  - Выполняется логика обработки (<code>handle_request</code>);
+  - Формируется и отправляется HTTP-ответ (<code>send_response</code>).
+При ошибках отправляется соответствующий HTTP-статус.</p>
+<p><strong>3. Парсинг HTTP-запроса</strong>
+Стартовая строка(<code>parse_request_line</code>): извлекаются метод, URL и версия протокола.
+Заголовки (<code>parse_headers</code>): читаются до пустой строки, проверяются на длину и количество.
+Обязательный заголовок <code>Host</code> должен совпадать с именем сервера.
+URL разбирается с помощью <code>urlparse</code> (в классе <code>Request</code>), параметры из тела POST-запроса — через <code>parse_qs</code>.</p>
+<p><strong>4. Обработка маршрутов (<code>handle_request</code>)</strong>
+Сервер поддерживает три маршрута:
+- <code>GET /</code> — отображает форму для добавления оценки (выбор предмета и оценки из заранее загруженных списков).
+- <code>POST /addMark</code> — добавляет новую оценку в глобальный словарь <code>subjects</code> и перенаправляет на главную (<code>302 Found</code>).
+- <code>GET /marks</code> — показывает все сохранённые оценки по предметам.</p>
+<p><strong>5. Отправка ответа (<code>send_response</code>)</strong>
+Формирует корректный HTTP ответ.</p>
+<p><strong>6. Обработка ошибок (<code>send_error</code>)</strong>
+При возникновении исключений (в т.ч. <code>HTTPError</code>) сервер возвращает соответствующий код ошибки и сообщение.</p>
+<p>Данные о <strong>предметах</strong> и <strong>допустимых оценках</strong> загружаются при запуске из файлов <code>Data/subjects.txt</code> и <code>Data/marks.txt</code>.</p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-link">
+        Лабораторная работа №2
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../task4/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../task4/" class="btn btn-xs btn-link">
+        Задание 4: TCP Чат
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="container-fluid wm-page-content">
+  <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
