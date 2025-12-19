@@ -109,3 +109,14 @@ security_marketplace/<br>
 - **POST /auth/jwt/create/** - получить токен
 - **POST /auth/jwt/refresh/** - обновить токен
 - **POST /auth/jwt/verify/** - проверить токен
+
+![Эндпоинт API](imgs/lr3.1_1.png)<br>
+![Эндпоинт API](imgs/lr3.1_2.png)<br>
+![Эндпоинт API](imgs/lr3.1_3.png)<br>
+![Эндпоинт API](imgs/lr3.1_4.png)<br>
+![Эндпоинт API](imgs/lr3.1_5.png)<br>
+![Эндпоинт API](imgs/lr3.1_6.png)<br>
+![Эндпоинт API](imgs/lr3.1_7.png)<br>
+![Эндпоинт API](imgs/lr3.1_8.png)<br>
+![Эндпоинт API](imgs/lr3.1_9.png)<br>
+![Эндпоинт API](imgs/lr3.1_10.png)
