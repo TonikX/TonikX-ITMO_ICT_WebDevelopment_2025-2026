@@ -15,3 +15,12 @@ nav:
       - Запуск и использование: lab2/startup.md
       - API и интерфейс: lab2/api.md
       - Администрирование: lab2/admin.md
+  - ЛР 3:
+      - Главная: lab3/index.md
+      - Запуск и использование: lab3/startup.md
+      - Модели sqlalchemy: lab3/models.md
+      - API: lab3/api.md
+  - ЛР 4:
+      - Главная: lab4/index.md
+      - Запуск и использование: lab4/startup.md
+      - Интерфейсы: lab4/interfaces.md
