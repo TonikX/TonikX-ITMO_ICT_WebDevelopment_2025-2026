@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import Patient, Doctor, DoctorSchedule, Room, MedicalRecord, Visit, Payment
 
 class PatientSerializer(serializers.ModelSerializer):
+    medical_record_id = serializers.IntegerField(
+        source='medical_record.id',
+        read_only=True
+    )
+
     class Meta:
         model = Patient
         fields = "__all__"
