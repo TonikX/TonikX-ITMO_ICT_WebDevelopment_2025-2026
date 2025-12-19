@@ -1,0 +1,37 @@
+{% extends "homework/base.html" %}
+{% load extra_filters %}
+
+{% block content %}
+<h2>Таблица оценок</h2>
+
+<table class="table table-bordered table-sm">
+  <thead class="thead-light">
+    <tr>
+      <th>Ученик</th>
+      {% for a in assignments %}
+        <th>{{ a.title|truncatechars:20 }}<br><small>{{ a.subject.name }}</small></th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+      <tr>
+        <td>{{ student.get_full_name|default:student.username }}</td>
+        {% for a in assignments %}
+          {% with grade=matrix|get_item:student.pk|get_item:a.pk %}
+            <td>
+              {% if grade %}
+                {{ grade }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          {% endwith %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p class="text-muted">Примечание: таблица показывает оценки (если есть) — учитель выставляет оценки через Django Admin.</p>
+{% endblock %}

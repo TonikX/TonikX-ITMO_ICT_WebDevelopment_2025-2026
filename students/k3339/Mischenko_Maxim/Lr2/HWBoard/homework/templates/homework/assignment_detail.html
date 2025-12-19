@@ -1,0 +1,26 @@
+{% extends "homework/base.html" %}
+{% block content %}
+<h2>{{ assignment.title }}</h2>
+<p><strong>Предмет:</strong> {{ assignment.subject.name }} — <strong>Преподаватель:</strong> {{ assignment.teacher }}</p>
+<p><strong>Дата выдачи:</strong> {{ assignment.date_issued }} — <strong>Период (дней):</strong> {{ assignment.period_days }} — <strong>Срок:</strong> {{ assignment.due_date }}</p>
+<hr>
+<div>{{ assignment.description|linebreaks }}</div>
+{% if assignment.penalties_info %}
+  <hr><p><strong>Штрафы:</strong> {{ assignment.penalties_info|linebreaks }}</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+  {% if user_submission %}
+    <hr>
+    <h5>Ваша сдача</h5>
+    <p>{{ user_submission.text|linebreaks }}</p>
+    <p><strong>Дата сдачи:</strong> {{ user_submission.submitted_at }}</p>
+    <p><strong>Оценка:</strong> {% if user_submission.grade %}{{ user_submission.grade }}{% else %}Не выставлена{% endif %}</p>
+    <a class="btn btn-secondary" href="{% url 'homework:submit_assignment' assignment.pk %}">Редактировать сдачу</a>
+  {% else %}
+    <a class="btn btn-primary" href="{% url 'homework:submit_assignment' assignment.pk %}">Сдать задание</a>
+  {% endif %}
+{% else %}
+  <p>Чтобы сдать задание, войдите в систему.</p>
+{% endif %}
+{% endblock %}
