@@ -69,6 +69,13 @@ class EmployeesCountSerializer(serializers.Serializer):
 class RoutesPickSerializer(serializers.Serializer):
     filled_less_than = serializers.FloatField(required=False)
     
+class CreateTicketSerializer(serializers.Serializer):
+    flight_id = serializers.IntegerField()
+    passenger_data = PassengerSerializer()
+    seat_id = serializers.IntegerField()
+    sale_channel = serializers.CharField()
+    additional_fee = serializers.FloatField(required=False)
+    
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

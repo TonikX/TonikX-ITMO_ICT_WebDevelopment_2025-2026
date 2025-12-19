@@ -6,6 +6,8 @@ import Profile from '../views/Profile.vue'
 import Planes from '../views/Planes.vue'
 import Routes from '../views/Routes.vue'
 import Seats from '../views/Seats.vue'
+import Tickets from '../views/Tickets.vue'
+import MyTickets from '../views/MyTickets.vue'
 
 const routes = [
   { path: '/', redirect: '/planes' },
@@ -16,6 +18,8 @@ const routes = [
   { path: '/planes', component: Planes },
   { path: '/routes', component: Routes },
   { path: '/seats', component: Seats },
+  { path: '/tickets', component: Tickets },
+  { path: '/my-tickets', component: MyTickets },
 ]
 
 const router = createRouter({

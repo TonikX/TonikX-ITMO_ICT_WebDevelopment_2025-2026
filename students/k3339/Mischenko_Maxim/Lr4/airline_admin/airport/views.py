@@ -212,3 +212,101 @@ def employees_count(request):
     count = CrewMember.objects.count()
     serializer = EmployeesCountSerializer({'employees_count': count})
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def my_booked_tickets(request):
+    """
+    Get all booked tickets for the current user (passenger).
+    
+    This endpoint would typically use authentication to identify the user.
+    For this implementation, we'll return all tickets as an example.
+    
+    Responses:
+        200: Successfully retrieved booked tickets
+        500: Internal server error
+    """
+    try:
+        # In a real implementation, you would filter by the current user
+        # For this example, we'll return all booked tickets
+        tickets = Ticket.objects.select_related('passenger', 'seat', 'flight').all()
+        serializer = TicketSerializer(tickets, many=True)
+        return Response(serializer.data)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+def create_ticket(request):
+    """
+    Create a new ticket.
+    
+    Request Body:
+        flight_id (int): The ID of the flight
+        passenger_data (dict): Passenger information
+            full_name (str): Passenger's full name
+            passport_serial (str): Passport serial
+            passport_number (str): Passport number
+            passport_region (str): Passport region
+            birth_date (str): Birth date in YYYY-MM-DD format
+            phone_number (str): Phone number
+            email (str): Email address
+        seat_number (str): The seat number
+        sale_channel (str): Sale channel
+        additional_fee (float): Additional fee
+        
+    Responses:
+        201: Successfully created ticket
+        400: Invalid request data
+        500: Internal server error
+    """
+    try:
+        flight_id = request.data.get('flight_id')
+        passenger_data = request.data.get('passenger_data')
+        seat_number = request.data.get('seat_number')
+        sale_channel = request.data.get('sale_channel')
+        additional_fee = request.data.get('additional_fee', 0)
+        
+        if not all([flight_id, passenger_data, seat_number, sale_channel]):
+            return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            flight = Flight.objects.get(id=flight_id)
+        except Flight.DoesNotExist:
+            return Response({'error': 'Flight not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            seat = Seat.objects.get(seat_number=seat_number, flight=flight)
+        except Seat.DoesNotExist:
+            return Response({'error': 'Seat not found or not associated with this flight'}, status=status.HTTP_404_NOT_FOUND)
+        
+        if seat.is_booked:
+            return Response({'error': 'Seat is already booked'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        required_passenger_fields = ['full_name', 'passport_serial', 'passport_number', 'passport_region', 'birth_date', 'phone_number', 'email']
+        if not all(field in passenger_data for field in required_passenger_fields):
+            return Response({'error': 'Missing required passenger fields'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        passenger, created = Passenger.objects.get_or_create(
+            passport_serial=passenger_data['passport_serial'],
+            passport_number=passenger_data['passport_number'],
+            defaults=passenger_data
+        )
+        
+        ticket = Ticket.objects.create(
+            flight=flight,
+            passenger=passenger,
+            seat=seat,
+            sale_channel=sale_channel,
+            status='paid',
+            additional_fee=additional_fee
+        )
+        
+        seat.is_booked = True
+        seat.save()
+        
+        serializer = TicketSerializer(ticket)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -24,6 +24,12 @@
           <v-btn to="/seats" rounded="lg" variant="text" class="nav-btn">
             <v-icon start>mdi-seat-passenger</v-icon>Места
           </v-btn>
+          <v-btn to="/tickets" rounded="lg" variant="text" class="nav-btn">
+            <v-icon start>mdi-ticket</v-icon>Билеты
+          </v-btn>
+          <v-btn to="/my-tickets" rounded="lg" variant="text" class="nav-btn">
+            <v-icon start>mdi-ticket-account</v-icon>Мои билеты
+          </v-btn>
           
           <div class="divider-vertical mx-3"></div>
           

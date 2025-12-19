@@ -49,11 +49,12 @@
                 </div>
 
                 <div class="seats-wrapper">
-                   <div 
-                    v-for="seat in availableSeats" 
-                    :key="seat" 
+                   <div
+                    v-for="seat in availableSeats"
+                    :key="seat"
                     class="seat-unit"
                     v-ripple
+                    @click="selectSeat(seat)"
                   >
                     {{ seat }}
                   </div>
@@ -85,11 +86,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import api from '../api';
 
 const flightIdSearch = ref('');
 const availableSeats = ref([]);
 const searchPerformed = ref(false);
+const router = useRouter();
 
 const checkSeats = async () => {
   if (!flightIdSearch.value) return;
@@ -102,6 +105,17 @@ const checkSeats = async () => {
   } catch (e) {
     console.error(e);
   }
+};
+
+const selectSeat = (seatNumber) => {
+  // Navigate to ticket creation page with flight ID and seat number as query parameters
+  router.push({
+    path: '/tickets',
+    query: {
+      flightId: flightIdSearch.value,
+      seatNumber: seatNumber
+    }
+  });
 };
 </script>
 
