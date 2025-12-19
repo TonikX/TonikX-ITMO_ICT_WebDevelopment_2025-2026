@@ -1,0 +1,133 @@
+.profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0c1a2d 0%, #1e3a5f 100%);
+    padding: 2rem;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.profile-content h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.profile-info {
+    margin-bottom: 2rem;
+}
+
+.profile-info p {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #2563eb;
+}
+
+.profile-info strong {
+    color: #60a5fa;
+}
+
+.role-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #475569;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #374151;
+    transform: translateY(-2px);
+}
+
+.btn-logout {
+    background: #dc2626;
+    color: white;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.btn-logout:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+.logout-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.no-role-message {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.no-role-message p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .profile-content {
+        padding: 2rem;
+    }
+
+    .profile-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .role-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 200px;
+    }
+}

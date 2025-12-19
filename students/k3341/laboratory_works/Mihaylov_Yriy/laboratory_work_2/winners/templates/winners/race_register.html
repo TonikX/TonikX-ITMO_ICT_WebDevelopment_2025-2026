@@ -1,0 +1,42 @@
+<!-- templates/races/race_register.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/race_pages.css' %}">
+    <title>Регистрация на гонку - {{ race.name }}</title>
+</head>
+<body>
+    <div class="race-page-container">
+        <div class="race-content">
+            <div class="race-header">
+                <h1>Регистрация на гонку</h1>
+            </div>
+
+            <div class="race-card">
+                <h2>{{ race.name }}</h2>
+                <div class="race-time">
+                    <strong>Дата и время:</strong> {{ race.race_time|date:"d M Y H:i" }}
+                </div>
+
+                <div class="race-description">
+                    <p>Вы уверены, что хотите зарегистрироваться на эту гонку?</p>
+                    <p><strong>Команда:</strong> {{ user.racer.team }}</p>
+                    <p><strong>Класс:</strong> {{ user.racer.classs }}</p>
+                </div>
+
+                <form method="post" style="margin-top: 2rem;">
+                    {% csrf_token %}
+                    <button type="submit" class="submit-btn">Подтвердить регистрацию</button>
+                </form>
+            </div>
+
+            <div class="actions">
+                <a href="{% url 'race_about' race.id %}" class="back-btn">← Отмена</a>
+                <a href="{% url 'races_list' %}" class="back-btn">Назад к списку гонок</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
