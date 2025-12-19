@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Default Title{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/cars/all">Cars</a>
+        <a href="/users/all">Users</a>
+      </nav>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+  </body>
+</html>

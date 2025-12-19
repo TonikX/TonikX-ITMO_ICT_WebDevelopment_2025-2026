@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Удалить авто{% endblock %} {% block content %}
+<h1>Удалить автомобиль #{{ car.id_car }}</h1>
+
+<p>Вы уверены, что хотите удалить этот автомобиль?</p>
+
+<form action="/cars/delete/{{ car.id_car }}/" method="post">
+  <button type="submit">Удалить</button>
+  <a href="/cars/all">Отмена</a>
+</form>
+
+{% if car.users %}
+<hr />
+<strong>Владельцы:</strong>
+<ul>
+  {% for user in car.users %}
+  <li>
+    <a href="/users/detail/{{ user.id_user }}">{{ user.first_name }} {{ user.last_name }}</a>
+    {% if user.birth_date %} ({{ user.birth_date }}){% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}

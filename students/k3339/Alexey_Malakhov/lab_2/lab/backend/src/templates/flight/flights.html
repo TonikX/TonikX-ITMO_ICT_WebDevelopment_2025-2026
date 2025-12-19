@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block title %} Flights {% endblock %} {% block content %}
+<h1 class="text-lg font-semibold text-center">
+  {% if filter_type == 'arrivals' %} Прилёты {% elif filter_type == 'departures' %} Вылеты {% else %} Все рейсы {% endif
+  %}
+</h1>
+<div class="overflow-x-auto mt-6">
+  <form method="get" action="" class="flex justify-center mb-6">
+    <input
+      type="text"
+      name="search"
+      value="{{ request.query_params.get('search', '') }}"
+      placeholder="Поиск по рейсам, направлениям, компании..."
+      class="w-1/2 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+    />
+    <input type="hidden" name="type" value="{{ filter_type }}" />
+    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 transition">
+      Искать
+    </button>
+  </form>
+
+  <table class="min-w-full border border-gray-300 divide-y divide-gray-200 rounded-lg shadow-sm">
+    <thead class="bg-gray-100">
+      <tr class="text-left text-gray-700">
+        <th class="px-4 py-2 font-semibold">Рейс</th>
+        <th class="px-4 py-2 font-semibold">Назначение</th>
+        {% if filter_type == 'all' %}
+        <th class="px-4 py-2 font-semibold">Тип</th>
+        {% endif %}
+        <th class="px-4 py-2 font-semibold">Дата</th>
+        <th class="px-4 py-2 font-semibold">Время</th>
+        <th class="px-4 py-2 font-semibold">Компания</th>
+        <th class="px-4 py-2 font-semibold">Гейт</th>
+        <th class="px-4 py-2 font-sembold">Статус</th>
+        {% if filter_type != 'arrivals' %}
+        <th class="px-4 py-2 font-semibold">#</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+      {% for flight in flights %}
+      <tr class="hover:bg-gray-50 transition">
+        <td class="px-4 py-2">
+          <a class="hover:text-blue-600 text-blue-700 hover:underline" href="/flights/detail/{{ flight.id_flight }}"
+            >{{ flight.flight_number }}</a
+          >
+        </td>
+        <td class="px-4 py-2 text-gray-600">{{ flight.destination }}</td>
+        {% if filter_type == 'all' %}
+        <td class="px-4 py-2 text-gray-600">{{ flight.flight_type.name }}</td>
+        {% endif %}
+        <td class="px-4 py-2 text-gray-600">{{ flight.departure_time.strftime("%d.%m.%Y") }}</td>
+        <td class="px-4 py-2 text-gray-600">
+          {{ flight.departure_time.strftime("%H:%M") }} → {{ flight.arrival_time.strftime("%H:%M") }}
+        </td>
+        <td class="px-4 py-2 text-gray-600">{{ flight.airline.name if flight.airline else "N/A" }}</td>
+        <td class="px-4 py-2 text-gray-600">{{ flight.gate_number }}</td>
+        <td class="px-4 py-2">
+          <span
+            class="px-2 py-1 rounded-full text-sm font-medium {% if flight.flight_status.name == 'CANCELED' %}bg-red-100 text-red-700 {% elif flight.flight_status.name == 'DELAYED' %}bg-yellow-100 text-yellow-700 {% elif flight.flight_status.name == 'BOARDING' %}bg-blue-100 text-blue-700 {% elif flight.flight_status.name == 'LANDED' %}bg-green-100 text-green-700 {% else %}bg-gray-100 text-gray-700{% endif %}"
+          >
+            {{ flight.flight_status.name if flight.flight_status else "N/A" }}
+          </span>
+        </td>
+        {% if filter_type != 'arrivals' %}
+        <td class="px-4 py-2">
+          {% if flight.flight_type.name != 'ARRIVAL' and flight.flight_status.name == 'SCHEDULED' %}
+          <a
+            href="/flights/detail/{{ flight.id_flight }}"
+            class="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+          >
+            Бронировать
+          </a>
+          {% else %}
+          <span
+            href="/flights/detail/{{ flight.id_flight }}"
+            class="px-3 py-1 rounded-full text-sm font-medium bg-gray-300 text-gray-600 cursor-not-allowed"
+          >
+            Бронировать
+          </span>
+          {% endif %}
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="flex justify-center gap-x-3 mt-6">
+    {% for i in range(1, total_pages + 1) %}<a
+      href="?type={{ filter_type }}&page={{i}}&search={{ search }}"
+      class="px-4 py-2 font-bold rounded-full transition {% if page == i %} bg-blue-500 text-white {% else %} bg-blue-100 text-blue-500 hover:bg-blue-200 {% endif %}"
+    >
+      {{ i }}</a
+    >{% endfor %}
+  </div>
+</div>
+{% endblock %}

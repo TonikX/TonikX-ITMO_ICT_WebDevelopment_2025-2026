@@ -1,0 +1,8 @@
+fastapi
+sqlalchemy[asyncio]
+pydantic
+uvicorn
+asyncpg
+alembic
+starlette-admin[sqlalchemy]
+jinja2

@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}Создать пользователя{% endblock %} {% block content %}
+<h1>Создать нового пользователя</h1>
+
+<form action="/users/add" method="post">
+  <label>Имя</label><br />
+  <input type="text" name="first_name" required /><br /><br />
+
+  <label>Фамилия</label><br />
+  <input type="text" name="last_name" required /><br /><br />
+
+  <label>Дата рождения</label><br />
+  <input type="date" name="birth_date" /><br /><br />
+
+  <label>Номер паспорта</label><br />
+  <input type="text" name="passport_number" required /><br /><br />
+
+  <label>Домашний адрес</label><br />
+  <input type="text" name="home_address" /><br /><br />
+
+  <label>Национальность</label><br />
+  <input type="text" name="nationality" /><br /><br />
+
+  <button type="submit">Сохранить</button>
+  <a href="/users/all">Отмена</a>
+</form>
+{% endblock %}

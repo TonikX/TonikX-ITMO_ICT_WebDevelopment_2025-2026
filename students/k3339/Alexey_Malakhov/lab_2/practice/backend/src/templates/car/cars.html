@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block title %} Cars {% endblock %} {% block content %}
+<h1>Cars</h1>
+<a href="/cars/add">Add new one</a>
+<ul>
+  {% for car in cars %}
+  <li>
+    <strong>{{ car.brand }} {{ car.model }}</strong> (id: {{ car.id_car }}), actions:
+    <a href="/cars/edit/{{ car.id_car }}">Edit</a> | <a href="/cars/delete/{{ car.id_car }}">Delete</a> |
+    <a href="/cars/detail/{{ car.id_car }}">Detail</a>
+    <br />
+    {% if car.users %}
+    <strong>users:</strong>
+    {% for user in car.users %}
+    <a href="/users/detail/{{ user.id_user }}">{{ user.first_name }} {{ user.last_name }}</a>{% if not loop.last %}, {%
+    endif %} {% endfor %} {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Пользователь{% endblock %} {% block content %}
+<h1>Пользователь: {{ user.first_name }} {{ user.last_name }}</h1>
+
+<strong>ID:</strong> {{ user.id_user }} <br />
+<strong>Дата рождения:</strong> {{ user.birth_date or '—' }} <br />
+<strong>Номер паспорта:</strong> {{ user.passport_number }} <br />
+<strong>Домашний адрес:</strong> {{ user.home_address or '—' }} <br />
+<strong>Национальность:</strong> {{ user.nationality or '—' }} <br />
+
+{% if user.cars %}
+<hr />
+<strong>Автомобили:</strong>
+<ul>
+  {% for car in user.cars %}
+  <li>
+    <a href="/cars/detail/{{ car.id_car }}">{{ car.brand }} {{ car.model }}</a>
+    {% if car.plate %} ({{ car.plate }}){% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %} Нет автомобилей. {% endif %} {% endblock %}

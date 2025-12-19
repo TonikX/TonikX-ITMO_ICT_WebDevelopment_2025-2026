@@ -1,0 +1,11 @@
+fastapi
+sqlalchemy[asyncio]
+pydantic
+uvicorn
+asyncpg
+alembic
+starlette-admin[sqlalchemy]
+jinja2
+authx
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2

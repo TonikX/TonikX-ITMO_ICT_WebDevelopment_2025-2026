@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block title %}Регистрация{% endblock %} {% block content %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <img src="{{ url_for('static', path='logo.png') }}" alt="Avia-slaves Company" class="mx-auto h-16 w-auto" />
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Регистрация аккаунта</h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form action="/auth/register" method="POST" class="space-y-6">
+      <div>
+        <label for="last_name" class="block text-sm/6 font-medium text-gray-900">Фамилия</label>
+        <div class="mt-2">
+          <input
+            id="last_name"
+            name="last_name"
+            type="text"
+            required
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="first_name" class="block text-sm/6 font-medium text-gray-900">Имя</label>
+        <div class="mt-2">
+          <input
+            id="first_name"
+            name="first_name"
+            type="text"
+            required
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="patronymic" class="block text-sm/6 font-medium text-gray-900">Отчество</label>
+        <div class="mt-2">
+          <input
+            id="patronymic"
+            name="patronymic"
+            type="text"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+        <div class="mt-2">
+          <input
+            id="email"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">Пароль</label>
+        </div>
+        <div class="mt-2">
+          <input
+            id="password"
+            type="password"
+            name="password"
+            required
+            autocomplete="current-password"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Зарегистрироваться
+        </button>
+      </div>
+    </form>
+
+    <p class="mt-10 text-center text-sm/6 text-gray-500">
+      Уже зарегистрированы?
+      <a href="/auth/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Войти</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

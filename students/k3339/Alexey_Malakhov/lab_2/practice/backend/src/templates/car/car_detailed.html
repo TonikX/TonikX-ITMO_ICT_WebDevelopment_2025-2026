@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}FastAPI Jinja2{% endblock %} {% block content %}
+<h1>Марка: {{ car.brand }}, Модель: {{ car.model }}</h1>
+<strong>Гос. номер:</strong> {{ car.plate }} <br />
+<strong>Цвет:</strong> {{ car.color }} <br />
+<strong>ID:</strong> {{ car.id_car }} <br />
+{% if car.users %}
+<strong>Владельцы:</strong>
+<ul>
+  {% for user in car.users %}
+  <li>
+    <a href="/users/detail/{{ user.id_user }}">{{ user.first_name }} {{ user.last_name }}</a>
+    {% if user.birth_date %} ({{ user.birth_date }}) {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %} Нет владельцев. {% endif %} {% endblock %}

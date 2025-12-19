@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Редактировать пользователя{% endblock %} {% block content %}
+<h1>Редактировать пользователя #{{ user.id_user }}</h1>
+
+<form action="/users/edit/{{ user.id_user }}/" method="post">
+  <label>Имя</label><br />
+  <input type="text" name="first_name" value="{{ user.first_name }}" required /><br /><br />
+
+  <label>Фамилия</label><br />
+  <input type="text" name="last_name" value="{{ user.last_name }}" required /><br /><br />
+
+  <label>Дата рождения</label><br />
+  <input
+    type="date"
+    name="birth_date"
+    value="{{ user.birth_date.date().isoformat() if user.birth_date else '' }}"
+  /><br /><br />
+
+  <label>Номер паспорта</label><br />
+  <input type="text" name="passport_number" value="{{ user.passport_number }}" required /><br /><br />
+
+  <label>Домашний адрес</label><br />
+  <input type="text" name="home_address" value="{{ user.home_address }}" /><br /><br />
+
+  <label>Национальность</label><br />
+  <input type="text" name="nationality" value="{{ user.nationality }}" /><br /><br />
+
+  <button type="submit">Сохранить</button>
+  <a href="/users/all">Отмена</a>
+</form>
+
+{% if user.cars %}
+<hr />
+<strong>Автомобили:</strong>
+<ul>
+  {% for car in user.cars %}
+  <li>
+    <a href="/cars/detail/{{ car.id_car }}">{{ car.brand }} {{ car.model }}</a>
+    {% if car.plate %} ({{ car.plate }}){% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}

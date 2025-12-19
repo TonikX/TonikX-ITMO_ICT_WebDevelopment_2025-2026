@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Создать авто{% endblock %} {% block content %}
+<h1>Создать новый автомобиль</h1>
+
+<form action="/cars/add" method="post">
+  <input type="hidden" name="id_car" />
+
+  <label>Марка</label><br />
+  <input type="text" name="brand" required maxlength="20" /><br /><br />
+
+  <label>Модель</label><br />
+  <input type="text" name="model required maxlength="20" /><br /><br />
+
+  <label>Гос. номер</label><br />
+  <input type="text" name="plate" required maxlength="15" /><br /><br />
+
+  <label>Цвет</label><br />
+  <input type="text" name="color" required maxlength="30" /><br /><br />
+
+  <button type="submit">Сохранить</button>
+  <a href="/cars/all">Отмена</a>
+</form>
+{% endblock %}

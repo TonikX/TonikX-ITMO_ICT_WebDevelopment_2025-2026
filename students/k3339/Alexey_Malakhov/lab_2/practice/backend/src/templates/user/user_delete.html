@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Удалить пользователя{% endblock %} {% block content %}
+<h1>Удалить пользователя #{{ user.id_user }}</h1>
+
+<p>Вы уверены, что хотите удалить этого пользователя?</p>
+
+<form action="/users/delete/{{ user.id_user }}/" method="post">
+  <button type="submit">Удалить</button>
+  <a href="/users/all">Отмена</a>
+</form>
+
+{% if user.cars %}
+<hr />
+<strong>Автомобили пользователя:</strong>
+<ul>
+  {% for car in user.cars %}
+  <li>
+    <a href="/cars/detail/{{ car.id_car }}">{{ car.brand }} {{ car.model }}</a>
+    {% if car.plate %} ({{ car.plate }}){% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}

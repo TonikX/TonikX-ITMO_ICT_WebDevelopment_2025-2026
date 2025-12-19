@@ -1,0 +1,17 @@
+fastapi
+sqlalchemy[asyncio]
+pydantic[email]
+uvicorn
+asyncpg
+alembic
+starlette-admin[sqlalchemy]
+jinja2
+authx
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+fastapi-swagger-dark
+python-jose
+pydantic-settings
+aioboto3
+pillow
+ffmpeg

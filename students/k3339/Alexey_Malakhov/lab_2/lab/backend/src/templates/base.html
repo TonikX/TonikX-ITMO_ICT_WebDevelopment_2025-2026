@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    <header class="bg-white shadow">
+      <nav class="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- Слева -->
+        <p class="text-xl font-bold">Авиа-slaves</p>
+
+        <!-- По центру -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex gap-6">
+          <a href="/flights" class="text-blue-600 hover:underline">Все рейсы</a>
+          <a href="/flights?type=departures" class="text-blue-600 hover:underline">Вылеты</a>
+          <a href="/flights?type=arrivals" class="text-blue-600 hover:underline">Прилёты</a>
+        </div>
+
+        <!-- Справа -->
+        {% if user %}
+
+        <a href="/auth/logout" class="text-gray-700 hover:text-blue-600">Выход ({{ user.first_name }})</a>
+        {% else %}
+        <a href="/auth" class="text-gray-700 hover:text-blue-600">Вход</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-8">{% block content %}{% endblock %}</main>
+  </body>
+</html>

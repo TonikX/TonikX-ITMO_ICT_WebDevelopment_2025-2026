@@ -1,0 +1,2738 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../models/">
+      
+      
+        <link rel="next" href="../../lab4/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>API - Отчёты по лабораторным</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Отчёты по лабораторным" class="md-header__button md-logo" aria-label="Отчёты по лабораторным" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчёты по лабораторным
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Отчёты по лабораторным" class="md-nav__button md-logo" aria-label="Отчёты по лабораторным" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчёты по лабораторным
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ЛР 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/task1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задание 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/task2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задание 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/task3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задание 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/task4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задание 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/task5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задание 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ЛР 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Запуск и использование
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API и интерфейс
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Администрирование
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР 3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ЛР 3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Запуск и использование
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модели sqlalchemy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовая информация
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth (Аутентификация)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Auth (Аутентификация)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-authlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /auth/login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authregister" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /auth/register
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authlogout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /auth/logout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /auth/me
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-authme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PATCH /auth/me
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authors (Авторы)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authors (Авторы)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authorsauthor_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors/{author_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authorsauthor_idavatar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors/{author_id}/avatar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /authors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-authorsauthor_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /authors/{author_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posts (Посты)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Posts (Посты)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactions (Лайки и комментарии)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interactions (Лайки и комментарии)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-postspost_idlike" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts/{post_id}/like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_idlike" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}/like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_idlikes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}/likes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-postspost_idcomments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts/{post_id}/comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_idcomments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}/comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_idcommentscomment_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}/comments/{comment_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscriptions (Подписки)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subscriptions (Подписки)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-subscriptionssubscription_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /subscriptions/{subscription_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idextend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/extend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idcancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/cancel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idrenew" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/renew
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-subscriptionssubscription_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /subscriptions/{subscription_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content (Контент)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Content (Контент)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /content
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-contentcontent_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /content/{content_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-contentphoto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /content/photo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-contentvideo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /content/video
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ЛР 4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ЛР 4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Запуск и использование
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Интерфейсы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовая информация
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth (Аутентификация)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Auth (Аутентификация)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-authlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /auth/login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authregister" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /auth/register
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authlogout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /auth/logout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /auth/me
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-authme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PATCH /auth/me
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authors (Авторы)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authors (Авторы)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authorsauthor_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors/{author_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-authorsauthor_idavatar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /authors/{author_id}/avatar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /authors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-authorsauthor_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /authors/{author_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posts (Посты)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Posts (Посты)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactions (Лайки и комментарии)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interactions (Лайки и комментарии)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-postspost_idlike" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts/{post_id}/like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_idlike" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}/like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_idlikes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}/likes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-postspost_idcomments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /posts/{post_id}/comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-postspost_idcomments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /posts/{post_id}/comments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-postspost_idcommentscomment_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /posts/{post_id}/comments/{comment_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscriptions (Подписки)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subscriptions (Подписки)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-subscriptionssubscription_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /subscriptions/{subscription_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /subscriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idextend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/extend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idcancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/cancel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-subscriptionssubscription_idrenew" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /subscriptions/{subscription_id}/renew
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-subscriptionssubscription_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /subscriptions/{subscription_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content (Контент)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Content (Контент)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /content
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-contentcontent_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /content/{content_id}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-contentphoto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /content/photo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-contentvideo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /content/video
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api">API Документация</h1>
+<h2 id="_1">Базовая информация</h2>
+<ul>
+<li><strong>Базовый URL</strong>: <code>/api</code></li>
+<li><strong>Аутентификация</strong>: JWT токен в cookies или заголовке <code>Authorization: Bearer &lt;token&gt;</code></li>
+<li><strong>Формат ответов</strong>: JSON</li>
+<li><strong>CORS</strong>: Включен для локальных источников</li>
+</ul>
+<hr />
+<h2 id="auth">Auth (Аутентификация)</h2>
+<h3 id="post-authlogin">POST /auth/login</h3>
+<p>Вход в систему с email и паролем, возвращает JWT токен.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Входные данные</strong> (JSON):</p>
+<pre><code class="language-json">{
+  &quot;email&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Login successful&quot;,
+  &quot;token&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>401</code> - Неверный email или пароль</li>
+</ul>
+<hr />
+<h3 id="post-authregister">POST /auth/register</h3>
+<p>Регистрация нового пользователя с автоматическим входом.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Входные данные</strong> (JSON):</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Registration successful&quot;,
+  &quot;token&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Пользователь уже существует</li>
+</ul>
+<hr />
+<h3 id="get-authlogout">GET /auth/logout</h3>
+<p>Выход из системы, удаление токена из cookies.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Logout successful&quot;
+}
+</code></pre>
+<hr />
+<h3 id="get-authme">GET /auth/me</h3>
+<p>Получить информацию о текущем авторизованном пользователе.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;is_author&quot;: false,
+  &quot;subscriptions&quot;: []
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Пользователь не найден</li>
+</ul>
+<hr />
+<h3 id="patch-authme">PATCH /auth/me</h3>
+<p>Обновление данных профиля (имя, email, пароль).</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Входные данные</strong> (JSON):</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;,
+  &quot;current_password&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;is_author&quot;: false,
+  &quot;subscriptions&quot;: []
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>401</code> - Неверный текущий пароль</li>
+<li><code>400</code> - Email уже используется</li>
+<li><code>404</code> - Пользователь не найден</li>
+</ul>
+<hr />
+<h2 id="authors">Authors (Авторы)</h2>
+<h3 id="get-authors">GET /authors</h3>
+<p>Получить список всех авторов.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Query параметры</strong>:</p>
+<ul>
+<li><code>user_id</code> (integer, optional) - Фильтр по ID пользователя</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;user_id&quot;: 1,
+    &quot;name&quot;: &quot;string&quot;,
+    &quot;handle&quot;: &quot;string&quot;,
+    &quot;bio&quot;: &quot;string&quot;,
+    &quot;is_verified&quot;: false,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  }
+]
+</code></pre>
+<hr />
+<h3 id="get-authorsauthor_id">GET /authors/{author_id}</h3>
+<p>Получить информацию об авторе по его ID.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>author_id</code> (integer, required) - ID автора</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;user_id&quot;: 1,
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;handle&quot;: &quot;string&quot;,
+  &quot;bio&quot;: &quot;string&quot;,
+  &quot;is_verified&quot;: false,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Автор не найден</li>
+</ul>
+<hr />
+<h3 id="get-authorsauthor_idavatar">GET /authors/{author_id}/avatar</h3>
+<p>Получить аватар автора в виде изображения.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>author_id</code> (integer, required) - ID автора</li>
+</ul>
+<p><strong>Выходные данные</strong> (200): Файл JPEG</p>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Автор не найден или файл аватара отсутствует</li>
+</ul>
+<hr />
+<h3 id="post-authors">POST /authors</h3>
+<p>Создать профиль автора для текущего пользователя.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Входные данные</strong> (multipart/form-data):</p>
+<ul>
+<li><code>name</code> (string, required) - Имя автора</li>
+<li><code>handle</code> (string, required) - Юзернейм автора</li>
+<li><code>bio</code> (string, optional) - Биография</li>
+<li><code>is_verified</code> (boolean, optional) - Статус верификации</li>
+<li><code>avatar</code> (file, optional) - Файл аватара (JPEG/PNG)</li>
+</ul>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;user_id&quot;: 1,
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;handle&quot;: &quot;string&quot;,
+  &quot;bio&quot;: &quot;string&quot;,
+  &quot;is_verified&quot;: false,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - У вас уже есть профиль автора / неверный тип файла</li>
+<li><code>404</code> - Профиль автора не найден</li>
+</ul>
+<hr />
+<h3 id="delete-authorsauthor_id">DELETE /authors/{author_id}</h3>
+<p>Удалить свой профиль автора.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>author_id</code> (integer, required) - ID автора</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Профиль автора успешно удален&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Вы не можете удалить чужой профиль автора</li>
+<li><code>404</code> - Автор не найден</li>
+</ul>
+<hr />
+<h2 id="posts">Posts (Посты)</h2>
+<h3 id="get-posts">GET /posts</h3>
+<p>Получить ленту постов с пагинацией. Показывает бесплатные и посты по подписке.</p>
+<p><strong>Требует</strong>: Нет (аутентификация опциональна)</p>
+<p><strong>Query параметры</strong>:</p>
+<ul>
+<li><code>author_id</code> (integer, optional) - Фильтр по ID автора</li>
+<li><code>page</code> (integer, default: 1) - Номер страницы</li>
+<li><code>per_page</code> (integer, default: 10) - Количество постов на странице</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;posts&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;text&quot;: &quot;string&quot;,
+      &quot;author&quot;: {
+        &quot;id&quot;: 1,
+        &quot;user_id&quot;: 1,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;handle&quot;: &quot;string&quot;,
+        &quot;bio&quot;: &quot;string&quot;,
+        &quot;is_verified&quot;: false,
+        &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+        &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+      },
+      &quot;is_free_post&quot;: true,
+      &quot;likes_count&quot;: 0,
+      &quot;comments_count&quot;: 0,
+      &quot;is_liked&quot;: false,
+      &quot;contents&quot;: [],
+      &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+      &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;totalPages&quot;: 1,
+    &quot;totalItems&quot;: 1,
+    &quot;hasMore&quot;: false,
+    &quot;currentPage&quot;: 1
+  }
+}
+</code></pre>
+<p><strong>Примечания</strong>:</p>
+<ul>
+<li>Текст платных постов показывается как "Платный пост", если нет доступа</li>
+<li>Контент платных постов скрывается для неавторизованных пользователей</li>
+</ul>
+<hr />
+<h3 id="get-postspost_id">GET /posts/{post_id}</h3>
+<p>Получить пост по ID с проверкой доступа.</p>
+<p><strong>Требует</strong>: Нет (аутентификация опциональна)</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;text&quot;: &quot;string&quot;,
+  &quot;author&quot;: {
+    &quot;id&quot;: 1,
+    &quot;user_id&quot;: 1,
+    &quot;name&quot;: &quot;string&quot;,
+    &quot;handle&quot;: &quot;string&quot;,
+    &quot;bio&quot;: &quot;string&quot;,
+    &quot;is_verified&quot;: false,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  },
+  &quot;is_free_post&quot;: true,
+  &quot;likes_count&quot;: 0,
+  &quot;comments_count&quot;: 0,
+  &quot;is_liked&quot;: false,
+  &quot;contents&quot;: [],
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Доступ запрещен (платный пост без подписки)</li>
+<li><code>404</code> - Пост не найден</li>
+</ul>
+<hr />
+<h3 id="post-posts">POST /posts</h3>
+<p>Создать новый пост с текстом и медиафайлами (до 10 файлов).</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Входные данные</strong> (multipart/form-data):</p>
+<ul>
+<li><code>text</code> (string, required) - Текст поста</li>
+<li><code>is_free_post</code> (boolean, optional, default: false) - Бесплатный или платный пост</li>
+<li><code>files</code> (file, optional, up to 10) - Медиафайлы (фото/видео)</li>
+</ul>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;text&quot;: &quot;string&quot;,
+  &quot;author&quot;: {
+    &quot;id&quot;: 1,
+    &quot;user_id&quot;: 1,
+    &quot;name&quot;: &quot;string&quot;,
+    &quot;handle&quot;: &quot;string&quot;,
+    &quot;bio&quot;: &quot;string&quot;,
+    &quot;is_verified&quot;: false,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  },
+  &quot;is_free_post&quot;: true,
+  &quot;likes_count&quot;: 0,
+  &quot;comments_count&quot;: 0,
+  &quot;is_liked&quot;: false,
+  &quot;contents&quot;: [],
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Максимум 10 файлов / неверный тип файла</li>
+<li><code>404</code> - Профиль автора не найден для текущего пользователя</li>
+</ul>
+<p><strong>Поддерживаемые форматы</strong>:</p>
+<ul>
+<li>Фото: JPEG, PNG</li>
+<li>Видео: MP4</li>
+</ul>
+<hr />
+<h3 id="put-postspost_id">PUT /posts/{post_id}</h3>
+<p>Редактировать текст своего поста.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Входные данные</strong> (multipart/form-data):</p>
+<ul>
+<li><code>text</code> (string, optional) - Новый текст поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;text&quot;: &quot;string&quot;,
+  &quot;author&quot;: {
+    &quot;id&quot;: 1,
+    &quot;user_id&quot;: 1,
+    &quot;name&quot;: &quot;string&quot;,
+    &quot;handle&quot;: &quot;string&quot;,
+    &quot;bio&quot;: &quot;string&quot;,
+    &quot;is_verified&quot;: false,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  },
+  &quot;is_free_post&quot;: true,
+  &quot;likes_count&quot;: 0,
+  &quot;comments_count&quot;: 0,
+  &quot;is_liked&quot;: false,
+  &quot;contents&quot;: [],
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Нет прав на редактирование</li>
+<li><code>404</code> - Пост не найден</li>
+</ul>
+<hr />
+<h3 id="delete-postspost_id">DELETE /posts/{post_id}</h3>
+<p>Удалить свой пост.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (204): Нет содержимого</p>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Нет прав на удаление</li>
+<li><code>404</code> - Пост не найден</li>
+</ul>
+<hr />
+<h2 id="interactions">Interactions (Лайки и комментарии)</h2>
+<h3 id="post-postspost_idlike">POST /posts/{post_id}/like</h3>
+<p>Поставить лайк на пост.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Post liked successfully&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Already liked (уже лайкнут)</li>
+<li><code>404</code> - Post not found</li>
+</ul>
+<hr />
+<h3 id="delete-postspost_idlike">DELETE /posts/{post_id}/like</h3>
+<p>Убрать свой лайк с поста.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Like removed successfully&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Like not found</li>
+</ul>
+<hr />
+<h3 id="get-postspost_idlikes">GET /posts/{post_id}/likes</h3>
+<p>Получить список ID пользователей, лайкнувших пост.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">[1, 2, 3]
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Post not found</li>
+</ul>
+<hr />
+<h3 id="post-postspost_idcomments">POST /posts/{post_id}/comments</h3>
+<p>Добавить комментарий к посту.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Входные данные</strong> (JSON):</p>
+<pre><code class="language-json">{
+  &quot;text&quot;: &quot;string&quot;
+}
+</code></pre>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;text&quot;: &quot;string&quot;,
+  &quot;user_id&quot;: 1,
+  &quot;user_name&quot;: &quot;string&quot;,
+  &quot;post_id&quot;: 1,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Post not found</li>
+</ul>
+<hr />
+<h3 id="get-postspost_idcomments">GET /posts/{post_id}/comments</h3>
+<p>Получить все комментарии к посту.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;text&quot;: &quot;string&quot;,
+    &quot;user_id&quot;: 1,
+    &quot;user_name&quot;: &quot;string&quot;,
+    &quot;post_id&quot;: 1,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  }
+]
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Post not found</li>
+</ul>
+<hr />
+<h3 id="delete-postspost_idcommentscomment_id">DELETE /posts/{post_id}/comments/{comment_id}</h3>
+<p>Удалить свой комментарий или комментарий на своем посте.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>post_id</code> (integer, required) - ID поста</li>
+<li><code>comment_id</code> (integer, required) - ID комментария</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Comment deleted successfully&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Not allowed (вы не автор комментария и не автор поста)</li>
+<li><code>404</code> - Comment not found</li>
+</ul>
+<hr />
+<h2 id="subscriptions">Subscriptions (Подписки)</h2>
+<h3 id="get-subscriptions">GET /subscriptions</h3>
+<p>Получить все мои подписки на авторов.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;subscriber_id&quot;: 1,
+    &quot;author_id&quot;: 1,
+    &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+    &quot;renewable&quot;: true
+  }
+]
+</code></pre>
+<hr />
+<h3 id="get-subscriptionssubscription_id">GET /subscriptions/{subscription_id}</h3>
+<p>Получить информацию о конкретной подписке.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>subscription_id</code> (integer, required) - ID подписки</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;subscriber_id&quot;: 1,
+  &quot;author_id&quot;: 1,
+  &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+  &quot;renewable&quot;: true
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Access denied</li>
+<li><code>404</code> - Subscription not found</li>
+</ul>
+<hr />
+<h3 id="post-subscriptions">POST /subscriptions</h3>
+<p>Подписаться на автора на указанный срок.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Входные данные</strong> (JSON):</p>
+<pre><code class="language-json">{
+  &quot;author_id&quot;: 1,
+  &quot;duration_days&quot;: 30
+}
+</code></pre>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;subscriber_id&quot;: 1,
+  &quot;author_id&quot;: 1,
+  &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+  &quot;renewable&quot;: true
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Cannot subscribe to yourself / Already subscribed to this author</li>
+<li><code>404</code> - Author not found</li>
+</ul>
+<hr />
+<h3 id="put-subscriptionssubscription_idextend">PUT /subscriptions/{subscription_id}/extend</h3>
+<p>Продлить существующую подписку на дополнительное количество дней.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>subscription_id</code> (integer, required) - ID подписки</li>
+</ul>
+<p><strong>Query параметры</strong>:</p>
+<ul>
+<li><code>duration_days</code> (integer, default: 30) - Количество дней для продления</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;subscriber_id&quot;: 1,
+  &quot;author_id&quot;: 1,
+  &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+  &quot;renewable&quot;: true
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Access denied</li>
+<li><code>404</code> - Subscription not found</li>
+</ul>
+<hr />
+<h3 id="put-subscriptionssubscription_idcancel">PUT /subscriptions/{subscription_id}/cancel</h3>
+<p>Отменить автопродление подписки.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>subscription_id</code> (integer, required) - ID подписки</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;subscriber_id&quot;: 1,
+  &quot;author_id&quot;: 1,
+  &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+  &quot;renewable&quot;: false
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Access denied</li>
+<li><code>404</code> - Subscription not found</li>
+</ul>
+<hr />
+<h3 id="put-subscriptionssubscription_idrenew">PUT /subscriptions/{subscription_id}/renew</h3>
+<p>Восстановить автопродление подписки.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>subscription_id</code> (integer, required) - ID подписки</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;subscriber_id&quot;: 1,
+  &quot;author_id&quot;: 1,
+  &quot;started_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;expires_at&quot;: &quot;2025-02-01T00:00:00&quot;,
+  &quot;renewable&quot;: true
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Access denied</li>
+<li><code>404</code> - Subscription not found</li>
+</ul>
+<hr />
+<h3 id="delete-subscriptionssubscription_id">DELETE /subscriptions/{subscription_id}</h3>
+<p>Полностью удалить подписку.</p>
+<p><strong>Требует</strong>: JWT аутентификация</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>subscription_id</code> (integer, required) - ID подписки</li>
+</ul>
+<p><strong>Выходные данные</strong> (204): Нет содержимого</p>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>403</code> - Access denied</li>
+<li><code>404</code> - Subscription not found</li>
+</ul>
+<hr />
+<h2 id="content">Content (Контент)</h2>
+<h3 id="get-content">GET /content</h3>
+<p>Получить список всего контента или контент конкретного автора.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Query параметры</strong>:</p>
+<ul>
+<li><code>author</code> (string, optional) - Фильтр по ручке (handle) автора</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;type&quot;: &quot;photo&quot;,
+    &quot;author_id&quot;: 1,
+    &quot;post_id&quot;: null,
+    &quot;width&quot;: 1920,
+    &quot;height&quot;: 1080,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;type&quot;: &quot;video&quot;,
+    &quot;author_id&quot;: 1,
+    &quot;post_id&quot;: 1,
+    &quot;duration&quot;: 120,
+    &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+    &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+  }
+]
+</code></pre>
+<hr />
+<h3 id="get-contentcontent_id">GET /content/{content_id}</h3>
+<p>Получить информацию о контенте по его ID.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Path параметры</strong>:</p>
+<ul>
+<li><code>content_id</code> (integer, required) - ID контента</li>
+</ul>
+<p><strong>Выходные данные</strong> (200):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;type&quot;: &quot;photo&quot;,
+  &quot;author_id&quot;: 1,
+  &quot;post_id&quot;: null,
+  &quot;width&quot;: 1920,
+  &quot;height&quot;: 1080,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>404</code> - Content not found</li>
+</ul>
+<hr />
+<h3 id="post-contentphoto">POST /content/photo</h3>
+<p>Загрузить фото для автора.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Входные данные</strong> (multipart/form-data):</p>
+<ul>
+<li><code>author_id</code> (integer, required) - ID автора</li>
+<li><code>file</code> (file, required) - Файл фото (JPEG/PNG)</li>
+</ul>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;type&quot;: &quot;photo&quot;,
+  &quot;author_id&quot;: 1,
+  &quot;post_id&quot;: null,
+  &quot;width&quot;: 1920,
+  &quot;height&quot;: 1080,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Only jpeg/png allowed</li>
+</ul>
+<hr />
+<h3 id="post-contentvideo">POST /content/video</h3>
+<p>Загрузить видео для автора с опциональной обложкой.</p>
+<p><strong>Требует</strong>: Нет аутентификации</p>
+<p><strong>Входные данные</strong> (multipart/form-data):</p>
+<ul>
+<li><code>author_id</code> (integer, required) - ID автора</li>
+<li><code>file</code> (file, required) - Файл видео (MP4)</li>
+<li><code>thumbnail</code> (file, optional) - Обложка видео (JPEG/PNG)</li>
+</ul>
+<p><strong>Выходные данные</strong> (201):</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;type&quot;: &quot;video&quot;,
+  &quot;author_id&quot;: 1,
+  &quot;post_id&quot;: null,
+  &quot;duration&quot;: 120,
+  &quot;created_at&quot;: &quot;2025-01-01T00:00:00&quot;,
+  &quot;updated_at&quot;: &quot;2025-01-01T00:00:00&quot;
+}
+</code></pre>
+<p><strong>Возможные ошибки</strong>:</p>
+<ul>
+<li><code>400</code> - Only mp4 allowed</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

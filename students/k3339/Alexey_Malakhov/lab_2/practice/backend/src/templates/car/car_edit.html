@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block title %}Редактировать авто{% endblock %} {% block content %}
+<h1>Редактировать автомобиль #{{ car.id_car }}</h1>
+
+<form action="/cars/edit/{{ car.id_car }}/" method="post">
+  <input type="hidden" name="id_car" value="{{ car.id_car }}" />
+
+  <label>Марка</label><br />
+  <input type="text" name="brand" value="{{ car.brand }}" required maxlength="20" /><br /><br />
+
+  <label>Модель</label><br />
+  <input type="text" name="model" value="{{ car.model }}" required maxlength="20" /><br /><br />
+
+  <label>Гос. номер</label><br />
+  <input type="text" name="plate" value="{{ car.plate }}" required maxlength="15" /><br /><br />
+
+  <label>Цвет</label><br />
+  <input type="text" name="color" value="{{ car.color }}" required maxlength="30" /><br /><br />
+
+  <button type="submit">Сохранить</button>
+  <a href="/cars/all">Отмена</a>
+</form>
+
+{% if car.users %}
+<hr />
+<strong>Владельцы:</strong>
+<ul>
+  {% for user in car.users %}
+  <li>
+    <a href="/users/detail/{{ user.id_user }}">{{ user.first_name }} {{ user.last_name }}</a>
+    {% if user.birth_date %} ({{ user.birth_date }}){% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}
