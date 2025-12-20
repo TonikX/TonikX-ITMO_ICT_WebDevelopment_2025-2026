@@ -117,20 +117,46 @@ class MostPopularPlaneType(APIView):
 class RoutesBelowCapacity(APIView):
     def get(self, request, percentage):
         try:
-            # Рассчитываем порог заполненности
-            threshold = float(percentage) / 100
+            percentage_float = float(percentage)
 
-            # Фильтруем маршруты с рейсами, заполненными менее чем на threshold
-            under_capacity_routes = Route.objects.annotate(
-                average_capacity=Avg('flights__sold_tickets') / Avg('flights__plane__seats_capacity')
-            ).filter(average_capacity__lt=threshold)
+            routes_with_capacity = []
 
-            # Сериализуем данные маршрутов
-            serializer = RouteSerializer(under_capacity_routes, many=True)
+            for route in Route.objects.all():
+                flights = route.flights.select_related('plane').all()
 
-            return Response({'under_capacity_routes': serializer.data}, status=status.HTTP_200_OK)
+                if not flights:
+                    continue
+
+                total_occupancy = 0
+                valid_flights = 0
+
+                for flight in flights:
+                    if flight.plane and flight.plane.seats_capacity > 0:
+                        occupancy = (flight.sold_tickets / flight.plane.seats_capacity) * 100
+                        total_occupancy += occupancy
+                        valid_flights += 1
+
+                if valid_flights > 0:
+                    avg_occupancy = total_occupancy / valid_flights
+
+                    if avg_occupancy < percentage_float:
+                        routes_with_capacity.append({
+                            'id': route.id,
+                            'route_id': route.id,
+                            'departure_point': route.departure_point,
+                            'destination_point': route.destination_point,
+                            'distance': route.distance,
+                            'landing_points': route.landing_points,
+                            'transit_landings': route.transit_landings,
+                            'average_occupancy': round(avg_occupancy, 2)
+                        })
+
+            return Response({'under_capacity_routes': routes_with_capacity}, status=status.HTTP_200_OK)
+
         except ValueError:
             return Response({"detail": "Invalid percentage value."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AvailableSeats(APIView):
     def get(self, request, flight_id):

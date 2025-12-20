@@ -22,6 +22,7 @@ import EditCrewMember from '../components/EditCrewMember.vue';
 import Register from '@/components/Register.vue';
 import Login from '@/components/Login.vue';
 import Profile from '@/components/Profile.vue';
+import VariantTask from '@/components/VariantTask.vue';
 
 const EmptyPage = { template: '<div style="padding: 20px;">Страница создания объекта</div>' };
 
@@ -156,6 +157,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile,
+  },
+  {
+    path: '/variant-task',
+    name: 'VariantTask',
+    component: VariantTask,
   },
 ];
 

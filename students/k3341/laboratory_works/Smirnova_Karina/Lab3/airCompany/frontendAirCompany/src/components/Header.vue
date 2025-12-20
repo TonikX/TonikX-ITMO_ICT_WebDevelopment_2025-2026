@@ -28,6 +28,8 @@
         <li><router-link to="/create-flight" @click="toggleSidebar">Создать рейс</router-link></li>
         <li><router-link to="/create-crew-member" @click="toggleSidebar">Создать работника</router-link></li>
         <li><router-link to="/create-crew" @click="toggleSidebar">Создать команду</router-link></li>
+        <li class="divider"></li>
+        <li><router-link to="/variant-task" @click="toggleSidebar">Задание варианта</router-link></li>
       </ul>
     </div>
   </header>
