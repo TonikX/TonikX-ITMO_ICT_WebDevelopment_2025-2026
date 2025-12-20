@@ -7,7 +7,9 @@ nav:
       - Практические работы: "practical-work.md"
       - Отчет: "lab3.md"
       - Эндпоинты: "endpoints.md"
-  - Лабораторная работа 4: "lab4.md"
+  - Лабораторная работа 4:
+      - Отчет: "lab4.md"
+      - Эндпоинты: "frontendEndpoints.md"
 
 theme:
  name: material
