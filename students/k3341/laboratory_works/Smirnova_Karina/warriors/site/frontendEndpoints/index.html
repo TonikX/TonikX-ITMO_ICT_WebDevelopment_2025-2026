@@ -1,0 +1,1606 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../lab4/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>Эндпоинты - My Web</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#-frontend" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="My Web" class="md-header__button md-logo" aria-label="My Web" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Web
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Эндпоинты
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="My Web" class="md-nav__button md-logo" aria-label="My Web" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    My Web
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа 3
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторная работа 3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practical-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практические работы
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Отчет
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Эндпоинты
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа 4
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторная работа 4
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Отчет
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Эндпоинты
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Эндпоинты
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /register
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authlogout" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /auth/logout/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-authupdateprofile" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT auth/updateProfile
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#airline-companies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Airline Companies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Airline Companies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-airlines" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /airlines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-company" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-company
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-companyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-company/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiairline-companiescompanyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/airline-companies/companyId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-planes" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /planes/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-plane/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-planeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-plane/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiplanesplaneid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/planes/planeId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /routes/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-routeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /route/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-route
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-routeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-route/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiroutesrouteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/routes/routeId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flights
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-flights" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /flights/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-flightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /flight/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-flight" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-flight/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-flightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-flight/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiflightsflightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/flights/flightId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crews" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crews
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crews">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-crews" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /crews/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-crewsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /crews/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-crew" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-crew/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-crewid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-crew/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apicrewscrewid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/crews/${crewId}/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crew-members" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crew Members
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crew Members">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-create-crew-member" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-crew-member
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-crew-memberid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-crew-member/:id/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание по варианту
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание по варианту">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-variant-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /variant-task/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /register
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-authlogout" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /auth/logout/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-authupdateprofile" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT auth/updateProfile
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#airline-companies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Airline Companies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Airline Companies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-airlines" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /airlines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-company" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-company
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-companyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-company/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiairline-companiescompanyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/airline-companies/companyId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Planes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-planes" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /planes/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-plane/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-planeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-plane/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiplanesplaneid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/planes/planeId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /routes/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-routeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /route/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-route" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-route
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-routeid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-route/:id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiroutesrouteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/routes/routeId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flights
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-flights" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /flights/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-flightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /flight/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-flight" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-flight/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-flightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-flight/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiflightsflightid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/flights/flightId/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crews" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crews
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crews">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-crews" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /crews/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-crewsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /crews/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-create-crew" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-crew/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-crewid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-crew/:id/
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apicrewscrewid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/crews/${crewId}/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crew-members" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crew Members
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Crew Members">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-create-crew-member" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /create-crew-member
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-edit-crew-memberid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /edit-crew-member/:id/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание по варианту
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание по варианту">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-variant-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /variant-task/
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="-frontend">Эндпоинты для компании-авиаперевозчика frontend</h1>
+<p>Base URL: <code>http://127.0.0.1:8000/api/</code></p>
+<h2 id="authentication">Authentication</h2>
+<h3 id="post-register">POST /register</h3>
+<p>Регистрация нового пользователя.</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+  &quot;username&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;
+}
+</code></pre>
+<h3 id="post-login">POST /login</h3>
+<p>Авторизация пользователя и получение токена.</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+  &quot;username&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;
+}
+</code></pre>
+<h3 id="post-authlogout">POST /auth/logout/</h3>
+<p>Выход из системы (требуется токен).</p>
+<h3 id="get-profile">GET /profile</h3>
+<p>Получение профиля пользователя. (Требуется токен)</p>
+<h3 id="put-authupdateprofile">PUT auth/updateProfile</h3>
+<p>Обновление данных пользователя.</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+  &quot;username&quot;: &quot;string&quot;,
+  &quot;password&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;string&quot;
+}
+</code></pre>
+<h2 id="airline-companies">Airline Companies</h2>
+<h3 id="get-airlines">GET /airlines</h3>
+<p>Получить список всех авиакомпаний.
+Отображает поля модели AirlineCompany, относящиеся к каждой из них самолеты и работники.</p>
+<h3 id="post-create-company">POST /create-company</h3>
+<p>Создать новую авиакомпанию (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;name&quot;: &quot;string&quot;,
+}
+</code></pre>
+<h3 id="put-edit-companyid">PUT /edit-company/:id</h3>
+<p>Обновить данные авиакомпании (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;name&quot;: &quot;string&quot;,
+}
+</code></pre>
+<h3 id="delete-apiairline-companiescompanyid">DELETE /api/airline-companies/companyId/</h3>
+<p>Удалить авиакомпанию (требуется авторизация).</p>
+<h2 id="planes">Planes</h2>
+<h3 id="get-planes">GET /planes/</h3>
+<p>Получить список всех самолетов.</p>
+<h3 id="post-create-plane">POST /create-plane/</h3>
+<p>Создать новый самолет (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;number&quot;: 12,
+    &quot;type&quot;: &quot;string&quot;,
+    &quot;seats_capacity&quot;: 120,
+    &quot;flight_speed&quot;: 100,
+    &quot;airline_company&quot;: 1,
+    &quot;in_repair&quot;: true
+}
+</code></pre>
+<h3 id="put-edit-planeid">PUT /edit-plane/:id</h3>
+<p>Обновить данные самолета (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;number&quot;: 12,
+    &quot;type&quot;: &quot;string&quot;,
+    &quot;seats_capacity&quot;: 120,
+    &quot;flight_speed&quot;: 100,
+    &quot;airline_company&quot;: 1,
+    &quot;in_repair&quot;: true
+}
+</code></pre>
+<h3 id="delete-apiplanesplaneid">DELETE /api/planes/planeId/</h3>
+<p>Удалить самолет (требуется авторизация).</p>
+<h2 id="routes">Routes</h2>
+<h3 id="get-routes">GET /routes/</h3>
+<p>Получить список всех маршрутов.</p>
+<h3 id="get-routeid">GET /route/:id</h3>
+<p>Получить детальную информацию о маршруте - вывести все связанные рейсы.</p>
+<h3 id="post-create-route">POST /create-route</h3>
+<p>Создать новый маршрут (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;departure_point&quot;: &quot;string&quot;,
+    &quot;destination_point&quot;: &quot;string&quot;,
+    &quot;distance&quot;: 6474,
+    &quot;landing_points&quot;: &quot;string&quot;,
+    &quot;transit_landings&quot;: &quot;string&quot;
+}
+</code></pre>
+<h3 id="put-edit-routeid">PUT /edit-route/:id</h3>
+<p>Обновить данные самолета (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;departure_point&quot;: &quot;string&quot;,
+    &quot;destination_point&quot;: &quot;string&quot;,
+    &quot;distance&quot;: 6474,
+    &quot;landing_points&quot;: &quot;string&quot;,
+    &quot;transit_landings&quot;: &quot;string&quot;
+}
+</code></pre>
+<h3 id="delete-apiroutesrouteid">DELETE /api/routes/routeId/</h3>
+<p>Удалить маршрут (требуется авторизация).</p>
+<h2 id="flights">Flights</h2>
+<h3 id="get-flights">GET /flights/</h3>
+<p>Получить список всех рейсов.</p>
+<h3 id="get-flightid">GET /flight/:id/</h3>
+<p>Получить детальную информацию о рейсе - информация о маршруте, самолете, команде.</p>
+<h3 id="post-create-flight">POST /create-flight/</h3>
+<p>Создать новый рейс (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;flight_number&quot;: 1827,
+    &quot;departure_point&quot;: &quot;string&quot;,
+    &quot;arrival_point&quot;: &quot;string&quot;,
+    &quot;departure_datetime&quot;: &quot;datetime-local&quot;,
+    &quot;arrival_datetime&quot;: &quot;datetime-local&quot;,
+    &quot;sold_tickets&quot;: 87,
+    &quot;route&quot;: 1,
+    &quot;plane&quot;: 1,
+    &quot;crew&quot;: [],
+    &quot;is_transit&quot;: true
+}
+</code></pre>
+<h3 id="put-edit-flightid">PUT /edit-flight/:id/</h3>
+<p>Обновить данные рейса (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;flight_number&quot;: 1827,
+    &quot;departure_point&quot;: &quot;string&quot;,
+    &quot;arrival_point&quot;: &quot;string&quot;,
+    &quot;departure_datetime&quot;: &quot;datetime-local&quot;,
+    &quot;arrival_datetime&quot;: &quot;datetime-local&quot;,
+    &quot;sold_tickets&quot;: 87,
+    &quot;route&quot;: 1,
+    &quot;plane&quot;: 1,
+    &quot;crew&quot;: [],
+    &quot;is_transit&quot;: true
+}
+</code></pre>
+<h3 id="delete-apiflightsflightid">DELETE /api/flights/flightId/</h3>
+<p>Удалить рейс (требуется авторизация).</p>
+<h2 id="crews">Crews</h2>
+<h3 id="get-crews">GET /crews/</h3>
+<p>Получить список всех экипажей и их членов.</p>
+<h3 id="get-crewsid">GET /crews/:id/</h3>
+<p>Получить детальную информацию об экипаже.</p>
+<h3 id="post-create-crew">POST /create-crew/</h3>
+<p>Создать новый экипаж (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;members&quot;: []
+}
+</code></pre>
+<h3 id="put-edit-crewid">PUT /edit-crew/:id/</h3>
+<p>Обновить данные экипажа (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;members&quot;: []
+}
+</code></pre>
+<h3 id="delete-apicrewscrewid">DELETE /api/crews/${crewId}/</h3>
+<p>Удалить экипаж (требуется авторизация).</p>
+<h2 id="crew-members">Crew Members</h2>
+<h3 id="post-create-crew-member">POST /create-crew-member</h3>
+<p>Создать нового члена экипажа (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;full_name&quot;: &quot;string&quot;,
+    &quot;age&quot;: 23,
+    &quot;education&quot;: &quot;string&quot;,
+    &quot;work_experience&quot;: 2,
+    &quot;passport_info&quot;: &quot;string&quot;,
+    &quot;flight_authorization&quot;: false,
+    &quot;company_id&quot;: 1,
+    position: &quot;string&quot;
+}
+</code></pre>
+<h3 id="put-edit-crew-memberid">PUT /edit-crew-member/:id/</h3>
+<p>Обновить данные члена экипажа (требуется авторизация).</p>
+<p>Request Body:</p>
+<pre><code class="language-text">{
+    &quot;full_name&quot;: &quot;string&quot;,
+    &quot;age&quot;: 23,
+    &quot;education&quot;: &quot;string&quot;,
+    &quot;work_experience&quot;: 2,
+    &quot;passport_info&quot;: &quot;string&quot;,
+    &quot;flight_authorization&quot;: false,
+    &quot;company_id&quot;: 1,
+    position: &quot;string&quot;
+}
+</code></pre>
+<h2 id="_1">Задание по варианту</h2>
+<h3 id="get-variant-task">GET /variant-task/</h3>
+<p>Получение запросов по варианту:</p>
+<p>Задание 1: Самая популярная марка самолета на маршруте</p>
+<p>Задание 2: Маршруты с заполненностью менее XX%</p>
+<p>Задание 3: Наличие свободных мест на рейс</p>
+<p>Задание 4: Количество самолетов в ремонте</p>
+<p>Задание 5: Количество работников компании</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
