@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Список домашних заданий</h2>
+
+  <form method="get" action="" class="filter-form">
+    {{ filter_form.as_p }}
+    <button type="submit">Применить</button>
+  </form>
+  <hr>
+
+  {% if homeworks %}
+    <div class="homework-list">
+      {% for homework in homeworks %}
+        <div class="homework-item" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+          <h3>{{ homework.title }}</h3>
+          <p><strong>Предмет:</strong> {{ homework.subject.name }}</p>
+          <p><strong>Преподаватель:</strong> {{ homework.teacher }}</p>
+          <p><strong>Срок сдачи:</strong> {{ homework.due_date }}</p>
+          <a href="{% url 'homework_detail' pk=homework.pk %}">Посмотреть детали</a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="pagination">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; первая</a>
+          <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+          Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">следующая</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+  {% else %}
+    <p>Домашних заданий пока нет.</p>
+  {% endif %}
+{% endblock %}
