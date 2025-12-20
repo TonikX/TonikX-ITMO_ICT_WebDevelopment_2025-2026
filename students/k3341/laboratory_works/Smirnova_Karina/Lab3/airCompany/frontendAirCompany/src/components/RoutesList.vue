@@ -1,36 +1,39 @@
 <template>
   <div class="routes-list">
-    <h1>Список маршрутов</h1>
+    <div class="content-wrapper">
+      <h1>Список маршрутов</h1>
 
-    <div class="search-route">
-      <label for="search">Найти маршрут по ID:</label>
-      <input
-        class="search-input"
-        type="text"
-        id="search"
-        v-model="searchId"
-        placeholder="Введите ID маршрута"
-      />
-      <button @click="searchRoute" class="button">Найти маршрут</button>
-      <button @click="toggleFilters" class="button filter-button">Фильтры</button>
-      <button @click="clearSearch" class="button clear-button">Очистить</button>
-    </div>
-
-    <div v-if="filteredRoutes.length > 0">
-      <div class="route-card" v-for="route in filteredRoutes" :key="route. id">
-        <h2>Маршрут №{{ route.id }}</h2>
-        <p><strong>Пункт вылета:</strong> {{ route. departure_point }}</p>
-        <p><strong>Пункт назначения:</strong> {{ route.destination_point }}</p>
-        <p><strong>Расстояние:</strong> {{ route.distance }} км</p>
-        <p v-if="route.landing_points"><strong>Пункты посадки:</strong> {{ route. landing_points }}</p>
-        <p v-if="route. transit_landings"><strong>Транзитные посадки:</strong> {{ route. transit_landings }}</p>
-        <button @click="editRoute(route. id)" class="button">Редактировать</button>
-        <button @click="deleteRouteItem(route.id)" class="delete-button">Удалить</button>
-        <br />
-        <router-link :to="`/route/${route.id}`" class="button">Открыть связанные рейсы</router-link>
+      <div class="search-route">
+        <label for="search">Найти маршрут по ID: </label>
+        <input
+          class="search-input"
+          type="text"
+          id="search"
+          v-model="searchId"
+          placeholder="Введите ID маршрута"
+        />
+        <button @click="searchRoute" class="button button-primary">Найти маршрут</button>
+        <button @click="toggleFilters" class="button button-primary">Фильтры</button>
+        <button @click="clearSearch" class="button button-danger">Очистить</button>
       </div>
+
+      <div v-if="filteredRoutes.length > 0" class="routes-container">
+        <div class="route-card" v-for="route in filteredRoutes" :key="route.id">
+          <h2>Маршрут №{{ route. id }}</h2>
+          <p><strong>Пункт вылета:</strong> {{ route.departure_point }}</p>
+          <p><strong>Пункт назначения:</strong> {{ route.destination_point }}</p>
+          <p><strong>Расстояние:</strong> {{ route.distance }} км</p>
+          <p v-if="route.landing_points"><strong>Пункты посадки:</strong> {{ route.landing_points }}</p>
+          <p v-if="route.transit_landings"><strong>Транзитные посадки:</strong> {{ route.transit_landings }}</p>
+          <div class="button-group">
+            <button @click="editRoute(route. id)" class="button button-primary">Редактировать</button>
+            <button @click="deleteRouteItem(route.id)" class="button button-danger">Удалить</button>
+          </div>
+          <router-link :to="`/route/${route.id}`" class="button button-primary button-full">Открыть связанные рейсы</router-link>
+        </div>
+      </div>
+      <p v-else>Маршруты с указанными параметрами не найдены.</p>
     </div>
-    <p v-else>Маршруты с указанными параметрами не найдены. </p>
 
     <div v-if="showFilters" class="filters-panel">
       <h2>Фильтры</h2>
@@ -44,13 +47,13 @@
       </label><br/>
       <label>
         Расстояние от (км):
-        <input type="number" v-model="filters.minDistance" placeholder="Минимальное расстояние" />
+        <input type="number" v-model="filters. minDistance" placeholder="Минимальное расстояние" />
       </label><br/>
       <label>
         Расстояние до (км):
         <input type="number" v-model="filters.maxDistance" placeholder="Максимальное расстояние" />
       </label><br/>
-      <button @click="applyFilters" class="button">Найти</button>
+      <button @click="applyFilters" class="button button-primary button-full">Найти</button>
     </div>
   </div>
 </template>
@@ -67,9 +70,9 @@ export default {
       filteredRoutes: [],
       showFilters: false,
       filters: {
-        departurePoint: "",
+        departurePoint:  "",
         destinationPoint: "",
-        minDistance:  null,
+        minDistance: null,
         maxDistance: null,
       },
       error: null,
@@ -79,21 +82,21 @@ export default {
     try {
       const response = await getRoutes();
       this.routes = response.data;
-      this.filteredRoutes = this.routes;
+      this. filteredRoutes = this.routes;
     } catch (err) {
       this.error = "Ошибка загрузки маршрутов. ";
       console.error(err);
     }
   },
-  methods:  {
+  methods: {
     editRoute(id) {
       this.$router.push(`/edit-route/${id}`);
     },
     async deleteRouteItem(id) {
-      if (! confirm("Вы уверены, что хотите удалить маршрут?")) {
+      if (!confirm("Вы уверены, что хотите удалить маршрут?")) {
         return;
       }
-      console.log("Del route id:", id);
+      console. log("Del route id:", id);
       try {
         await deleteRoute(id);
         alert("Маршрут успешно удален.");
@@ -127,17 +130,17 @@ export default {
       this.filteredRoutes = this.routes.filter(route => {
         const matchesDeparturePoint =
           ! this.filters.departurePoint ||
-          route.departure_point. toLowerCase().includes(this.filters.departurePoint.toLowerCase());
+          route.departure_point. toLowerCase().includes(this.filters. departurePoint.toLowerCase());
 
         const matchesDestinationPoint =
-          !this.filters. destinationPoint ||
+          !this.filters.destinationPoint ||
           route.destination_point.toLowerCase().includes(this.filters.destinationPoint.toLowerCase());
 
         const matchesMinDistance =
-          ! this.filters.minDistance || route.distance >= this.filters.minDistance;
+          !this.filters. minDistance || route.distance >= this.filters.minDistance;
 
         const matchesMaxDistance =
-          !this.filters.maxDistance || route.distance <= this. filters.maxDistance;
+          !this.filters.maxDistance || route.distance <= this.filters. maxDistance;
 
         return (
           matchesDeparturePoint &&
@@ -154,72 +157,128 @@ export default {
 
 <style>
 .routes-list {
-  margin: 20px;
   font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.routes-container {
+  display: grid;
+  grid-template-columns:  repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top:  20px;
 }
 
 .route-card {
-  border: 1px solid #ddd;
-  padding: 15px;
+  background-color: white;
+  border:  1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.route-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.route-card h2 {
+  margin-top: 0;
   margin-bottom: 15px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  color: #333;
+  font-size: 20px;
+}
+
+.route-card p {
+  margin:  8px 0;
+  color:  #555;
+  line-height: 1.5;
 }
 
 .search-route {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: white;
+  padding: 20px;
+  border-radius:  8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-route label {
+  margin-right: 10px;
+  font-weight: 500;
+  color: #333;
 }
 
 .search-input {
-  margin-right: 10px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  min-width: 200px;
+  font-size: 14px;
+}
+
+.search-input: focus {
+  outline: none;
+  border-color: #007BFF;
 }
 
 .button {
   display: inline-block;
-  padding: 10px 15px;
+  padding: 10px 20px;
   color: white;
-  background-color: #007BFF;
-  text-decoration:  none;
-  border-radius:  5px;
-  margin-right: 10px;
+  text-decoration: none;
+  border-radius: 5px;
   border: none;
   cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
-.button:hover {
+.button-primary {
+  background-color: #007BFF;
+}
+
+.button-primary:hover {
   background-color: #0056b3;
 }
 
-.clear-button {
-  background-color: #F5F5F5;
-  color: black;
-  border: 1px solid #ddd;
-}
-
-.clear-button:hover {
-  background-color: #E0E0E0;
-}
-
-.delete-button {
+.button.button-danger {
   background-color: rgb(210, 37, 37);
-  color: white;
-  border-radius: 5px;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
 }
 
-.delete-button:hover {
+.button.button-danger:hover {
   background-color: rgb(180, 20, 20);
 }
 
-.filter-button {
-  background-color: #28a745;
+.button-full {
+  width: 100%;
+  margin-top: 10px;
 }
 
-.filter-button:hover {
-  background-color: #218838;
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button-group.button {
+  flex: 1;
 }
 
 .filters-panel {
@@ -228,34 +287,65 @@ export default {
   right: 0;
   height: 100%;
   width: 300px;
-  background-color: #f1f1f1;
+  background-color: white;
   border-left: 1px solid #ddd;
-  padding: 15px;
-  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   z-index: 1000;
 }
 
 .filters-panel h2 {
-  margin-top: 0;
+  margin-top:  0;
+  color: #333;
 }
 
 .filters-panel label {
   display: block;
-  margin-bottom: 10px;
-  font-weight:  bold;
+  margin-bottom: 15px;
+  font-weight:  500;
+  color: #333;
 }
 
 .filters-panel input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-top: 5px;
   border: 1px solid #ddd;
-  border-radius:  5px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-.filters-panel .button {
-  width: 100%;
-  margin-top: 15px;
+.filters-panel input:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+.filters-panel.button {
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0 15px;
+  }
+
+  .routes-container {
+    grid-template-columns: 1fr;
+  }
+
+  .search-route {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+  }
 }
 </style>

@@ -7,7 +7,7 @@
       <router-link to="/planes" class="nav-link">Самолеты</router-link>
       <router-link to="/crews" class="nav-link">Команды</router-link>
 
-      <template v-if="!isAuthenticated">
+      <template v-if="! isAuthenticated">
         <router-link to="/register" class="nav-link">Регистрация</router-link>
         <router-link to="/login" class="nav-link">Войти</router-link>
       </template>
@@ -16,22 +16,24 @@
         <button @click="logout" class="nav-link logout-button">Выход</button>
       </template>
 
-      <button class="menu-button" @click="toggleSidebar">
-        <span class="menu-icon">☰</span>
-      </button>
+      <div class="menu-container">
+        <button class="menu-button" @click="toggleSidebar">
+          <span class="menu-icon">☰</span>
+        </button>
+        <div class="sidebar" v-if="showSidebar">
+          <ul class="sidebar-links">
+            <li><router-link to="/create-plane" @click="toggleSidebar">Создать самолет</router-link></li>
+            <li><router-link to="/create-company" @click="toggleSidebar">Создать компанию</router-link></li>
+            <li><router-link to="/create-route" @click="toggleSidebar">Создать маршрут</router-link></li>
+            <li><router-link to="/create-flight" @click="toggleSidebar">Создать рейс</router-link></li>
+            <li><router-link to="/create-crew-member" @click="toggleSidebar">Создать работника</router-link></li>
+            <li><router-link to="/create-crew" @click="toggleSidebar">Создать команду</router-link></li>
+            <li class="divider"></li>
+            <li><router-link to="/variant-task" @click="toggleSidebar">Задание варианта</router-link></li>
+          </ul>
+        </div>
+      </div>
     </nav>
-    <div class="sidebar" v-if="showSidebar">
-      <ul class="sidebar-links">
-        <li><router-link to="/create-plane" @click="toggleSidebar">Создать самолет</router-link></li>
-        <li><router-link to="/create-company" @click="toggleSidebar">Создать компанию</router-link></li>
-        <li><router-link to="/create-route" @click="toggleSidebar">Создать маршрут</router-link></li>
-        <li><router-link to="/create-flight" @click="toggleSidebar">Создать рейс</router-link></li>
-        <li><router-link to="/create-crew-member" @click="toggleSidebar">Создать работника</router-link></li>
-        <li><router-link to="/create-crew" @click="toggleSidebar">Создать команду</router-link></li>
-        <li class="divider"></li>
-        <li><router-link to="/variant-task" @click="toggleSidebar">Задание варианта</router-link></li>
-      </ul>
-    </div>
   </header>
 </template>
 
@@ -45,7 +47,7 @@ export default {
   },
   methods: {
     toggleSidebar() {
-      this.showSidebar = !this.showSidebar;
+      this.showSidebar = !this. showSidebar;
     },
     async logout() {
       try {
@@ -57,7 +59,7 @@ export default {
       }
     },
   },
-  computed: {
+  computed:  {
     isAuthenticated() {
       return !!this.$store.state.auth.token;
     },
@@ -72,23 +74,37 @@ export default {
   color: white;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .nav-bar {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .nav-link {
-  color: white;
-  text-decoration: none;
-  margin-right: 20px;
+  color:  white;
+  text-decoration:  none;
+  margin:  0 20px;
   font-size: 18px;
 }
 
 .nav-link:hover {
-  text-decoration: underline;
+  text-decoration:  underline;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-container {
+  position: relative;
+  margin-left: 20px;
 }
 
 .menu-button {
@@ -97,26 +113,30 @@ export default {
   color: white;
   font-size: 24px;
   cursor: pointer;
+  padding: 0;
 }
 
 .menu-icon {
-  display: inline-block;
+  display:  inline-block;
 }
 
 .sidebar {
   position: absolute;
-  right: 10px;
-  top: 50px;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 10px;
   z-index: 10;
+  min-width: 200px;
 }
 
 .sidebar-links {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar-links li {
@@ -124,12 +144,19 @@ export default {
 }
 
 .sidebar-links a {
-  text-decoration: none;
+  text-decoration:  none;
   color: #0f4c81;
   font-size: 16px;
+  display: block;
 }
 
 .sidebar-links a:hover {
   text-decoration: underline;
+}
+
+.divider {
+  height: 1px;
+  background-color:  #ddd;
+  margin: 5px 0;
 }
 </style>

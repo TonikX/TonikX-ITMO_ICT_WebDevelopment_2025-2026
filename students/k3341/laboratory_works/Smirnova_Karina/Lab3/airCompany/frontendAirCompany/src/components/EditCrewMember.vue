@@ -1,40 +1,71 @@
 <template>
   <div class="edit-member">
-    <h1>Редактирование участника {{ member.full_name }}</h1>
-    <form @submit.prevent="submitForm">
-      <label for="full_name">ФИО:</label>
-      <input type="text" id="full_name" v-model="member.full_name" required />
+    <div class="content-wrapper">
+      <h1>Редактирование участника {{ member.full_name }}</h1>
 
-      <label for="age">Возраст:</label>
-      <input type="number" id="age" v-model="member.age" required />
+      <div class="form-container">
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="full_name">ФИО:</label>
+            <input type="text" id="full_name" v-model="member.full_name" placeholder="Введите ФИО" required />
+          </div>
 
-      <label for="education">Образование:</label>
-      <input type="text" id="education" v-model="member.education" required />
+          <div class="form-group">
+            <label for="age">Возраст:</label>
+            <input type="number" id="age" v-model="member.age" placeholder="Введите возраст" required />
+          </div>
 
-      <label for="work_experience">Стаж работы:</label>
-      <input type="number" id="work_experience" v-model="member.work_experience" required />
+          <div class="form-group">
+            <label for="education">Образование:</label>
+            <input type="text" id="education" v-model="member.education" placeholder="Введите образование" required />
+          </div>
 
-      <label for="passport_info">Паспортные данные:</label>
-      <input type="text" id="passport_info" v-model="member.passport_info" required />
+          <div class="form-group">
+            <label for="work_experience">Стаж работы (лет):</label>
+            <input type="number" id="work_experience" v-model="member.work_experience" placeholder="Введите стаж работы" required />
+          </div>
 
-      <label for="flight_authorization">Допуск к рейсу:</label>
-      <select id="flight_authorization" v-model="member.flight_authorization" required>
-        <option :value="true">Да</option>
-        <option :value="false">Нет</option>
-      </select>
+          <div class="form-group">
+            <label for="passport_info">Паспортные данные:</label>
+            <input type="text" id="passport_info" v-model="member.passport_info" placeholder="Введите паспортные данные" required />
+          </div>
 
-      <label for="position">Должность:</label>
-      <input type="text" id="position" v-model="member.position" required />
+          <div class="form-group">
+            <label for="flight_authorization">Допуск к рейсу:</label>
+            <select id="flight_authorization" v-model="member. flight_authorization" required>
+              <option :value="true">Да</option>
+              <option :value="false">Нет</option>
+            </select>
+          </div>
 
-      <label for="company">Компания:</label>
-      <select id="company" v-model="member.company" required>
-        <option v-for="company in companies" :value="company.id" :key="company.id">
-          {{ company.name }}
-        </option>
-      </select>
+          <div class="form-group">
+            <label for="position">Должность:</label>
+            <select id="position" v-model="member.position" required>
+              <option value="" disabled selected>Выберите должность</option>
+              <option value="командир">Командир</option>
+              <option value="второй пилот">Второй пилот</option>
+              <option value="штурман">Штурман</option>
+              <option value="стюардесса">Стюардесса</option>
+              <option value="стюард">Стюард</option>
+            </select>
+          </div>
 
-      <button type="submit" class="save-button">Сохранить изменения</button>
-    </form>
+          <div class="form-group">
+            <label for="company">Компания:</label>
+            <select id="company" v-model="member.company" required>
+              <option v-for="company in companies" :value="company.id" :key="company.id">
+                {{ company.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="button button-primary">Сохранить изменения</button>
+            <button type="button" @click="$router.push('/crews')" class="button button-secondary">Отмена</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,7 +79,7 @@ export default {
       member: {
         full_name: '',
         age: null,
-        education: '',
+        education:  '',
         work_experience: null,
         passport_info: '',
         flight_authorization: false,
@@ -73,13 +104,13 @@ export default {
       console.error(err);
     }
   },
-  methods: {
+  methods:  {
     async submitForm() {
       const memberId = this.$route.params.id;
       const updatedData = {
         ...this.member,
         company_id: this.member.company,
-        };
+      };
       console.log("Data:", updatedData)
       try {
         await updateCrewMember(memberId, updatedData);
@@ -94,42 +125,120 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .edit-member {
-  margin: 20px;
-  font-family: Arial, sans-serif;
+  font-family:  Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height:  100vh;
+  padding:  20px 0;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 30px;
 }
 
-label {
-  margin-bottom: 5px;
-  font-weight: bold;
+.content-wrapper h1 {
+  color:  #333;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
-input,
-select {
-  margin-bottom: 10px;
-  padding: 8px;
-  font-size: 16px;
+.form-container {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom:  20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.3s ease;
 }
 
-.save-button {
-  margin-top: 20px;
-  padding: 10px 15px;
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow:  0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.button {
+  display: inline-block;
+  padding:  12px 24px;
   color: white;
-  background-color: #007BFF;
-  border: none;
+  text-decoration: none;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
 }
 
-.save-button:hover {
+.button.button-primary {
+  background-color: #007BFF;
+}
+
+.button.button-primary:hover {
   background-color: #0056b3;
+}
+
+.button.button-secondary {
+  background-color: #6c757d;
+}
+
+.button.button-secondary:hover {
+  background-color: #5a6268;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.button-group.button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0 15px;
+  }
+
+  .form-container {
+    padding:  20px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group . button {
+    width: 100%;
+  }
 }
 </style>
