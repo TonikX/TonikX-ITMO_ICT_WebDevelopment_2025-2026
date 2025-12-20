@@ -1,0 +1,25 @@
+# Вывод даты выдачи самого старшего водительского удостоверения
+from django.db.models import Min
+min_date = License.objects.aggregate(Min('date_issued'))['date_issued__min']
+print("Самое старое удостоверение выдано:", min_date)
+
+# Самая поздняя дата владения машиной, имеющую какую-то из существующих моделей
+from django.db.models import Max
+latest_end = Ownership.objects.filter(car__brand='Honda').aggregate(Max('end_date'))['end_date__max']
+print("Самая поздняя дата окончания владения Honda:", latest_end)
+
+# Количество машин для каждого водителя
+from django.db.models import Count
+owners_with_car_count = Owner.objects.annotate(car_count=Count('cars', distinct=True))
+for owner in owners_with_car_count:
+    print(f"{owner.first_name} {owner.last_name}: {owner.car_count} машин(ы)")
+
+# Количество машин каждой марки
+brand_counts = Car.objects.values('brand').annotate(count=Count('id')).order_by('brand')
+for entry in brand_counts:
+    print(f"Марка {entry['brand']}: {entry['count']} машин(ы)")
+
+# Отсортируйте всех автовладельцев по дате выдачи удостоверения
+owners_by_license = Owner.objects.annotate(earliest_license=Min('licenses__date_issued')).order_by('earliest_license').distinct()
+for owner in owners_by_license:
+    print(f"{owner.first_name} {owner.last_name} — {owner.earliest_license}")

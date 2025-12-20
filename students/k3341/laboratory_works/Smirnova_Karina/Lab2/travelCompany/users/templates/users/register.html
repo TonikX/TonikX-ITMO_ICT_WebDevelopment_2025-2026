@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'users/style.css' %}">
+</head>
+<body>
+  <h2>Регистрация</h2>
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Зарегистрироваться</button>
+  </form>
+  <a href="{% url 'login' %}">Войти</a>
+</body>
+</html>

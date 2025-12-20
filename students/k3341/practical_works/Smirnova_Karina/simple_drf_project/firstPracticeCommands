@@ -1,0 +1,66 @@
+python manage.py shell
+from project_first_app.models import *
+from datetime import datetime, timedelta
+
+# Создаем 7 автовладельцев
+owners = []
+for i in range(7):
+    owner = Owner.objects.create_user(
+        username=f'user{i}',
+        password='testpass123',
+        last_name=f'Фамилия{i}',
+        first_name=f'Имя{i}',
+        passport_number=f'PN{i:06}',
+        address=f'Город, улица {i}, дом {i+1}',
+        nationality='Россия'
+    )
+    owners.append(owner)
+
+# Создаем 6 автомобилей
+cars = []
+car_data = [
+    ('A123BC77', 'Toyota', 'Camry', 'черный'),
+    ('B234CD78', 'Honda', 'Accord', 'белый'),
+    ('C345DE79', 'Ford', 'Focus', 'синий'),
+    ('D456EF80', 'BMW', 'X5', 'серый'),
+    ('E567FG81', 'Audi', 'A4', 'красный'),
+    ('F678GH82', 'Lada', 'Vesta', 'зеленый')
+]
+for num, brand, model, color in car_data:
+    car = Car.objects.create(state_num=num, brand=brand, model=model, color=color)
+    cars.append(car)
+
+# Каждому автовладельцу выдаем удостоверение
+for i, owner in enumerate(owners):
+    License.objects.create(
+        owner=owner,
+        license_number=f'L{i:06}',
+        type='B',
+        date_issued=datetime.now() - timedelta(days=365*i)
+    )
+
+# Для каждого автовладельца назначаем от 1 до 3 автомобилей через связь "владение"
+import random
+for owner in owners:
+    n = random.randint(1, 3)
+    owned_cars = random.sample(cars, n)
+    for car in owned_cars:
+        Ownership.objects.create(
+            owner=owner,
+            car=car,
+            start_date=datetime.now() - timedelta(days=random.randint(0, 1000)),
+            end_date=None
+        )
+
+# 5. Проверяем, что получилось:
+print("Owners:")
+for o in Owner.objects.all():
+    print(o, o.license_set.all())
+
+print("\nCars:")
+for c in Car.objects.all():
+    print(c, c.owners.all())
+
+print("\nOwnerships:")
+for own in Ownership.objects.all():
+    print(f"{own.owner} владеет {own.car}, с {own.start_date}")

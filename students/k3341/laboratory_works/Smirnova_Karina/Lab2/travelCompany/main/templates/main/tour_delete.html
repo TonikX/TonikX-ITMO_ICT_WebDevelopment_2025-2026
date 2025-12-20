@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour Delete</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+  <h2>Удалить тур "{{ tour.name }}"?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+  </form>
+  <a href="{% url 'tour_detail' pk=tour.pk %}">Отмена</a>
+</body>
+</html>
