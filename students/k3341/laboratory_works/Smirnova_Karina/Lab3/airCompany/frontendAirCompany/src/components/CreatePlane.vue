@@ -16,7 +16,7 @@
 
           <div class="form-group">
             <label for="type">Тип самолета:</label>
-            <input type="text" id="type" v-model="plane. type" placeholder="Введите тип самолета" required />
+            <input type="text" id="type" v-model="plane.type" placeholder="Введите тип самолета" required />
           </div>
 
           <div class="form-group">

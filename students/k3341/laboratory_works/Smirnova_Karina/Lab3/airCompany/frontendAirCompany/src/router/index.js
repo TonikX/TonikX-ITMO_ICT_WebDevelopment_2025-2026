@@ -28,11 +28,6 @@ const EmptyPage = { template: '<div style="padding: 20px;">Страница со
 
 const routes = [
   {
-    path: '/flights',
-    name: 'Flights',
-    component: FlightList,
-  },
-  {
     path: '/crews/:id',
     name: 'CrewDetails',
     component: CrewDetails,
@@ -96,11 +91,6 @@ const routes = [
     component: CreateFlight,
   },
   {
-    path: '/routes',
-    component: RoutesList,
-    name: 'RoutesList',
-  },
-  {
     path: '/edit-route/:id',
     component: EditRoute,
     name: 'EditRoute',
@@ -126,7 +116,7 @@ const routes = [
     component: EditPlane,
     props: true,
   },
-    {
+  {
     path: '/crews',
     name: 'CrewList',
     component: CrewList,

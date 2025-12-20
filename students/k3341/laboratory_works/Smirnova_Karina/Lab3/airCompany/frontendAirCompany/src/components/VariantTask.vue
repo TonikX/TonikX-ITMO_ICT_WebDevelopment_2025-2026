@@ -146,7 +146,6 @@ export default {
       flights: [],
       companies: [],
 
-      // Задание 1
       task1: {
         selectedRouteId: '',
         result: null,
@@ -154,27 +153,23 @@ export default {
         error: null,
       },
 
-      // Задание 2
       task2: {
         percentage: null,
         result: null,
         error: null,
       },
 
-      // Задание 3
       task3: {
         selectedFlightId: '',
         result: null,
         error:  null,
       },
 
-      // Задание 4
       task4: {
         result: null,
         error: null,
       },
 
-      // Задание 5
       task5: {
         selectedCompanyId: '',
         result:  null,
@@ -197,7 +192,6 @@ export default {
     }
   },
   methods: {
-    // Вспомогательные методы для получения объектов
     getSelectedRoute(routeId) {
       return this.routes.find(route => route.id === routeId);
     },
@@ -208,7 +202,6 @@ export default {
       return this.companies.find(company => company.id === companyId);
     },
 
-    // Задание 1: Самая популярная марка самолета
     async fetchMostPopularPlane() {
       this.task1.result = null;
       this.task1.noData = false;
@@ -229,7 +222,6 @@ export default {
       }
     },
 
-    // Задание 2: Маршруты с заполненностью менее XX%
     async fetchRoutesBelowCapacity() {
       this.task2.result = null;
       this.task2.error = null;
@@ -254,7 +246,6 @@ export default {
       }
     },
 
-    // Задание 3: Наличие свободных мест на рейс
     async fetchAvailableSeats() {
       this.task3.result = null;
       this.task3.error = null;
@@ -270,7 +261,6 @@ export default {
       }
     },
 
-    // Задание 4: Количество самолетов в ремонте
     async fetchPlanesUnderRepair() {
       this.task4.result = null;
       this. task4.error = null;
@@ -284,7 +274,6 @@ export default {
       }
     },
 
-    // Задание 5: Количество работников компании
     async fetchTotalEmployees() {
       this.task5.result = null;
       this.task5.error = null;
@@ -304,7 +293,7 @@ export default {
 </script>
 
 <style scoped>
-. variant-task {
+.variant-task {
   margin:  20px;
   font-family: Arial, sans-serif;
   max-width: 1200px;
@@ -341,7 +330,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-. input-group label {
+.input-group label {
   display: block;
   margin-bottom: 8px;
   font-weight:  bold;
@@ -394,7 +383,7 @@ h2 {
   border-left: 4px solid #4caf50;
 }
 
-. result-card.warning {
+.result-card.warning {
   background-color: #fff3cd;
   border-left: 4px solid #ffc107;
   color: #856404;

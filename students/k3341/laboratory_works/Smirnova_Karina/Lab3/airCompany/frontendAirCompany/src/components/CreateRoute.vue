@@ -16,7 +16,7 @@
 
           <div class="form-group">
             <label for="destination-point">Пункт назначения:</label>
-            <input type="text" id="destination-point" v-model="route. destination_point" placeholder="Введите пункт назначения" required />
+            <input type="text" id="destination-point" v-model="route.destination_point" placeholder="Введите пункт назначения" required />
           </div>
 
           <div class="form-group">
