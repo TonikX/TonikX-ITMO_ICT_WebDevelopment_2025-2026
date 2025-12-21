@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Мои оценки{% endblock %}
+
+{% block content %}
+<h2>📝 Мои оценки</h2>
+
+{% for sub in submissions %}
+<div class="card mb-3 border-{% if sub.status == 'graded' %}success{% elif sub.status == 'late' %}danger{% elif sub.status == 'submitted' %}info{% else %}warning{% endif %}">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h5 class="card-title">{{ sub.homework.subject.name }}</h5>
+                <p class="card-text">{{ sub.homework.description|truncatechars:100 }}</p>
+                <small class="text-muted">
+                    Срок сдачи: {{ sub.homework.due_date }} |
+                    Сдано: {{ sub.submitted_at|date:"d.m.Y H:i" }}
+                </small>
+            </div>
+            <div class="col-md-4 text-end">
+                <span class="badge bg-{% if sub.status == 'graded' %}success{% elif sub.status == 'late' %}danger{% elif sub.status == 'submitted' %}info{% else %}warning{% endif %} fs-6 mb-2">
+                    {{ sub.get_status_display }}
+                </span>
+                {% if sub.grade %}
+                    <div class="fs-4 fw-bold text-success">
+                        Оценка: {{ sub.grade }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info text-center">
+    Вы ещё не сдавали заданий
+</div>
+{% endfor %}
+{% endblock %}

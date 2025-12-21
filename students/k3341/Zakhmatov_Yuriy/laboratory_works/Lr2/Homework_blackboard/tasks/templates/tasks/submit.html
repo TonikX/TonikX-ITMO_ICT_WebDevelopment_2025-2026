@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Сдать задание{% endblock %}
+
+{% block content %}
+<h2>Сдать задание: {{ homework.subject.name }}</h2>
+<p><strong>Описание:</strong> {{ homework.description }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  <textarea name="text" class="form-control" rows="6" placeholder="Введите ответ..."></textarea>
+  <button type="submit" class="btn btn-success mt-3">Отправить</button>
+</form>
+{% endblock %}

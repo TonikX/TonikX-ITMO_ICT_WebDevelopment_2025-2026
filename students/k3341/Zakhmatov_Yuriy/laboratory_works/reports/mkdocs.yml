@@ -1,0 +1,30 @@
+site_name: Лабы по вебу
+nav:
+  - home: index.md
+  - Лаба 1:
+      - Задание 1: lab_1/task1.md
+      - Задание 2: lab_1/task2.md
+      - Задание 3: lab_1/task3.md
+      - Задание 4: lab_1/task4.md
+      - Задание 5: lab_1/task5.md
+
+  - Лаба 2:
+      - Отчет: lab_2/report.md
+
+  - Лаба 3:
+      - Отчет: lab_3/report.md
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.expand
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true

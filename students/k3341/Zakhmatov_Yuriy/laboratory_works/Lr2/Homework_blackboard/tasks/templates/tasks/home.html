@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Домашние задания{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-4 text-center">📚 Домашние задания</h1>
+
+  <!-- Форма поиска -->
+  <form method="get" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="q" placeholder="Поиск по предмету или описанию..." value="{{ request.GET.q }}" class="form-control form-control-lg">
+      <button type="submit" class="btn btn-outline-primary btn-lg">🔍 Найти</button>
+    </div>
+  </form>
+
+  <!-- Список заданий -->
+  {% for hw in page_obj %}
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="card-title mb-2">{{ hw.subject.name }} — <span class="text-muted">{{ hw.subject.teacher }}</span></h4>
+        <p class="card-text">{{ hw.description|truncatechars:250 }}</p>
+        <p class="text-muted mb-2">🕓 Срок сдачи: <strong>{{ hw.due_date }}</strong></p>
+
+        <!-- СТАТУС СДАЧИ -->
+        {% if user.is_authenticated %}
+          {% with has_submission=False %}
+            {% for submission in hw.submission_set.all %}
+              {% if submission.student.id == user.id %}
+                {% if forloop.last %}
+                  <div class="alert alert-{% if submission.status == 'graded' %}success{% elif submission.status == 'late' %}danger{% else %}info{% endif %} mb-3">
+                    {{ submission.get_status_display }}
+                    {% if submission.grade %}
+                      | Оценка: <strong>{{ submission.grade }}</strong>
+                    {% endif %}
+                    | {{ submission.submitted_at|date:"d.m.Y H:i" }}
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endwith %}
+
+          <!-- Если не нашли ни одного сабмишна для пользователя -->
+          {% for submission in hw.submission_set.all %}
+            {% if submission.student.id == user.id %}
+              <!-- Есть сабмишн, ничего не делаем -->
+            {% else %}
+              {% if forloop.last %}
+                <div class="alert alert-warning mb-3">
+                  ⏳ Не сдано
+                </div>
+              {% endif %}
+            {% endif %}
+          {% empty %}
+            <div class="alert alert-warning mb-3">
+              ⏳ Не сдано
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'submit_homework' hw.id %}" class="btn btn-success btn-lg w-100 py-3 shadow">
+            🚀 Сдать задание
+          </a>
+        {% else %}
+          <p class="text-center mt-3">
+            <a href="{% url 'login' %}" class="btn btn-warning btn-lg w-100 py-3">
+              🔑 Войдите, чтобы сдать задание
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  {% empty %}
+    <div class="alert alert-info text-center">
+      Заданий пока нет.
+    </div>
+  {% endfor %}
+
+  <!-- Пагинация -->
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav aria-label="Навигация по страницам">
+    <ul class="pagination justify-content-center mt-4">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+            ⬅ Назад
+          </a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+          <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+            {{ num }}
+          </a>
+        </li>
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+            Вперёд ➡
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Оценки класса{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">📊 Оценки класса</h2>
+
+    {% if homeworks %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>Ученик</th>
+                    {% for homework in homeworks %}
+                    <th class="text-center" style="min-width: 80px;">
+                        <div class="small fw-bold">{{ homework.subject.name }}</div>
+                        <div class="small text-muted">{{ homework.due_date|date:"d.m" }}</div>
+                    </th>
+                    {% endfor %}
+                    <th class="text-center">Средний балл</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student_data in grades_data %}
+                <tr {% if student_data.student == user %}class="table-info"{% endif %}>
+                    <td class="fw-bold">
+                        {% if student_data.student == user %}
+                            ⭐ {{ student_data.student.username }}
+                        {% else %}
+                            👤 {{ student_data.student.username }}
+                        {% endif %}
+                    </td>
+                    
+                    {% for grade in student_data.grades %}
+                    <td class="text-center align-middle">
+                        {% if grade %}
+                            <span class="badge bg-success fs-6">{{ grade }}</span>
+                        {% else %}
+                            <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                    
+                    <td class="text-center fw-bold">
+                        {% if student_data.average_grade %}
+                            {{ student_data.average_grade }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        Заданий пока нет.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
