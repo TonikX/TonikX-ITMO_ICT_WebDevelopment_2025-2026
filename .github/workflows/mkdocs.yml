@@ -1,0 +1,43 @@
+name: Deploy MkDocs documentation
+
+on:
+  push:
+    branches:
+      - Lab_3
+    paths:
+      - "students/k3340/Ivanov_Viktor/lr_3/mkdocs.yml"
+      - "students/k3340/Ivanov_Viktor/lr_3/docs/**"
+      - "students/k3340/Ivanov_Viktor/lr_3/.github/workflows/mkdocs.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: students/k3340/Ivanov_Viktor/lr_3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs==1.6.0 mkdocs-material==9.1.21
+
+      - name: Build and deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdocs gh-deploy \
+            --force \
+            --remote-branch gh-pages \
+            --remote-name origin \
+            --dest-dir students/k3340/Ivanov_Viktor/lr_3
+

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Написать отзыв{% endblock %}
+{% block extra_css %}
+<style>
+.form-group {margin-bottom: 20px;}
+.form-group label {display: block; margin-bottom: 5px; font-weight: 600;}
+.form-control {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h1 class="card-title">Написать отзыв</h1>
+    <h3>{{ flight.flight_number }}: {{ flight.departure_city }} → {{ flight.arrival_city }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Отправить отзыв</button>
+        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

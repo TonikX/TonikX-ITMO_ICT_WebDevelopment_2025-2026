@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Все рейсы{% endblock %}
+{% block content %}
+<div class="card">
+    <h1 class="card-title">Все рейсы</h1>
+    {% if flights %}
+        <div style="display: grid; gap: 15px;">
+        {% for flight in flights %}
+            <div style="border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;">
+                <h3>{{ flight.flight_number }} - {{ flight.airline }}</h3>
+                <p>{{ flight.departure_city }} → {{ flight.arrival_city }}</p>
+                <p>Отлет: {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+                <p>Мест: {{ flight.available_seats }}/{{ flight.total_seats }}</p>
+                <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>Рейсы не найдены</p>
+    {% endif %}
+</div>
+{% endblock %}

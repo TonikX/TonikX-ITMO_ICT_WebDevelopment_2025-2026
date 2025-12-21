@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Бронирование рейса{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h1 class="card-title">Бронирование рейса</h1>
+    <h3>{{ flight.flight_number }}: {{ flight.departure_city }} → {{ flight.arrival_city }}</h3>
+    <p>Отправление: {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+    <p>Цена: {{ flight.price }} ₽</p>
+    <p>Доступно мест: {{ flight.available_seats }}</p>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы действительно хотите забронировать место на этом рейсе?</p>
+        <button type="submit" class="btn btn-success">Подтвердить бронирование</button>
+        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
