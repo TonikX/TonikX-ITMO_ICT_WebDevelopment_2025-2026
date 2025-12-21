@@ -123,10 +123,13 @@ class FlightDetailView(DetailView):
                 flight=flight
             ).first()
         
-        # получаем все резервирования для отображения пассажиров
-        context['reservations'] = flight.reservations.filter(
-            is_confirmed=True
-        ).select_related('user')
+        # получаем все резервирования для отображения пассажиров (только для администраторов)
+        if self.request.user.is_authenticated and self.request.user.is_staff:
+            context['reservations'] = flight.reservations.filter(
+                is_confirmed=True
+            ).select_related('user')
+        else:
+            context['reservations'] = None
         
         # получаем отзывы
         context['reviews'] = flight.reviews.all().select_related('user')

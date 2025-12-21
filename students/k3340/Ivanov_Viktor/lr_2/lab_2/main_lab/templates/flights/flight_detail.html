@@ -52,8 +52,9 @@
     </div>
 </div>
 
+{% if user.is_staff %}
 <div class="card">
-    <h2>Пассажиры рейса ({{ reservations.count }})</h2>
+    <h2>Пассажиры рейса ({{reservations.count}})</h2>
     {% if reservations %}
     <table class="passengers-table">
         <thead>
@@ -73,6 +74,7 @@
         <p>Пока нет подтвержденных бронирований</p>
     {% endif %}
 </div>
+{% endif %}
 
 <div class="card">
     <h2>Отзывы {% if avg_rating %}(Средний рейтинг: {{ avg_rating|floatformat:1 }}/10){% endif %}</h2>

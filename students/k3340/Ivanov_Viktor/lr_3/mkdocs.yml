@@ -1,18 +1,137 @@
-site_name: "LR3: API завуча"
-site_description: "Документация лабораторной работы 3.1 по Django REST Framework"
-site_author: "Виктор Иванов"
-site_url: https://donperenon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Ivanov_Viktor/lr_3/
+site_name: Лабораторная работа №3 по Web-программированию
+site_description: Документация по выполненным заданиям лабораторной работы №3 - Django REST Framework
+site_author: Виктор Иванов
+site_url: https://DonPerenon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+# Repository
+repo_name: DonPerenon/ITMO_ICT_WebDevelopment_2025-2026
 repo_url: https://github.com/DonPerenon/TonikX-ITMO_ICT_WebDevelopment_2025-2026
-repo_name: DonPerenon/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+# Configuration
 theme:
   name: material
   language: ru
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.instant.suggest
+    - navigation.instant.types
+    - navigation.path
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search
+
+# Markdown extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: DonPerenon
+      repo: ITMO_ICT_WebDevelopment_2025-2026
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree
 nav:
   - Обзор: index.md
   - API: api.md
-markdown_extensions:
-  - admonition
-  - toc:
-      permalink: true
-  - codehilite
 
+# Extra
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/DonPerenon
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/onyanosumi
+
+copyright: |
+  &copy; 2025 Виктор Иванов – <a href="#__consent">Change cookie settings</a>

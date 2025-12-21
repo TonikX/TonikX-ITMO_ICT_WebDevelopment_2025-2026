@@ -24,7 +24,6 @@ class SubjectReportItem:
 
 
 class ClassPerformanceReportService:
-    """Сервис подготовки отчета об успеваемости класса."""
 
     def __init__(self, school_class_id: int, quarter: Optional[int] = None):
         self.school_class = models.SchoolClass.objects.select_related(
@@ -93,7 +92,6 @@ class ClassPerformanceReportService:
         }
 
     def as_pdf(self) -> BytesIO:
-        """Сформировать PDF-отчет."""
         payload = self.as_dict()
         buffer = BytesIO()
         pdf = canvas.Canvas(buffer, pagesize=A4)

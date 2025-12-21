@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from datetime import date
 from django.utils import timezone
 
 
@@ -127,7 +128,7 @@ class Teacher(TimestampedModel):
     email = models.EmailField("Email", blank=True)
     phone = models.CharField("Телефон", max_length=32, blank=True)
     date_of_birth = models.DateField("Дата рождения", null=True, blank=True)
-    hired_at = models.DateField("Дата приема", default=timezone.now)
+    hired_at = models.DateField("Дата приема", default=date.today)
     assigned_room = models.ForeignKey(
         Classroom,
         verbose_name="Закрепленный кабинет",
@@ -225,7 +226,7 @@ class Student(TimestampedModel):
         SchoolClass, related_name="students", on_delete=models.PROTECT
     )
     date_of_birth = models.DateField("Дата рождения", null=True, blank=True)
-    enrollment_date = models.DateField("Дата зачисления", default=timezone.now)
+    enrollment_date = models.DateField("Дата зачисления", default=date.today)
     is_active = models.BooleanField("Активен", default=True)
 
     class Meta:

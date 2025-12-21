@@ -1,0 +1,34 @@
+site_name: Лабораторная работа №4 (Vue + DRF)
+site_description: Клиентская часть на Vue 3/Vuetify к бэкенду ЛР3
+site_author: Виктор Иванов
+site_url: https://DonPerenon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.expand
+    - navigation.top
+    - navigation.tabs
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - codehilite
+
+nav:
+  - Обзор: index.md
+  - Запуск: setup.md
+  - Интерфейсы: ui.md
+
