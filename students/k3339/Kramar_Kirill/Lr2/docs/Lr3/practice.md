@@ -60,7 +60,7 @@
 >>> Ownership.objects.all()
 <QuerySet [<Ownership: Ownership object (1)>, <Ownership: Ownership object (2)>, <Ownership: Ownership object (3)>, <Ownership: Ownership object (4)>, <Ownership: Ownership object (5)>, <Ownership: Ownership object (6)>, <Ownership: Ownership object (7)>, <Ownership: Ownership object (8)>, <Ownership: Ownership object (9)>, <Ownership: Ownership object (10)>, <Ownership: Ownership object (11)>, <Ownership: Ownership object (12)>]>
 ```
-![](photos/1.png)
+![](../img/1.png)
 
 ### Задание 2
 
@@ -115,9 +115,9 @@ License: 1234567890, Type: B, Date of Issue: 2015-06-01
 License: 1234567890, Type: B
 ```
 
-![](photos/2.png)
-![](photos/3.png)
-![](photos/4.png)
+![](../img/2.png)
+![](../img/3.png)
+![](../img/4.png)
 
 ### Задание 3
 
@@ -175,5 +175,5 @@ License: 1234567890, Type: B
 Алексей Васильев - Дата выдачи удостоверения: 2021-12-07
 ```
 
-![](photos/5.png)
-![](photos/6.png)
+![](../img/5.png)
+![](../img/6.png)
