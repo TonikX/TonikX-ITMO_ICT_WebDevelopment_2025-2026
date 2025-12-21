@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Образовательная платформа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Сайдбар с предметами */
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+
+        .subject-list {
+            list-style: none;
+            flex: auto;
+            margin-bottom: 20px;
+        }
+
+        .subject-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .subject-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .subject-item.active {
+            background-color: #e3f2fd;
+            border-left-color: #2196f3;
+            color: #1976d2;
+            font-weight: 500;
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .assignment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .assignment-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .assignment-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .assignment-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .assignment-grade {
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-left: 20px;
+        }
+
+        .assignment-dates {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .assignment-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .assignment-details.active {
+            display: block;
+        }
+
+        .assignment-description {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .penalty-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .file-section {
+            margin-top: 15px;
+        }
+
+        .attach-btn {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .attach-btn:hover {
+            background: #1976d2;
+        }
+
+        .attached-file {
+            color: #4caf50;
+            font-weight: 500;
+        }
+
+        .no-assignments {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        .main-screen
+        {
+            display: flex;
+            width: 100%; 
+            flex-direction: column;
+        }
+
+        .top-tab {
+            padding: 30px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            z-index: 1000;
+            width: -webkit-fill-available;
+        }
+
+        .logout-button {
+            background: #f44336;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-button:hover {
+            background: #dd4040;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .logout-button:active {
+            transform: translateY(0);
+        }
+
+        .grades-button {
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .grades-button:hover {
+            background: #2175f3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(211, 255, 108, 0.3);
+        }
+
+        .grades-button:active {
+            transform: translateY(0);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background-color: white;
+            margin: 20px;
+            margin-top: 0px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-div {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Сайдбар */
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.5em;
+            flex-shrink: 0; /* Заголовок не сжимается */
+        }
+
+        /* Контейнер сайдбара */
+        .sidebar-div {
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Занимает всё доступное пространство */
+            min-height: 0; /* Важно для работы flex с overflow */
+        }
+
+        /* Прокручиваемый список предметов */
+        .subject-list {
+            list-style: none;
+            flex: 1; /* Занимает всё доступное пространство */
+            overflow-y: auto; /* Включаем прокрутку */
+            margin-bottom: 20px;
+            padding-right: 5px; /* Отступ для скроллбара */
+        }
+
+        /* Стилизация скроллбара */
+        .subject-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .subject-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .subject-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .subject-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .grades-panel {
+            flex-shrink: 0; /* Панель не сжимается */
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto; /* Прижимаем к низу */
+        }
+
+        /* Группа ввода файла */
+        .file-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .file-url-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .file-url-input:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .file-url-input::placeholder {
+            color: #999;
+        }
+
+        /* Кнопка прикрепления */
+        .attach-btn {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .attach-btn:hover {
+            background: #1976d2;
+            transform: translateY(-1px);
+        }
+
+        .attach-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Статус загрузки */
+        .upload-status {
+            font-size: 13px;
+            padding: 5px 0;
+        }
+
+        .upload-status.success {
+            color: #4caf50;
+        }
+
+        .upload-status.error {
+            color: #f44336;
+        }
+
+        .upload-status.loading {
+            color: #ff9800;
+        }
+
+        .header-row {
+            justify-content: space-between;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% block sidebar %}
+       <div class="sidebar">
+            <h2>Предметы</h2>
+            <div class="sidebar-div">
+                <ul class="subject-list">
+                    {% for subject in subjects %}
+                    <li class="subject-item {% if subject.id == selected_subject.id %}active{% endif %}" 
+                        onclick="location.href='?subject_id={{ forloop.counter }}'">
+                        {{ subject.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="grades-panel">
+                    <a href="grades?subject_id={{selected_subject.id}}" class="grades-button">Посмотреть оценки</a>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        <div class="main-screen">
+        <div class="top-tab">
+            <h2>{{user.full_name}}</h2>
+          <a href="accounts/logout" class="logout-button">Выйти из аккаунта</a>
+        </div>
+        <div class="main-content">
+           <div class="header-row">
+
+            <div class="class-info">
+                <h2>Класс: {{ user.classname }}</h2>
+            </div>
+            
+{% include "paginator.html"  %}
+        
+</div>
+
+<div class="assignment-list">
+    {% if assignments %}
+        {% for assignment in assignments %}
+        <div class="assignment-item" data-assignment="{{ assignment.id }}">
+            <div class="assignment-header">
+                <div class="assignment-title">{{ assignment.name|truncatechars:50 }}</div>
+                {% if assignment.grade %}
+                <div class="assignment-grade" style="background:
+                                            {% if assignment.grade >= 4 %}
+                                                #4caf50
+                                            {% elif assignment.grade >= 3 %}
+                                                #f4ba36
+                                            {% else %}
+                                                #f44336
+                                            {% endif %};">Оценка: {{ assignment.grade }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="assignment-dates">
+                Выдано: {{ assignment.date_of_issue|date:"d.m.Y" }} | 
+                Сдать до: {{ assignment.end_date|date:"d.m.Y" }}
+            </div>
+
+            <div class="assignment-details">
+                <div class="assignment-description">
+                    <strong>Описание:</strong><br>
+                    {{ assignment.text }}
+                </div>
+
+                {% if assignment.penalty_info %}
+                <div class="penalty-info">
+                    <strong>Информация о штрафах:</strong><br>
+                    {{ assignment.penalty_info }}
+                </div>
+                {% endif %}
+
+                <div class="file-section" data-assignment="{{ assignment.id }}">
+                    {% if assignment.link_to_file %}
+                        <div class="attached-file">✓ {{ assignment.link_to_file }}</div>
+
+                    {% else %}
+                        <div class="file-input-group">
+                            <input type="url" 
+                                class="file-url-input" 
+                                placeholder="Введите ссылку на решение"
+                                data-assignment="{{ assignment.id }}">
+                            <button class="attach-btn" onclick="attachSolution({{ assignment.id }}, {{ assignment.subject.id }})">
+                                Прикрепить решение
+                            </button>
+                        </div>
+                        <div class="upload-status" id="status-{{ assignment.id }}"></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-assignments">
+            {% if selected_subject %}
+                Нет домашних заданий по предмету "{{ selected_subject.name }}"
+            {% else %}
+                Выберите предмет для просмотра домашних заданий
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function attachSolution(assignmentId, subjectId) {
+            const input = document.querySelector(`.file-url-input[data-assignment="${assignmentId}"]`);
+            const button = document.querySelector(`.attach-btn[onclick="attachSolution(${assignmentId}, ${subjectId})"]`);
+            const status = document.getElementById(`status-${assignmentId}`);
+            const url = input.value.trim();
+
+            // Валидация URL
+            if (!url) {
+                status.textContent = "Введите ссылку на решение";
+                status.className = "upload-status error";
+                return;
+            }
+
+            // Проверка формата URL
+            try {
+                new URL(url);
+            } catch (e) {
+                status.textContent = "Введите корректную ссылку";
+                status.className = "upload-status error";
+                return;
+            }
+
+            // Показываем статус загрузки
+            status.textContent = "Отправка...";
+            status.className = "upload-status loading";
+            button.disabled = true;
+
+            // Отправка данных на сервер
+            fetch('upload/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCsrfToken()
+                },
+                body: JSON.stringify({
+                    assignment_id: assignmentId,
+                    subject_id: subjectId,
+                    file_url: url
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    status.textContent = "Решение успешно прикреплено!";
+                    status.className = "upload-status success";
+                    
+                    // Обновляем интерфейс
+                    setTimeout(() => {
+                        location.reload(); // или обновляем только нужный элемент
+                    }, 1000);
+                } else {
+                    status.textContent = data.error || "Ошибка при отправке";
+                    status.className = "upload-status error";
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.textContent = "Ошибка сети";
+                status.className = "upload-status error";
+                button.disabled = false;
+            });
+        }
+
+        // Функция для получения CSRF токена
+        function getCsrfToken() {
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('csrftoken='))
+                ?.split('=')[1];
+            return cookieValue;
+        }
+
+        // Обработка нажатия Enter в поле ввода
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('keypress', function(e) {
+                if (e.target.classList.contains('file-url-input') && e.key === 'Enter') {
+                    const assignmentId = e.target.dataset.assignment;
+                    const assignmentItem = e.target.closest('.assignment-item');
+                    const subjectId = assignmentItem.querySelector('.attach-btn').getAttribute('onclick')
+                        .match(/attachSolution\((\d+), (\d+)\)/)[2];
+                    attachSolution(parseInt(assignmentId), parseInt(subjectId));
+                }
+            });
+        });
+        // Раскрытие/скрытие деталей задания
+        document.addEventListener('DOMContentLoaded', function() {
+            const assignmentItems = document.querySelectorAll('.assignment-item');
+            
+            assignmentItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Не раскрываем если кликнули на кнопку прикрепления
+                    if (e.target.classList.contains('attach-btn') || e.target.classList.contains('file-url-input')) {
+                        return;
+                    }
+                    
+                    const details = this.querySelector('.assignment-details');
+                    const isActive = details.classList.contains('active');
+                    
+                    // Закрываем все открытые детали
+                    document.querySelectorAll('.assignment-details').forEach(d => {
+                        d.classList.remove('active');
+                    });
+                    
+                    // Открываем текущие если были закрыты
+                    if (!isActive) {
+                        details.classList.add('active');
+                    }
+                });
+            });
+        });
+
+
+    </script>
+</body>
+</html>

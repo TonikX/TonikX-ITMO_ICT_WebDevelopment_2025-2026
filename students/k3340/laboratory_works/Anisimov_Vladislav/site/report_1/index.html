@@ -1,0 +1,1135 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Сайт с лабораторными работами">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../report_2/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Лабораторная 1 - Лабораторные работы по веб-разработке</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#no1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Лабораторные работы по веб-разработке" class="md-header__button md-logo" aria-label="Лабораторные работы по веб-разработке" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Лабораторные работы по веб-разработке
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Лабораторная 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Лабораторные работы
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../report_practical/" class="md-tabs__link">
+          
+  
+  
+  Практические работы
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Лабораторные работы по веб-разработке" class="md-nav__button md-logo" aria-label="Лабораторные работы по веб-разработке" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Лабораторные работы по веб-разработке
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторные работы
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторные работы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 1
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 1
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 3
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание 3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 4
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 5
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задание 5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Практические работы
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Практические работы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_practical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="no1">Отчёт по лабораторной работе №1</h1>
+<p>Выполнил Анисимов Владислав К3340</p>
+<h2 id="1">Задание 1</h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент отправляет серверу сообщение «Hello, server», и оно должно отобразиться на стороне сервера. В ответ сервер отправляет клиенту сообщение «Hello, client», которое должно отобразиться у клиента.</p>
+<p>Требования: <br />
+- Обязательно использовать библиотеку socket. <br />
+- Реализовать с помощью протокола UDP.</p>
+<h3 id="_1">Выполнение</h3>
+<p>Создадим сокет для UDP подключения и отправим ответ клиенту:  </p>
+<pre><code class="language-python">def task_1():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind((&quot;&quot;, port))
+    print(f'Server (udp) is listening at localhost:{port}')
+
+    while True:
+        data, client_address = sock.recvfrom(1024)
+        if not data:
+            break
+        print(f&quot;Recieved data (&lt;= 4 Kb): {data.decode('utf-8')}&quot;)
+        sock.sendto(&quot;Hello, client!&quot;.encode('utf-8'), client_address)
+    socket.close()
+</code></pre>
+<h2 id="2">Задание 2</h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент запрашивает выполнение математической операции, параметры которой вводятся с клавиатуры. Сервер обрабатывает данные и возвращает результат клиенту.</p>
+<p>Требования: <br />
+- Обязательно использовать библиотеку socket. <br />
+- Реализовать с помощью протокола TCP.</p>
+<h3 id="_2">Выполнение</h3>
+<p>Создадим сокет для TCP подключения. Данные посланые клиентом распарсим с помощью json. Затем отправим ответ клиенту:  </p>
+<pre><code class="language-python">def task_2():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((&quot;&quot;, port))
+    sock.listen(max_clients)
+    print(f'Server (tcp) is listening at localhost:{port}')
+
+    while True:
+        conn, client_address = sock.accept()
+        data = conn.recv(max_data_size)
+        if not data:
+            print(&quot;Connection close&quot;)
+            conn.close()
+            break
+        print(f&quot;Recieved data (&lt;= {max_data_size / 1024.0} Kb) from {client_address}: {data.decode('utf-8')}&quot;)
+        conn.send(bytes(str(solve_problem(data, client_address)).encode('utf-8')))
+    socket.close()
+</code></pre>
+<pre><code class="language-python">if problem[&quot;op&quot;] == 1:
+        return math.sqrt(problem[&quot;a&quot;]**2 + problem[&quot;b&quot;]**2)
+    elif problem[&quot;op&quot;] == 2:
+        if problem[&quot;a&quot;] == 0:
+            if problem[&quot;b&quot;] == 0:
+                if problem[&quot;c&quot;] == 0:
+                    return &quot;Infinite solutions (0=0)&quot;
+                else:
+                    return &quot;No solution (c!=0)&quot;
+            else:
+                # Linear equation bx + c = 0
+                return -problem[&quot;c&quot;] / problem[&quot;b&quot;]
+        discriminant = (problem[&quot;b&quot;]**2) - (4 * problem[&quot;a&quot;] * problem[&quot;c&quot;])
+        if discriminant &gt; 0:
+            root1 = (-problem[&quot;b&quot;] - cmath.sqrt(discriminant)) / (2 * problem[&quot;a&quot;])
+            root2 = (-problem[&quot;b&quot;] + cmath.sqrt(discriminant)) / (2 * problem[&quot;a&quot;])
+            return root1, root2
+        elif discriminant == 0:
+            root = -problem[&quot;b&quot;] / (2 * problem[&quot;a&quot;])
+            return root
+        else:  # discriminant &lt; 0
+            root1 = (-problem[&quot;b&quot;] - cmath.sqrt(discriminant)) / (2 * problem[&quot;a&quot;])
+            root2 = (-problem[&quot;b&quot;] + cmath.sqrt(discriminant)) / (2 * problem[&quot;a&quot;])
+            return root1, root2
+    elif problem[&quot;op&quot;] == 3:
+        return (problem[&quot;base1&quot;] + problem[&quot;base2&quot;]) / 2 * problem[&quot;height&quot;]
+    elif problem[&quot;op&quot;] == 4:
+        return problem[&quot;base&quot;] * problem[&quot;height&quot;]
+
+    return &quot;idk...&quot;
+</code></pre>
+<h2 id="3">Задание 3</h2>
+<p>Реализовать серверную часть приложения. Клиент подключается к серверу, и в ответ получает HTTP-сообщение, содержащее HTML-страницу, которую сервер подгружает из файла index.html.</p>
+<p>Требования: <br />
+- Обязательно использовать библиотеку socket.</p>
+<h3 id="_3">Выполнение</h3>
+<p>В этом задании используется сервер, который был написан в заданиях 3-5. Здесь создаётся TCP сервер, который просто отсылает страничку в ответ.</p>
+<pre><code class="language-python">def task_3():
+    server = Server()
+    server.add_route(method_type.GET, &quot;/&quot;, send_html_page)
+    server.serve_forever(&quot;&quot;, port, connection_type.TCP)
+</code></pre>
+<pre><code class="language-python">def send_html_page(request):
+    file = open(&quot;index.html&quot;, &quot;r&quot;).read()
+    return (200, file)
+</code></pre>
+<h2 id="4">Задание 4</h2>
+<p>Реализовать двухпользовательский или многопользовательский чат. Для максимального количества баллов реализуйте многопользовательский чат.</p>
+<p>Требования: <br />
+- Обязательно использовать библиотеку socket. <br />
+- Для многопользовательского чата необходимо использовать библиотеку threading.</p>
+<h3 id="_4">Выполнение</h3>
+<p>В этом задании используется сервер, который был написан в заданиях 3-5. Здесь создаётся TCP сервер, который обрабатывает пользователей в многопоточном режиме. Код страницы доступен в файле лабораторной. </p>
+<pre><code class="language-python">def task_4():
+    server = Server()
+    server.add_route(method_type.POST, &quot;/join&quot;, join_route)
+    server.add_route(method_type.POST, &quot;/send&quot;, send_route)
+    server.add_route(method_type.GET, &quot;/login&quot;, login_route)
+    server.add_route(method_type.GET, &quot;/messages&quot;, messages_route)
+    server.add_route(method_type.GET, &quot;/&quot;, default_route)
+    server.add_route(method_type.GET, &quot;/chat.html&quot;, default_route)
+    server.serve_forever(&quot;&quot;, port, connection_type.TCP)
+</code></pre>
+<pre><code class="language-python">chats = {}
+users = {}
+lock = threading.Lock()
+
+def join_route(request):
+    args = request[&quot;json&quot;]
+    userName = args[&quot;userName&quot;]
+    user = users[userName]
+    chat_id = args[&quot;chat_id&quot;]
+    if chat_id not in chats:
+        chats[chat_id] = Chat(set(), list())
+    chats[chat_id].users.add(user)
+    user.chats.add(chat_id)
+    user.update_event.set()
+    user.new_messages[chat_id] = [] if len(chats[chat_id].messages) == 0 else [len(chats[chat_id].messages)-1]
+    return (200, f&quot;You successfully joined chat \&quot;{chat_id}\&quot;&quot;)
+
+def send_route(request):
+    global lock
+    args = request[&quot;json&quot;]
+    userName = args[&quot;userName&quot;]
+    user = users[userName]
+    chat_id = args[&quot;chat_id&quot;]
+    i = 0
+    with lock:
+        chats[chat_id].messages.append(Message(user.name, args[&quot;text&quot;], time.time()))
+        i = len(chats[chat_id].messages) - 1
+    for u in chats[chat_id].users:
+        if chat_id not in u.new_messages: 
+            u.new_messages[chat_id] = []
+        u.new_messages[chat_id].append(i)
+        u.update_event.set()
+    r = args[&quot;text&quot;]
+    return (200, f&quot;You successfully sended a message in chat \&quot;{chat_id}\&quot;&quot;)
+
+def login_route(request):
+    args = request[&quot;args&quot;]
+    if &quot;userName&quot; not in args:
+        return (422, &quot;&quot;)
+    userName = unquote(args[&quot;userName&quot;])
+    if userName not in users:
+        user = User(userName)
+        users[userName] = user
+    return (200, json.dumps(&quot;You successfully logged in&quot;))
+
+def messages_route(request):
+    args = request[&quot;args&quot;]
+    result = []
+
+    if &quot;userName&quot; not in args:
+        return (422, &quot;&quot;)
+    userName = unquote(args[&quot;userName&quot;])
+    if userName not in users:
+        return (401, &quot;Not logged in&quot;)
+    else:
+        user = users[userName]
+
+    if &quot;chat_id&quot; not in args:
+        if &quot;loadAllLast&quot; not in args or args[&quot;loadAllLast&quot;] == &quot;false&quot;:
+            if not user.update_event.is_set():
+                user.update_event.wait(timeout=30)
+                if not user.update_event.is_set():
+                    return (200, json.dumps(&quot;no updates&quot;))
+            user.update_event.clear()
+            for id, messages_ids in user.new_messages.items():
+                m_count = len(chats[id].messages)
+                if m_count != 0:
+                    messages = list(map(lambda x: chats[id].messages[x], messages_ids))
+                    result.append((id, messages, str(m_count - len(messages_ids)) + &quot;:&quot; + str(m_count)))
+                else:
+                    result.append((id, [], &quot;0:0&quot;))
+            user.new_messages.clear()
+        else:
+            user.update_event.clear()
+            user.new_messages.clear()
+            for index in user.chats:
+                m_count = len(chats[index].messages)
+                if m_count != 0:
+                    result.append((index, [chats[index].messages[-1]], str(m_count - 1) + &quot;:&quot; + str(m_count)))
+                else:
+                    result.append((index, [], &quot;0:0&quot;))
+
+        return (200, json.dumps(result))
+
+    cur_chat = unquote(args[&quot;chat_id&quot;])
+    start = args[&quot;range&quot;].split(':')[0]
+    end = None
+    if (len(args[&quot;range&quot;].split(':')) == 2):
+        end = args[&quot;range&quot;].split(':')[1]
+    m = chats[cur_chat].messages
+    return (200, json.dumps([(cur_chat, m[int(start):int(end)], args[&quot;range&quot;])]))
+
+def default_route(request):
+    file = open(&quot;./chat.html&quot;, &quot;r&quot;).read()
+    return (200, file)
+</code></pre>
+<h2 id="5">Задание 5</h2>
+<p>Написать простой веб-сервер для обработки GET и POST HTTP-запросов с помощью библиотеки socket в Python.</p>
+<h3 id="_5">Выполнение</h3>
+<p>В этом задании используется сервер, который был написан в заданиях 3-5. Здесь создаётся TCP сервер, который обрабатывает запросы на добавление оценок и выдаёт списки оценок по дисциплинам. Код страницы доступен в файле лабораторной. </p>
+<pre><code class="language-python">def task_5():
+    server = Server()
+    server.add_route(method_type.POST, &quot;/add&quot;, add_route)
+    server.add_route(method_type.GET, &quot;/get&quot;, get_route)
+    server.add_route(method_type.GET, &quot;/&quot;, get_table_route)
+    server.add_route(method_type.GET, &quot;/chat.html&quot;, get_table_route)
+    server.serve_forever(&quot;&quot;, port, connection_type.TCP)
+</code></pre>
+<pre><code class="language-python">grades = {}
+
+def add_route(request):
+    args = request[&quot;json&quot;]
+    global grades
+    subject = args[&quot;subject&quot;]
+    if subject not in grades:
+        grades[subject] = []
+    grades[subject].append(int(args[&quot;grade&quot;]))
+    return (200, &quot;Successfully added&quot;)
+
+def get_route(request):
+    global grades
+    return (200, json.dumps(grades))
+
+def get_table_route(request):
+    file = open(&quot;./table.html&quot;, &quot;r&quot;).read()
+    return (200, file)
+</code></pre>
+<p>Ниже представлен код сервера.</p>
+<pre><code class="language-python">import socket
+import json
+import threading
+from enum import Enum
+
+class connection_type(Enum):
+    UDP = 1
+    TCP = 2
+
+class method_type(Enum):
+    GET = 1
+    POST = 2
+    PUT = 3
+
+port = 9090
+max_clients = 10
+max_data_size = 4 * 1024
+
+class Server:
+    clients = {}
+    routes = {&quot;GET&quot; : {},
+              &quot;PUT&quot; : {},
+              &quot;POST&quot; : {}}
+
+    def serve_forever(self, host : str, port : int, conn_type : connection_type):
+        try:
+            self.conn_type = conn_type
+            if conn_type == connection_type.UDP:
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                self.sock.bind((host, port))
+                print(f'Server (UDP) is listening at port {port}')
+            elif conn_type == connection_type.TCP:
+                self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.sock.bind((host, port))
+                self.sock.listen(max_clients)
+                print(f'Server (TCP) is listening at port {port}')
+            self.serve_clients()
+        except Exception:
+            print(Exception)
+        return self
+
+    def serve_clients(self):
+        while True:
+            if self.conn_type == connection_type.UDP:
+                while True:
+                    data, client_address = self.sock.recvfrom(max_data_size)
+                    if not data:
+                        break
+                    threading.Thread(target=self.handle_request, args=(data, client_address,)).start()
+            elif self.conn_type == connection_type.TCP:
+                conn, client_address = self.sock.accept()
+                self.clients[client_address] = conn
+                print(f&quot;New connection {conn}&quot;)
+                threading.Thread(target=self.handle_request, args=(conn, client_address,)).start()
+
+    def handle_request(self, conn, client_address):
+        if self.conn_type == connection_type.UDP:
+            code, message = self.parse_request(conn, client_address)
+            self.sock.sendto(bytes(str(self.create_response(code, message)).encode('utf-8')), client_address)
+        elif self.conn_type == connection_type.TCP:
+            while True:
+                data = conn.recv(max_data_size)
+                if not data:
+                    print(&quot;Connection close&quot;)
+                    conn.close()
+                    break
+                code, message = self.parse_request(data, client_address)
+                conn.send(bytes(str(self.create_response(code, message)).encode('utf-8')))
+
+    def parse_request(self, data, client_address):
+        out = {}
+        out[&quot;client_address&quot;] = client_address
+        _data = data.decode('utf-8')
+        lines = _data.split('\r\n')
+        print(f&quot;Recieved data (&lt;= {max_data_size / 1024.0} Kb) from {client_address}: {data.decode('utf-8')}&quot;)
+        if len(_data) == 0:
+            return &quot;&quot;
+        method, path, _ = lines[0].split(' ')
+        method = method.strip()
+        args = &quot;&quot;
+        if '?' in path:
+            path, args = path.strip().split('?')
+        out[&quot;path&quot;] = path
+
+        if method == 'POST':
+            out[&quot;method&quot;] = method_type.POST
+            body = str(lines[-1]).strip()
+            out[&quot;body&quot;] = body
+            if body.startswith(&quot;{&quot;):
+                out[&quot;json&quot;] = json.loads(body)
+        elif method == 'GET':
+            out[&quot;method&quot;] = method_type.GET
+            if args:
+                args_dict = {}
+                for arg in args.split(&quot;&amp;&quot;):
+                    key, val = arg.split(&quot;=&quot;)
+                    args_dict[key] = val
+                out[&quot;args&quot;] = args_dict
+
+        if out[&quot;method&quot;] not in self.routes or out[&quot;path&quot;] not in self.routes[out[&quot;method&quot;]]:
+            return (404, &quot;Resource not found&quot;)
+
+        return self.routes[out[&quot;method&quot;]][out[&quot;path&quot;]](out)
+
+    def create_response(self, code, body):
+        length = len(body.encode('utf-8'))
+        return f&quot;HTTP/1.1 {code} OK\nContent-Type: application/json,text/html; charset=utf-8\nConnection: keep-alive\nAccess-Control-Allow-Origin: *\nContent-Length: {length}\n\n&quot; + body
+
+    def add_route(self, method : method_type, route : str, handler):
+        if method not in self.routes:
+            self.routes[method] = {}
+        self.routes[method][route] = handler
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

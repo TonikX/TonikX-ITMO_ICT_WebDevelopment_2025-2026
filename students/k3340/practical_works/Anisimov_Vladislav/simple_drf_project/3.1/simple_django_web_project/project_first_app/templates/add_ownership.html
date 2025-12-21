@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить владение</title>
+
+</head>
+<body>
+    <h1>Добавить владение автомобилем</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_owner">Владелец:</label>
+            {{ form.owner }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_car">Автомобиль:</label>
+            {{ form.car }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_start_date">Дата начала владения:</label>
+            {{ form.start_date }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_end_date">Дата окончания владения:</label>
+            {{ form.end_date }}
+        </div>
+        
+        <button type="submit" class="btn">Добавить владение</button>
+    </form>
+    
+    <p><a href="{% url 'add_car' %}">Добавить автомобиль</a></p>
+</body>
+</html>

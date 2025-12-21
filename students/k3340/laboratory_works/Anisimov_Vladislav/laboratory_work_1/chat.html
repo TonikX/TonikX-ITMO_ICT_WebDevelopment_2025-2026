@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат приложение</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .join-section {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .join-section input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .join-section button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .join-section button:hover {
+            background: #5a6fd5;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .chat-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: 1px solid #e9ecef;
+        }
+
+        .chat-item:hover {
+            background: #e9ecef;
+        }
+
+        .chat-item.active {
+            background: #667eea;
+            color: white;
+            border-color: #5a6fd5;
+        }
+
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-chat-header {
+            padding: 10px;
+            background: #00000000;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .chat-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .chat-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .chat-item:last-child {
+            border-bottom: none;
+        }
+
+        .chat-header {
+            padding: 10px;
+            background: #00000000;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-right: auto;
+        }
+
+        .chat-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #666;
+            padding-left: 10px;
+        }
+
+        .chat-user {
+            font-weight: 500;
+            margin-right: 4px;
+            color: #666666;
+        }
+
+        .chat-message {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+            margin-right: 8px;
+            flex-grow: 1;
+            color: #000000;
+        }
+
+        .chat-time {
+            font-size: 11px;
+            color: #999;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            max-width: 70%;
+            margin-bottom: 15px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            word-wrap: break-word;
+        }
+
+        .message.other {
+            background: white;
+            border: 1px solid #e9ecef;
+            margin-right: auto;
+        }
+
+        .message.own {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .message-sender {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .message-time {
+            text-align: end;
+            bottom: 4px;
+            right: 8px;
+            font-size: 10px;
+            color: #dadada;
+        }
+
+
+        .section {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+        }
+
+        .section input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .section button {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .section button:hover {
+            background: #5a6fd5;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Боковая панель с чатами -->
+        <div class="sidebar">
+            <div class="join-section">
+                <input type="text" id="chatName" placeholder="Введите название чата">
+                <button onclick="joinChat()">Войти</button>
+            </div>
+            <div class="chat-list" id="chatList">
+                <!-- Список чатов будет здесь -->
+            </div>
+            <div class="section">
+                <input type="text" id="userName" placeholder="Ваш никнейм">
+                <button onclick="login()">Ок</button>
+            </div>
+        </div>
+
+        <!-- Основная область чата -->
+        <div class="main-chat">
+            <div class="main-chat-header" id="currentChat">
+                Выберите чат
+            </div>
+            <div class="messages-container" id="messagesContainer">
+                <!-- Сообщения будут здесь -->
+            </div>
+            <div class="section">
+                <input type="text" id="message" placeholder="Введите сообщение">
+                <button onclick="sendMessage()">Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        const BASE_URL = 'http://192.168.0.105:9090';
+        let currentChat = '';
+        let userName = "";
+        let chats = {};
+        let controller = new AbortController();
+        
+        loop = true;
+        isInitialized = false;
+        
+        window.addEventListener('beforeunload', function (event) {
+            if (isInitialized) { controller.abort(); controller = new AbortController(); }
+            loop = false;
+        });
+
+        // Функция для отображения уведомлений
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification' + (isError ? ' error' : '');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        };
+
+
+        async function login() {
+            const userNameInput = document.getElementById('userName');
+            userName = userNameInput.value.trim();
+            
+            if (!userName) {
+                showNotification('Введите имя пользователя', true);
+                return;
+            }
+            let req = `${BASE_URL}/login?userName=${userName}`;
+            const response = await fetch(req, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).catch(error => console.error('Error fetching data:', error));
+            
+            if (response.ok) 
+            {
+                currentChat = '';
+                chats = {};
+                document.getElementById('chatList').innerHTML = '';
+                document.getElementById('messagesContainer').innerHTML = '';
+                if (isInitialized) { controller.abort(); controller = new AbortController(); }
+                await loadMessages(true);
+                if (!isInitialized)
+                {
+                    isInitialized = true;
+                    startUpdates();
+                }
+            }
+        }
+
+        async function startUpdates() {
+            while (loop)
+            {
+                await loadMessages();
+                setTimeout(100);
+            }
+        }
+
+        async function loadMessagesForChat(chat_id, range) {
+            try {
+                let req = `${BASE_URL}/messages?userName=${userName}&chat_id=${chat_id}&range=${range}`;
+                const response = await fetch(req, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                if (response.ok) {
+                    showNotification('Сообщения успешно загружены', false);
+                    const result = await response.body.getReader().read();
+
+                    new_messages = JSON.parse(String.fromCharCode(...result.value));
+                    if (new_messages.length != 0) updateChats(new_messages);
+
+                } else {
+                    showNotification('Ошибка загрузки сообщений', true);
+                }
+            } catch (error) {
+                showNotification('Ошибка соединения', true);
+                console.error('Error:', error);
+            }
+        }
+
+        // Функция для загрузки сообщений
+        async function loadMessages(isForced = false) {
+            try {
+                let req = `${BASE_URL}/messages?userName=${userName}`;
+                if (isForced) req += `&loadAllLast=true`;
+                const response = await fetch(req, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    signal: controller.signal });
+                
+                if (response == undefined) return;
+                
+                if (response.ok) {
+                    showNotification('Сообщения успешно загружены', false);
+                    const result = await response.body.getReader().read();
+
+                    new_messages = JSON.parse(String.fromCharCode(...result.value));
+                    updateChats(new_messages);
+                } else {
+                    showNotification('Ошибка загрузки сообщений', true);
+                }
+            } catch (error) {
+                 console.error('Fetch error:', error.name, error.message);
+            }
+        }
+
+        function updateChats(new_messages) {
+            const chatList = document.getElementById('chatList');
+            //chatList.innerHTML = ''; // Очищаем список
+
+            new_messages.forEach(chatTuple => {
+                const [chatName, messageList, range] = chatTuple;
+
+                if (chatName in chats) 
+                {
+                    let [self_start, self_end] = chats[chatName].range.split(":");
+                    let [start, end] = range.split(":");
+                    messages = [];
+                    if (self_end == start)
+                    {
+                        messages = chats[chatName].messages.concat(messageList);
+                        self_end = end;
+                        chats[chatName].el.remove();
+                        chats[chatName].el = null;
+                    }
+                    else if (self_start == end)
+                    {
+                        messages = messageList.concat(chats[chatName].messages);
+                        self_start = start;
+                    }
+                    else
+                    {
+                        messages = messageList;
+                    }
+                    chats[chatName].messages = messages;
+                    chats[chatName].range = `${self_start}:${self_end}`;
+
+                    if (chatName == currentChat)
+                    {
+                        displayMessages();    
+                    }
+                }
+                else
+                {
+                    chats[chatName] = {messages: messageList, el: null, range: range}
+                }
+            });
+
+            Object.entries(chats).forEach(([chatName, value]) => {
+                let {messages, el, range} = value;
+                if (el == null)
+                {
+                    const chatElement = document.createElement('div');
+                    chatElement.className = 'chat-item';
+                    // Добавляем обработчик клика
+                    chatElement.addEventListener('click', () => {
+                        selectChat(chatName);
+                    });
+                    
+                    chatList.appendChild(chatElement);
+                    chats[chatName].el = chatElement;
+                    el = chatElement;
+                }
+
+                if (messages.length == 0) {
+                    el.innerHTML = `
+                    <div class="chat-header">
+                        <span class="chat-name">${escapeHtml(chatName)}</span>
+                    </div>
+                    <div class="chat-preview">
+                    </div>`;
+                }
+                else
+                {
+                    // Получаем последнее сообщение
+                    const lastMessage = messages[messages.length - 1];
+                    //console.log(lastMessage);
+                    el.innerHTML = `
+                    <div class="chat-header">
+                        <span class="chat-name">${escapeHtml(chatName)}</span>
+                    </div>
+                    <div class="chat-preview">
+                        <span class="chat-user">${escapeHtml(lastMessage[0])}:</span>
+                        <span class="chat-message">${escapeHtml(lastMessage[1])}</span>
+                        <span class="chat-time">${formatTime(lastMessage[2])}</span>
+                    </div>`;
+                }
+            });
+        }
+
+        async function selectChat(chatName)
+        {
+            currentChat = chatName;
+            document.getElementById('currentChat').textContent = `Чат: ${chatName}`;
+            console.log(`Current range is ${chats[chatName].range}`);
+            if (chats[chatName].messages.length < 20 && chats[chatName].range.split(":")[0] != "0")
+            {
+                const [start, end] = chats[chatName].range.split(":");
+                await loadMessagesForChat(chatName, String(Math.max(0, Number(start) - 20)) + ":" + String(start));
+            }
+            displayMessages();
+            //document.getElementById('chatName').value = '';
+        }
+
+        // Функция для входа в чат
+        async function joinChat() {
+            const chatNameInput = document.getElementById('chatName');
+            const chatName = chatNameInput.value.trim();
+            
+            if (!userName) {
+                showNotification('Введите имя пользователя', true);
+                return;
+            }
+
+            if (!chatName) {
+                showNotification('Введите название чата', true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userName: userName,
+                        chat_id: chatName
+                    })
+                });
+                if (response.ok) {
+                    showNotification(`Вы вошли в чат: ${chatName}`);
+                    //loadMessages();
+                } else {
+                    showNotification('Ошибка входа в чат', true);
+                }
+            } catch (error) {
+                showNotification('Ошибка соединения', true);
+                console.error('Error:', error);
+            }
+        }
+
+        // Функция для отображения сообщений
+        function displayMessages() {
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = '';
+
+            chats[currentChat].messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg[0] == userName ? 'own' : 'other'}`;
+                
+                const senderDiv = document.createElement('div');
+                senderDiv.className = 'message-sender';
+                senderDiv.textContent = msg[0];
+                
+                const textDiv = document.createElement('div');
+                textDiv.textContent = msg[1];
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = formatTime(msg[2]); 
+
+                messageDiv.appendChild(senderDiv);
+                messageDiv.appendChild(textDiv);
+                messageDiv.appendChild(timeDiv);
+                container.appendChild(messageDiv);
+            });
+
+            // Прокрутка к последнему сообщению
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Функция для отправки сообщения
+        async function sendMessage() {
+            if (!currentChat) {
+                showNotification('Сначала войдите в чат', true);
+                return;
+            }
+
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value.trim();
+
+            if (!userName) {
+                showNotification('Введите имя пользователя', true);
+                return;
+            }
+
+            if (!currentChat) {
+                showNotification('Выберите чат', true);
+                return;
+            }
+
+            if (!message) {
+                showNotification('Введите сообщение', true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: currentChat,
+                        userName: userName,
+                        text: message
+                    })
+                });
+
+                if (response.ok) {
+                    messageInput.value = '';
+                    //const [start, end] = chats[currentChat].range.split(":");
+                    //await loadMessagesForChat(currentChat, end + ":");
+                    //displayMessages();
+                } else {
+                    showNotification('Ошибка отправки сообщения', true);
+                }
+            } catch (error) {
+                showNotification('Ошибка соединения', true);
+                console.error('Error:', error);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp * 1000);
+            const options = {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return new Intl.DateTimeFormat('en-GB', options).format(date);
+        }
+
+        function getTimeAgo(date) {
+            const seconds = Math.floor((Date.now()/ 1000 - date) );
+
+            let interval = seconds / (365*24*60*60); // Seconds in a year
+            if (interval > 1) {
+                return Math.floor(interval) + " year(s) ago";
+            }
+            interval = seconds / 2592000; // Seconds in a month (approx)
+            if (interval > 1) {
+                return Math.floor(interval) + " month(s) ago";
+            }
+            interval = seconds / 86400; // Seconds in a day
+            if (interval > 1) {
+                return Math.floor(interval) + " day(s) ago";
+            }
+            interval = seconds / 3600; // Seconds in an hour
+            if (interval > 1) {
+                return Math.floor(interval) + " hour(s) ago";
+            }
+            interval = seconds / 60; // Seconds in a minute
+            if (interval > 1) {
+                return Math.floor(interval) + " minute(s) ago";
+            }
+            return Math.floor(seconds) + " second(s) ago";
+        }
+
+        // Обработка нажатия Enter в полях ввода
+        document.getElementById('chatName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') joinChat();
+        });
+
+        document.getElementById('message').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

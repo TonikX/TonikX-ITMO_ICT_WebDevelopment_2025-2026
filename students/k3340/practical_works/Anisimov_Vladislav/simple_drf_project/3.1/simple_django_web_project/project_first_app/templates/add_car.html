@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить автомобиль</title>
+
+</head>
+<body>
+    <h1>Добавить новый автомобиль</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_license_plate">Госномер:</label>
+            {{ form.license_plate }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_brand">Марка:</label>
+            {{ form.brand }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_model">Модель:</label>
+            {{ form.model }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_color">Цвет:</label>
+            {{ form.color }}
+        </div>
+        
+        <button type="submit" class="btn">Добавить автомобиль</button>
+    </form>
+    
+    <p><a href="{% url 'add_ownership' %}">Добавить владение</a></p>
+</body>
+</html>

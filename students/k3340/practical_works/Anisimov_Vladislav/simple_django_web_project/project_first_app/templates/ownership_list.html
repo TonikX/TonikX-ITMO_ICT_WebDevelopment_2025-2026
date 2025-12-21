@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список владений</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0;
+        }
+        th, td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd;
+        }
+        th { 
+            background-color: #f8f9fa; 
+            font-weight: bold;
+        }
+        tr:hover { background-color: #f5f5f5; }
+        .no-data { 
+            text-align: center; 
+            color: #666; 
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Список владений автомобилями</h1>
+    
+    <div>
+        <a href="{% url 'add_ownership' %}" class="btn btn-success">Добавить новое владение</a>
+        <a href="{% url 'add_car' %}" class="btn">Добавить автомобиль</a>
+    </div>
+
+    {% if ownerships %}
+    <table>
+        <thead>
+            <tr>
+                <th>Владелец</th>
+                <th>Автомобиль</th>
+                <th>Госномер</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ownership in ownerships %}
+            <tr>
+                <td><a href="{% url 'owner_detail' ownership.owner.id %}">
+                    {{ ownership.owner.last_name }} {{ ownership.owner.first_name }}
+                </a></td>
+                <td><a href="{% url 'car_detail' ownership.car.id %}">
+                    {{ ownership.car.brand }} {{ ownership.car.model }}
+                </a></td>
+                <td>{{ ownership.car.license_plate }}</td>
+                <td>{{ ownership.start_date }}</td>
+                <td>
+                    {% if ownership.end_date %}
+                        {{ ownership.end_date }}
+                    {% else %}
+                        <em>по настоящее время</em>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <p><strong>Всего записей:</strong> {{ ownerships|length }}</p>
+    
+    {% else %}
+    <div class="no-data">
+        <p>Нет данных о владениях</p>
+        <a href="{% url 'add_ownership' %}" class="btn btn-success">Добавить первое владение</a>
+    </div>
+    {% endif %}
+    
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Детали человека</title>
+</head>
+<body>
+    <h1>{{ owner.last_name }} {{ owner.first_name }}</h1>
+    <p><strong>Имя пользователя:</strong> {{ owner.username }}</p>
+    <p><strong>Email:</strong> {{ owner.email }}</p>
+    <p><strong>Номер паспорта:</strong> {{ owner.passport_number }}</p>
+    <p><strong>Адрес:</strong> {{ owner.address }}</p>
+    <p><strong>Национальность:</strong> {{ owner.nationality }}</p>
+    <p><strong>День рождения:</strong> {{ owner.birthday }}</p>
+    
+    <a href="{% url 'owner_list' %}">Назад к списку</a>
+</body>
+</html>

@@ -1,0 +1,1031 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Сайт с лабораторными работами">
+      
+      
+      
+      
+        <link rel="prev" href="../report_4/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Практическая 3 - Лабораторные работы по веб-разработке</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#31" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Лабораторные работы по веб-разработке" class="md-header__button md-logo" aria-label="Лабораторные работы по веб-разработке" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Лабораторные работы по веб-разработке
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Практическая 3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../report_1/" class="md-tabs__link">
+          
+  
+  
+  Лабораторные работы
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Практические работы
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Лабораторные работы по веб-разработке" class="md-nav__button md-logo" aria-label="Лабораторные работы по веб-разработке" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Лабораторные работы по веб-разработке
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторные работы
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторные работы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Практические работы
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Практические работы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Практическая 3
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая 3
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 1:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 2:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 3:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выполнение:
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="31">Практическая работа 3.1</h1>
+<h2 id="1">Задание 1:</h2>
+<blockquote>
+<p>Напишите запрос на создание 6-7 новых автовладельцев и 5-6 автомобилей, каждому автовладельцу назначьте удостоверение и от 1 до 3 автомобилей. Задание можете выполнить либо в интерактивном режиме интерпретатора, либо в отдельном python-файле. Результатом должны стать запросы и отображение созданных объектов. </p>
+</blockquote>
+<h2 id="_1">Выполнение:</h2>
+<pre><code class="language-python">import os
+import django
+from datetime import datetime
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'simple_django_web_project.settings')
+django.setup()
+
+from project_first_app.models import Owner, Car, DrivingLicense, Ownership
+
+cars = []
+
+def add_owners():
+    Owner.objects.all().delete()
+    Owner.objects.create(last_name='Amber', first_name='Mike', birthday=datetime(1999, 12, 11))
+    Owner.objects.create(last_name='Conner', first_name='Bill', birthday=datetime(2001, 11, 6))
+    Owner.objects.create(last_name='Hurley', first_name='Ann', birthday=datetime(1987, 10, 15))
+    Owner.objects.create(last_name='Pierce', first_name='Jeff', birthday=datetime(2000, 10, 27))
+    Owner.objects.create(last_name='Boyer', first_name='Bob', birthday=datetime(1974, 9, 5))
+    Owner.objects.create(last_name='Clayton', first_name='Alex', birthday=datetime(1979, 1, 2))
+
+def add_cars():
+    Car.objects.all().delete()
+    cars.append(Car.objects.create(license_plate='TZR378', brand='BMW', model=&quot;520i&quot;, color=&quot;black&quot;))
+    cars.append(Car.objects.create(license_plate='24724A', brand='Toyota', model=&quot;Camry&quot;, color=&quot;white&quot;))
+    cars.append(Car.objects.create(license_plate='11420Y', brand='Toyota', model=&quot;Camry&quot;, color=&quot;black&quot;))
+    cars.append(Car.objects.create(license_plate='25394A', brand='Dodge', model=&quot;Charger&quot;, color=&quot;red&quot;))
+    cars.append(Car.objects.create(license_plate='26064A', brand='Chevrolet', model=&quot;Malibu&quot;, color=&quot;gray&quot;))
+    cars.append(Car.objects.create(license_plate='AH32943', brand='Honda', model=&quot;Accord&quot;, color=&quot;blue&quot;))
+
+def add_driving_licenses():
+    DrivingLicense.objects.all().delete()
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Mike&quot;).first(), number='451549845', type=&quot;B&quot;, date_of_issue=datetime(2018, 11, 25))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Bill&quot;).first(), number='545800949', type=&quot;B&quot;, date_of_issue=datetime(2022, 10, 12))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Ann&quot;).first(), number='798132657', type=&quot;B&quot;, date_of_issue=datetime(2012, 11, 23))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Jeff&quot;).first(), number='19543250', type=&quot;B&quot;, date_of_issue=datetime(2023, 2, 19))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), number='465159457', type=&quot;B&quot;, date_of_issue=datetime(1999, 1, 26))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Alex&quot;).first(), number='019798429', type=&quot;B&quot;, date_of_issue=datetime(2002, 9, 1))
+
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Ann&quot;).first(), number='789914522', type=&quot;B&quot;, date_of_issue=datetime(2020, 9, 30))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), number='4519346878', type=&quot;B&quot;, date_of_issue=datetime(2006, 2, 25))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), number='198732415', type=&quot;B&quot;, date_of_issue=datetime(2014, 1, 21))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), number='678121634', type=&quot;B&quot;, date_of_issue=datetime(2023, 1, 2))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Alex&quot;).first(), number='975316515', type=&quot;B&quot;, date_of_issue=datetime(2010, 9, 15))
+    DrivingLicense.objects.create(owner=Owner.objects.filter(first_name=&quot;Alex&quot;).first(), number='121578746', type=&quot;B&quot;, date_of_issue=datetime(2020, 9, 10))
+
+def add_ownership():
+    Ownership.objects.all().delete()
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Mike&quot;).first(), car=cars[0], start_date=datetime(2015, 6, 8), end_date=None)
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Bill&quot;).first(), car=cars[1], start_date=datetime(2022, 11, 3), end_date=None)
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Ann&quot;).first(), car=cars[0], start_date=datetime(2012, 12, 2), end_date=datetime(2015, 6, 8))
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Ann&quot;).first(), car=cars[2], start_date=datetime(2016, 1, 10), end_date=None)
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Jeff&quot;).first(), car=cars[3], start_date=datetime(2024, 2, 18), end_date=None)
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), car=cars[2], start_date=datetime(2000, 11, 2), end_date=datetime(2016, 1, 10))
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), car=cars[3], start_date=datetime(2016, 3, 11), end_date=datetime(2024, 2, 18))
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Bob&quot;).first(), car=cars[4], start_date=datetime(2025, 3, 8), end_date=None)
+    Ownership.objects.create(owner=Owner.objects.filter(first_name=&quot;Alex&quot;).first(), car=cars[5], start_date=datetime(2005, 8, 6), end_date=None)
+
+#add_owners()
+#add_cars()
+#add_driving_licenses()
+#add_ownership()
+
+for ownership in Ownership.objects.all():
+    print(f&quot;{ownership.owner.first_name} {ownership.owner.last_name}, born in {ownership.owner.birthday}, \
+last driver license got issued in {DrivingLicense.objects.filter(owner=ownership.owner).latest(&quot;date_of_issue&quot;).date_of_issue} has driven this car:&quot;)
+    print(f&quot;    {ownership.car}&quot;)
+</code></pre>
+<h2 id="2">Задание 2:</h2>
+<blockquote>
+<p>По созданным в пр.1 данным написать следующие запросы на фильтрацию:
+Где это необходимо, добавьте related_name к полям модели
+Выведете все машины марки “Toyota” (или любой другой марки, которая у вас есть)
+Найти всех водителей с именем “Олег” (или любым другим именем на ваше усмотрение)
+Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели (можно в 2 запроса)
+Вывести всех владельцев красных машин (или любого другого цвета, который у вас присутствует)
+Найти всех владельцев, чей год владения машиной начинается с 2010 (или любой другой год, который присутствует у вас в базе) </p>
+</blockquote>
+<h2 id="_2">Выполнение:</h2>
+<pre><code class="language-python">import os
+import django
+from datetime import datetime
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'simple_django_web_project.settings')
+django.setup()
+
+from project_first_app.models import Owner, Car, DrivingLicense, Ownership
+
+for car in Car.objects.filter(brand=&quot;Toyota&quot;):
+    print(car)
+
+print(&quot;\n&quot;)
+
+for owner in Owner.objects.filter(first_name=&quot;Bob&quot;):
+    print(owner)
+
+print(&quot;\n&quot;)
+
+person = Owner.objects.all()[2]
+print(DrivingLicense.objects.filter(owner=person).latest(&quot;date_of_issue&quot;)) # последние продлённые права
+
+print(&quot;\n&quot;)
+
+for owner in Owner.objects.filter(ownership__car__color=&quot;red&quot;, ownership__end_date=None).distinct():
+    print(owner)
+
+print(&quot;\n&quot;)
+
+for owner in Owner.objects.filter(ownership__start_date__gte=datetime(2010, 1, 1)).distinct():
+    print(owner)
+</code></pre>
+<h2 id="3">Задание 3:</h2>
+<blockquote>
+<p>Необходимо реализовать следующие запросы c применением описанных методов:
+Вывод даты выдачи самого старшего водительского удостоверения
+Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе
+Выведите количество машин для каждого водителя
+Подсчитайте количество машин каждой марки
+Отсортируйте всех автовладельцев по дате выдачи удостоверения</p>
+</blockquote>
+<h2 id="_3">Выполнение:</h2>
+<pre><code class="language-python">import os
+import django
+from datetime import datetime
+from django.db.models import Count, Max
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'simple_django_web_project.settings')
+django.setup()
+
+from project_first_app.models import Owner, Car, DrivingLicense, Ownership
+
+print(DrivingLicense.objects.earliest(&quot;date_of_issue&quot;).date_of_issue)
+
+print(&quot;\n&quot;)
+
+print(Ownership.objects.latest(&quot;start_date&quot;).start_date)
+
+print(&quot;\n&quot;)
+
+for owner in (Owner.objects.annotate(ownership_count=Count('ownership'))):
+    print(f&quot;{owner} had {owner.ownership_count} cars in total&quot;)
+
+print(&quot;\n&quot;)
+
+for brand in Car.objects.values(&quot;brand&quot;).annotate(count=Count('brand')):
+    print(f&quot;{brand[&quot;brand&quot;]} - {brand[&quot;count&quot;]}&quot;)
+
+print(&quot;\n&quot;)
+
+for owner in Owner.objects.annotate(dl_last_date=Max(&quot;drivinglicense__date_of_issue&quot;)).order_by(&quot;dl_last_date&quot;):
+    print(owner, f&quot;{owner.dl_last_date}&quot;)
+
+</code></pre>
+<h1 id="32">Практическая работа 3.2</h1>
+<h2 id="1_1">Задание 1:</h2>
+<blockquote>
+<p>Реализовать ендпоинты для добавления и просмотра скилов методом, описанным в пункте выше.</p>
+</blockquote>
+<h2 id="_4">Выполнение:</h2>
+<pre><code class="language-python">from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import generics
+
+from .models import Warrior, Profession, Skill, SkillOfWarrior
+from .serializers import (
+    WarriorSerializer,
+    WarriorUpdateSerializer,
+    WarriorCreateSerializer,
+    ProfessionCreateSerializer,
+    SkillSerializer,
+    SkillCreateSerializer,
+    WarriorExtendedSerializer,
+    WarriorProfessionSerializer,
+    WarriorSkillSerializer,
+    SkillOfWarriorCreateSerializer,
+)
+
+class SkillListAPIView(APIView):
+    def get(self, request):
+        skills = Skill.objects.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response({&quot;Skills&quot;: serializer.data})
+
+class SkillCreateAPIView(APIView):
+    def post(self, request):
+        skill_data = request.data.get(&quot;skill&quot;)
+        serializer = SkillCreateSerializer(data=skill_data)
+
+        if serializer.is_valid(raise_exception=True):
+            skill_saved = serializer.save()
+
+        return Response({&quot;Success&quot;: f&quot;Skill '{skill_saved.title}' created succesfully.&quot;})
+</code></pre>
+<h2 id="2_1">Задание 2:</h2>
+<blockquote>
+<p>Реализовать ендпоинты:
+- Вывод полной информации о всех войнах и их профессиях (в одном запросе).
+- Вывод полной информации о всех войнах и их скилах (в одном запросе).
+- Вывод полной информации о войне (по id), его профессиях и скилах.
+- Удаление война по id.
+- Редактирование информации о войне.</p>
+</blockquote>
+<h2 id="_5">Выполнение:</h2>
+<pre><code class="language-python">class WarriorProfessionListAPIView(generics.ListAPIView):
+    serializer_class = WarriorProfessionSerializer
+    queryset = Warrior.objects.all()
+
+class WarriorSkillListAPIView(generics.ListAPIView):
+    serializer_class = WarriorSkillSerializer
+    queryset = Warrior.objects.all()
+
+class WarriorRetrieveDestroyAPIView(generics.RetrieveDestroyAPIView):
+    serializer_class = WarriorExtendedSerializer
+    queryset = Warrior.objects.all()
+
+class WarriorRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = WarriorUpdateSerializer
+    queryset = Warrior.objects.all()
+
+class WarriorCreateAPIView(generics.CreateAPIView):
+   serializer_class = WarriorCreateSerializer
+   queryset = Warrior.objects.all()
+
+   def perform_create(self, serializer):
+       serializer.save() 
+</code></pre>
+<h2 id="serializerspy">serializers.py</h2>
+<pre><code class="language-python">from rest_framework import serializers
+from .models import Warrior, Profession, Skill, SkillOfWarrior
+
+class WarriorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class WarriorCreateSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return Warrior.objects.create(**validated_data)
+
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
+        fields = [&quot;title&quot;]
+
+class SkillCreateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=120)
+
+    def create(self, validated_data):
+        return Skill.objects.create(**validated_data)
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = [&quot;title&quot;, &quot;description&quot;]
+
+class ProfessionCreateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=120)
+    description = serializers.CharField()
+
+    def create(self, validated_data):
+       profession = Profession(**validated_data)
+       profession.save()
+       return Profession(**validated_data)
+
+class WarriorSkillSerializer(serializers.ModelSerializer):
+    skill = SkillSerializer(many=True)
+    race = serializers.CharField(source=&quot;get_race_display&quot;, read_only=True)
+
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class WarriorProfessionSerializer(serializers.ModelSerializer):
+    profession = ProfessionSerializer()
+    race = serializers.CharField(source=&quot;get_race_display&quot;, read_only=True)
+
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class WarriorExtendedSerializer(serializers.ModelSerializer):
+    profession = ProfessionSerializer()
+    skill = SkillSerializer(many=True)
+    race = serializers.CharField(source=&quot;get_race_display&quot;, read_only=True)
+
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class WarriorUpdateSerializer(serializers.ModelSerializer):
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
+    class Meta:
+        model = Warrior
+        fields = &quot;__all__&quot;
+
+class SkillOfWarriorCreateSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return SkillOfWarrior.objects.create(**validated_data)
+
+    class Meta:
+        model = SkillOfWarrior
+        fields = &quot;__all__&quot;
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "toc.integrate", "navigation.top", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

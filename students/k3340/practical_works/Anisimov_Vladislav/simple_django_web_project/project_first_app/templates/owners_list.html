@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список владельцев</title>
+</head>
+<body>
+    <h1>Список всех владельцев</h1>
+    <a href="{% url 'owner_create' %}">Добавить человека</a>
+    <ul>
+        {% for owner in owners %}
+            <li>
+                <a href="{% url 'owner_detail' owner.id %}">
+                    {{ owner.last_name }} {{ owner.first_name }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Нет владельцев в базе данных</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'car_list' %}">Перейти к автомобилям</a>
+</body>
+</html>

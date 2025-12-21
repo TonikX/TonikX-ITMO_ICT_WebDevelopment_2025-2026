@@ -1,0 +1,97 @@
+{% block module-selector-styles %}
+        <style>.module-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .module-arrow {
+            background: #e3f2fd;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .module-arrow:hover {
+            background: #1976d2;
+            transform: scale(1.1);
+        }
+
+        .module-arrow:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .module-numbers {
+            display: flex;
+            gap: 8px;
+        }
+
+        .module-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #2196f3;
+            background: white;
+            color: #2196f3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .module-number.active {
+            background: #2196f3;
+            color: white;
+        }
+
+        .module-number:hover:not(.active) {
+            background: #e3f2fd;
+        }
+
+        .class-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }</style>
+{% endblock module-selector-styles %}
+{% block module-selector %}
+<div class="module-selector">
+    <h3>Выбор модуля</h3>
+                <button class="module-arrow" onclick="location.href = window.location.origin + window.location.pathname + '?subject_id={{selected_subject.id}}&page={{ module_number|add:-1 }}';" 
+                        {% if current_module == 1 %}disabled{% endif %}>
+                    ←
+                </button>
+                
+                 <div class="module-numbers">
+                    {% for i in "1234" %}
+                    <!-- Как же блять удобно-->
+                    <div class="module-number {% if forloop.counter == module_number %}active{% endif %}" 
+                         onclick="location.href = window.location.origin + window.location.pathname + '?subject_id={{selected_subject.id}}&page={{ forloop.counter }}';">
+                        {{ forloop.counter }}
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <button class="module-arrow" onclick="location.href = window.location.origin + window.location.pathname + '?subject_id={{selected_subject.id}}&page={{ module_number|add:1 }}';" 
+                        {% if current_module == 4 %}disabled{% endif %}>
+                    →
+                </button>
+            </div>
+            {% endblock module-selector %}

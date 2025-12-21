@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Детали автомобиля</title>
+</head>
+<body>
+    <h1>{{ car.brand }} {{ car.model }}</h1>
+    <p><strong>Номерной знак:</strong> {{ car.license_plate }}</p>
+    <p><strong>Цвет:</strong> {{ car.color }}</p>
+    <a href="{% url 'owner_detail' owner.id %}">
+        {{ owner.last_name }} {{ owner.first_name }}
+    </a>
+    <br/>
+    <a href="{% url 'car_list' %}">Назад к списку</a>
+    <a href="{% url 'car_update' car.id %}">Редактировать</a>
+    <br/>
+    <a href="{% url 'ownership_detail' car.id %}">Посмотреть список владельцев</a>
+</body>
+</html>
