@@ -1,0 +1,74 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Delete Racing Car{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🗑️ Delete Racing Car</h1>
+    <p>Confirm deletion of racing car record</p>
+</div>
+
+<div class="card">
+    <h2>Are you sure you want to delete this racing car?</h2>
+    
+    <div class="car-info">
+        <h3>{{ object.brand }} {{ object.model }}</h3>
+        <p><strong>License Plate:</strong> {{ object.license_plate }}</p>
+        <p><strong>Team:</strong> {{ object.team.name|default:"No team" }}</p>
+        {% if object.max_speed %}<p><strong>Max Speed:</strong> {{ object.max_speed }} km/h</p>{% endif %}
+        {% if object.engine_power %}<p><strong>Engine Power:</strong> {{ object.engine_power }} HP</p>{% endif %}
+    </div>
+
+    <form method="POST" class="delete-form">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="delete-btn">Yes, Delete</button>
+            <a href="{% url 'car_detail' object.id %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+.car-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.delete-form {
+    margin-top: 2rem;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #5a6268;
+    color: white;
+}
+</style>
+{% endblock %}

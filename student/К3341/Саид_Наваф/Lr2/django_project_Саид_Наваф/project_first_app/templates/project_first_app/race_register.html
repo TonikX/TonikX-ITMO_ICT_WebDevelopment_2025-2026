@@ -1,0 +1,41 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Register for {{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>📝 Register for {{ race.name }}</h1>
+    <p>Select your car for this race</p>
+    <a href="{% url 'race_detail' race.id %}" class="back-link">← Back to Race Details</a>
+</div>
+
+<div class="card">
+    <form method="POST" class="form-container">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div class="error-list">
+                    {% for error in field.errors %}
+                    <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">Register for Race</button>
+            <a href="{% url 'race_detail' race.id %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

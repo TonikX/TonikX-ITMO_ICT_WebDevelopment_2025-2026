@@ -1,0 +1,7 @@
+Django>=4.2,<5
+djangorestframework
+djoser
+djangorestframework-simplejwt
+drf-spectacular
+mkdocs
+mkdocs-material

@@ -1,0 +1,122 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Racing Winners Board{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏎️ Racing Winners Board</h1>
+    <p>Complete racing management system for tracking races, drivers, and results</p>
+</div>
+
+<div class="card">
+    <h2>🏁 Racing Modules</h2>
+    <div class="module-grid">
+        <div class="module-card">
+            <h3>👥 Racers Management</h3>
+            <p>View and manage racing drivers with their experience and classes</p>
+            <div class="module-actions">
+                <a href="{% url 'racer_list' %}" class="module-btn">View All Racers</a>
+                <a href="{% url 'register_user' %}" class="module-btn secondary">Register New Racer</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <h3>🏁 Race Events</h3>
+            <p>Register for races and view upcoming events</p>
+            <div class="module-actions">
+                <a href="{% url 'race_list' %}" class="module-btn">View All Races</a>
+                <a href="{% url 'race_results' %}" class="module-btn secondary">Race Results</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <h3>🚗 Cars & Teams</h3>
+            <p>Manage racing cars and teams</p>
+            <div class="module-actions">
+                <a href="{% url 'car_list' %}" class="module-btn">View All Cars</a>
+                <a href="{% url 'team_list' %}" class="module-btn secondary">View Teams</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <h3>⚙️ Admin Panel</h3>
+            <p>Advanced race and results management</p>
+            <div class="module-actions">
+                <a href="/admin/" class="module-btn">Admin Access</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if recent_races %}
+<div class="card">
+    <h2>📅 Upcoming Races</h2>
+    <div class="owner-list">
+        {% for race in recent_races %}
+        <div class="card owner-card">
+            <h4>{{ race.name }}</h4>
+            <div class="detail-item">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">{{ race.date }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Location:</span>
+                <span class="detail-value">{{ race.location }}</span>
+            </div>
+            <a href="{% url 'race_detail' race.id %}" class="owner-link">View Details →</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<style>
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+.module-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-left: 4px solid #dc3545;
+}
+.module-card h3 {
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+.module-card p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+.module-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.module-btn {
+    display: block;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+.module-btn.secondary {
+    background: #6c757d;
+}
+.module-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
+{% endblock %}

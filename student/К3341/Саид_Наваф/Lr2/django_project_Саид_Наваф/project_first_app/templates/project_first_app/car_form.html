@@ -1,0 +1,43 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Racing Car{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🚗 {% if form.instance.pk %}Edit{% else %}Add New{% endif %} Racing Car</h1>
+    <p>{% if form.instance.pk %}Update car information{% else %}Register a new racing car{% endif %}</p>
+    <a href="{% url 'car_list' %}" class="back-link">← Back to All Cars</a>
+</div>
+
+<div class="card">
+    <form method="POST" class="form-container">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div class="error-list">
+                    {% for error in field.errors %}
+                    <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">
+                {% if form.instance.pk %}Update{% else %}Save{% endif %} Car
+            </button>
+            <a href="{% url 'car_list' %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
