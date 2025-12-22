@@ -1,0 +1,101 @@
+<!-- templates/owner_create.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить владельца</title>
+    <style>
+        body { padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            margin-bottom: 5px; 
+        }
+        .btn { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            cursor: pointer; 
+        }
+        .error { color: red; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>Добавить нового владельца (пользователя)</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Обязательные поля AbstractUser -->
+        <div class="form-group">
+            <label>Логин (username) *</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label>Пароль *</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+            <div class="error">{{ form.password1.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label>Подтверждение пароля *</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+            <div class="error">{{ form.password2.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label>Email</label>
+            {{ form.email }}
+        </div>
+        
+        <!-- Личные данные -->
+        <div class="form-group">
+            <label>Имя *</label>
+            {{ form.first_name }}
+        </div>
+        
+        <div class="form-group">
+            <label>Фамилия *</label>
+            {{ form.last_name }}
+        </div>
+        
+        <!-- Дополнительные поля -->
+        <div class="form-group">
+            <label>Дата рождения</label>
+            {{ form.birth_date }}
+        </div>
+        
+        <div class="form-group">
+            <label>Паспорт *</label>
+            {{ form.passport }}
+            <small>Формат: XX XX XXXXXX</small>
+        </div>
+        
+        <div class="form-group">
+            <label>Адрес *</label>
+            {{ form.home_address }}
+        </div>
+        
+        <div class="form-group">
+            <label>Национальность</label>
+            {{ form.nationality }}
+        </div>
+        
+        <button type="submit" class="btn">Создать владельца</button>
+    </form>
+    
+    <a href="/owners/">← Назад к списку</a>
+</body>
+</html>

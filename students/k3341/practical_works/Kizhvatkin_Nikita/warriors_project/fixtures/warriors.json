@@ -1,0 +1,102 @@
+[
+  {
+    "model": "warriors_app.warrior",
+    "pk": 1,
+    "fields": {
+      "race": "d",
+      "name": "Иван Петров",
+      "level": 85,
+      "profession": 1
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 2,
+    "fields": {
+      "race": "d",
+      "name": "Мария Сидорова",
+      "level": 92,
+      "profession": 2
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 3,
+    "fields": {
+      "race": "t",
+      "name": "Алексей Иванов",
+      "level": 95,
+      "profession": 4
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 4,
+    "fields": {
+      "race": "s",
+      "name": "Дмитрий Смирнов",
+      "level": 75,
+      "profession": 1
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 5,
+    "fields": {
+      "race": "d",
+      "name": "Елена Кузнецова",
+      "level": 88,
+      "profession": 3
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 6,
+    "fields": {
+      "race": "s",
+      "name": "Сергей Васильев",
+      "level": 70,
+      "profession": 5
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 7,
+    "fields": {
+      "race": "t",
+      "name": "Ольга Николаева",
+      "level": 90,
+      "profession": 4
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 8,
+    "fields": {
+      "race": "d",
+      "name": "Павел Морозов",
+      "level": 82,
+      "profession": 2
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 9,
+    "fields": {
+      "race": "s",
+      "name": "Анна Павлова",
+      "level": 78,
+      "profession": 1
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 10,
+    "fields": {
+      "race": "d",
+      "name": "Михаил Федоров",
+      "level": 85,
+      "profession": 3
+    }
+  }
+]

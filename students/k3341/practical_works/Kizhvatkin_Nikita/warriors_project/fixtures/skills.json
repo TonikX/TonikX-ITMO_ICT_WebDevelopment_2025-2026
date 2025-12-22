@@ -1,0 +1,86 @@
+[
+  {
+    "model": "warriors_app.skill",
+    "pk": 1,
+    "fields": {
+      "title": "Python"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 2,
+    "fields": {
+      "title": "Django"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 3,
+    "fields": {
+      "title": "REST API"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 4,
+    "fields": {
+      "title": "Docker"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 5,
+    "fields": {
+      "title": "PostgreSQL"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 6,
+    "fields": {
+      "title": "Git"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 7,
+    "fields": {
+      "title": "Linux"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 8,
+    "fields": {
+      "title": "React"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 9,
+    "fields": {
+      "title": "Machine Learning"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 10,
+    "fields": {
+      "title": "Testing"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 11,
+    "fields": {
+      "title": "CI/CD"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 12,
+    "fields": {
+      "title": "AWS"
+    }
+  }
+]

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о владельце</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .owner-info, .cars-info {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .btn-back {
+            background-color: #008CBA;
+        }
+        .btn-delete {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>Информация о владельце</h1>
+    
+    <div class="owner-info">
+        <p><strong>ID:</strong> {{ owner.id }}</p>
+        <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+        <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+        <p><strong>Дата рождения:</strong> {{ owner.birth_date }}</p>
+        <p><strong>Паспорт:</strong> {{ owner.passport }}</p>
+        <p><strong>Адрес проживания:</strong> {{ owner.home_address }}</p>
+        <p><strong>Национальность:</strong> {{ owner.nationality|default:"Не указана" }}</p>
+    </div>
+    
+    <div class="cars-info">
+        <h2>Автомобили владельца</h2>
+        {% if ownerships %}
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Марка</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Модель</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Гос. номер</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Дата начала владения</th>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Дата окончания</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ownership in ownerships %}
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ ownership.car.brand }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ ownership.car.model }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ ownership.car.state_number }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ ownership.start_date }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ ownership.end_date|default:"Владеет" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>У владельца нет автомобилей</p>
+        {% endif %}
+    </div>
+    
+    <div class="actions">
+        <a href="{% url 'owner_list' %}" class="btn btn-back">Назад к списку</a>
+    </div>
+</body>
+</html>
