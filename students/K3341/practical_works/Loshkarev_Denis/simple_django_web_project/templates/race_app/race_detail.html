@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'race_list' %}">Все гонки</a></li>
+                <li class="breadcrumb-item active">{{ object.title }}</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ object.title }}</h1>
+            <span class="badge bg-primary fs-5">{{ object.date|date:"d.m.Y H:i" }}</span>
+        </div>
+        <p class="lead"><strong>Место проведения:</strong> {{ object.location }}</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <h3>Таблица результатов</h3>
+            <form method="get" class="d-flex w-25">
+                <input name="q" class="form-control form-control-sm me-2" type="search" placeholder="Поиск команды..." value="{{ request.GET.q }}">
+                <button class="btn btn-sm btn-outline-primary" type="submit">Найти</button>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered border-primary mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 80px;">Место</th>
+                        <th>Участник (Гонщик)</th>
+                        <th>Команда</th>
+                        <th>Автомобиль</th>
+                        <th>Время заезда</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg in participants %}
+                    <tr {% if reg.user == user %}class="table-info"{% endif %}>
+                        <td class="text-center fw-bold">{{ reg.result_place|default:"—" }}</td>
+                        <td>
+                            {{ reg.user.get_full_name|default:reg.user.username }} 
+                            <span class="badge bg-secondary">Класс: {{ reg.user.racer_class }}</span>
+                        </td>
+                        <td>{{ reg.team_name }}</td>
+                        <td>{{ reg.car_description }}</td>
+                        <td>{{ reg.race_time|default:"--:--:--" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Ничего не найдено.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if participants.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if participants.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ participants.previous_page_number }}{{ last_search }}">Назад</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <span class="page-link">Страница {{ participants.number }} из {{ participants.paginator.num_pages }}</span>
+                </li>
+
+                {% if participants.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ participants.next_page_number }}{{ last_search }}">Вперед</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card border-primary mb-4">
+            <div class="card-header bg-primary text-white">Участие в гонке</div>
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    {% if user_registration %}
+                        <div class="alert alert-success d-flex justify-content-between align-items-center">
+                            <div>
+                                ✅ <strong>Вы зарегистрированы!</strong><br>
+                                Команда: {{ user_registration.team_name }} | Авто: {{ user_registration.car_description }}
+                            </div>
+                            <div class="btn-group">
+                                <a href="{% url 'update_reg' user_registration.id %}" class="btn btn-sm btn-outline-dark">Изменить</a>
+                                <a href="{% url 'delete_reg' user_registration.id %}" class="btn btn-sm btn-outline-danger">Отмена</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'register_race' object.id %}" class="btn btn-primary w-100">Участвовать в гонке</a>
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted">Чтобы зарегистрироваться на гонку, необходимо авторизоваться.</p>
+                    <a href="/admin/login/" class="btn btn-sm btn-secondary">Войти в систему</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h3>Отзывы и комментарии</h3>
+        {% if user.is_authenticated %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Оставить отзыв</h5>
+                    <form action="{% url 'add_comment' object.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="row g-2">
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label small">Тип вопроса</label>
+                                {{ comment_form.comment_type }}
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label small">Ваш рейтинг (1-10)</label>
+                                {{ comment_form.rating }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Текст сообщения</label>
+                            {{ comment_form.text }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Опубликовать</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="comment-list">
+            {% for comment in comments %}
+                <div class="card mb-3 border-light shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold">{{ comment.author.username }}</h6>
+                            <span class="badge bg-warning text-dark">⭐ {{ comment.rating }}/10</span>
+                        </div>
+                        <p class="text-muted small mb-1">Тип: {{ comment.get_comment_type_display }} | {{ comment.created_at|date:"d.m.Y H:i" }}</p>
+                        <p class="card-text">{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted text-center">Отзывов пока нет.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

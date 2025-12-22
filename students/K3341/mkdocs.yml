@@ -1,0 +1,44 @@
+site_name: Отчеты по Web | Лошкарев Денис K3341
+site_url: https://reports.qutoq.ru/
+
+repo_name: ITMO_ICT_WebDevelopment_2025-2026
+repo_url: https://github.com/qutoq/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+edit_uri: blob/main/docs/
+
+
+theme:
+  name: material
+  language: ru
+  palette:
+    scheme: default
+    primary: indigo
+    accent: light blue
+  features:
+    - toc.integrate
+    - navigation.expand
+    - content.code.copy
+    - toc.integrate
+
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.caret
+  - footnotes
+  - pymdownx.highlight
+
+
+nav:
+  - '🏠 Главная': index.md
+  - '📚 Лабораторные работы':
+    - 'ЛР 1. Сокеты': report_lab_1.md
+    - 'ЛР 2. Django (CRUD)': report_lab_2.md
+    - 'ЛР 3. Django REST & API': report_lab_3.md
+    - 'ЛР 4. Vue.js (Frontend)': report_lab_4.md
+
+
+plugins:
+  - search:
+      lang: ru
