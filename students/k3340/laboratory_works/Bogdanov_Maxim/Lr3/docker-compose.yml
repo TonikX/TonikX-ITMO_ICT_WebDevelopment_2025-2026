@@ -1,0 +1,119 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: school_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: school_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - school_network
+
+  migrate:
+    image: migrate/migrate:v4.17.0
+    container_name: school_migrate
+    command:
+      - "-path=/migrations"
+      - "-database=postgres://postgres:postgres@postgres:5432/school_db?sslmode=disable"
+      - "up"
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - school_network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school_api
+    environment:
+      APP_NAME: school-service
+      APP_ENV: production
+      APP_DEBUG: "false"
+      HTTP_PORT: 8080
+      HTTP_HOST: 0.0.0.0
+      READ_TIMEOUT: 15s
+      WRITE_TIMEOUT: 15s
+      IDLE_TIMEOUT: 60s
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: school_db
+      DB_SSLMODE: disable
+      DB_MAX_OPEN_CONNS: 25
+      DB_MAX_IDLE_CONNS: 5
+      DB_CONN_MAX_LIFETIME: 5m
+      DB_CONN_MAX_IDLE_TIME: 10m
+      DB_PING_TIMEOUT: 5s
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key}
+      JWT_ACCESS_TOKEN_TTL: 15m
+      JWT_REFRESH_TOKEN_TTL: 168h
+      LOG_LEVEL: info
+      LOG_FORMAT: json
+      LOG_ADD_SOURCE: "false"
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
+      CORS_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS,PATCH
+      CORS_ALLOWED_HEADERS: Accept,Authorization,Content-Type,X-CSRF-Token,X-Requested-With
+      CORS_EXPOSED_HEADERS: Link
+      CORS_ALLOW_CREDENTIALS: "false"
+      CORS_MAX_AGE: "300"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 -O /dev/null http://localhost:8080/health/live || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - school_network
+    restart: unless-stopped
+
+  seed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school_seed
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: school_db
+      DB_SSLMODE: disable
+    command: ["./seed"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - school_network
+    profiles:
+      - seed
+
+volumes:
+  postgres_data:
+
+networks:
+  school_network:
+    driver: bridge
+
