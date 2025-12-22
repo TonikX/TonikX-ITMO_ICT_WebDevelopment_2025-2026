@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автомобиле</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .car-info {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .btn-back {
+            background-color: #008CBA;
+        }
+        .btn-delete {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>Информация об автомобиле</h1>
+    
+    <div class="car-info">
+        <p><strong>ID:</strong> {{ car.id }}</p>
+        <p><strong>Марка:</strong> {{ car.brand }}</p>
+        <p><strong>Модель:</strong> {{ car.model }}</p>
+        <p><strong>Цвет:</strong> {{ car.color }}</p>
+        <p><strong>Гос. номер:</strong> {{ car.state_number }}</p>
+        
+        <h3>Владельцы:</h3>
+        {% if car.ownership_set.all %}
+            <ul>
+                {% for ownership in car.ownership_set.all %}
+                <li>
+                    {{ ownership.owner.first_name }} {{ ownership.owner.last_name }}
+                    (с {{ ownership.start_date }} по {{ ownership.end_date|default:"настоящее время" }})
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Нет зарегистрированных владельцев</p>
+        {% endif %}
+    </div>
+    
+    <div class="actions">
+        <a href="{% url 'car_list' %}" class="btn btn-back">Назад к списку</a>
+        <a href="{% url 'car_update' car.id %}" class="btn">Редактировать</a>
+        <a href="{% url 'car_delete' car.id %}" class="btn btn-delete">Удалить</a>
+    </div>
+</body>
+</html>

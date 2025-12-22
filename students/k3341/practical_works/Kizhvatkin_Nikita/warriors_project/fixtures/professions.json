@@ -1,0 +1,42 @@
+[
+  {
+    "model": "warriors_app.profession",
+    "pk": 1,
+    "fields": {
+      "title": "Python Developer",
+      "description": "Разработчик на языке Python, специалист по backend разработке"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 2,
+    "fields": {
+      "title": "Data Scientist",
+      "description": "Специалист по анализу данных и машинному обучению"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 3,
+    "fields": {
+      "title": "DevOps Engineer",
+      "description": "Инженер по инфраструктуре и автоматизации"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 4,
+    "fields": {
+      "title": "Team Lead",
+      "description": "Руководитель команды разработчиков"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 5,
+    "fields": {
+      "title": "Fullstack Developer",
+      "description": "Разработчик, работающий как с frontend, так и с backend"
+    }
+  }
+]

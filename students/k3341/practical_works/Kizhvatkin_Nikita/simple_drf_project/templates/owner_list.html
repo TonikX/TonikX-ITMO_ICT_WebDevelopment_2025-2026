@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список владельцев автомобилей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список владельцев автомобилей</h1>
+    
+    <div class="actions">
+        <a href="{% url 'owner_create' %}" class="btn">Добавить нового владельца</a>
+        <a href="{% url 'car_list' %}" class="btn" style="background-color: #008CBA; margin-left: 10px;">Список автомобилей</a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Паспорт</th>
+                <th>Адрес</th>
+                <th>Национальность</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for owner in owners %}
+            <tr>
+                <td>{{ owner.id }}</td>
+                <td>{{ owner.last_name }}</td>
+                <td>{{ owner.first_name }}</td>
+                <td>{{ owner.birth_date }}</td>
+                <td>{{ owner.passport }}</td>
+                <td>{{ owner.home_address }}</td>
+                <td>{{ owner.nationality }}</td>
+                <td>
+                    <a href="{% url 'owner_detail' owner.id %}">Просмотр</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">Нет владельцев в базе данных</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,344 @@
+[
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 1,
+    "fields": {
+      "skill": 1,
+      "warrior": 1,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 2,
+    "fields": {
+      "skill": 2,
+      "warrior": 1,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 3,
+    "fields": {
+      "skill": 3,
+      "warrior": 1,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 4,
+    "fields": {
+      "skill": 6,
+      "warrior": 1,
+      "level": 75
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 5,
+    "fields": {
+      "skill": 1,
+      "warrior": 2,
+      "level": 95
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 6,
+    "fields": {
+      "skill": 9,
+      "warrior": 2,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 7,
+    "fields": {
+      "skill": 5,
+      "warrior": 2,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 8,
+    "fields": {
+      "skill": 10,
+      "warrior": 2,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 9,
+    "fields": {
+      "skill": 6,
+      "warrior": 3,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 10,
+    "fields": {
+      "skill": 11,
+      "warrior": 3,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 11,
+    "fields": {
+      "skill": 1,
+      "warrior": 3,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 12,
+    "fields": {
+      "skill": 7,
+      "warrior": 3,
+      "level": 75
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 13,
+    "fields": {
+      "skill": 1,
+      "warrior": 4,
+      "level": 70
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 14,
+    "fields": {
+      "skill": 2,
+      "warrior": 4,
+      "level": 65
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 15,
+    "fields": {
+      "skill": 6,
+      "warrior": 4,
+      "level": 60
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 16,
+    "fields": {
+      "skill": 4,
+      "warrior": 5,
+      "level": 95
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 17,
+    "fields": {
+      "skill": 7,
+      "warrior": 5,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 18,
+    "fields": {
+      "skill": 11,
+      "warrior": 5,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 19,
+    "fields": {
+      "skill": 12,
+      "warrior": 5,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 20,
+    "fields": {
+      "skill": 1,
+      "warrior": 6,
+      "level": 75
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 21,
+    "fields": {
+      "skill": 8,
+      "warrior": 6,
+      "level": 70
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 22,
+    "fields": {
+      "skill": 3,
+      "warrior": 6,
+      "level": 65
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 23,
+    "fields": {
+      "skill": 6,
+      "warrior": 7,
+      "level": 88
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 24,
+    "fields": {
+      "skill": 11,
+      "warrior": 7,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 25,
+    "fields": {
+      "skill": 1,
+      "warrior": 7,
+      "level": 82
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 26,
+    "fields": {
+      "skill": 5,
+      "warrior": 7,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 27,
+    "fields": {
+      "skill": 1,
+      "warrior": 8,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 28,
+    "fields": {
+      "skill": 9,
+      "warrior": 8,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 29,
+    "fields": {
+      "skill": 5,
+      "warrior": 8,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 30,
+    "fields": {
+      "skill": 10,
+      "warrior": 8,
+      "level": 75
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 31,
+    "fields": {
+      "skill": 1,
+      "warrior": 9,
+      "level": 80
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 32,
+    "fields": {
+      "skill": 2,
+      "warrior": 9,
+      "level": 75
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 33,
+    "fields": {
+      "skill": 6,
+      "warrior": 9,
+      "level": 70
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 34,
+    "fields": {
+      "skill": 10,
+      "warrior": 9,
+      "level": 65
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 35,
+    "fields": {
+      "skill": 4,
+      "warrior": 10,
+      "level": 90
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 36,
+    "fields": {
+      "skill": 7,
+      "warrior": 10,
+      "level": 88
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 37,
+    "fields": {
+      "skill": 11,
+      "warrior": 10,
+      "level": 85
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 38,
+    "fields": {
+      "skill": 12,
+      "warrior": 10,
+      "level": 82
+    }
+  }
+]
