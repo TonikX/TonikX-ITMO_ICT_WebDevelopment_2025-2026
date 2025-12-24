@@ -7,6 +7,12 @@ class EnterpriseSerializer(serializers.ModelSerializer):
         model = Enterprise
         fields = "__all__"
 
+class EnterpriseDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enterprise
+        fields = "__all__"
+
+
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Services
