@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Сдать: {{ homework.title }}{% endblock %}
+{% block content %}
+<h2>Сдать задание: {{ homework.title }}</h2>
+<p><strong>Срок:</strong> {{ homework.due_date|date:"d.m.Y H:i" }}</p>
+
+<form method=ы"post">
+    {% csrf_token %}
+    <div>
+        <label>Текст решения:</label><br>
+        {{ form.text }}
+        {% if form.text.errors %}<div class="error">{{ form.text.errors }}</div>{% endif %}
+    </div>
+    <br><button type="submit">Отправить решение</button>
+</form>
+
+<a href="{% url 'assignment_detail' homework.pk %}">← Отмена</a>
+{% endblock %}

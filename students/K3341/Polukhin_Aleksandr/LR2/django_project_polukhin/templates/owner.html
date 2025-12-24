@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о владельце</title>
+</head>
+<body>
+    <h1>Данные владельца</h1>
+    <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+    <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+    {% if owner.birth_date %}
+        <p><strong>Дата рождения:</strong> {{ owner.birth_date|date:"d.m.Y" }}</p>
+    {% else %}
+        <p><strong>Дата рождения:</strong> не указана</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Водительские удостоверения:</h2>
+    {% if owner.driverlicense_set.all %}
+        <ul>
+        {% for dl in owner.driverlicense_set.all %}
+            <li>№ {{ dl.license_number }} (тип: {{ dl.license_type }}), выдано: {{ dl.issue_date|date:"d.m.Y" }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Удостоверений нет.</p>
+    {% endif %}
+
+    <h2>Владения автомобилями:</h2>
+    {% if owner.ownership_set.all %}
+        <ul>
+        {% for own in owner.ownership_set.all %}
+            <li>
+                Автомобиль: {{ own.car.make }} {{ own.car.model }} ({{ own.car.plate_number }}),<br>
+                Владение с {{ own.start_date|date:"d.m.Y H:i" }}
+                {% if own.end_date %}
+                    по {{ own.end_date|date:"d.m.Y H:i" }}
+                {% else %}
+                    (в настоящее время)
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет записей о владении.</p>
+    {% endif %}
+</body>
+</html>

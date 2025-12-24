@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Доска ДЗ{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        nav { margin-bottom: 20px; padding: 10px; background: #f0f0f0; }
+        nav a { margin-right: 15px; text-decoration: none; }
+        .error { color: red; }
+        .success { color: green; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #eee; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'assignment_list' %}">Все задания</a>
+        {% if user.is_authenticated %}
+            {% if user.student %}
+                <a href="{% url 'submit_homework' %}">Сдать ДЗ</a>
+                <a href="{% url 'grades_table' %}">Мои оценки</a>
+            {% endif %}
+            <span>Привет, {{ user.get_full_name|default:user.username }}!</span>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">
+                    Выйти
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'register' %}">Регистрация</a>
+            <a href="{% url 'login' %}">Вход</a>
+        {% endif %}
+    </nav>
+
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

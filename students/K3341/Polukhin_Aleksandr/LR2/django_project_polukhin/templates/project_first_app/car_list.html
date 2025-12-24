@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Автомобили</title>
+</head>
+<body>
+    <h1>Список автомобилей</h1>
+    <a href="{% url 'owner_list' %}">К владельцам</a> |
+    <a href="{% url 'car_list' %}">Обновить</a>
+
+    <h1>Список автомобилей</h1>
+    <a href="{% url 'car_create' %}">➕ Добавить автомобиль</a> |
+    <a href="{% url 'owner_list' %}">← Владельцы</a>
+
+    {% if cars %}
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Гос. номер</th>
+                    <th>Марка</th>
+                    <th>Модель</th>
+                    <th>Цвет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.plate_number }}</td>
+                    <td>{{ car.make }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.color|default:"—" }}</td>
+                    <td>
+                        <a href="{% url 'car_detail' car.pk %}">Просмотр</a> |
+                        <a href="{% url 'car_update' car.pk %}">Редактировать</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'car_detail' car.pk %}">👁️</a> |
+                        <a href="{% url 'car_update' car.pk %}">✏️</a> |
+                        <a href="{% url 'car_delete' car.pk %}" style="color: red;">🗑️</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет автомобилей.</p>
+    {% endif %}
+</body>
+</html>

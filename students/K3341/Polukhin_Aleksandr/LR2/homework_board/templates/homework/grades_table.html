@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Мои оценки{% endblock %}
+{% block content %}
+<h1>📊 Мои оценки</h1>
+
+{% if submissions %}
+    <table>
+        <thead>
+            <tr>
+                <th>Предмет</th>
+                <th>Задание</th>
+                <th>Сдано</th>
+                <th>Оценка</th>
+                <th>Выставлена</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sub in submissions %}
+            <tr>
+                <td>{{ sub.homework.subject }}</td>
+                <td>{{ sub.homework.title }}</td>
+                <td>{{ sub.submitted_at|date:"d.m.Y H:i" }}</td>
+                <td>
+                    {% if sub.grade %}
+                        <b>{{ sub.grade }}</b>
+                    {% else %}
+                        <i>ожидает проверки</i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if sub.graded_at %}
+                        {{ sub.graded_at|date:"d.m.Y H:i" }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Вы ещё не сдавали заданий.</p>
+{% endif %}
+
+<hr>
+<a href="{% url 'assignment_list' %}">← Все задания</a>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список владельцев</title>
+</head>
+<body>
+    <h1>Список автовладельцев</h1>
+    {% if owners %}
+        <ul>
+        {% for owner in owners %}
+            <li>
+                <strong>{{ owner.last_name }} {{ owner.first_name }}</strong>
+                {% if owner.birth_date %}
+                    (род. {{ owner.birth_date|date:"d.m.Y" }})
+                {% endif %}
+                <br>
+                <a href="{% url 'owner_detail' owner.id %}">Подробнее</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет владельцев.</p>
+    {% endif %}
+    <hr>
+    <a href="{% url 'car_list' %}">Список автомобилей</a>
+</body>
+</html>

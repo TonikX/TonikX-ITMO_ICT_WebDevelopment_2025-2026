@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ car.make }} {{ car.model }}</title>
+</head>
+<body>
+    <h1>Автомобиль: {{ car.plate_number }}</h1>
+    <p><strong>Марка:</strong> {{ car.make }}</p>
+    <p><strong>Модель:</strong> {{ car.model }}</p>
+    <p><strong>Цвет:</strong> {{ car.color|default:"не указан" }}</p>
+
+    <h2>История владения:</h2>
+    {% with car.ownership_set.all as ownerships %}
+        {% if ownerships %}
+            <ul>
+            {% for own in ownerships %}
+                <li>
+                    {{ own.owner }} — с {{ own.start_date|date:"d.m.Y" }}
+                    {% if own.end_date %}
+                        по {{ own.end_date|date:"d.m.Y" }}
+                    {% else %}
+                        (владеет сейчас)
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Нет записей о владении.</p>
+        {% endif %}
+    {% endwith %}
+
+    <hr>
+    <a href="{% url 'car_update' car.pk %}">Редактировать</a> |
+    <a href="{% url 'car_list' %}">Назад к списку</a>
+</body>
+</html>

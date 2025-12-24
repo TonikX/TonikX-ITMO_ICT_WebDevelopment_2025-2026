@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if object %}Редактировать автомобиль{% else %}Новый автомобиль{% endif %}</title>
+</head>
+<body>
+    <h1>{% if object %}Редактировать автомобиль {{ object.plate_number }}{% else %}Новый автомобиль{% endif %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Сохранить">
+    </form>
+
+    <hr>
+    <a href="{% url 'car_list' %}">Назад</a>
+</body>
+</html>

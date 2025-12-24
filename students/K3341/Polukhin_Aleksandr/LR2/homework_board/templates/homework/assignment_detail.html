@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ assignment.title }}{% endblock %}
+{% block content %}
+<h1>{{ assignment.title }}</h1>
+<p><strong>Предмет:</strong> {{ assignment.subject }}</p>
+<p><strong>Преподаватель:</strong> {{ assignment.teacher }}</p>
+<p><strong>Выдано:</strong> {{ assignment.issued_at|date:"d.m.Y H:i" }}</p>
+<p><strong>Срок:</strong> <b>{{ assignment.due_date|date:"d.m.Y H:i" }}</b></p>
+
+{% if assignment.penalty_info %}
+    <p><strong>Штрафы:</strong> {{ assignment.penalty_info|linebreaks }}</p>
+{% endif %}
+
+<h3>Описание:</h3>
+<div>{{ assignment.description|linebreaks }}</div>
+
+<hr>
+<a href="{% url 'assignment_list' %}">← Назад</a>
+{% if is_student and not is_submitted %}
+    <a href="{% url 'submit_homework' assignment.pk %}" style="margin-left:20px;">Сдать это задание</a>
+{% endif %}
+{% endblock %}
