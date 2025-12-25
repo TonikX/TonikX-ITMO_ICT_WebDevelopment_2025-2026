@@ -1,0 +1,729 @@
+/* src/styles.css */
+
+/* =========================
+   Base + Theme
+========================= */
+:root {
+  --bg: #0b1020;
+  --surface: #111a33;
+  --surface-2: #0f1730;
+  --text: #e7eaf3;
+  --muted: #aab2c8;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --primary: #5b8cff;
+  --primary-2: #2f6bff;
+
+  --danger: #ff5b6e;
+  --warning: #ffcc66;
+  --success: #4fe38f;
+
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --radius: 16px;
+
+  --pad: 16px;
+  --gap: 12px;
+
+  --container: 1100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: radial-gradient(
+      1200px 700px at 20% 0%,
+      rgba(91, 140, 255, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 80% 10%,
+      rgba(79, 227, 143, 0.10),
+      transparent 55%
+    ),
+    var(--bg);
+  line-height: 1.45;
+}
+
+/* links */
+a {
+  color: var(--text);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Layout helpers
+========================= */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 22px 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.row {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+}
+
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* =========================
+   Topbar / Header
+========================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(11, 16, 32, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+.nav a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* =========================
+   Typography
+========================= */
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  color: var(--muted);
+}
+
+/* =========================
+   Cards
+========================= */
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.03)
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card.pad {
+  padding: var(--pad);
+}
+
+.card-header {
+  padding: var(--pad);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.card-content {
+  padding: var(--pad);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* =========================
+   Actions (buttons bar)
+========================= */
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start; /* важно: НЕ прибиваем кнопки вправо */
+}
+
+.actions.right {
+  justify-content: flex-end;
+}
+
+.actions.between {
+  justify-content: space-between;
+}
+
+.actions .spacer {
+  flex: 1;
+}
+
+/* =========================
+   Buttons
+========================= */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: transform 0.05s ease, background 0.15s ease, border 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, var(--primary), var(--primary-2));
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn.danger {
+  background: rgba(255, 91, 110, 0.16);
+  border-color: rgba(255, 91, 110, 0.35);
+  color: #ffd7dc;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+/* small */
+.btn.sm {
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* =========================
+   Inputs / Forms
+========================= */
+label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  outline: none;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: rgba(91, 140, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.18);
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* helper text */
+.help {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* =========================
+   Tables
+========================= */
+.table-wrap {
+  overflow: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* allow tight action buttons in tables */
+td.actions-cell {
+  white-space: nowrap;
+}
+
+/* =========================
+   Badges / Pills
+========================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge.success {
+  border-color: rgba(79, 227, 143, 0.35);
+  background: rgba(79, 227, 143, 0.12);
+  color: #c7ffe0;
+}
+.badge.warn {
+  border-color: rgba(255, 204, 102, 0.35);
+  background: rgba(255, 204, 102, 0.12);
+  color: #ffe9bf;
+}
+.badge.danger {
+  border-color: rgba(255, 91, 110, 0.35);
+  background: rgba(255, 91, 110, 0.12);
+  color: #ffd7dc;
+}
+
+/* =========================
+   Alerts
+========================= */
+.alert {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.alert.error {
+  border-color: rgba(255, 91, 110, 0.35);
+  background: rgba(255, 91, 110, 0.12);
+}
+
+.alert.success {
+  border-color: rgba(79, 227, 143, 0.35);
+  background: rgba(79, 227, 143, 0.12);
+}
+
+/* =========================
+   Modal (optional)
+========================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+  padding: 16px;
+}
+
+.modal {
+  width: min(720px, 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.04)
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: var(--pad);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-body {
+  padding: var(--pad);
+}
+
+.modal-footer {
+  padding: var(--pad);
+  border-top: 1px solid var(--border);
+}
+
+/* =========================
+   Small utilities
+========================= */
+.mt-8 {
+  margin-top: 8px;
+}
+.mt-12 {
+  margin-top: 12px;
+}
+.mt-16 {
+  margin-top: 16px;
+}
+.mb-8 {
+  margin-bottom: 8px;
+}
+.mb-12 {
+  margin-bottom: 12px;
+}
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.center {
+  display: grid;
+  place-items: center;
+}
+
+/* Make inputs/buttons look consistent on mobile */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+.dashboard-menu {
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+  margin: 0 auto; /* центрирует меню внутри карточки */
+}
+
+.menu-link {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.menu-link:hover {
+  background: rgba(255, 255, 255, 0.09);
+  text-decoration: none;
+}
+/* Dashboard */
+.dash-wrap {
+  display: grid;
+  place-items: start center;
+  padding-top: 24px;
+}
+
+.dash-card {
+  width: min(520px, 100%);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.dash-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  text-align: center;
+}
+
+.dash-sub {
+  margin-top: 6px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.dash-menu {
+  display: grid;
+  gap: 12px;
+  width: min(360px, 100%);
+  margin: 0 auto;
+}
+
+.dash-item {
+  display: block;               /* важно: чтобы не в одну строку */
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dash-item:hover {
+  background: rgba(255, 255, 255, 0.10);
+  text-decoration: none;
+}
+
+.dash-logout {
+  background: rgba(255, 91, 110, 0.14);
+  border-color: rgba(255, 91, 110, 0.30);
+}
+/* List cards (for pages like Workshops, Employees, Diets) */
+.list-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.list-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.list-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: transform 0.06s ease, background 0.15s ease, border 0.15s ease;
+}
+
+.list-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.list-title {
+  font-weight: 900;
+}
+
+.list-meta {
+  font-size: 14px;
+  color: var(--muted);
+}
+/* Auth pages (Login/Register) */
+.auth-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+}
+
+.auth-title {
+  text-align: center;
+  margin: 0;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.auth-sub {
+  text-align: center;
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+/* Simple info grid */
+.kv {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.kv b {
+  color: var(--text);
+}
+/* Dashboard top-right actions */
+.dash-card {
+  position: relative; /* нужно для абсолютного позиционирования иконок */
+}
+
+.dash-top-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.05s ease, background 0.15s ease, border 0.15s ease;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+}
+
+.icon-btn:active {
+  transform: translateY(1px);
+}
+
+.icon-btn.danger {
+  background: rgba(255, 91, 110, 0.14);
+  border-color: rgba(255, 91, 110, 0.30);
+}
+/* Global shell top-right actions (for ALL pages) */
+.app-shell {
+  min-height: 100vh;
+  position: relative;
+}
+
+.top-actions {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+/* (icon-btn и icon-btn.danger у тебя уже есть — если добавлял для Dashboard,
+   оставь как есть. Если нет — вставь их тоже.) */

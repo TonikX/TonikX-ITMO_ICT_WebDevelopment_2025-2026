@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% block title %}Информация о рейсе {{ flight.flight_number }}{% endblock %} {% block content
+%}
+<div class="max-w-4xl mx-auto mt-10 bg-white shadow-md rounded-lg p-6">
+  <h1 class="text-2xl font-bold mb-4 text-gray-800">
+    Рейс: {{ flight.destination }} [{{ flight.flight_number }}] — {{ flight.airline.name }}
+  </h1>
+
+  <div class="grid grid-cols-2 gap-6 text-gray-700">
+    <div>
+      <p><span class="font-semibold">Тип рейса:</span> {{ flight.flight_type.value|title }}</p>
+      <p>
+        <span class="font-semibold">Статус:</span>
+        <span
+          class="px-2 py-1 rounded-full text-sm font-medium {% if flight.flight_status.name == 'CANCELED' %}bg-red-100 text-red-700 {% elif flight.flight_status.name == 'DELAYED' %}bg-yellow-100 text-yellow-700 {% elif flight.flight_status.name == 'BOARDING' %}bg-blue-100 text-blue-700 {% elif flight.flight_status.name == 'LANDED' %}bg-green-100 text-green-700 {% else %}bg-gray-100 text-gray-700{% endif %}"
+        >
+          {{ flight.flight_status.name }}
+        </span>
+      </p>
+      <p><span class="font-semibold">Номер гейта:</span> {{ flight.gate_number }}</p>
+    </div>
+
+    <div>
+      <p><span class="font-semibold">Вылет:</span> {{ flight.departure_time.strftime("%d.%m.%Y %H:%M") }}</p>
+      <p><span class="font-semibold">Прилёт:</span> {{ flight.arrival_time.strftime("%d.%m.%Y %H:%M") }}</p>
+    </div>
+  </div>
+  {% if user_reserved_seats and flight.flight_status.name == 'SCHEDULED' %}
+  <hr class="my-6 border-gray-200" />
+  <h2 class="text-xl font-semibold mb-3 text-gray-800">Ваши бронирования</h2>
+  {% for seat in user_reserved_seats %}
+  <form
+    action="/book/delete"
+    method="post"
+    style="display: inline"
+    onsubmit="return confirm('Вы уверены, что хотите отменить бронь?');"
+  >
+    <input type="hidden" name="seat_id" value="{{ seat.id_seat }}" />
+    <input type="hidden" name="flight_id" value="{{ flight.id_flight }}" />
+    <button
+      type="submit"
+      class="mb-2 inline-block w-20 py-2 rounded-lg bg-blue-100 text-blue-700 hover:text-red-700 hover:bg-red-200 transition"
+    >
+      {{ seat.seat_number }}
+    </button>
+  </form>
+  {% endfor %} {% endif %} {% if flight.flight_status.name == 'SCHEDULED' %}
+  <hr class="my-6 border-gray-200" />
+  <h2 class="text-xl font-semibold mb-3 text-gray-800">Доступные места</h2>
+
+  <div class="flex justify-center items-center my-12">
+    <div class="grid grid-cols-6 gap-y-3 justify-items-center w-2/3">
+      {% for seat in flight.seats %}
+        {% if seat.seat_number.endswith('C') %}
+          <div></div>
+        {% endif %}
+
+        <div class="text-center">
+          {% if seat.id_seat in reserved_seat_ids %}
+            <span class="inline-block w-20 py-2 rounded-lg bg-gray-300 text-gray-600 cursor-not-allowed">
+              {{ seat.seat_number }}
+            </span>
+          {% else %}
+            <form action="/book" method="post" style="display: inline">
+              <input type="hidden" name="seat_id" value="{{ seat.id_seat }}" />
+              <input type="hidden" name="flight_id" value="{{ flight.id_flight }}" />
+              <button
+                type="submit"
+                class="inline-block w-20 py-2 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+              >
+                {{ seat.seat_number }}
+              </button>
+            </form>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+    <hr class="my-6 border-gray-200" />
+
+    <h2 class="text-xl font-semibold mb-3 text-gray-800">Все пассажиры рейса</h2>
+
+    <div class="text-center">
+      {% for user in flight_users %} {{ user.full_name }}<br />
+      {% endfor %}
+    </div>
+    {% if reviews %}
+    <hr class="my-6 border-gray-200" />
+
+    <h2 class="text-xl font-semibold mb-3 text-gray-800">Отзывы</h2>
+
+    <form action="/review" method="post" class="bg-gray-50 p-4 rounded-lg shadow-sm w-full mb-4">
+      <input type="hidden" name="flight_id" value="{{ flight.id_flight }}" />
+
+      <label class="block mb-2 font-medium text-gray-700">Оценка комфорта (1–10):</label>
+      <input
+        type="number"
+        name="rating"
+        min="1"
+        max="5"
+        required
+        class="w-24 px-2 py-1 border rounded-md focus:ring focus:ring-blue-200"
+      />
+
+      <label class="block mt-4 mb-2 font-medium text-gray-700">Комментарий:</label>
+      <textarea
+        name="comment"
+        rows="3"
+        required
+        placeholder="Поделитесь впечатлением..."
+        class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-blue-200"
+      ></textarea>
+
+      <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+        Оставить отзыв
+      </button>
+    </form>
+
+    {% for review in reviews %}
+    <div class="p-4 mb-4 border-l-4 border-blue-400 bg-gray-50 rounded-md shadow-sm break-words">
+      <div class="flex items-center justify-between">
+        <p class="font-semibold text-gray-800">{{ review.user.first_name }} {{ review.user.last_name }}</p>
+        <p class="text-sm text-gray-500">{{ review.created_at.strftime("%d.%m.%Y %H:%M") }}</p>
+      </div>
+
+      <div class="mt-2 ml-4">
+        <p class="text-gray-700 italic mb-1 break-words">“{{ review.comment }}”</p>
+        <p class="text-yellow-500 font-medium">
+          {% for _ in range(review.rating) %}⭐{% endfor %}
+          <span class="text-gray-600 text-sm ml-2">({{ review.rating }}/10)</span>
+        </p>
+      </div>
+    </div>
+    {% endfor %} {% endif %}
+    <div class="mt-8 text-center">
+      <a href="/flights" class="text-blue-600 hover:underline">← Вернуться к списку рейсов</a>
+    </div>
+  </div>
+  {% endblock %}
+</div>

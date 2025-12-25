@@ -1,0 +1,10 @@
+site_name: Отчёт по лабораторной работе №1
+theme:
+  name: material  # можно default
+nav:
+  - Главная: index.md
+  - Задание 1: task1.md
+  - Задание 2: task2.md
+  - Задание 3: task3.md
+  - Задание 4: task4.md
+  - Задание 5: task5.md

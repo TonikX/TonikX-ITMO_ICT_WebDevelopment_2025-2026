@@ -1,0 +1,29 @@
+services:
+  # backend:
+  #   container_name: backend
+  #   build:
+  #     context: ./backend
+  #   ports:
+  #     - '8000:8000'
+  #   depends_on:
+  #     - postgre
+  #   environment:
+  #     - DATABASE_URL=postgresql+psycopg://postgres:web_password_1991@localhost:5432/mydatabase
+  #   restart: unless-stopped
+  #   command: uvicorn src.main:app --host 0.0.0.0 --port 8000
+
+  postgre:
+    image: postgres:15
+    container_name: postgre
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: web_password_1991
+      POSTGRES_DB: mydatabase
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
