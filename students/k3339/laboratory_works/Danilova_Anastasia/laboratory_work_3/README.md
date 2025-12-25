@@ -2,4 +2,4 @@
 #### Студент: Данилова Анастасия Алексеевна K3339
 
 
-Дока с отчетом доступна по ![ссылке](https://ndanilova.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/)
+Дока с отчетом доступна по [ссылке](https://ndanilova.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/)
