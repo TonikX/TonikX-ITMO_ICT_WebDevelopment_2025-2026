@@ -181,11 +181,13 @@ def teacher_subject(request, subject_id):
         has_profile = True
         subject = get_object_or_404(Subject, id=subject_id)
         groups = subject.get_classes_with_subject()
+        subject_data = get_subject_metrics(teacher, subject)
     except Teacher.DoesNotExist:
         teacher = None
         has_profile = False
         subject = None
         groups = []
+        subject_data = None
 
     context = {
         'user': request.user,
@@ -193,6 +195,7 @@ def teacher_subject(request, subject_id):
         'has_profile': has_profile,
         'subject': subject,
         'groups': groups,
+        'subject_data': subject_data,
     }
     return render(request, 'board/teacher_subject.html', context)
 

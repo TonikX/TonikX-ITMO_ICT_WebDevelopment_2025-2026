@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_2/homework_manager" />
+        <option name="settingsModule" value="homework_manager/settings.py" />
+        <option name="manageScript" value="$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_2/homework_manager/manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
+        <option name="doNotUseTestRunner" value="false" />
+        <option name="trackFilePattern" value="migrations" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_2/homework_manager" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/Danilova_Anastasia/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_2/laboratory_work_2/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_3/lab3/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/practical_works/Danilova_Anastasia/simple_django_web_project/proj-env/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/practical_works/Danilova_Anastasia/simple_drf_project/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/practical_works/Danilova_Anastasia/simple_drf_project/site" />
+      <excludeFolder url="file://$MODULE_DIR$/students/k3339/laboratory_works/Danilova_Anastasia/laboratory_work_3/site" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PackageRequirementsSettings">
+    <option name="removeUnused" value="true" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+  </component>
+</module>

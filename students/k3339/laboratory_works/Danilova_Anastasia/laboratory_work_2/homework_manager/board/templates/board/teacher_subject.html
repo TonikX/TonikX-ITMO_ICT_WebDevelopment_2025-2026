@@ -47,8 +47,43 @@
 <div class="content container-fluid my-3">
     <div class="">
         {% if has_profile %}
-       <h1> {{ subject.name }} </h1>
+        <h1> {{ subject.name }} </h1>
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="badge bg-light text-dark">Rate: {{ subject_data.rate }}</span>
+                </div>
+            </div>
+            <div class="card-body">
 
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="">Group</th>
+                        <th scope="col" class="">Students</th>
+                        <th scope="col" class="">Submitted</th>
+                        <th scope="col" class="">Ungraded</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for group_data in subject_data.groups_with_data %}
+                    <tr>
+                        <th scope="row"><a
+                                href="{% url 'teacher_school_class' group_data.class.id subject_data.subject.id %}"
+                                class="text-decoration-none">{{ group_data.class.name }}</a>
+                        </th>
+                        <td>{{ group_data.students }}</td>
+                        <td>{{ subject_data.submitted_homeworks|length }}</td>
+                        <td>{{ subject_data.ungraded_homeworks|length }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
 
         {% else %}
         <p>Your classes and subjects will appear later.</p>

@@ -72,69 +72,7 @@
                 </div>
             </div>
         </header>
-
-        <!-- Filter Navigation Pills -->
-        <ul class="nav nav-pills mb-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">
-                    <i class="bi bi-filter me-1"></i>Filter by Subject
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?">All Subjects</a></li>
-                    {% for subject in teacher.subjects.all %}
-                    <li><a class="dropdown-item" href="?subject={{ subject.name }}">{{ subject.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">
-                    <i class="bi bi-people me-1"></i>Filter by Status
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?">All Statuses</a></li>
-                    <li><a class="dropdown-item" href="?status=graded">Graded</a></li>
-                    <li><a class="dropdown-item" href="?status=submitted">Submitted</a></li>
-                    <li><a class="dropdown-item" href="?status=pending">Pending</a></li>
-                    <li><a class="dropdown-item" href="?status=overdue">Overdue</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">
-                    <i class="bi bi-calendar me-1"></i>Filter by Date
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?">All Dates</a></li>
-                    <li><a class="dropdown-item" href="?date=today">Today</a></li>
-                    <li><a class="dropdown-item" href="?date=week">This Week</a></li>
-                    <li><a class="dropdown-item" href="?date=month">This Month</a></li>
-                    <li><a class="dropdown-item" href="?date=overdue">Overdue</a></li>
-                </ul>
-            </li>
-            {% if request.GET %}
-            <li class="nav-item ms-auto">
-                <a class="nav-link text-danger" href="?">
-                    <i class="bi bi-x-circle me-1"></i>Clear Filters
-                </a>
-            </li>
-            {% endif %}
         </ul>
-
-        <!-- Active Filters Display -->
-        {% if request.GET %}
-        <div class="alert alert-info d-flex align-items-center">
-            <i class="bi bi-info-circle me-2"></i>
-            <div>
-                <strong>Active filters:</strong>
-                {% if request.GET.subject %}Subject: {{ request.GET.subject }}{% endif %}
-                {% if request.GET.status %}Status: {{ request.GET.status }}{% endif %}
-                {% if request.GET.date %}Date: {{ request.GET.date }}{% endif %}
-                <a href="?" class="btn btn-sm btn-outline-danger ms-2">Clear all</a>
-            </div>
-        </div>
-        {% endif %}
 
         <!-- Assignments Table -->
         <div class="table-responsive">
@@ -144,7 +82,7 @@
                     <th>
                         <a href="?sort=subject{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
                            class="text-white text-decoration-none">
-                            Subject <i class="bi bi-arrow-down-up"></i>
+                            Subject
                         </a>
                     </th>
                     <th class="text-white">Student</th>
@@ -154,14 +92,14 @@
                     <th>
                         <a href="?sort=last_edited{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
                            class="text-white text-decoration-none">
-                            Last Edited <i class="bi bi-arrow-down-up"></i>
+                            Last Edited
                         </a>
                     </th>
                     <th class="text-white">Date Submitted</th>
                     <th>
                         <a href="?sort=due_date{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
                            class="text-white text-decoration-none">
-                            Due Date <i class="bi bi-arrow-down-up"></i>
+                            Due Date
                         </a>
                     </th>
                     <th class="text-white">Date Assigned</th>

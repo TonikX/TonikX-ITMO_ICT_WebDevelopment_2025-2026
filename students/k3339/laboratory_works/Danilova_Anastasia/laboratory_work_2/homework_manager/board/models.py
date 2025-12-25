@@ -99,7 +99,8 @@ class Student(models.Model):
             submissions = submissions.filter(homework__subject=subject)
 
         if submissions.exists():
-            return submissions.aggregate(models.Avg('grade'))['grade__avg']
+            avg =  submissions.aggregate(models.Avg('grade'))['grade__avg']
+            return round(avg, 2) if avg is not None else None
         return None
 
     def get_submitted_homeworks(self):

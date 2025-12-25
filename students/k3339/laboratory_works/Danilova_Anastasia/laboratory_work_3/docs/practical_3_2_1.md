@@ -54,8 +54,8 @@ path('skills/create/', SkillCreateView.as_view()),
 
 GET:
 
-![img.png](img.png)
+![img.png](images/img.png)
 
 PUT:
 
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)

@@ -47,7 +47,7 @@ class ObjectStatusReportView(generics.ListAPIView):
 
 **Результат:**
 
-![img_40.png](img_40.png)
+![img_40.png](images/img_40.png)
 
 
 ### 2. Для каждого сотрудника вывести количество объектов, которые он обслуживает.
@@ -78,7 +78,7 @@ class WorkerObjectCountView(generics.ListAPIView):
 
 **Результат:**
 
-![img_41.png](img_41.png)
+![img_41.png](images/img_41.png)
 
 
 ### 3. Для заданного сотрудника вывести список сотрудников, работающих на тех же объектах, что и заданный.
@@ -105,7 +105,7 @@ class WorkerColleaguesListAPIView(generics.ListAPIView):
 
 **Результат:**
 
-![img_42.png](img_42.png)
+![img_42.png](images/img_42.png)
 
 
 ### 4. Найти самый популярный по количеству высаженных единиц вид растения на обслуживаемых объектах.
@@ -159,7 +159,7 @@ class MostPlantedSpeciesPerObjectView(APIView):
 
 **Результат:**
 
-![img_43.png](img_43.png)
+![img_43.png](images/img_43.png)
 
 ### 5. Для каждого сотрудника вывести количество обслуживаемых растений на каждом объекте в заданный период времени.
    
@@ -231,7 +231,7 @@ class WorkerPlantsPerObjectView(APIView):
 
 **Результат:**
 
-![img_44.png](img_44.png)
+![img_44.png](images/img_44.png)
 
 
 
@@ -337,4 +337,4 @@ class PlantsByLifeFormReportView(APIView):
 
 **Результат:**
 
-![img_45.png](img_45.png)
+![img_45.png](images/img_45.png)

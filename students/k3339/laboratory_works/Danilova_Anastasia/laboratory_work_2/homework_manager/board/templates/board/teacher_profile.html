@@ -95,8 +95,8 @@
                         <td>{{ subject.students|length }}</td>
                         <td>{{ subject.get_active_homeworks|length }}</td>
                         <td>{{ subject.ungraded_homeworks|length }}</td>
-                        <td> {% if rate %}
-                            {{ rate }}
+                        <td> {% if subject.rate %}
+                            {{ subject.rate }}
                             {% else %}
                             No submissions yet
                             {% endif %}
@@ -154,7 +154,11 @@
                     <tbody>
                     {% for data in today_submissions_data %}
                     <tr>
-                        <td>{{ data.submission.student.user.first_name }} {{ data.submission.student.user.last_name }}
+
+                        <td><a href="{% url 'teacher_assignment_detail' data.submission.id %}"
+                               class="text-decoration-none">
+                            {{ data.submission.student.user.get_full_name }}
+                        </a>
                         </td>
                         <td>{{ data.submission.student.school_class }}</td>
                         <td>{{ data.submission.homework.subject }}</td>

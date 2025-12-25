@@ -43,6 +43,7 @@ nav:
       - 'Диаграмма модели': models.md
       - 'API': API.md
       - 'Запросы': report_app.md
+      - 'Djoser': djoser.md
 
 plugins:
   - search

@@ -35,9 +35,9 @@ class ObjectAdmin(admin.ModelAdmin):
 
 После создаем суперюзера и заходим в админку:
 
-![img_9.png](img_9.png)
+![img_9.png](images/img_9.png)
 
 
 Далее можно заметить, что фильтрация и поиск действительно работают в классах, для которых это прописано:
 
-![img_10.png](img_10.png)
+![img_10.png](images/img_10.png)

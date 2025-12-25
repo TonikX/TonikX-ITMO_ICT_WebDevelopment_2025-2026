@@ -272,14 +272,14 @@ urlpatterns = [
 path('enterprises/', EnterpriseListAPIView.as_view()),
 ```
 
-![img_11.png](img_11.png)
-![img_13.png](img_13.png)
+![img_11.png](images/img_11.png)
+![img_13.png](images/img_13.png)
 
 ```python
     path('enterprises/<int:pk>/', EnterpriseDetailAPIView.as_view()),
 ```
 
-![img_12.png](img_12.png)
+![img_12.png](images/img_12.png)
 
 
 ##### **services**
@@ -288,13 +288,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('services/', ServiceListAPIView.as_view()),
 ```
 
-![img_14.png](img_14.png)
+![img_14.png](images/img_14.png)
 
 ```python
     path('services/<int:pk>/', ServiceDetailAPIView.as_view()),
 ```
 
-![img_15.png](img_15.png)
+![img_15.png](images/img_15.png)
 
 
 ##### **objects**
@@ -303,13 +303,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('objects/', ObjectListAPIView.as_view()),
 ```
 
-![img_16.png](img_16.png)
+![img_16.png](images/img_16.png)
 
 ```python
     path('objects/<int:pk>/', ObjectDetailAPIView.as_view()),
 ```
 
-![img_17.png](img_17.png)
+![img_17.png](images/img_17.png)
 
 
 ##### **contracts**
@@ -318,13 +318,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('contracts/', ContractListAPIView.as_view()),
 ```
 
-![img_18.png](img_18.png)
+![img_18.png](images/img_18.png)
 
 ```python
     path('contracts/<int:pk>/', ContractDetailAPIView.as_view()),
 ```
 
-![img_19.png](img_19.png)
+![img_19.png](images/img_19.png)
 
 
 ##### **decorators**
@@ -333,13 +333,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('decorators/', DecoratorListAPIView.as_view()),
 ```
 
-![img_20.png](img_20.png)
+![img_20.png](images/img_20.png)
 
 ```python
     path('decorators/<int:pk>/', DecoratorDetailAPIView.as_view()),
 ```
 
-![img_21.png](img_21.png)
+![img_21.png](images/img_21.png)
 
 
 ##### **objectzones**
@@ -348,13 +348,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('objectzones/', ObjectZoneListAPIView.as_view()),
 ```
 
-![img_22.png](img_22.png)
+![img_22.png](images/img_22.png)
 
 ```python
     path('objectzones/<int:pk>/', ObjectZoneDetailAPIView.as_view()),
 ```
 
-![img_23.png](img_23.png)
+![img_23.png](images/img_23.png)
 
 
 ##### **plants**
@@ -363,13 +363,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
         path('plants/', PlantListAPIView.as_view()),
 ```
 
-![img_24.png](img_24.png)
+![img_24.png](images/img_24.png)
 
 ```python
     path('plants/<int:pk>/', PlantDetailAPIView.as_view()),
 ```
 
-![img_25.png](img_25.png)
+![img_25.png](images/img_25.png)
 
 
 ##### **plantplacements**
@@ -378,13 +378,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('plantplacements/', PlantPlacementListAPIView.as_view()),
 ```
 
-![img_26.png](img_26.png)
+![img_26.png](images/img_26.png)
 
 ```python
     path('plantplacements/<int:pk>/', PlantPlacementDetailAPIView.as_view()),
 ```
 
-![img_27.png](img_27.png)
+![img_27.png](images/img_27.png)
 
 
 ##### **lifeforms**
@@ -393,13 +393,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('lifeforms/', LifeFormListAPIView.as_view()),
 ```
 
-![img_28.png](img_28.png)
+![img_28.png](images/img_28.png)
 
 ```python
     path('lifeforms/<int:pk>/', LifeFormDetailAPIView.as_view()),
 ```
 
-![img_29.png](img_29.png)
+![img_29.png](images/img_29.png)
 
 
 ##### **species**
@@ -408,13 +408,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('species/', SpeciesListAPIView.as_view()),
 ```
 
-![img_30.png](img_30.png)
+![img_30.png](images/img_30.png)
 
 ```python
     path('species/<int:pk>/', SpeciesDetailAPIView.as_view()),
 ```
 
-![img_31.png](img_31.png)
+![img_31.png](images/img_31.png)
 
 
 ##### **plantwateringschedules**
@@ -423,13 +423,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('plantwateringschedules/', PlantWateringScheduleListAPIView.as_view()),
 ```
 
-![img_32.png](img_32.png)
+![img_32.png](images/img_32.png)
 
 ```python
     path('plantwateringschedules/<int:pk>/', PlantWateringScheduleDetailAPIView.as_view()),
 ```
 
-![img_33.png](img_33.png)
+![img_33.png](images/img_33.png)
 
 
 
@@ -439,13 +439,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('workers/', WorkerListAPIView.as_view()),
 ```
 
-![img_34.png](img_34.png)
+![img_34.png](images/img_34.png)
 
 ```python
     path('workers/<int:pk>/', WorkerDetailFullAPIView.as_view()),
 ```
 
-![img_35.png](img_35.png)
+![img_35.png](images/img_35.png)
 
 
 ##### **workerassignments**
@@ -454,13 +454,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('workerassignments/', WorkerAssignmentListAPIView.as_view()),
 ```
 
-![img_36.png](img_36.png)
+![img_36.png](images/img_36.png)
 
 ```python
     path('workerassignments/<int:pk>/', WorkerAssignmentDetailAPIView.as_view()),
 ```
 
-![img_37.png](img_37.png)
+![img_37.png](images/img_37.png)
 
 
 ##### **objectworkers**
@@ -469,13 +469,13 @@ path('enterprises/', EnterpriseListAPIView.as_view()),
     path('objectworkers/', ObjectWorkerListAPIView.as_view()),
 ```
 
-![img_38.png](img_38.png)
+![img_38.png](images/img_38.png)
 
 ```python
     path('objectworkers/<int:pk>', ObjectWorkerDetailAPIView.as_view()),
 ```
 
-![img_39.png](img_39.png)   
+![img_39.png](images/img_39.png)   
 
 
 
