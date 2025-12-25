@@ -1,22 +1,37 @@
-from collections import defaultdict
+## Запросы
 
-from django.db.models import Count
-from parks_app.models import PlantWorkerAssignment, Object
-from parks_app.models import PlantWorkerAssignment, Object
-from parks_app.serializers import *
-from parks_app.serializers import *
-from rest_framework import generics
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
-from rest_framework.views import APIView
+В тексте варианта были прописаны следующие запросы:
 
-from .serializers import *
-from .serializers import WorkerObjectPlantCountSerializer
+```text
+Перечень возможных запросов:
 
+1. Вывести информацию о количестве обслуживаемых и необслуживаемых
+   объектов.
+2. Для каждого сотрудника вывести количество объектов, которые он
+   обслуживает.
+3. Для заданного сотрудника вывести список сотрудников, работающих на тех же
+   объектах, что и заданный.
+4. Найти самый популярный по количеству высаженных единиц вид растения на
+   обслуживаемых объектах.
+5. Для каждого сотрудника вывести количество обслуживаемых растений на
+   каждом объекте в заданный период времени.
 
-# Create your views here.
+Необходимо предусмотреть возможность получения отчета, в котором отражается
+информация об обслуживаемых растениях по жизненным формам и видам по каждому
+объекту с указанием их общего количества по видам, по объекту и суммарно по всем
+объектам.
+```
 
+Для реализации данных запросов было решено сделать отдельное приложение для отчетных запросов под названием report_app.
 
+У него были прописаны свои сериализаторы для сложных запросов, свои вью и соотвественно урлы, по которым лежат
+результаты этих запросов.
+
+### 1. Вывести информацию о количестве обслуживаемых и необслуживаемых объектов.
+   
+Здесь сериализатор не требуется, во views.py:
+
+```python
 class ObjectStatusReportView(generics.ListAPIView):
     def get(self, request):
         total = Object.objects.count()
@@ -28,12 +43,49 @@ class ObjectStatusReportView(generics.ListAPIView):
                          'serviced_percent': round(serviced / total * 100, 1) if total > 0 else 0
                          })
 
+```
 
+**Результат:**
+
+![img_40.png](img_40.png)
+
+
+### 2. Для каждого сотрудника вывести количество объектов, которые он обслуживает.
+   
+serializers.py:
+
+```python
+class WorkerWithObjectsSerializer(serializers.ModelSerializer):
+    active_objects_count = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Worker
+        fields = ["id", "first_name", "last_name", "middle_name", "phone_number", "address", "active_objects_count"]
+
+    def get_active_objects_count(self, obj):
+        return obj.object_assignments.filter(
+            end_date__isnull=True
+        ).count()
+```
+
+views.py: 
+
+```python
 class WorkerObjectCountView(generics.ListAPIView):
     serializer_class = WorkerWithObjectsSerializer
     queryset = Worker.objects.all()
+```
+
+**Результат:**
+
+![img_41.png](img_41.png)
 
 
+### 3. Для заданного сотрудника вывести список сотрудников, работающих на тех же объектах, что и заданный.
+
+views.py: 
+
+```python
 class WorkerColleaguesListAPIView(generics.ListAPIView):
     serializer_class = WorkerSerializer
 
@@ -49,8 +101,28 @@ class WorkerColleaguesListAPIView(generics.ListAPIView):
         ).exclude(
             id=worker_id
         ).distinct()
+```
+
+**Результат:**
+
+![img_42.png](img_42.png)
 
 
+### 4. Найти самый популярный по количеству высаженных единиц вид растения на обслуживаемых объектах.
+
+serializers.py:
+
+```python
+class MostPlantedSpeciesPerObjectSerializer(serializers.Serializer):
+    object_id = serializers.IntegerField()
+    object_name = serializers.CharField()
+    most_planted_species = serializers.CharField()
+    most_planted_species_count = serializers.IntegerField()
+```
+
+views.py: 
+
+```python
 class MostPlantedSpeciesPerObjectView(APIView):
 
     def get(self, request):
@@ -83,9 +155,28 @@ class MostPlantedSpeciesPerObjectView(APIView):
 
         serializer = MostPlantedSpeciesPerObjectSerializer(results, many=True)
         return Response(serializer.data)
+```
 
+**Результат:**
 
+![img_43.png](img_43.png)
 
+### 5. Для каждого сотрудника вывести количество обслуживаемых растений на каждом объекте в заданный период времени.
+   
+serializers.py:
+
+```python
+class WorkerObjectPlantCountSerializer(serializers.Serializer):
+    worker_id = serializers.IntegerField()
+    worker_name = serializers.CharField()
+    object_id = serializers.IntegerField()
+    object_name = serializers.CharField()
+    plants_count = serializers.IntegerField()
+```
+
+views.py: 
+
+```python
 class WorkerPlantsPerObjectView(APIView):
 
     def get(self, request):
@@ -136,8 +227,45 @@ class WorkerPlantsPerObjectView(APIView):
 
         serializer = WorkerObjectPlantCountSerializer(results, many=True)
         return Response(serializer.data)
+```
+
+**Результат:**
+
+![img_44.png](img_44.png)
 
 
+
+### 6. Отчет об обслуживаемых растениях по жизненным формам и видам
+
+views.py: 
+
+```python
+class SpeciesReportSerializer(serializers.Serializer):
+    species = serializers.CharField()
+    count = serializers.IntegerField()
+
+
+class LifeFormReportSerializer(serializers.Serializer):
+    life_form = serializers.CharField()
+    life_form_total = serializers.IntegerField()
+    species = SpeciesReportSerializer(many=True)
+
+
+class ObjectPlantReportSerializer(serializers.Serializer):
+    object_id = serializers.IntegerField()
+    object_name = serializers.CharField()
+    object_total = serializers.IntegerField()
+    life_forms = LifeFormReportSerializer(many=True)
+
+
+class PlantsSummaryReportSerializer(serializers.Serializer):
+    total_plants = serializers.IntegerField()
+    objects = ObjectPlantReportSerializer(many=True)
+```
+
+serializers.py:
+
+```python
 class PlantsByLifeFormReportView(APIView):
 
     def get(self, request):
@@ -204,3 +332,9 @@ class PlantsByLifeFormReportView(APIView):
         })
 
         return Response(serializer.data)
+
+```
+
+**Результат:**
+
+![img_45.png](img_45.png)

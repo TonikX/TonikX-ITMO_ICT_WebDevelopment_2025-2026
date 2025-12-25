@@ -38,8 +38,11 @@ nav:
       - 'Практическое задание 1': practical_3_2_1.md
       - 'Практическое задание 2': practical_3_2_2.md
   - 'Лабораторная работа 3':
-      - 'Отчет': lab_report.md
+      - 'Задание': lab_report.md
+      - 'Админка': admin.md
       - 'Диаграмма модели': models.md
+      - 'API': API.md
+      - 'Запросы': report_app.md
 
 plugins:
   - search
