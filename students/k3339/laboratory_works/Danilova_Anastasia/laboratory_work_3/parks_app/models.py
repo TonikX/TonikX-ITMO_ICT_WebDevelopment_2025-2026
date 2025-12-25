@@ -32,23 +32,25 @@ class Enterprise(models.Model):
     name = models.CharField(max_length=200)
     legal_address = models.CharField(max_length=200)
     ogrn = models.CharField(max_length=200)
+    services = models.ManyToManyField('Services', related_name='enterprises')
 
 
 class Services(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    enterprise = models.OneToOneField(Enterprise, on_delete=models.CASCADE, related_name='services')
-
 
 class Object(models.Model):
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    is_serviced = models.BooleanField(default=False)
     decorators = models.ManyToManyField('Decorator', related_name='serviced_objects', blank=True)
+
+    @property
+    def is_serviced(self):
+        return self.contracts.filter(is_active=True).exists()
 
 
 class Contract(models.Model):
     enterprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE, related_name='contracts')
-    object = models.ForeignKey(Object, on_delete=models.CASCADE, related_name='contract_objects')
+    object = models.ForeignKey(Object, on_delete=models.CASCADE, related_name='contracts')
     contract_number = models.CharField(max_length=200)
     contract_date = models.DateField()
     description = models.TextField()
@@ -81,6 +83,8 @@ class Plant(models.Model):
     @property
     def current_age(self):
         first_placement = self.placements.order_by('planted_date').first()
+        if not first_placement:
+            return self.initial_age
         today = timezone.now().year
         return self.initial_age + (today - first_placement.planted_date.year)
 
@@ -90,6 +94,9 @@ class PlantPlacement(models.Model):
     zone = models.ForeignKey('ObjectZone', on_delete=models.CASCADE, related_name='placements')
     unique_number = models.IntegerField()
     planted_date = models.DateField()
+
+    class Meta:
+        unique_together = (('zone', 'unique_number'),)
 
 
 class LifeForm(models.Model):
@@ -156,3 +163,13 @@ class PlantWorkerAssignment(models.Model):
     plant = models.ForeignKey('Plant', on_delete=models.CASCADE, related_name='worker_assignments')
     worker = models.ForeignKey('Worker', on_delete=models.CASCADE, related_name='worker_assignments')
     date = models.DateField()
+
+    class Meta:
+        unique_together = (('plant', 'date'),)
+
+class ObjectWorkerAssignment(models.Model):
+    object = models.ForeignKey(Object, on_delete=models.CASCADE, related_name='worker_assignments')
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='object_assignments')
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+

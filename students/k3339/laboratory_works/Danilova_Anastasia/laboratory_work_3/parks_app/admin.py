@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Services, Enterprise, Object, Contract, Decorator, ObjectZone, Plant, \
-    PlantPlacement, LifeForm, Species, PlantWateringSchedule, Worker, PlantWorkerAssignment
+    PlantPlacement, LifeForm, Species, PlantWateringSchedule, Worker, PlantWorkerAssignment, ObjectWorkerAssignment
 
 
 # Register your models here.
@@ -19,9 +19,15 @@ class EnterpriseAdmin(admin.ModelAdmin):
 
 @admin.register(Object)
 class ObjectAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "is_serviced")
-    list_filter = ("is_serviced",)
+    list_display = ("id", "name", "is_serviced_display")
     search_fields = ("name",)
+    list_filter = ("contracts__is_active",)
+
+    def is_serviced_display(self, obj):
+        return obj.is_serviced
+
+    is_serviced_boolean = True
+    is_serviced_display.short_description = "Is Serviced"
 
 
 @admin.register(Contract)
@@ -117,5 +123,11 @@ class PlantWorkerAssignmentAdmin(admin.ModelAdmin):
         return obj.full_name
 
     get_full_name.admin_order_field = "full_name"
+
+@admin.register(ObjectWorkerAssignment)
+class ObjectWorkerAssignmentAdmin(admin.ModelAdmin):
+    list_display = ("object_id", "worker_id", "start_date", "end_date")
+    list_filter = ("start_date", "end_date",)
+    search_fields = ("worker__first_name", "worker__last_name", "object__name", "object__address")
 
 

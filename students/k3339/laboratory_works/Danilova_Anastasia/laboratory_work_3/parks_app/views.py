@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models import Exists, OuterRef, Subquery
 from .serializers import *
 
 
@@ -97,11 +98,17 @@ class PlantWateringScheduleDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class WorkerListAPIView(generics.ListCreateAPIView):
     queryset = Worker.objects.all()
-    serializer_class = WorkerSerializer
+    serializer_class = WorkerFullSerializer
 
 class WorkerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Worker.objects.all()
     serializer_class = WorkerSerializer
+
+class WorkerDetailFullAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Worker.objects.all()
+    serializer_class = WorkerFullSerializer
+
+
 
 class WorkerAssignmentListAPIView(generics.ListCreateAPIView):
     queryset = PlantWorkerAssignment.objects.all()
@@ -110,4 +117,12 @@ class WorkerAssignmentListAPIView(generics.ListCreateAPIView):
 class WorkerAssignmentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PlantWorkerAssignment.objects.all()
     serializer_class = PlantWorkerAssignmentSerializer
+
+class ObjectWorkerListAPIView(generics.ListCreateAPIView):
+    queryset = ObjectWorkerAssignment.objects.all()
+    serializer_class = ObjectWorkerAssignmentSerializer
+
+class ObjectWorkerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ObjectWorkerAssignment.objects.all()
+    serializer_class = ObjectWorkerAssignmentSerializer
 
