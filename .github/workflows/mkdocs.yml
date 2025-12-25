@@ -1,0 +1,47 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'students/k3341/laboratory_works/Fochenkov_Semyon/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Полная история для git-revision-date-localized
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+
+      - name: Build MkDocs site
+        working-directory: students/k3341/laboratory_works/Fochenkov_Semyon
+        run: mkdocs build
+
+      - name: Create .nojekyll file
+        working-directory: students/k3341/laboratory_works/Fochenkov_Semyon/site
+        run: touch .nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: students/k3341/laboratory_works/Fochenkov_Semyon/site
+          cname: false
+

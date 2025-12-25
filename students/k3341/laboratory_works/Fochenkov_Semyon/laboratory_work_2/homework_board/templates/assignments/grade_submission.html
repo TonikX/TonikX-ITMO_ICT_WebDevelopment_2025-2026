@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Оценка работы - {{ submission.student.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-star"></i> Оценка работы
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="submission-info mb-4">
+                    <h5>{{ submission.assignment.title }}</h5>
+                    <p class="text-muted">
+                        <i class="bi bi-person"></i> Студент: {{ submission.student.get_full_name }}
+                        {% if submission.student.student_id %}
+                            ({{ submission.student.student_id }})
+                        {% endif %}
+                    </p>
+                    <p class="text-muted">
+                        <i class="bi bi-book"></i> {{ submission.assignment.subject.name }} | 
+                        <i class="bi bi-calendar"></i> Сдано: {{ submission.submitted_at|date:"d.m.Y H:i" }}
+                        {% if submission.is_late %}
+                            <span class="text-warning">
+                                <i class="bi bi-exclamation-triangle"></i> С опозданием
+                            </span>
+                        {% endif %}
+                    </p>
+                </div>
+                
+                <div class="submission-content mb-4">
+                    <h6>Текст сдачи:</h6>
+                    <div class="border p-3 rounded bg-light" style="max-height: 300px; overflow-y: auto;">
+                        {{ submission.content|linebreaks }}
+                    </div>
+                </div>
+                
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.points.id_for_label }}" class="form-label">
+                                <strong>Оценка (баллы) <span class="text-danger">*</span></strong>
+                            </label>
+                            {{ form.points }}
+                            {% if form.points.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.points.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                Максимальный балл: {{ submission.assignment.max_points }}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <div class="mt-4">
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar" id="gradeProgress" role="progressbar" style="width: 0%">
+                                        <span id="gradePercentage">0%</span>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Процент выполнения</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.feedback.id_for_label }}" class="form-label">
+                            <strong>Комментарий преподавателя</strong>
+                        </label>
+                        {{ form.feedback }}
+                        {% if form.feedback.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.feedback.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            Дайте обратную связь студенту о его работе (рекомендуется)
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'grade_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Назад к списку
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check"></i> Поставить оценку
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Информация о задании
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Предмет:</strong><br>
+                    <span class="badge bg-primary">{{ submission.assignment.subject.name }}</span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Срок выполнения:</strong><br>
+                    <span class="{% if submission.assignment.is_overdue %}text-danger{% else %}text-success{% endif %}">
+                        {{ submission.assignment.due_date|date:"d.m.Y H:i" }}
+                    </span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Максимальный балл:</strong><br>
+                    <span class="badge bg-success">{{ submission.assignment.max_points }}</span>
+                </div>
+                
+                {% if submission.assignment.penalty_info %}
+                    <div class="mb-3">
+                        <strong>Штрафы за опоздание:</strong><br>
+                        <small class="text-muted">{{ submission.assignment.penalty_info|truncatechars:100 }}</small>
+                    </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <strong>Статус сдачи:</strong><br>
+                    {% if submission.is_late %}
+                        <span class="badge bg-warning">
+                            <i class="bi bi-exclamation-triangle"></i> С опозданием
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            <i class="bi bi-check-circle"></i> Вовремя
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="bi bi-person"></i> Информация о студенте
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <strong>Имя:</strong><br>
+                    {{ submission.student.get_full_name }}
+                </div>
+                
+                {% if submission.student.student_id %}
+                    <div class="mb-2">
+                        <strong>Студенческий билет:</strong><br>
+                        {{ submission.student.student_id }}
+                    </div>
+                {% endif %}
+                
+                {% if submission.student.email %}
+                    <div class="mb-2">
+                        <strong>Email:</strong><br>
+                        <a href="mailto:{{ submission.student.email }}" class="text-decoration-none">
+                            {{ submission.student.email }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add Bootstrap classes to form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const formFields = document.querySelectorAll('input, textarea');
+        formFields.forEach(function(field) {
+            field.classList.add('form-control');
+        });
+        
+        // Grade progress bar
+        const pointsInput = document.getElementById('{{ form.points.id_for_label }}');
+        const maxPoints = {{ submission.assignment.max_points }};
+        const progressBar = document.getElementById('gradeProgress');
+        const percentageSpan = document.getElementById('gradePercentage');
+        
+        function updateProgress() {
+            const points = parseInt(pointsInput.value) || 0;
+            const percentage = Math.min((points / maxPoints) * 100, 100);
+            
+            progressBar.style.width = percentage + '%';
+            percentageSpan.textContent = Math.round(percentage) + '%';
+            
+            // Change color based on percentage
+            progressBar.classList.remove('bg-success', 'bg-info', 'bg-warning', 'bg-danger');
+            if (percentage >= 90) {
+                progressBar.classList.add('bg-success');
+            } else if (percentage >= 80) {
+                progressBar.classList.add('bg-info');
+            } else if (percentage >= 70) {
+                progressBar.classList.add('bg-warning');
+            } else {
+                progressBar.classList.add('bg-danger');
+            }
+        }
+        
+        pointsInput.addEventListener('input', updateProgress);
+        updateProgress(); // Initial update
+    });
+</script>
+{% endblock %}

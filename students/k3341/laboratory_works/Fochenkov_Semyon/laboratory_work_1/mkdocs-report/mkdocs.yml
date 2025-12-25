@@ -1,0 +1,13 @@
+site_name: "Отчет по лабораторной работе"
+site_url: "https://r1ccoon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/"
+repo_url: "https://github.com/R1ccoon/TonikX-ITMO_ICT_WebDevelopment_2025-2026"
+theme:
+  name: material
+
+nav:
+  - "Главная": "index.md"
+  - "Задание 1": "task_1.md"
+  - "Задание 2": "task_2.md"
+  - "Задание 3": "task_3.md"
+  - "Задание 4": "task_4.md"
+  - "Задание 5": "task_5.md"
