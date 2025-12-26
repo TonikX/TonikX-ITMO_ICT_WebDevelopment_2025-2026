@@ -706,3 +706,7 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
 
 class AnalyticsSerializer(serializers.Serializer):
     pass
+
+
+class CompanyAnalyticsSerializer(serializers.Serializer):
+    pass

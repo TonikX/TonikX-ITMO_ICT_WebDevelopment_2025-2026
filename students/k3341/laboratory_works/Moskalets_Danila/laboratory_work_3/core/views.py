@@ -22,7 +22,7 @@ from .serializers import (
     ServiceListSerializer, ServiceDetailSerializer, ServiceCreateUpdateSerializer, SimpleServiceRequestSerializer,
     UserDetailSerializer, SimpleServiceSerializer, ServiceRequestSerializer, AnalyticsSerializer,
     ServiceRequestUpdateSerializer, SimpleUserFavoriteSerializer, UserFavoriteCreateSerializer, SimpleReviewSerializer,
-    ReviewUpdateSerializer, ReviewCreateSerializer
+    ReviewUpdateSerializer, ReviewCreateSerializer, CompanyAnalyticsSerializer
 )
 from .permissions import (
     IsServiceOwnerOrReadOnly, IsDiscountOwnerOrReadOnly,
@@ -702,6 +702,7 @@ class AnalyticsView(generics.GenericAPIView):
 
 class CompanyAnalyticsView(generics.GenericAPIView):
     permission_classes = [IsAdminUser]
+    serializer_class=CompanyAnalyticsSerializer
 
     def get(self, request, company_id):
         """Получение аналитики по компании."""
