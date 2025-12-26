@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Редактирование профиля - Табло победителей{% endblock %}
+
+{% block content %}
+{% if not is_first_time %}
+<div class="mb-4">
+    <a href="{% url 'driverprofile_detail' %}" class="btn btn-secondary btn-sm">&larr; К профилю</a>
+</div>
+{% endif %}
+
+<h1>{% if is_first_time %}Создание профиля водителя{% else %}Редактирование профиля водителя{% endif %}</h1>
+
+{% if is_first_time %}
+<div class="alert alert-info mb-4">
+    <strong>Добро пожаловать!</strong> Для начала работы заполните свой профиль водителя. 
+    Все поля, кроме полного имени, можно заполнить позже.
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">
+                {% if is_first_time %}Создать профиль{% else %}Сохранить изменения{% endif %}
+            </button>
+            {% if not is_first_time %}
+                <a href="{% url 'driverprofile_detail' %}" class="btn btn-secondary">Отмена</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if is_first_time %}
+<div class="alert alert-warning mt-3">
+    <small><strong>Обратите внимание:</strong> После заполнения профиля вы сможете регистрироваться на гонки и оставлять комментарии.</small>
+</div>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ race.title }} - Табло победителей{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'race_list' %}" class="btn btn-secondary btn-sm">&larr; К списку гонок</a>
+</div>
+
+<h1>{{ race.title }}</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Дата:</strong> {{ race.date|date:"d.m.Y" }}</p>
+        <p><strong>Место:</strong> {{ race.location }}</p>
+        {% if race.description %}
+            <p><strong>Описание:</strong><br>{{ race.description|linebreaks }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<h2 class="mt-4">Заезды и результаты</h2>
+
+{% if heats_with_results %}
+    {% for item in heats_with_results %}
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">
+                    {{ item.heat.name }} 
+                    <small class="text-muted">— {{ item.heat.start_time|date:"d.m.Y H:i" }}</small>
+                    <span class="badge bg-{% if item.heat.status == 'finished' %}success{% elif item.heat.status == 'in_progress' %}warning{% else %}secondary{% endif %} float-end">
+                        {{ item.heat.get_status_display }}
+                    </span>
+                </h5>
+                <small>Кругов: {{ item.heat.laps }} | {{ item.heat.info }}</small>
+            </div>
+            <div class="card-body p-0">
+                {% if item.results %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 60px;">#</th>
+                                    <th>Водитель</th>
+                                    <th>Команда</th>
+                                    <th>Класс</th>
+                                    <th>Время</th>
+                                    <th>Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in item.results %}
+                                    <tr>
+                                        <td>
+                                            {% if result.position %}
+                                                <strong class="{% if result.position == 1 %}text-warning{% elif result.position == 2 %}text-secondary{% elif result.position == 3 %}text-danger{% endif %}">
+                                                    {{ result.position }}
+                                                    {% if result.position == 1 %}🥇{% elif result.position == 2 %}🥈{% elif result.position == 3 %}🥉{% endif %}
+                                                </strong>
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <strong>{{ result.driver.full_name }}</strong>
+                                            {% if result.driver.car_description %}
+                                                <br><small class="text-muted">{{ result.driver.car_description }}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ result.driver.team.name|default:"—" }}</td>
+                                        <td><span class="badge bg-info">{{ result.driver.get_driver_class_display }}</span></td>
+                                        <td>
+                                            {% if result.finish_time_seconds %}
+                                                <strong>{{ result.finish_time_seconds }} сек</strong>
+                                            {% else %}
+                                                <span class="text-muted">—</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if result.status == 'finished' %}
+                                                <span class="badge bg-success">{{ result.get_status_display }}</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">{{ result.get_status_display }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="p-3 text-muted">Результатов пока нет</div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">
+        Заезды пока не назначены.
+    </div>
+{% endif %}
+
+<h2 class="mt-4">
+    Зарегистрированные участники
+    <small class="text-muted">({{ registrations_total }})</small>
+</h2>
+
+<!-- Форма поиска и сортировки участников -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="search_participants" class="form-control" 
+                       placeholder="Поиск по ФИО, команде, автомобилю или номеру..." 
+                       value="{{ search_participants }}">
+            </div>
+            <div class="col-md-4">
+                <select name="sort_participants" class="form-select">
+                    <option value="car_number" {% if sort_participants == 'car_number' %}selected{% endif %}>По номеру (возр.)</option>
+                    <option value="-car_number" {% if sort_participants == '-car_number' %}selected{% endif %}>По номеру (убыв.)</option>
+                    <option value="driver__full_name" {% if sort_participants == 'driver__full_name' %}selected{% endif %}>По имени (А-Я)</option>
+                    <option value="-driver__full_name" {% if sort_participants == '-driver__full_name' %}selected{% endif %}>По имени (Я-А)</option>
+                    <option value="driver__team__name" {% if sort_participants == 'driver__team__name' %}selected{% endif %}>По команде (А-Я)</option>
+                    <option value="driver__driver_class" {% if sort_participants == 'driver__driver_class' %}selected{% endif %}>По классу (А-C)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">🔍 Найти</button>
+            </div>
+            {% if search_participants %}
+                <div class="col-12">
+                    <a href="?#participants" class="btn btn-secondary btn-sm">✕ Сбросить фильтры</a>
+                    <span class="text-muted ms-2">Найдено: {{ registrations_total }}</span>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if registrations %}
+    <div class="table-responsive mb-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Водитель</th>
+                    <th>Команда</th>
+                    <th>Класс</th>
+                    <th>Автомобиль</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                    <tr>
+                        <td>
+                            {% if reg.car_number %}
+                                <span class="badge bg-dark">#{{ reg.car_number }}</span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td><strong>{{ reg.driver.full_name }}</strong></td>
+                        <td>{{ reg.driver.team.name|default:"—" }}</td>
+                        <td><span class="badge bg-info">{{ reg.driver.get_driver_class_display }}</span></td>
+                        <td>{{ reg.driver.car_description|default:"—" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Пагинация участников -->
+    {% if registrations.has_other_pages %}
+        <nav aria-label="Навигация по участникам" id="participants">
+            <ul class="pagination justify-content-center">
+                {% if registrations.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string_participants %}{{ query_string_participants }}&{% endif %}page_participants=1#participants">Первая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string_participants %}{{ query_string_participants }}&{% endif %}page_participants={{ registrations.previous_page_number }}#participants">‹ Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Первая</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">‹ Назад</span>
+                    </li>
+                {% endif %}
+
+                {% for num in registrations.paginator.page_range %}
+                    {% if registrations.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > registrations.number|add:'-3' and num < registrations.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if query_string_participants %}{{ query_string_participants }}&{% endif %}page_participants={{ num }}#participants">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if registrations.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string_participants %}{{ query_string_participants }}&{% endif %}page_participants={{ registrations.next_page_number }}#participants">Вперед ›</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string_participants %}{{ query_string_participants }}&{% endif %}page_participants={{ registrations.paginator.num_pages }}#participants">Последняя</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Вперед ›</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Последняя</span>
+                    </li>
+                {% endif %}
+            </ul>
+            <p class="text-center text-muted">
+                Страница {{ registrations.number }} из {{ registrations.paginator.num_pages }} 
+                (всего {{ registrations_total }} участник{{ registrations_total|pluralize:"ов,а,ов" }})
+            </p>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        {% if search_participants %}
+            По запросу "{{ search_participants }}" ничего не найдено. <a href="?#participants">Показать всех участников</a>
+        {% else %}
+            Пока нет зарегистрированных участников.
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if user.is_authenticated %}
+    {% if user.driver_profile.full_name %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Регистрация на гонку</h4>
+            </div>
+            <div class="card-body">
+                {% if user_registration %}
+                    <p class="text-success">✓ Вы зарегистрированы на эту гонку.</p>
+                    <form method="post" action="{% url 'unregister_from_race' race.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Отменить регистрацию</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'register_for_race' race.pk %}">
+                        {% csrf_token %}
+                        {{ registration_form|crispy }}
+                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            Для регистрации на гонку необходимо <a href="{% url 'driverprofile_update' %}" class="alert-link">заполнить профиль водителя</a>.
+        </div>
+    {% endif %}
+
+    {% if user.driver_profile.full_name %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Добавить комментарий</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'add_comment' race.pk %}">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <button type="submit" class="btn btn-success">Отправить</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            Для добавления комментария необходимо <a href="{% url 'driverprofile_update' %}" class="alert-link">заполнить профиль водителя</a>.
+        </div>
+    {% endif %}
+{% else %}
+    <div class="alert alert-warning">
+        <a href="{% url 'login' %}">Войдите</a>, чтобы зарегистрироваться на гонку или оставить комментарий.
+    </div>
+{% endif %}
+
+<h2 class="mt-4">Комментарии</h2>
+
+{% if comments %}
+    {% for comment in comments %}
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ comment.author.username }}</strong> — {{ comment.created_at|date:"d.m.Y H:i" }}
+                    <span class="badge bg-primary">{{ comment.get_kind_display }}</span>
+                    <span class="badge bg-warning text-dark">Рейтинг: {{ comment.rating }}/10</span>
+                </div>
+                {% if user == comment.author or is_admin %}
+                    <div>
+                        <a href="{% url 'comment_update' comment.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                        <a href="{% url 'comment_delete' comment.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        {% if is_admin and user != comment.author %}
+                            <span class="badge bg-danger">ADMIN</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <p><strong>Дата заезда:</strong> {{ comment.heat_date|date:"d.m.Y" }}</p>
+                <p>{{ comment.text|linebreaks }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">
+        Комментариев пока нет.
+    </div>
+{% endif %}
+
+{% endblock %}
+

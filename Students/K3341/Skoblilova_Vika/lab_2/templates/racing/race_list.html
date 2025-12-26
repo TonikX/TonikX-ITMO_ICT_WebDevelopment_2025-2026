@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Гонки - Табло победителей{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Автогонки</h1>
+</div>
+
+<!-- Форма поиска и сортировки -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Поиск по названию, месту или описанию..." value="{{ search_query }}">
+            </div>
+            <div class="col-md-4">
+                <select name="sort" class="form-select">
+                    <option value="-date" {% if current_sort == '-date' %}selected{% endif %}>Сначала новые</option>
+                    <option value="date" {% if current_sort == 'date' %}selected{% endif %}>Сначала старые</option>
+                    <option value="title" {% if current_sort == 'title' %}selected{% endif %}>По названию (А-Я)</option>
+                    <option value="-title" {% if current_sort == '-title' %}selected{% endif %}>По названию (Я-А)</option>
+                    <option value="location" {% if current_sort == 'location' %}selected{% endif %}>По месту (А-Я)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">🔍 Найти</button>
+            </div>
+            {% if search_query %}
+                <div class="col-12">
+                    <a href="{% url 'race_list' %}" class="btn btn-secondary btn-sm">✕ Сбросить фильтры</a>
+                    <span class="text-muted ms-2">Найдено: {{ page_obj.paginator.count }}</span>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if races %}
+    <div class="row">
+        {% for race in races %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card race-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ race.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ race.date|date:"d.m.Y" }}</h6>
+                        <p class="card-text">
+                            <strong>Место:</strong> {{ race.location }}<br>
+                            {% if race.description %}
+                                {{ race.description|truncatewords:20 }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'race_detail' race.pk %}" class="btn btn-primary btn-sm">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page=1">Первая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}">‹ Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Первая</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">‹ Назад</span>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}">Вперед ›</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Последняя</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Вперед ›</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Последняя</span>
+                    </li>
+                {% endif %}
+            </ul>
+            <p class="text-center text-muted">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} 
+                (всего {{ page_obj.paginator.count }})
+            </p>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        {% if search_query %}
+            По запросу "{{ search_query }}" ничего не найдено. <a href="{% url 'race_list' %}">Показать все гонки</a>
+        {% else %}
+            На данный момент нет опубликованных гонок.
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
+
