@@ -29,9 +29,9 @@
 
 ## Решение
 
-Приложение: [autoapp](https://github.com/euuuuuukov/ITMO_ICT_WebDevelopment_2024-2025/tree/main/students/k3341/practical_works/Kovalenko_Evgenii/simple_drf_project/autoapp)
+Приложение: [autoapp](https://github.com/viktoriaskk/TonikX-ITMO_ICT_WebDevelopment_2025-2026/tree/main/Students/K3341/Skoblilova_Vika/lab_3/pr/simple_drf_project/autoapp)
 
-Код всех заданий: [pr1.py](https://github.com/euuuuuukov/ITMO_ICT_WebDevelopment_2024-2025/blob/main/students/k3341/practical_works/Kovalenko_Evgenii/simple_drf_project/pr1.py)
+Код всех заданий: [pr1.py](https://github.com/viktoriaskk/TonikX-ITMO_ICT_WebDevelopment_2025-2026/blob/main/Students/K3341/Skoblilova_Vika/lab_3/pr/simple_drf_project/pr1.py)
 
 Вот вывод:
 ```

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5dd2e875-572a-4faa-9ba1-bbed6dfd33cd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/forms_admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/management/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/management/commands/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/management/commands/create_demo_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/tests/test_forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/tests/test_models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/tests/test_views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing_project/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing_project/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing_project/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing_project/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/racing_project/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/comment_confirm_delete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/comment_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/driverprofile_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/driverprofile_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/race_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/race_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/registration_confirm_delete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/registration_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/racing/registration_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/registration/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/registration/password_change.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/registration/password_change_done.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_2/templates/registration/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/business-logic.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/conclusion.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/installation.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/models.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/structure.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr2/views.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/lr3/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task1_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task1_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task2_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task2_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task3_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task3_html.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task3_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task4_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task4_user_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task4_user_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task5_html.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/images/task5_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/lr1/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/mkdocs.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/base.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/brands.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/fontawesome.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/solid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/css/v4-font-face.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task1_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task1_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task2_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task2_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task3_client.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task3_html.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task3_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task4_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task4_user_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task4_user_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task5_html.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/images/task5_server.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/img/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/img/grid.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/js/base.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/js/darkmode.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/search/lunr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/search/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/search/search_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/search/worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/sitemap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/sitemap.xml.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-brands-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-brands-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-regular-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-regular-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-solid-900.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-solid-900.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-v4compatibility.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Students/K3341/Skoblilova_Vika/lab_1/lab1-report/site/webfonts/fa-v4compatibility.woff2" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="37D4Mk7OVESktafTU1QjAaIPdlw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/05kov/PycharmProjects/ITMO_ICT_WebDevelopment_2024-2025&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\05kov\PycharmProjects\vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026\Students\K3341\Skoblilova_Vika\lab_3" />
+      <recent name="C:\Users\05kov\PycharmProjects\vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026\Students\K3341\Skoblilova_Vika\lab_3\pr" />
+      <recent name="C:\Users\05kov\PycharmProjects\vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026\docs\lr2" />
+      <recent name="C:\Users\05kov\PycharmProjects\vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026\Students\K3341\Skoblilova_Vika" />
+      <recent name="C:\Users\05kov\PycharmProjects\vika_TonikX-ITMO_ICT_WebDevelopment_2025-2026\docs\lr1" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-f5635417b835-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18968.29" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5dd2e875-572a-4faa-9ba1-bbed6dfd33cd" name="Changes" comment="" />
+      <created>1766424264491</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1766424264491</updated>
+    </task>
+    <servers />
+  </component>
+</project>
