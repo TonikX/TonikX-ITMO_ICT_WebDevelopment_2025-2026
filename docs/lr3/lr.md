@@ -45,4 +45,4 @@
 
 Схема БД:
 
-![Диаграмма без названия.drawio.png](%C4%E8%E0%E3%F0%E0%EC%EC%E0%20%E1%E5%E7%20%ED%E0%E7%E2%E0%ED%E8%FF.drawio.png)
+![diagram.png](diagram.png)
