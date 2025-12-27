@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Таблица успеваемости</h2>
+
+  {% if submissions %}
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Задание</th>
+          <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Студент</th>
+          <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Дата сдачи</th>
+          <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Оценка</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ submission.homework.title }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ submission.student.first_name }} {{ submission.student.last_name }} ({{ submission.student.username }})</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ submission.submission_date|date:"d.m.Y H:i" }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">
+              <strong>{{ submission.grade|default_if_none:"-" }}</strong>
+              <a href="{% url 'admin:board_submission_change' submission.pk %}" style="font-size: 0.8em; margin-left: 10px;" target="_blank">Изменить</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Пока не было сдано ни одной работы.</p>
+  {% endif %}
+{% endblock %}

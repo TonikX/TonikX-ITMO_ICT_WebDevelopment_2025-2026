@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="homework-detail">
+    <h2>{{ homework.title }}</h2>
+    <p><strong>Предмет:</strong> {{ homework.subject.name }}</p>
+    <p><strong>Преподаватель:</strong> {{ homework.teacher }}</p>
+    <p><strong>Срок сдачи:</strong> {{ homework.due_date }}</p>
+    {% if homework.penalty_info %}
+      <p><strong>Штрафы:</strong> {{ homework.penalty_info }}</p>
+    {% endif %}
+    <hr>
+    <h4>Текст задания:</h4>
+    <div class="task-text" style="white-space: pre-wrap; background: #f9f9f9; padding: 15px; border-radius: 5px;">{{ homework.task_text }}</div>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+  <div class="submission-section">
+    <h3>Сдача работы</h3>
+    {% if user.is_authenticated %}
+      {% if existing_submission %}
+        <h4>Вы уже сдали это задание</h4>
+        <p><strong>Дата сдачи:</strong> {{ existing_submission.submission_date }}</p>
+        <p><strong>Ваш ответ:</strong></p>
+        <div class="submission-text" style="white-space: pre-wrap; background: #f0f0f0; padding: 15px; border-radius: 5px;">{{ existing_submission.submission_text }}</div>
+        <p><strong>Оценка:</strong> {{ existing_submission.grade|default:"Еще не оценено" }}</p>
+      {% else %}
+        <form method="post">
+          {% csrf_token %}
+          {{ submission_form.as_p }}
+          <button type="submit">Сдать работу</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p><a href="{% url 'login' %}">Войдите</a>, чтобы сдать задание.</p>
+    {% endif %}
+  </div>
+{% endblock %}
