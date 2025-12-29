@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Мои бронирования</h1>
+
+        {% for reservation in reservations %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">{{ reservation.room_type.name }}</h5>
+                        <p class="card-text">
+                            <strong>Отель:</strong> {{ reservation.room_type.hotel.name }}<br>
+                            <strong>Даты:</strong> {{ reservation.check_in }} - {{ reservation.check_out }}<br>
+                            <strong>Статус:</strong>
+                            <span class="badge
+                                {% if reservation.status == 'confirmed' %}bg-success
+                                {% elif reservation.status == 'pending' %}bg-warning
+                                {% elif reservation.status == 'checked_in' %}bg-primary
+                                {% elif reservation.status == 'checked_out' %}bg-secondary
+                                {% else %}bg-danger{% endif %}">
+                                {{ reservation.get_status_display }}
+                            </span><br>
+                            <strong>Создано:</strong> {{ reservation.created_at|date:"d.m.Y H:i" }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="btn-group-vertical">
+                            {% if reservation.status in 'pending,confirmed' %}
+                                <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-outline-primary btn-sm mb-1">Редактировать</a>
+                                <a href="{% url 'delete_reservation' reservation.id %}" class="btn btn-outline-danger btn-sm mb-1">Удалить</a>
+                            {% endif %}
+
+                            {% if reservation.status == 'checked_out' and not reservation.review %}
+                                <a href="{% url 'add_review' reservation.id %}" class="btn btn-outline-success btn-sm mb-1">Оставить отзыв</a>
+                            {% endif %}
+
+                            {% if reservation.review %}
+                                <span class="badge bg-info">Отзыв оставлен</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            У вас пока нет бронирований.
+            <a href="{% url 'home' %}" class="alert-link">Найдите отель и забронируйте номер</a>.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if reservations.paginator.num_pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if reservations.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">Первая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reservations.previous_page_number }}"><-</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Первая</span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link"><-</span>
+            </li>
+        {% endif %}
+
+        {% for num in reservations.paginator.page_range %}
+            {% if reservations.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num > reservations.number|add:'-3' and num < reservations.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if reservations.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reservations.next_page_number }}">-></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ reservations.paginator.num_pages }}">Последняя</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">-></span>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Последняя</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="row mt-2">
+    <div class="col-12 text-center">
+        <small class="text-muted">
+            Страница {{ reservations.number }} из {{ reservations.paginator.num_pages }}
+            | Всего бронирований: {{ reservations.paginator.count }}
+        </small>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

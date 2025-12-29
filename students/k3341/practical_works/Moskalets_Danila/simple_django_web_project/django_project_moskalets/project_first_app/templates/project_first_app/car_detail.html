@@ -1,0 +1,68 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    {{ object.brand }} {{ object.model }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">{{ object.brand }} {{ object.model }}</h1>
+        <a href="{% url 'cars_list_url' %}" class="btn btn-outline-secondary btn-sm">
+            Назад
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Информация об автомобиле</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Марка:</strong> {{ object.brand }}</p>
+                    <p><strong>Модель:</strong> {{ object.model }}</p>
+                    <p><strong>Гос. номер:</strong> <code>{{ object.license_plate }}</code></p>
+                    <p><strong>Цвет:</strong>
+                        {% if object.color %}
+                            {{ object.color }}
+                        {% else %}
+                            <span class="text-muted">Не указан</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Владельцы</h5>
+                </div>
+                <div class="card-body">
+                    {% with ownerships=object.ownership_set.all %}
+                        {% if ownerships %}
+                            {% for ownership in ownerships %}
+                            <div class="border-bottom pb-2 mb-2">
+                                <h6 class="mb-1">{{ ownership.id_owner.last_name }} {{ ownership.id_owner.first_name }}</h6>
+                                <p class="mb-0 small text-muted">
+                                    <strong>Период владения:</strong><br>
+                                    {{ ownership.start_date|date:"d.m.Y" }} -
+                                    {% if ownership.end_date %}
+                                        {{ ownership.end_date|date:"d.m.Y" }}
+                                    {% else %}
+                                        <span class="text-success">по настоящее время</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">Владельцев нет</p>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

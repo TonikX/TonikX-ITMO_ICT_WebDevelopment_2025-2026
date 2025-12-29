@@ -1,0 +1,35 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    Owners list - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-5">Owners:</h1>
+    <table class="table">
+        <thead>
+        <tr class="table-info">
+            <th scope="col">ID</th>
+            <th scope="col">Full name</th>
+            <th scope="col">Birthday</th>
+            <th scope="col">Number of cars</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for owner in owners %}
+                <tr>
+                    <td>{{ owner.id_owner  }}</td>
+                    <td><a href="{% url 'owner_detail' owner.id_owner %}">{{ owner.last_name }} {{ owner.first_name }}</a></td>
+                    <td>
+                        {% if owner.birth_date %}
+                            <span class="text-muted">{{ owner.birth_date|date:"d.m.Y" }}</span>
+                        {% else %}
+                            <span class="text-muted fst-italic">Not specified</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ owner.cars.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
