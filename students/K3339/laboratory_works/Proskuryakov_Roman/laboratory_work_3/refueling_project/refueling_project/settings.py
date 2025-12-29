@@ -116,7 +116,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+        "rest_framework.permissions.AllowAny",
     ),
 }
 
@@ -128,15 +129,14 @@ DJOSER = {
 
     'LOGOUT_ON_PASSWORD_CHANGE': True,
 
-    'SERIALIZERS': {
-        'user': 'djoser.serializers.UserSerializer',
-        'current_user': 'djoser.serializers.UserSerializer',
-        'user_create': 'djoser.serializers.UserCreateSerializer',
+    "SERIALIZERS": {
+        "user": "refueling_app.serializers.CustomUserSerializer",
+        "current_user": "refueling_app.serializers.CustomUserSerializer",
+        "user_create": "refueling_app.serializers.CustomUserCreateSerializer",
     },
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
+AUTH_USER_MODEL = "refueling_app.User"
 
 LANGUAGE_CODE = 'en-us'
 

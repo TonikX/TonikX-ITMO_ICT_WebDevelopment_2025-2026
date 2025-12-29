@@ -1,8 +1,10 @@
 from rest_framework import serializers
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from .models import (
-    FuelReference, Companies, ProducedFuel, GasStation,
+    FuelReference, Companies, ProducedFuel, GasStation, User,
     SoldFuel, FuelPrices, Clients, ClientCards, Sales
 )
+
 
 class FuelReferenceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -166,3 +168,44 @@ class SalesSerializer(serializers.ModelSerializer):
             "sale_date",
             "sold_liters_volume",
         )
+
+class CustomUserCreateSerializer(UserCreateSerializer):
+    id_station = serializers.PrimaryKeyRelatedField(
+        queryset=GasStation.objects.all(),
+        required=True,
+        allow_null=False
+    )
+
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = (
+            "id",
+            "username",
+            "password",
+            "re_password",
+            "email",
+            "id_station",
+        )
+
+class CustomUserSerializer(UserSerializer):
+    gas_station = GasStationSerializer(
+        source="id_station",
+        read_only=True
+    )
+
+    class Meta(UserSerializer.Meta):
+        model = User
+        fields = UserSerializer.Meta.fields + ("gas_station",)
+
+class PaymentCalculationSerializer(serializers.Serializer):
+    id_card = serializers.IntegerField()
+    initial_amount = serializers.FloatField(min_value=0)
+
+class PaymentCalculationResultSerializer(serializers.Serializer):
+    final_amount = serializers.FloatField()
+    sufficient_balance = serializers.BooleanField()
+
+class FuelPurchaseCalculationSerializer(serializers.Serializer):
+    id_fuel_price = serializers.IntegerField()
+    liters = serializers.FloatField(min_value=0)
+    id_card = serializers.IntegerField(required=False)
