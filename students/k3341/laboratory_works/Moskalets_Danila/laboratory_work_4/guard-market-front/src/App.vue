@@ -1,11 +1,20 @@
-<script setup lang="ts"></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <v-app>
+    <Navigation />
+
+    <v-main>
+      <v-container fluid>
+        <router-view />
+      </v-container>
+    </v-main>
+
+    <v-footer app>
+      <v-spacer></v-spacer>
+      <div>Guard Market &copy; {{ new Date().getFullYear() }}</div>
+    </v-footer>
+  </v-app>
 </template>
 
-<style scoped></style>
+<script setup>
+import Navigation from '@/components/Navigation.vue'
+</script>
