@@ -90,7 +90,7 @@ def calcPayment(initial_amount, card):
     # Рассчёт скидки
     percent_discount = (card.discount_percent / 100) * initial_amount
     rub_discount = card.discount_rub
-    total_discount = percent_discount - rub_discount
+    total_discount = percent_discount + rub_discount
 
     # Конечная сумма к оплате
     final_amount = max(initial_amount - total_discount, 0)
