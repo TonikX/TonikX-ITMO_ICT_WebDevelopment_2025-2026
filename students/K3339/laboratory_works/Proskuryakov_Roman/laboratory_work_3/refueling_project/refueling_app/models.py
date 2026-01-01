@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
 
 class FuelReference(models.Model):
     id_kind_fuel = models.AutoField(primary_key=True)
@@ -52,6 +54,19 @@ class GasStation(models.Model):
 
     class Meta:
         db_table = "gas_station"
+
+
+class User(AbstractUser):
+    id_station = models.ForeignKey(
+        GasStation,
+        on_delete=models.CASCADE,
+        related_name="users"
+    )
+
+    REQUIRED_FIELDS = ['id_station']
+
+    class Meta:
+        db_table = "users"
 
 
 class SoldFuel(models.Model):
