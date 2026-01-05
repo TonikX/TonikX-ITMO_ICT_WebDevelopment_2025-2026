@@ -1,0 +1,66 @@
+{% extends 'project_first_app/base.html' %}
+{% load racing_filters %}
+{% block title %}{{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏁 {{ team.name }}</h1>
+    <p>Racing Team Details</p>
+    <a href="{% url 'team_list' %}" class="back-link">← Back to All Teams</a>
+</div>
+
+<div class="card">
+    <h2>Team Information</h2>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Team Name:</span>
+            <span class="detail-value">{{ team.name }}</span>
+        </div>
+        {% if team.founded_date %}
+        <div class="detail-item">
+            <span class="detail-label">Founded:</span>
+            <span class="detail-value">{{ team.founded_date }}</span>
+        </div>
+        {% endif %}
+    </div>
+    {% if team.description %}
+    <div class="detail-item">
+        <span class="detail-label">Description:</span>
+        <span class="detail-value">{{ team.description }}</span>
+    </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Team Cars</h2>
+    {% with team_cars=cars|filter_by_team:team %}
+    {% if team_cars %}
+    <div class="owner-list">
+        {% for car in team_cars %}
+        <div class="card owner-card">
+            <h4>{{ car.brand }} {{ car.model }}</h4>
+            <div class="detail-item">
+                <span class="detail-label">License Plate:</span>
+                <span class="detail-value">{{ car.license_plate }}</span>
+            </div>
+            {% if car.max_speed %}
+            <div class="detail-item">
+                <span class="detail-label">Max Speed:</span>
+                <span class="detail-value">{{ car.max_speed }} km/h</span>
+            </div>
+            {% endif %}
+            {% if car.engine_power %}
+            <div class="detail-item">
+                <span class="detail-label">Engine Power:</span>
+                <span class="detail-value">{{ car.engine_power }} HP</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No cars registered for this team.</p>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

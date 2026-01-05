@@ -1,0 +1,43 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}All Racers{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏎️ All Racers</h1>
+    <p>List of all registered racing drivers</p>
+    <a href="{% url 'register_user' %}" class="owner-link">Register New Racer</a>
+</div>
+
+<div class="card">
+    {% if racers %}
+        <div class="owner-list">
+            {% for racer in racers %}
+                <div class="card owner-card">
+                    <h3>{{ racer.first_name }} {{ racer.last_name }}</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Racing Class:</span>
+                        <span class="detail-value">{{ racer.racing_class|default:"Not specified" }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span>
+                        <span class="detail-value">{{ racer.racing_experience }} years</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Nationality:</span>
+                        <span class="detail-value">{{ racer.nationality|default:"Not specified" }}</span>
+                    </div>
+                    <a href="{% url 'racer_detail' racer.id %}" class="owner-link">
+                        View Racing Profile →
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-owners">
+            <p>No racers found in the database.</p>
+            <p>Please register some racers through the <a href="{% url 'register_user' %}">registration form</a>.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

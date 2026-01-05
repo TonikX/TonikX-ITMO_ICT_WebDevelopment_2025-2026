@@ -1,0 +1,43 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Upcoming Races{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏁 Upcoming Races</h1>
+    <p>Register for upcoming racing events</p>
+</div>
+
+<div class="card">
+    {% if races %}
+        <div class="owner-list">
+            {% for race in races %}
+                <div class="card owner-card">
+                    <h3>{{ race.name }}</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Type:</span>
+                        <span class="detail-value">{{ race.get_race_type_display }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Location:</span>
+                        <span class="detail-value">{{ race.location }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">{{ race.date }}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="{% url 'race_detail' race.id %}" class="action-btn view">Details</a>
+                        <a href="{% url 'race_register' race.id %}" class="action-btn edit">Register</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-owners">
+            <p>No upcoming races found.</p>
+            <p>Check back later for new racing events.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}{{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏁 {{ race.name }}</h1>
+    <p>{{ race.get_race_type_display }} at {{ race.location }} on {{ race.date }}</p>
+    <div class="action-buttons">
+        <a href="{% url 'race_register' race.id %}" class="action-btn edit">Register for Race</a>
+        <a href="{% url 'add_race_comment' race.id %}" class="action-btn view">Add Comment</a>
+        <a href="{% url 'race_list' %}" class="back-link">← Back to Races</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Race Information</h2>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Race Type:</span>
+            <span class="detail-value">{{ race.get_race_type_display }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Location:</span>
+            <span class="detail-value">{{ race.location }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Date:</span>
+            <span class="detail-value">{{ race.date }}</span>
+        </div>
+    </div>
+    {% if race.description %}
+    <div class="detail-item">
+        <span class="detail-label">Description:</span>
+        <span class="detail-value">{{ race.description }}</span>
+    </div>
+    {% endif %}
+</div>
+
+{% if registrations %}
+<div class="card">
+    <h2>Registered Participants</h2>
+    <div class="detail-grid">
+        {% for registration in registrations %}
+        <div class="detail-item">
+            <span class="detail-label">
+                {{ registration.racer.first_name }} {{ registration.racer.last_name }}
+                {% if registration.final_position %} - Position: {{ registration.final_position }}{% endif %}
+            </span>
+            <span class="detail-value">
+                {{ registration.car.brand }} {{ registration.car.model }}
+                {% if registration.lap_time %} - Best Lap: {{ registration.lap_time }}{% endif %}
+                {% if registration.dnf %}(DNF){% endif %}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if comments %}
+<div class="card">
+    <h2>Race Comments</h2>
+    {% for comment in comments %}
+    <div class="comment-card">
+        <div class="comment-header">
+            <strong>{{ comment.author.first_name }} {{ comment.author.last_name }}</strong>
+            <span class="comment-type">{{ comment.get_comment_type_display }}</span>
+            <span class="comment-rating">Rating: {{ comment.rating }}/10</span>
+        </div>
+        <div class="comment-text">{{ comment.text }}</div>
+        <div class="comment-date">{{ comment.created_date }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<style>
+.comment-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+.comment-type {
+    background: #667eea;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+.comment-rating {
+    color: #ffc107;
+    font-weight: bold;
+}
+.comment-text {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+.comment-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: right;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Racing Teams{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏁 Racing Teams</h1>
+    <p>List of all registered racing teams</p>
+</div>
+
+<div class="card">
+    {% if teams %}
+        <div class="owner-list">
+            {% for team in teams %}
+                <div class="card owner-card">
+                    <h3>{{ team.name }}</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Founded:</span>
+                        <span class="detail-value">{{ team.founded_date|default:"Not specified" }}</span>
+                    </div>
+                    {% if team.description %}
+                    <div class="detail-item">
+                        <span class="detail-label">Description:</span>
+                        <span class="detail-value">{{ team.description|truncatewords:20 }}</span>
+                    </div>
+                    {% endif %}
+                    <a href="{% url 'team_detail' team.id %}" class="owner-link">
+                        View Team Details →
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-owners">
+            <p>No racing teams found.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

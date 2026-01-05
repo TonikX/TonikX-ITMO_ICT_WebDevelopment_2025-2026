@@ -1,0 +1,51 @@
+site_name: Laboratory Work 1 - Network Programming
+site_description: Documentation for Laboratory Work 1 - Socket Programming and HTTP Servers
+site_author: Саид Наваф
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Главная: index.md
+  - Задания:
+    - Задание 1 - UDP Сокет: task1.md
+    - Задание 2 - TCP Калькулятор: task2.md
+    - Задание 3 - HTTP Сервер: task3.md
+    - Задание 4 - Многопользовательский чат: task4.md
+    - Задание 5 - HTTP Сервер с формами: task5.md
+  - Выводы: conclusion.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
