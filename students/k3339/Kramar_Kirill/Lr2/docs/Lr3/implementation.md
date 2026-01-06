@@ -12,9 +12,9 @@ POST /auth/users/
 Content-Type: application/json
 
 {
-  "username": "newuser",
-  "password": "password123",
-  "email": "newuser@example.com"
+  "username": "user",
+  "password": "123",
+  "email": "user@example.com"
 }
 ```
 
@@ -30,8 +30,8 @@ POST /auth/token/login/
 Content-Type: application/json
 
 {
-  "username": "newuser",
-  "password": "password123"
+  "username": "user",
+  "password": "123"
 }
 ```
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 **Запрос:**
 ```http
 GET /auth/users/me/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -59,15 +59,15 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 POST /teachers/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 Content-Type: application/json
 
 {
-  "first_name": "John",
-  "last_name": "Doe",
-  "middle_name": "Edward",
-  "classroom": 1,
-  "subject": [1, 2]
+  "first_name": "Ryan",
+  "last_name": "Gosling",
+  "middle_name": "",
+  "classroom": 2,
+  "subject": [2, 3]
 }
 ```
 
@@ -80,7 +80,7 @@ Content-Type: application/json
 **Запрос:**
 ```http
 GET /students/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -92,7 +92,7 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 GET /class/5/Monday/1/subject/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -104,7 +104,7 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 GET /subjects/teachers/count/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -116,7 +116,7 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 GET /classes/gender/count/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -128,7 +128,7 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 GET /classrooms/count/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 
 ---
@@ -140,7 +140,7 @@ Authorization: Token abc123xyz456token
 **Запрос:**
 ```http
 GET /class/5/performance/
-Authorization: Token abc123xyz456token
+Authorization: Token token12314124
 ```
 ---
 
