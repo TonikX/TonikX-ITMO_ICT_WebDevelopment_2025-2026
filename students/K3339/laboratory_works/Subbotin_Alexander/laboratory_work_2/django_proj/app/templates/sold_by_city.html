@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Продажи по городам{% endblock %}
+{% block content %}
+<h2>Статистика броней по городам</h2>
+<p class="text-muted">Здесь отображаются все бронирования и отдельно подтвержденные (оплаченные)</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th rowspan="2">Город</th>
+            <th colspan="3" class="text-center" style="background-color: #6c757d;">Все бронирования</th>
+            <th colspan="3" class="text-center" style="background-color: #28a745;">Подтверждено (оплачено)</th>
+        </tr>
+        <tr>
+            <th style="background-color: #6c757d; color: white;">Броней</th>
+            <th style="background-color: #6c757d; color: white;">Гостей</th>
+            <th style="background-color: #6c757d; color: white;">Сумма</th>
+            <th style="background-color: #28a745; color: white;">Броней</th>
+            <th style="background-color: #28a745; color: white;">Гостей</th>
+            <th style="background-color: #28a745; color: white;">Доход</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td><strong>{{ item.city }}</strong></td>
+            <td>{{ item.total_reservations }}</td>
+            <td>{{ item.total_guests|default:0 }}</td>
+            <td>{{ item.total_income|default:0|floatformat:2 }} ¥</td>
+            <td><span class="badge bg-success">{{ item.confirmed_reservations }}</span></td>
+            <td><span class="badge bg-success">{{ item.confirmed_guests|default:0 }}</span></td>
+            <td><strong>{{ item.confirmed_income|default:0|floatformat:2 }} ¥</strong></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center text-muted">Нет бронирований</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

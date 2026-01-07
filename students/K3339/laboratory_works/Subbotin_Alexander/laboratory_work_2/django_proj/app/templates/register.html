@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+{% if not user.is_authenticated %}
+<div class="col-md-6 offset-md-3">
+  <h2 class="mb-4">Регистрация</h2>
+  <form method="post" id="register-form" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="mb-3">
+      <label for="id_username" class="form-label">Имя пользователя</label>
+      {% if form.username %}
+        {{ form.username }}
+      {% endif %}
+      {% if form.username.errors %}
+        <div class="text-danger small">{{ form.username.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_first_name" class="form-label">Имя</label>
+      {{ form.first_name }}
+      {% if form.first_name.errors %}
+        <div class="text-danger small">{{ form.first_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_last_name" class="form-label">Фамилия</label>
+      {{ form.last_name }}
+      {% if form.last_name.errors %}
+        <div class="text-danger small">{{ form.last_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_email" class="form-label">Почта</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="text-danger small">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_date_of_birth" class="form-label">Дата рождения</label>
+      {{ form.date_of_birth }}
+      {% if form.date_of_birth.errors %}
+        <div class="text-danger small">{{ form.date_of_birth.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password1" class="form-label">Пароль</label>
+      <div class="position-relative">
+        {{ form.password1 }}
+        <button type="button" id="toggle-password1" class="btn-password-toggle">
+          <svg id="eye-icon1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+      <div id="pw1-error" class="text-danger small mt-1" style="display:none;"></div>
+      {% if form.password1.errors %}
+        <div class="text-danger small">{{ form.password1.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password2" class="form-label">Повторите пароль</label>
+      {{ form.password2 }}
+      <div id="pw2-error" class="text-danger small mt-1" style="display:none;"></div>
+      {% if form.password2.errors %}
+        <div class="text-danger small">{{ form.password2.errors }}</div>
+      {% endif %}
+    </div>
+
+    <style>
+      #register-form input[type="text"],
+      #register-form input[type="email"],
+      #register-form input[type="password"],
+      #register-form input[type="date"] {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+      #register-form input[type="text"]:focus,
+      #register-form input[type="email"]:focus,
+      #register-form input[type="password"]:focus,
+      #register-form input[type="date"]:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+      .position-relative {
+        position: relative;
+      }
+      .btn-password-toggle {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #6c757d;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .btn-password-toggle:hover {
+        color: #212529;
+      }
+    </style>
+
+    <button type="submit" class="btn btn-success">Создать аккаунт</button>
+  </form>
+</div>
+
+<script>
+(() => {
+  const form = document.getElementById('register-form');
+  const pw1 = document.getElementById('id_password1');
+  const pw2 = document.getElementById('id_password2');
+  const toggleBtn1 = document.getElementById('toggle-password1');
+  const eyeIcon1 = document.getElementById('eye-icon1');
+  const err1 = document.getElementById('pw1-error');
+  const err2 = document.getElementById('pw2-error');
+
+  const pwRegex = /^(?=.{8,}$)(?=.*[A-Z])(?=.*[@.\+\-_])[A-Za-z0-9@.\+\-_]+$/;
+
+  function validatePassword() {
+    const v = pw1.value || '';
+    if (!pwRegex.test(v)) {
+      err1.style.display = '';
+      err1.textContent = 'Неверный формат пароля: минимум 8 символов, хотя бы одна заглавная буква, допустимы латинские буквы, цифры и символы @ . + - _.';
+      return false;
+    }
+    err1.style.display = 'none';
+    return true;
+  }
+
+  function validateMatch() {
+    if ((pw1.value || '') !== (pw2.value || '')) {
+      err2.style.display = '';
+      err2.textContent = 'Пароли не совпадают.';
+      return false;
+    }
+    err2.style.display = 'none';
+    return true;
+  }
+
+  // Toggle password1 visibility
+  toggleBtn1.addEventListener('click', function(e) {
+    e.preventDefault();
+    const isPassword = pw1.type === 'password';
+    pw1.type = isPassword ? 'text' : 'password';
+    
+    if (isPassword) {
+      eyeIcon1.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+    } else {
+      eyeIcon1.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+    }
+  });
+
+  pw1.addEventListener('input', () => {
+    validatePassword();
+    if (pw2.value) validateMatch();
+  });
+
+  pw2.addEventListener('input', validateMatch);
+
+  form.addEventListener('submit', (e) => {
+    const ok1 = validatePassword();
+    const ok2 = validateMatch();
+    if (!ok1 || !ok2) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+})();
+</script>
+
+{% else %}
+<div class="col-md-6 offset-md-3">
+  <h2>Вы уже вошли в систему</h2>
+  <p>Вы уже авторизованы. <a href="{% url 'index' %}">Вернуться на главную</a>.</p>
+  {% if user.is_authenticated %}
+    <p class="small text-muted">Пользователь: {{ user.username }}</p>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}
