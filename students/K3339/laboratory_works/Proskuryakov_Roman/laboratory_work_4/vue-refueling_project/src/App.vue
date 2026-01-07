@@ -16,6 +16,10 @@
             <span class="value">{{ userData?.username }}</span>
           </div>
         </div>
+        <div class="nav-links">
+          <router-link to="/" class="nav-link">Главная</router-link>
+          <router-link to="/fuel-sale" class="nav-link">Продажа топлива</router-link>
+        </div>
         <button @click="handleLogout" class="logout-btn">
           Выйти
         </button>
@@ -92,6 +96,27 @@ body {
 .nav-info-item .value {
   color: white;
   font-size: 0.9rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.router-link-active {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .separator {

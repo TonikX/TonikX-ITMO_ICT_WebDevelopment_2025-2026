@@ -4,6 +4,7 @@ import { useAuthStore } from '../stores/auth'
 // Импорт компонентов (создадим позже)
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import FuelSaleView from '../views/FuelSaleView.vue'
 
 const routes = [
   {
@@ -18,7 +19,12 @@ const routes = [
     component: DashboardView,
     meta: { requiresAuth: true }
   },
-  // Добавьте другие защищенные маршруты здесь
+  {
+    path: '/fuel-sale',
+    name: 'FuelSale',
+    component: FuelSaleView,
+    meta: { requiresAuth: true }
+  },
 ]
 
 const router = createRouter({

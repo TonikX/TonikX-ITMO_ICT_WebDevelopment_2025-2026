@@ -17,7 +17,11 @@
     <div class="dashboard-content">
       <h2>Доступные действия:</h2>
       <ul>
-        <li>Продажа топлива</li>
+        <li>
+          <router-link to="/fuel-sale" class="action-link">
+            Продажа топлива
+          </router-link>
+        </li>
         <li>Анализ продаж</li>
         <li>Регистрация клиентов</li>
       </ul>
