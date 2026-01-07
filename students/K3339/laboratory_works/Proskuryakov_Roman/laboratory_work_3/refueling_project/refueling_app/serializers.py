@@ -167,6 +167,7 @@ class SalesSerializer(serializers.ModelSerializer):
             "id_card",
             "sale_date",
             "sold_liters_volume",
+            "amount_paid",
         )
 
 class CustomUserCreateSerializer(UserCreateSerializer):

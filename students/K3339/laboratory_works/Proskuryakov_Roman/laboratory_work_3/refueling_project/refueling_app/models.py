@@ -6,12 +6,12 @@ from rest_framework.response import Response
 class FuelReference(models.Model):
     id_kind_fuel = models.AutoField(primary_key=True)
     title = models.CharField(max_length=40)
-    burning_temp = models.IntegerField()
+    burning_temp = models.DecimalField(max_digits=10, decimal_places=2)
     brand = models.CharField(max_length=40)
-    density = models.IntegerField()
+    density = models.DecimalField(max_digits=10, decimal_places=2)
     season = models.IntegerField()
-    percent_sulfur = models.IntegerField()
-    min_usage_temp = models.IntegerField()
+    percent_sulfur = models.DecimalField(max_digits=5, decimal_places=2)
+    min_usage_temp = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = "fuel_reference"
@@ -96,7 +96,7 @@ class FuelPrices(models.Model):
     )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
-    per_liter = models.IntegerField()
+    per_liter = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = "fuel_prices"
@@ -111,7 +111,7 @@ class FuelPrices(models.Model):
         now = timezone.now()
 
         # Проверка активности цены
-        if price.start_date > now or (price.end_date and price.end_date <= now):
+        if price.start_time > now or (price.end_time and price.end_time <= now):
             return Response({"detail": "Price is not active"}, status=400)
 
         return price
@@ -144,9 +144,9 @@ class ClientCards(models.Model):
     )
     start_date = models.DateField()
     end_date = models.DateField()
-    balance = models.IntegerField()
-    discount_percent = models.IntegerField()
-    discount_rub = models.IntegerField()
+    balance = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_percent = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_rub = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = "client_cards"
@@ -180,7 +180,8 @@ class Sales(models.Model):
         db_column="id_card"
     )
     sale_date = models.DateTimeField()
-    sold_liters_volume = models.IntegerField()
+    sold_liters_volume = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = "sales"
