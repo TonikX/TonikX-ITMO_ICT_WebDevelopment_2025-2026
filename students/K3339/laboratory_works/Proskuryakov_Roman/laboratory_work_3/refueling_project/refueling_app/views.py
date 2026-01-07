@@ -98,12 +98,13 @@ def calcPayment(initial_amount, card):
     # Проверка баланса
     sufficient_balance = card.balance >= final_amount
 
-    result = {
+    serializer = PaymentCalculationResultSerializer(data={
         "final_amount": round(final_amount, 2),
         "sufficient_balance": sufficient_balance
-    }
-
-    return Response(result)
+    })
+    serializer.is_valid(raise_exception=True)
+    
+    return Response(serializer.data)
 
 class PaymentCalculationView(APIView):
     def post(self, request):
