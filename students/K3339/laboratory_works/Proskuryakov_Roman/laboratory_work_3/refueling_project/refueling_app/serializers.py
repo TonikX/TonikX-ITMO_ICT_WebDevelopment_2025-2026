@@ -195,7 +195,13 @@ class CustomUserSerializer(UserSerializer):
 
     class Meta(UserSerializer.Meta):
         model = User
-        fields = UserSerializer.Meta.fields + ("gas_station",)
+        fields = (
+            "id",
+            "username",
+            # "id_station",
+            "gas_station",
+        )
+        # fields = UserSerializer.Meta.fields + ("",)
 
 class PaymentCalculationSerializer(serializers.Serializer):
     id_card = serializers.IntegerField()

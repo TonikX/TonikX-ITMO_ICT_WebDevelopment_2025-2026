@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('refueling_app.urls')),   # добавили путь к нашему приложению
+    path('api/', include('refueling_app.urls')),   # добавили путь к нашему приложению
 
     # djoser
     path('api/auth/', include('djoser.urls')),
