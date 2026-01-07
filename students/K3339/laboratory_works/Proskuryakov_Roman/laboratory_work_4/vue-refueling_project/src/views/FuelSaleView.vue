@@ -14,9 +14,9 @@
     </div>
     
     <div class="content-wrapper">
-      <!-- Левая часть: таблица с ценами -->
+      <!-- Таблица с ценами - занимает фиксированную высоту -->
       <div class="prices-section">
-        <h2>Доступное топливо</h2>
+        <h2>Доступное топливо на вашей станции</h2>
         
         <div v-if="loading && !stationPrices.length" class="loading">
           Загрузка цен...
@@ -26,128 +26,182 @@
           Нет доступного топлива на вашей станции
         </div>
         
-        <div v-else class="prices-table-container">
-          <table class="prices-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Топливо</th>
-                <th>Цена за литр (₽)</th>
-                <th>Действует с</th>
-                <th>Действует до</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr 
-                v-for="price in stationPrices" 
-                :key="price.id_fuel_price"
-                :class="{ 'selected': isSelected(price) }"
-                @click="selectPrice(price)"
-                class="price-row"
-              >
-                <td class="radio-cell">
-                  <input 
-                    type="radio" 
-                    name="fuel-price" 
-                    :checked="isSelected(price)"
-                    @change="selectPrice(price)"
-                  />
-                </td>
-                <td class="fuel-info">{{ price.fuel_info }}</td>
-                <td class="price-cell">{{ price.per_liter }}</td>
-                <td class="date-cell">{{ formatDate(price.start_time) }}</td>
-                <td class="date-cell">{{ price.end_time ? formatDate(price.end_time) : 'Бессрочно' }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div v-else class="table-wrapper">
+          <div class="table-container">
+            <table class="prices-table">
+              <thead>
+                <tr>
+                  <th class="selection-column"></th>
+                  <th class="fuel-column">Топливо</th>
+                  <th class="brand-column">Бренд</th>
+                  <th class="season-column">Сезон</th>
+                  <th class="density-column">Плотность</th>
+                  <th class="temp-column">Темп. горения</th>
+                  <th class="min-temp-column">Мин. темп.</th>
+                  <th class="sulfur-column">Сера, %</th>
+                  <th class="price-column">Цена за литр (₽)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  v-for="price in stationPrices" 
+                  :key="price.id_fuel_price"
+                  :class="{ 'selected': isSelected(price) }"
+                  @click="selectPrice(price)"
+                  class="price-row"
+                >
+                  <td class="selection-column">
+                    <input 
+                      type="radio" 
+                      name="fuel-price" 
+                      :checked="isSelected(price)"
+                      @change="selectPrice(price)"
+                    />
+                  </td>
+                  <td class="fuel-column">{{ getFuelTitle(price) }}</td>
+                  <td class="brand-column">{{ getFuelBrand(price) }}</td>
+                  <td class="season-column">{{ getSeasonText(price) }}</td>
+                  <td class="density-column">{{ getFuelDensity(price) }}</td>
+                  <td class="temp-column">{{ getBurningTemp(price) }}°C</td>
+                  <td class="min-temp-column">{{ getMinTemp(price) }}°C</td>
+                  <td class="sulfur-column">{{ getSulfurPercent(price) }}%</td>
+                  <td class="price-column">
+                    <span class="price-value">{{ price.per_liter }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div v-if="stationPrices.length > 0" class="table-info">
+            <div class="selected-info" v-if="selectedPrice">
+              <strong>Выбрано:</strong> {{ getFuelTitle(selectedPrice) }} ({{ getFuelBrand(selectedPrice) }})
+              <span class="price-info">по {{ selectedPrice.per_liter }} ₽/л</span>
+            </div>
+            <div class="hint">Выберите топливо кликом по строке таблицы</div>
+          </div>
         </div>
       </div>
       
-      <!-- Правая часть: форма ввода -->
+      <!-- Форма ввода - под таблицей, но теперь более компактная -->
       <div class="form-section">
-        <div class="form-group">
-          <label for="liters">Количество литров:</label>
-          <input
-            id="liters"
-            v-model="liters"
-            type="number"
-            step="0.1"
-            min="0.1"
-            placeholder="Например: 20.5"
-            :disabled="!selectedPrice"
-            @input="handleLitersChange"
-          />
+        <div class="form-header">
+          <h3>Оформление покупки</h3>
         </div>
         
-        <div class="form-group">
-          <label for="card-id">Номер карты клиента:</label>
-          <div class="card-input-group">
-            <input
-              id="card-id"
-              v-model="cardId"
-              type="number"
-              min="1"
-              placeholder="Введите ID карты"
-              :disabled="!selectedPrice || !liters"
-            />
-            <button 
-              @click="applyCard"
-              :disabled="!cardId || !selectedPrice || !liters || cardIdLoading"
-              class="apply-btn"
-            >
-              <span v-if="cardIdLoading">...</span>
-              <span v-else>Применить</span>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Информация о расчете -->
-        <div v-if="calculatedInitialAmount > 0" class="calculation-section">
-          <div class="calculation-header">
-            <h3>Расчет</h3>
-          </div>
-          
-          <div v-if="cardApplied && calculation.cardFound && calculation.cardActive" class="calculation-details">
-            <div class="calculation-string">
-              {{ paymentString }}
+        <div class="form-grid">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="liters">Количество литров:</label>
+              <div class="input-with-unit">
+                <input
+                  id="liters"
+                  v-model="liters"
+                  type="number"
+                  step="0.1"
+                  min="0.1"
+                  placeholder="20.5"
+                  :disabled="!selectedPrice"
+                  @input="handleLitersChange"
+                />
+                <span class="unit">л</span>
+              </div>
+              <div class="form-hint" v-if="selectedPrice && liters">
+                {{ calculatedInitialAmount.toFixed(2) }} ₽ ({{ selectedPrice.per_liter }} ₽ × {{ liters }} л)
+              </div>
             </div>
             
-            <div v-if="!calculation.sufficientBalance" class="insufficient-balance">
-              Недостаточно средств на карте
+            <div class="form-group">
+              <label for="card-id">Номер карты клиента:</label>
+              <div class="card-input-group">
+                <input
+                  id="card-id"
+                  v-model="cardId"
+                  type="number"
+                  min="1"
+                  placeholder="12345"
+                  :disabled="!selectedPrice || !liters"
+                />
+                <button 
+                  @click="applyCard"
+                  :disabled="!cardId || !selectedPrice || !liters || cardIdLoading"
+                  class="apply-btn"
+                >
+                  <span v-if="cardIdLoading">...</span>
+                  <span v-else>Применить</span>
+                </button>
+              </div>
+              <div class="form-hint">
+                Введите номер и нажмите "Применить"
+              </div>
+            </div>
+          </div>
+          
+          <!-- Расчет и оплата -->
+          <div class="calculation-section" v-if="calculatedInitialAmount > 0">
+            <div class="calculation-header">
+              <h4>Расчет платежа</h4>
             </div>
             
-            <div class="final-amount">
-              <strong>К оплате:</strong> {{ calculation.finalAmount.toFixed(2) }} ₽
+            <div v-if="cardApplied && calculation.cardFound && calculation.cardActive" class="calculation-details">
+              <div class="amount-breakdown">
+                <div class="amount-row">
+                  <span class="label">Начальная сумма:</span>
+                  <span class="value">{{ calculation.initialAmount.toFixed(2) }} ₽</span>
+                </div>
+                <div class="amount-row discount">
+                  <span class="label">Скидка:</span>
+                  <span class="value">-{{ calculation.discount.toFixed(2) }} ₽</span>
+                </div>
+                <div class="amount-row total">
+                  <span class="label">Итого к оплате:</span>
+                  <span class="value">{{ calculation.finalAmount.toFixed(2) }} ₽</span>
+                </div>
+              </div>
+              
+              <div class="payment-info">
+                <div v-if="!calculation.sufficientBalance" class="insufficient-balance">
+                  ⚠️ Недостаточно средств на карте
+                </div>
+                <div v-else class="balance-ok">
+                  ✅ На карте достаточно средств
+                </div>
+                
+                <button 
+                  @click="showConfirmModal"
+                  :disabled="!canPay"
+                  class="pay-btn"
+                >
+                  <span class="pay-icon">💳</span>
+                  Оплатить {{ calculation.finalAmount.toFixed(2) }} ₽
+                </button>
+              </div>
             </div>
             
-            <button 
-              @click="showConfirmModal"
-              :disabled="!canPay"
-              class="pay-btn"
-            >
-              Оплатить
-            </button>
+            <div v-else-if="cardApplied && !calculation.cardFound" class="card-status error">
+              ❌ Карта не найдена
+            </div>
+            
+            <div v-else-if="cardApplied && !calculation.cardActive" class="card-status error">
+              ❌ Карта не активна
+            </div>
+            
+            <div v-else class="prompt">
+              Введите номер карты и нажмите "Применить" для расчета скидки
+            </div>
           </div>
           
-          <div v-else-if="cardApplied && !calculation.cardFound" class="card-error">
-            Карта не найдена
+          <div v-else-if="selectedPrice && liters" class="prompt">
+            Введите номер карты для расчета скидки
           </div>
           
-          <div v-else-if="cardApplied && !calculation.cardActive" class="card-error">
-            Карта не активна
+          <div v-else-if="selectedPrice" class="prompt">
+            Введите количество литров
           </div>
           
-          <div v-else class="no-card-info">
-            Введите номер карты и нажмите "Применить" для расчета скидки
+          <div v-else class="prompt">
+            Выберите топливо из таблицы
           </div>
-        </div>
-        
-        <div v-else-if="selectedPrice" class="enter-liters">
-          Введите количество литров для расчета
-        </div>
-        
-        <div v-else class="select-fuel">
-          Выберите топливо из таблицы
         </div>
       </div>
     </div>
@@ -188,7 +242,6 @@ const cardId = computed({
 const cardApplied = computed(() => salesStore.cardApplied)
 const calculatedInitialAmount = computed(() => salesStore.calculatedInitialAmount)
 const calculation = computed(() => salesStore.calculation)
-const paymentString = computed(() => salesStore.paymentString)
 const canPay = computed(() => salesStore.canPay)
 const loading = computed(() => salesStore.loading)
 const error = computed(() => salesStore.error)
@@ -205,6 +258,41 @@ const confirmationDetails = computed(() => ({
   finalAmount: calculation.value.finalAmount || 0,
   cardId: cardId.value || ''
 }))
+
+// Вспомогательные методы для извлечения данных
+const getFuelTitle = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.title || 'Неизвестно'
+}
+
+const getFuelBrand = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.brand || '-'
+}
+
+const getSeasonText = (price) => {
+  const season = price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.season
+  const seasons = {
+    1: 'Лето',
+    2: 'Зима',
+    3: 'Всесезон'
+  }
+  return seasons[season] || '-'
+}
+
+const getFuelDensity = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.density || '-'
+}
+
+const getBurningTemp = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.burning_temp || '-'
+}
+
+const getMinTemp = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.min_usage_temp || '-'
+}
+
+const getSulfurPercent = (price) => {
+  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.percent_sulfur || '-'
+}
 
 // Методы
 const isSelected = (price) => {
@@ -252,12 +340,6 @@ const clearSuccessMessage = () => {
   salesStore.clearSuccessMessage()
 }
 
-const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ru-RU')
-}
-
 // Загрузка данных при монтировании
 onMounted(() => {
   salesStore.loadStationPrices()
@@ -276,15 +358,19 @@ watch([selectedPrice, liters], ([newPrice, newLiters]) => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
+  height: calc(100vh - 60px); /* Учитываем высоту навбара */
+  display: flex;
+  flex-direction: column;
 }
 
 .alert {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .alert-error {
@@ -302,76 +388,147 @@ watch([selectedPrice, liters], ([newPrice, newLiters]) => {
 .close-btn {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   color: inherit;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content-wrapper {
   display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.prices-section, .form-section {
-  flex: 1;
-}
-
-.prices-section {
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.form-section {
-  display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+h1 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  flex-shrink: 0;
 }
 
 h2 {
-  margin-bottom: 1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
   color: #333;
 }
 
-.loading, .no-data, .select-fuel, .enter-liters, .no-card-info {
-  padding: 2rem;
-  text-align: center;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  color: #666;
+h3 {
+  margin: 0;
+  font-size: 1.1rem;
 }
 
-.prices-table-container {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Секция с таблицей */
+.prices-section {
+  flex: 0 0 auto; /* Фиксированная высота */
+  min-height: 300px; /* Минимум на 5 строк */
+  max-height: 400px; /* Максимум, чтобы не занимала весь экран */
+  display: flex;
+  flex-direction: column;
+}
+
+.table-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-container {
+  flex: 1;
+  overflow: auto;
+  min-height: 200px;
 }
 
 .prices-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 800px;
+  font-size: 0.9rem;
 }
 
 .prices-table th {
   background-color: #f8f9fa;
-  padding: 1rem;
+  padding: 0.6rem 0.5rem;
   text-align: left;
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+  font-size: 0.85rem;
 }
 
 .prices-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+/* Стили для колонок */
+.selection-column {
+  width: 40px;
+  text-align: center;
+  padding-left: 0.75rem;
+}
+
+.fuel-column {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+.brand-column {
+  min-width: 100px;
+}
+
+.season-column {
+  width: 80px;
+  text-align: center;
+}
+
+.density-column {
+  width: 70px;
+  text-align: center;
+}
+
+.temp-column, .min-temp-column {
+  width: 90px;
+  text-align: center;
+}
+
+.sulfur-column {
+  width: 70px;
+  text-align: center;
+}
+
+.price-column {
+  width: 100px;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 .price-row {
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s;
 }
 
 .price-row:hover {
-  background-color: #f0f8ff;
+  background-color: #f8f9fa;
 }
 
 .price-row.selected {
@@ -379,47 +536,117 @@ h2 {
   border-left: 3px solid #007bff;
 }
 
-.radio-cell {
-  width: 40px;
-  text-align: center;
-}
-
-.fuel-info {
-  min-width: 200px;
-}
-
-.price-cell {
+.price-value {
   font-weight: bold;
   color: #28a745;
-  min-width: 100px;
+  font-size: 1em;
 }
 
-.date-cell {
-  min-width: 120px;
-  color: #666;
+.table-info {
+  padding: 0.5rem 0.75rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.selected-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-info {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.hint {
+  color: #6c757d;
+}
+
+/* Секция формы */
+.form-section {
+  flex: 0 0 auto;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+}
+
+.form-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.form-header h3 {
+  color: #333;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .form-group label {
-  font-weight: bold;
+  font-weight: 500;
   color: #333;
+  font-size: 0.9rem;
 }
 
 .form-group input {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ced4da;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .form-group input:disabled {
-  background-color: #f5f5f5;
+  background-color: #e9ecef;
   cursor: not-allowed;
+}
+
+.input-with-unit {
+  position: relative;
+  display: flex;
+}
+
+.input-with-unit input {
+  padding-right: 2.5rem;
+}
+
+.unit {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 0.9rem;
 }
 
 .card-input-group {
@@ -428,17 +655,21 @@ h2 {
 }
 
 .apply-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1rem;
   background-color: #6c757d;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.15s;
+  flex-shrink: 0;
 }
 
 .apply-btn:disabled {
-  background-color: #ccc;
+  background-color: #adb5bd;
   cursor: not-allowed;
 }
 
@@ -446,18 +677,25 @@ h2 {
   background-color: #5a6268;
 }
 
+.form-hint {
+  font-size: 0.8rem;
+  color: #6c757d;
+  min-height: 1rem;
+}
+
+/* Секция расчета */
 .calculation-section {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 1.5rem;
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
 }
 
 .calculation-header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
-.calculation-header h3 {
-  margin: 0;
+.calculation-header h4 {
   color: #333;
 }
 
@@ -467,74 +705,165 @@ h2 {
   gap: 1rem;
 }
 
-.calculation-string {
-  font-size: 1.2rem;
+.amount-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+}
+
+.amount-row .label {
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.amount-row .value {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.amount-row.discount {
+  color: #28a745;
+  border-top: 1px dashed #dee2e6;
+  padding-top: 0.6rem;
+}
+
+.amount-row.total {
   font-weight: bold;
-  color: #333;
-  text-align: center;
-  padding: 1rem;
-  background-color: white;
+  color: #212529;
+  border-top: 2px solid #dee2e6;
+  padding-top: 0.6rem;
+  font-size: 1rem;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insufficient-balance, .balance-ok, .card-status {
+  padding: 0.5rem;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .insufficient-balance {
-  color: #dc3545;
-  font-weight: bold;
-  text-align: center;
-  padding: 0.5rem;
   background-color: #f8d7da;
-  border-radius: 4px;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
-.card-error {
-  color: #dc3545;
-  font-weight: bold;
-  text-align: center;
-  padding: 1rem;
-  background-color: #f8d7da;
-  border-radius: 4px;
+.balance-ok {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
-.final-amount {
-  font-size: 1.5rem;
-  color: #28a745;
-  text-align: center;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 4px;
-  border: 2px solid #28a745;
+.card-status.error {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
 }
 
 .pay-btn {
-  padding: 1rem;
-  background-color: #28a745;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #28a745, #20c997);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .pay-btn:disabled {
-  background-color: #ccc;
+  background: #adb5bd;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .pay-btn:not(:disabled):hover {
-  background-color: #218838;
+  background: linear-gradient(135deg, #218838, #1ba87e);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(40, 167, 69, 0.2);
+}
+
+.pay-icon {
+  font-size: 1.1rem;
+}
+
+.prompt {
+  padding: 1rem;
+  text-align: center;
+  color: #6c757d;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px dashed #dee2e6;
+  font-size: 0.9rem;
+}
+
+/* Состояния загрузки */
+.loading, .no-data {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #6c757d;
+  font-style: italic;
 }
 
 /* Адаптивность */
 @media (max-width: 1024px) {
+  .fuel-sale-container {
+    padding: 0.75rem;
+    height: auto;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .prices-table {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
   .content-wrapper {
+    gap: 1rem;
+  }
+  
+  .table-info {
     flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
   }
   
   .prices-section {
-    max-height: 400px;
+    max-height: 350px;
+  }
+  
+  .prices-table th,
+  .prices-table td {
+    padding: 0.5rem 0.4rem;
   }
 }
 </style>
