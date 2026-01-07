@@ -5,7 +5,6 @@
     <div v-if="gasStation" class="station-info">
       <h2>Информация о станции:</h2>
       <p><strong>Адрес:</strong> {{ stationAddress }}</p>
-      <p><strong>ID станции:</strong> {{ stationId }}</p>
     </div>
     
     <div v-if="company" class="company-info">
@@ -18,10 +17,9 @@
     <div class="dashboard-content">
       <h2>Доступные действия:</h2>
       <ul>
-        <li>Просмотр цен на топливо</li>
         <li>Продажа топлива</li>
-        <li>Просмотр клиентов</li>
-        <!-- Добавьте другие пункты меню -->
+        <li>Анализ продаж</li>
+        <li>Регистрация клиентов</li>
       </ul>
     </div>
   </div>
@@ -45,10 +43,8 @@ const companyTypeText = computed(() => {
   if (!company.value) return 'Неизвестно'
   
   const types = {
-    0: 'Производитель',
-    1: 'Сеть АЗС',
-    2: 'Производитель и сеть',
-    3: 'Другое'
+    0: 'Фирма владелец - владеет заправками',
+    1: 'Ффирма производитель топлива (поставшик-топлива) - производит топливо',
   }
   
   return types[company.value.type_company] || `Тип ${company.value.type_company}`
