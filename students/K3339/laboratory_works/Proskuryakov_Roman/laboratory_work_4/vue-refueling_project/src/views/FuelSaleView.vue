@@ -35,11 +35,11 @@
                   <th class="fuel-column">Топливо</th>
                   <th class="brand-column">Бренд</th>
                   <th class="season-column">Сезон</th>
-                  <th class="density-column">Плотность</th>
-                  <th class="temp-column">Темп. горения</th>
-                  <th class="min-temp-column">Мин. темп.</th>
-                  <th class="sulfur-column">Сера, %</th>
-                  <th class="price-column">Цена за литр (₽)</th>
+                  <th class="density-column">Плотность (кг/м³)</th>
+                  <th class="temp-column">Темп. горения (°C)</th>
+                  <th class="min-temp-column">Мин. темп. (°C)</th>
+                  <th class="sulfur-column">Сера (%)</th>
+                  <th class="price-column">Цена за литр (₽/л)</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,9 +62,9 @@
                   <td class="brand-column">{{ getFuelBrand(price) }}</td>
                   <td class="season-column">{{ getSeasonText(price) }}</td>
                   <td class="density-column">{{ getFuelDensity(price) }}</td>
-                  <td class="temp-column">{{ getBurningTemp(price) }}°C</td>
-                  <td class="min-temp-column">{{ getMinTemp(price) }}°C</td>
-                  <td class="sulfur-column">{{ getSulfurPercent(price) }}%</td>
+                  <td class="temp-column">{{ getBurningTemp(price) }}</td>
+                  <td class="min-temp-column">{{ getMinTemp(price) }}</td>
+                  <td class="sulfur-column">{{ getSulfurPercent(price) }}</td>
                   <td class="price-column">
                     <span class="price-value">{{ price.per_liter }}</span>
                   </td>
@@ -233,7 +233,7 @@ const processingPayment = ref(false)
 const stationPrices = computed(() => salesStore.stationPrices)
 const selectedPrice = computed(() => salesStore.selectedPrice)
 const liters = computed({
-  get: () => salesStore.liters,
+  get: () => salesStore.liters > 0 ? salesStore.liters : 0,
   set: (value) => salesStore.setLiters(value)
 })
 const cardId = computed({
@@ -262,15 +262,15 @@ const confirmationDetails = computed(() => ({
 
 // Вспомогательные методы для извлечения данных
 const getFuelTitle = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.title || 'Неизвестно'
+  return price.sold_fuel?.produced_fuel?.fuel?.title || 'Неизвестно'
 }
 
 const getFuelBrand = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.brand || '-'
+  return price.sold_fuel?.produced_fuel?.fuel?.brand || '-'
 }
 
 const getSeasonText = (price) => {
-  const season = price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.season
+  const season = price.sold_fuel?.produced_fuel?.fuel?.season
   const seasons = {
     1: 'Лето',
     2: 'Зима',
@@ -280,19 +280,19 @@ const getSeasonText = (price) => {
 }
 
 const getFuelDensity = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.density || '-'
+  return price.sold_fuel?.produced_fuel?.fuel?.density || '-'
 }
 
 const getBurningTemp = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.burning_temp || '-'
+  return price.sold_fuel?.produced_fuel?.fuel?.burning_temp || '-'
 }
 
 const getMinTemp = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.min_usage_temp || '-'
+  return price.sold_fuel?.produced_fuel?.fuel?.min_usage_temp || '-'
 }
 
 const getSulfurPercent = (price) => {
-  return price.sold_fuel?.id_produced_fuel?.id_kind_fuel?.percent_sulfur || '-'
+  return price.sold_fuel?.produced_fuel?.fuel?.percent_sulfur || '-'
 }
 
 // Методы

@@ -77,9 +77,9 @@ export const useSalesStore = defineStore('sales', {
     
     // Извлечь информацию о топливе из объекта
     extractFuelInfo(price) {
-      if (!price.sold_fuel?.id_produced_fuel?.id_kind_fuel) return 'Неизвестное топливо'
+      if (!price.sold_fuel?.produced_fuel?.fuel) return 'Неизвестное топливо'
       
-      const fuel = price.sold_fuel.id_produced_fuel.id_kind_fuel
+      const fuel = price.sold_fuel.produced_fuel.fuel
       return `${fuel.title} (${fuel.brand}, ${this.getSeasonText(fuel.season)})`
     },
     
