@@ -7,9 +7,9 @@
         <p><strong>Топливо:</strong> {{ details.fuelInfo }}</p>
         <p><strong>Количество литров:</strong> {{ details.liters }}</p>
         <p><strong>Цена за литр:</strong> {{ details.pricePerLiter }} ₽</p>
-        <p><strong>Начальная сумма:</strong> {{ round(details.initialAmount, 2) }} ₽</p>
-        <p><strong>Скидка:</strong> {{ round(details.discount, 2) }} ₽</p>
-        <p><strong>Итоговая сумма:</strong> {{ round(details.finalAmount, 2) }} ₽</p>
+        <p><strong>Начальная сумма:</strong> {{ details.initialAmount }} ₽</p>
+        <p><strong>Скидка:</strong> {{ details.discount }} ₽</p>
+        <p><strong>Итоговая сумма:</strong> {{ details.finalAmount }} ₽</p>
         <p><strong>Номер карты:</strong> {{ details.cardId }}</p>
       </div>
       
