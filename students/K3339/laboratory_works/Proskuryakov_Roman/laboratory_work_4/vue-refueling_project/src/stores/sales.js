@@ -104,6 +104,23 @@ export const useSalesStore = defineStore('sales', {
       this.recalculateInitialAmount()
     },
     
+    // Установить номер карты с сбросом флага применения
+    setCardId(value) {
+      if (this.cardId !== value && this.cardApplied) {
+        // Если номер карты изменился и карта была применена, сбрасываем
+        this.cardApplied = false
+        this.calculation = {
+          initialAmount: this.calculatedInitialAmount,
+          finalAmount: this.calculatedInitialAmount,
+          discount: 0,
+          sufficientBalance: false,
+          cardActive: false,
+          cardFound: false
+        }
+      }
+      this.cardId = value
+    },
+
     // Применить карту
     async applyCard() {
       if (!this.cardId) {

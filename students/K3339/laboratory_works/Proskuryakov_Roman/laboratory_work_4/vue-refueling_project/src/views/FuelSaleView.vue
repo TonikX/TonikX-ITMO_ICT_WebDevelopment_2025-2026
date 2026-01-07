@@ -121,6 +121,7 @@
                   min="1"
                   placeholder="12345"
                   :disabled="!selectedPrice || !liters"
+                  @input="handleCardIdChange"
                 />
                 <button 
                   @click="applyCard"
@@ -237,7 +238,7 @@ const liters = computed({
 })
 const cardId = computed({
   get: () => salesStore.cardId,
-  set: (value) => salesStore.cardId = value
+  set: (value) => salesStore.setCardId(value) // Изменено для сброса cardApplied
 })
 const cardApplied = computed(() => salesStore.cardApplied)
 const calculatedInitialAmount = computed(() => salesStore.calculatedInitialAmount)
@@ -306,6 +307,12 @@ const selectPrice = (price) => {
 const handleLitersChange = (event) => {
   const value = event.target.value
   salesStore.setLiters(value)
+}
+
+// Обработчик изменения номера карты
+const handleCardIdChange = (event) => {
+  const value = event.target.value
+  salesStore.setCardId(value)
 }
 
 const applyCard = async () => {
