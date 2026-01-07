@@ -13,8 +13,18 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthenticated: (state) => !!state.token,
     userData: (state) => state.user,
-    userStation: (state) => state.user?.station_id,
-    stationAddress: (state) => state.user?.station_address
+    // Получаем всю информацию о станции
+    gasStation: (state) => state.user?.gas_station || null,
+    // Получаем адрес станции
+    stationAddress: (state) => state.user?.gas_station?.station_address || 'Не назначена',
+    // Получаем ID станции
+    stationId: (state) => state.user?.gas_station?.id_station || null,
+    // Получаем информацию о компании
+    company: (state) => state.user?.gas_station?.company || null,
+    // Получаем ID компании
+    companyId: (state) => state.user?.gas_station?.company?.id_company || null,
+    // Получаем название компании
+    companyTitle: (state) => state.user?.gas_station?.company?.company_title || 'Неизвестно'
   },
   
   actions: {
@@ -39,6 +49,8 @@ export const useAuthStore = defineStore('auth', {
         const userResponse = await authApi.getCurrentUser()
         this.user = userResponse.data
         
+        console.log('Получены данные пользователя:', this.user) // Для отладки
+        
         // Сохраняем данные пользователя
         localStorage.setItem('user_data', JSON.stringify(userResponse.data))
         
@@ -49,6 +61,7 @@ export const useAuthStore = defineStore('auth', {
         
       } catch (error) {
         this.error = error.response?.data || error.message
+        console.error('Ошибка авторизации:', error)
         return { success: false, error: this.error }
       } finally {
         this.isLoading = false
@@ -81,11 +94,26 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await authApi.getCurrentUser()
         this.user = response.data
+        console.log('Проверка авторизации, получен пользователь:', this.user) // Для отладки
         localStorage.setItem('user_data', JSON.stringify(response.data))
         return true
       } catch (error) {
+        console.error('Ошибка проверки авторизации:', error)
         this.logout()
         return false
+      }
+    },
+    
+    // Дополнительный метод для обновления данных пользователя
+    async refreshUserData() {
+      try {
+        const response = await authApi.getCurrentUser()
+        this.user = response.data
+        localStorage.setItem('user_data', JSON.stringify(response.data))
+        return this.user
+      } catch (error) {
+        console.error('Ошибка обновления данных пользователя:', error)
+        throw error
       }
     }
   }
