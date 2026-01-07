@@ -6,6 +6,7 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from decimal import Decimal
 from .models import *
 from .serializers import *
 
@@ -83,6 +84,8 @@ class FuelPricesByStationView(APIView):
 
 # рассчитывает цену для конкретной карты (не проверяет карту)
 def calcPayment(initial_amount, card):
+    initial_amount = Decimal(initial_amount)
+
     # Рассчёт скидки
     percent_discount = (card.discount_percent / 100) * initial_amount
     rub_discount = card.discount_rub
@@ -91,7 +94,7 @@ def calcPayment(initial_amount, card):
     # Конечная сумма к оплате
     final_amount = max(initial_amount - total_discount, 0)
 
-    return round(final_amount, 2)
+    return final_amount
 
 def paymentCalculationResult(initial_amount, card_id):
     card = ClientCards.getById(card_id)
@@ -156,7 +159,7 @@ class FuelPaymentExecuteView(APIView):
             return card
 
         # Расчёт суммы
-        initial_amount = fuel_price.per_liter * data["liters"]
+        initial_amount = fuel_price.per_liter * Decimal(data["liters"])
         final_amount = calcPayment(initial_amount, card)
 
         # Проверка баланса
@@ -171,7 +174,8 @@ class FuelPaymentExecuteView(APIView):
             id_fuel_price=fuel_price,
             id_card=card,
             sale_date=timezone.now(),
-            sold_liters_volume=data["liters"]
+            sold_liters_volume=data["liters"],
+            amount_paid = final_amount
         )
 
         return Response({"success": True})
