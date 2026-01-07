@@ -66,8 +66,10 @@ class FuelPricesByStationView(APIView):
         # Получаем все продаваемое топливо на этой станции
         sold_fuel_qs = SoldFuel.objects.filter(id_station=station)
         
+        print("now_time", now)
+
         # Получаем цены на это топливо
-        # Фильтруем цены: start_time <= now и (end_time >= now или end_time is null)
+        # Фильтруем цены: start_time <= now и (end_time > now или end_time is null)
         prices_qs = FuelPrices.objects.filter(
             id_sold_fuel__in=sold_fuel_qs
         ).filter(
@@ -78,15 +80,9 @@ class FuelPricesByStationView(APIView):
 
         serializer = FuelPricesSerializer(prices_qs, many=True)
         return Response(serializer.data)
-    
 
+# рассчитывает цену для конкретной карты (не проверяет карту)
 def calcPayment(initial_amount, card):
-    now = timezone.now().date()  # сравниваем только даты
-
-    # Проверка активности карты
-    if card.start_date > now or (card.end_date and card.end_date <= now):
-        return Response({"detail": "Card is not active"}, status=400)
-
     # Рассчёт скидки
     percent_discount = (card.discount_percent / 100) * initial_amount
     rub_discount = card.discount_rub
@@ -95,11 +91,20 @@ def calcPayment(initial_amount, card):
     # Конечная сумма к оплате
     final_amount = max(initial_amount - total_discount, 0)
 
+    return round(final_amount, 2)
+
+def paymentCalculationResult(initial_amount, card_id):
+    card = ClientCards.getById(card_id)
+    if (isinstance(card, Response)):
+        return card
+
+    final_amount = calcPayment(initial_amount, card)
+
     # Проверка баланса
     sufficient_balance = card.balance >= final_amount
 
     serializer = PaymentCalculationResultSerializer(data={
-        "final_amount": round(final_amount, 2),
+        "final_amount": final_amount,
         "sufficient_balance": sufficient_balance
     })
     serializer.is_valid(raise_exception=True)
@@ -112,12 +117,7 @@ class PaymentCalculationView(APIView):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
-        try:
-            card = ClientCards.objects.get(id_card=data["id_card"])
-        except ClientCards.DoesNotExist:
-            return Response({"detail": "Card not found"}, status=404)
-        
-        return calcPayment(data["initial_amount"], card)
+        return paymentCalculationResult(data["initial_amount"], data["id_card"])
 
 class FuelPaymentCalculationView(APIView):
     def post(self, request):
@@ -126,20 +126,13 @@ class FuelPaymentCalculationView(APIView):
         data = serializer.validated_data
 
         # Получаем цену топлива
-        try:
-            fuel_price = FuelPrices.objects.get(id_fuel_price=data["id_fuel_price"])
-        except FuelPrices.DoesNotExist:
-            return Response({"detail": "Fuel price not found"}, status=404)
-
-        # Получаем карту клиента
-        try:
-            card = ClientCards.objects.get(id_card=data["id_card"])
-        except ClientCards.DoesNotExist:
-            return Response({"detail": "Card not found"}, status=404)
+        fuel_price = FuelPrices.getById(data["id_fuel_price"])
+        if (isinstance(fuel_price, Response)):
+            return fuel_price
 
         # Исходная сумма = цена за литр * количество литров
         initial_amount = fuel_price.per_liter * data["liters"]
-        return calcPayment(initial_amount, card)
+        return paymentCalculationResult(initial_amount, data["id_card"])
 
 class FuelPaymentExecuteView(APIView):
     @transaction.atomic
@@ -149,28 +142,22 @@ class FuelPaymentExecuteView(APIView):
         data = serializer.validated_data
 
         # Получаем цену топлива
-        try:
-            fuel_price = FuelPrices.objects.get(id_fuel_price=data["id_fuel_price"])
-        except FuelPrices.DoesNotExist:
-            return Response({"success": False, "detail": "Fuel price not found"})
+        fuel_price = FuelPrices.getById(data["id_fuel_price"])
+        if (isinstance(fuel_price, Response)):
+            fuel_price.data['success'] = False
+            fuel_price.status_code = 200
+            return fuel_price
 
-        # Получаем карту клиента и блокируем запись для безопасного списания
-        try:
-            card = ClientCards.objects.select_for_update().get(id_card=data["id_card"])
-        except ClientCards.DoesNotExist:
-            return Response({"success": False, "detail": "Card not found"})
-
-        now = timezone.now().date()
-        # Проверка активности карты
-        if card.start_date > now or (card.end_date and card.end_date <= now):
-            return Response({"success": False, "detail": "Card is not active"})
+        # Получаем карту клиента
+        card = ClientCards.getById(data["id_card"])
+        if (isinstance(card, Response)):
+            card.data['success'] = False
+            card.status_code = 200
+            return card
 
         # Расчёт суммы
         initial_amount = fuel_price.per_liter * data["liters"]
-        percent_discount = (card.discount_percent / 100) * initial_amount
-        rub_discount = card.discount_rub
-        total_discount = percent_discount + rub_discount
-        final_amount = max(initial_amount - total_discount, 0)
+        final_amount = calcPayment(initial_amount, card)
 
         # Проверка баланса
         if card.balance < final_amount:

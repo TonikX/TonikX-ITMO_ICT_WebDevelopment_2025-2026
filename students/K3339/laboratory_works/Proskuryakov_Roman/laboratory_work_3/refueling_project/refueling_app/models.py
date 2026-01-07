@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-
+from rest_framework.response import Response
 
 class FuelReference(models.Model):
     id_kind_fuel = models.AutoField(primary_key=True)
@@ -100,6 +101,22 @@ class FuelPrices(models.Model):
     class Meta:
         db_table = "fuel_prices"
 
+    @staticmethod
+    def getById(target_id):
+        try:
+            price = FuelPrices.objects.get(id_fuel_price=target_id)
+        except FuelPrices.DoesNotExist:
+            return Response({"detail": "Price not found"}, status=404)
+        
+        now = timezone.now()
+
+        # Проверка активности цены
+        if price.start_date > now or (price.end_date and price.end_date <= now):
+            return Response({"detail": "Price is not active"}, status=400)
+
+        return price
+
+
 
 class Clients(models.Model):
     id_client = models.AutoField(primary_key=True)
@@ -133,6 +150,21 @@ class ClientCards(models.Model):
 
     class Meta:
         db_table = "client_cards"
+    
+    @staticmethod
+    def getById(target_id):
+        try:
+            card = ClientCards.objects.get(id_card=target_id)
+        except ClientCards.DoesNotExist:
+            return Response({"detail": "Card not found"}, status=404)
+        
+        now = timezone.now().date()  # сравниваем только даты
+
+        # Проверка активности карты
+        if card.start_date > now or (card.end_date and card.end_date <= now):
+            return Response({"detail": "Card is not active"}, status=400)
+
+        return card
 
 
 class Sales(models.Model):
