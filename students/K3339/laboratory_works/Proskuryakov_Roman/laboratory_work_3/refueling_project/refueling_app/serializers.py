@@ -216,3 +216,177 @@ class FuelPurchaseCalculationSerializer(serializers.Serializer):
     id_fuel_price = serializers.IntegerField()
     liters = serializers.FloatField(min_value=0)
     id_card = serializers.IntegerField(required=False)
+
+
+from decimal import Decimal
+
+# def create_model_serializer_with_sales_summary(model_class):
+#     """
+#     Фабрика для создания сериализаторов с добавленными полями сводки продаж
+#     """
+#     class SerializerWithSalesSummary(serializers.ModelSerializer):
+#         total_amount = serializers.DecimalField(
+#             max_digits=10, 
+#             decimal_places=2, 
+#             read_only=True,
+#             default=Decimal('0.00')
+#         )
+#         # sales_count = serializers.IntegerField(
+#         #     read_only=True,
+#         #     default=0
+#         # )
+#         # avg_liters = serializers.DecimalField(
+#         #     max_digits=10, 
+#         #     decimal_places=2, 
+#         #     read_only=True,
+#         #     default=Decimal('0.00')
+#         # )
+        
+#         class Meta:
+#             model = model_class
+#             # Получаем все поля модели + наши 3 поля
+#             fields = [field.name for field in model_class._meta.get_fields()] + [
+#                 'total_amount', 
+#                 # 'sales_count', 
+#                 # 'avg_liters'
+#             ]
+    
+#     return SerializerWithSalesSummary
+
+
+# def create_model_serializer_with_sales_summary(model_class):
+#     """
+#     Фабрика для создания сериализаторов с добавленными полями сводки продаж
+#     """
+#     # Получаем только реальные поля модели (исключая обратные связи и relations)
+#     model_field_names = []
+    
+#     for field in model_class._meta.get_fields():
+#         # Исключаем обратные связи и ManyToMany relations
+#         if field.auto_created or field.many_to_many:
+#             continue
+        
+#         # Исключаем поля, которые не являются полями модели (например, методы)
+#         if not hasattr(field, 'attname'):
+#             continue
+            
+#         model_field_names.append(field.name)
+    
+#     class SerializerWithSalesSummary(serializers.ModelSerializer):
+#         total_amount = serializers.DecimalField(
+#             max_digits=10, 
+#             decimal_places=2, 
+#             read_only=True,
+#             default=Decimal('0.00')
+#         )
+#         sales_count = serializers.IntegerField(
+#             read_only=True,
+#             default=0
+#         )
+#         avg_liters = serializers.DecimalField(
+#             max_digits=10, 
+#             decimal_places=2, 
+#             read_only=True,
+#             default=Decimal('0.00')
+#         )
+#         1
+#         class Meta:
+#             model = model_class
+#             # Получаем только реальные поля модели + наши 3 поля
+#             fields = model_field_names + [
+#                 'total_amount', 
+#                 'sales_count', 
+#                 'avg_liters'
+#             ]
+    
+#     return SerializerWithSalesSummary
+
+
+def create_model_serializer_with_sales_summary(model_class, hidden_columns):
+    """
+    Фабрика для создания сериализаторов, работающих со словарями (из .values())
+    """
+    # Маппинг типов Django полей на сериализаторы DRF
+    from django.db import models
+    
+    field_mapping = {
+        models.AutoField: serializers.IntegerField,
+        models.IntegerField: serializers.IntegerField,
+        models.BigIntegerField: serializers.IntegerField,
+        models.CharField: serializers.CharField,
+        models.TextField: serializers.CharField,
+        models.DateField: serializers.DateField,
+        models.DateTimeField: serializers.DateTimeField,
+        models.DecimalField: serializers.DecimalField,
+        models.FloatField: serializers.FloatField,
+        models.BooleanField: serializers.BooleanField,
+        models.ForeignKey: serializers.IntegerField,  # Для ForeignKey используем IntegerField
+    }
+    
+    # Собираем информацию о полях модели
+    fields_dict = {}
+    
+    for field in model_class._meta.get_fields():
+        # Пропускаем обратные связи и ManyToMany
+        if field.auto_created or field.many_to_many:
+            continue
+
+        # исключаем скрытые поля
+        if field.name in hidden_columns:
+            continue
+
+        # Определяем тип сериализатора для поля
+        field_type = type(field)
+        if field_type in field_mapping:
+            if field_type == models.ForeignKey:
+                fields_dict[field.name] = serializers.IntegerField()
+            elif field_type == models.DecimalField:
+                fields_dict[field.name] = serializers.DecimalField(
+                    max_digits=field.max_digits,
+                    decimal_places=field.decimal_places
+                )
+            elif field_type == models.CharField:
+                fields_dict[field.name] = serializers.CharField(
+                    max_length=field.max_length
+                )
+            else:
+                # Для остальных типов создаем поле с параметрами по умолчанию
+                fields_dict[field.name] = field_mapping[field_type]()
+    
+    # Добавляем поля сводки
+    from decimal import Decimal
+    
+    fields_dict.update({
+        'total_amount': serializers.DecimalField(
+            max_digits=10, 
+            decimal_places=2, 
+            default=Decimal('0.00')
+        ),
+        'sales_count': serializers.IntegerField(default=0),
+        'avg_liters': serializers.DecimalField(
+            max_digits=10, 
+            decimal_places=2, 
+            default=Decimal('0.00')
+        )
+    })
+    
+    # Создаем класс сериализатора
+    SerializerClass = type(
+        f'{model_class.__name__}DictSerializer',
+        (serializers.Serializer,),
+        fields_dict
+    )
+    
+    return SerializerClass
+
+# Создаем сериализаторы с помощью фабрики
+# FuelReferenceSerializer = create_model_serializer_with_sales_summary(FuelReference)
+# CompaniesSerializer = create_model_serializer_with_sales_summary(Companies)
+# ProducedFuelSerializer = create_model_serializer_with_sales_summary(ProducedFuel)
+# GasStationSerializer = create_model_serializer_with_sales_summary(GasStation)
+# SoldFuelSerializer = create_model_serializer_with_sales_summary(SoldFuel)
+# FuelPricesSerializer = create_model_serializer_with_sales_summary(FuelPrices)
+# ClientsSerializer = create_model_serializer_with_sales_summary(Clients)
+# ClientCardsSerializer = create_model_serializer_with_sales_summary(ClientCards)
+
+

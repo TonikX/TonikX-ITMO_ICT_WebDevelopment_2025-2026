@@ -32,12 +32,14 @@ class ProducedFuel(models.Model):
     id_kind_fuel = models.ForeignKey(
         FuelReference,
         on_delete=models.CASCADE,
-        db_column="id_kind_fuel"
+        db_column="id_kind_fuel",
+        related_name="produced_fuel"
     )
     id_company = models.ForeignKey(
         Companies,
         on_delete=models.CASCADE,
-        db_column="id_company"
+        db_column="id_company",
+        related_name="produced_fuel"
     )
 
     class Meta:
@@ -49,7 +51,8 @@ class GasStation(models.Model):
     id_company = models.ForeignKey(
         Companies,
         on_delete=models.CASCADE,
-        db_column="id_company"
+        db_column="id_company",
+        related_name="gas_station"
     )
     station_address = models.CharField(max_length=100)
 
@@ -75,12 +78,14 @@ class SoldFuel(models.Model):
     id_produced_fuel = models.ForeignKey(
         ProducedFuel,
         on_delete=models.CASCADE,
-        db_column="id_produced_fuel"
+        db_column="id_produced_fuel",
+        related_name="sold_fuel"
     )
     id_station = models.ForeignKey(
         GasStation,
         on_delete=models.CASCADE,
-        db_column="id_station"
+        db_column="id_station",
+        related_name="sold_fuel"
     )
 
     class Meta:
@@ -92,7 +97,8 @@ class FuelPrices(models.Model):
     id_sold_fuel = models.ForeignKey(
         SoldFuel,
         on_delete=models.CASCADE,
-        db_column="id_sold_fuel"
+        db_column="id_sold_fuel",
+        related_name="fuel_prices"
     )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
@@ -135,12 +141,14 @@ class ClientCards(models.Model):
     id_company = models.ForeignKey(
         Companies,
         on_delete=models.CASCADE,
-        db_column="id_company"
+        db_column="id_company",
+        related_name="client_cards"
     )
     id_client = models.ForeignKey(
         Clients,
         on_delete=models.CASCADE,
-        db_column="id_client"
+        db_column="id_client",
+        related_name='client_cards'
     )
     start_date = models.DateField()
     end_date = models.DateField()
@@ -172,12 +180,14 @@ class Sales(models.Model):
     id_fuel_price = models.ForeignKey(
         FuelPrices,
         on_delete=models.CASCADE,
-        db_column="id_fuel_price"
+        db_column="id_fuel_price",
+        related_name="sales"
     )
     id_card = models.ForeignKey(
         ClientCards,
         on_delete=models.CASCADE,
-        db_column="id_card"
+        db_column="id_card",
+        related_name="sales"
     )
     sale_date = models.DateTimeField()
     sold_liters_volume = models.DecimalField(max_digits=10, decimal_places=2)
@@ -185,3 +195,18 @@ class Sales(models.Model):
 
     class Meta:
         db_table = "sales"
+
+
+def get_model_field_names(model_class):
+    """
+    Возвращает список имен полей модели (без обратных связей и ManyToMany)
+    """
+    field_names = []
+    for field in model_class._meta.get_fields():
+        if field.auto_created or field.many_to_many:
+            continue
+        # Пропускаем также поля, которые не имеют атрибута attname (например, методы)
+        if not hasattr(field, 'attname'):
+            continue
+        field_names.append(field.name)
+    return field_names
