@@ -179,3 +179,115 @@ class FuelPaymentExecuteView(APIView):
         )
 
         return Response({"success": True})
+
+
+from django.db.models import Avg, Min, Max, Sum, Count
+
+class SalesQueryBuilder:
+    """Класс для построения запросов с агрегацией по продажам"""
+    
+    # Маппинг моделей на пути до sales
+    ANNOTATE_PREFIX_PATHS = {
+        ClientCards: 'sales',
+        Clients: 'client_cards__sales',
+        Companies: 'client_cards__sales',
+        
+        FuelPrices: 'sales',
+        SoldFuel: 'fuel_prices__sales',
+        ProducedFuel: 'sold_fuel__fuel_prices__sales',
+        GasStation: 'sold_fuel__fuel_prices__sales',
+        FuelReference: 'produced_fuel__sold_fuel__fuel_prices__sales',
+    }
+    
+    AGGREGATIONS = {
+        'total_amount': {
+            'func': models.Sum,
+            'field': 'amount_paid'
+        },
+        'total_liters': {
+            'func': models.Sum,
+            'field': 'sold_liters_volume'
+        },
+        'sales_count': {
+            'func': models.Count,
+            'field': 'id_sales'
+        },
+        'avg_liters': {
+            'func': models.Avg,
+            'field': 'sold_liters_volume'
+        },
+    }
+    
+    @classmethod
+    def build_query(self, model_type, columns, aggregations=None):
+        """
+        Строит агрегирующий запрос
+        
+        Args:
+            model_type: Класс модели Django
+            columns: Список полей для SELECT
+            aggregations: Список агрегаций (по умолчанию: total_amount, sales_count, avg_liters)
+        """
+        if aggregations is None or not aggregations:
+            aggregations = ['total_amount', 'sales_count', 'avg_liters']
+        
+        path = self.ANNOTATE_PREFIX_PATHS[model_type]
+        if path is None:
+            raise ValueError(f"Модель {model_type.__name__} не связана с Sales")
+        
+        # Создаем annotate параметры
+        annotate_kwargs = {}
+        for agg_name in aggregations:
+            if agg_name not in self.AGGREGATIONS:
+                continue
+                
+            agg_config = self.AGGREGATIONS[agg_name]
+            field_name = agg_config['field']
+            
+            # Строим полный путь до поля
+            lookup_field = f'{path}__{field_name}'
+            
+            # Создаем агрегационную функцию
+            annotate_kwargs[agg_name] = agg_config['func'](lookup_field)
+        
+        # Строим запрос
+        query = model_type.objects.annotate(**annotate_kwargs)
+        
+        # Подготавливаем values
+        values_fields = list(columns) + list(annotate_kwargs.keys())
+        
+        return query.values(*values_fields)
+
+class SalesSummaryByModelView(APIView):
+    MODEL_TYPE_BY_NAME = {
+        'fuel_reference': FuelReference,
+        'companies': Companies,
+        'produced_fuel': ProducedFuel,
+        'gas_stations': GasStation,
+        'sold_fuel': SoldFuel,
+        'fuel_prices': FuelPrices,
+        'clients': Clients,
+        'client_cards': ClientCards,
+    }
+
+    def get(self, request, model_name):
+        if (not model_name in self.MODEL_TYPE_BY_NAME):
+            return Response({"detail": f"There is no table with name '{model_name}'"}, status=404)
+
+        model_type = self.MODEL_TYPE_BY_NAME[model_name]
+
+        hidden_columns_str = request.query_params.get('hidden_columns', '')
+        aggregations_str = request.query_params.get('aggregations', '')
+        
+        # Разделяем строки по запятым в список
+        hidden_columns = [col.strip() for col in hidden_columns_str.split(',') if col.strip()] if hidden_columns_str else []
+        aggregations = [agg.strip() for agg in aggregations_str.split(',') if agg.strip()] if aggregations_str else []
+
+        columns = set(get_model_field_names(model_type)) - set(hidden_columns)
+
+        query = SalesQueryBuilder.build_query(model_type, columns, aggregations)
+        
+        model_serializer = create_model_serializer_with_sales_summary(model_type, hidden_columns)
+        ser = model_serializer(query, many=True)
+
+        return Response(ser.data)
