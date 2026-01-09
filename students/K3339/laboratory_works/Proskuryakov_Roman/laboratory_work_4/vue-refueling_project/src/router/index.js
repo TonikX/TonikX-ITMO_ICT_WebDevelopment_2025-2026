@@ -5,6 +5,7 @@ import { useAuthStore } from '../stores/auth'
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import FuelSaleView from '../views/FuelSaleView.vue'
+import SalesSummaryView from '../views/SalesSummaryView.vue'
 
 const routes = [
   {
@@ -23,6 +24,12 @@ const routes = [
     path: '/fuel-sale',
     name: 'FuelSale',
     component: FuelSaleView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/sales-summary/:modelName?',
+    name: 'SalesSummary',
+    component: SalesSummaryView,
     meta: { requiresAuth: true }
   },
 ]
