@@ -4,7 +4,7 @@ import { analyticsApi } from '../api/analytics'
 export const useAnalyticsStore = defineStore('analytics', {
   state: () => ({
     availableTables: [],
-    selectedTable: null, // Изменяем с selectedTableKey на selectedTable
+    selectedTable: null,
     startTime: '',
     endTime: '',
     hiddenColumns: [],
@@ -15,27 +15,22 @@ export const useAnalyticsStore = defineStore('analytics', {
   }),
   
   getters: {
-    // Отфильтрованные колонки (кроме скрытых)
     visibleColumns: (state) => {
       if (state.columns.length === 0) return []
       
-      // Определяем колонки, которые нельзя скрывать (последние 3)
       const nonHideableColumns = state.columns.slice(-3).map(col => col.key)
       
-      // Фильтруем колонки, оставляя только видимые
       return state.columns.filter(column => 
         !state.hiddenColumns.includes(column.key) || 
         nonHideableColumns.includes(column.key)
       )
     },
     
-    // Колонки, которые можно скрыть (все кроме последних 3)
     hideableColumns: (state) => {
       if (state.columns.length <= 3) return []
       return state.columns.slice(0, -3)
     },
     
-    // Форматированные параметры для запроса
     queryParams: (state) => {
       const params = {}
       
@@ -89,7 +84,6 @@ export const useAnalyticsStore = defineStore('analytics', {
         
         this.tableData = response.data
         
-        // Извлекаем колонки из первого элемента данных
         if (response.data.length > 0) {
           const firstRow = response.data[0]
           this.columns = Object.keys(firstRow).map(key => ({
@@ -110,7 +104,7 @@ export const useAnalyticsStore = defineStore('analytics', {
     
     setSelectedTable(table) {
       this.selectedTable = table
-      this.hiddenColumns = [] // Сбрасываем скрытые колонки при смене таблицы
+      this.hiddenColumns = []
     },
     
     setStartTime(time) {
@@ -121,8 +115,11 @@ export const useAnalyticsStore = defineStore('analytics', {
       this.endTime = time
     },
     
+    setHiddenColumns(columns) {
+      this.hiddenColumns = columns
+    },
+    
     addHiddenColumn(columnKey) {
-      // Проверяем, можно ли скрыть эту колонку
       const canHide = this.hideableColumns.some(col => col.key === columnKey)
       if (canHide && !this.hiddenColumns.includes(columnKey)) {
         this.hiddenColumns.push(columnKey)
@@ -143,7 +140,6 @@ export const useAnalyticsStore = defineStore('analytics', {
     },
     
     formatColumnLabel(key) {
-      // Преобразуем snake_case в читаемый текст
       return key
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))

@@ -126,7 +126,7 @@ const route = useRoute()
 const router = useRouter()
 const analyticsStore = useAnalyticsStore()
 
-// Локальные состояния для времени (в формате для input[type="datetime-local"])
+// Локальные состояния для времени
 const startTimeLocal = ref('')
 const endTimeLocal = ref('')
 
@@ -136,6 +136,9 @@ const contextMenu = ref({
   position: { x: 0, y: 0 },
   columnKey: ''
 })
+
+// Флаг для предотвращения рекурсивных вызовов
+const updatingFromUrl = ref(false)
 
 // Вычисляемые свойства из хранилища
 const availableTables = computed(() => analyticsStore.availableTables)
@@ -159,15 +162,12 @@ const hasActiveFilters = computed(() => {
 // Методы
 const handleTableChange = () => {
   if (selectedTable.value) {
-    // Обновляем URL
     updateUrl()
-    // Загружаем данные
-    analyticsStore.loadSalesSummary()
+    loadSalesSummary()
   }
 }
 
 const handleTimeChange = () => {
-  // Конвертируем локальное время в ISO строку
   if (startTimeLocal.value) {
     const date = new Date(startTimeLocal.value)
     analyticsStore.setStartTime(date.toISOString())
@@ -182,10 +182,9 @@ const handleTimeChange = () => {
     analyticsStore.setEndTime('')
   }
   
-  // Если таблица выбрана, загружаем данные
   if (selectedTable.value) {
-    analyticsStore.loadSalesSummary()
     updateUrl()
+    loadSalesSummary()
   }
 }
 
@@ -195,8 +194,8 @@ const resetFilters = () => {
   endTimeLocal.value = ''
   
   if (selectedTable.value) {
-    analyticsStore.loadSalesSummary()
     updateUrl()
+    loadSalesSummary()
   }
 }
 
@@ -211,7 +210,6 @@ const openContextMenu = (event, columnKey) => {
     columnKey
   }
   
-  // Закрываем контекстное меню при клике вне его
   const closeMenu = () => {
     contextMenu.value.visible = false
     document.removeEventListener('click', closeMenu)
@@ -227,8 +225,8 @@ const handleHideColumn = (columnKey) => {
   contextMenu.value.visible = false
   
   if (selectedTable.value) {
-    analyticsStore.loadSalesSummary()
     updateUrl()
+    loadSalesSummary()
   }
 }
 
@@ -241,7 +239,6 @@ const formatCellValue = (value) => {
     return '-'
   }
   
-  // Если это число с плавающей точкой, форматируем
   if (typeof value === 'number' || !isNaN(Number(value))) {
     const num = Number(value)
     if (num % 1 !== 0) {
@@ -274,12 +271,18 @@ const updateUrl = () => {
   })
 }
 
+const loadSalesSummary = () => {
+  analyticsStore.loadSalesSummary()
+}
+
 const clearError = () => {
   analyticsStore.clearError()
 }
 
 // Восстановление состояния из URL при загрузке
 const restoreFromUrl = () => {
+  updatingFromUrl.value = true
+  
   const { modelName } = route.params
   const { start_time, end_time, hidden_columns } = route.query
   
@@ -289,21 +292,30 @@ const restoreFromUrl = () => {
   
   if (start_time) {
     analyticsStore.setStartTime(start_time)
-    // Конвертируем ISO строку в формат для input
     const date = new Date(start_time)
     startTimeLocal.value = date.toISOString().slice(0, 16)
+  } else {
+    analyticsStore.setStartTime('')
+    startTimeLocal.value = ''
   }
   
   if (end_time) {
     analyticsStore.setEndTime(end_time)
     const date = new Date(end_time)
     endTimeLocal.value = date.toISOString().slice(0, 16)
+  } else {
+    analyticsStore.setEndTime('')
+    endTimeLocal.value = ''
   }
   
   if (hidden_columns) {
-    const columns = hidden_columns.split(',').map(col => col.trim())
-    columns.forEach(col => analyticsStore.addHiddenColumn(col))
+    const columns = hidden_columns.split(',').map(col => col.trim()).filter(col => col)
+    analyticsStore.setHiddenColumns(columns)
+  } else {
+    analyticsStore.setHiddenColumns([])
   }
+  
+  updatingFromUrl.value = false
 }
 
 // Загрузка данных при монтировании
@@ -313,7 +325,7 @@ onMounted(async () => {
   
   // Если в URL есть модель, загружаем данные
   if (route.params.modelName) {
-    analyticsStore.loadSalesSummary()
+    loadSalesSummary()
   }
 })
 
@@ -321,9 +333,11 @@ onMounted(async () => {
 watch(
   () => route.fullPath,
   () => {
+    if (updatingFromUrl.value) return
+    
     restoreFromUrl()
     if (route.params.modelName) {
-      analyticsStore.loadSalesSummary()
+      loadSalesSummary()
     }
   }
 )
@@ -337,8 +351,8 @@ watch(hiddenColumns, () => {
 
 // Следим за selectedTable для обновления данных
 watch(selectedTable, (newValue) => {
-  if (newValue) {
-    analyticsStore.loadSalesSummary()
+  if (newValue && !updatingFromUrl.value) {
+    loadSalesSummary()
   }
 })
 </script>
