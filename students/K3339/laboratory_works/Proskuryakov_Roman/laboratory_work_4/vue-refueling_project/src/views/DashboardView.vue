@@ -22,7 +22,11 @@
             Продажа топлива
           </router-link>
         </li>
-        <li>Анализ продаж</li>
+        <li>
+          <router-link to="/sales-summary" class="action-link">
+            Анализ продаж
+          </router-link>
+        </li>
         <li>Регистрация клиентов</li>
       </ul>
     </div>
