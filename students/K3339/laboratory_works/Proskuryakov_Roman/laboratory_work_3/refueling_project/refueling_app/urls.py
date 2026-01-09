@@ -21,6 +21,7 @@ urlpatterns = [
     path("execute-fuel-payment/", FuelPaymentExecuteView.as_view(), name="execute_fuel_payment"),
     # можно указать массив строк hidden_columns
     path('sales-summary/<str:model_name>/', SalesSummaryByModelView.as_view(), name='sales-summary'),
+    path('available-tables/', AvailableAggregationTablesView.as_view(), name='available-tables'),
 ]
 
 urlpatterns += router.urls
