@@ -6,6 +6,8 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+
 from decimal import Decimal
 from .models import *
 from .serializers import *
@@ -41,6 +43,10 @@ class FuelPricesViewSet(ModelViewSet):
 class ClientsViewSet(ModelViewSet):
     queryset = Clients.objects.all()
     serializer_class = ClientsSerializer
+    # Подключаем бэкенд фильтрации
+    filter_backends = [DjangoFilterBackend]
+    # Указываем поля, по которым можно фильтровать
+    filterset_fields = ['phone_number']
 
 class ClientCardsViewSet(ModelViewSet):
     queryset = ClientCards.objects.select_related(
@@ -329,15 +335,15 @@ class AvailableAggregationTablesView(APIView):
     # Словарь с русскими названиями таблиц
     TABLE_NAMES_RU = {
         'fuel_reference': {
-            'name': 'Справочник топлива',
+            'name': 'Видам топлива',
             'description': 'Типы и характеристики топлива'
         },
         'companies': {
-            'name': 'Компании',
+            'name': 'Компаниям',
             'description': 'Производители и сети АЗС'
         },
         'produced_fuel': {
-            'name': 'Произведенное топливо',
+            'name': 'Произведимому топливу',
             'description': 'Конкретные партии произведенного топлива'
         },
         'gas_stations': {
@@ -345,19 +351,19 @@ class AvailableAggregationTablesView(APIView):
             'description': 'Автозаправочные станции'
         },
         'sold_fuel': {
-            'name': 'Продаваемое топливо',
+            'name': 'Продаваемому топливу',
             'description': 'Топливо, доступное для продажи на АЗС'
         },
         'fuel_prices': {
-            'name': 'Цены на топливо',
+            'name': 'Ценам на топливо',
             'description': 'История цен на топливо'
         },
         'clients': {
-            'name': 'Клиенты',
+            'name': 'Клиентам',
             'description': 'Информация о клиентах'
         },
         'client_cards': {
-            'name': 'Карты клиентов',
+            'name': 'Картам клиентов',
             'description': 'Скидочные и бонусные карты'
         },
     }
