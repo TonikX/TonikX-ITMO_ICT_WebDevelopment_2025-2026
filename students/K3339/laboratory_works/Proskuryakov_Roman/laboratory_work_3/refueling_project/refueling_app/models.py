@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from rest_framework.response import Response
+from decimal import Decimal
 
 class FuelReference(models.Model):
     id_kind_fuel = models.AutoField(primary_key=True)
@@ -151,10 +152,10 @@ class ClientCards(models.Model):
         related_name='client_cards'
     )
     start_date = models.DateField()
-    end_date = models.DateField()
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_percent = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_rub = models.DecimalField(max_digits=10, decimal_places=2)
+    end_date = models.DateField(null=True, blank=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    discount_percent = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    discount_rub = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
 
     class Meta:
         db_table = "client_cards"
