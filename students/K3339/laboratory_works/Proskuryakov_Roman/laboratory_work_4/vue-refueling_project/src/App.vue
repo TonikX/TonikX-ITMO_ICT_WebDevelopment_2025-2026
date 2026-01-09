@@ -20,6 +20,7 @@
           <router-link to="/" class="nav-link">Главная</router-link>
           <router-link to="/fuel-sale" class="nav-link">Продажа топлива</router-link>
           <router-link to="/sales-summary" class="nav-link">Анализ продаж</router-link>
+          <router-link to="/issue-card" class="nav-link">Выдача карт</router-link>
         </div>
         <button @click="handleLogout" class="logout-btn">
           Выйти

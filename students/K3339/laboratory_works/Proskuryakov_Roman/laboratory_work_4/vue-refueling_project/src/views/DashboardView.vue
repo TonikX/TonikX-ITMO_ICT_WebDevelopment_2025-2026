@@ -27,7 +27,11 @@
             Анализ продаж
           </router-link>
         </li>
-        <li>Регистрация клиентов</li>
+        <li>
+          <router-link to="/issue-card" class="action-link">
+            Регистрация клиентов
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>

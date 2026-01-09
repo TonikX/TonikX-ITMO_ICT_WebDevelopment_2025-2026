@@ -6,6 +6,7 @@ import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import FuelSaleView from '../views/FuelSaleView.vue'
 import SalesSummaryView from '../views/SalesSummaryView.vue'
+import IssueCardView from '../views/IssueCardView.vue'
 
 const routes = [
   {
@@ -30,6 +31,12 @@ const routes = [
     path: '/sales-summary/:modelName?',
     name: 'SalesSummary',
     component: SalesSummaryView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/issue-card',
+    name: 'IssueCard',
+    component: IssueCardView,
     meta: { requiresAuth: true }
   },
 ]
