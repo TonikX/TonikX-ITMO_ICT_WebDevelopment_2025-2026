@@ -218,89 +218,23 @@ class FuelPurchaseCalculationSerializer(serializers.Serializer):
     id_card = serializers.IntegerField(required=False)
 
 
+class SalesSummaryQueryParamsSerializer(serializers.Serializer):
+    hidden_columns = serializers.CharField(required=False, allow_blank=True)
+    aggregations = serializers.CharField(required=False, allow_blank=True)
+    start_time = serializers.DateTimeField(required=False, allow_null=True)
+    end_time = serializers.DateTimeField(required=False, allow_null=True)
+    
+    def validate_hidden_columns(self, value):
+        if value:
+            return [col.strip() for col in value.split(',') if col.strip()]
+        return []
+    
+    def validate_aggregations(self, value):
+        if value:
+            return [agg.strip() for agg in value.split(',') if agg.strip()]
+        return []
+
 from decimal import Decimal
-
-# def create_model_serializer_with_sales_summary(model_class):
-#     """
-#     Фабрика для создания сериализаторов с добавленными полями сводки продаж
-#     """
-#     class SerializerWithSalesSummary(serializers.ModelSerializer):
-#         total_amount = serializers.DecimalField(
-#             max_digits=10, 
-#             decimal_places=2, 
-#             read_only=True,
-#             default=Decimal('0.00')
-#         )
-#         # sales_count = serializers.IntegerField(
-#         #     read_only=True,
-#         #     default=0
-#         # )
-#         # avg_liters = serializers.DecimalField(
-#         #     max_digits=10, 
-#         #     decimal_places=2, 
-#         #     read_only=True,
-#         #     default=Decimal('0.00')
-#         # )
-        
-#         class Meta:
-#             model = model_class
-#             # Получаем все поля модели + наши 3 поля
-#             fields = [field.name for field in model_class._meta.get_fields()] + [
-#                 'total_amount', 
-#                 # 'sales_count', 
-#                 # 'avg_liters'
-#             ]
-    
-#     return SerializerWithSalesSummary
-
-
-# def create_model_serializer_with_sales_summary(model_class):
-#     """
-#     Фабрика для создания сериализаторов с добавленными полями сводки продаж
-#     """
-#     # Получаем только реальные поля модели (исключая обратные связи и relations)
-#     model_field_names = []
-    
-#     for field in model_class._meta.get_fields():
-#         # Исключаем обратные связи и ManyToMany relations
-#         if field.auto_created or field.many_to_many:
-#             continue
-        
-#         # Исключаем поля, которые не являются полями модели (например, методы)
-#         if not hasattr(field, 'attname'):
-#             continue
-            
-#         model_field_names.append(field.name)
-    
-#     class SerializerWithSalesSummary(serializers.ModelSerializer):
-#         total_amount = serializers.DecimalField(
-#             max_digits=10, 
-#             decimal_places=2, 
-#             read_only=True,
-#             default=Decimal('0.00')
-#         )
-#         sales_count = serializers.IntegerField(
-#             read_only=True,
-#             default=0
-#         )
-#         avg_liters = serializers.DecimalField(
-#             max_digits=10, 
-#             decimal_places=2, 
-#             read_only=True,
-#             default=Decimal('0.00')
-#         )
-#         1
-#         class Meta:
-#             model = model_class
-#             # Получаем только реальные поля модели + наши 3 поля
-#             fields = model_field_names + [
-#                 'total_amount', 
-#                 'sales_count', 
-#                 'avg_liters'
-#             ]
-    
-#     return SerializerWithSalesSummary
-
 
 def create_model_serializer_with_sales_summary(model_class, hidden_columns):
     """

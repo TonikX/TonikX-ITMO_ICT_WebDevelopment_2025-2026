@@ -219,7 +219,7 @@ class SalesQueryBuilder:
     }
     
     @classmethod
-    def build_query(self, model_type, columns, aggregations=None):
+    def build_query(self, model_type, columns, aggregations=None, start_time=None, end_time=None):
         """
         Строит агрегирующий запрос
         
@@ -227,7 +227,18 @@ class SalesQueryBuilder:
             model_type: Класс модели Django
             columns: Список полей для SELECT
             aggregations: Список агрегаций (по умолчанию: total_amount, sales_count, avg_liters)
+            start_time: начало периода продаж
+            end_time: конец периода продаж
         """
+        time_filter = Q()
+        # Если указана start_time, добавляем условие sale_date >= start_time
+        if start_time is not None:
+            time_filter &= Q(**{f'{path}__sale_date__gte': start_time})
+        
+        # Если указана end_time, добавляем условие sale_date < end_time
+        if end_time is not None:
+            time_filter &= Q(**{f'{path}__sale_date__lt': end_time})
+        
         if aggregations is None or not aggregations:
             aggregations = ['total_amount', 'sales_count', 'avg_liters']
         
@@ -253,6 +264,10 @@ class SalesQueryBuilder:
         # Строим запрос
         query = model_type.objects.annotate(**annotate_kwargs)
         
+        # Применяем фильтр по времени для связанных записей
+        if time_filter:
+            query = query.filter(time_filter)
+
         # Подготавливаем values
         values_fields = list(columns) + list(annotate_kwargs.keys())
         
@@ -276,17 +291,21 @@ class SalesSummaryByModelView(APIView):
 
         model_type = self.MODEL_TYPE_BY_NAME[model_name]
 
-        hidden_columns_str = request.query_params.get('hidden_columns', '')
-        aggregations_str = request.query_params.get('aggregations', '')
+        serializer = SalesSummaryQueryParamsSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
         
-        # Разделяем строки по запятым в список
-        hidden_columns = [col.strip() for col in hidden_columns_str.split(',') if col.strip()] if hidden_columns_str else []
-        aggregations = [agg.strip() for agg in aggregations_str.split(',') if agg.strip()] if aggregations_str else []
+        hidden_columns = serializer.validated_data.get('hidden_columns', [])
+        aggregations = serializer.validated_data.get('aggregations', [])
+        aggregations = None # сериализатор пока не умею другой набор агрегирующих колонок кроме стандартных
+        start_time = serializer.validated_data.get('start_time')
+        end_time = serializer.validated_data.get('end_time')
 
         columns = set(get_model_field_names(model_type)) - set(hidden_columns)
 
-        query = SalesQueryBuilder.build_query(model_type, columns, aggregations)
+        query = SalesQueryBuilder.build_query(model_type, columns, aggregations, start_time, end_time)
         
+        print("query", str(query.query))
+
         model_serializer = create_model_serializer_with_sales_summary(model_type, hidden_columns)
         ser = model_serializer(query, many=True)
 

@@ -19,7 +19,7 @@ urlpatterns = [
     path("my-station-prices/", FuelPricesByStationView.as_view(), name="my_station_prices"),
     path("calculate-payment/", PaymentCalculationView.as_view(), name="calculate_payment"),
     path("execute-fuel-payment/", FuelPaymentExecuteView.as_view(), name="execute_fuel_payment"),
-    # можно указать массивы строк hidden_columns и aggregations
+    # можно указать массив строк hidden_columns
     path('sales-summary/<str:model_name>/', SalesSummaryByModelView.as_view(), name='sales-summary'),
 ]
 
