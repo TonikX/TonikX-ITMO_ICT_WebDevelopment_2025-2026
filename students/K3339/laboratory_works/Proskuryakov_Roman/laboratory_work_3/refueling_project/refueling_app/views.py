@@ -230,6 +230,10 @@ class SalesQueryBuilder:
             start_time: начало периода продаж
             end_time: конец периода продаж
         """
+        path = self.ANNOTATE_PREFIX_PATHS[model_type]
+        if path is None:
+            raise ValueError(f"Модель {model_type.__name__} не связана с Sales")
+        
         time_filter = Q()
         # Если указана start_time, добавляем условие sale_date >= start_time
         if start_time is not None:
@@ -242,10 +246,7 @@ class SalesQueryBuilder:
         if aggregations is None or not aggregations:
             aggregations = ['total_amount', 'sales_count', 'avg_liters']
         
-        path = self.ANNOTATE_PREFIX_PATHS[model_type]
-        if path is None:
-            raise ValueError(f"Модель {model_type.__name__} не связана с Sales")
-        
+
         # Создаем annotate параметры
         annotate_kwargs = {}
         for agg_name in aggregations:
@@ -310,3 +311,64 @@ class SalesSummaryByModelView(APIView):
         ser = model_serializer(query, many=True)
 
         return Response(ser.data)
+    
+# views.py (добавить новый класс)
+class AvailableAggregationTablesView(APIView):
+    """
+    API для получения списка доступных таблиц для агрегации с русскими названиями
+    """
+    
+    # Словарь с русскими названиями таблиц
+    TABLE_NAMES_RU = {
+        'fuel_reference': {
+            'name': 'Справочник топлива',
+            'description': 'Типы и характеристики топлива'
+        },
+        'companies': {
+            'name': 'Компании',
+            'description': 'Производители и сети АЗС'
+        },
+        'produced_fuel': {
+            'name': 'Произведенное топливо',
+            'description': 'Конкретные партии произведенного топлива'
+        },
+        'gas_stations': {
+            'name': 'АЗС',
+            'description': 'Автозаправочные станции'
+        },
+        'sold_fuel': {
+            'name': 'Продаваемое топливо',
+            'description': 'Топливо, доступное для продажи на АЗС'
+        },
+        'fuel_prices': {
+            'name': 'Цены на топливо',
+            'description': 'История цен на топливо'
+        },
+        'clients': {
+            'name': 'Клиенты',
+            'description': 'Информация о клиентах'
+        },
+        'client_cards': {
+            'name': 'Карты клиентов',
+            'description': 'Скидочные и бонусные карты'
+        },
+    }
+    
+    def get(self, request):
+        """
+        Возвращает список доступных таблиц для агрегации
+        """
+        tables = []
+        
+        for key, value in self.TABLE_NAMES_RU.items():
+            tables.append({
+                'key': key,
+                'name': value['name'],
+                'description': value.get('description', '')
+            })
+        
+        # Сортируем по русскому названию для удобства
+        tables.sort(key=lambda x: x['name'])
+        
+        serializer = AvailableTableSerializer(tables, many=True)
+        return Response(serializer.data)

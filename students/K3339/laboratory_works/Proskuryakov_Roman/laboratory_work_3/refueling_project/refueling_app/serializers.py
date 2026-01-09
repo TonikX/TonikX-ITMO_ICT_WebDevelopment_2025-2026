@@ -217,7 +217,6 @@ class FuelPurchaseCalculationSerializer(serializers.Serializer):
     liters = serializers.FloatField(min_value=0)
     id_card = serializers.IntegerField(required=False)
 
-
 class SalesSummaryQueryParamsSerializer(serializers.Serializer):
     hidden_columns = serializers.CharField(required=False, allow_blank=True)
     aggregations = serializers.CharField(required=False, allow_blank=True)
@@ -324,3 +323,7 @@ def create_model_serializer_with_sales_summary(model_class, hidden_columns):
 # ClientCardsSerializer = create_model_serializer_with_sales_summary(ClientCards)
 
 
+class AvailableTableSerializer(serializers.Serializer):
+    key = serializers.CharField(max_length=50, read_only=True)
+    name = serializers.CharField(max_length=100, read_only=True)
+    description = serializers.CharField(max_length=200, read_only=True, required=False)
