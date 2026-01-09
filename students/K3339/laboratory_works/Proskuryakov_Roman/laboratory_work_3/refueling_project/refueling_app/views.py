@@ -234,18 +234,23 @@ class SalesQueryBuilder:
         if path is None:
             raise ValueError(f"Модель {model_type.__name__} не связана с Sales")
         
-        time_filter = Q()
-        # Если указана start_time, добавляем условие sale_date >= start_time
-        if start_time is not None:
-            time_filter &= Q(**{f'{path}__sale_date__gte': start_time})
+        # Строим фильтр для этой агрегации
+        filter_kwargs = {}
         
-        # Если указана end_time, добавляем условие sale_date < end_time
-        if end_time is not None:
-            time_filter &= Q(**{f'{path}__sale_date__lt': end_time})
+        # Если хотя бы одна граница указана, создаем фильтр
+        if start_time is not None or end_time is not None:
+            filter_q = Q()
+            
+            if start_time is not None:
+                filter_q &= Q(**{f'{path}__sale_date__gte': start_time})
+            
+            if end_time is not None:
+                filter_q &= Q(**{f'{path}__sale_date__lte': end_time})
+            
+            filter_kwargs['filter'] = filter_q
         
         if aggregations is None or not aggregations:
             aggregations = ['total_amount', 'sales_count', 'avg_liters']
-        
 
         # Создаем annotate параметры
         annotate_kwargs = {}
@@ -259,15 +264,18 @@ class SalesQueryBuilder:
             # Строим полный путь до поля
             lookup_field = f'{path}__{field_name}'
             
-            # Создаем агрегационную функцию
-            annotate_kwargs[agg_name] = agg_config['func'](lookup_field)
+            # Создаем агрегационную функцию с фильтром или без
+            if filter_kwargs:
+                annotate_kwargs[agg_name] = agg_config['func'](lookup_field, **filter_kwargs)
+            else:
+                annotate_kwargs[agg_name] = agg_config['func'](lookup_field)
         
         # Строим запрос
         query = model_type.objects.annotate(**annotate_kwargs)
         
-        # Применяем фильтр по времени для связанных записей
-        if time_filter:
-            query = query.filter(time_filter)
+        # # Применяем фильтр по времени для связанных записей
+        # if time_filter:
+        #     query = query.filter(time_filter)
 
         # Подготавливаем values
         values_fields = list(columns) + list(annotate_kwargs.keys())
