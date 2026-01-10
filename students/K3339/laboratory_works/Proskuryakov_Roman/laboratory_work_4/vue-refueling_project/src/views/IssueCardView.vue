@@ -147,7 +147,7 @@
               v-model="searchPhone"
               type="tel"
               placeholder="Введите номер телефона"
-              @input="handlePhoneSearch"
+              @input="formatPhoneInput"
               @keyup.enter="searchClients"
             />
             <button 
@@ -329,6 +329,7 @@ const formatPhoneInput = (event) => {
     clientsStore.newClient.phone_number = value
   } else {
     clientsStore.searchPhone = value
+    handlePhoneSearch()
   }
 }
 
