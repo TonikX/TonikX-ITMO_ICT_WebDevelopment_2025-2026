@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Домашние задания - Доска заданий{% endblock %}
+
+{% block content %}
+<div class="mt-4 mb-4">
+    <h1 class="mb-4"><i class="fas fa-list"></i> Все домашние задания</h1>
+
+    <!-- Панель поиска и фильтра -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3" novalidate>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="search" placeholder="Поиск по названию, описанию..." value="{{ search_query }}">
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" name="subject">
+                        <option value="">Все предметы</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}" {% if selected_subject|stringformat:"s" == subject.id|stringformat:"s" %}selected{% endif %}>
+                                {{ subject.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Поиск
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Список заданий -->
+    <div>
+        {% if page_obj %}
+            {% for homework in page_obj %}
+                <div class="card mb-3 homework-card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5 class="card-title">
+                                    <a href="{% url 'homework_detail' homework.id %}" class="text-decoration-none">
+                                        {{ homework.title }}
+                                    </a>
+                                </h5>
+                                <p class="card-text text-muted">{{ homework.description|truncatewords:20 }}</p>
+                                <div class="mt-3">
+                                    <span class="badge bg-info me-2">
+                                        <i class="fas fa-book"></i> {{ homework.subject.name }}
+                                    </span>
+                                    <span class="badge bg-secondary me-2">
+                                        <i class="fas fa-user"></i> {{ homework.teacher.first_name|default:homework.teacher.username }}
+                                    </span>
+                                    {% if homework.is_overdue %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-exclamation-triangle"></i> Просрочено
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-end">
+                                    <p class="mb-1">
+                                        <small class="text-muted">Выдано:</small><br>
+                                        <strong>{{ homework.issued_date|date:"d.m.Y H:i" }}</strong>
+                                    </p>
+                                    <p class="mb-3">
+                                        <small class="text-muted">Срок:</small><br>
+                                        <strong class="{% if homework.is_overdue %}text-danger{% endif %}">
+                                            {{ homework.due_date|date:"d.m.Y H:i" }}
+                                        </strong>
+                                    </p>
+                                    <a href="{% url 'homework_detail' homework.id %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-arrow-right"></i> Подробнее
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i> Домашние задания не найдены
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_subject %}&subject={{ selected_subject }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i> Первая
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_subject %}&subject={{ selected_subject }}{% endif %}">
+                            <i class="fas fa-angle-left"></i> Предыдущая
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-angle-double-left"></i> Первая</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-angle-left"></i> Предыдущая</span>
+                    </li>
+                {% endif %}
+
+                <!-- Номера страниц -->
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }} <span class="visually-hidden">(текущая)</span></span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_subject %}&subject={{ selected_subject }}{% endif %}">
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_subject %}&subject={{ selected_subject }}{% endif %}">
+                            Следующая <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_subject %}&subject={{ selected_subject }}{% endif %}">
+                            Последняя <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Следующая <i class="fas fa-angle-right"></i></span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Последняя <i class="fas fa-angle-double-right"></i></span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="text-center text-muted">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

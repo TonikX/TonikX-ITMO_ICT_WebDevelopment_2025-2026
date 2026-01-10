@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .delete-confirm {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .warning {
+            color: #d32f2f;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        form {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        .cancel-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: #666;
+            text-decoration: none;
+        }
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
+        .car-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Удаление автомобиля</h1>
+    
+    <div class="delete-confirm">
+        <p class="warning">Вы уверены, что хотите удалить этот автомобиль?</p>
+        
+        <div class="car-info">
+            <p><strong>ID:</strong> {{ object.id_car }}</p>
+            <p><strong>Марка:</strong> {{ object.brand }}</p>
+            <p><strong>Модель:</strong> {{ object.model }}</p>
+            <p><strong>Гос. номер:</strong> {{ object.plate_number }}</p>
+            {% if object.color %}
+                <p><strong>Цвет:</strong> {{ object.color }}</p>
+            {% endif %}
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Подтвердить удаление</button>
+            <a href="/car/{{ object.id_car }}/" class="cancel-link">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>
+

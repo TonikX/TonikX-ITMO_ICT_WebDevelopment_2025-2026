@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ homework.title }} - Доска заданий{% endblock %}
+
+{% block content %}
+<div class="mt-4 mb-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="mb-0">{{ homework.title }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Предмет:</strong> {{ homework.subject.name }}
+                            </p>
+                            <p>
+                                <strong>Преподаватель:</strong> {{ homework.teacher.first_name|default:homework.teacher.username }}
+                            </p>
+                            <p>
+                                <strong>Дата выдачи:</strong> {{ homework.issued_date|date:"d.m.Y H:i" }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Крайний срок:</strong>
+                                <span class="{% if homework.is_overdue %}text-danger font-weight-bold{% endif %}">
+                                    {{ homework.due_date|date:"d.m.Y H:i" }}
+                                </span>
+                                {% if homework.is_overdue %}
+                                    <span class="badge bg-danger ms-2">Просрочено</span>
+                                {% else %}
+                                    <span class="badge bg-success ms-2">В процессе</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <h5>Описание задания:</h5>
+                        <p>{{ homework.description }}</p>
+                    </div>
+
+                    {% if homework.penalty_info %}
+                        <div class="alert alert-warning" role="alert">
+                            <h6>Информация о штрафах:</h6>
+                            <p>{{ homework.penalty_info }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if user.is_authenticated and not submission %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-upload"></i> Сдать работу</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="text" class="form-label">Ваше решение</label>
+                                <textarea class="form-control" id="text" name="text" rows="8" placeholder="Напишите свое решение здесь..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i> Сдать работу
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% elif submission %}
+                <div class="card mb-4">
+                    <div class="card-header bg-success">
+                        <h5 class="mb-0"><i class="fas fa-check-circle"></i> Ваша сдача</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <strong>Дата сдачи:</strong> {{ submission.submission_date|date:"d.m.Y H:i" }}
+                            {% if submission.is_late %}
+                                <span class="badge bg-warning ms-2">С опозданием</span>
+                            {% endif %}
+                        </p>
+                        <hr>
+                        <div class="bg-light p-3 rounded">
+                            {{ submission.text|linebreaks }}
+                        </div>
+                        {% if submission.grade %}
+                            <div class="mt-3">
+                                <p>
+                                    <strong>Ваша оценка:</strong>
+                                    <span class="badge bg-primary fs-5">{{ submission.grade }}</span>
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle"></i> Работа принята, ожидает проверки преподавателем
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            {% if all_submissions %}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-users"></i> Сдачи студентов ({{ all_submissions|length }})</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        {% for sub in all_submissions %}
+                            <a href="#submission-{{ sub.id }}" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ sub.student.username }}</strong>
+                                        {% if sub.is_late %}
+                                            <span class="badge bg-warning ms-2">Опоздание</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if sub.grade %}
+                                        <span class="badge bg-success">{{ sub.grade }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Не проверено</span>
+                                    {% endif %}
+                                </div>
+                                <small class="text-muted">{{ sub.submission_date|date:"d.m.Y H:i" }}</small>
+                            </a>
+                            <div class="collapse px-3 py-2" id="submission-{{ sub.id }}">
+                                <div class="mb-2">
+                                    <small class="text-muted">{{ sub.text|truncatewords:50 }}</small>
+                                </div>
+                                <a href="/admin/projects/studentsubmission/{{ sub.id }}/change/" class="btn btn-sm btn-primary" target="_blank">
+                                    <i class="fas fa-edit"></i> Оценить
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'homework_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Вернуться к списку
+        </a>
+    </div>
+</div>
+{% endblock %}

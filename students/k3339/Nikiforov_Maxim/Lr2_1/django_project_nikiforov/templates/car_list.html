@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Список автомобилей{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Список автомобилей</h1>
+        <a class="btn btn-primary" href="/car/create/">+ Добавить автомобиль</a>
+    </div>
+
+    <div class="list-group">
+        {% for car in cars %}
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5>{{ car.brand }} {{ car.model }} ({{ car.plate_number }})</h5>
+                        {% if car.color %}<small class="text-muted">Цвет: {{ car.color }}</small>{% endif %}
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <a class="btn btn-sm btn-outline-secondary" href="/car/{{ car.id_car }}/">Детали</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">Автомобили не найдены.</div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

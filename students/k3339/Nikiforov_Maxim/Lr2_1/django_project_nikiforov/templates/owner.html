@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Владелец: {{ owner.last_name }} {{ owner.first_name }}{% endblock %}
+
+{% block content %}
+    <h1>Информация о владельце автомобиля</h1>
+    <div class="card p-3">
+        <p><strong>ID владельца:</strong> {{ owner.id }}</p>
+        <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+        <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+        {% if owner.birth_date %}
+            <p><strong>Дата рождения:</strong> {{ owner.birth_date }}</p>
+        {% else %}
+            <p><strong>Дата рождения:</strong> Не указана</p>
+        {% endif %}
+        <p><strong>Номер паспорта:</strong> {{ owner.passport_number }}</p>
+        <p><strong>Домашний адрес:</strong> {{ owner.address }}</p>
+        <p><strong>Национальность:</strong> {{ owner.nationality }}</p>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .cancel-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: #666;
+        }
+        .errorlist {
+            color: red;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Редактирование автомобиля</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.plate_number.id_for_label }}">Гос. номер:</label>
+            {{ form.plate_number }}
+            {% if form.plate_number.errors %}
+                <ul class="errorlist">
+                    {% for error in form.plate_number.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.brand.id_for_label }}">Марка:</label>
+            {{ form.brand }}
+            {% if form.brand.errors %}
+                <ul class="errorlist">
+                    {% for error in form.brand.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.model.id_for_label }}">Модель:</label>
+            {{ form.model }}
+            {% if form.model.errors %}
+                <ul class="errorlist">
+                    {% for error in form.model.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.color.id_for_label }}">Цвет:</label>
+            {{ form.color }}
+            {% if form.color.errors %}
+                <ul class="errorlist">
+                    {% for error in form.color.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <button type="submit">Сохранить</button>
+        <a href="/car/{{ object.id_car }}/" class="cancel-link">Отмена</a>
+    </form>
+</body>
+</html>
+

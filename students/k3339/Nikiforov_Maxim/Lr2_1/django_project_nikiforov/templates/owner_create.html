@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать владельца{% endblock %}
+
+{% block content %}
+  <h1>Создание владельца автомобиля</h1>
+  <div class="card p-3">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      {% endif %}
+      {% if form.errors %}
+        <pre class="text-danger">{{ form.errors.as_json }}</pre>
+      {% endif %}
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.username.id_for_label }}">Логин (username):</label>
+        {{ form.username }}
+        {% if form.username.errors %}<div class="text-danger">{{ form.username.errors }}</div>{% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.password1.id_for_label }}">Пароль:</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}<div class="text-danger">{{ form.password1.errors }}</div>{% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля:</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}<div class="text-danger">{{ form.password2.errors }}</div>{% endif %}
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия:</label>
+          {{ form.last_name }}
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя:</label>
+          {{ form.first_name }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.birth_date.id_for_label }}">Дата рождения:</label>
+        {{ form.birth_date }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.passport_number.id_for_label }}">Номер паспорта:</label>
+        {{ form.passport_number }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.address.id_for_label }}">Домашний адрес:</label>
+        {{ form.address }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.nationality.id_for_label }}">Национальность:</label>
+        {{ form.nationality }}
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Создать</button>
+        <a class="btn btn-secondary" href="/owner/list/">Отмена</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
