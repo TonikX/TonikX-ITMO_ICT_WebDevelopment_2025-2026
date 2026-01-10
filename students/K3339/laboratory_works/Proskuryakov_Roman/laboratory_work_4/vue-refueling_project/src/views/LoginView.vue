@@ -1,54 +1,72 @@
 <template>
-  <div class="login-container">
-    <div class="login-form">
-      <h2>Вход в систему</h2>
-      
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="username">Логин:</label>
-          <input
-            id="username"
-            v-model="form.username"
-            type="text"
-            required
-            :disabled="isLoading"
-          />
-        </div>
-        
-        <div class="form-group">
-          <label for="password">Пароль:</label>
-          <input
-            id="password"
-            v-model="form.password"
-            type="password"
-            required
-            :disabled="isLoading"
-          />
-        </div>
-        
-        <div v-if="error" class="error-message">
-          {{ getErrorMessage() }}
-        </div>
-        
-        <button 
-          type="submit" 
-          :disabled="isLoading"
-          class="submit-btn"
-        >
-          <span v-if="isLoading">Вход...</span>
-          <span v-else>Войти</span>
-        </button>
-      </form>
-    </div>
-  </div>
+  <v-container class="fill-height" fluid>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card class="login-card" elevation="8">
+          <v-card-title class="text-center pt-6 pb-4">
+            <h2 class="text-h5 font-weight-bold">Вход в систему</h2>
+          </v-card-title>
+          
+          <v-card-text class="pt-2">
+            <v-form @submit.prevent="handleLogin">
+              <v-text-field
+                v-model="form.username"
+                label="Логин"
+                variant="outlined"
+                :disabled="isLoading"
+                required
+                prepend-inner-icon="mdi-account"
+                class="mb-4"
+                :rules="[v => !!v || 'Введите логин']"
+              ></v-text-field>
+              
+              <v-text-field
+                v-model="form.password"
+                label="Пароль"
+                variant="outlined"
+                :type="showPassword ? 'text' : 'password'"
+                :disabled="isLoading"
+                required
+                prepend-inner-icon="mdi-lock"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner="showPassword = !showPassword"
+                class="mb-2"
+                :rules="[v => !!v || 'Введите пароль']"
+              ></v-text-field>
+              
+              <v-alert
+                v-if="error"
+                type="error"
+                variant="tonal"
+                density="compact"
+                class="mb-4"
+                :text="getErrorMessage()"
+              ></v-alert>
+              
+              <v-btn
+                type="submit"
+                color="primary"
+                size="large"
+                block
+                :loading="isLoading"
+                :disabled="isLoading"
+                class="mt-2"
+              >
+                <template v-if="isLoading">Вход...</template>
+                <template v-else>Войти</template>
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, computed } from 'vue'
 import { useAuthStore } from '../stores/auth'
 
-const router = useRouter()
 const authStore = useAuthStore()
 
 const form = reactive({
@@ -56,7 +74,10 @@ const form = reactive({
   password: ''
 })
 
+const showPassword = ref(false)
 const error = ref(null)
+
+const isLoading = computed(() => authStore.isLoading)
 
 const getErrorMessage = () => {
   if (!error.value) return ''
@@ -86,62 +107,17 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.fill-height {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.login-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
+.login-card {
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.submit-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.error-message {
-  color: #dc3545;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  background-color: #f8d7da;
-  border-radius: 4px;
+.v-card-title h2 {
+  color: #1976D2;
 }
 </style>
