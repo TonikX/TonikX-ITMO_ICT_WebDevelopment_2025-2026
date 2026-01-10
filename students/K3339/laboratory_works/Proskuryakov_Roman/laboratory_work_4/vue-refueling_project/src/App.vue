@@ -1,174 +1,257 @@
 <template>
-  <div id="app">
-        <nav v-if="isAuthenticated" class="navbar">
-      <div class="nav-content">
-        <div class="nav-info">
-          <div class="nav-info-item">
-            <span class="label">Станция:</span>
-            <span class="value">{{ companyTitle }}</span>
-          </div>
-          <div class="nav-info-item">
-            <span class="label">Адрес:</span>
-            <span class="value">{{ stationAddress }}</span>
-          </div>
-          <div class="nav-info-item">
-            <span class="label">Пользователь:</span>
-            <span class="value">{{ userData?.username }}</span>
-          </div>
+  <v-app>
+    <!-- Навигационная панель для десктопов -->
+    <v-app-bar
+      v-if="isAuthenticated && !isMobile"
+      color="primary"
+      app
+      elevation="3"
+    >
+      <!-- Левый блок: Информация о станции -->
+      <div class="d-flex flex-column ml-4 mr-6">
+        <div class="d-flex align-center mb-1">
+          <span class="text-caption text-white text-medium-emphasis mr-2">Станция:</span>
+          <span class="text-subtitle-2 font-weight-medium white--text">
+            {{ companyTitle }}
+          </span>
         </div>
-        <div class="nav-links">
-          <router-link to="/" class="nav-link">Главная</router-link>
-          <router-link to="/fuel-sale" class="nav-link">Продажа топлива</router-link>
-          <router-link to="/sales-summary" class="nav-link">Анализ продаж</router-link>
-          <router-link to="/issue-card" class="nav-link">Выдача карт</router-link>
+        <div class="d-flex align-center">
+          <span class="text-caption text-white text-medium-emphasis mr-2">Адрес:</span>
+          <span class="text-caption text-grey-lighten-2 text-truncate" style="max-width: 250px">
+            {{ stationAddress }}
+          </span>
         </div>
-        <button @click="handleLogout" class="logout-btn">
-          Выйти
-        </button>
       </div>
-    </nav>
-    
-    <main>
-      <router-view />
-    </main>
-  </div>
+
+      <v-spacer></v-spacer>
+
+      <!-- Центральный блок: Навигация -->
+      <div class="d-flex align-center ga-2">
+        <v-btn
+          v-for="item in menuItems"
+          :key="item.route"
+          :to="item.route"
+          variant="text"
+          color="white"
+          size="small"
+          class="text-none px-3"
+          :class="{ 'active-link': $route.path === item.route }"
+        >
+          <v-icon v-if="item.icon" :icon="item.icon" size="small" class="mr-1"></v-icon>
+          {{ item.title }}
+        </v-btn>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <!-- Правый блок: Пользователь и выход -->
+      <div class="d-flex align-center mr-4">
+        <v-chip size="small" variant="flat" color="white" class="text-primary mr-2">
+          <v-icon size="small" icon="mdi-account" class="mr-1"></v-icon>
+          {{ userData?.username }}
+        </v-chip>
+        <v-btn
+          @click="handleLogout"
+          variant="flat"
+          color="error"
+          icon="mdi-logout"
+          size="small"
+          title="Выйти"
+        ></v-btn>
+      </div>
+    </v-app-bar>
+
+    <!-- Навигационная панель для мобильных -->
+    <v-app-bar
+      v-if="isAuthenticated && isMobile"
+      color="primary"
+      app
+      elevation="3"
+    >
+      <v-app-bar-nav-icon
+        @click="drawer = !drawer"
+        variant="text"
+        color="white"
+      ></v-app-bar-nav-icon>
+
+      <v-app-bar-title class="text-subtitle-2 font-weight-medium white--text">
+        {{ companyTitle }}
+      </v-app-bar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        @click="handleLogout"
+        variant="text"
+        color="white"
+        icon="mdi-logout"
+        size="small"
+      ></v-btn>
+    </v-app-bar>
+
+    <!-- Боковое меню для мобильных -->
+    <v-navigation-drawer
+      v-if="isAuthenticated"
+      v-model="drawer"
+      location="left"
+      temporary
+      :width="300"
+    >
+      <v-list density="compact" nav>
+        <v-list-item class="px-4 py-3 bg-primary">
+          <template v-slot:prepend>
+            <v-icon color="white" icon="mdi-gas-station"></v-icon>
+          </template>
+          <v-list-item-title class="text-white font-weight-bold">
+            Топливная система
+          </v-list-item-title>
+        </v-list-item>
+
+        <!-- Информация о станции -->
+        <v-list-item class="px-4 py-3">
+          <v-list-item-subtitle class="text-caption text-medium-emphasis">
+            Станция:
+          </v-list-item-subtitle>
+          <v-list-item-title class="text-subtitle-2 font-weight-medium">
+            {{ companyTitle }}
+          </v-list-item-title>
+          
+          <v-list-item-subtitle class="text-caption text-medium-emphasis mt-1">
+            Адрес:
+          </v-list-item-subtitle>
+          <v-list-item-title class="text-subtitle-2">
+            {{ stationAddress }}
+          </v-list-item-title>
+          
+          <v-list-item-subtitle class="text-caption text-medium-emphasis mt-1">
+            Пользователь:
+          </v-list-item-subtitle>
+          <v-list-item-title class="text-subtitle-2">
+            {{ userData?.username }}
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-divider class="my-2"></v-divider>
+
+        <!-- Навигация -->
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.route"
+          :to="item.route"
+          @click="drawer = false"
+          :active="isRouteActive(item.route)"
+        >
+          <template v-slot:prepend>
+            <v-icon :icon="item.icon"></v-icon>
+          </template>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+
+        <v-divider class="my-2"></v-divider>
+
+        <!-- Выход -->
+        <v-list-item @click="handleLogout" class="text-error">
+          <template v-slot:prepend>
+            <v-icon color="error" icon="mdi-logout"></v-icon>
+          </template>
+          <v-list-item-title class="text-error">Выйти</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!-- Основной контент -->
+    <v-main>
+      <v-container fluid class="pa-3 pa-sm-4">
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from './stores/auth'
+import { useRoute } from 'vue-router'
 
 const authStore = useAuthStore()
+const route = useRoute()
+
+const drawer = ref(false)
+const isMobile = ref(false)
 
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const stationAddress = computed(() => authStore.stationAddress)
 const companyTitle = computed(() => authStore.companyTitle)
 const userData = computed(() => authStore.userData)
 
+// Меню навигации с иконками
+const menuItems = [
+  { title: 'Главная', route: '/', icon: 'mdi-home' },
+  { title: 'Продажа топлива', route: '/fuel-sale', icon: 'mdi-gas-station' },
+  { title: 'Анализ продаж', route: '/sales-summary', icon: 'mdi-chart-bar' },
+  { title: 'Выдача карт', route: '/issue-card', icon: 'mdi-card-account-details' },
+]
+
+// Проверка активного маршрута
+const isRouteActive = (routePath) => {
+  return route.path === routePath
+}
+
+// Определение мобильного устройства
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 960
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
 const handleLogout = () => {
   authStore.logout()
 }
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-}
-
-.navbar {
-  background-color: #333;
-  color: white;
-  padding: 0.8rem 0;
-}
-
-.nav-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.nav-info {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.nav-info-item {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.nav-info-item .label {
-  font-weight: bold;
-  color: #ccc;
-  font-size: 0.9rem;
-}
-
-.nav-info-item .value {
-  color: white;
-  font-size: 0.9rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-link {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
+<style scoped>
+/* Стили для активной ссылки на десктопе */
+.active-link {
+  background-color: rgba(255, 255, 255, 0.15) !important;
   border-radius: 4px;
-  transition: background-color 0.2s;
 }
 
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+/* Стили для ссылок на десктопе */
+.v-btn--variant-text.v-btn--active.active-link {
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
-.nav-link.router-link-active {
-  background-color: rgba(255, 255, 255, 0.2);
+/* Адаптивность для мобильных устройств */
+@media (max-width: 960px) {
+  .v-app-bar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  .v-container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
 
-.separator {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.logout-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
+/* Обрезка длинного текста */
+.text-truncate {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.logout-btn:hover {
-  background-color: #c82333;
-}
-
-main {
-  padding: 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Для адаптивности на мобильных устройствах */
-@media (max-width: 768px) {
-  .nav-content {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-  }
-  
-  .nav-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .separator {
-    display: none;
-  }
-  
-  .logout-btn {
-    align-self: flex-end;
-    width: auto;
+/* Для очень маленьких экранов */
+@media (max-width: 400px) {
+  .text-truncate {
+    max-width: 150px;
   }
 }
 </style>
