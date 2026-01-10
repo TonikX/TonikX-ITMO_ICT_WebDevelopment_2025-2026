@@ -364,7 +364,7 @@ class AvailableAggregationTablesView(APIView):
         },
         'client_cards': {
             'name': 'Картам клиентов',
-            'description': 'Скидочные и бонусные карты'
+            'description': 'Карты клиентов для оплаты'
         },
     }
     
