@@ -7,84 +7,76 @@ from django.db.models import Value, CharField
 from django.db.models import Count, Sum, F
 from django.db.models.functions import Greatest, Least, Extract
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 
 
 class ResidentsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Residents.objects.all()
     serializer_class = ResidentsSerializer
-    permission_classes = [AllowAny]
+
 
 class ResidentsRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Residents.objects.all()
     serializer_class = ResidentsSerializer
-    permission_classes = [AllowAny]
+
 
 class RoomsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
-    permission_classes = [AllowAny]
+
 
 class RoomsRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
-    permission_classes = [AllowAny]
 
 
 class RoomTypeListCreateAPIView(generics.ListCreateAPIView):
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerializer
-    permission_classes = [AllowAny]
+
 
 class RoomTypeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerializer
-    permission_classes = [AllowAny]
+
 
 class ReservationsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    permission_classes = [AllowAny]
+
 
 class ReservationsRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    permission_classes = [AllowAny]
 
 
 class WorkersListCreateAPIView(generics.ListCreateAPIView):
     queryset = Workers.objects.all()
     serializer_class = WorkersSerializer
-    permission_classes = [AllowAny]
+
 
 class WorkersRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Workers.objects.all()
     serializer_class = WorkersSerializer
-    permission_classes = [AllowAny]
 
 
 class CleaningInformationListCreateAPIView(generics.ListCreateAPIView):
     queryset = CleaningInformation.objects.all()
     serializer_class = CleaningInformationSerializer
-    permission_classes = [AllowAny]
+
 
 class CleaningInformationRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CleaningInformation.objects.all()
     serializer_class = CleaningInformationSerializer
-    permission_classes = [AllowAny]
 
 
 class CleaningListCreateAPIView(generics.ListCreateAPIView):
     queryset = Cleaning.objects.all()
     serializer_class = CleaningSerializer
-    permission_classes = [AllowAny]
+
 
 class CleaningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cleaning.objects.all()
     serializer_class = CleaningSerializer
-    permission_classes = [AllowAny]
-
-
 
 
 class ResidentsAPIView(generics.ListAPIView):
@@ -120,7 +112,6 @@ class ResidentsAPIView(generics.ListAPIView):
 class CityAPIView(generics.ListAPIView):
     serializer_class = ResidentsSerializer
 
-
     def get_queryset(self):
         city = self.request.query_params.get('city')
         queryset = Residents.objects.filter(city=city)
@@ -129,7 +120,6 @@ class CityAPIView(generics.ListAPIView):
 
 class AvailableRoomsAPIView(generics.ListAPIView):
     serializer_class = RoomsSerializer
-
 
     def get_queryset(self):
         start_date = self.request.query_params.get('start_date')
@@ -142,7 +132,6 @@ class AvailableRoomsAPIView(generics.ListAPIView):
             )
 
         free_rooms = Rooms.objects.exclude(id__in=busy_rooms)
-
         return free_rooms
 
 
@@ -240,14 +229,14 @@ class ReportAPIView(generics.GenericAPIView):
             .annotate(clients_count=Count("residents", distinct=True))
         )
 
-        # 2️⃣ Количество номеров на каждом этаже
+        # Количество номеров на каждом этаже
         rooms_per_floor = (
             Rooms.objects
             .values("floor")
             .annotate(rooms_count=Count("id"))
         )
 
-        # 3️⃣ Доход по каждому номеру
+        # Доход по каждому номеру
         income_per_room = (
             Reservation.objects
             .filter(start_date__lt=end_date, end_date__gt=start_date)
@@ -261,7 +250,7 @@ class ReportAPIView(generics.GenericAPIView):
             .annotate(total_income=Sum("income"))
         )
 
-        # 4️⃣ Суммарный доход по гостинице
+        # Суммарный доход по гостинице
         total_income = income_per_room.aggregate(
             total=Sum("total_income")
         )["total"]
