@@ -1,110 +1,238 @@
 <template>
-  <div class="sales-summary">
-    <h1>Анализ продаж</h1>
-    
+  <v-container class="sales-summary">
+    <!-- Заголовок -->
+    <v-row>
+      <v-col cols="12">
+        <v-card class="mb-6 fuel-card">
+          <v-card-item>
+            <v-card-title class="text-h4 font-weight-bold">
+              <v-icon icon="mdi-chart-bar" class="mr-2"></v-icon>
+              Анализ продаж
+            </v-card-title>
+          </v-card-item>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <!-- Сообщения об ошибках -->
-    <div v-if="error" class="alert alert-error">
-      {{ error }}
-      <button @click="clearError" class="close-btn">×</button>
-    </div>
-    
+    <v-row v-if="error">
+      <v-col cols="12">
+        <v-alert
+          type="error"
+          variant="tonal"
+          closable
+          @click:close="clearError"
+          class="mb-6"
+        >
+          {{ error }}
+        </v-alert>
+      </v-col>
+    </v-row>
+
     <!-- Управление фильтрами -->
-    <div class="filters-section">
-      <div class="filter-group">
-        <label for="table-select">Группировать по:</label>
-        <select 
-          id="table-select" 
-          v-model="selectedTable"
-          @change="handleTableChange"
-          class="table-select"
-        >
-          <option value="" disabled>Выберите таблицу</option>
-          <option 
-            v-for="table in availableTables" 
-            :key="table.key"
-            :value="table.key"
-            :title="table.description"
-          >
-            {{ table.name }}
-          </option>
-        </select>
-      </div>
-      
-      <div class="time-filters">
-        <div class="filter-group">
-          <label for="start-time">Начало периода:</label>
-          <input
-            id="start-time"
-            v-model="startTimeLocal"
-            type="datetime-local"
-            @change="handleTimeChange"
-          />
-        </div>
-        
-        <div class="filter-group">
-          <label for="end-time">Конец периода:</label>
-          <input
-            id="end-time"
-            v-model="endTimeLocal"
-            type="datetime-local"
-            @change="handleTimeChange"
-          />
-        </div>
-      </div>
-      
-      <div class="filter-actions">
-        <button 
-          @click="resetFilters" 
-          class="reset-btn"
-          :disabled="!hasActiveFilters"
-        >
-          Сбросить фильтр
-        </button>
-        
-        <div v-if="hiddenColumns.length > 0" class="hidden-columns-info">
-          <span>Скрытые колонки: {{ hiddenColumns.length }}</span>
-        </div>
-      </div>
-    </div>
-    
+    <v-row>
+      <v-col cols="12">
+        <v-card class="mb-6">
+          <v-card-item>
+            <v-card-title class="text-h6 font-weight-medium mb-4">
+              <v-icon icon="mdi-filter" class="mr-2"></v-icon>
+              Фильтры анализа
+            </v-card-title>
+            
+            <v-card-text>
+              <v-row class="filters-row">
+                <!-- Выбор таблицы -->
+                <v-col cols="12" lg="6" md="12" class="select-col">
+                  <v-select
+                    v-model="selectedTable"
+                    :items="availableTables"
+                    item-title="name"
+                    item-value="key"
+                    label="Группировать по"
+                    placeholder="Выберите таблицу"
+                    variant="outlined"
+                    clearable
+                    @update:model-value="handleTableChange"
+                    :loading="loading"
+                    :item-props="tableItemProps"
+                    density="comfortable"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon icon="mdi-table"></v-icon>
+                    </template>
+                  </v-select>
+                </v-col>
+
+                <!-- Фильтры по времени (всегда вместе в одной строке) -->
+                <v-col cols="12" lg="6" md="12" class="time-filters-col">
+                  <div class="time-filters-wrapper">
+                    <v-text-field
+                      v-model="startTimeLocal"
+                      type="datetime-local"
+                      label="Начало периода"
+                      variant="outlined"
+                      density="comfortable"
+                      @update:model-value="handleTimeChange"
+                      clearable
+                      class="time-input start-time"
+                    >
+                      <template v-slot:prepend>
+                        <v-icon icon="mdi-calendar-start"></v-icon>
+                      </template>
+                    </v-text-field>
+                    
+                    <v-text-field
+                      v-model="endTimeLocal"
+                      type="datetime-local"
+                      label="Конец периода"
+                      variant="outlined"
+                      density="comfortable"
+                      @update:model-value="handleTimeChange"
+                      clearable
+                      class="time-input end-time"
+                    >
+                      <template v-slot:prepend>
+                        <v-icon icon="mdi-calendar-end"></v-icon>
+                      </template>
+                    </v-text-field>
+                  </div>
+                </v-col>
+              </v-row>
+
+              <!-- Действия фильтров -->
+              <v-row class="mt-2">
+                <v-col cols="12" class="d-flex justify-space-between align-center">
+                  <div>
+                    <v-btn
+                      @click="resetFilters"
+                      color="secondary"
+                      variant="outlined"
+                      :disabled="!hasActiveFilters"
+                      prepend-icon="mdi-filter-remove"
+                      size="small"
+                    >
+                      Сбросить фильтр
+                    </v-btn>
+                    
+                    <v-chip
+                      v-if="hiddenColumns.length > 0"
+                      class="ml-4"
+                      color="warning"
+                      variant="outlined"
+                      size="small"
+                    >
+                      <v-icon icon="mdi-eye-off" size="small" class="mr-1"></v-icon>
+                      Скрыто колонок: {{ hiddenColumns.length }}
+                    </v-chip>
+                  </div>
+                  
+                  <div v-if="selectedTable" class="text-caption text-medium-emphasis">
+                    <v-icon icon="mdi-information" size="small" class="mr-1"></v-icon>
+                    Данные для: {{ selectedTableName }}
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card-item>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <!-- Таблица с данными -->
-    <div class="table-section">
-      <div v-if="loading" class="loading">
-        Загрузка данных...
-      </div>
-      
-      <div v-else-if="!selectedTable" class="no-table-selected">
-        Выберите таблицу для группировки данных
-      </div>
-      
-      <div v-else-if="tableData.length === 0" class="no-data">
-        Нет данных для отображения
-      </div>
-      
-      <div v-else class="table-container">
-        <table class="summary-table">
-          <thead>
-            <tr>
-              <th 
-                v-for="column in visibleColumns" 
-                :key="column.key"
-                @contextmenu.prevent="openContextMenu($event, column.key)"
-              >
-                {{ column.label }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
-              <td v-for="column in visibleColumns" :key="column.key">
-                {{ formatCellValue(row[column.key]) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
+    <v-row>
+      <v-col cols="12">
+        <v-card>
+          <v-card-item>
+            <v-card-title class="text-h6 font-weight-medium">
+              <v-icon icon="mdi-table" class="mr-2"></v-icon>
+              Результаты анализа
+            </v-card-title>
+          </v-card-item>
+
+          <v-card-text>
+            <!-- Загрузка -->
+            <div v-if="loading" class="text-center py-8">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+                size="64"
+                class="mb-4"
+              ></v-progress-circular>
+              <div class="text-h6 text-medium-emphasis">Загрузка данных...</div>
+            </div>
+
+            <!-- Нет выбранной таблицы -->
+            <div v-else-if="!selectedTable" class="text-center py-12">
+              <v-icon icon="mdi-table-question" size="64" class="mb-4 text-medium-emphasis"></v-icon>
+              <div class="text-h6 text-medium-emphasis mb-2">Выберите таблицу для группировки данных</div>
+              <div class="text-caption">Выберите таблицу из выпадающего списка выше</div>
+            </div>
+
+            <!-- Нет данных -->
+            <div v-else-if="tableData.length === 0" class="text-center py-12">
+              <v-icon icon="mdi-database-off" size="64" class="mb-4 text-medium-emphasis"></v-icon>
+              <div class="text-h6 text-medium-emphasis mb-2">Нет данных для отображения</div>
+              <div class="text-caption">Попробуйте изменить параметры фильтров</div>
+            </div>
+
+            <!-- Таблица с данными -->
+            <div v-else class="table-container">
+              <v-table class="fuel-table" hover density="comfortable">
+                <thead>
+                  <tr>
+                    <th 
+                      v-for="column in visibleColumns" 
+                      :key="column.key"
+                      class="text-left"
+                      @contextmenu.prevent="openContextMenu($event, column.key)"
+                    >
+                      <div class="d-flex align-center">
+                        {{ column.label }}
+                        <v-icon v-if="hiddenColumns.includes(column.key)" 
+                                icon="mdi-eye-off" 
+                                size="small" 
+                                class="ml-1 text-warning"
+                                title="Колонка скрыта"></v-icon>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
+                    <td v-for="column in visibleColumns" :key="column.key">
+                      {{ formatCellValue(row[column.key]) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </v-table>
+            </div>
+          </v-card-text>
+          
+          <!-- Информация о таблице -->
+          <v-card-actions v-if="tableData.length > 0" class="px-4 py-3 bg-grey-lighten-4">
+            <div class="d-flex justify-space-between align-center w-100">
+              <div class="text-caption text-medium-emphasis">
+                <v-icon icon="mdi-information" size="small" class="mr-1"></v-icon>
+                Показано записей: {{ tableData.length }}
+              </div>
+              <div class="text-caption text-medium-emphasis">
+                <v-icon icon="mdi-table-column" size="small" class="mr-1"></v-icon>
+                Колонок: {{ visibleColumns.length }} из {{ analyticsStore.columns.length }}
+                <v-tooltip v-if="hiddenColumns.length > 0" location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-chip v-bind="props" size="x-small" variant="outlined" color="warning" class="ml-2">
+                      -{{ hiddenColumns.length }}
+                    </v-chip>
+                  </template>
+                  <span>Скрытые колонки: {{ hiddenColumns.join(', ') }}</span>
+                </v-tooltip>
+              </div>
+            </div>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <!-- Контекстное меню -->
     <TableContextMenu
       :visible="contextMenu.visible"
@@ -113,7 +241,7 @@
       :can-hide="canHideColumn(contextMenu.columnKey)"
       @hide="handleHideColumn"
     />
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -151,6 +279,20 @@ const visibleColumns = computed(() => analyticsStore.visibleColumns)
 const hiddenColumns = computed(() => analyticsStore.hiddenColumns)
 const loading = computed(() => analyticsStore.loading)
 const error = computed(() => analyticsStore.error)
+
+// Название выбранной таблицы
+const selectedTableName = computed(() => {
+  if (!selectedTable.value) return ''
+  const table = availableTables.value.find(t => t.key === selectedTable.value)
+  return table ? table.name : selectedTable.value
+})
+
+// Свойства для элементов таблицы
+const tableItemProps = (item) => ({
+  title: item.name,
+  subtitle: item.description,
+  prependIcon: 'mdi-table'
+})
 
 // Вычисляемые свойства для проверок
 const hasActiveFilters = computed(() => {
@@ -360,168 +502,91 @@ watch(selectedTable, (newValue) => {
 <style scoped>
 .sales-summary {
   max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.alert {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: inherit;
-}
-
-.filters-section {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.filter-group {
-  margin-bottom: 1rem;
-}
-
-.filter-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.table-select {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.time-filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.time-filters input[type="datetime-local"] {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.filter-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-.reset-btn {
-  padding: 0.5rem 1rem;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.reset-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.reset-btn:not(:disabled):hover {
-  background-color: #5a6268;
-}
-
-.hidden-columns-info {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.table-section {
-  margin-top: 2rem;
-}
-
-.loading, .no-table-selected, .no-data {
-  padding: 3rem;
-  text-align: center;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  color: #666;
-  font-size: 1.1rem;
+  padding: 20px;
 }
 
 .table-container {
   overflow-x: auto;
-  border: 1px solid #ddd;
   border-radius: 8px;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
-.summary-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Стили для фильтров */
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.summary-table th {
-  background-color: #f8f9fa;
-  padding: 1rem;
-  text-align: left;
-  font-weight: bold;
-  border-bottom: 2px solid #dee2e6;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+.select-col {
+  flex: 1 1 auto;
+  min-width: 300px;
 }
 
-.summary-table th:hover {
-  background-color: #e9ecef;
+.time-filters-col {
+  flex: 2 1 auto;
+  min-width: 300px;
 }
 
-.summary-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #dee2e6;
+.time-filters-wrapper {
+  display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
-.summary-table tr:last-child td {
-  border-bottom: none;
+.time-input {
+  flex: 1 1 auto;
+  min-width: 280px;
 }
 
-.summary-table tr:hover {
-  background-color: #f8f9fa;
+/* Принудительная ширина для input[type="datetime-local"] */
+.time-input :deep(input[type="datetime-local"]) {
+  min-width: 220px !important;
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
-  .time-filters {
-    grid-template-columns: 1fr;
+@media (max-width: 1264px) {
+  .filters-row {
+    flex-direction: column;
   }
   
-  .filter-actions {
+  .select-col,
+  .time-filters-col {
+    min-width: 100%;
+  }
+  
+  .time-filters-wrapper {
+    flex-wrap: wrap;
+  }
+  
+  .time-input {
+    min-width: calc(50% - 8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .sales-summary {
+    padding: 12px;
+  }
+  
+  .time-filters-wrapper {
     flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .time-input {
+    min-width: 100%;
+  }
+  
+  .time-input :deep(input[type="datetime-local"]) {
+    min-width: calc(100vw - 100px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-input :deep(input[type="datetime-local"]) {
+    min-width: calc(100vw - 80px) !important;
   }
 }
 </style>
