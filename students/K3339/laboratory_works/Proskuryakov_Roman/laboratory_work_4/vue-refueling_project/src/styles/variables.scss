@@ -1,0 +1,26 @@
+// Переменные для темы АЗС
+$fuel-primary: #1976D2;
+$fuel-secondary: #FF9800;
+$fuel-success: #4CAF50;
+$fuel-warning: #FB8C00;
+$fuel-error: #D32F2F;
+
+// Кастомные классы
+.fuel-card {
+  border-left: 4px solid $fuel-secondary;
+}
+
+.fuel-btn {
+  background: linear-gradient(135deg, $fuel-secondary, $fuel-warning) !important;
+  color: white !important;
+}
+
+.fuel-table {
+  th {
+    background-color: lighten($fuel-primary, 45%) !important;
+  }
+  
+  tr:hover {
+    background-color: lighten($fuel-secondary, 40%) !important;
+  }
+}

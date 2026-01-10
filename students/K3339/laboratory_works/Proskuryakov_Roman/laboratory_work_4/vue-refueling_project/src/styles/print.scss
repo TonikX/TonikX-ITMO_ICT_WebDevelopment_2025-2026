@@ -1,0 +1,21 @@
+@media print {
+  .v-app-bar,
+  .v-navigation-drawer,
+  .v-footer,
+  .no-print {
+    display: none !important;
+  }
+  
+  .v-main {
+    padding: 0 !important;
+  }
+  
+  .v-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  body {
+    background: white !important;
+  }
+}
