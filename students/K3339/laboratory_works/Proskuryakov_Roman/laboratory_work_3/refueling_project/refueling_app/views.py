@@ -343,7 +343,7 @@ class AvailableAggregationTablesView(APIView):
             'description': 'Производители и сети АЗС'
         },
         'produced_fuel': {
-            'name': 'Произведимому топливу',
+            'name': 'Производимому топливу',
             'description': 'Конкретные партии произведенного топлива'
         },
         'gas_stations': {
