@@ -1,67 +1,101 @@
 <template>
-  <div v-if="visible" class="modal-overlay" @click="handleOverlayClick">
-    <div class="modal-content" @click.stop>
-      <h2>Подтверждение выдачи карты</h2>
-      
-      <div class="client-details">
-        <h3>Данные клиента:</h3>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="label">Фамилия:</span>
-            <span class="value">{{ clientData.surname }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Имя:</span>
-            <span class="value">{{ clientData.name }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Отчество:</span>
-            <span class="value">{{ clientData.patronymic }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Телефон:</span>
-            <span class="value">{{ formattedPhone }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Адрес:</span>
-            <span class="value">{{ clientData.address }}</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="card-details">
-        <h3>Параметры карты:</h3>
-        <div class="details-grid">
-          <div class="detail-item">
-            <span class="label">Период действия:</span>
-            <span class="value">{{ periodText }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Начало действия:</span>
-            <span class="value">{{ formatDate(startDate) }}</span>
-          </div>
-          <div v-if="endDate" class="detail-item">
-            <span class="label">Окончание действия:</span>
-            <span class="value">{{ formatDate(endDate) }}</span>
-          </div>
-          <div v-else class="detail-item">
-            <span class="label">Окончание действия:</span>
-            <span class="value">Бессрочно</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="modal-actions">
-        <button @click="confirm" class="confirm-btn" :disabled="loading">
-          <span v-if="loading">Создание...</span>
-          <span v-else>Выдать карту</span>
-        </button>
-        <button @click="cancel" class="cancel-btn" :disabled="loading">
+  <v-dialog
+    :model-value="visible"
+    max-width="600"
+    persistent
+    @click:outside="handleOverlayClick"
+  >
+    <v-card>
+      <v-toolbar color="primary" dark>
+        <v-toolbar-title>Подтверждение выдачи карты</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="cancel">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-toolbar>
+
+      <v-card-text class="pt-4">
+        <!-- Данные клиента -->
+        <v-card variant="outlined" class="mb-4">
+          <v-card-title class="text-subtitle-1 font-weight-bold">
+            <v-icon icon="mdi-account" class="mr-2"></v-icon>
+            Данные клиента
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Фамилия:</v-col>
+              <v-col cols="6" sm="8">{{ clientData.surname || '—' }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Имя:</v-col>
+              <v-col cols="6" sm="8">{{ clientData.name || '—' }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Отчество:</v-col>
+              <v-col cols="6" sm="8">{{ clientData.patronymic || '—' }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Телефон:</v-col>
+              <v-col cols="6" sm="8">{{ formattedPhone || '—' }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Адрес:</v-col>
+              <v-col cols="6" sm="8">{{ clientData.address || '—' }}</v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
+        <!-- Параметры карты -->
+        <v-card variant="outlined">
+          <v-card-title class="text-subtitle-1 font-weight-bold">
+            <v-icon icon="mdi-card-account-details" class="mr-2"></v-icon>
+            Параметры карты
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Период действия:</v-col>
+              <v-col cols="6" sm="8">{{ periodText }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Начало действия:</v-col>
+              <v-col cols="6" sm="8">{{ formatDate(startDate) }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" sm="4" class="font-weight-bold text-right">Окончание действия:</v-col>
+              <v-col cols="6" sm="8">{{ endDate ? formatDate(endDate) : 'Бессрочно' }}</v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions class="px-4 py-3">
+        <v-spacer></v-spacer>
+        <v-btn
+          color="grey-darken-1"
+          variant="tonal"
+          @click="cancel"
+          :disabled="loading"
+        >
           Отмена
-        </button>
-      </div>
-    </div>
-  </div>
+        </v-btn>
+        <v-btn
+          color="primary"
+          variant="flat"
+          @click="confirm"
+          :loading="loading"
+          :disabled="loading"
+          class="fuel-btn"
+        >
+          <template v-slot:prepend>
+            <v-icon>mdi-check</v-icon>
+          </template>
+          Выдать карту
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -106,6 +140,8 @@ const periodText = computed(() => {
 // Даты для карты
 const startDate = computed(() => new Date())
 const endDate = computed(() => {
+  if (!props.period) return new Date()
+  
   const date = new Date()
   switch (props.period) {
     case 'month':
@@ -123,6 +159,7 @@ const endDate = computed(() => {
 })
 
 const formatDate = (date) => {
+  if (!date) return '—'
   return date.toLocaleDateString('ru-RU', {
     day: '2-digit',
     month: '2-digit',
@@ -146,113 +183,25 @@ const handleOverlayClick = () => {
 </script>
 
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+/* Сохраняем только минимальные стили, так как Vuetify уже предоставляет стили */
+:deep(.v-toolbar) {
+  border-radius: 8px 8px 0 0;
 }
 
-.modal-content {
-  background: white;
-  padding: 2rem;
+:deep(.v-card) {
   border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: #333;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 0.5rem;
-}
-
-.client-details, .card-details {
-  margin-bottom: 2rem;
-}
-
-.client-details h3, .card-details h3 {
-  margin-bottom: 1rem;
-  color: #555;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 0.75rem;
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #eee;
-}
-
-.detail-item {
-  display: contents;
-}
-
-.label {
-  font-weight: bold;
-  color: #666;
-  text-align: right;
-  padding-right: 1rem;
-}
-
-.value {
-  color: #333;
-  word-break: break-word;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #eee;
-}
-
-.confirm-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  min-width: 150px;
-}
-
-.confirm-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.confirm-btn:hover:not(:disabled) {
-  background-color: #218838;
-}
-
-.cancel-btn {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.cancel-btn:hover {
-  background-color: #5a6268;
+/* Адаптивность для текста */
+@media (max-width: 600px) {
+  :deep(.text-right) {
+    text-align: left !important;
+    font-size: 0.875rem;
+  }
+  
+  :deep(.v-col) {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
 }
 </style>
