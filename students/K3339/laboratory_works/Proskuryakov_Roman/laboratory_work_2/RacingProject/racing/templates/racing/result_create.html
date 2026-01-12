@@ -1,0 +1,10 @@
+{% extends 'racing/base.html' %}
+{% block content %}
+  <a href="{% url 'racing:race_detail' race.pk %}">Вернуться к данным о гонке</a>
+  <h2>Добавить результат для {{ session.name }} (гонка {{ race.name }})</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+{% endblock %}

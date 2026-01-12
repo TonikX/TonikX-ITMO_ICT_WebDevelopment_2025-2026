@@ -1,0 +1,7 @@
+{% extends 'racing/base.html' %}
+{% block title %}Вход — Автогонки{% endblock %}
+{% block content %}
+  <h2>Войти</h2>
+  <p>Если у вас ещё нет аккаунта — <a href="{% url 'racing:register' %}">зарегистрируйтесь</a>.</p>
+  {% include 'racing/login_form_fragment.html' %}
+{% endblock %}

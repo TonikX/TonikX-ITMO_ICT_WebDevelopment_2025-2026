@@ -1,0 +1,9 @@
+{% extends "racing/base.html" %}
+{% block content %}
+  <a href="{% url 'racing:races_list' %}">Вернуться к списку гонок</a>
+  <h2>Редактирование профиля участника</h2>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-save">Сохранить</button>
+  </form>
+{% endblock %}

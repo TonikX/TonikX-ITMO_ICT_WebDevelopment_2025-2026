@@ -1,0 +1,11 @@
+{% extends 'racing/base.html' %}
+{% block title %}Стать участником{% endblock %}
+{% block content %}
+  <a href="{% url 'racing:races_list' %}">Вернуться к списку гонок</a>
+  <h2>Стать участником</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+{% endblock %}
