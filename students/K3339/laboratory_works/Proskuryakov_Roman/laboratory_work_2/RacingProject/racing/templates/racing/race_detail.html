@@ -1,0 +1,61 @@
+{% extends 'racing/base.html' %}
+{% block title %}{{ race.name }}{% endblock %}
+{% block content %}
+  <a href="{% url 'racing:races_list' %}">Вернуться к списку гонок</a>
+  <h2>{{ race.name }}</h2>
+  <p>{{ race.description }}</p>
+  <p><strong>Место:</strong> {{ race.location }} — <strong>Дата:</strong> {{ race.date }}</p>
+
+  <section class="sessions">
+    <h3>Заезды</h3>
+    {% for session in sessions %}
+      <div class="session">
+        <h4>{{ session.name }} №{{ session.order }}</h4>
+        <p>Старт: {{ session.start_time }}</p>
+        <table class="results">
+          <thead><tr><th>Место</th><th>Участник</th><th>Команда</th><th>Машина</th><th>Время</th></tr></thead>
+          <tbody>
+            {% for result in session.results.all|dictsort:"total_time" %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ result.registration.participant.profile.user.username }}</td>
+                <td>
+                  {% if result.registration.participant.team %}
+                      {{ result.registration.participant.team.name }}
+                  {% else %}
+                      без команды
+                  {% endif %}
+                </td>
+                <td>{{ result.registration.car.model }}</td>
+                <td>{{ result.total_time }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="5">Результаты отсутствуют</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% if user.profile.role == 'admin' %}
+          <a href="{% url 'racing:add_result' race.pk session.pk %}">Добавить результат</a>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p>Нет заездов.</p>
+    {% endfor %}
+  </section>
+
+  <section id="comments">
+    <h3>Комментарии</h3>
+    <form method="post" action="{% url 'racing:add_comment' race.pk %}">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Добавить комментарий</button>
+    </form>
+    <ul class="comments-list">
+      {% for c in race.comments.all %}
+        <li><strong>{{ c.profile.user.username }}</strong> ({{ c.get_comment_type_display }}) — {{ c.text }} <small>— {{ c.created_at }}</small></li>
+      {% empty %}
+        <li>Комментариев нет.</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}
