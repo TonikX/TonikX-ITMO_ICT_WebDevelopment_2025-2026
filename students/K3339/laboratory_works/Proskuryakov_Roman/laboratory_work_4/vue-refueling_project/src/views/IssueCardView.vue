@@ -444,7 +444,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Сохранены все оригинальные стили без изменений */
 .issue-card-container {
   max-width: 100%;
   margin: 0 auto;
@@ -474,14 +473,21 @@ onMounted(() => {
 
 .success-card {
   padding: 2rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+}
+
+.success-message {
+  width: 100%;
 }
 
 .success-header {
   text-align: center;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .success-header h3 {
@@ -492,6 +498,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .card-details {
@@ -500,6 +507,8 @@ onMounted(() => {
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   border: 1px solid #c3e6cb;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card-details > div {
@@ -507,6 +516,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .card-details > div:last-child {
@@ -518,11 +528,13 @@ onMounted(() => {
   color: #555;
   min-width: 180px;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .card-details .value {
   color: #333;
   font-size: 1rem;
+  flex-grow: 1;
 }
 
 .card-details .value.highlight {
@@ -534,20 +546,25 @@ onMounted(() => {
   background: linear-gradient(135deg, #d4edda, #c3e6cb);
   border-radius: 8px;
   border: 2px solid #28a745;
+  text-align: center;
+  flex-grow: 1;
 }
 
 .client-info .value {
   font-weight: bold;
   font-size: 1.1rem;
+  flex-grow: 1;
 }
 
 .card-info .value {
   color: #666;
+  flex-grow: 1;
 }
 
 .balance-info .value {
   color: #17a2b8;
   font-weight: bold;
+  flex-grow: 1;
 }
 
 .success-actions {
@@ -555,6 +572,7 @@ onMounted(() => {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .continue-btn {
@@ -767,9 +785,13 @@ h2 {
   background-color: #e7f3ff;
 }
 
+.clients-table tr.selected .select-btn {
+  background-color: #28a745 !important;
+}
+
 .select-btn {
   padding: 0.5rem 1rem;
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
@@ -778,7 +800,7 @@ h2 {
 }
 
 .select-btn:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
 
 .no-clients {
@@ -967,6 +989,8 @@ h2 {
 @media (max-width: 768px) {
   .success-card {
     padding: 1rem;
+    margin: 2rem auto;
+    max-width: calc(100% - 2rem);
   }
   
   .success-header h3 {
@@ -989,6 +1013,7 @@ h2 {
     min-width: auto;
     text-align: left;
     font-size: 0.9rem;
+    width: 100%;
   }
   
   .card-details .value.highlight {

@@ -198,7 +198,6 @@ const availableActions = computed(() => [
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Сохраняем стиль для fuel-card из variables.scss */
 .fuel-card {
   border-left: 4px solid #FF9800;
 }

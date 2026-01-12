@@ -53,7 +53,6 @@
               </v-select>
             </v-col>
 
-            <!-- Фильтры по времени (всегда вместе в одной строке) -->
             <v-col cols="12" lg="6" md="12" class="time-filters-col">
               <div class="time-filters-wrapper">
                 <v-text-field
