@@ -5,20 +5,9 @@
     :style="{ left: `${position.x}px`, top: `${position.y}px` }"
     @click.stop
   >
-    <v-list density="compact" class="pa-0">
-      <v-list-item 
-        @click="hideColumn" 
-        :disabled="!canHide"
-        class="px-3 py-2"
-      >
-        <template v-slot:prepend>
-          <v-icon icon="mdi-eye-off" size="small"></v-icon>
-        </template>
-        <v-list-item-title class="text-caption">
-          Скрыть колонку
-        </v-list-item-title>
-      </v-list-item>
-    </v-list>
+    <div class="menu-item" @click="hideColumn">
+      <span>Скрыть колонку</span>
+    </div>
   </div>
 </template>
 
@@ -47,12 +36,26 @@ const hideColumn = () => {
 <style scoped>
 .context-menu {
   position: fixed;
-  z-index: 1000;
-  box-shadow: 0 5px 5px -3px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)), 
-              0 8px 10px 1px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)), 
-              0 3px 14px 2px var(--v-shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12));
-  border-radius: 4px;
   background: white;
-  min-width: 160px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.menu-item span {
+  font-size: 0.9rem;
+  color: #333;
 }
 </style>
