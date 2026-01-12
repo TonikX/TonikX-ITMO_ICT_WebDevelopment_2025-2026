@@ -603,7 +603,7 @@ watch([selectedPrice, liters], ([newPrice, newLiters]) => {
 
 /* Адаптивные шрифты */
 .text-h5 {
-  font-size: 1.25rem !important;
+  font-size: 1.4rem !important;
 }
 
 .text-body-1 {
