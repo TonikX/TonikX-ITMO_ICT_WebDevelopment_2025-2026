@@ -1,0 +1,55 @@
+services:
+  app:
+    container_name: fastapi_tours_app
+    build:
+      context: .  
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - DB_SERVER=db
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"  
+  
+  frontend:
+    build:
+      context: ../laboratory_work_4/frontend
+      dockerfile: Dockerfile
+    container_name: app_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+
+  db:
+    image: postgres:17
+    container_name: tours_data
+    restart: on-failure
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 5s
+      retries: 5
+    ports:
+      - "5433:5432"
+
+volumes:
+  pgdata:

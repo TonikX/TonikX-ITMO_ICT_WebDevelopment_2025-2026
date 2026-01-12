@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Удаление брони{% endblock %}
+{% block content %}
+<h2>Удалить бронь</h2>
+<p>Вы уверены, что хотите удалить бронь на тур <strong>{{ object.tour.name }}</strong>?</p>
+<form method="post">{% csrf_token %}<button class="btn btn-danger">Удалить</button> <a
+        href="{% url 'user_reservations' %}" class="btn btn-secondary">Отмена</a></form>
+{% endblock %}

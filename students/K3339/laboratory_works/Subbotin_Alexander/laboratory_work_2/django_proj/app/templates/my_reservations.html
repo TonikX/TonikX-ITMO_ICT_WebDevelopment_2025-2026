@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Мои брони{% endblock %}
+{% block content %}
+<h2>Мои брони</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Тур</th>
+            <th>Период</th>
+            <th>Гостей</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for res in reservations %}
+        <tr>
+            <td><a href="{% url 'tour_detail' res.tour.id %}">{{ res.tour.title }}</a></td>
+            <td>{{ res.tour.start_date }} — {{ res.tour.end_date }}</td>
+            <td>{{ res.guests }}</td>
+            <td>{% if res.confirmed %}<span class="badge bg-success">Подтверждено</span>{% else %}<span
+                    class="badge bg-secondary">Ожидает</span>{% endif %}</td>
+            <td>
+                <a href="{% url 'reservation_delete' res.id %}" class="btn btn-sm btn-outline-danger">Отменить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Нет бронирований.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'profile' %}" class="btn btn-secondary mt-3">Вернуться в личный кабинет</a>
+{% endblock %}

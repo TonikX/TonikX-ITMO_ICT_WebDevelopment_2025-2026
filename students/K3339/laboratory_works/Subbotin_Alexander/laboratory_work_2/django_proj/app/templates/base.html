@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Tour Manager{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100vh;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'about' %}">Hokkaido Tours</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'tour_list' %}">Туры</a></li>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'sold_by_city' %}">Продажи</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Личный кабинет</a></li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                                    <button type="submit" class="btn btn-link nav-link"
+                                        style="display:inline; padding:0; margin:0;">Выход</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <div class="container mt-4 flex-grow-1">
+                {% block content %}{% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-light mt-1">
+            <div class="container py-4">
+                <div class="row">
+                    <div class="col-md-8 mb-1">
+                        <h6>О сайте</h6>
+                        <p class="small">✿Hokkaido Tours✿ — ваш надежный партнер в организации туров по Хоккайдо.
+                            &emsp; &ensp;&emsp; &ensp;&emsp; &ensp;&emsp; &ensp;&emsp; &ensp;
+                            &emsp; &ensp;&emsp; &ensp;
+                            &emsp; &ensp;&emsp; &ensp;
+                            &emsp; &ensp;&emsp; &ensp;
+                            &emsp; &ensp;Бро, ты умрешь и тд. от удовольствия, когда посетишь эти места с нами!
+                        </p>
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <h6>Мы в соцсетях</h6>
+                        <ul class="list-unstyled small">
+                            <li><a class="text-light" href="http://t.me/cahek_aka_zzisst">Messenger MAX</a></li>
+                            <li><a class="text-light" href="https://vk.com/zzisst">VKontakte</a></li>
+                            <li><a class="text-light" href="https://my.itmo.ru/persons/413075">my.itmo</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-12 text-center small">
+                        © 2023-2025 ZZISST, Inc. &nbsp;|&nbsp; All rights reserved &nbsp;|&nbsp;
+                       </li><a class="text-light" href="{% url 'terms' %}">Terms &amp; Conditions</a></li>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

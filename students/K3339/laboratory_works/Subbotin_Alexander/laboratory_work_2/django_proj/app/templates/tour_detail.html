@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}{{ tour.title }}{% endblock %}
+{% block content %}
+<h2>{{ tour.title }}</h2>
+<p><strong>Агентство:</strong> {{ tour.agency }}</p>
+<p><strong>Период:</strong> {{ tour.start_date }} — {{ tour.end_date }}</p>
+<p><strong>Описание:</strong> {{ tour.description }}</p>
+<p><strong>Город:</strong> {{ tour.city }}</p>
+<p><strong>Цена:</strong> {{ tour.price }} ¥</p>
+<p><strong>Условия оплаты:</strong> {{ tour.payment_terms }}</p>
+<p><strong>Подтверждено броней:</strong> {{ reservations_count }} ({{ total_guests }} гостей)</p>
+
+{% if messages %}
+<div class="mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if user.is_authenticated %}
+    {% if user_reservation %}
+        {% if user_reservation.confirmed %}
+            <div class="alert alert-success mt-3">
+                Ваша бронь <strong>подтверждена</strong> ({{ user_reservation.guests }} гостей)
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-3">
+                Ваша бронь <strong>ожидает подтверждения</strong> ({{ user_reservation.guests }} гостей)
+                <br><small class="text-muted">После оплаты администратор подтвердит вашу бронь</small>
+            </div>
+        {% endif %}
+        <a href="{% url 'reservation_delete' user_reservation.id %}" class="btn btn-danger">Отменить бронь</a>
+    {% else %}
+        <a href="{% url 'reservation_add' tour.id %}" class="btn btn-success mt-2">Забронировать</a>
+    {% endif %}
+{% else %}
+    <p><a href="{% url 'login' %}">Войдите</a>, чтобы забронировать тур.</p>
+{% endif %}
+
+<hr>
+<h4>Отзывы ({{ tour.reviews.count }})</h4>
+{% for review in tour.reviews.all %}
+<div class="border p-3 mb-3 rounded">
+    <div class="d-flex justify-content-between">
+        <strong>{{ review.user.username }}</strong>
+        <small class="text-muted">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+    </div>
+    <div class="my-2">Рейтинг: ⭐ <strong>{{ review.rating }}/10</strong></div>
+    <p class="mb-0">{{ review.text }}</p>
+</div>
+{% empty %}
+<p class="text-muted">Пока нет отзывов. Будьте первым!</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<hr>
+<h5>Оставить отзыв</h5>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="{{ form.text.id_for_label }}" class="form-label">{{ form.text.label }}</label>
+        {{ form.text }}
+        {% if form.text.errors %}
+            <div class="text-danger">{{ form.text.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.rating.id_for_label }}" class="form-label">{{ form.rating.label }}: <output id="rating-value">5</output></label>
+        <div class="d-flex align-items-center">
+            {{ form.rating }}
+        </div>
+        {% if form.rating.errors %}
+            <div class="text-danger">{{ form.rating.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.querySelector('input[type="range"]');
+        const output = document.getElementById('rating-value');
+        if (slider && output) {
+            output.value = slider.value;
+            slider.addEventListener('input', function() {
+                output.value = this.value;
+            });
+        }
+    });
+</script>
+{% else %}
+<p class="mt-3"><a href="{% url 'login' %}">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+{% endblock %}

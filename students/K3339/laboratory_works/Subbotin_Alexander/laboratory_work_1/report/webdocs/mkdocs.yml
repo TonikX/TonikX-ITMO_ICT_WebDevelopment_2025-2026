@@ -1,0 +1,22 @@
+site_name: Курс по вебу
+
+repo_url: https://github.com/ZZISST/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+edit_uri: ""
+
+nav:
+  - Основная информация: index.md
+  - Лабораторные работы:
+    - Лабораторная работа 1: labs/lab1/lab1.md
+    - Лабораторная работа 2: labs/lab2/lab2.md
+    - Лабораторная работа 3: labs/lab3/lab3.md
+    - Лабораторная работа 4: labs/lab4/lab4.md
+  - О чем курс: about.md
+
+copyright: Copyright &copy; 2025 <a href="https://t.me/CAHEK_aka_zzisst/">ZZISST</a>.
+
+theme: mkdocs
+
+plugins:
+  - glightbox
+  
