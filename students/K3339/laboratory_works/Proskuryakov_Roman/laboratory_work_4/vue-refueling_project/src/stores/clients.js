@@ -144,26 +144,25 @@ export const useClientsStore = defineStore('clients', {
         
         // Если это новый клиент, сначала создаем клиента
         if (this.isNewClient) {
-          const phoneNumber = this.newClient.phone_number.replace(/\D/g, '')
-          const phoneNumberValue = parseInt(phoneNumber, 10)
-          
-          if (isNaN(phoneNumberValue)) {
-            throw new Error('Некорректный номер телефона')
+          // Проверяем номер телефона
+          const phoneDigits = this.newClient.phone_number.replace(/\D/g, '')
+          if (phoneDigits.length !== 11) {
+            throw new Error('Номер телефона должен содержать 11 цифр')
           }
           
           const clientResponse = await clientsApi.createClient({
-            surname: this.newClient.surname.trim(),
-            name: this.newClient.name.trim(),
-            patronymic: this.newClient.patronymic.trim(),
-            phone_number: phoneNumberValue,
-            address: this.newClient.address.trim()
+            ...this.newClient,
+            phone_number: parseInt(phoneDigits, 10)
           })
           clientId = clientResponse.data.id_client
         } else {
+          if (!this.selectedClient) {
+            throw new Error('Клиент не выбран')
+          }
           clientId = this.selectedClient.id_client
         }
         
-        // Определяем даты для карты, используя текущий выбранный период
+        // Определяем даты для карты
         const startDate = new Date()
         let endDate = null
         
@@ -195,21 +194,16 @@ export const useClientsStore = defineStore('clients', {
           id_client: clientId,
           id_company: companyId,
           start_date: formatDate(startDate),
-          end_date: formatDate(endDate),
+          end_date: endDate ? formatDate(endDate) : null,
           balance: '0.00',
           discount_percent: '0.00',
           discount_rub: '0.00'
         }
         
-        // Удаляем null значения для бессрочных карт
-        if (this.cardPeriod === 'forever') {
-          delete cardData.end_date
-        }
-        
         const cardResponse = await clientsApi.createClientCard(cardData)
         this.createdCard = cardResponse.data
         
-        // Сбрасываем только поля ввода, но сохраняем созданную карту
+        // Сбрасываем форму
         this.resetInputForm()
         
         return { 
@@ -218,7 +212,7 @@ export const useClientsStore = defineStore('clients', {
         }
         
       } catch (error) {
-        this.error = error.response?.data || error.message || 'Ошибка создания карты'
+        this.error = error.response?.data || error.message
         console.error('Ошибка создания карты:', error)
         return { success: false }
       } finally {

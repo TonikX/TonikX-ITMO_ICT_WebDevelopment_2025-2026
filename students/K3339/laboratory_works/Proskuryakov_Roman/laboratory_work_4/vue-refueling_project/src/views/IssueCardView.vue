@@ -161,7 +161,7 @@
                     v-model="searchPhone"
                     type="tel"
                     placeholder="Введите номер телефона"
-                    @input="handlePhoneSearch"
+                    @input="formatPhoneInput"
                     @keyup.enter="searchClients"
                   />
                   <button 
@@ -357,6 +357,7 @@ const formatPhoneInput = (event) => {
     clientsStore.newClient.phone_number = value
   } else {
     clientsStore.searchPhone = value
+    handlePhoneSearch()
   }
 }
 
@@ -411,6 +412,9 @@ const hideConfirmModal = () => {
 const issueCard = async () => {
   const result = await clientsStore.issueCard()
   if (result.success) {
+    hideConfirmModal()
+  } else {
+    // При ошибке тоже закрываем модальное окно, чтобы пользователь видел сообщение об ошибке
     hideConfirmModal()
   }
 }

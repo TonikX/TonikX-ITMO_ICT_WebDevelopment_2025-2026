@@ -3,7 +3,7 @@
     <div class="modal-content" @click.stop>
       <h2>Подтверждение выдачи карты</h2>
       
-      <div class="client-details">
+      <div v-if="clientData" class="client-details">
         <h3>Данные клиента:</h3>
         <div class="details-grid">
           <div class="detail-item">
@@ -78,19 +78,17 @@ const emit = defineEmits(['confirm', 'cancel'])
 
 // Форматирование номера телефона
 const formattedPhone = computed(() => {
-  let phone = props.clientData.phone_number
+  const phone = props.clientData?.phone_number
   if (!phone) return ''
   
-  // Если phone - это число, преобразуем в строку
-  if (typeof phone === 'number') {
-    phone = phone.toString()
-  }
+  // Преобразуем в строку если это число
+  let phoneStr = typeof phone === 'number' ? phone.toString() : phone
   
-  const cleaned = phone.replace(/\D/g, '')
+  const cleaned = phoneStr.replace(/\D/g, '')
   if (cleaned.length === 11 && (cleaned.startsWith('7') || cleaned.startsWith('8'))) {
     return `+7 (${cleaned.substring(1, 4)}) ${cleaned.substring(4, 7)}-${cleaned.substring(7, 9)}-${cleaned.substring(9, 11)}`
   }
-  return phone
+  return phoneStr
 })
 
 // Текст периода
@@ -123,6 +121,7 @@ const endDate = computed(() => {
 })
 
 const formatDate = (date) => {
+  if (!date) return ''
   return date.toLocaleDateString('ru-RU', {
     day: '2-digit',
     month: '2-digit',
