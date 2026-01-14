@@ -1,0 +1,16 @@
+site_name: "ЛР4 — Клиент (Vue.js) — Документация"
+site_description: "Документация интерфейсов и инструкция по запуску (ЛР4)"
+repo_url: "https://github.com/NNaafff1/TonikX-ITMO_ICT_WebDevelopment_2025-2026"
+site_url: "https://nnaafff1.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/student/%D0%9A3341/%D0%A1%D0%B0%D0%B8%D0%B4_%D0%9D%D0%B0%D0%B2%D0%B0%D1%84/Lr4/"
+nav:
+  - Главная: index.md
+  - Установка фронтенда: setup_frontend.md
+  - Интерфейсы: interfaces.md
+  - CORS: cors.md
+  - Как запускать: how_to_run.md
+  - Скриншоты: screenshots.md
+  - Выводы: conclusions.md
+theme:
+  name: material
+plugins:
+  - search

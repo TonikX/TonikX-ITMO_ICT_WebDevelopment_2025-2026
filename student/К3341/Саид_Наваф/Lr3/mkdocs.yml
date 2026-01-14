@@ -1,0 +1,18 @@
+site_name: "ЛР3 — Документация API"
+site_description: "Лабораторная работа №3 — документация API (вариант 6)"
+repo_url: "https://github.com/NNaafff1/TonikX-ITMO_ICT_WebDevelopment_2025-2026"
+site_url: "https://nnaafff1.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/student/%D0%9A3341/%D0%A1%D0%B0%D0%B8%D0%B4_%D0%9D%D0%B0%D0%B2%D0%B0%D1%84/Lr3/"
+nav:
+  - Главная: index.md
+  - Модель данных: model.md
+  - API (эндпойнты): api_endpoints.md
+  - Как запустить: how_to_run.md
+  - Скриншоты: screenshots.md
+  - Выводы : conclusions.md
+theme:
+  name: material
+  palette:
+    primary: 'blue'
+    accent: 'light blue'
+plugins:
+  - search

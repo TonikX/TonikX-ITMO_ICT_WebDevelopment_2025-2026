@@ -1,0 +1,243 @@
+:root{
+  --bg: #f7f9fc;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent-2: #06b6d4;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border: #e6e9ef;
+  --radius: 8px;
+  --shadow: 0 6px 18px rgba(20, 24, 40, 0.06);
+  --max-width: 1100px;
+  --gap: 18px;
+  font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html,body,#app {
+  height: 100%;
+  background: var(--bg);
+  margin: 0;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 28px auto;
+  padding: 0 18px;
+}
+
+/* App header / nav */
+.app-header {
+  background: linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding: 0 18px;
+}
+.brand {
+  font-weight:700;
+  color: var(--accent);
+  margin-right: 10px;
+}
+.nav-links {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-left: 8px;
+}
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.nav-links a.active, .nav-links a:hover {
+  background: rgba(37,99,235,0.06);
+  color: var(--accent);
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+/* Headers and titles */
+.header-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.h1 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 600;
+}
+.section-title {
+  font-size: 14px;
+  margin: 12px 0 8px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Grid for details */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--gap);
+}
+@media (max-width: 900px){
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Lists */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.list-item {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px dashed transparent;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.list-item:hover {
+  border-color: var(--border);
+  background: linear-gradient(90deg, rgba(37,99,235,0.02), rgba(6,182,212,0.01));
+}
+
+/* Badges & meta */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+  background: var(--accent);
+}
+.badge.secondary {
+  background: var(--accent-2);
+}
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Buttons */
+.btn {
+  display:inline-block;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 10px;
+}
+
+/* Form controls */
+.form-row {
+  display:flex;
+  gap:12px;
+  margin-bottom:12px;
+}
+.form-control {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  width:100%;
+}
+.input, textarea, select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  font-size: 14px;
+}
+textarea { min-height: 110px; }
+
+/* Small helpers */
+.small {
+  font-size: 13px;
+  color: var(--muted);
+}
+.kv {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.kv b { min-width:120px; display:inline-block; color: #111827; }
+
+/* Spinner */
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 4px solid rgba(0,0,0,0.06);
+  border-top-color: var(--accent);
+  animation: spin 1s linear infinite;
+  display:inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset:0;
+  background: rgba(2,6,23,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 100;
+}
+.modal {
+  width: 540px;
+  max-width: calc(100% - 40px);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+
+/* Empty state */
+.empty {
+  padding: 14px;
+  color: var(--muted);
+  text-align: center;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(2,6,23,0.01), rgba(37,99,235,0.01));
+}

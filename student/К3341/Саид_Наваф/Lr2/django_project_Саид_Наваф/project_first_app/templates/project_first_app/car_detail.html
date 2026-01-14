@@ -1,0 +1,50 @@
+
+
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}{{ car.brand }} {{ car.model }} - Details{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="display-5 mb-0">🚗 Car Details</h1>
+        <p class="text-muted">Complete information about the racing car</p>
+    </div>
+    <a href="{% url 'car_list' %}" class="btn btn-secondary btn-lg">← Back to All Cars</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">{{ car.brand }} {{ car.model }}</h2>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>License Plate:</strong> {{ car.license_plate }}</li>
+            <li class="list-group-item"><strong>Brand:</strong> {{ car.brand }}</li>
+            <li class="list-group-item"><strong>Model:</strong> {{ car.model }}</li>
+            <li class="list-group-item"><strong>Color:</strong> {{ car.color|default:"Not specified" }}</li>
+            <li class="list-group-item"><strong>Team:</strong> {{ car.team.name|default:"No team" }}</li>
+            {% if car.max_speed %}
+            <li class="list-group-item"><strong>Max Speed:</strong> {{ car.max_speed }} km/h</li>
+            {% endif %}
+            {% if car.engine_power %}
+            <li class="list-group-item"><strong>Engine Power:</strong> {{ car.engine_power }} HP</li>
+            {% endif %}
+            <li class="list-group-item"><strong>Car ID:</strong> #{{ car.id }}</li>
+        </ul>
+        {% if car.car_description %}
+        <div class="mb-3">
+            <strong>Description:</strong>
+            <div class="text-muted">{{ car.car_description }}</div>
+        </div>
+        {% endif %}
+        <div class="d-flex gap-2 mt-4">
+            <a href="{% url 'car_update' car.id %}" class="btn btn-warning flex-fill">Edit Car</a>
+            <a href="{% url 'car_delete' car.id %}" class="btn btn-danger flex-fill">Delete Car</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}All Racers{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="display-5 mb-0">🏎️ All Racers</h1>
+        <p class="text-muted">List of all registered racing drivers</p>
+    </div>
+    <a href="{% url 'register_user' %}" class="btn btn-success btn-lg">Register New Racer</a>
+</div>
+
+{% if racers %}
+    <div class="row g-4 mb-4">
+        {% for racer in racers %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">{{ racer.first_name }} {{ racer.last_name }}</h4>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>Racing Class:</strong> {{ racer.racing_class|default:"Not specified" }}</li>
+                        <li class="list-group-item"><strong>Experience:</strong> {{ racer.racing_experience }} years</li>
+                        <li class="list-group-item"><strong>Nationality:</strong> {{ racer.nationality|default:"Not specified" }}</li>
+                    </ul>
+                    <a href="{% url 'racer_detail' racer.id %}" class="btn btn-outline-primary w-100">View Racing Profile →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p class="mb-1">No racers found in the database.</p>
+        <p>Please register some racers through the <a href="{% url 'register_user' %}">registration form</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

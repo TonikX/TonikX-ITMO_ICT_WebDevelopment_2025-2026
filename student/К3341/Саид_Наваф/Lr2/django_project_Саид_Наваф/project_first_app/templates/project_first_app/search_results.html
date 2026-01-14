@@ -1,0 +1,109 @@
+
+
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="display-5">🔍 Search Results</h1>
+</div>
+
+{% if query %}
+    <p class="lead">Results for: <strong>{{ query }}</strong></p>
+
+    <!-- Races Results -->
+    {% if races %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Races ({{ races.count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for race in races %}
+            <div class="mb-3 pb-3 border-bottom">
+                <h6><a href="{% url 'race_detail' race.pk %}">{{ race.name }}</a></h6>
+                <p class="mb-1"><strong>Location:</strong> {{ race.location }}</p>
+                <p class="mb-1"><strong>Date:</strong> {{ race.date }}</p>
+                <small class="text-muted">Type: {{ race.get_race_type_display }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Racers Results -->
+    {% if racers %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Racers ({{ racers.count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for racer in racers %}
+            <div class="mb-3 pb-3 border-bottom">
+                <h6><a href="{% url 'racer_detail' racer.pk %}">{{ racer.first_name }} {{ racer.last_name }}</a></h6>
+                <p class="mb-1"><strong>Username:</strong> {{ racer.username }}</p>
+                <p class="mb-1"><strong>Class:</strong> {{ racer.racing_class|default:"Not specified" }}</p>
+                <small class="text-muted">Experience: {{ racer.racing_experience }} years</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Teams Results -->
+    {% if teams %}
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Teams ({{ teams.count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for team in teams %}
+            <div class="mb-3 pb-3 border-bottom">
+                <h6><a href="{% url 'team_detail' team.pk %}">{{ team.name }}</a></h6>
+                {% if team.description %}
+                <p class="mb-1">{{ team.description|truncatewords:30 }}</p>
+                {% endif %}
+                {% if team.founded_date %}
+                <small class="text-muted">Founded: {{ team.founded_date }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Cars Results -->
+    {% if cars %}
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Cars ({{ cars.count }})</h5>
+        </div>
+        <div class="card-body">
+            {% for car in cars %}
+            <div class="mb-3 pb-3 border-bottom">
+                <h6><a href="{% url 'car_detail' car.pk %}">{{ car.brand }} {{ car.model }}</a></h6>
+                <p class="mb-1"><strong>License Plate:</strong> {{ car.license_plate }}</p>
+                <p class="mb-1"><strong>Team:</strong> {{ car.team.name|default:"No team" }}</p>
+                {% if car.max_speed %}
+                <small class="text-muted">Max Speed: {{ car.max_speed }} km/h</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not races and not racers and not teams and not cars %}
+    <div class="alert alert-info mt-4">
+        <h5>No results found</h5>
+        <p>Try different search terms or browse our categories.</p>
+    </div>
+    {% endif %}
+
+{% else %}
+    <div class="alert alert-warning">
+        <h5>No search query provided</h5>
+        <p>Please enter a search term in the navigation bar.</p>
+    </div>
+{% endif %}
+{% endblock %}
