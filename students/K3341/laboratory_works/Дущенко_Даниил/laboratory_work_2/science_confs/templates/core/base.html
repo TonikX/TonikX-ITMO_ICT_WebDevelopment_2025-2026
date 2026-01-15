@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Научные Конференции</title>
+    <!-- Подключаем Bootstrap 5 (CSS) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <!-- Меню Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">ScienceConf</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Конференции</a></li>
+                </ul>
+                <div class="d-flex text-white">
+                    {% if user.is_authenticated %}
+                        <span class="me-3 align-self-center">Привет, {{ user.username }} 
+                            {% if user.is_staff %}(Админ){% endif %}
+                        </span>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-light btn-sm me-2">Войти</a>
+                        <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm">Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="text-center mt-5 py-3 text-muted">
+        &copy; 2025 Лабораторная работа №2
+    </footer>
+</body>
+</html>

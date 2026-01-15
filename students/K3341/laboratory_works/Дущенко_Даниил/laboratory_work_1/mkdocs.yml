@@ -1,0 +1,4 @@
+site_name: Лабораторная работа №1
+nav:
+  - Отчет: index.md
+theme: readthedocs
