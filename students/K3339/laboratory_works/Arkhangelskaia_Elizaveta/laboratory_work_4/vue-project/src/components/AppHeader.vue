@@ -28,6 +28,7 @@
       <v-tab @click="goTo('/workers')" value="workers">
         Workers
       </v-tab>
+
       <v-tab @click="goTo('/cleaning')" value="cleaning">
         Cleaning
       </v-tab>

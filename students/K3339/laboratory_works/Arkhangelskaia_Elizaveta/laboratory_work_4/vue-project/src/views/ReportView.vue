@@ -4,7 +4,6 @@
       <v-card-title>Отчёт по отелю</v-card-title>
 
       <v-card-text>
-        <!-- Форма -->
         <v-row dense>
           <v-col cols="12" md="4">
             <v-text-field

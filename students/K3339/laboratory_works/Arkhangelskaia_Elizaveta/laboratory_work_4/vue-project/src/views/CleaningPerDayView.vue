@@ -5,7 +5,6 @@
 
       <v-card-text>
         <v-row dense>
-          <!-- Клиент -->
           <v-col cols="12" md="6">
             <v-select
               v-model="selectedClient"
@@ -18,7 +17,6 @@
             />
           </v-col>
 
-          <!-- День недели -->
           <v-col cols="12" md="6">
             <v-select
               v-model="weekDay"
@@ -85,7 +83,6 @@ const loadClients = async () => {
 onMounted(() => {
   loadClients()
 })
-
 
 const loadCleaningStaff = async () => {
   error.value = ''

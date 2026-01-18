@@ -4,7 +4,6 @@
       <v-card-title>Редактировать сотрудника</v-card-title>
 
       <v-card-text>
-        <!-- Основная информация сотрудника -->
         <v-text-field
           v-model="worker.name"
           label="Имя"
@@ -37,7 +36,6 @@
 
         <v-divider class="my-4"></v-divider>
 
-        <!-- Уборки -->
         <h3>График уборок</h3>
 
         <v-data-table
@@ -75,7 +73,6 @@
           К списку сотрудников
         </v-btn>
 
-        <!-- Сообщения -->
         <v-alert v-if="success" type="success" dense class="mt-3" color="green lighten-2">
           {{ success }}
         </v-alert>
@@ -96,7 +93,6 @@ import api from '@/api'
 const router = useRouter()
 const route = useRoute()
 
-// Основной сотрудник
 const worker = ref({
   name: '',
   surname: '',
@@ -104,11 +100,9 @@ const worker = ref({
   is_employed: true
 })
 
-// Сообщения
 const success = ref('')
 const error = ref('')
 
-// Список уборок
 const cleanings = ref([])
 const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 const cleaningHeaders = [
@@ -117,7 +111,6 @@ const cleaningHeaders = [
   { title: '', key: 'actions', sortable: false }
 ]
 
-// --- Загрузка данных сотрудника ---
 const loadWorker = async () => {
   try {
     const res = await api.get(`workers/${route.params.id}/`)
@@ -128,7 +121,6 @@ const loadWorker = async () => {
   }
 }
 
-// --- Загрузка уборок для этого сотрудника ---
 const loadCleanings = async () => {
   try {
     const res = await api.get(`cleaning_info/?id_worker=${route.params.id}`)

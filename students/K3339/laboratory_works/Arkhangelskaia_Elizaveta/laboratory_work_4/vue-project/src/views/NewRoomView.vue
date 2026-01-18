@@ -4,7 +4,6 @@
       <v-card-title>Добавить номер</v-card-title>
 
       <v-card-text>
-        <!-- Тип номера -->
         <v-select
           v-model="room.id_room_type"
           :items="roomTypes"
@@ -76,7 +75,6 @@ import api from '@/api'
 
 const router = useRouter()
 
-// данные комнаты
 const room = ref({
   id_room_type: null,
   room_number: '',
@@ -84,11 +82,10 @@ const room = ref({
   floor: ''
 })
 
-const roomTypes = ref([]) // список типов номеров
+const roomTypes = ref([])
 const success = ref('')
 const error = ref('')
 
-// загрузка типов номеров и преобразование в "1-местный", "2-местный"
 const loadRoomTypes = async () => {
   try {
     const res = await api.get('room_types/')
@@ -101,7 +98,6 @@ const loadRoomTypes = async () => {
   }
 }
 
-// добавление нового номера
 const addRoom = async () => {
   success.value = ''
   error.value = ''
@@ -123,12 +119,10 @@ const addRoom = async () => {
   }
 }
 
-// отмена
 const cancel = () => {
   router.push('/rooms')
 }
 
-// загрузка типов при монтировании
 onMounted(() => {
   loadRoomTypes()
 })

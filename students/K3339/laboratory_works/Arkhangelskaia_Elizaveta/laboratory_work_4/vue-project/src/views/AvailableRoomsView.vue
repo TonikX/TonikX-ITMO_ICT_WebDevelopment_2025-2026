@@ -4,7 +4,6 @@
       <v-card-title>Свободные номера</v-card-title>
 
       <v-card-text>
-        <!-- Даты -->
         <v-row dense>
           <v-col cols="12" md="6">
             <v-menu v-model="startMenu" :close-on-content-click="false">
@@ -53,7 +52,6 @@
           {{ error }}
         </div>
 
-        <!-- РЕЗУЛЬТАТ -->
         <v-row v-if="rooms.length" class="mt-4" dense>
           <v-col
             v-for="room in rooms"
@@ -125,7 +123,6 @@ const loadRooms = async () => {
       `req/available_rooms/?start_date=${startDate.value}&end_date=${endDate.value}`
     )
 
-    // подгружаем типы номеров
     const result = []
 
     for (const room of res.data) {

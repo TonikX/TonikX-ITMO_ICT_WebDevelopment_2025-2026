@@ -24,6 +24,15 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = "__all__"
 
+    def validate(self, data):
+        start = data.get('start_date')
+        end = data.get('end_date')
+
+        if start and end and start >= end:
+            raise serializers.ValidationError("дата заезда должна быть раньше даты выезда")
+
+        return data
+
 
 class WorkersSerializer(serializers.ModelSerializer):
     class Meta:

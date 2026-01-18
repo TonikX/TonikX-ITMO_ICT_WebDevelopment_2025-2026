@@ -4,7 +4,6 @@
       <v-card-title>Редактировать бронирование</v-card-title>
 
       <v-card-text>
-        <!-- Дата заезда -->
         <v-menu v-model="startMenu" :close-on-content-click="false">
           <template #activator="{ props }">
             <v-text-field
@@ -24,7 +23,6 @@
           />
         </v-menu>
 
-        <!-- Дата выезда -->
         <v-menu v-model="endMenu" :close-on-content-click="false">
           <template #activator="{ props }">
             <v-text-field
@@ -44,7 +42,6 @@
           />
         </v-menu>
 
-        <!-- Клиенты -->
         <v-select
           v-model="reservation.residents"
           :items="residents"
@@ -57,7 +54,6 @@
           dense
         />
 
-        <!-- Номера -->
         <v-select
           v-model="reservation.rooms"
           :items="rooms"
@@ -100,12 +96,11 @@ import api from '@/api'
 const route = useRoute()
 const router = useRouter()
 
-/* состояние */
 const reservation = ref({
   start_date: '',
   end_date: '',
-  residents: [], // массив ID
-  rooms: []      // массив ID
+  residents: [],
+  rooms: []
 })
 
 const residents = ref([])
@@ -118,13 +113,11 @@ const endDate = ref(null)
 
 const error = ref('')
 
-/* формат даты */
 const formatDate = (date) => {
   const d = new Date(date)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-/* загрузка клиентов */
 const loadResidents = async () => {
   const res = await api.get('residents/')
   residents.value = res.data.map(r => ({
@@ -133,20 +126,18 @@ const loadResidents = async () => {
   }))
 }
 
-/* загрузка номеров */
+
 const loadRooms = async () => {
   const res = await api.get('rooms/')
   rooms.value = res.data
 }
 
-/* загрузка бронирования */
 const loadReservation = async () => {
   const res = await api.get(`reservations/${route.params.id}/`)
 
   reservation.value.start_date = res.data.start_date
   reservation.value.end_date = res.data.end_date
 
-  // ✅ ВАЖНО: сервер уже возвращает ID
   reservation.value.residents = res.data.residents
   reservation.value.rooms = res.data.rooms
 
@@ -154,7 +145,6 @@ const loadReservation = async () => {
   endDate.value = new Date(res.data.end_date)
 }
 
-/* выбор дат */
 const onStartDateSelect = (val) => {
   reservation.value.start_date = formatDate(val)
   startDate.value = val
@@ -167,7 +157,6 @@ const onEndDateSelect = (val) => {
   endMenu.value = false
 }
 
-/* сохранение */
 const updateReservation = async () => {
   error.value = ''
 

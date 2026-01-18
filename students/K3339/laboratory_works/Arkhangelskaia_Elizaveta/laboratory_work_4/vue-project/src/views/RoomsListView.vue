@@ -87,7 +87,7 @@ const deleteRoom = async (id) => {
   try {
     await api.delete(`rooms/${id}/`)
     alert('Номер успешно удалён')
-    loadRooms() // обновляем список
+    loadRooms()
   } catch (e) {
     console.error(e)
     alert('Ошибка при удалении номера')

@@ -2,9 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>Добавить нового сотрудника</v-card-title>
-
       <v-card-text>
-        <!-- Имя -->
         <v-text-field
           v-model="worker.name"
           label="Имя"
@@ -12,7 +10,6 @@
           dense
         ></v-text-field>
 
-        <!-- Фамилия -->
         <v-text-field
           v-model="worker.surname"
           label="Фамилия"
@@ -20,7 +17,6 @@
           dense
         ></v-text-field>
 
-        <!-- Отчество -->
         <v-text-field
           v-model="worker.patronymic"
           label="Отчество"
@@ -28,14 +24,11 @@
           dense
         ></v-text-field>
 
-        <!-- Статус занятости -->
         <v-switch
           v-model="worker.is_employed"
           label="Работает"
           inset
         ></v-switch>
-
-        <!-- Кнопки -->
         <v-btn color="green lighten-2" class="mt-3 mr-2" @click="createWorker">
           Добавить
         </v-btn>
@@ -44,7 +37,6 @@
           Отмена
         </v-btn>
 
-        <!-- Сообщения -->
         <v-alert v-if="success" type="success" dense class="mt-3" color="green lighten-2">
           {{ success }}
         </v-alert>

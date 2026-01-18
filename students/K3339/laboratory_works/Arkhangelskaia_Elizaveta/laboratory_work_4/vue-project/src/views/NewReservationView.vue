@@ -24,7 +24,6 @@
               ></v-date-picker>
             </v-menu>
 
-            <!-- Дата выезда -->
             <v-menu v-model="endMenu" :close-on-content-click="false" offset-y min-width="auto">
               <template #activator="{ props }">
                 <v-text-field
@@ -68,7 +67,6 @@
               dense
             />
 
-            <!-- Кнопка добавления -->
             <v-btn color="success" class="mt-3" type="button" @click="addReservation">
               Добавить
             </v-btn>
@@ -104,7 +102,6 @@ import api from '@/api'
 
 const router = useRouter()
 
-// состояния
 const reservation = ref({start_date: '', end_date: '', residents: [], rooms: []})
 const startMenu = ref(false)
 const endMenu = ref(false)
@@ -153,7 +150,6 @@ onMounted(() => {
   loadRooms()
 })
 
-// выбор даты
 const onStartDateSelect = (val) => {
   reservation.value.start_date = formatDate(val)
   startDate.value = val
@@ -166,7 +162,6 @@ const onEndDateSelect = (val) => {
   endMenu.value = false
 }
 
-// функция добавления бронирования
 const addReservation = async () => {
   if (!reservation.value.start_date || !reservation.value.end_date || selectedResidents.value.length === 0 || selectedRooms.value.length === 0) {
     error.value = 'Заполните все поля'
@@ -186,7 +181,6 @@ const addReservation = async () => {
     success.value = 'Бронирование успешно добавлено!'
     error.value = ''
 
-    // редирект через 1.5 секунды
     setTimeout(() => {
       router.push('/reservations')
     }, 1500)

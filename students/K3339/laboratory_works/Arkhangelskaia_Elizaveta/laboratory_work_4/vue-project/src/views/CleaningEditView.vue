@@ -4,7 +4,6 @@
       <v-card-title>Редактировать уборку</v-card-title>
 
       <v-card-text>
-        <!-- Дата -->
         <v-text-field
           v-model="form.cleaning_date"
           label="Дата уборки"
@@ -13,7 +12,6 @@
           dense
         />
 
-        <!-- Сотрудник -->
         <v-select
           v-model="form.worker"
           :items="workers"
@@ -24,7 +22,6 @@
           dense
         />
 
-        <!-- Комната -->
         <v-select
           v-model="form.room"
           :items="rooms"
@@ -82,7 +79,6 @@ const workers = ref([])
 const rooms = ref([])
 const error = ref('')
 
-// загрузка уборки
 const loadCleaning = async () => {
   const res = await api.get(`cleaning/${route.params.id}/`)
   form.value = {
@@ -92,7 +88,6 @@ const loadCleaning = async () => {
   }
 }
 
-// загрузка работников
 const loadWorkers = async () => {
   const res = await api.get('workers/')
   workers.value = res.data.map(w => ({
@@ -101,13 +96,11 @@ const loadWorkers = async () => {
   }))
 }
 
-// загрузка комнат
 const loadRooms = async () => {
   const res = await api.get('rooms/')
   rooms.value = res.data
 }
 
-// сохранить
 const save = async () => {
   error.value = ''
   try {

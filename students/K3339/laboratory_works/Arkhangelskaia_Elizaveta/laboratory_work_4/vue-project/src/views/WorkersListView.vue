@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-card>
-      <!-- Заголовок с кнопкой добавления -->
       <v-card-title class="d-flex justify-space-between align-center">
         <span>Список сотрудников</span>
         <v-btn color="green lighten-2" @click="createWorker">
@@ -9,20 +8,17 @@
         </v-btn>
       </v-card-title>
 
-      <!-- Таблица сотрудников -->
       <v-data-table
         :headers="headers"
         :items="workers"
         item-key="id"
         class="elevation-1"
       >
-        <!-- Состояние занятости -->
         <template #item.is_employed="{ item }">
           <span v-if="item.is_employed">Да</span>
           <span v-else>Нет</span>
         </template>
 
-        <!-- Действия -->
         <template #item.actions="{ item }">
           <v-btn color="primary" small class="mr-2" @click="editWorker(item.id)">
             Редактировать
@@ -44,7 +40,6 @@ import api from '@/api'
 const router = useRouter()
 const workers = ref([])
 
-// Заголовки таблицы
 const headers = [
   { title: 'Имя', key: 'name' },
   { title: 'Фамилия', key: 'surname' },
@@ -53,7 +48,6 @@ const headers = [
   { title: '', key: 'actions', sortable: false }
 ]
 
-// Загрузка списка сотрудников
 const loadWorkers = async () => {
   try {
     const res = await api.get('workers/')
@@ -63,17 +57,14 @@ const loadWorkers = async () => {
   }
 }
 
-// Создать нового сотрудника
 const createWorker = () => {
   router.push('/workers/new')
 }
 
-// Редактировать сотрудника
 const editWorker = (id) => {
   router.push(`/workers/${id}/edit`)
 }
 
-// Удаление сотрудника
 const deleteWorker = async (id) => {
   const confirmDelete = confirm('Вы точно хотите удалить этого сотрудника?')
   if (!confirmDelete) return
@@ -88,7 +79,6 @@ const deleteWorker = async (id) => {
   }
 }
 
-// Загружаем сотрудников при монтировании
 onMounted(() => {
   loadWorkers()
 })

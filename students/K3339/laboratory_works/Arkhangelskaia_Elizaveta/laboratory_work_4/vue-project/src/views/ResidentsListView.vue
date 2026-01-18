@@ -93,7 +93,7 @@ const deleteResident = async (id) => {
   try {
     await api.delete(`residents/${id}/`)
     alert('Клиент успешно удалён')
-    loadResidents() // обновляем список
+    loadResidents()
   } catch (e) {
     console.error(e)
     alert('Ошибка при удалении клиента')

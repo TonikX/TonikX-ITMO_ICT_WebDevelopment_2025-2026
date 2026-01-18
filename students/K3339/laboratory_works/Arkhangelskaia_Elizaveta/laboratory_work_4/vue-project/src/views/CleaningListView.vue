@@ -14,22 +14,18 @@
         :items="cleanings"
         item-key="id"
       >
-        <!-- Дата -->
         <template #item.cleaning_date="{ item }">
           {{ formatDate(item.cleaning_date) }}
         </template>
 
-        <!-- Сотрудник -->
         <template #item.worker="{ item }">
           {{ item.worker_fio }}
         </template>
 
-        <!-- Комната -->
         <template #item.room="{ item }">
           {{ item.room_number }}
         </template>
 
-        <!-- Действия -->
         <template #item.actions="{ item }">
           <v-btn
             color="primary"
@@ -68,12 +64,10 @@ const headers = [
   { title: '', key: 'actions', sortable: false }
 ]
 
-// формат даты
 const formatDate = (dateStr) => {
   return new Date(dateStr).toISOString().slice(0, 10)
 }
 
-// загрузка уборок + данных
 const loadCleanings = async () => {
   try {
     const res = await api.get('cleaning/')
@@ -100,12 +94,10 @@ const loadCleanings = async () => {
   }
 }
 
-// редактирование
 const editCleaning = (id) => {
   router.push(`/cleaning/${id}/edit`)
 }
 
-// удаление
 const deleteCleaning = async (id) => {
   const confirmDelete = confirm('Удалить эту запись об уборке?')
   if (!confirmDelete) return
@@ -122,7 +114,6 @@ const deleteCleaning = async (id) => {
 onMounted(() => {
   loadCleanings()
 })
-
 
 
 const goToNewCleaning = () => {

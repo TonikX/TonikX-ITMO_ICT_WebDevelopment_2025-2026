@@ -36,8 +36,6 @@
           outlined
           dense
         />
-
-        <!-- Работник -->
         <v-select
           v-model="worker"
           :items="workers"
@@ -47,8 +45,6 @@
           outlined
           dense
         />
-
-        <!-- Номер комнаты -->
         <v-select
           v-model="room"
           :items="rooms"
@@ -58,11 +54,6 @@
           outlined
           dense
         />
-
-        <!-- Время -->
-
-
-        <!-- Кнопки -->
         <v-btn color="green lighten-2" class="mt-3 mr-2" @click="createCleaning">
           Сохранить
         </v-btn>
@@ -70,7 +61,6 @@
           Отмена
         </v-btn>
 
-        <!-- Ошибка -->
         <v-alert v-if="error" type="error" class="mt-3" dense>
           {{ error }}
         </v-alert>
@@ -86,22 +76,15 @@ import api from '@/api'
 
 const router = useRouter()
 const error = ref('')
-
-// Дата
 const dateMenu = ref(false)
 const selectedDate = ref(null)
 const date = ref('') // YYYY-MM-DD
-
-// Время
 const time = ref('')
-
-// Работник и комната
 const worker = ref(null)
 const room = ref(null)
 const workers = ref([])
 const rooms = ref([])
 
-// Форматирование даты
 const formatDate = (val) => {
   const d = new Date(val)
   const yyyy = d.getFullYear()
@@ -110,14 +93,12 @@ const formatDate = (val) => {
   return `${yyyy}-${mm}-${dd}`
 }
 
-// Выбор даты
 const onDateSelect = (val) => {
   selectedDate.value = val
   date.value = formatDate(val)
   dateMenu.value = false
 }
 
-// Загрузка работников
 const loadWorkers = async () => {
   try {
     const res = await api.get('workers/')
@@ -130,7 +111,6 @@ const loadWorkers = async () => {
   }
 }
 
-// Загрузка комнат
 const loadRooms = async () => {
   try {
     const res = await api.get('rooms/')
@@ -140,11 +120,9 @@ const loadRooms = async () => {
   }
 }
 
-// Создание уборки
 const createCleaning = async () => {
   error.value = ''
 
-  // проверка заполнения
   if (!date.value || !time.value || !worker.value || !room.value) {
     error.value = 'Заполните все поля'
     return
@@ -159,8 +137,8 @@ const createCleaning = async () => {
   try {
     await api.post('cleaning/', {
       cleaning_date: isoDate,
-      worker: worker.value,  // <-- id, а не объект
-      room: room.value       // <-- id
+      worker: worker.value,
+      room: room.value
     })
     router.push('/cleaning')
   } catch (e) {
@@ -169,9 +147,6 @@ const createCleaning = async () => {
   }
 }
 
-
-
-// Отмена
 const goBack = () => {
   router.push('/cleaning')
 }

@@ -64,7 +64,6 @@
 
         <div v-if="error" class="mt-2" style="color:red">{{ error }}</div>
 
-        <!-- Таблица результатов -->
         <v-data-table
           v-if="clients.length"
           :headers="headers"
@@ -123,7 +122,6 @@ const loadRooms = async () => {
   }
 }
 
-// поиск клиентов
 const searchClients = async () => {
   error.value = ''
   clients.value = []

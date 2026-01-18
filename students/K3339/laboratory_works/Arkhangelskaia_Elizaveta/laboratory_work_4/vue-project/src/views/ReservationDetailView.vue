@@ -42,11 +42,9 @@ onMounted(async () => {
   const id = route.params.id
 
   try {
-    // 1️⃣ получаем бронирование
     const res = await api.get(`reservations/${id}/`)
     reservation.value = res.data
 
-    // 2️⃣ подгружаем номера
     const roomRequests = reservation.value.rooms.map(roomId =>
       api.get(`rooms/${roomId}/`)
     )
@@ -54,7 +52,6 @@ onMounted(async () => {
     const roomResponses = await Promise.all(roomRequests)
     rooms.value = roomResponses.map(r => r.data.room_number)
 
-    // 3️⃣ подгружаем клиентов
     const residentRequests = reservation.value.residents.map(residentId =>
       api.get(`residents/${residentId}/`)
     )
