@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fdf6f9; 
+            color: #2f3e2f; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #a8e6a1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a2a2a;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .owner {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #a8e6a1;
+            border-radius: 8px;
+            background-color: #f9fdf9;
+        }
+        .buttons { text-align: center; 
+            margin-top: 20px; 
+        }
+        button { border: 2px solid #a8e6a1; 
+            background-color: #a8e6a1; 
+            color: #2f3e2f; 
+            border-radius: 8px; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            font-size: 1em; 
+            transition: 0.3s; 
+            margin: 5px; 
+        }
+        button:hover, a:hover {
+            background-color: #ffb6c1; 
+            border-color: #ffb6c1; 
+        }
+        a { 
+            text-decoration: none; 
+            color: #2f3e2f; 
+            border: 2px solid #a8e6a1; 
+            background-color: #a8e6a1; 
+            border-radius: 8px; 
+            padding: 8px 12px; 
+            margin: 5px; 
+            transition: 0.3s; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        {% if owners %}
+            {% for owner in owners %}
+                <div class="owner">
+                    Владелец: {{ owner.first_name }} {{ owner.last_name }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No owners found for this car.</p>
+        {% endif %}
+    <div class="buttons">
+        <a href="{% url 'user_add' %}">Добавить пользователя</a>
+    </div>
+    
+    </div>
+</body>
+</html>

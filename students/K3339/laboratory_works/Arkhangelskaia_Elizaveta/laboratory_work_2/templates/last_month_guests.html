@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Постояльцы отеля{% endblock %}
+
+{% block content %}
+
+    <h1>Постояльцы за последний месяц</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отель</th>
+                <th>Тип комнаты</th>
+                <th>Дата заезда</th>
+                <th>Дата выезда</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in page_obj %}
+            <tr>
+                <td>{{ r.id_user.first_name }}</td>
+                <td>{{ r.id_user.last_name }}</td>
+                <td>{{ r.id_rooms.id_hotel.name }}</td>
+                <td>{{ r.id_rooms.room_type }}</td>
+                <td>{{ r.start_date }}</td>
+                <td>{{ r.end_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">Нет данных за последний месяц</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">«</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">»</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

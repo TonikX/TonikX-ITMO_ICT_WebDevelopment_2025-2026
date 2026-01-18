@@ -1,0 +1,520 @@
+[
+{
+    "model": "hotels.hotel",
+    "pk": 1,
+    "fields": {
+        "name": "WE&I",
+        "owner": "-",
+        "address": "ст. метро Лесная",
+        "description": "-"
+    }
+},
+{
+    "model": "hotels.hotel",
+    "pk": 2,
+    "fields": {
+        "name": "VALO",
+        "owner": "-",
+        "address": "ст. метро Бухарестская",
+        "description": "-"
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$Wk7B7lIm7KPi7LaDuPZuN9$xP8EOIT1r9DJypLi+huUwWKge6t0r0HavoIFedy8R+o=",
+        "last_login": "2025-10-23T16:42:07.853Z",
+        "is_superuser": true,
+        "username": "liza",
+        "first_name": "",
+        "last_name": "",
+        "email": "lari.x@mail.ru",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-10-13T16:20:21.033Z",
+        "birth_date": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$sV6ZGfIM1DyQsZbwbKriAD$TH/3CwKi0DR4LUQFZ8C2cG2g1oFSft483UVV/2swmM0=",
+        "last_login": "2025-10-21T16:29:52.638Z",
+        "is_superuser": false,
+        "username": "yliza",
+        "first_name": "Елизавета",
+        "last_name": "Архангельская",
+        "email": "lari.x@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-10-15T16:04:39.756Z",
+        "birth_date": "2005-04-22",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$e5ob66ZWaOlt0dzscwRxjg$SQW7yEJUCZi64LYJsXIzg57x8ziF/409a7DSJbsWWLw=",
+        "last_login": "2025-10-23T16:28:06.356Z",
+        "is_superuser": false,
+        "username": "masha",
+        "first_name": "maria",
+        "last_name": "petrova",
+        "email": "lol@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-10-15T16:08:19.555Z",
+        "birth_date": "2002-12-15",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$hPihcP0h02snOmiQ71S1OX$6R2fhVP69Eswku8lyG4LavsygIjRLgsXhkT2L8h6H5M=",
+        "last_login": "2025-10-23T08:07:00.650Z",
+        "is_superuser": false,
+        "username": "lol",
+        "first_name": "pavel",
+        "last_name": "sidorov",
+        "email": "pavelsidorov@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-10-22T08:45:56.004Z",
+        "birth_date": "1992-12-06",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$bDJebODcraTgzYbhupatGZ$o6EhkrdTuPG9BzCd5NtqtyPmWPSU15lORgYAL5aEsR4=",
+        "last_login": "2025-10-23T21:17:47.643Z",
+        "is_superuser": false,
+        "username": "pavel",
+        "first_name": "pavel",
+        "last_name": "sidorov",
+        "email": "pavelsidorov@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-10-22T08:46:26.008Z",
+        "birth_date": "1992-12-06",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.hoteluser",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$pEk2yed2FBiZwqtQFhcOqN$kJ6Kb+xqpED6I7xIIe10OjcZCVNT4QnXqk8uudhMZEU=",
+        "last_login": "2025-10-23T16:25:48.104Z",
+        "is_superuser": false,
+        "username": "new_user",
+        "first_name": "a",
+        "last_name": "a",
+        "email": "new_user@mail.ru",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-10-23T14:41:47.834Z",
+        "birth_date": "2002-10-10",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 1,
+    "fields": {
+        "id_hotel": 1,
+        "room_type": "Двухместный люкс",
+        "price": 5000,
+        "capacity": 2,
+        "count": 10
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 2,
+    "fields": {
+        "id_hotel": 1,
+        "room_type": "Трехместный люкс",
+        "price": 9000,
+        "capacity": 3,
+        "count": 5
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 3,
+    "fields": {
+        "id_hotel": 1,
+        "room_type": "одноместный",
+        "price": 3000,
+        "capacity": 1,
+        "count": 10
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 4,
+    "fields": {
+        "id_hotel": 2,
+        "room_type": "Трехместный люкс",
+        "price": 4000,
+        "capacity": 3,
+        "count": 10
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 5,
+    "fields": {
+        "id_hotel": 2,
+        "room_type": "Двухместный люкс",
+        "price": 2000,
+        "capacity": 2,
+        "count": 10
+    }
+},
+{
+    "model": "hotels.roomtype",
+    "pk": 6,
+    "fields": {
+        "id_hotel": 2,
+        "room_type": "одноместный",
+        "price": 1000,
+        "capacity": 1,
+        "count": 10
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 1,
+    "fields": {
+        "id_room_type": 1,
+        "facility": "фен"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 2,
+    "fields": {
+        "id_room_type": 2,
+        "facility": "фен"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 3,
+    "fields": {
+        "id_room_type": 3,
+        "facility": "фен"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 4,
+    "fields": {
+        "id_room_type": 4,
+        "facility": "фен"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 5,
+    "fields": {
+        "id_room_type": 5,
+        "facility": "фен"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 6,
+    "fields": {
+        "id_room_type": 1,
+        "facility": "ванная"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 7,
+    "fields": {
+        "id_room_type": 2,
+        "facility": "ванная"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 8,
+    "fields": {
+        "id_room_type": 3,
+        "facility": "душевая"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 9,
+    "fields": {
+        "id_room_type": 4,
+        "facility": "ванная"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 10,
+    "fields": {
+        "id_room_type": 5,
+        "facility": "ванная"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 11,
+    "fields": {
+        "id_room_type": 6,
+        "facility": "душевая"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 12,
+    "fields": {
+        "id_room_type": 1,
+        "facility": "утюг"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 13,
+    "fields": {
+        "id_room_type": 2,
+        "facility": "утюг"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 14,
+    "fields": {
+        "id_room_type": 3,
+        "facility": "утюг"
+    }
+},
+{
+    "model": "hotels.facility",
+    "pk": 15,
+    "fields": {
+        "id_room_type": 4,
+        "facility": "утюг"
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 1,
+    "fields": {
+        "id_user": 2,
+        "id_rooms": 1,
+        "start_date": "2025-10-16",
+        "end_date": "2025-10-18",
+        "reservation_date": "2025-10-15",
+        "num_of_people": 2
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 2,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 6,
+        "start_date": "2025-10-17",
+        "end_date": "2025-10-18",
+        "reservation_date": "2025-10-12",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 4,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 1,
+        "start_date": "2025-10-31",
+        "end_date": "2025-11-22",
+        "reservation_date": "2025-10-22",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 5,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 1,
+        "start_date": "2025-10-31",
+        "end_date": "2025-11-22",
+        "reservation_date": "2025-10-22",
+        "num_of_people": 2
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 9,
+    "fields": {
+        "id_user": 5,
+        "id_rooms": 1,
+        "start_date": "2025-10-24",
+        "end_date": "2025-10-25",
+        "reservation_date": "2025-10-22",
+        "num_of_people": 2
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 10,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 6,
+        "start_date": "2025-10-19",
+        "end_date": "2025-10-20",
+        "reservation_date": "2025-10-18",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 11,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 5,
+        "start_date": "2025-11-24",
+        "end_date": "2025-11-30",
+        "reservation_date": "2025-10-23",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 12,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 1,
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-10",
+        "reservation_date": "2024-12-12",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 13,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 4,
+        "start_date": "2025-10-10",
+        "end_date": "2025-10-12",
+        "reservation_date": "2025-10-23",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 14,
+    "fields": {
+        "id_user": 3,
+        "id_rooms": 4,
+        "start_date": "2026-10-10",
+        "end_date": "2026-10-15",
+        "reservation_date": "2025-10-23",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 15,
+    "fields": {
+        "id_user": 5,
+        "id_rooms": 4,
+        "start_date": "2025-10-23",
+        "end_date": "2025-10-25",
+        "reservation_date": "2025-10-22",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.reservation",
+    "pk": 16,
+    "fields": {
+        "id_user": 5,
+        "id_rooms": 6,
+        "start_date": "2025-11-30",
+        "end_date": "2025-12-07",
+        "reservation_date": "2025-10-23",
+        "num_of_people": 1
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 1,
+    "fields": {
+        "id_reservation": 1,
+        "rating": 10,
+        "review_text": "Все было круто! очень понравилось"
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 2,
+    "fields": {
+        "id_reservation": 2,
+        "rating": 2,
+        "review_text": "мне совсем не понравилось"
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 4,
+    "fields": {
+        "id_reservation": 4,
+        "rating": 6,
+        "review_text": "ну так себе"
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 5,
+    "fields": {
+        "id_reservation": 10,
+        "rating": 10,
+        "review_text": "😍"
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 6,
+    "fields": {
+        "id_reservation": 12,
+        "rating": 10,
+        "review_text": "😍"
+    }
+},
+{
+    "model": "hotels.review",
+    "pk": 7,
+    "fields": {
+        "id_reservation": 13,
+        "rating": 7,
+        "review_text": "norm"
+    }
+}
+]

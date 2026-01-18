@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список машин</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fdf6f9; 
+            color: #2f3e2f;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #fff;
+            border: 2px solid #a8e6a1;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        li:hover {
+            background-color: #ffeaf0;
+            border-color: #ffb6c1;
+            transform: translateY(-2px);
+        }
+
+        a {
+            text-decoration: none;
+            color: #2f3e2f;
+            display: block;
+        }
+
+        a:hover {
+            color: #007f5f;
+        }
+        .button {
+            text-decoration: none;
+            color: #2f3e2f;
+            border: 2px solid #a8e6a1;
+            background-color: #a8e6a1;
+            border-radius: 8px;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background-color: #ffb6c1;
+            border-color: #ffb6c1;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список машин</h1>
+
+    <ul>
+        {% for car in cars %}
+            <li>
+                <a href="{% url 'car_detail' car.id %}">
+                    <strong>Модель и марка:</strong> {{ car.car_brand }} {{ car.car_model }} <br>
+                    <strong>Номер:</strong> {{ car.number }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Нет добавленных машин.</li>
+        {% endfor %}
+    </ul>
+    <div class="button-container">
+    <a href="{% url 'car_add' %}" class="button">Добавить машину</a>
+</div>
+</body>
+</html>

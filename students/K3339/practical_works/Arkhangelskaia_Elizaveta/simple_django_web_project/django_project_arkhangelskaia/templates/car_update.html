@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить {{ car.car_brand }} {{ car.car_model }}</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fdf6f9; 
+            color: #2f3e2f; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #a8e6a1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a2a2a;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #a8e6a1;
+            font-size: 1em;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            border: 2px solid #a8e6a1;
+            background-color: #a8e6a1;
+            color: #2f3e2f;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #ffb6c1;
+            border-color: #ffb6c1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2f3e2f;
+            border: 2px solid #a8e6a1;
+            background-color: #a8e6a1;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #ffb6c1; 
+            border-color: #ffb6c1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Изменить информацию о машине</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="buttons">
+                <button type="submit">Сохранить</button>
+                <a href="{% url 'car_detail' car.id %}">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

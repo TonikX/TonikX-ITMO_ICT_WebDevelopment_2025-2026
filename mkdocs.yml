@@ -1,0 +1,23 @@
+site_name: Отчеты по лабораторным
+site_author: Архангельская Елизавета
+site_url: ''
+
+nav:
+  - Home: index.md
+  - Лабораторная работа 1:
+      - Задание 1: lab1/task_1/index.md
+      - Задание 2: lab1/task_2/index.md
+      - Задание 3: lab1/task_3/index.md
+      - Задание 4: lab1/task_4/index.md
+      - Задание 5: lab1/task_5/index.md
+  - Лабораторная работа 2:
+      - Задание: lab2/index.md
+  - Лабораторная работа 3:
+      - Практическое задание 3.1: lab3/task_1/index.md
+      - Практическое задание 3.2: lab3/task_2/index.md
+      - Практическое задание 3.3: lab3/task_3/index.md
+  - Лабораторная работа 4: lab4/index.md
+
+
+theme:
+  name: material

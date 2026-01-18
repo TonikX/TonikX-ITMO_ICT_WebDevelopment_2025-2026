@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Отзыв{% endblock %}
+
+{% block content %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <div class="form-container">
+        <h2>Оставить отзыв о бронировании</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-book">Отправить</button>
+        </form>
+    </div>
+
+{% endblock %}

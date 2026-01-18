@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование {% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="booking-container">
+        <h2>Бронирование номера</h2>
+        <p><strong>Отель:</strong> {{ room.id_hotel.name }}</p>
+        <p><strong>Тип номера:</strong> {{ room.room_type }}</p>
+        <p><strong>Цена за ночь:</strong> {{ room.price }} ₽</p>
+
+        <form method="post" class="booking-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="checkin">Дата заезда:</label>
+                <input type="date" id="checkin" name="checkin" value="{{ checkin }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkout">Дата выезда:</label>
+                <input type="date" id="checkout" name="checkout" value="{{ checkout }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="num_people">Количество гостей:</label>
+                <input type="number" id="num_people" name="num_people" min="1" max="{{ room.capacity }}" value="{{ room.capacity }}" required>
+            </div>
+
+            <button type="submit" class="btn-book">Подтвердить бронирование</button>
+        </form>
+    </div>
+
+      
+    
+{% endblock %}

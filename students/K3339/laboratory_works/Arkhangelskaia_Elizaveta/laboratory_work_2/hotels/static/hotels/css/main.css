@@ -1,0 +1,335 @@
+body {
+    font-family: sans-serif;
+    background: #fff7e6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.container-register {
+    max-width: 800px;
+    min-width: 500px;
+    margin: 50px auto;
+    background: #fdf6f9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.register-field{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 400px;
+    font-family: "Inter", sans-serif;
+}
+.btn-register {
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 400px;
+    margin: 10px auto;
+}
+.btn-register:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.hotel-card{
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #ffefcc;
+    max-width: 500px;
+    min-width: 300px;
+    transition: all 0.3s ease;
+}
+.hotel-card:hover {
+    background-color: #a6ea9f;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.date-form {
+    margin-top: 50px;
+    max-width: 600px;
+    background-color: #fffbe6;
+    border: 1px solid #ffd6d6;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 250px;
+}
+.field label {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+#hotel {
+    background-color: #fff;
+    border-radius: 7px;
+    border-color: #ffc8c8;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    height: 35px;
+}
+.btn-find{
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    margin-top: 25px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 200px;
+}
+.btn-find:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.container-rooms{
+    width: 600px;
+    margin: 20px auto;
+    background: #fdf6f9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.room-card{
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #ffffff;
+    max-width: 500px;
+    min-width: 300px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 182, 193, 0.25);
+}
+.btn-room{
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    margin-top: 25px;
+    padding: 7px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 150px;
+}
+.btn-room:hover {
+    background-color: #ff99aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.facility-card{
+    padding: 10px;
+    margin: 10px;
+}
+.facility {
+    background-color: #a6ea9f;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px 5px 0 0;
+    border-radius: 8px;
+    font-size: 0.9em;
+}
+.card{
+    padding: 15px;
+    background-color: #ffe6e6;
+}
+
+
+
+.btn-nav {
+    display: inline-block;
+    background-color: #ffefcc;
+    color: #324531;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-nav:hover {
+    background-color: #a6ea9f;
+}
+
+.btn-book {
+    display: inline-block;
+    background-color: #ffb6c1;
+    color: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn-book:hover {
+    background-color: #ff99aa;
+}
+.hotel {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+    width: 500px;
+}
+.hotel:hover {
+    background-color: #e7ffe7;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+    margin-bottom: 3px;
+}
+input[type="date"] {
+    border: 1px solid #ffc8c8;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.9em;
+    width: 140px;
+    background-color: #fff;
+    transition: 0.3s;
+}
+input[type="date"]:focus {
+    border-color: #ffb3ba;
+    outline: none;
+    box-shadow: 0 0 4px rgba(255, 192, 203, 0.3);
+}
+button {
+    background-color: #ffd6a5;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #444;
+    transition: 0.3s;
+}
+button:hover {
+    background-color: #ffb6c1;
+    color: white;
+    box-shadow: 0 2px 6px rgba(255, 182, 193, 0.3);
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #000000;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ffc8c8;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px auto;
+    width: 250px;
+    font-family: "Inter", sans-serif;
+}
+
+
+
+
+
+.hotel {
+  background-color: #fff7e6;
+  transition: all 0.3s ease;
+}
+
+.hotel:hover {
+  background-color: #ffefcc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #d4d4d4;
+}
+th {
+    background-color: #b3e5c2;
+}
+tr:nth-child(even) {
+    background-color: #f2fdf4;
+}
+
+
+.pagination .page-link {
+    color: #2c3e50;
+    background-color: #a6ea9f;
+    border: 1px solid #a6ea9f;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-link:hover {
+    background-color: #8fe78a;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #5cd65c;
+    border-color: #5cd65c;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #c9f2c9;
+    color: #fff;
+    border-color: #c9f2c9;
+}

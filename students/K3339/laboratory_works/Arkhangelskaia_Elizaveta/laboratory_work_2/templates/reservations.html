@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирования{% endblock %}
+
+{% block content %}
+
+    {% if not now_reservations and not future_reservations and not past_reservations  %}
+        <h1>Бронирований не найдено</h1>
+    {% endif %}
+    
+    {% if now_reservations %}
+        <h1> Текущие бронирования</h1>
+        {% for r in now_reservations %}
+                <div class="hotel">
+                    <strong>Отель:</strong> {{ r.id_rooms.id_hotel.name }} <br>
+                    <strong>Тип номера:</strong> {{ r.id_rooms.room_type }} <br>
+                    <p> <strong> Даты проживания:</strong> с {{ r.start_date }} по {{ r.end_date }}<br>
+                        <strong> Дата бронирования: </strong>{{ r.reservation_date }}<br></p>
+                    {% if r.review %}
+                        <p><strong> Мой отзыв: </strong>{{ r.review.review_text }}<br>
+                            <strong>Моя оценка:</strong> {{ r.review.rating }}<br>
+                        </p>
+                    {% else %}
+                        <a href="{% url 'get_review' r.pk %}" class="btn-book">Написать отзыв</a>
+                    {% endif %}
+                </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if future_reservations %}
+        <h1> Будущие бронирования </h1>
+        {% for r in future_reservations %}
+                <div class="hotel">
+                    <strong>Отель:</strong> {{ r.id_rooms.id_hotel.name }} <br>
+                    <strong>Тип номера:</strong> {{ r.id_rooms.room_type }} <br>
+                    <p> <strong> Даты проживания:</strong> с {{ r.start_date }} по {{ r.end_date }}<br>
+                        <strong> Дата бронирования: </strong>{{ r.reservation_date }}<br></p>
+                    <a href="{% url 'edit_reservation' r.pk %}" class="btn-book">Редактировать бронирование</a><br>
+                    <a href="{% url 'delete_reservation' r.pk %}" class="btn-book">Удалить бронирование</a>
+                </div>
+        {% endfor %}
+    {% endif %}
+    {% if past_reservations %}
+    <h1> Архив бронирований </h1>
+        {% for r in past_reservations %}
+                <div class="hotel">
+                    <strong>Отель:</strong> {{ r.id_rooms.id_hotel.name }} <br>
+                    <strong>Тип номера:</strong> {{ r.id_rooms.room_type }} <br>
+                    <p> <strong> Даты проживания:</strong> с {{ r.start_date }} по {{ r.end_date }}<br>
+                        <strong> Дата бронирования: </strong>{{ r.reservation_date }}<br></p>
+                    {% if r.review %}
+                        <p><strong> Мой отзыв: </strong>{{ r.review.review_text }}<br>
+                            <strong>Моя оценка:</strong> {{ r.review.rating }}<br>
+                        </p>
+                    {% else %}
+                        <a href="{% url 'get_review' r.pk %}" class="btn-book">Написать отзыв</a>
+                    {% endif %}
+                </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
