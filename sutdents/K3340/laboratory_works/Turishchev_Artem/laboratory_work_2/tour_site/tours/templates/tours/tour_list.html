@@ -1,0 +1,166 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Список туров{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">
+            <i class="bi bi-globe"></i> Доступные туры
+        </h1>
+        <p class="lead text-muted">Выберите тур своей мечты</p>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <form method="get" action="{% url 'tour_list' %}" class="input-group">
+            <input type="text" 
+                   name="search" 
+                   class="form-control" 
+                   placeholder="Поиск по названию, стране или агентству..." 
+                   value="{{ search_query }}"
+                   aria-label="Поиск туров">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i> Найти
+            </button>
+            {% if search_query %}
+            <a href="{% url 'tour_list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-x-circle"></i> Сбросить
+            </a>
+            {% endif %}
+        </form>
+        {% if search_query %}
+        <div class="mt-2">
+            <small class="text-muted">
+                Результаты поиска для: <strong>"{{ search_query }}"</strong>
+                (найдено: {{ page_obj.paginator.count }})
+            </small>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    {% for tour in tours %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="cursor: pointer;" onclick="window.location.href='{% url 'tour_reviews' tour.id %}'">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pin-map"></i> {{ tour.name }}
+                </h5>
+                {% if tour.average_rating %}
+                <div class="text-end">
+                    <span class="badge bg-warning text-dark">
+                        <i class="bi bi-star-fill"></i> {{ tour.average_rating|floatformat:1 }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body" style="cursor: pointer;" onclick="window.location.href='{% url 'tour_reviews' tour.id %}'">
+                <p class="card-text">
+                    <strong><i class="bi bi-building"></i> Агентство:</strong> {{ tour.agency }}
+                </p>
+                <p class="card-text">
+                    <strong><i class="bi bi-flag"></i> Страна:</strong> {{ tour.country }}
+                </p>
+                <p class="card-text">{{ tour.description|truncatewords:20 }}</p>
+                <hr>
+                <p class="card-text">
+                    <small><strong>Условия оплаты:</strong> {{ tour.payment_terms|truncatewords:10 }}</small>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-grid gap-2">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'reserve_tour' tour.id %}" class="btn btn-success">
+                        <i class="bi bi-bookmark-plus"></i> Забронировать
+                    </a>
+                    <a href="{% url 'add_review' tour.id %}" class="btn btn-outline-primary">
+                        <i class="bi bi-star"></i> Оставить отзыв
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-secondary">
+                        <i class="bi bi-box-arrow-in-right"></i> Войдите для бронирования
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'tour_reviews' tour.id %}" class="btn btn-outline-info">
+                        <i class="bi bi-chat-left-text"></i> Отзывы
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i> Туры пока не добавлены
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% if is_paginated %}
+<div class="row mt-5">
+    <div class="col-12">
+        <nav aria-label="Навигация по страницам">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Первая">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Предыдущая">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;&laquo;</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Следующая">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Последняя">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;&raquo;</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="text-center text-muted">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            (всего туров: {{ page_obj.paginator.count }})
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
