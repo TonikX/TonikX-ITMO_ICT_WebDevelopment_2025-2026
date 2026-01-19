@@ -1,0 +1,70 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Мои резервирования - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1><i class="bi bi-calendar-check"></i> Мои резервирования</h1>
+
+{% if reservations %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Тур</th>
+                    <th>Страна</th>
+                    <th>Период</th>
+                    <th>Дата резервирования</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'tour_detail' reservation.tour.pk %}">
+                                {{ reservation.tour.title }}
+                            </a>
+                        </td>
+                        <td>{{ reservation.tour.country }}</td>
+                        <td>
+                            {{ reservation.tour.start_date|date:"d.m.Y" }} - 
+                            {{ reservation.tour.end_date|date:"d.m.Y" }}
+                        </td>
+                        <td>{{ reservation.reservation_date|date:"d.m.Y H:i" }}</td>
+                        <td>
+                            {% if reservation.status == 'confirmed' %}
+                                <span class="badge bg-success">{{ reservation.get_status_display }}</span>
+                            {% elif reservation.status == 'cancelled' %}
+                                <span class="badge bg-danger">{{ reservation.get_status_display }}</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{{ reservation.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if reservation.status != 'confirmed' %}
+                                <a href="{% url 'edit_reservation' reservation.pk %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Редактировать
+                                </a>
+                                <a href="{% url 'delete_reservation' reservation.pk %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Удалить
+                                </a>
+                            {% else %}
+                                <span class="text-muted">Недоступно</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> У вас пока нет резервирований.
+    </div>
+    <a href="{% url 'tour_list' %}" class="btn btn-primary">
+        <i class="bi bi-search"></i> Найти тур
+    </a>
+{% endif %}
+{% endblock %}
+

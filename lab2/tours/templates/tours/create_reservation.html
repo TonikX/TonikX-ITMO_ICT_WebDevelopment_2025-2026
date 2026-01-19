@@ -1,0 +1,37 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Бронирование тура - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Бронирование тура: {{ tour.title }}</h2>
+        <p class="text-muted">
+            <i class="bi bi-geo-alt"></i> {{ tour.country }}<br>
+            <i class="bi bi-calendar"></i> {{ tour.start_date|date:"d.m.Y" }} - {{ tour.end_date|date:"d.m.Y" }}
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.notes.label_tag }}
+                {{ form.notes }}
+                {% if form.notes.help_text %}
+                    <small class="form-text text-muted">{{ form.notes.help_text }}</small>
+                {% endif %}
+                {% if form.notes.errors %}
+                    <div class="text-danger">{{ form.notes.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'tour_detail' tour.pk %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Забронировать
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

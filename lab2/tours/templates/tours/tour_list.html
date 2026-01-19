@@ -1,0 +1,92 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Список туров - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="mb-4"><i class="bi bi-globe"></i> Список туров</h1>
+        
+        <!-- Форма поиска -->
+        <form method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Поиск по названию, описанию, стране или турагенству..." value="{{ search_query }}">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i> Поиск
+                </button>
+                {% if search_query %}
+                    <a href="{% url 'tour_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle"></i> Сбросить
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Список туров -->
+{% if page_obj %}
+    <div class="row">
+        {% for tour in page_obj %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tour.title }}</h5>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-building"></i> {{ tour.travel_agency }}
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-geo-alt"></i> {{ tour.country }}
+                        </p>
+                        <p class="card-text">{{ tour.description|truncatewords:20 }}</p>
+                        <p class="text-muted small">
+                            <i class="bi bi-calendar"></i> {{ tour.start_date|date:"d.m.Y" }} - {{ tour.end_date|date:"d.m.Y" }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'tour_detail' tour.pk %}" class="btn btn-primary w-100">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if page_obj.has_other_pages %}
+        <nav aria-label="Навигация по страницам">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">Первая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Предыдущая</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Следующая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">Последняя</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Туры не найдены.
+    </div>
+{% endif %}
+{% endblock %}
+
