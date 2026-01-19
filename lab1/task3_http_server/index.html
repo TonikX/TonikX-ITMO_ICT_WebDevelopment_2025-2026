@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Server - Задание 3</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .info-box p {
+            margin: 10px 0;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tech-item {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .status {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 HTTP Server</h1>
+        <p class="subtitle">Задание 3 - Веб-сервер на Python Socket</p>
+        
+        <div class="status">
+            <strong>✅ Сервер работает успешно!</strong><br>
+            Эта страница загружена с помощью HTTP-сервера, реализованного на Python с использованием библиотеки socket.
+        </div>
+        
+        <div class="info-box">
+            <h3>📋 Описание задания</h3>
+            <p>Реализовать серверную часть приложения. Клиент подключается к серверу, и в ответ получает HTTP-сообщение, содержащее HTML-страницу, которая сервер подгружает из файла <span class="highlight">index.html</span>.</p>
+        </div>
+        
+        <div class="info-box">
+            <h3>🔧 Технические детали</h3>
+            <p><strong>Протокол:</strong> HTTP/1.1</p>
+            <p><strong>Порт:</strong> 8080</p>
+            <p><strong>Библиотека:</strong> socket (встроенная в Python)</p>
+            <p><strong>Метод:</strong> GET</p>
+        </div>
+        
+        <div class="tech-stack">
+            <div class="tech-item">Python 3</div>
+            <div class="tech-item">Socket</div>
+            <div class="tech-item">HTTP/1.1</div>
+            <div class="tech-item">HTML5</div>
+            <div class="tech-item">CSS3</div>
+        </div>
+        
+        <div class="info-box">
+            <h3>🎯 Реализованные функции</h3>
+            <p>✅ HTTP-сервер на базе socket</p>
+            <p>✅ Обработка GET-запросов</p>
+            <p>✅ Загрузка HTML-файла</p>
+            <p>✅ Корректные HTTP-заголовки</p>
+            <p>✅ Обработка ошибок</p>
+        </div>
+        
+        <div class="footer">
+            <p>Время загрузки: <span id="loadTime"></span></p>
+            <p>Создано для практического задания по веб-технологиям</p>
+        </div>
+    </div>
+    
+    <script>
+        // Показываем время загрузки страницы
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            document.getElementById('loadTime').textContent = Math.round(loadTime) + 'ms';
+        });
+        
+        // Добавляем интерактивность
+        document.querySelectorAll('.tech-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
