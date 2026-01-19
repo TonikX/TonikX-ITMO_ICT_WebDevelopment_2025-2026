@@ -63,7 +63,7 @@ class FlightCrewMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = CrewMember
         fields = [
-            'id', 'employee_id', 'first_name', 'last_name', 'full_name',
+            'id', 'employee_id', 'first_name', 'last_name',
             'position', 'position_display', 'age', 'experience',
         ]
     

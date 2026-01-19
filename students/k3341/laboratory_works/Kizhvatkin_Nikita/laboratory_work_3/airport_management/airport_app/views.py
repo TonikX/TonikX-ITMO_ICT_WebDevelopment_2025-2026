@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
+from .permissions import IsStaffOrReadOnly
 from datetime import datetime
 
 # ViewSets для всех моделей с фильтрацией где нужно
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['name', 'code']
 
@@ -21,7 +22,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class AircraftViewSet(viewsets.ModelViewSet):
     queryset = Aircraft.objects.select_related('company').all()
     serializer_class = AircraftSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['company', 'status', 'aircraft_type']
     search_fields = ['tail_number', 'aircraft_type']
@@ -89,7 +90,7 @@ class AircraftViewSet(viewsets.ModelViewSet):
 class AirportViewSet(viewsets.ModelViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['code', 'name', 'city']
 
@@ -97,7 +98,7 @@ class AirportViewSet(viewsets.ModelViewSet):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.select_related('company').all()
     serializer_class = EmployeeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['company', 'position', 'is_active']
     search_fields = ['first_name', 'last_name', 'passport']
@@ -130,7 +131,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.select_related('company').all()
     serializer_class = CrewSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['company', 'is_active']
     search_fields = ['name']
@@ -139,7 +140,7 @@ class CrewViewSet(viewsets.ModelViewSet):
 class CrewMemberViewSet(viewsets.ModelViewSet):
     queryset = CrewMember.objects.select_related('crew', 'employee').all()
     serializer_class = CrewMemberSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['crew', 'employee', 'is_approved']
 
@@ -150,7 +151,7 @@ class FlightViewSet(viewsets.ModelViewSet):
     ).prefetch_related('transit_stops').all()
     
     serializer_class = FlightSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['departure_airport', 'arrival_airport', 'aircraft', 'crew']
     search_fields = ['flight_number']
@@ -291,17 +292,22 @@ class FlightViewSet(viewsets.ModelViewSet):
 class TransitStopViewSet(viewsets.ModelViewSet):
     queryset = TransitStop.objects.select_related('flight', 'airport').all()
     serializer_class = TransitStopSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['flight', 'airport']
 
 
 # Пользовательские представления
-@api_view(['GET'])
+@api_view(['GET', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def current_user_info(request):
-    """Информация о текущем пользователе"""
     user = request.user
+    if request.method == 'PATCH':
+        allowed = {'email', 'first_name', 'last_name'}
+        data = {k: v for k, v in request.data.items() if k in allowed}
+        for k, v in data.items():
+            setattr(user, k, v)
+        user.save(update_fields=list(data.keys()))
     return Response({
         'id': user.id,
         'username': user.username,
