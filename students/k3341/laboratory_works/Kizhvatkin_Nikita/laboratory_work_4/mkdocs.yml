@@ -4,6 +4,14 @@ theme:
   language: ru
 nav:
   - Главная: index.md
+  - Лабораторная работа №1:
+    - Главная: lab1/index.md
+    - 'Задание 1: Клиент-серверное приложение UDP': lab1/task1/task1.md
+    - 'Задание 2: Решение квадратного уравнения TCP': lab1/task2/task2.md
+    - 'Задание 3: HTTP ответ с HTML страницей': lab1/task3/task3.md
+    - 'Задание 4: Многопользовательский TCP+threading чат': lab1/task4/task4.md
+    - 'Задание 5: GET/POST Веб-сервер': lab1/task5/task5.md
+    - Вывод: lab1/conclusion.md
   - Лабораторная работа №2:
       - Главная: lab2/index.md
   - Лабораторная работа №3:
