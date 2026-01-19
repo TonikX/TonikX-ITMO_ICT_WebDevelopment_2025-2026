@@ -1,0 +1,124 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Список конференций{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="mb-3"><i class="bi bi-calendar-event"></i> Научные конференции</h1>
+        
+        <!-- Форма поиска -->
+        <form method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Поиск по названию, месту проведения..." value="{{ query }}">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i> Найти
+                </button>
+                {% if query %}
+                    <a href="{% url 'conference_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Сбросить
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+
+        {% if query %}
+            <p class="text-muted">Результаты поиска по запросу: <strong>{{ query }}</strong></p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Список конференций -->
+<div class="row">
+    {% for conference in page_obj %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card conference-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ conference.title }}</h5>
+                    <p class="card-text">
+                        <i class="bi bi-geo-alt"></i> <strong>{{ conference.location.title }}</strong><br>
+                        <small class="text-muted">{{ conference.location.city.title }}, {{ conference.location.address }}</small>
+                    </p>
+                    <p class="card-text">
+                        <i class="bi bi-calendar-range"></i> {{ conference.start_date|date:"d.m.Y" }} - {{ conference.end_date|date:"d.m.Y" }}
+                    </p>
+                    {% if conference.conditions %}
+                        <p class="card-text">
+                            <small>{{ conference.conditions|truncatewords:15 }}</small>
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'conference_detail' conference.id %}" class="btn btn-primary btn-sm w-100">
+                        <i class="bi bi-eye"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> 
+                {% if query %}
+                    По вашему запросу конференции не найдены.
+                {% else %}
+                    Конференций пока нет.
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Пагинация -->
+{% if page_obj.has_other_pages %}
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if query %}&q={{ query }}{% endif %}">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-double-left"></i></span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="bi bi-chevron-double-right"></i></span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">
+            <i class="bi bi-person-circle"></i> Личный кабинет
+        </h1>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Информация о пользователе</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Логин:</strong> {{ user.username }}</p>
+                <p><strong>Имя:</strong> {{ user.get_full_name|default:"Не указано" }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-calendar-check"></i> Мои регистрации</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if registrations %}
+                            <div class="list-group">
+                                {% for reg in registrations %}
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ reg.conference.title }}</h6>
+                                            {% if reg.pub_recommendation %}
+                                                <span class="badge bg-success">Рекомендован к публикации</span>
+                                            {% endif %}
+                                        </div>
+                                        <p class="mb-1">
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar"></i> {{ reg.conference.start_date|date:"d.m.Y" }} - {{ reg.conference.end_date|date:"d.m.Y" }}
+                                            </small>
+                                        </p>
+                                        {% if reg.theme %}
+                                            <p class="mb-1"><strong>Тема:</strong> {{ reg.theme }}</p>
+                                        {% endif %}
+                                        <small class="text-muted">Зарегистрирован: {{ reg.registration_date|date:"d.m.Y" }}</small>
+                                        <div class="mt-2">
+                                            <a href="{% url 'conference_detail' reg.conference.id %}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-eye"></i> Подробнее
+                                            </a>
+                                            <a href="{% url 'edit_registration' reg.id %}" class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil"></i> Редактировать
+                                            </a>
+                                            <a href="{% url 'delete_registration' reg.id %}" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Удалить
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">У вас пока нет регистраций на конференции.</p>
+                            <a href="{% url 'conference_list' %}" class="btn btn-primary">
+                                <i class="bi bi-search"></i> Найти конференцию
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-chat-left-text"></i> Мои отзывы</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if comments %}
+                            <div class="list-group">
+                                {% for comment in comments %}
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ comment.conference.title }}</h6>
+                                            <span class="badge bg-primary">{{ comment.rating }}/10</span>
+                                        </div>
+                                        <p class="mb-1">{{ comment.content|truncatewords:20 }}</p>
+                                        <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                                        <div class="mt-2">
+                                            <a href="{% url 'conference_detail' comment.conference.id %}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-eye"></i> К конференции
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Вы пока не оставляли отзывов.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
