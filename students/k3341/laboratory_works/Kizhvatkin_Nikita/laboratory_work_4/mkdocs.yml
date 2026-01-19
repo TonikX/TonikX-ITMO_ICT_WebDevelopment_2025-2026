@@ -1,0 +1,22 @@
+site_name: Документации по лабораторным работам WEB
+theme:
+  name: readthedocs
+  language: ru
+nav:
+  - Главная: index.md
+  - Лабораторная работа №3:
+      - Главная: lab3/index.md
+  - Лабораторная работа №4:
+      - Главная: lab4/index.md
+      - Архитектура: lab4/architecture.md
+      - Авторизация: lab4/auth.md
+      - Сущности и CRUD:
+          - Компании: lab4/entities/companies.md
+          - Самолёты: lab4/entities/aircrafts.md
+          - Аэропорты: lab4/entities/airports.md
+          - Сотрудники: lab4/entities/employees.md
+          - Экипажи: lab4/entities/crews.md
+          - Состав экипажа: lab4/entities/crew_members.md
+          - Рейсы: lab4/entities/flights.md
+          - Транзитные остановки: lab4/entities/transit_stops.md
+      - Запросы и отчёты: lab4/reports.md
