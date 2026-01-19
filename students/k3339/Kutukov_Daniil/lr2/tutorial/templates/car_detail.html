@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автомобиле</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 15px;
+        }
+        .info-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+        }
+        .info-section h2 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        .field {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .field strong {
+            color: #28a745;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .no-data {
+            color: #6c757d;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        .actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40,167,69,0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 5px 15px rgba(108,117,125,0.3);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(108,117,125,0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+        .btn-danger:hover {
+            box-shadow: 0 8px 25px rgba(220,53,69,0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 {{ car.brand }} {{ car.model }}</h1>
+        
+        <div class="info-section">
+            <h2>📋 Основная информация</h2>
+            <div class="field">
+                <strong>Марка:</strong> {{ car.brand }}
+            </div>
+            <div class="field">
+                <strong>Модель:</strong> {{ car.model }}
+            </div>
+            <div class="field">
+                <strong>Цвет:</strong> {{ car.color }}
+            </div>
+            <div class="field">
+                <strong>Государственный номер:</strong> {{ car.state_number }}
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>👥 История владения</h2>
+            {% if ownerships %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Владелец</th>
+                            <th>Дата начала владения</th>
+                            <th>Дата окончания владения</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ownership in ownerships %}
+                        <tr>
+                            <td>
+                                <a href="/owner/{{ ownership.owner.id }}/" style="color: #007bff; text-decoration: none;">
+                                    {{ ownership.owner.first_name }} {{ ownership.owner.last_name }}
+                                </a>
+                            </td>
+                            <td>{{ ownership.start_date }}</td>
+                            <td>{{ ownership.end_date|default:"В настоящее время" }}</td>
+                            <td>
+                                {% if ownership.end_date %}
+                                    <span style="color: #6c757d;">Завершено</span>
+                                {% else %}
+                                    <span style="color: #28a745; font-weight: bold;">Активно</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">У этого автомобиля нет записей о владении</p>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <a href="/cars/" class="btn btn-secondary">🔙 К списку автомобилей</a>
+            <a href="/cars/{{ car.id }}/update/" class="btn">✏️ Редактировать</a>
+            <a href="/cars/{{ car.id }}/delete/" class="btn btn-danger">🗑️ Удалить</a>
+            <a href="/" class="btn btn-secondary">🏠 Главная</a>
+        </div>
+    </div>
+</body>
+</html>

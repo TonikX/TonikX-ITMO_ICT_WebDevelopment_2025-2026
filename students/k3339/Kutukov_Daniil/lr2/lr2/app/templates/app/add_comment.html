@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Добавить отзыв{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="bi bi-chat-left-text"></i> Добавить отзыв</h3>
+            </div>
+            <div class="card-body">
+                <h5>{{ conference.title }}</h5>
+                <p class="text-muted">
+                    <i class="bi bi-geo-alt"></i> {{ conference.location.title }}, {{ conference.location.city.title }}
+                </p>
+                
+                <hr>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Отправить отзыв
+                        </button>
+                        <a href="{% url 'conference_detail' conference.id %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
