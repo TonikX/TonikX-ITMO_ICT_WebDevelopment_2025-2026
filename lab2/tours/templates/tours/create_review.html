@@ -1,0 +1,60 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Оставить отзыв - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Оставить отзыв о туре: {{ tour.title }}</h2>
+        <p class="text-muted">
+            <i class="bi bi-geo-alt"></i> {{ tour.country }}
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.tour_start_date.label_tag }}
+                {{ form.tour_start_date }}
+                {% if form.tour_start_date.errors %}
+                    <div class="text-danger">{{ form.tour_start_date.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.tour_end_date.label_tag }}
+                {{ form.tour_end_date }}
+                {% if form.tour_end_date.errors %}
+                    <div class="text-danger">{{ form.tour_end_date.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.rating.label_tag }}
+                {{ form.rating }}
+                {% if form.rating.help_text %}
+                    <small class="form-text text-muted">{{ form.rating.help_text }}</small>
+                {% endif %}
+                {% if form.rating.errors %}
+                    <div class="text-danger">{{ form.rating.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                {{ form.text.label_tag }}
+                {{ form.text }}
+                {% if form.text.errors %}
+                    <div class="text-danger">{{ form.text.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'tour_detail' tour.pk %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Отправить отзыв
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
