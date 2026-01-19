@@ -35,6 +35,7 @@ urlpatterns = [
 
     path('plantwateringschedules/', PlantWateringScheduleListAPIView.as_view()),
     path('plantwateringschedules/<int:pk>/', PlantWateringScheduleDetailAPIView.as_view()),
+    path('plants/<int:plant_id>/plantwateringschedules/', PlantWateringScheduleByPlantAPIView.as_view()),
 
     path('workers/', WorkerListAPIView.as_view()),
     # path('workers/<int:pk>/', WorkerDetailAPIView.as_view()),

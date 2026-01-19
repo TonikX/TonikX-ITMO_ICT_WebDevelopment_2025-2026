@@ -1,5 +1,5 @@
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import ForeignKey
 
@@ -71,7 +71,7 @@ class Decorator(PersonAbstract):
 
 
 class ObjectZone(models.Model):
-    object_id = ForeignKey(Object, on_delete=models.CASCADE, related_name='zones')
+    object = ForeignKey(Object, on_delete=models.CASCADE, related_name='zones')
     number = models.CharField(max_length=200)
 
 
@@ -122,7 +122,11 @@ class Species(models.Model):
 
 
 class PlantWateringSchedule(models.Model):
-    plant = models.ForeignKey('Plant', on_delete=models.CASCADE, related_name='schedule')
+    plant = models.OneToOneField(  # Изменяем на OneToOne
+        'Plant',
+        on_delete=models.CASCADE,
+        related_name='watering_schedule'  # Меняем related_name для ясности
+    )
     frequency = models.CharField(max_length=200)
     time_watering_start = models.TimeField()
     time_watering_end = models.TimeField()
@@ -130,6 +134,14 @@ class PlantWateringSchedule(models.Model):
     water_norm_liters_summer = models.IntegerField()
     water_norm_liters_fall = models.IntegerField()
     water_norm_liters_spring = models.IntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['plant'],
+                name='unique_plant_watering_schedule'
+            )
+        ]
 
     @property
     def current_water_norm_liters(self):
@@ -145,7 +157,7 @@ class PlantWateringSchedule(models.Model):
         for season, months in seasons.items():
             if month_now in months:
                 field_name = f"water_norm_liters_{season}"
-                return getattr(self, field_name, 0)  # Возвращаем значение поля
+                return getattr(self, field_name, 0)
 
         return 0
 
@@ -153,8 +165,16 @@ class PlantWateringSchedule(models.Model):
     def watering_time_period(self):
         return f"{self.time_watering_start} to {self.time_watering_end}"
 
+    def __str__(self):
+        return f"Watering schedule for {self.plant.id}"
+
 
 class Worker(PersonAbstract):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="worker_profile"
+    )
     phone_number = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
 

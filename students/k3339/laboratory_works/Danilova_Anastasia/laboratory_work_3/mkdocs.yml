@@ -44,6 +44,8 @@ nav:
       - 'API': API.md
       - 'Запросы': report_app.md
       - 'Djoser': djoser.md
+  - 'Лабораторная работа 4':
+      - 'CORS': cors.md
 
 plugins:
   - search
