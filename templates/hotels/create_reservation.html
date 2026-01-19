@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование - {{ room_type.name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>Бронирование номера</h1>
+        
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ room_type.name }}</h5>
+                <p><strong>Отель:</strong> {{ room_type.hotel.name }}</p>
+                <p><strong>Цена:</strong> {{ room_type.price }} ₽/сутки</p>
+                <p><strong>Вместимость:</strong> {{ room_type.capacity }} человек</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Выберите даты проживания</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">
+                                    {% for error in field.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <button type="submit" class="btn btn-success">Забронировать</button>
+                    <a href="{% url 'room_detail' room_type.id %}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

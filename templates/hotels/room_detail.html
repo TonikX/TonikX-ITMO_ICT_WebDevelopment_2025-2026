@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ room_type.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{ room_type.name }}</h1>
+        <h5 class="text-muted">{{ room_type.hotel.name }}</h5>
+        
+        <div class="card my-4">
+            <div class="card-body">
+                <h4>Информация о номере</h4>
+                <p><strong>Цена:</strong> {{ room_type.price }} ₽/сутки</p>
+                <p><strong>Вместимость:</strong> {{ room_type.capacity }} человек</p>
+                <p><strong>Доступно номеров:</strong> {{ room_type.available_count }}</p>
+                {% if avg_rating %}
+                    <p><strong>Средний рейтинг:</strong> {{ avg_rating|floatformat:1 }}/10</p>
+                {% endif %}
+                <p>{{ room_type.description }}</p>
+                
+                <h5 class="mt-3">Удобства:</h5>
+                {% if room_type.amenities %}
+                    {% for amenity in room_type.amenities %}
+                        <span class="badge bg-secondary me-1">{{ amenity }}</span>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Не указаны</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="mb-3">
+            <a href="{% url 'create_reservation' room_type.id %}" class="btn btn-success">Забронировать номер</a>
+            <a href="{% url 'add_review' room_type.id %}" class="btn btn-primary">Написать отзыв</a>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">
+            <a href="{% url 'login' %}">Войдите</a>, чтобы забронировать номер или оставить отзыв.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<hr class="my-4">
+
+<h2>Отзывы ({{ reviews.count }})</h2>
+<div class="row mt-4">
+    {% for review in reviews %}
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ review.user.get_full_name|default:review.user.username }}
+                    <span class="badge bg-primary float-end">{{ review.rating }}/10</span>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    Период проживания: {{ review.stay_period_start }} - {{ review.stay_period_end }}
+                </h6>
+                <p class="card-text">{{ review.comment }}</p>
+                <small class="text-muted">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-muted">Отзывов пока нет. Будьте первым!</p>
+    </div>
+    {% endfor %}
+</div>
+
+<a href="{% url 'hotel_detail' room_type.hotel.id %}" class="btn btn-secondary mt-3">← Вернуться к отелю</a>
+{% endblock %}
