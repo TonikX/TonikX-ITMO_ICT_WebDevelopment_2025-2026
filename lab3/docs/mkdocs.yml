@@ -1,0 +1,42 @@
+site_name: Hackathon API Documentation
+site_description: Документация API для системы проведения хакатонов
+site_author: ITMO Web Programming Course
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+
+nav:
+  - Главная: index.md
+  - Аутентификация: authentication.md
+  - Endpoints:
+    - Задачи: endpoints/tasks.md
+    - Команды: endpoints/teams.md
+    - Решения: endpoints/solutions.md
+    - Оценки: endpoints/evaluations.md
+  - Роли и права: roles.md
+  - Примеры запросов: examples.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
