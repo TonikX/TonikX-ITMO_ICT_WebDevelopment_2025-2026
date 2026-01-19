@@ -1,0 +1,9 @@
+node_modules
+.next
+Dockerfile
+.dockerignore
+*.log
+*.test.*
+*.spec.*
+jest.config.*
+coverage

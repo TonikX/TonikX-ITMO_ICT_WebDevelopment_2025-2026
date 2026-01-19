@@ -1,0 +1,55 @@
+site_name: Tour Agency Frontend - Документация
+site_description: Документация к клиентской части приложения Tour Agency
+site_author: Subbotin Alexander
+repo_url: https://github.com/example/tour-agency-frontend
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+
+plugins:
+  - search
+
+nav:
+  - Главная: index.md
+  - Установка: installation.md
+  - Архитектура: architecture.md
+  - Интерфейсы:
+    - Авторизация: interfaces/auth.md
+    - Туры: interfaces/tours.md
+    - Бронирования: interfaces/reservations.md
+    - Отзывы: interfaces/reviews.md
+    - Профиль: interfaces/profile.md
+  - API: api.md
+  - Компоненты: components.md

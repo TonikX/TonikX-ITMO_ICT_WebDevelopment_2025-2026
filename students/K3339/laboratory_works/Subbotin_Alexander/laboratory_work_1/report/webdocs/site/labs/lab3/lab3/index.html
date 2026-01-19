@@ -1,0 +1,510 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="light"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Лабораторная работа 3 - Курс по вебу</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+        </style></head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Курс по вебу</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Основная информация</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown" aria-expanded="false">Лабораторные работы</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../lab1/lab1/" class="dropdown-item">Лабораторная работа 1</a>
+</li>
+                                    
+<li>
+    <a href="../../lab2/lab2/" class="dropdown-item">Лабораторная работа 2</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Лабораторная работа 3</a>
+</li>
+                                    
+<li>
+    <a href="../../lab4/lab4/" class="dropdown-item">Лабораторная работа 4</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../../about/" class="nav-link">О чем курс</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                            <li class="nav-item">
+                                <a rel="prev" href="../../lab2/lab2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../lab4/lab4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ZZISST/TonikX-ITMO_ICT_WebDevelopment_2025-2026" class="nav-link"><i class="fa-brands fa-github"></i> GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#3-fastapi-api" class="nav-link">Лабораторная работа 3. Реализация серверной части на FastAPI. Документирование API.</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Архитектура приложения</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">Модели данных</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api" class="nav-link">API Эндпоинты</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_6" class="nav-link">Асинхронная работа с базой данных</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">Безопасность</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_10" class="nav-link">Контейнеризация</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api_1" class="nav-link">Документация API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">Выводы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="3-fastapi-api">Лабораторная работа 3. Реализация серверной части на FastAPI. Документирование API.</h1>
+<h2 id="_1">Цель работы</h2>
+<p>Овладеть практическими навыками реализации серверной части (backend) приложений средствами FastAPI с асинхронным взаимодействием с базой данных.</p>
+<hr>
+<h2 id="_2">Архитектура приложения</h2>
+<h3 id="_3">Общая структура</h3>
+<p>Приложение построено по принципу <strong>слоистой архитектуры</strong> с чётким разделением ответственности:</p>
+<pre><code>app/
+├── main.py                 # Точка входа, конфигурация FastAPI
+├── api/
+│   ├── routers/            # Эндпоинты (контроллеры)
+│   └── schemas/            # Pydantic-схемы валидации
+└── core/
+    ├── database.py         # Подключение к БД
+    ├── settings/           # Конфигурация приложения
+    └── db/
+        ├── models/         # SQLAlchemy ORM-модели
+        └── crud/           # Операции с данными
+</code></pre>
+<h3 id="_4">Принципы организации кода</h3>
+<ol>
+<li><strong>Роутеры (Routers)</strong> — определяют HTTP-эндпоинты и обрабатывают запросы</li>
+<li><strong>Схемы (Schemas)</strong> — Pydantic-модели для валидации входных/выходных данных</li>
+<li><strong>CRUD-функции</strong> — асинхронные функции для работы с БД, изолированные по сущностям</li>
+<li><strong>Модели (Models)</strong> — SQLAlchemy ORM-классы, описывающие структуру таблиц</li>
+</ol>
+<hr>
+<h2 id="_5">Модели данных</h2>
+<h3 id="user">User (Пользователь)</h3>
+<p>Хранит учётные данные пользователя: <code>username</code>, <code>email</code>, <code>hashed_password</code>, <code>is_active</code>, <code>created_at</code>. Связан с моделями <code>UserProfile</code>, <code>Reservation</code> и <code>Review</code> через one-to-many отношения.</p>
+<h3 id="userprofile">UserProfile (Профиль пользователя)</h3>
+<p>Дополнительная информация о пользователе: <code>date_of_birth</code>. Связан с <code>User</code> через one-to-one отношение с каскадным удалением.</p>
+<h3 id="tour">Tour (Тур)</h3>
+<p>Основная сущность туристического агентства: <code>title</code>, <code>agency</code>, <code>description</code>, <code>start_date</code>, <code>end_date</code>, <code>price</code>, <code>city</code>, <code>payment_terms</code>. Имеет связи с <code>Reservation</code> и <code>Review</code>.</p>
+<h3 id="reservation">Reservation (Бронирование)</h3>
+<p>Бронирование тура пользователем: <code>tour_id</code>, <code>user_id</code>, <code>guests</code>, <code>notes</code>, <code>confirmed</code>, <code>created_at</code>. Использует внешние ключи с каскадным удалением.</p>
+<h3 id="review">Review (Отзыв)</h3>
+<p>Отзыв пользователя о туре: <code>tour_id</code>, <code>user_id</code>, <code>text</code>, <code>rating</code> (1-10), <code>created_at</code>. При удалении пользователя <code>user_id</code> устанавливается в <code>NULL</code> (SET NULL).</p>
+<hr>
+<h2 id="api">API Эндпоинты</h2>
+<h3 id="auth">Аутентификация (<code>/auth</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Эндпоинт</th>
+<th>Описание</th>
+<th>Авторизация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/auth/register</code></td>
+<td>Регистрация нового пользователя</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/auth/login</code></td>
+<td>Авторизация и получение JWT-токена</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/auth/me</code></td>
+<td>Информация о текущем пользователе</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/auth/me/profile</code></td>
+<td>Получение профиля пользователя</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/auth/me/profile</code></td>
+<td>Обновление профиля</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Архитектурные особенности:</strong></p>
+<ul>
+<li>Роутер использует <code>OAuth2PasswordBearer</code> для извлечения токена из заголовка <code>Authorization</code></li>
+<li>Функция <code>get_current_user</code> — dependency для защищённых эндпоинтов, декодирует JWT и возвращает пользователя</li>
+<li>Регистрация проверяет уникальность <code>username</code> и <code>email</code> через CRUD-функции <code>get_user_by_username</code> и <code>get_user_by_email</code></li>
+<li>Пароль хешируется через <code>CryptContext</code> (bcrypt) в модуле <code>security.py</code></li>
+<li>JWT создаётся функцией <code>create_access_token</code> с настраиваемым временем жизни</li>
+</ul>
+<hr>
+<h3 id="tours">Туры (<code>/tours</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Эндпоинт</th>
+<th>Описание</th>
+<th>Авторизация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/tours/</code></td>
+<td>Создание нового тура</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/tours/</code></td>
+<td>Список туров с пагинацией и фильтрацией</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/tours/{tour_id}</code></td>
+<td>Получение тура по ID</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/tours/{tour_id}</code></td>
+<td>Обновление тура</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/tours/{tour_id}</code></td>
+<td>Удаление тура</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Архитектурные особенности:</strong></p>
+<ul>
+<li>Каждая CRUD-операция вынесена в отдельный файл: <code>create_tour.py</code>, <code>get_tour.py</code>, <code>get_all_tours.py</code>, <code>update_tour.py</code>, <code>delete_tour.py</code></li>
+<li>Получение списка туров поддерживает:</li>
+<li><strong>Пагинацию</strong> через параметры <code>limit</code> и <code>offset</code></li>
+<li><strong>Фильтрацию по городу</strong> через параметр <code>city</code></li>
+<li>Схемы Pydantic: <code>TourCreate</code> (создание), <code>TourUpdate</code> (частичное обновление), <code>TourResponse</code> (ответ)</li>
+<li><code>TourUpdate</code> использует <code>exclude_unset=True</code> для partial update — обновляются только переданные поля</li>
+</ul>
+<hr>
+<h3 id="reservations">Бронирования (<code>/reservations</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Эндпоинт</th>
+<th>Описание</th>
+<th>Авторизация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/reservations/</code></td>
+<td>Создание бронирования</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reservations/my</code></td>
+<td>Бронирования текущего пользователя</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reservations/{id}</code></td>
+<td>Получение бронирования по ID</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/reservations/{id}</code></td>
+<td>Обновление бронирования</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/reservations/{id}</code></td>
+<td>Удаление бронирования</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Архитектурные особенности:</strong></p>
+<ul>
+<li>Все операции требуют авторизации</li>
+<li>Реализована <strong>проверка владельца</strong>: пользователь может работать только со своими бронированиями</li>
+<li>При создании проверяется существование тура через <code>get_tour_by_id</code></li>
+<li>После создания/обновления бронирование перезагружается с JOIN на <code>Tour</code> для возврата полной информации</li>
+<li>Схема <code>ReservationWithTour</code> включает вложенный объект тура</li>
+</ul>
+<hr>
+<h3 id="reviews">Отзывы (<code>/reviews</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Эндпоинт</th>
+<th>Описание</th>
+<th>Авторизация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/reviews/</code></td>
+<td>Создание отзыва</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reviews/tour/{tour_id}</code></td>
+<td>Отзывы по туру</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/reviews/{review_id}</code></td>
+<td>Получение отзыва по ID</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/reviews/{review_id}</code></td>
+<td>Обновление отзыва</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/reviews/{review_id}</code></td>
+<td>Удаление отзыва</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Архитектурные особенности:</strong></p>
+<ul>
+<li>Получение отзывов по туру — публичный эндпоинт с пагинацией</li>
+<li>Изменение/удаление доступно только автору отзыва</li>
+<li>Схема <code>ReviewWithUser</code> обогащает ответ именем пользователя через relationship</li>
+<li>Рейтинг валидируется Pydantic (значения 1-10)</li>
+</ul>
+<hr>
+<h2 id="_6">Асинхронная работа с базой данных</h2>
+<h3 id="_7">Подключение к БД</h3>
+<p>Используется асинхронный движок SQLAlchemy с драйвером <code>asyncpg</code>:</p>
+<ul>
+<li><code>create_async_engine</code> создаёт асинхронное подключение к PostgreSQL</li>
+<li><code>async_sessionmaker</code> генерирует фабрику асинхронных сессий</li>
+<li>Dependency <code>get_async_session</code> — асинхронный генератор для инъекции сессии в роутеры</li>
+</ul>
+<h3 id="lifespan-events">Lifespan Events</h3>
+<p>FastAPI использует контекстный менеджер <code>lifespan</code> для:
+- <strong>Startup</strong>: инициализация БД, создание таблиц
+- <strong>Shutdown</strong>: корректное закрытие соединений</p>
+<hr>
+<h2 id="_8">Безопасность</h2>
+<h3 id="jwt-">JWT-аутентификация</h3>
+<ol>
+<li>Пользователь отправляет <code>username</code> и <code>password</code> на <code>/auth/login</code></li>
+<li>Сервер проверяет credentials через <code>verify_password</code> (bcrypt)</li>
+<li>При успехе генерируется JWT с payload <code>{"sub": username, "exp": expiration}</code></li>
+<li>Токен возвращается клиенту в формате <code>{"access_token": "...", "token_type": "bearer"}</code></li>
+<li>Защищённые эндпоинты извлекают токен через <code>OAuth2PasswordBearer</code> и декодируют через <code>decode_token</code></li>
+</ol>
+<h3 id="_9">Конфигурация</h3>
+<p>Секретные данные загружаются из переменных окружения через <code>pydantic-settings</code>:
+- <code>SECRET_KEY</code> — ключ подписи JWT
+- <code>ALGORITHM</code> — алгоритм подписи (HS256)
+- <code>ACCESS_TOKEN_EXPIRE_MINUTES</code> — время жизни токена</p>
+<hr>
+<h2 id="_10">Контейнеризация</h2>
+<h3 id="docker-compose">Docker Compose</h3>
+<p>Приложение запускается в двух контейнерах:</p>
+<ol>
+<li><strong>app</strong> (FastAPI) — зависит от готовности БД через <code>healthcheck</code></li>
+<li><strong>db</strong> (PostgreSQL 17) — с volume для персистентности данных</li>
+</ol>
+<h3 id="healthcheck">Healthcheck</h3>
+<p>PostgreSQL проверяется командой <code>pg_isready</code>, FastAPI стартует только после успешной проверки.</p>
+<hr>
+<h2 id="api_1">Документация API</h2>
+<p>FastAPI автоматически генерирует интерактивную документацию:</p>
+<ul>
+<li><strong>Swagger UI</strong>: <code>/docs</code></li>
+<li><strong>ReDoc</strong>: <code>/redoc</code></li>
+</ul>
+<p>Дополнительная документация проекта создана с помощью <strong>MkDocs Material</strong>.</p>
+<hr>
+<h2 id="_11">Выводы</h2>
+<p>В ходе выполнения лабораторной работы были изучены:</p>
+<ol>
+<li><strong>FastAPI</strong> — современный асинхронный фреймворк для создания REST API</li>
+<li><strong>SQLAlchemy 2.0</strong> — асинхронный ORM с декларативным описанием моделей через <code>Mapped</code> и <code>mapped_column</code></li>
+<li><strong>Pydantic</strong> — валидация данных и сериализация через схемы</li>
+<li><strong>JWT-аутентификация</strong> — реализация защищённых эндпоинтов с OAuth2</li>
+<li><strong>Слоистая архитектура</strong> — разделение на роутеры, схемы, CRUD и модели</li>
+<li><strong>Docker Compose</strong> — оркестрация многоконтейнерного приложения</li>
+<li><strong>Alembic</strong> — управление миграциями БД</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright © 2025 <a href="https://t.me/CAHEK_aka_zzisst/">ZZISST</a>.</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+</script></body></html>

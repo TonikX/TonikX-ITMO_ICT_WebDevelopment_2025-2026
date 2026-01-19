@@ -1,0 +1,723 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="light"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Лабораторная работа 2 - Курс по вебу</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+        </style></head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Курс по вебу</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Основная информация</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown" aria-expanded="false">Лабораторные работы</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../lab1/lab1/" class="dropdown-item">Лабораторная работа 1</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Лабораторная работа 2</a>
+</li>
+                                    
+<li>
+    <a href="../../lab3/lab3/" class="dropdown-item">Лабораторная работа 3</a>
+</li>
+                                    
+<li>
+    <a href="../../lab4/lab4/" class="dropdown-item">Лабораторная работа 4</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../../about/" class="nav-link">О чем курс</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                            <li class="nav-item">
+                                <a rel="prev" href="../../lab1/lab1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../lab3/lab3/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ZZISST/TonikX-ITMO_ICT_WebDevelopment_2025-2026" class="nav-link"><i class="fa-brands fa-github"></i> GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#2-django" class="nav-link">Лабораторная работа 2. Реализация простого сайта на Django</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Описание проекта</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">Структура проекта</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">Реализованные модели данных</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#views" class="nav-link">Реализованные представления (Views)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">Формы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#-" class="nav-link">Расширенная админ-панель</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_6" class="nav-link">Шаблоны и интерфейс</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#docker" class="nav-link">Docker и автоматизация</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#crud" class="nav-link">Реализованный CRUD функционал</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">Дополнительные возможности</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_10" class="nav-link">Команды для запуска</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">Использованный стек</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_12" class="nav-link">Выводы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="2-django">Лабораторная работа 2. Реализация простого сайта на Django</h1>
+<h2 id="_1">Цель работы</h2>
+<p>Изучить основы работы Django Web Framework, реализовать CRUD-интерфейсы, систему авторизации, работу с базой данных PostgreSQL и развертывание приложения через Docker.</p>
+<h2 id="_2">Описание проекта</h2>
+<p>Веб-приложение "Туристическое агентство" для управления турами, бронированиями и отзывами. Система позволяет пользователям просматривать доступные туры, бронировать их, оставлять отзывы, а администраторам - управлять всеми данными через админ-панель.</p>
+<h2 id="_3">Структура проекта</h2>
+<pre><code>django_proj/
+├── docker-compose.yaml      # Конфигурация Docker
+├── Dockerfile               # Образ приложения
+├── docker-entrypoint.sh     # Скрипт автоматической инициализации
+├── manage.py                # Главный файл управления Django
+├── requirements.txt         # Зависимости Python
+├── app/                     # Основное приложение
+│   ├── models.py           # Модели данных
+│   ├── views.py            # Представления (контроллеры)
+│   ├── forms.py            # Формы
+│   ├── urls.py             # Маршрутизация
+│   ├── admin.py            # Конфигурация админ-панели
+│   ├── migrations/         # Миграции базы данных
+│   └── templates/          # HTML-шаблоны
+├── config/                  # Настройки проекта
+│   ├── settings.py         # Конфигурация Django
+│   └── urls.py             # Главная маршрутизация
+└── static/                  # Статические файлы (изображения)
+</code></pre>
+<h2 id="_4">Реализованные модели данных</h2>
+<h3 id="1-userprofile">1. UserProfile</h3>
+<p>Расширение стандартной модели User для хранения дополнительной информации о пользователе.</p>
+<pre><code class="language-python">class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    date_of_birth = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Profile of {self.user.username}"
+</code></pre>
+<h3 id="2-tour">2. Tour (Тур)</h3>
+<p>Основная модель для хранения информации о туристических турах.</p>
+<pre><code class="language-python">class Tour(models.Model):
+    title = models.CharField(max_length=200)
+    agency = models.CharField(max_length=200)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    city = models.CharField(max_length=100)
+    payment_terms = models.TextField(blank=True, null=True)
+</code></pre>
+<p><strong>Поля:</strong>
+- <code>title</code> - название тура
+- <code>agency</code> - туристическое агентство
+- <code>description</code> - описание тура
+- <code>start_date</code> / <code>end_date</code> - даты начала и окончания
+- <code>price</code> - стоимость
+- <code>city</code> - город
+- <code>payment_terms</code> - условия оплаты</p>
+<h3 id="3-reservation">3. Reservation (Бронирование)</h3>
+<p>Модель для хранения информации о бронированиях туров пользователями.</p>
+<pre><code class="language-python">class Reservation(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reservations')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservations')
+    created_at = models.DateTimeField(auto_now_add=True)
+    guests = models.PositiveIntegerField(default=1)
+    notes = models.TextField(blank=True)
+    confirmed = models.BooleanField(default=False)
+</code></pre>
+<p><strong>Особенности:</strong>
+- <code>confirmed</code> - статус подтверждения брони администратором (для имитации оплаты)
+- <code>guests</code> - количество гостей
+- Внешние ключи связывают бронирование с туром и пользователем</p>
+<h3 id="4-review">4. Review (Отзыв)</h3>
+<p>Модель для хранения отзывов пользователей о турах.</p>
+<pre><code class="language-python">class Review(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    text = models.TextField()
+    rating = models.PositiveSmallIntegerField()  # 1-10
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+</code></pre>
+<h2 id="views">Реализованные представления (Views)</h2>
+<h3 id="1-tourlistview-">1. TourListView - Список туров с пагинацией и поиском</h3>
+<pre><code class="language-python">class TourListView(ListView):
+    model = Tour
+    template_name = 'tour_list.html'
+    context_object_name = 'tours'
+    paginate_by = 8
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(
+                models.Q(title__icontains=q) |
+                models.Q(agency__icontains=q) |
+                models.Q(city__icontains=q) |
+                models.Q(description__icontains=q)
+            )
+        return qs.order_by('start_date')
+</code></pre>
+<p><strong>Реализовано:</strong>
+- Пагинация страниц (8 туров на странице)
+- Поиск по названию, агентству, городу и описанию
+- Сортировка по дате начала тура</p>
+<h3 id="2-tourdetailview-">2. TourDetailView - Детальная страница тура с отзывами</h3>
+<pre><code class="language-python">class TourDetailView(FormMixin, DetailView):
+    model = Tour
+    template_name = 'tour_detail.html'
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        # Подсчет подтвержденных броней
+        total_guests = self.object.reservations.filter(confirmed=True).aggregate(
+            total=Sum('guests')
+        )['total'] or 0
+        ctx['total_guests'] = total_guests
+        ctx['reservations_count'] = self.object.reservations.filter(confirmed=True).count()
+        # Проверка брони текущего пользователя
+        if self.request.user.is_authenticated:
+            ctx['user_reservation'] = self.object.reservations.filter(
+                user=self.request.user
+            ).first()
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        # Обработка формы отзыва
+        if not request.user.is_authenticated:
+            messages.error(request, 'Войдите, чтобы оставить отзыв')
+            return redirect('login')
+
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.tour = self.object
+            review.user = request.user
+            review.save()
+            messages.success(request, 'Отзыв успешно добавлен!')
+            return redirect('tour_detail', pk=self.object.pk)
+</code></pre>
+<p><strong>Функционал:</strong>
+- Отображение детальной информации о туре
+- Список всех отзывов
+- Форма для добавления отзыва с рейтингом (1-10)
+- Кнопка бронирования
+- Статус бронирования пользователя (подтверждено/ожидает)</p>
+<h3 id="3-soldbycityview-">3. SoldByCityView - Статистика продаж по городам</h3>
+<pre><code class="language-python">class SoldByCityView(LoginRequiredMixin, TemplateView):
+    template_name = 'sold_by_city.html'
+
+    def get_context_data(self, **kwargs):
+        # Статистика всех бронирований
+        all_reservations = Tour.objects.filter(
+            reservations__isnull=False
+        ).values('city').annotate(
+            total_reservations=Count('reservations', distinct=True),
+            total_guests=Sum('reservations__guests'),
+            total_income=Sum(
+                models.F('reservations__guests') * models.F('price'),
+                output_field=models.DecimalField(max_digits=12, decimal_places=2)
+            )
+        ).order_by('-total_reservations')
+
+        # Статистика подтвержденных бронирований
+        confirmed_reservations = Tour.objects.filter(
+            reservations__confirmed=True
+        ).values('city').annotate(
+            confirmed_reservations=Count('reservations', distinct=True),
+            confirmed_guests=Sum('reservations__guests'),
+            confirmed_income=Sum(
+                models.F('reservations__guests') * models.F('price'),
+                output_field=models.DecimalField(max_digits=12, decimal_places=2)
+            )
+        )
+        # Объединение данных...
+</code></pre>
+<p><strong>Функционал:</strong>
+- Агрегация данных по городам
+- Подсчет общего количества броней и подтвержденных отдельно
+- Расчет дохода (количество гостей × цена тура)
+- Доступ только для авторизованных пользователей</p>
+<h3 id="4">4. Остальные представления</h3>
+<ul>
+<li><strong>TourCreateView</strong> - создание тура (только для администраторов)</li>
+<li><strong>ReservationCreateView</strong> - быстрое бронирование тура</li>
+<li><strong>ReservationDeleteView</strong> - отмена бронирования</li>
+<li><strong>UserReservationListView</strong> - список броней пользователя с пагинацией (10 на странице)</li>
+<li><strong>ProfileUpdateView</strong> - редактирование профиля</li>
+<li><strong>register</strong> - регистрация нового пользователя</li>
+</ul>
+<h2 id="_5">Формы</h2>
+<h3 id="1-reviewform-">1. ReviewForm - Форма отзыва с интерактивным слайдером</h3>
+<pre><code class="language-python">class ReviewForm(forms.ModelForm):
+    rating = forms.IntegerField(
+        min_value=1, 
+        max_value=10,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'type': 'range',
+            'min': '1',
+            'max': '10',
+            'step': '1',
+            'oninput': 'this.nextElementSibling.value = this.value'
+        }),
+        label='Рейтинг (1-10)'
+    )
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 4,
+            'placeholder': 'Напишите ваш отзыв...'
+        }),
+        label='Текст отзыва'
+    )
+</code></pre>
+<p><strong>Особенности:</strong>
+- Интерактивный слайдер для выбора рейтинга
+- Отображение выбранного значения в реальном времени
+- Стилизация через Bootstrap</p>
+<h3 id="2-registerform-">2. RegisterForm - Форма регистрации с валидацией</h3>
+<pre><code class="language-python">class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(max_length=150, required=True, label='Имя')
+    last_name = forms.CharField(max_length=150, required=True, label='Фамилия')
+    date_of_birth = forms.DateField(
+        required=True, 
+        label='Дата рождения', 
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+
+    def clean_password1(self):
+        pw = self.cleaned_data.get('password1')
+        pw_regex = re.compile(r'^(?=.{8,}$)(?=.*[A-Z])(?=.*[@.\+\-_])[A-Za-z0-9@.\+\-_]+$')
+        if not pw_regex.match(pw):
+            raise ValidationError(
+                'Пароль должен содержать минимум 8 символов, '
+                'как минимум одну заглавную букву, '
+                'состоять только из латинских букв, цифр и символов @ . + - _.'
+            )
+        return pw
+</code></pre>
+<p><strong>Валидация пароля:</strong>
+- Минимум 8 символов
+- Хотя бы одна заглавная буква
+- Только латинские буквы, цифры и специальные символы (@, ., +, -, _)</p>
+<h2 id="-">Расширенная админ-панель</h2>
+<h3 id="1-reservationadmin-">1. ReservationAdmin - Управление бронированиями</h3>
+<pre><code class="language-python">@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tour', 'user', 'guests', 'status_badge', 'created_at', 'notes_short')
+    list_filter = ('confirmed', 'created_at', 'tour__city')
+    search_fields = ('user__username', 'user__email', 'tour__title')
+    actions = ['confirm_reservations', 'unconfirm_reservations']
+    list_editable = ('guests',)
+    ordering = ('-created_at',)
+
+    def status_badge(self, obj):
+        if obj.confirmed:
+            return format_html('&lt;span style="color: green; font-weight: bold;"&gt;✓ Подтверждено&lt;/span&gt;')
+        return format_html('&lt;span style="color: orange; font-weight: bold;"&gt;⏳ Ожидает&lt;/span&gt;')
+
+    def confirm_reservations(self, request, queryset):
+        updated = queryset.update(confirmed=True)
+        self.message_user(request, f"✓ Подтверждено броней: {updated}")
+</code></pre>
+<p><strong>Функционал:</strong>
+- Цветные бейджи статусов (зеленый/оранжевый)
+- Массовое подтверждение броней
+- Фильтры по статусу, дате, городу
+- Поиск по пользователю и названию тура
+- Редактирование количества гостей прямо в списке</p>
+<h3 id="2-touradmin-">2. TourAdmin - Управление турами</h3>
+<pre><code class="language-python">@admin.register(Tour)
+class TourAdmin(admin.ModelAdmin):
+    list_display = ('title', 'agency', 'city', 'start_date', 'end_date', 'price', 
+                    'total_reservations', 'total_guests')
+    search_fields = ('title', 'agency', 'city')
+    list_filter = ('city', 'agency', 'start_date')
+
+    def total_reservations(self, obj):
+        return obj.reservations.count()
+
+    def total_guests(self, obj):
+        total = obj.reservations.aggregate(total=Sum('guests'))['total'] or 0
+        return total
+</code></pre>
+<p><strong>Дополнительные колонки:</strong>
+- Общее количество броней
+- Общее количество гостей</p>
+<h2 id="_6">Шаблоны и интерфейс</h2>
+<h3 id="bootstrap-5">Базовый шаблон с Bootstrap 5</h3>
+<pre><code class="language-html">&lt;!-- base.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;{% block title %}Туристическое агентство{% endblock %}&lt;/title&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Навигационное меню Bootstrap --&gt;
+    &lt;nav class="navbar navbar-expand-lg navbar-dark bg-primary"&gt;
+        &lt;div class="container-fluid"&gt;
+            &lt;a class="navbar-brand" href="{% url 'about' %}"&gt;🏖️ Tours&lt;/a&gt;
+            &lt;div class="navbar-nav"&gt;
+                &lt;a class="nav-link" href="{% url 'tour_list' %}"&gt;Туры&lt;/a&gt;
+                {% if user.is_authenticated %}
+                    &lt;a class="nav-link" href="{% url 'user_reservations' %}"&gt;Мои брони&lt;/a&gt;
+                    &lt;a class="nav-link" href="{% url 'profile' %}"&gt;Профиль&lt;/a&gt;
+                    {% if user.is_staff %}
+                        &lt;a class="nav-link" href="{% url 'sold_by_city' %}"&gt;Статистика&lt;/a&gt;
+                    {% endif %}
+                    &lt;a class="nav-link" href="{% url 'logout' %}"&gt;Выход&lt;/a&gt;
+                {% else %}
+                    &lt;a class="nav-link" href="{% url 'login' %}"&gt;Вход&lt;/a&gt;
+                    &lt;a class="nav-link" href="{% url 'register' %}"&gt;Регистрация&lt;/a&gt;
+                {% endif %}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
+
+    &lt;div class="container mt-4"&gt;
+        {% block content %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><strong>Особенности интерфейса:</strong>
+- Адаптивное меню Bootstrap 5
+- Динамическое отображение пунктов меню в зависимости от авторизации
+- Отдельное меню для администраторов
+- Использование Bootstrap компонентов (cards, alerts, badges, forms)</p>
+<h3 id="tour_listhtml">Пагинация в шаблоне tour_list.html</h3>
+<pre><code class="language-html">&lt;!-- Пагинация Bootstrap --&gt;
+{% if is_paginated %}
+&lt;nav aria-label="Page navigation"&gt;
+    &lt;ul class="pagination justify-content-center"&gt;
+        {% if page_obj.has_previous %}
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="?page=1{% if request.GET.q %}&amp;q={{ request.GET.q }}{% endif %}"&gt;Первая&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&amp;q={{ request.GET.q }}{% endif %}"&gt;Назад&lt;/a&gt;
+            &lt;/li&gt;
+        {% endif %}
+
+        &lt;li class="page-item active"&gt;
+            &lt;span class="page-link"&gt;{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}&lt;/span&gt;
+        &lt;/li&gt;
+
+        {% if page_obj.has_next %}
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&amp;q={{ request.GET.q }}{% endif %}"&gt;Вперед&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&amp;q={{ request.GET.q }}{% endif %}"&gt;Последняя&lt;/a&gt;
+            &lt;/li&gt;
+        {% endif %}
+    &lt;/ul&gt;
+&lt;/nav&gt;
+{% endif %}
+</code></pre>
+<p><strong>Функционал пагинации:</strong>
+- Кнопки навигации (первая/последняя/назад/вперед)
+- Отображение текущей страницы
+- Сохранение параметров поиска при переходе между страницами</p>
+<h3 id="_7">Поиск по турам</h3>
+<pre><code class="language-html">&lt;!-- Форма поиска --&gt;
+&lt;form method="get" class="mb-4"&gt;
+    &lt;div class="input-group"&gt;
+        &lt;input type="text" name="q" class="form-control" 
+               placeholder="Поиск по названию, городу, агентству..." 
+               value="{{ request.GET.q }}"&gt;
+        &lt;button class="btn btn-primary" type="submit"&gt;🔍 Найти&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<h2 id="docker">Docker и автоматизация</h2>
+<h3 id="docker-composeyaml">docker-compose.yaml</h3>
+<p>Был написан базовый докер компоуз с двумя сервисами (приложение и бд)
+Для базы данных используется volume для сохранения данных, а для создания бд используются креды, которые прокидываются через .env</p>
+<h3 id="docker-entrypointsh-">docker-entrypoint.sh - автоматизация сборки при инициализации</h3>
+<p>Для упрощения деббагинга решил закинуть ентрипоинт который будет сам накатывать миграции и создавать суперпользователя (через менеджмент)</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -e
+
+# Ждём, пока Postgres не станет доступен
+until pg_isready --host="$POSTGRES_SERVER" --port="$POSTGRES_PORT" \
+                 --username="$POSTGRES_USER" --dbname="$POSTGRES_DB"; do
+  echo "Waiting for Postgres..."
+  sleep 2
+done
+
+# Применяем все миграции Django
+python manage.py makemigrations 
+python manage.py migrate
+python manage.py createsu
+
+# Запускаем Django
+exec python manage.py runserver 0.0.0.0:8000
+</code></pre>
+<p><strong>Что автоматизировано:</strong>
+- Ожидание готовности базы данных PostgreSQL
+- Автоматическое создание и применение миграций
+- Автоматическое создание суперпользователя
+- Запуск сервера разработки</p>
+<h3 id="dockerfile">Dockerfile</h3>
+<p>Был написан докерфайл с прокидыванием энтрипоинта</p>
+<pre><code class="language-dockerfile">...
+
+# Права на выполнение entrypoint скрипта
+RUN chmod +x docker-entrypoint.sh
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
+</code></pre>
+<h2 id="crud">Реализованный CRUD функционал</h2>
+<h3 id="create">Create (Создание)</h3>
+<ul>
+<li>Регистрация пользователя</li>
+<li>Создание тура (для администраторов)</li>
+<li>Создание бронирования</li>
+<li>Создание отзыва</li>
+</ul>
+<h3 id="read">Read (Чтение)</h3>
+<ul>
+<li>Список всех туров с пагинацией и поиском</li>
+<li>Детальная информация о туре</li>
+<li>Список броней пользователя</li>
+<li>Статистика продаж по городам</li>
+<li>Просмотр отзывов</li>
+</ul>
+<h3 id="update">Update (Обновление)</h3>
+<ul>
+<li>Редактирование профиля пользователя</li>
+<li>Редактирование количества гостей в админке</li>
+<li>Подтверждение/отмена подтверждения брони</li>
+</ul>
+<h3 id="delete">Delete (Удаление)</h3>
+<ul>
+<li>Отмена бронирования пользователем</li>
+<li>Удаление записей через админ-панель</li>
+</ul>
+<h2 id="_8">Дополнительные возможности</h2>
+<h3 id="-_1">Фильтры в админ-панели</h3>
+<ul>
+<li>По статусу подтверждения брони</li>
+<li>По дате создания</li>
+<li>По городу тура</li>
+<li>По агентству</li>
+<li>По рейтингу отзывов</li>
+</ul>
+<h3 id="_9">Права доступа</h3>
+<ul>
+<li><strong>Анонимные пользователи:</strong> просмотр туров</li>
+<li><strong>Авторизованные пользователи:</strong> бронирование, отзывы, просмотр своих броней</li>
+<li><strong>Администраторы:</strong> полный доступ + создание туров + статистика</li>
+</ul>
+<h3 id="messages-framework">Система сообщений (Messages Framework)</h3>
+<pre><code class="language-python">messages.success(request, 'Отзыв успешно добавлен!')
+messages.error(request, 'Войдите, чтобы оставить отзыв')
+</code></pre>
+<p>Отображаются в виде Bootstrap alerts.</p>
+<h2 id="_10">Команды для запуска</h2>
+<pre><code class="language-bash">docker-compose up -d --build
+</code></pre>
+<h2 id="_11">Использованный стек</h2>
+<ul>
+<li><strong>Backend:</strong> Python 3.13, Django 5.2.7</li>
+<li><strong>Database:</strong> PostgreSQL 17</li>
+<li><strong>Frontend:</strong> HTML5, CSS3, Bootstrap 5 (GPT)</li>
+<li><strong>Containerization:</strong> Docker, Docker Compose</li>
+<li><strong>ORM:</strong> Django ORM</li>
+<li><strong>Forms:</strong> Django Forms with validation</li>
+<li><strong>Authentication:</strong> Django Auth System</li>
+</ul>
+<h2 id="_12">Выводы</h2>
+<p>В ходе выполнения лабораторной работы были изучены и реализованы:</p>
+<ol>
+<li><strong>Модели Django ORM</strong> - создание связанных моделей с использованием ForeignKey, OneToOneField</li>
+<li><strong>Представления</strong> - работа с Class-Based Views (ListView, DetailView, CreateView, DeleteView, TemplateView)</li>
+<li><strong>Формы</strong> - создание и валидация форм, кастомные виджеты</li>
+<li><strong>CRUD операции</strong> - полный цикл создания, чтения, обновления и удаления данных</li>
+<li><strong>Авторизация и аутентификация</strong> - система регистрации, входа, прав доступа</li>
+<li><strong>Админ-панель</strong> - расширенная настройка с фильтрами, поиском и массовыми действиями</li>
+<li><strong>Пагинация</strong> - разбиение больших списков на страницы</li>
+<li><strong>Поиск</strong> - реализация поиска по нескольким полям с использованием Q-объектов</li>
+<li><strong>Агрегация данных</strong> - подсчет статистики с использованием Count, Sum</li>
+<li><strong>Шаблоны</strong> - наследование, использование тегов и фильтров Django</li>
+<li><strong>Bootstrap</strong> - адаптивный дизайн, компоненты (navbar, cards, forms, alerts, badges)</li>
+<li><strong>Docker</strong> - контейнеризация приложения, docker-compose, автоматизация развертывания</li>
+<li><strong>PostgreSQL</strong> - работа с реляционной базой данных</li>
+<li><strong>Миграции</strong> - автоматическое управление схемой базы данных</li>
+</ol>
+<p>Приложение полностью функционально, развертывается одной командой и готово к использованию.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright © 2025 <a href="https://t.me/CAHEK_aka_zzisst/">ZZISST</a>.</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+</script></body></html>

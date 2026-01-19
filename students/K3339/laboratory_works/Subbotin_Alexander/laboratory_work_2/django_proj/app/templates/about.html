@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Hokkaido Tours{% endblock %}
+{% block content %}
+<div class="text-center">
+	<h1 class="mb-4">Туры по Хоккайдо</h1>
+
+	<div id="aboutCarousel" class="carousel slide mx-auto mb-4" data-bs-ride="carousel" data-bs-touch="true" style="max-width:900px;">
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+			<button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+			<button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+		</div>
+		<div class="carousel-inner rounded shadow-sm">
+			<div class="carousel-item active">
+				<img src="{% static 'images/slide1.jpg' %}" class="d-block w-100" alt="Slide 1">
+			</div>
+			<div class="carousel-item">
+				<img src="{% static 'images/slide2.jpg' %}" class="d-block w-100" alt="Slide 2">
+			</div>
+			<div class="carousel-item">
+				<img src="{% static 'images/slide3.jpg' %}" class="d-block w-100" alt="Slide 3">
+			</div>
+            <div class="carousel-item">
+				<img src="{% static 'images/slide4.jpg' %}" class="d-block w-100" alt="Slide 4">
+			</div>
+            <div class="carousel-item">
+				<img src="{% static 'images/slide5.jpg' %}" class="d-block w-100" alt="Slide 5">
+			</div>
+            <div class="carousel-item">
+				<img src="{% static 'images/slide6.jpg' %}" class="d-block w-100" alt="Slide 6">
+			</div>
+		</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	</div>
+
+	<p class="lead">Добро пожаловать на Hokkaido Tours!</p>
+    <p class="lead">Здесь вы можете подобрать и забронировать лучшие туры по префектуре Хоккайдо</p>
+
+
+</div>
+
+<div class="d-flex justify-content-center pb-3">
+    {% if not user.is_authenticated %}
+    <div class="card text-center shadow-sm" style="max-width:720px; width:90%;">
+        <div class="card-body">
+            <h5 class="card-title">Не потеряйте нас!</h5>
+            <p class="card-text">Создайте аккаунт, чтобы бронировать туры по Хоккайдо.</p>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{% url 'register' %}" class="btn btn-success">Создать аккаунт</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary">Войти</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card text-center shadow-sm" style="max-width:720px; width:90%;">
+        <div class="card-body">
+            <h5 class="card-title">Добро пожаловать, {{ user.first_name|default:user.username }}!</h5>
+            <p class="card-text">Перейдите в личный кабинет, чтобы посмотреть свои брони и управлять ими.</p>
+            <a href="{% url 'user_reservations' %}" class="btn btn-primary">Мой кабинет</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

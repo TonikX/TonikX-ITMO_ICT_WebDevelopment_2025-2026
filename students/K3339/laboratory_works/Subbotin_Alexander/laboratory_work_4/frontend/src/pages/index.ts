@@ -1,0 +1,10 @@
+export { HomePage } from './HomePage';
+export { LoginPage } from './LoginPage';
+export { RegisterPage } from './RegisterPage';
+export { ProfilePage } from './ProfilePage';
+export { ToursPage } from './ToursPage';
+export { TourDetailPage } from './TourDetailPage';
+export { TourFormPage } from './TourFormPage';
+export { ReservationsPage } from './ReservationsPage';
+export { AdminReservationsPage } from './AdminReservationsPage';
+export { TermsPage } from './TermsPage';

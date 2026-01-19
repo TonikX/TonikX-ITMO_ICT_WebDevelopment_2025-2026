@@ -1,0 +1,645 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="light"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Лабораторная работа 4 - Курс по вебу</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+        </style></head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Курс по вебу</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Основная информация</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown" aria-expanded="false">Лабораторные работы</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../lab1/lab1/" class="dropdown-item">Лабораторная работа 1</a>
+</li>
+                                    
+<li>
+    <a href="../../lab2/lab2/" class="dropdown-item">Лабораторная работа 2</a>
+</li>
+                                    
+<li>
+    <a href="../../lab3/lab3/" class="dropdown-item">Лабораторная работа 3</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Лабораторная работа 4</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../../about/" class="nav-link">О чем курс</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                            <li class="nav-item">
+                                <a rel="prev" href="../../lab3/lab3/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../../about/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ZZISST/TonikX-ITMO_ICT_WebDevelopment_2025-2026" class="nav-link"><i class="fa-brands fa-github"></i> GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#4-reactjs" class="nav-link">Лабораторная работа 4. Реализация клиентской части средствами React.js</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Архитектура приложения</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">Технологический стек</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">Управление состоянием</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#http-" class="nav-link">HTTP-клиент</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_9" class="nav-link">Маршрутизация</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_10" class="nav-link">Страницы приложения</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#ui-shadcnui" class="nav-link">UI-компоненты (shadcn/ui)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_11" class="nav-link">Валидация форм</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cors-proxy" class="nav-link">CORS и Proxy</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#typescript" class="nav-link">TypeScript типизация</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#frontend" class="nav-link">Контейнеризация Frontend</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_12" class="nav-link">Выводы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="4-reactjs">Лабораторная работа 4. Реализация клиентской части средствами React.js</h1>
+<h2 id="_1">Цель работы</h2>
+<p>Овладеть практическими навыками реализации клиентской части (frontend) SPA-приложения с использованием React, TypeScript и современных библиотек экосистемы.</p>
+<hr>
+<h2 id="_2">Архитектура приложения</h2>
+<h3 id="_3">Общая структура</h3>
+<p>Приложение построено по принципу <strong>компонентной архитектуры</strong> с централизованным управлением состоянием:</p>
+<pre><code>frontend/src/
+├── main.tsx                # Точка входа, провайдеры
+├── App.tsx                 # Корневой компонент, роутинг
+├── api/                    # HTTP-клиент и API-функции
+│   ├── client.ts           # Axios instance с interceptors
+│   ├── auth.ts             # API аутентификации
+│   ├── tours.ts            # API туров
+│   ├── reservations.ts     # API бронирований
+│   └── reviews.ts          # API отзывов
+├── components/
+│   ├── layout/             # Header, Footer, Layout
+│   ├── ui/                 # UI-компоненты (shadcn/ui)
+│   └── PrivateRoute.tsx    # Защищённый маршрут
+├── pages/                  # Страницы приложения
+├── store/                  # Zustand store
+└── types/                  # TypeScript типы
+</code></pre>
+<h3 id="_4">Принципы организации кода</h3>
+<ol>
+<li><strong>Страницы (Pages)</strong> — контейнерные компоненты, отвечающие за бизнес-логику</li>
+<li><strong>Компоненты (Components)</strong> — переиспользуемые UI-элементы</li>
+<li><strong>API Layer</strong> — изолированный слой для HTTP-запросов</li>
+<li><strong>Store</strong> — глобальное состояние (аутентификация)</li>
+<li><strong>Types</strong> — централизованные TypeScript-интерфейсы</li>
+</ol>
+<hr>
+<h2 id="_5">Технологический стек</h2>
+<h3 id="_6">Основные технологии</h3>
+<table>
+<thead>
+<tr>
+<th>Технология</th>
+<th>Версия</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>React</strong></td>
+<td>18.2</td>
+<td>UI-библиотека</td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>5.x</td>
+<td>Типизация</td>
+</tr>
+<tr>
+<td><strong>Vite</strong></td>
+<td>5.x</td>
+<td>Сборщик и dev-сервер</td>
+</tr>
+<tr>
+<td><strong>React Router</strong></td>
+<td>6.21</td>
+<td>Клиентский роутинг</td>
+</tr>
+<tr>
+<td><strong>TanStack Query</strong></td>
+<td>5.17</td>
+<td>Кэширование и синхронизация данных</td>
+</tr>
+<tr>
+<td><strong>Zustand</strong></td>
+<td>4.5</td>
+<td>Управление состоянием</td>
+</tr>
+<tr>
+<td><strong>Axios</strong></td>
+<td>1.6</td>
+<td>HTTP-клиент</td>
+</tr>
+<tr>
+<td><strong>Tailwind CSS</strong></td>
+<td>3.4</td>
+<td>Утилитарные стили</td>
+</tr>
+<tr>
+<td><strong>shadcn/ui</strong></td>
+<td>—</td>
+<td>Библиотека UI-компонентов</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">Дополнительные библиотеки</h3>
+<ul>
+<li><strong>react-hook-form</strong> + <strong>zod</strong> — валидация форм</li>
+<li><strong>date-fns</strong> — форматирование дат</li>
+<li><strong>lucide-react</strong> — иконки</li>
+<li><strong>Radix UI</strong> — примитивы для компонентов</li>
+</ul>
+<hr>
+<h2 id="_8">Управление состоянием</h2>
+<h3 id="zustand-store-authstorets">Zustand Store (authStore.ts)</h3>
+<p>Глобальное состояние аутентификации реализовано через Zustand с middleware <code>persist</code>:</p>
+<pre><code class="language-typescript">interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+
+  // Actions
+  login: (username: string, password: string) =&gt; Promise&lt;void&gt;;
+  register: (username: string, email: string, password: string) =&gt; Promise&lt;void&gt;;
+  logout: () =&gt; void;
+  fetchUser: () =&gt; Promise&lt;void&gt;;
+}
+</code></pre>
+<p><strong>Особенности реализации:</strong></p>
+<ul>
+<li>Токен сохраняется в <code>localStorage</code> через <code>persist</code> middleware</li>
+<li>При инициализации приложения автоматически восстанавливается сессия</li>
+<li>После успешного логина загружаются данные пользователя</li>
+<li>При ошибке 401 выполняется автоматический logout</li>
+</ul>
+<h3 id="tanstack-query-react-query">TanStack Query (React Query)</h3>
+<p>Серверное состояние управляется через React Query:</p>
+<pre><code class="language-typescript">// Кэширование списка туров
+const { data: tours, isLoading } = useQuery({
+  queryKey: ['tours'],
+  queryFn: () =&gt; toursApi.getAll(),
+});
+
+// Мутация с инвалидацией кэша
+const mutation = useMutation({
+  mutationFn: (data) =&gt; toursApi.create(data),
+  onSuccess: () =&gt; {
+    queryClient.invalidateQueries({ queryKey: ['tours'] });
+  },
+});
+</code></pre>
+<hr>
+<h2 id="http-">HTTP-клиент</h2>
+<h3 id="axios-configuration-clientts">Axios Configuration (client.ts)</h3>
+<pre><code class="language-typescript">export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Interceptor для JWT-токена
+api.interceptors.request.use((config) =&gt; {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Interceptor для обработки 401
+api.interceptors.response.use(
+  (response) =&gt; response,
+  (error) =&gt; {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+</code></pre>
+<h3 id="api-">API-модули</h3>
+<p>Каждая сущность имеет свой API-модуль:</p>
+<pre><code class="language-typescript">// tours.ts
+export const toursApi = {
+  getAll: async (params?) =&gt; api.get('/tours/', { params }),
+  getById: async (id) =&gt; api.get(`/tours/${id}`),
+  create: async (data) =&gt; api.post('/tours/', data),
+  update: async (id, data) =&gt; api.put(`/tours/${id}`, data),
+  delete: async (id) =&gt; api.delete(`/tours/${id}`),
+};
+</code></pre>
+<hr>
+<h2 id="_9">Маршрутизация</h2>
+<h3 id="react-router-configuration-apptsx">React Router Configuration (App.tsx)</h3>
+<pre><code class="language-typescript">&lt;Routes&gt;
+  {/* Public routes */}
+  &lt;Route path="/" element={&lt;HomePage /&gt;} /&gt;
+  &lt;Route path="/login" element={&lt;LoginPage /&gt;} /&gt;
+  &lt;Route path="/register" element={&lt;RegisterPage /&gt;} /&gt;
+  &lt;Route path="/tours" element={&lt;ToursPage /&gt;} /&gt;
+  &lt;Route path="/tours/:id" element={&lt;TourDetailPage /&gt;} /&gt;
+  &lt;Route path="/terms" element={&lt;TermsPage /&gt;} /&gt;
+
+  {/* Protected routes */}
+  &lt;Route path="/profile" element={
+    &lt;PrivateRoute&gt;&lt;ProfilePage /&gt;&lt;/PrivateRoute&gt;
+  } /&gt;
+  &lt;Route path="/tours/new" element={
+    &lt;PrivateRoute&gt;&lt;TourFormPage /&gt;&lt;/PrivateRoute&gt;
+  } /&gt;
+  &lt;Route path="/reservations" element={
+    &lt;PrivateRoute&gt;&lt;ReservationsPage /&gt;&lt;/PrivateRoute&gt;
+  } /&gt;
+  &lt;Route path="/admin/reservations" element={
+    &lt;PrivateRoute&gt;&lt;AdminReservationsPage /&gt;&lt;/PrivateRoute&gt;
+  } /&gt;
+&lt;/Routes&gt;
+</code></pre>
+<h3 id="privateroute-component">PrivateRoute Component</h3>
+<p>Компонент-обёртка для защищённых маршрутов:</p>
+<pre><code class="language-typescript">export function PrivateRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuthStore();
+
+  if (isLoading) return &lt;Loader /&gt;;
+  if (!isAuthenticated) return &lt;Navigate to="/login" replace /&gt;;
+
+  return &lt;&gt;{children}&lt;/&gt;;
+}
+</code></pre>
+<hr>
+<h2 id="_10">Страницы приложения</h2>
+<h3 id="homepage">HomePage</h3>
+<ul>
+<li>Главная страница с hero-секцией</li>
+<li><strong>Карусель изображений</strong> с автопрокруткой (6 слайдов)</li>
+<li>Навигационные кнопки и индикаторы</li>
+<li>Секции преимуществ с иконками</li>
+</ul>
+<h3 id="tourspage">ToursPage</h3>
+<ul>
+<li>Список доступных туров с пагинацией</li>
+<li>Фильтрация по городу</li>
+<li>Карточки туров с основной информацией</li>
+</ul>
+<h3 id="tourdetailpage">TourDetailPage</h3>
+<ul>
+<li>Детальная информация о туре</li>
+<li><strong>Бронирование</strong> (для авторизованных)</li>
+<li><strong>Отзывы</strong> с возможностью добавления/редактирования</li>
+<li>Управление туром (только для админов)</li>
+</ul>
+<h3 id="profilepage">ProfilePage</h3>
+<ul>
+<li>Редактирование username и email</li>
+<li>Редактирование даты рождения</li>
+<li>Смена пароля через диалоговое окно</li>
+</ul>
+<h3 id="reservationspage">ReservationsPage</h3>
+<ul>
+<li>Список бронирований пользователя</li>
+<li>Статусы: pending, confirmed, rejected</li>
+</ul>
+<h3 id="adminreservationspage">AdminReservationsPage</h3>
+<ul>
+<li>Управление всеми бронированиями</li>
+<li>Подтверждение/отклонение бронирований</li>
+</ul>
+<hr>
+<h2 id="ui-shadcnui">UI-компоненты (shadcn/ui)</h2>
+<p>Используются компоненты на базе Radix UI:</p>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Button</code></td>
+<td>Кнопки с вариантами</td>
+</tr>
+<tr>
+<td><code>Card</code></td>
+<td>Карточки контента</td>
+</tr>
+<tr>
+<td><code>Dialog</code></td>
+<td>Модальные окна</td>
+</tr>
+<tr>
+<td><code>Select</code></td>
+<td>Выпадающие списки</td>
+</tr>
+<tr>
+<td><code>Input</code>, <code>Textarea</code>, <code>Label</code></td>
+<td>Элементы форм</td>
+</tr>
+<tr>
+<td><code>Badge</code></td>
+<td>Статусные метки</td>
+</tr>
+<tr>
+<td><code>Toast</code></td>
+<td>Уведомления</td>
+</tr>
+<tr>
+<td><code>DropdownMenu</code></td>
+<td>Контекстные меню</td>
+</tr>
+<tr>
+<td><code>Avatar</code></td>
+<td>Аватар пользователя</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="_11">Валидация форм</h2>
+<h3 id="react-hook-form-zod">React Hook Form + Zod</h3>
+<pre><code class="language-typescript">const reservationSchema = z.object({
+  notes: z.string().optional(),
+});
+
+const reviewSchema = z.object({
+  text: z.string().min(1, 'Введите текст отзыва'),
+  rating: z.coerce.number().min(1).max(10),
+});
+
+// Использование в компоненте
+const form = useForm&lt;ReviewFormData&gt;({
+  resolver: zodResolver(reviewSchema),
+  defaultValues: { text: '', rating: 5 },
+});
+</code></pre>
+<hr>
+<h2 id="cors-proxy">CORS и Proxy</h2>
+<h3 id="vite-dev-server-proxy-viteconfigts">Vite Dev Server Proxy (vite.config.ts)</h3>
+<pre><code class="language-typescript">export default defineConfig({
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://app:8000',
+        changeOrigin: true,
+        rewrite: (path) =&gt; path.replace(/^\/api/, ''),
+      },
+    },
+  },
+});
+</code></pre>
+<p><strong>Принцип работы:</strong></p>
+<ol>
+<li>Frontend работает на порту 3000</li>
+<li>Запросы <code>/api/*</code> проксируются на FastAPI (порт 8000)</li>
+<li>Vite dev server выступает прокси-сервером</li>
+<li>CORS-заголовки не требуются при таком подходе</li>
+</ol>
+<hr>
+<h2 id="typescript">TypeScript типизация</h2>
+<h3 id="typesindexts">Централизованные типы (types/index.ts)</h3>
+<pre><code class="language-typescript">// User types
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  is_active: boolean;
+  is_admin: boolean;
+  created_at: string;
+}
+
+// Tour types
+export interface Tour {
+  id: number;
+  title: string;
+  agency: string;
+  description: string | null;
+  start_date: string;
+  end_date: string;
+  price: number;
+  city: string;
+  payment_terms: string | null;
+}
+
+// Reservation types
+export interface Reservation {
+  id: number;
+  tour_id: number;
+  user_id: number;
+  notes: string | null;
+  status: 'pending' | 'confirmed' | 'rejected';
+  created_at: string;
+}
+</code></pre>
+<hr>
+<h2 id="frontend">Контейнеризация Frontend</h2>
+<h3 id="dockerfile-dev-mode">Dockerfile (Dev Mode)</h3>
+<pre><code class="language-dockerfile">FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+</code></pre>
+<h3 id="docker-compose-integration">Docker Compose Integration</h3>
+<pre><code class="language-yaml">frontend:
+  build: ./frontend
+  ports:
+    - "3000:3000"
+  depends_on:
+    - app
+  volumes:
+    - ./frontend:/app
+    - /app/node_modules
+</code></pre>
+<hr>
+<h2 id="_12">Выводы</h2>
+<p>В ходе выполнения лабораторной работы были изучены:</p>
+<ol>
+<li><strong>React 18</strong> — функциональные компоненты, хуки, контекст</li>
+<li><strong>TypeScript</strong> — строгая типизация props, состояния и API-ответов</li>
+<li><strong>Vite</strong> — быстрая сборка и HMR для разработки</li>
+<li><strong>React Router 6</strong> — декларативный роутинг с защищёнными маршрутами</li>
+<li><strong>TanStack Query</strong> — кэширование, инвалидация, оптимистичные обновления</li>
+<li><strong>Zustand</strong> — минималистичное управление глобальным состоянием</li>
+<li><strong>Axios Interceptors</strong> — централизованная обработка JWT и ошибок</li>
+<li><strong>shadcn/ui + Radix</strong> — доступные и кастомизируемые компоненты</li>
+<li><strong>react-hook-form + Zod</strong> — декларативная валидация форм</li>
+<li><strong>Tailwind CSS</strong> — utility-first подход к стилизации</li>
+<li><strong>Vite Proxy</strong> — решение CORS для development окружения</li>
+</ol>
+<hr></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright © 2025 <a href="https://t.me/CAHEK_aka_zzisst/">ZZISST</a>.</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+</script></body></html>
