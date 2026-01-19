@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 15px;
+        }
+        .info-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+        }
+        .info-section h2 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        .field {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .field strong {
+            color: #28a745;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .no-data {
+            color: #6c757d;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        .actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40,167,69,0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 5px 15px rgba(108,117,125,0.3);
+        }
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(108,117,125,0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+        .btn-danger:hover {
+            box-shadow: 0 8px 25px rgba(220,53,69,0.4);
+        }
+        .welcome {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .welcome h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        .welcome p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👤 Мой профиль</h1>
+        
+        <div class="welcome">
+            <h2>Добро пожаловать, {{ user.first_name }}!</h2>
+            <p>Здесь вы можете просмотреть и управлять своей информацией</p>
+        </div>
+        
+        <div class="info-section">
+            <h2>📋 Личная информация</h2>
+            <div class="field">
+                <strong>Имя пользователя:</strong> {{ user.username }}
+            </div>
+            <div class="field">
+                <strong>Email:</strong> {{ user.email }}
+            </div>
+            <div class="field">
+                <strong>Имя:</strong> {{ user.first_name }}
+            </div>
+            <div class="field">
+                <strong>Фамилия:</strong> {{ user.last_name }}
+            </div>
+            <div class="field">
+                <strong>Номер паспорта:</strong> {{ user.passport_number|default:"Не указан" }}
+            </div>
+            <div class="field">
+                <strong>Национальность:</strong> {{ user.nationality|default:"Не указана" }}
+            </div>
+            <div class="field">
+                <strong>Дата рождения:</strong> {{ user.birth_date|default:"Не указана" }}
+            </div>
+            <div class="field">
+                <strong>Домашний адрес:</strong> {{ user.home_address|default:"Не указан" }}
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>🪪 Водительские удостоверения</h2>
+            {% if licenses %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Номер удостоверения</th>
+                            <th>Тип</th>
+                            <th>Дата выдачи</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for license in licenses %}
+                        <tr>
+                            <td>{{ license.license_number }}</td>
+                            <td>{{ license.get_license_type_display }}</td>
+                            <td>{{ license.issue_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">У вас нет водительских удостоверений</p>
+            {% endif %}
+        </div>
+
+        <div class="info-section">
+            <h2>🚗 Мои автомобили</h2>
+            {% if ownerships %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Марка</th>
+                            <th>Модель</th>
+                            <th>Цвет</th>
+                            <th>Гос. номер</th>
+                            <th>Дата начала владения</th>
+                            <th>Дата окончания владения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ownership in ownerships %}
+                        <tr>
+                            <td>{{ ownership.car.brand }}</td>
+                            <td>{{ ownership.car.model }}</td>
+                            <td>{{ ownership.car.color }}</td>
+                            <td>{{ ownership.car.state_number }}</td>
+                            <td>{{ ownership.start_date }}</td>
+                            <td>{{ ownership.end_date|default:"В настоящее время" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">У вас нет автомобилей</p>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <a href="/owner/{{ user.id }}/update/" class="btn">✏️ Редактировать профиль</a>
+            <a href="/cars/" class="btn btn-secondary">🚗 Автомобили</a>
+            <a href="/owners/" class="btn btn-secondary">👥 Все владельцы</a>
+            <a href="/accounts/logout/" class="btn btn-danger">🚪 Выйти</a>
+        </div>
+    </div>
+</body>
+</html>

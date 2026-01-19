@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система управления автовладельцами</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 15px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .features {
+            margin: 40px 0;
+        }
+        .features h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #007bff;
+        }
+        .feature-card h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .navigation {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .nav-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,123,255,0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .admin-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .admin-button:hover {
+            box-shadow: 0 8px 25px rgba(40,167,69,0.4);
+        }
+        .owners-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .owner-card {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+            text-align: center;
+        }
+        .owner-card h4 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .owner-card p {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        .no-data {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Система управления автовладельцами</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ owners_count }}</div>
+                <div class="stat-label">Владельцев</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ cars_count }}</div>
+                <div class="stat-label">Автомобилей</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ ownerships_count }}</div>
+                <div class="stat-label">Записей о владении</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ licenses_count }}</div>
+                <div class="stat-label">Водительских удостоверений</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>🎯 Возможности системы</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>👥 Управление владельцами</h3>
+                    <p>Добавление, редактирование и просмотр информации о владельцах автомобилей с полными личными данными.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚙 Каталог автомобилей</h3>
+                    <p>Ведение базы данных автомобилей с указанием марки, модели, цвета и государственного номера.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📋 История владения</h3>
+                    <p>Отслеживание истории владения автомобилями с указанием дат начала и окончания владения.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🪪 Водительские удостоверения</h3>
+                    <p>Управление водительскими удостоверениями с различными категориями и датами выдачи.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>👥 Доступные владельцы</h2>
+            {% if owners %}
+                <div class="owners-list">
+                    {% for owner in owners %}
+                        <div class="owner-card">
+                            <h4>{{ owner.first_name }} {{ owner.last_name }}</h4>
+                            <p>Дата рождения: {{ owner.birth_date }}</p>
+                            <a href="/owner/{{ owner.id }}/" class="nav-button">👤 Подробнее</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-data">Владельцы не найдены</p>
+            {% endif %}
+        </div>
+
+        <div class="navigation">
+            <a href="/owners/" class="nav-button">👥 Владельцы</a>
+            <a href="/cars/" class="nav-button">🚗 Автомобили</a>
+            {% if user.is_authenticated %}
+                <a href="/profile/" class="nav-button">👤 Профиль</a>
+                <a href="/accounts/logout/" class="nav-button">🚪 Выйти</a>
+            {% else %}
+                <a href="/register/" class="nav-button">📝 Регистрация</a>
+                <a href="/accounts/login/" class="nav-button">🔑 Войти</a>
+            {% endif %}
+            <a href="/admin/" class="nav-button admin-button">🔧 Админ-панель</a>
+        </div>
+
+        <div class="footer">
+            <p>Django Web Framework | Практическое задание №2.1</p>
+            <p>Система управления автовладельцами</p>
+        </div>
+    </div>
+</body>
+</html>
