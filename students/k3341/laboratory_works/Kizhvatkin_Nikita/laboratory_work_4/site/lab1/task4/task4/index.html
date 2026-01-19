@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Задание 4: Многопользовательский TCP+threading чат - Документации по лабораторным работам WEB</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 4: \u041c\u043d\u043e\u0433\u043e\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u0438\u0439 TCP+threading \u0447\u0430\u0442";
+        var mkdocs_page_input_path = "lab1\\task4\\task4.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Документации по лабораторным работам WEB
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../task1/task1/">Задание 1: Клиент-серверное приложение UDP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../task2/task2/">Задание 2: Решение квадратного уравнения TCP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../task3/task3/">Задание 3: HTTP ответ с HTML страницей</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Задание 4: Многопользовательский TCP+threading чат</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../task5/task5/">Задание 5: GET/POST Веб-сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../conclusion/">Вывод</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab2/">Главная</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab3/">Главная</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab4/">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab4/architecture/">Архитектура</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab4/auth/">Авторизация</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Сущности и CRUD</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/companies/">Компании</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/aircrafts/">Самолёты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/airports/">Аэропорты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/employees/">Сотрудники</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/crews/">Экипажи</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/crew_members/">Состав экипажа</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/flights/">Рейсы</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../lab4/entities/transit_stops/">Транзитные остановки</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../lab4/reports/">Запросы и отчёты</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Документации по лабораторным работам WEB</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №1</li>
+      <li class="breadcrumb-item active">Задание 4: Многопользовательский TCP+threading чат</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h3 id="4-tcpthreading">Задание 4 (Многопользовательский TCP+threading чат)</h3>
+<p>Сервер:</p>
+<pre><code class="language-python">import socket
+import threading
+
+SERVER_ADDRESS = &quot;localhost&quot;
+SERVER_PORT = 8080
+BUF_SIZE = 4096
+MAX_CONN = 10
+
+mutex = threading.Lock()
+clients: dict[socket.socket, str] = {}
+
+
+def broadcast(message: bytes):
+    with mutex:
+        for sock in list(clients.keys()):
+            try:
+                sock.sendall(message)
+            except:
+                disconnect(sock)
+
+
+def disconnect(sock: socket.socket):
+    with mutex:
+        name = clients.pop(sock, None)
+    try:
+        sock.close()
+    except:
+        pass
+    if name:
+        broadcast(f'&quot;{name}&quot; disconnected.'.encode())
+
+
+def connect(sock: socket.socket, addr):
+    try:
+        name_bytes = receive_message(sock)
+        if not name_bytes:
+            disconnect(sock)
+            return
+        username = name_bytes.decode().strip()
+        if not username:
+            username = f'{addr[0]}:{addr[1]}'
+        with mutex:
+            clients[sock] = username
+        print(f'[SERVER] {username} connected from {addr}')
+        broadcast(f'&quot;{username}&quot; joined the chat.\r\n'.encode())
+        while True:
+            data = receive_message(sock)
+            if not data:
+                break
+            text = data.decode(errors='replace').rstrip('\n')
+            message = f'{username}: {text}\n'
+            print(f'[SERVER] Message from &quot;{username}&quot; {addr}: {message.strip()}')
+            broadcast(message.encode())
+    except Exception as e:
+        print(f'[SERVER] Exception: {e}')
+    finally:
+        disconnect(sock)
+
+
+def receive_message(sock):
+    buf = bytearray()
+    try:
+        while True:
+            chunk = sock.recv(BUF_SIZE)
+            if not chunk:
+                return b''
+            buf.extend(chunk)
+            if b'\n' in chunk:
+                break
+    except:
+        return b''
+    idx = buf.find(b'\n') + 1
+    return bytes(buf[:idx])
+
+
+def main():
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind((SERVER_ADDRESS, SERVER_PORT))
+    srv.listen(MAX_CONN)
+    print(f'[SERVER] Started on {SERVER_ADDRESS}:{SERVER_PORT}.')
+    try:
+        while True:
+            sock, addr = srv.accept()
+            thread = threading.Thread(target=connect, args=(sock, addr), daemon=True)
+            thread.start()
+    except KeyboardInterrupt:
+        print('[SERVER] Stopping...')
+    finally:
+        with mutex:
+            for sock in list(clients.keys()):
+                try:
+                    sock.shutdown(socket.SHUT_RDWR)
+                    sock.close()
+                except:
+                    pass
+        srv.close()
+        print('[SERVER] Stopped.')
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>Запуск</p>
+<pre><code class="language-bash">cd task4
+python server.py
+</code></pre>
+<hr />
+<p>Клиент (один терминал - один клиент):</p>
+<pre><code class="language-python">import socket
+import threading
+import sys
+
+SERVER_ADDRESS = &quot;localhost&quot;
+SERVER_PORT = 8080
+BUF_SIZE = 4096
+
+
+def listen_for_messages(sock: socket.socket):
+    while True:
+        try:
+            data = sock.recv(BUF_SIZE)
+            if not data:
+                print(&quot;[CLIENT] Server connection closed.&quot;)
+                break
+            sys.stdout.write(data.decode())
+            sys.stdout.flush()
+        except:
+            break
+
+
+def main():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((SERVER_ADDRESS, SERVER_PORT))
+
+    name = input(&quot;Enter your name: &quot;)
+    if not name:
+        name = &quot;userAnon&quot;
+    sock.sendall((name + &quot;\n&quot;).encode(&quot;utf-8&quot;))
+
+    threading.Thread(target=listen_for_messages, args=(sock,), daemon=True).start()
+
+    try:
+        while True:
+            line = input()
+            sock.sendall((line + &quot;\n&quot;).encode())
+    except (KeyboardInterrupt, EOFError):
+        print(&quot;\n[CLIENT] Stopped.&quot;)
+    finally:
+        sock.close()
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p>Запуск:</p>
+<pre><code class="language-bash">cd task4
+python client.py
+</code></pre>
+<hr />
+<p>Пример работы:</p>
+<p><img alt="alt text" src="../image.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../task3/task3/" class="btn btn-neutral float-left" title="Задание 3: HTTP ответ с HTML страницей"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../task5/task5/" class="btn btn-neutral float-right" title="Задание 5: GET/POST Веб-сервер">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../task3/task3/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../task5/task5/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

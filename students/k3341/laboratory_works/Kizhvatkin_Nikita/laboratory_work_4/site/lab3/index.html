@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Главная - Документации по лабораторным работам WEB</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0413\u043b\u0430\u0432\u043d\u0430\u044f";
+        var mkdocs_page_input_path = "lab3\\index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Документации по лабораторным работам WEB
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task1/task1/">Задание 1: Клиент-серверное приложение UDP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task2/task2/">Задание 2: Решение квадратного уравнения TCP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task3/task3/">Задание 3: HTTP ответ с HTML страницей</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task4/task4/">Задание 4: Многопользовательский TCP+threading чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task5/task5/">Задание 5: GET/POST Веб-сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/conclusion/">Вывод</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Главная</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Главная</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Общая информация</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Установка и запуск</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Требования</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Запуск</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Архитектура проекта</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">Модели данных</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Структура данных</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Модели базы данных</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#company">Company (Компания)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#aircraft">Aircraft (Самолет)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#airport">Airport (Аэропорт)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#employee">Employee (Сотрудник)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crew">Crew (Экипаж)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crewmember">CrewMember (Член экипажа)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#flight">Flight (Рейс)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#transitstop">TransitStop (Транзитная остановка)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api-endpoints">API Endpoints</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#djoser">Аутентификация (Djoser)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#crud">CRUD операции</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">Требования</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1">1. Популярная марка на маршруте</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2">2. Маршруты с низкой загрузкой</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3_1">3. Свободные места на рейсе</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4">4. Самолеты в ремонте</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5">5. Количество работников компании</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6">6. Отчет о бортах компании</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_10">Фильтрация и поиск</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">Примеры фильтрации:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">Поддерживаемые фильтры:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#-django">Админ-панель Django</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">Доступ:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">Функции админки:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">Особенности:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_16">Тестовые данные</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_17">Созданные объекты:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_18">Пользователи для тестирования:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_19">Примеры использования</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1_1">Сценарий 1: Поиск рейсов с низкой загрузкой</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2_1">Сценарий 2: Работа с самолетами</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/architecture/">Архитектура</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/auth/">Авторизация</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Сущности и CRUD</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/companies/">Компании</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/aircrafts/">Самолёты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/airports/">Аэропорты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/employees/">Сотрудники</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/crews/">Экипажи</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/crew_members/">Состав экипажа</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/flights/">Рейсы</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/transit_stops/">Транзитные остановки</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/reports/">Запросы и отчёты</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Документации по лабораторным работам WEB</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №3</li>
+      <li class="breadcrumb-item active">Главная</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="3">Отчет по лабораторной работе #3</h1>
+<h2 id="_1">Общая информация</h2>
+<ul>
+<li><strong>Проект</strong>: Система управления авиакомпанией</li>
+<li><strong>Технологии</strong>: Django 4.x, Django REST Framework, Djoser, Django-filter</li>
+<li><strong>База данных</strong>: SQLite (по умолчанию)</li>
+</ul>
+<h2 id="_2">Установка и запуск</h2>
+<h3 id="_3">Требования</h3>
+<pre><code class="language-bash">Django&gt;=4.0
+djangorestframework&gt;=3.14
+djoser&gt;=2.1
+django-filter&gt;=23.0
+django-cors-headers&gt;=3.14
+</code></pre>
+<h3 id="_4">Запуск</h3>
+<pre><code>python manage.py makemigrations
+python manage.py migrate
+
+python manage.py loaddata initial_data.json
+
+python manage.py createsuperuser
+
+python manage.py runserver
+</code></pre>
+<h2 id="_5">Архитектура проекта</h2>
+<h3 id="_6">Модели данных</h3>
+<pre><code>airport_app/
+├── models.py          # Все модели данных
+├── serializers.py     # Сериализаторы DRF
+├── views.py           # ViewSets и Views
+├── urls.py            # Маршруты API
+├── admin.py           # Админ-панель Django
+└── initial_data.json  # Тестовые данные
+</code></pre>
+<h3 id="_7">Структура данных</h3>
+<p><img alt="alt text" src="erd.png" /></p>
+<h2 id="_8">Модели базы данных</h2>
+<h3 id="company">Company (Компания)</h3>
+<ul>
+<li><code>name</code> - Название компании</li>
+<li><code>code</code> - Код компании (уникальный)</li>
+</ul>
+<h3 id="aircraft">Aircraft (Самолет)</h3>
+<ul>
+<li><code>tail_number</code> - Бортовой номер (уникальный)</li>
+<li><code>aircraft_type</code> - Тип самолета</li>
+<li><code>capacity</code> - Вместимость</li>
+<li><code>speed</code> - Скорость полета</li>
+<li><code>company</code> - ForeignKey к Company</li>
+<li><code>status</code> - Статус (active/repair)</li>
+</ul>
+<h3 id="airport">Airport (Аэропорт)</h3>
+<ul>
+<li><code>code</code> - Код аэропорта (уникальный)</li>
+<li><code>name</code> - Название</li>
+<li><code>city</code> - Город</li>
+</ul>
+<h3 id="employee">Employee (Сотрудник)</h3>
+<ul>
+<li><code>company</code> - ForeignKey к Company</li>
+<li><code>first_name</code>, <code>last_name</code> - ФИО</li>
+<li><code>age</code> - Возраст</li>
+<li><code>education</code> - Образование</li>
+<li><code>experience</code> - Стаж работы</li>
+<li><code>passport</code> - Паспортные данные</li>
+<li><code>position</code> - Должность</li>
+<li><code>is_active</code> - Активен ли сотрудник</li>
+</ul>
+<h3 id="crew">Crew (Экипаж)</h3>
+<ul>
+<li><code>name</code> - Название экипажа</li>
+<li><code>company</code> - ForeignKey к Company</li>
+<li><code>is_active</code> - Активен ли экипаж</li>
+<li><code>created_at</code> - Дата создания</li>
+</ul>
+<h3 id="crewmember">CrewMember (Член экипажа)</h3>
+<ul>
+<li><code>crew</code> - ForeignKey к Crew</li>
+<li><code>employee</code> - ForeignKey к Employee</li>
+<li><code>is_approved</code> - Допуск к рейсу</li>
+</ul>
+<h3 id="flight">Flight (Рейс)</h3>
+<ul>
+<li><code>flight_number</code> - Номер рейса</li>
+<li><code>distance</code> - Расстояние</li>
+<li><code>departure_airport</code>, <code>arrival_airport</code> - Аэропорты</li>
+<li><code>departure_datetime</code>, <code>arrival_datetime</code> - Время вылета/прилета</li>
+<li><code>aircraft</code> - ForeignKey к Aircraft</li>
+<li><code>tickets_sold</code> - Проданные билеты</li>
+<li><code>crew</code> - ForeignKey к Crew</li>
+</ul>
+<h3 id="transitstop">TransitStop (Транзитная остановка)</h3>
+<ul>
+<li><code>flight</code> - ForeignKey к Flight</li>
+<li><code>airport</code> - ForeignKey к Airport</li>
+<li><code>arrival_datetime</code>, <code>departure_datetime</code> - Время</li>
+</ul>
+<h2 id="api-endpoints">API Endpoints</h2>
+<h3 id="djoser">Аутентификация (Djoser)</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Endpoint</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/users/</code></td>
+<td>Регистрация пользователя</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/token/login/</code></td>
+<td>Получение токена</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/token/logout/</code></td>
+<td>Выход из системы</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/auth/users/me/</code></td>
+<td>Информация о пользователе</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/current-user/</code></td>
+<td>Альтернативная информация</td>
+</tr>
+</tbody>
+</table>
+<h3 id="crud">CRUD операции</h3>
+<table>
+<thead>
+<tr>
+<th>Ресурс</th>
+<th>Endpoints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Companies</td>
+<td><code>GET/POST /api/companies/</code>, <code>GET/PUT/DELETE /api/companies/{id}/</code></td>
+</tr>
+<tr>
+<td>Aircrafts</td>
+<td><code>GET/POST /api/aircrafts/</code>, <code>GET/PUT/DELETE /api/aircrafts/{id}/</code></td>
+</tr>
+<tr>
+<td>Airports</td>
+<td><code>GET/POST /api/airports/</code>, <code>GET/PUT/DELETE /api/airports/{id}/</code></td>
+</tr>
+<tr>
+<td>Employees</td>
+<td><code>GET/POST /api/employees/</code>, <code>GET/PUT/DELETE /api/employees/{id}/</code></td>
+</tr>
+<tr>
+<td>Crews</td>
+<td><code>GET/POST /api/crews/</code>, <code>GET/PUT/DELETE /api/crews/{id}/</code></td>
+</tr>
+<tr>
+<td>Flights</td>
+<td><code>GET/POST /api/flights/</code>, <code>GET/PUT/DELETE /api/flights/{id}/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_9">Требования</h2>
+<h3 id="1">1. Популярная марка на маршруте</h3>
+<pre><code class="language-http">GET /api/flights/popular_aircraft_on_route/?departure=SVO&amp;arrival=LED
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;route&quot;: &quot;SVO → LED&quot;,
+  &quot;total_flights&quot;: 5,
+  &quot;most_popular_aircraft&quot;: {
+    &quot;aircraft_type&quot;: &quot;Boeing 737-800&quot;,
+    &quot;flights_count&quot;: 4,
+    &quot;percentage&quot;: 80.0
+  }
+}
+</code></pre>
+<h3 id="2">2. Маршруты с низкой загрузкой</h3>
+<pre><code class="language-http">GET /api/flights/low_load_routes/?threshold=50
+</code></pre>
+<p><strong>Ответ:</strong> Список маршрутов с загрузкой менее 50%</p>
+<h3 id="3_1">3. Свободные места на рейсе</h3>
+<pre><code class="language-http">GET /api/flights/{id}/available_seats/
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;flight_id&quot;: 1,
+  &quot;flight_number&quot;: &quot;SU-1001&quot;,
+  &quot;available_seats&quot;: 39,
+  &quot;load_percentage&quot;: 79.4,
+  &quot;has_available_seats&quot;: true
+}
+</code></pre>
+<h3 id="4">4. Самолеты в ремонте</h3>
+<pre><code class="language-http">GET /api/aircrafts/in_repair_count/
+</code></pre>
+<p><strong>Ответ:</strong> <code>{"in_repair_count": 1}</code></p>
+<h3 id="5">5. Количество работников компании</h3>
+<pre><code class="language-http">GET /api/employees/company_employees_count/?company_id=1
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;company_id&quot;: 1,
+  &quot;company_name&quot;: &quot;Аэрофлот&quot;,
+  &quot;total_employees&quot;: 5,
+  &quot;active_employees&quot;: 5,
+  &quot;inactive_employees&quot;: 0
+}
+</code></pre>
+<h3 id="6">6. Отчет о бортах компании</h3>
+<pre><code class="language-http">GET /api/aircrafts/company_aircrafts_report/?company_id=1
+</code></pre>
+<p><strong>Ответ:</strong> Подробный отчет по типам самолетов с характеристиками</p>
+<h2 id="_10">Фильтрация и поиск</h2>
+<h3 id="_11">Примеры фильтрации:</h3>
+<pre><code class="language-bash"># Фильтрация самолетов
+GET /api/aircrafts/?company=1&amp;status=active&amp;aircraft_type=Boeing
+
+# Фильтрация сотрудников
+GET /api/employees/?company=1&amp;position=captain&amp;is_active=true
+
+# Поиск
+GET /api/aircrafts/?search=737
+
+# Сортировка
+GET /api/flights/?ordering=departure_datetime
+</code></pre>
+<h3 id="_12">Поддерживаемые фильтры:</h3>
+<table>
+<thead>
+<tr>
+<th>Модель</th>
+<th>Поля для фильтрации</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aircraft</td>
+<td><code>company</code>, <code>status</code>, <code>aircraft_type</code></td>
+</tr>
+<tr>
+<td>Employee</td>
+<td><code>company</code>, <code>position</code>, <code>is_active</code></td>
+</tr>
+<tr>
+<td>Flight</td>
+<td><code>departure_airport</code>, <code>arrival_airport</code>, <code>aircraft</code>, <code>crew</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-django">Админ-панель Django</h2>
+<h3 id="_13">Доступ:</h3>
+<ul>
+<li>URL: <code>http://localhost:8000/admin/</code></li>
+</ul>
+<h3 id="_14">Функции админки:</h3>
+<ul>
+<li>Управление всеми моделями</li>
+<li>Поиск и фильтрация</li>
+<li>Inline-редактирование (экипажи, транзитные остановки)</li>
+<li>Цветная индикация загрузки рейсов</li>
+<li>Автодополнение ForeignKey полей</li>
+<li>Расчетные поля (статистика)</li>
+</ul>
+<h3 id="_15">Особенности:</h3>
+<ul>
+<li><strong>Рейсы</strong>: Отображение загрузки с цветовой индикацией</li>
+<li><strong>Сотрудники</strong>: Статус в экипаже</li>
+<li><strong>Самолеты</strong>: Количество выполненных рейсов</li>
+<li><strong>Аэропорты</strong>: Статистика вылетов/прилетов</li>
+</ul>
+<h2 id="_16">Тестовые данные</h2>
+<h3 id="_17">Созданные объекты:</h3>
+<ul>
+<li><strong>3 компании</strong>: Аэрофлот, S7 Airlines, Победа</li>
+<li><strong>5 самолетов</strong>: Boeing 737-800, Airbus A320, Boeing 777</li>
+<li><strong>4 аэропорта</strong>: Шереметьево, Домодедово, Пулково, JFK</li>
+<li><strong>6 сотрудников</strong>: Пилоты, штурманы, стюардессы</li>
+<li><strong>3 экипажа</strong> с разным составом</li>
+<li><strong>8 рейсов</strong> с различной загрузкой</li>
+<li><strong>1 транзитная остановка</strong></li>
+</ul>
+<h3 id="_18">Пользователи для тестирования:</h3>
+<table>
+<thead>
+<tr>
+<th>Логин</th>
+<th>Пароль</th>
+<th>Роль</th>
+<th>Токен</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>admin123</td>
+<td>Суперпользователь</td>
+<td>-</td>
+</tr>
+<tr>
+<td>testuser</td>
+<td>testpass123</td>
+<td>Обычный пользователь</td>
+<td>9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_19">Примеры использования</h2>
+<h3 id="1_1">Сценарий 1: Поиск рейсов с низкой загрузкой</h3>
+<pre><code class="language-bash"># 1. Авторизация
+curl -X POST http://localhost:8000/api/auth/token/login/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;username&quot;: &quot;testuser&quot;, &quot;password&quot;: &quot;testpass123&quot;}'
+
+# 2. Получение токена (сохранить)
+# 3. Поиск рейсов с загрузкой &lt; 60%
+curl -X GET &quot;http://localhost:8000/api/flights/low_load_routes/?threshold=60&quot; \
+  -H &quot;Authorization: Token ваш_токен&quot;
+</code></pre>
+<h3 id="2_1">Сценарий 2: Работа с самолетами</h3>
+<pre><code class="language-bash"># Получить все активные самолеты Аэрофлота
+curl -X GET &quot;http://localhost:8000/api/aircrafts/?company=1&amp;status=active&quot; \
+  -H &quot;Authorization: Token ваш_токен&quot;
+
+# Получить отчет по самолетам компании
+curl -X GET &quot;http://localhost:8000/api/aircrafts/company_aircrafts_report/?company_id=1&quot; \
+  -H &quot;Authorization: Token ваш_токен&quot;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab2/" class="btn btn-neutral float-left" title="Главная"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab4/" class="btn btn-neutral float-right" title="Главная">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab4/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
