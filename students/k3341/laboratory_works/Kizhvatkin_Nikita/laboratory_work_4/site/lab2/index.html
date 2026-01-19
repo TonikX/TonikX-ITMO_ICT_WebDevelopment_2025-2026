@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Главная - Документации по лабораторным работам WEB</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u0413\u043b\u0430\u0432\u043d\u0430\u044f";
+        var mkdocs_page_input_path = "lab2\\index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Документации по лабораторным работам WEB
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task1/task1/">Задание 1: Клиент-серверное приложение UDP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task2/task2/">Задание 2: Решение квадратного уравнения TCP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task3/task3/">Задание 3: HTTP ответ с HTML страницей</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task4/task4/">Задание 4: Многопользовательский TCP+threading чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/task5/task5/">Задание 5: GET/POST Веб-сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab1/conclusion/">Вывод</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Главная</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1">1. Цель работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">2. Задание</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">3. Реализация</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31">3.1 Модели данных</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32">3.2 Функционал системы</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#321">3.2.1 Аутентификация и авторизация</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#322">3.2.2 Просмотр заданий</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#323">3.2.3 Сдача заданий</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#324">3.2.4 Административная панель</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#325">3.2.5 Таблица оценок</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4">4. Технические особенности</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41">4.1 Используемые технологии</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#42-django">4.2 Основные модули Django</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#43">4.3 Безопасность</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5">5. Инструкция по запуску</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#51">5.1 Установка зависимостей</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#52">5.2 Инициализация проекта</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#53">5.3 Запуск сервера</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#54">5.4 Доступ к приложению</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6">6. Вывод</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7">7. Пример работы:</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#71">7.1. Интерфейс учителя</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#72">7.2. Интерфейс ученика</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3/">Главная</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №4</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/">Главная</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/architecture/">Архитектура</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/auth/">Авторизация</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Сущности и CRUD</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/companies/">Компании</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/aircrafts/">Самолёты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/airports/">Аэропорты</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/employees/">Сотрудники</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/crews/">Экипажи</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/crew_members/">Состав экипажа</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/flights/">Рейсы</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../lab4/entities/transit_stops/">Транзитные остановки</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab4/reports/">Запросы и отчёты</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Документации по лабораторным работам WEB</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №2</li>
+      <li class="breadcrumb-item active">Главная</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="no2">Лабораторная работа №2: Система управления домашними заданиями</h1>
+<h2 id="1">1. Цель работы</h2>
+<p>Разработать веб-приложение для управления домашними заданиями с использованием Django Framework, реализующее функционал регистрации пользователей, просмотра заданий, сдачи решений и выставления оценок.</p>
+<h2 id="2">2. Задание</h2>
+<p>Создать систему управления домашними заданиями со следующим функционалом:</p>
+<ol>
+<li>Регистрация новых пользователей</li>
+<li>Просмотр домашних заданий по всем дисциплинам</li>
+<li>Сдача домашних заданий в текстовом виде</li>
+<li>Возможность для администратора (учителя) выставлять оценки через Django-admin</li>
+<li>Таблица оценок всех учеников класса в клиентской части</li>
+</ol>
+<h2 id="3">3. Реализация</h2>
+<h3 id="31">3.1 Модели данных</h3>
+<p>В приложении реализованы следующие модели:</p>
+<ol>
+<li><strong>Subject</strong> - предметы обучения</li>
+<li>
+<p><strong>Homework</strong> - домашние задания с полями:</p>
+<ul>
+<li>subject (предмет)</li>
+<li>teacher (преподаватель)</li>
+<li>title (название задания)</li>
+<li>description (текст задания)</li>
+<li>issued_date (дата выдачи)</li>
+<li>due_date (срок выполнения)</li>
+<li>penalty_info (информация о штрафах)</li>
+</ul>
+</li>
+<li>
+<p><strong>HomeworkSubmission</strong> - сданные задания:</p>
+<ul>
+<li>homework (ссылка на задание)</li>
+<li>student (студент)</li>
+<li>submission_text (текст решения)</li>
+<li>submission_date (дата сдачи)</li>
+<li>grade (оценка)</li>
+<li>feedback (комментарий преподавателя)</li>
+</ul>
+</li>
+</ol>
+<h3 id="32">3.2 Функционал системы</h3>
+<h4 id="321">3.2.1 Аутентификация и авторизация</h4>
+<ul>
+<li>Регистрация новых пользователей</li>
+<li>Вход в систему</li>
+<li>Разделение ролей: преподаватели (is_staff=True) и студенты</li>
+</ul>
+<h4 id="322">3.2.2 Просмотр заданий</h4>
+<ul>
+<li>Для преподавателей: все задания</li>
+<li>Для студентов: все задания с цветовой индикацией статуса:</li>
+<li>Зеленый - сдано</li>
+<li>Красный - просрочено</li>
+<li>Белый - активно</li>
+</ul>
+<h4 id="323">3.2.3 Сдача заданий</h4>
+<ul>
+<li>Текстовый редактор для написания решений</li>
+<li>Возможность редактирования уже сданных работ</li>
+<li>Индикация просроченных заданий</li>
+</ul>
+<h4 id="324">3.2.4 Административная панель</h4>
+<ul>
+<li>Управление предметами, заданиями и пользователями</li>
+<li>Выставление оценок за сданные работы</li>
+<li>Добавление комментариев к работам</li>
+</ul>
+<h4 id="325">3.2.5 Таблица оценок</h4>
+<ul>
+<li>Для преподавателей: оценки всех студентов</li>
+<li>Для студентов: только свои оценки</li>
+<li>Цветовая индикация оценок (зеленый - отлично, красный - неуд)</li>
+<li>Средний балл для каждого студента</li>
+<li>Ссылки на просмотр деталей сданных работ</li>
+</ul>
+<h2 id="4">4. Технические особенности</h2>
+<h3 id="41">4.1 Используемые технологии</h3>
+<ul>
+<li>Django 6.0</li>
+<li>SQLite3</li>
+<li>HTML/CSS для клиентской части</li>
+<li>Python 3.13</li>
+</ul>
+<h3 id="42-django">4.2 Основные модули Django</h3>
+<ul>
+<li>django.contrib.auth - аутентификация пользователей</li>
+<li>django.contrib.admin - административная панель</li>
+<li>django.forms - формы для регистрации и сдачи заданий</li>
+<li>django.db.models - модели данных</li>
+<li>django.utils.timezone - работа с датами</li>
+</ul>
+<h3 id="43">4.3 Безопасность</h3>
+<ul>
+<li>CSRF-защита всех форм</li>
+<li>Проверка прав доступа (@login_required, @user_passes_test)</li>
+<li>Разделение ролей пользователей</li>
+<li>Валидация входных данных</li>
+</ul>
+<h2 id="5">5. Инструкция по запуску</h2>
+<h3 id="51">5.1 Установка зависимостей</h3>
+<pre><code class="language-bash">pip install django
+</code></pre>
+<h3 id="52">5.2 Инициализация проекта</h3>
+<pre><code class="language-bash">python manage.py migrate
+python manage.py createsuperuser
+</code></pre>
+<h3 id="53">5.3 Запуск сервера</h3>
+<pre><code class="language-bash">python manage.py runserver
+</code></pre>
+<h3 id="54">5.4 Доступ к приложению</h3>
+<ul>
+<li>Админ-панель: http://127.0.0.1:8000/admin/</li>
+<li>Таблица оценок: http://127.0.0.1:8000/grades/</li>
+<li>Домашние работы: http://127.0.0.1:8000/homework/</li>
+<li>Вход: http://127.0.0.1:8000/login/</li>
+</ul>
+<h2 id="6">6. Вывод</h2>
+<p>В ходе выполнения лабораторной работы было разработано полнофункциональное веб-приложение для управления домашними заданиями.</p>
+<ol>
+<li>Реализована регистрация и аутентификация пользователей</li>
+<li>Создан интерфейс для просмотра домашних заданий</li>
+<li>Реализована возможность сдачи заданий в текстовом виде</li>
+<li>Преподаватели могут выставлять оценки через Django-admin</li>
+<li>Реализована таблица оценок для всего класса</li>
+</ol>
+<p>Приложение демонстрирует практическое применение основных концепций Django: модели, представления, шаблоны, формы и система аутентификации.</p>
+<h2 id="7">7. Пример работы:</h2>
+<h3 id="71">7.1. Интерфейс учителя</h3>
+<p><img alt="alt text" src="grades.png" />
+<img alt="alt text" src="homeworks.png" />
+<img alt="alt text" src="edit_grades.png" /></p>
+<h3 id="72">7.2. Интерфейс ученика</h3>
+<p><img alt="alt text" src="homeworks_student.png" />
+<img alt="alt text" src="grades_student.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab1/conclusion/" class="btn btn-neutral float-left" title="Вывод"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab3/" class="btn btn-neutral float-right" title="Главная">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab1/conclusion/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab3/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
