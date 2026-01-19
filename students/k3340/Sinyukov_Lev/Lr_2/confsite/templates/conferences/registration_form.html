@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Заявка на выступление</h2>
+<form method="post" class="mt-3">{% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

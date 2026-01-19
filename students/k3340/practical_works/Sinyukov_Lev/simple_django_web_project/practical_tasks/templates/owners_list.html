@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Владельцы</title>
+</head>
+<body>
+  <h1>Владельцы</h1>
+  <p><a href="{% url 'owner_create' %}">+ Добавить владельца</a></p>
+  <ul>
+    {% for o in owners %}
+      <li>
+        {{ o.first_name }} {{ o.last_name }}
+        {% if o.birth_date %} — {{ o.birth_date }}{% endif %}
+      </li>
+    {% empty %}
+      <li>Пока нет владельцев.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

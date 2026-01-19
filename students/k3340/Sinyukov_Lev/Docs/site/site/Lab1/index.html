@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Лабораторная работа №1 - Лабораторные работы</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Лабораторные работы</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Лабораторная работа №1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../Lab2/" class="nav-link">Лабораторная работа №2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../Lab3/" class="nav-link">Лабораторная работа №3</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../Lab2/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#no-1" class="nav-link">Лабораторная работа № 1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#1" class="nav-link">Задание 1:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2" class="nav-link">Задание 2:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3" class="nav-link">Задание 3:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4" class="nav-link">Задание 4:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5" class="nav-link">Задание 5:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="no-1">Лабораторная работа № 1<a class="headerlink" href="#no-1" title="Permanent link">&para;</a></h1>
+<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
+<h2 id="1">Задание 1:<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент отправляет серверу сообщение «Hello, server», и оно должно отобразиться на стороне сервера. В ответ сервер отправляет клиенту сообщение «Hello, client», которое должно отобразиться у клиента.</p>
+<p>Требования:</p>
+<div class="codehilite"><pre><span></span><code>Обязательно использовать библиотеку socket.
+Реализовать с помощью протокола UDP.
+</code></pre></div>
+
+<p>Полезные ссылки:</p>
+<ul>
+<li><a href="https://habr.com/ru/post/149077/">Habr: Основы работы с сокетами</a></li>
+<li><a href="https://andreymal.org/socket3/">Андрей Малинин: Сокеты в Python</a></li>
+<li><a href="https://docs.python.org/3.6/howto/sockets.html">Документация Python: Руководство по сокетам</a></li>
+<li><a href="https://docs.python.org/3.6/library/socket.html">Python Library Reference: socket</a></li>
+<li><a href="https://www.youtube.com/watch?v=Lbfe3-v7yE0">Видео: Введение в работу с сокетами</a></li>
+</ul>
+<p><code>server.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="c1"># Параметры сервера</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>  <span class="c1"># Адрес хоста (localhost для локальных соединений)</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8080</span>         <span class="c1"># Порт, на котором будет работать сервер</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">server_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c1"># Привязываем сокет к адресу и порту</span>
+<span class="n">server_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UDP сервер запущен на </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Принимаем соединение, запрос от клиента</span>
+    <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span> <span class="o">=</span> <span class="n">server_socket</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Подключение от </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Запрос клиента:</span><span class="se">\n</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="s1">&#39;Hello, client&#39;</span>
+
+    <span class="c1"># Отправляем ответ клиенту</span>
+    <span class="n">server_socket</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">client_address</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>client.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">client_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c1"># Отправляем сообщение серверу</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="s2">&quot;Hello, server&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="n">server_address</span><span class="p">)</span>
+
+<span class="c1"># Получаем ответ от сервера</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ответ от сервера: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="2">Задание 2:<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент запрашивает выполнение математической операции, параметры которой вводятся с клавиатуры. Сервер обрабатывает данные и возвращает результат клиенту.</p>
+<p>Варианты операций:</p>
+<div class="codehilite"><pre><span></span><code>Теорема Пифагора.
+Решение квадратного уравнения.
+Поиск площади трапеции.
+Поиск площади параллелограмма.
+</code></pre></div>
+
+<p>Порядок выбора варианта: Выбирается по порядковому номеру в журнале (пятый студент получает вариант 1 и т.д.).</p>
+<p>Требования:</p>
+<div class="codehilite"><pre><span></span><code>Обязательно использовать библиотеку socket.
+Реализовать с помощью протокола TCP.
+</code></pre></div>
+
+<p><code>server.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">trapezoid_product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span>
+
+<span class="c1"># Параметры сервера</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>  <span class="c1"># Адрес хоста (localhost для локальных соединений)</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8080</span>         <span class="c1"># Порт, на котором будет работать сервер</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">server_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c1"># Привязываем сокет к адресу и порту</span>
+<span class="n">server_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+
+<span class="c1"># Начинаем слушать входящие соединения</span>
+<span class="n">server_socket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;сервер запущен на </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Принимаем соединение от клиента</span>
+    <span class="n">client_connection</span><span class="p">,</span> <span class="n">client_address</span> <span class="o">=</span> <span class="n">server_socket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Подключение от </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">first_request</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    Введите длины оснований и высоты через пробел без запятой в формате &lt;a, b, h&gt;, где a, b - длины оснований, h - высота</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Отправляем ответ клиенту</span>
+    <span class="n">client_connection</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">first_request</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Получаем запрос от клиента</span>
+    <span class="n">data_request</span> <span class="o">=</span> <span class="n">client_connection</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Полученные данные:</span><span class="se">\n</span><span class="si">{</span><span class="n">data_request</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">trapezoid_product</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">data_request</span><span class="o">.</span><span class="n">split</span><span class="p">())))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">client_connection</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="s2">&quot;Неверный формат входных данных. Подключитесь повторно и попробуйте снова&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="n">client_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Отправляем ответ клиенту</span>
+    <span class="n">client_connection</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="n">client_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<p><code>client.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">client_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c1"># Подключаемся к серверу</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+
+<span class="c1"># Получаем ответ от сервера</span>
+<span class="n">first_response</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_response</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+<span class="n">input_data</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Введите данные: &#39;</span><span class="p">)</span>
+<span class="c1"># Отправляем сообщение серверу</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">input_data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<span class="c1"># Закрываем соединение</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="3">Задание 3:<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>Реализовать серверную часть приложения. Клиент подключается к серверу, и в ответ получает HTTP-сообщение, содержащее HTML-страницу, которая сервер подгружает из файла index.html.</p>
+<p>Полезные ссылки:</p>
+<ul>
+<li><a href="http://zetcode.com/python/socket/">ZetCode: Работа с сокетами</a></li>
+</ul>
+<p>Требования:</p>
+<div class="codehilite"><pre><span></span><code>Обязательно использовать библиотеку socket.
+</code></pre></div>
+
+<p><code>server.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">index_html</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">index_html</span> <span class="o">=</span> <span class="s1">&#39;&lt;h1&gt;Error: file not found&lt;/h1&gt;&#39;</span>
+<span class="c1"># Параметры сервера</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>  <span class="c1"># Адрес хоста (localhost для локальных соединений)</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8080</span>         <span class="c1"># Порт, на котором будет работать сервер</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">server_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c1"># Привязываем сокет к адресу и порту</span>
+<span class="n">server_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+
+<span class="c1"># Начинаем слушать входящие соединения</span>
+<span class="n">server_socket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HTTP сервер запущен на </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="c1"># Принимаем соединение от клиента</span>
+    <span class="n">client_connection</span><span class="p">,</span> <span class="n">client_address</span> <span class="o">=</span> <span class="n">server_socket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Подключение от </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Формируем HTTP-ответ с заголовками и HTML-контентом</span>
+    <span class="n">http_response</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Content-Type: text/html; charset=UTF-8</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Content-Length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">index_html</span><span class="p">)</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Connection: close</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="n">index_html</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Отправляем ответ клиенту</span>
+    <span class="n">client_connection</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">http_response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+
+    <span class="n">client_connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<p><code>client.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+
+<span class="c1"># Создаем сокет</span>
+<span class="n">client_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c1"># Подключаемся к серверу</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+
+<span class="c1"># Получаем ответ от сервера</span>
+<span class="n">response</span> <span class="o">=</span>  <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">part_response</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">part_response</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">response</span> <span class="o">+=</span> <span class="n">part_response</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Ответ от сервера: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># Закрываем соединение</span>
+<span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<p><code>index.html</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Task3<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+Here must be something...
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h2 id="4">Задание 4:<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>Реализовать двухпользовательский или многопользовательский чат. Для максимального количества баллов реализуйте многопользовательский чат.</p>
+<p>Требования:</p>
+<div class="codehilite"><pre><span></span><code>Обязательно использовать библиотеку socket.
+Для многопользовательского чата необходимо использовать библиотеку threading.
+</code></pre></div>
+
+<p>Реализация:</p>
+<div class="codehilite"><pre><span></span><code>Протокол TCP: 100% баллов.
+Протокол UDP: 80% баллов.
+Для UDP используйте threading для получения сообщений на клиенте.
+Для TCP запустите клиентские подключения и обработку сообщений от всех пользователей в потоках. Не забудьте сохранять пользователей, чтобы отправлять им сообщения.
+</code></pre></div>
+
+<p>Полезные ссылки:
+* <a href="https://docs.python.org/3/library/threading.html">Документация Python: threading</a> 
+* <a href="https://docs.python.org/3/library/threading.html">WebDevBlog: Введение в потоки Python</a></p>
+<p><code>server.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">broadcast</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">socket_sender</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="n">clients</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">client</span> <span class="o">!=</span> <span class="n">socket_sender</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">clients</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_client</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="n">client_address</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Подключение от </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Запрос клиента </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">:</span><span class="se">\n</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">client_socket</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Прервано соединение с </span><span class="si">{</span><span class="n">client_address</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">clients</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">client_address</span><span class="p">)</span>
+    <span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">func_server</span><span class="p">():</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Сервер запущен на </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">client_socket</span><span class="p">,</span> <span class="n">client_address</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">clients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">client_socket</span><span class="p">)</span>
+        <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">handle_client</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="n">client_address</span><span class="p">))</span>
+        <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
+<span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8080</span>
+
+<span class="n">clients</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">func_server</span><span class="p">()</span>
+</code></pre></div>
+
+<p><code>client.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">recieve_message</span><span class="p">(</span><span class="n">client_sock</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">client_sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No server connection&#39;</span><span class="p">)</span>
+            <span class="n">client_sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">break</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">func_client</span><span class="p">():</span>
+    <span class="n">client_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">client_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+
+    <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">recieve_message</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,))</span>
+    <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+<span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8080</span>
+
+<span class="n">func_client</span><span class="p">()</span>
+</code></pre></div>
+
+<h2 id="5">Задание 5:<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<p>Написать простой веб-сервер для обработки GET и POST HTTP-запросов с помощью библиотеки socket в Python.</p>
+<p>Задание:</p>
+<div class="codehilite"><pre><span></span><code>Сервер должен:
+    Принять и записать информацию о дисциплине и оценке по дисциплине.
+    Отдать информацию обо всех оценках по дисциплинам в виде HTML-страницы.
+</code></pre></div>
+
+<p>Полезные ссылки:</p>
+<ul>
+<li><a href="https://docs.google.com/document/d/1lv_3D9VtMxz8tNkA6rA1xu9zaWEIBGXiLWBo1cse-0k/edit?usp=sharing">Базовый класс для веб-сервера</a></li>
+<li><a href="https://iximiuz.com/ru/posts/writing-python-web-server-part-3/">Мануал по созданию сервера</a></li>
+</ul>
+<p><code>server.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="c1"># import sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">unquote</span><span class="p">,</span> <span class="n">urlparse</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyHTTPServer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">server_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_name</span> <span class="o">=</span> <span class="n">server_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grades</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Словарь для хранения оценок</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Запуск сервера на сокете, обработка входящих соединений</span>
+        <span class="n">server_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+        <span class="n">server_socket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Сервер </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">server_name</span><span class="si">}</span><span class="s2"> запущен на </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">client_socket</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">server_socket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Подключен клиент: </span><span class="si">{</span><span class="n">addr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_client</span><span class="p">(</span><span class="n">client_socket</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Сервер остановлен&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">server_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serve_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_socket</span><span class="p">):</span>
+        <span class="c1"># Обработка подключения</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Создаем объект из сокета для построчного чтения</span>
+            <span class="n">client_file</span> <span class="o">=</span> <span class="n">client_socket</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="s1">&#39;rwb&#39;</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># Парсим HTTP запрос</span>
+            <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_request</span><span class="p">(</span><span class="n">client_file</span><span class="p">)</span>
+
+            <span class="c1"># Обрабатываем запрос</span>
+            <span class="n">response</span><span class="p">,</span> <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+            <span class="c1"># Отправляем ответ</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">status_code</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при обработке клиента: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># В случае ошибки отправляем 500 Internal Server Error</span>
+            <span class="n">error_html</span> <span class="o">=</span> <span class="s2">&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;500 Internal Server Error&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="n">error_html</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_file</span><span class="p">):</span>
+        <span class="c1"># Обработка заголовка HTTP запроса</span>
+        <span class="n">request_line</span> <span class="o">=</span> <span class="n">client_file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">request_line</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Пустой запрос&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Разбиваем на метод, URL и версию протокола</span>
+        <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">request_line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Запрос: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Парсим URL и параметры</span>
+        <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">query_params</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Обработка headers</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">header_line</span> <span class="o">=</span> <span class="n">client_file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">header_line</span><span class="p">:</span>  <span class="c1"># Пустая строка - конец заголовка</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">header_line</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">header_line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">headers</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="c1"># Читаем тело запроса для POST</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="ow">and</span> <span class="s1">&#39;Content-Length&#39;</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
+            <span class="n">content_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">])</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">client_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">content_length</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">method</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">query_params</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">body</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="c1"># Обработка url в соответствии с нужным методом</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span> <span class="ow">or</span> <span class="n">url</span> <span class="o">==</span> <span class="s1">&#39;/grades&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_get_grades</span><span class="p">(),</span> <span class="mi">200</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_post_grade</span><span class="p">(</span><span class="n">body</span><span class="p">),</span> <span class="mi">200</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_error_html</span><span class="p">(</span><span class="s2">&quot;Method Not Allowed&quot;</span><span class="p">),</span> <span class="mi">405</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_error_html</span><span class="p">(</span><span class="s2">&quot;Not Found&quot;</span><span class="p">),</span> <span class="mi">404</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_get_grades</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Обработка GET запроса - возвращаем HTML с оценками</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_html</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">html</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_post_grade</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="c1"># Обработка POST запроса - добавляем новую оценку</span>
+        <span class="n">parsed_body</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">discipline</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">parsed_body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;discipline&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">grade_str</span> <span class="o">=</span> <span class="n">parsed_body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">discipline</span> <span class="ow">and</span> <span class="n">grade_str</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">grade</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">grade_str</span><span class="p">)</span>
+                <span class="k">if</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">grade</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">grades</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grade</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Добавлена оценка: </span><span class="si">{</span><span class="n">discipline</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">grade</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c1"># Некорректная оценка</span>
+
+        <span class="c1"># После POST возвращаем ту же страницу с обновленными данными</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_html</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_html</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Генерация HTML страницы</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            &lt;!DOCTYPE html&gt;</span>
+<span class="s2">            &lt;html lang=&quot;ru&quot;&gt;</span>
+<span class="s2">            &lt;head&gt;</span>
+<span class="s2">                &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="s2">                &lt;title&gt;Журнал оценок&lt;/title&gt;</span>
+<span class="s2">                &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;</span>
+<span class="s2">                &lt;style&gt;</span>
+<span class="s2">                    body {</span>
+<span class="s2">                        font-family: &#39;Roboto&#39;, sans-serif;</span>
+<span class="s2">                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);</span>
+<span class="s2">                        margin: 0;</span>
+<span class="s2">                        padding: 0;</span>
+<span class="s2">                        min-height: 100vh;</span>
+<span class="s2">                        display: flex;</span>
+<span class="s2">                        justify-content: center;</span>
+<span class="s2">                        align-items: center;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    .container {</span>
+<span class="s2">                        background: white;</span>
+<span class="s2">                        padding: 40px;</span>
+<span class="s2">                        border-radius: 15px;</span>
+<span class="s2">                        box-shadow: 0 10px 30px rgba(0,0,0,0.2);</span>
+<span class="s2">                        max-width: 600px;</span>
+<span class="s2">                        width: 90%;</span>
+<span class="s2">                        text-align: center;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    h1 {</span>
+<span class="s2">                        color: #333;</span>
+<span class="s2">                        margin-bottom: 30px;</span>
+<span class="s2">                        font-weight: 500;</span>
+<span class="s2">                        font-size: 2.5em;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    h2 {</span>
+<span class="s2">                        color: #555;</span>
+<span class="s2">                        margin-top: 30px;</span>
+<span class="s2">                        margin-bottom: 20px;</span>
+<span class="s2">                        font-weight: 400;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    form {</span>
+<span class="s2">                        background: #f8f9fa;</span>
+<span class="s2">                        padding: 25px;</span>
+<span class="s2">                        border-radius: 10px;</span>
+<span class="s2">                        margin-bottom: 20px;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    label {</span>
+<span class="s2">                        display: block;</span>
+<span class="s2">                        margin-bottom: 15px;</span>
+<span class="s2">                        font-weight: 500;</span>
+<span class="s2">                        color: #333;</span>
+<span class="s2">                        text-align: left;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    input {</span>
+<span class="s2">                        width: 100%;</span>
+<span class="s2">                        padding: 12px;</span>
+<span class="s2">                        margin-top: 5px;</span>
+<span class="s2">                        border: 2px solid #ddd;</span>
+<span class="s2">                        border-radius: 8px;</span>
+<span class="s2">                        font-size: 16px;</span>
+<span class="s2">                        box-sizing: border-box;</span>
+<span class="s2">                        transition: border-color 0.3s;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    input:focus {</span>
+<span class="s2">                        outline: none;</span>
+<span class="s2">                        border-color: #667eea;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    button {</span>
+<span class="s2">                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);</span>
+<span class="s2">                        color: white;</span>
+<span class="s2">                        border: none;</span>
+<span class="s2">                        padding: 15px 30px;</span>
+<span class="s2">                        border-radius: 8px;</span>
+<span class="s2">                        font-size: 16px;</span>
+<span class="s2">                        cursor: pointer;</span>
+<span class="s2">                        transition: transform 0.2s;</span>
+<span class="s2">                        font-weight: 500;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    button:hover {</span>
+<span class="s2">                        transform: translateY(-2px);</span>
+<span class="s2">                    }</span>
+<span class="s2">                    hr {</span>
+<span class="s2">                        border: none;</span>
+<span class="s2">                        height: 2px;</span>
+<span class="s2">                        background: linear-gradient(90deg, transparent, #667eea, transparent);</span>
+<span class="s2">                        margin: 30px 0;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    .grade-item {</span>
+<span class="s2">                        background: #f8f9fa;</span>
+<span class="s2">                        margin: 15px 0;</span>
+<span class="s2">                        padding: 15px;</span>
+<span class="s2">                        border-radius: 8px;</span>
+<span class="s2">                        border-left: 4px solid #667eea;</span>
+<span class="s2">                        text-align: left;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    .no-grades {</span>
+<span class="s2">                        color: #666;</span>
+<span class="s2">                        font-style: italic;</span>
+<span class="s2">                        margin: 30px 0;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    .subject-name {</span>
+<span class="s2">                        color: #333;</span>
+<span class="s2">                        font-weight: 500;</span>
+<span class="s2">                        margin-bottom: 5px;</span>
+<span class="s2">                    }</span>
+<span class="s2">                    .grades-list {</span>
+<span class="s2">                        color: #666;</span>
+<span class="s2">                    }</span>
+<span class="s2">                &lt;/style&gt;</span>
+<span class="s2">            &lt;/head&gt;</span>
+<span class="s2">            &lt;body&gt;</span>
+<span class="s2">                &lt;div class=&quot;container&quot;&gt;</span>
+<span class="s2">                    &lt;h1&gt;📚 Журнал оценок&lt;/h1&gt;</span>
+<span class="s2">                    &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;</span>
+<span class="s2">                        &lt;label&gt;Дисциплина:</span>
+<span class="s2">                            &lt;input name=&quot;discipline&quot; placeholder=&quot;Введите название дисциплины&quot; required&gt;</span>
+<span class="s2">                        &lt;/label&gt;</span>
+<span class="s2">                        &lt;label&gt;Оценка:</span>
+<span class="s2">                            &lt;input name=&quot;grade&quot; type=&quot;number&quot; min=&quot;2&quot; max=&quot;5&quot; placeholder=&quot;Введите оценку от 2 до 5&quot; required&gt;</span>
+<span class="s2">                        &lt;/label&gt;</span>
+<span class="s2">                        &lt;button type=&quot;submit&quot;&gt;📝 Добавить оценку&lt;/button&gt;</span>
+<span class="s2">                    &lt;/form&gt;</span>
+<span class="s2">                    &lt;hr&gt;</span>
+<span class="s2">                    &lt;h2&gt;Список оценок&lt;/h2&gt;</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grades</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">subject</span><span class="p">,</span> <span class="n">marks</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grades</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;div class=&quot;grade-item&quot;&gt;&lt;b&gt;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s1">&lt;/b&gt;: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">marks</span><span class="p">))</span><span class="si">}</span><span class="s1">&lt;/div&gt;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;p&gt;Пока нет оценок&lt;/p&gt;&#39;</span>
+
+        <span class="n">html</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;/div&gt;</span>
+<span class="s2">&lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">html</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_error_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="c1"># Генерация HTML страницы ошибки</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;!DOCTYPE html&gt;</span>
+<span class="s2">&lt;html&gt;</span>
+<span class="s2">&lt;head&gt;&lt;title&gt;Error&lt;/title&gt;&lt;/head&gt;</span>
+<span class="s2">&lt;body&gt;</span>
+<span class="s2">    &lt;h1&gt;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&lt;/h1&gt;</span>
+<span class="s2">    &lt;a href=&quot;/&quot;&gt;Вернуться на главную&lt;/a&gt;</span>
+<span class="s2">&lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">send_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_socket</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+        <span class="c1"># Отправка ответа</span>
+        <span class="n">status_messages</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">200</span><span class="p">:</span> <span class="s1">&#39;OK&#39;</span><span class="p">,</span>
+            <span class="mi">404</span><span class="p">:</span> <span class="s1">&#39;Not Found&#39;</span><span class="p">,</span>
+            <span class="mi">405</span><span class="p">:</span> <span class="s1">&#39;Method Not Allowed&#39;</span><span class="p">,</span>
+            <span class="mi">500</span><span class="p">:</span> <span class="s1">&#39;Internal Server Error&#39;</span>
+        <span class="p">}</span>
+
+        <span class="n">status_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;HTTP/1.1 </span><span class="si">{</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">status_messages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Content-Type: text/html; charset=utf-8&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Content-Length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Connection: close&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span>
+        <span class="p">]</span>
+
+        <span class="n">response_data</span> <span class="o">=</span> <span class="n">status_line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">response</span>
+        <span class="n">client_socket</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">response_data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="mi">8080</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;EvaluationSheet&#39;</span>
+
+    <span class="n">serv</span> <span class="o">=</span> <span class="n">MyHTTPServer</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">serv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
+
+<p><img alt="image" src="media/img1.png" /></p>
+<p>Выполнение работы:</p>
+<div class="codehilite"><pre><span></span><code>Работа выполняется индивидуально.
+По результатам необходимо подготовить отчет в виде текстового документа.
+</code></pre></div>
+
+<p>Оценивание:</p>
+<div class="codehilite"><pre><span></span><code>Выполнение пунктов 1-4 и однопользовательского чата (без потоков) — 60% баллов.
+Выполнение пунктов 1-5 и многопользовательского чата (с потоками) — 100% баллов.
+</code></pre></div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

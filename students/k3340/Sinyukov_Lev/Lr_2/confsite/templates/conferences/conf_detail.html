@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}{{ conf.title }}{% endblock %}
+{% block content %}
+<h1>{{ conf.title }}</h1>
+<p class="text-muted">{{ conf.date_start }} — {{ conf.date_end }}</p>
+<p><strong>Место:</strong> {{ conf.venue.name }}{% if conf.venue.city %}, {{ conf.venue.city }}{% endif %}</p>
+{% if conf.venue.description %}<p class="small text-muted">{{ conf.venue.description }}</p>{% endif %}
+<p>{{ conf.description|linebreaks }}</p>
+
+<h5>Условия участия</h5>
+<p>{{ conf.participation_terms|linebreaks }}</p>
+
+<h5 class="mt-4">Тематики</h5>
+<p>
+  {% for t in conf.topics.all %}
+    <span class="badge bg-secondary me-1">{{ t.name }}</span>
+  {% empty %}—{% endfor %}
+</p>
+
+<div class="d-flex gap-2 my-3">
+  {% if can_register %}
+    <a class="btn btn-success" href="{% url 'reg_create' conf_id=conf.id %}">Зарегистрироваться с докладом</a>
+  {% else %}
+    <a class="btn btn-outline-primary" href="{% url 'login' %}?next={{ request.path }}">Войти, чтобы зарегистрироваться</a>
+  {% endif %}
+  <a class="btn btn-outline-secondary" href="{% url 'review_create' conf_id=conf.id %}">Оставить отзыв</a>
+</div>
+
+<h4 class="mt-4">Зарегистрированные доклады</h4>
+<table class="table table-sm table-striped">
+  <thead><tr><th>Автор</th><th>Название доклада</th><th>Статус</th><th>Рекомендован к публикации</th><th></th></tr></thead>
+  <tbody>
+  {% for r in registrations %}
+    <tr>
+      <td>{{ r.author.username }}</td>
+      <td>{{ r.talk_title }}</td>
+      <td>{{ r.get_status_display }}</td>
+      <td>{% if r.recommended_for_publication %}✅{% else %}—{% endif %}</td>
+      <td class="text-end">
+          {% if user.is_authenticated %}
+            {% if user.is_staff or r.author_id == user.id %}
+              <a class="btn btn-sm btn-outline-primary" href="{% url 'reg_update' r.id %}">Изм.</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'reg_delete' r.id %}">Удалить</a>
+            {% endif %}
+          {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="5" class="text-muted">Еще нет регистраций.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h4 class="mt-4">Отзывы</h4>
+<ul class="list-group">
+  {% for rv in reviews %}
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <strong>{{ rv.reviewer.username }}</strong>
+        <span class="badge bg-info">Рейтинг: {{ rv.rating }}/10</span>
+      </div>
+      <div class="small text-muted">Даты на момент отзыва: {{ rv.conf_date_start_snapshot }} — {{ rv.conf_date_end_snapshot }}</div>
+      <p class="mb-0 mt-2">{{ rv.text|linebreaks }}</p>
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">Отзывов пока нет.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

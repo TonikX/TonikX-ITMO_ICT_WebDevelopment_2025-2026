@@ -1,0 +1,19 @@
+site_name: Лабораторные работы
+
+theme:
+  name: mkdocs
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа №1: Lab1/index.md
+  - Лабораторная работа №2: Lab2/index.md
+  - Лабораторная работа №3: Lab3/index.md
+  - Лабораторная работа №4: Lab4/index.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - admonition
+  - codehilite

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Удалить заявку?</h2>
+<form method="post">{% csrf_token %}
+  <p>Вы уверены, что хотите удалить «{{ object.talk_title }}»?</p>
+  <button class="btn btn-danger">Удалить</button>
+  <a class="btn btn-secondary" href="{% url 'conf_detail' object.conference_id %}">Отмена</a>
+</form>
+{% endblock %}

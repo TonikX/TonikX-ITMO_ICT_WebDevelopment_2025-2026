@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Каталог конференций{% endblock %}
+{% block content %}
+<h1>Каталог конференций</h1>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-auto">
+    <input type="text" class="form-control" name="q" placeholder="Поиск по названию, теме, месту..." value="{{ request.GET.q }}">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary">Найти</button>
+  </div>
+</form>
+
+<div class="list-group">
+  {% for c in confs %}
+    <a href="{% url 'conf_detail' c.id %}" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ c.title }}</h5>
+        <small>{{ c.date_start }} — {{ c.date_end }}</small>
+      </div>
+      <p class="mb-1">{{ c.venue.name }}{% if c.venue.city %}, {{ c.venue.city }}{% endif %}</p>
+      <small>
+        Темы:
+        {% for t in c.topics.all %}<span class="badge bg-secondary me-1">{{ t.name }}</span>{% empty %}—{% endfor %}
+      </small>
+    </a>
+  {% empty %}
+    <div class="alert alert-info">Ничего не найдено.</div>
+  {% endfor %}
+</div>
+
+{% include 'conferences/_pagination.html' %}
+{% endblock %}

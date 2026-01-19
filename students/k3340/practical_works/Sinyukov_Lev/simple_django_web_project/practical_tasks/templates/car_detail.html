@@ -1,0 +1,19 @@
+<h1>{{ car.brand }} {{ car.model }}</h1>
+<p>Госномер: {{ car.plate_number }}</p>
+<p>Цвет: {{ car.color|default:"не указан" }}</p>
+
+
+<h3>История владения</h3>
+<ul>
+  {% for own in car.ownership_set.all %}
+    <li>{{ own.owner }} — {{ own.date_start }} — {{ own.date_end|default:"по наст." }}</li>
+  {% empty %}
+    <li>Нет данных.</li>
+  {% endfor %}
+</ul>
+
+<p>
+  <a href="{% url 'car-update' car.pk %}">Обновить</a> ·
+  <a href="{% url 'car-delete' car.pk %}">Удалить</a> ·
+  <a href="{% url 'car-list' %}">К списку</a>
+</p>

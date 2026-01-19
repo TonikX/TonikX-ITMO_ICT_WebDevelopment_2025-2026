@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ view.object|default_if_none:"Новый автомобиль" }}</title>
+</head>
+<body>
+  <h1>{{ view.object|default_if_none:"Новый автомобиль" }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+  <p><a href="{% url 'car-list' %}">← К списку</a></p>
+</body>
+</html>

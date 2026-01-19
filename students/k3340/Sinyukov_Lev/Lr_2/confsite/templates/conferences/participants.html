@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Участники по конференциям</h1>
+{% for c in confs %}
+  <h4 class="mt-4">{{ c.title }} <small class="text-muted">({{ c.date_start }} — {{ c.date_end }})</small></h4>
+  <table class="table table-sm table-striped">
+    <thead><tr><th>#</th><th>Автор</th><th>Доклад</th><th>Статус</th></tr></thead>
+    <tbody>
+      {% for r in c.registrations.all %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ r.author.username }}</td>
+          <td>{{ r.talk_title }}</td>
+          <td>{{ r.get_status_display }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="text-muted">Нет участников.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+{% endblock %}

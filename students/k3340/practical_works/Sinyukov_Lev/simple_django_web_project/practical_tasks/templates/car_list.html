@@ -1,0 +1,14 @@
+<h1>Автомобили</h1>
+<p><a href="{% url 'car-create' %}">+ Добавить автомобиль</a></p>
+<ul>
+  {% for c in cars %}
+    <li>
+      <a href="{% url 'car-detail' c.pk %}">{{ c.brand }} {{ c.model }}</a>
+      ({{ c.plate_number }})
+      — <a href="{% url 'car-update' c.pk %}">Редактировать</a>
+      — <a href="{% url 'car-delete' c.pk %}">Удалить</a>
+    </li>
+  {% empty %}
+    <li>Пока нет автомобилей.</li>
+  {% endfor %}
+</ul>

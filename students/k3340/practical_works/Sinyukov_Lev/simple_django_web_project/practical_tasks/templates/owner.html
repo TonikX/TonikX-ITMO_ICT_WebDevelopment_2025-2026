@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Owner {{ owner.id }}</title>
+</head>
+<body>
+  <h1>Owner: {{ owner.first_name }} {{ owner.last_name }}</h1>
+  {% if owner.birth_date %}
+    <p>Birth date: {{ owner.birth_date }}</p>
+  {% endif %}
+
+  <h2>Cars</h2>
+  {% if ownerships %}
+    <ul>
+      {% for own in ownerships %}
+        <li>
+          {{ own.car.plate_number }} — {{ own.car.brand }} {{ own.car.model }}
+          ({{ own.date_start }} — {{ own.date_end|default:"now" }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No cars found.</p>
+  {% endif %}
+</body>
+</html>
