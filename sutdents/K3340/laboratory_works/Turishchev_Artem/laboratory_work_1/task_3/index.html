@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Страница лабы 1</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 4rem;
+      animation: bounce 2s infinite;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    }
+
+    p {
+      font-size: 1.5rem;
+      max-width: 80%;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      background-color: #ff4d94;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1aa0;
+      transform: scale(1.1);
+    }
+
+    .emoji {
+      font-size: 3rem;
+      animation: spin 6s infinite linear;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="emoji">🎉</div>
+  <h1>Привет, на странице первой лабы!</h1>
+  <button onclick="document.querySelector('.emoji').textContent = ['🚀','🦄','🍕','👾','🤖','🎸'][Math.floor(Math.random()*6)]">
+    Нажми меня!
+  </button>
+
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp') document.body.style.background = '#ff6b6b';
+      if (e.key === 'ArrowDown') document.body.style.background = '#4ecdc4';
+      if (e.key === 'ArrowLeft') document.body.style.background = '#ffe66d';
+      if (e.key === 'ArrowRight') document.body.style.background = 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)';
+    });
+  </script>
+</body>
+</html>
