@@ -37,9 +37,9 @@
           <tr v-for="contract in contracts" :key="contract.id">
             <td>{{ contract.contract_number }}</td>
             <td>
-              <div v-if="contract.enterprise">
-                <strong>{{ contract.enterprise.name }}</strong>
-                <div>{{ contract.enterprise.legal_address }}</div>
+              <div v-if="contract.enterprise_details">
+                <strong>{{ contract.enterprise_details.name }}</strong>
+                <div>{{ contract.enterprise_details.legal_address }}</div>
               </div>
               <div v-else>Enterprise not found</div>
             </td>
@@ -95,7 +95,15 @@
             label="Enterprise"
             required
             :loading="loadingEnterprises"
-          ></v-select>
+          >
+            <template v-slot:item="{ props, item }">
+              <v-list-item v-bind="props" :title="item.raw.name">
+                <template v-slot:subtitle>
+                  {{ item.raw.legal_address }}
+                </template>
+              </v-list-item>
+            </template>
+          </v-select>
 
           <v-text-field
             v-model="contractForm.contract_date"
@@ -252,7 +260,7 @@ const editContract = (contract) => {
   editingContract.value = contract;
   Object.assign(contractForm, {
     contract_number: contract.contract_number,
-    enterprise: contract.enterprise?.id || "",
+    enterprise: contract.enterprise,
     contract_date: contract.contract_date,
     description: contract.description || "",
     is_active: contract.is_active,
@@ -263,7 +271,7 @@ const editContract = (contract) => {
 const saveContract = async () => {
   saving.value = true;
   try {
-    if (!contractForm.enterprise || contractForm.enterprise === "") {
+    if (!contractForm.enterprise) {
       alert("Please select an enterprise");
       saving.value = false;
       return;
@@ -271,12 +279,14 @@ const saveContract = async () => {
 
     const contractData = {
       contract_number: contractForm.contract_number,
-      enterprise: parseInt(contractForm.enterprise),
+      enterprise: contractForm.enterprise,
       object: parseInt(props.objectId),
       contract_date: contractForm.contract_date,
       description: contractForm.description,
       is_active: contractForm.is_active,
     };
+
+    console.log("Saving contract data:", contractData);
 
     let response;
     if (editingContract.value) {
@@ -289,12 +299,19 @@ const saveContract = async () => {
       response = await createContract(contractData, auth.token);
     }
 
+    console.log("Contract saved successfully:", response);
+
     await loadContracts();
     closeModal();
     emit("contractUpdated");
   } catch (error) {
     console.error("Error saving contract:", error);
-    alert("Failed to save contract");
+    console.error("Error details:", error.response?.data);
+    alert(
+      `Failed to save contract: ${
+        error.response?.data?.detail || error.message
+      }`
+    );
   } finally {
     saving.value = false;
   }

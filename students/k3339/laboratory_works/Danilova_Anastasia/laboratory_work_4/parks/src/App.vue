@@ -83,7 +83,7 @@
 
     <v-footer app class="justify-center" color="grey-lighten-4">
       <span class="text-caption text-grey-darken-2">
-        &copy; {{ new Date().getFullYear() }} — Лабораторная работа по паркам
+        {{ new Date().getFullYear() }} — Parks laboratory work
       </span>
     </v-footer>
   </v-app>
