@@ -48,7 +48,6 @@ class ObjectReadSerializer(serializers.ModelSerializer):
 
 
 class ContractSerializer(serializers.ModelSerializer):
-    # Для записи используем PrimaryKeyRelatedField с queryset
     enterprise = serializers.PrimaryKeyRelatedField(
         queryset=Enterprise.objects.all(),
 

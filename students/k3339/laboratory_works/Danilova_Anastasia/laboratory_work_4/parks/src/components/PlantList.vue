@@ -118,11 +118,11 @@
                     Edit
                   </v-btn>
                   <button
-                    @click="showPlantDetails(placement)"
-                    class="details-btn"
-                    title="View details"
+                    @click="deletePlant(placement)"
+                    class="delete-btn"
+                    title="Delete plant placement"
                   >
-                    Details
+                    Delete
                   </button>
                 </div>
               </td>
@@ -221,11 +221,6 @@
             <div class="season">
               Winter: {{ wateringSchedule.water_norm_liters_winter }}L
             </div>
-          </div>
-          <div class="actions">
-            <!-- <button @click="editWateringSchedule()" class="edit-btn">
-              Edit
-            </button> -->
           </div>
         </div>
         <div v-else class="empty-schedule">No watering schedule set</div>
@@ -417,7 +412,7 @@
 <script setup>
 import { ref, onMounted, computed, watch, reactive } from "vue";
 import { useAuthStore } from "@/store/auth";
-import { getPlantsByObject } from "@/services/plantService";
+import { getPlantsByObject, createPlant as createPlantApi, createPlantPlacement, deletePlantPlacement } from "@/services/plantService";
 import { getPlantWateringSchedules } from "@/services/wateringService";
 import {
   getPlantWorkerAssignments,
@@ -427,11 +422,6 @@ import { getObjectZones } from "@/services/objectsService";
 import { getSpecies } from "@/services/speciesService";
 import WateringScheduleModal from "@/components/WateringScheduleModal.vue";
 import WorkerAssignmentModal from "@/components/WorkerAssignmentModal.vue";
-
-import {
-  createPlant as createPlantApi,
-  createPlantPlacement,
-} from "@/services/plantService";
 import PlantEditModal from "@/components/PlantEditModal.vue";
 
 const props = defineProps({ objectId: Number });
@@ -459,7 +449,6 @@ const editingPlant = ref(null);
 const showWateringModal = ref(false);
 const showWorkerModal = ref(false);
 const showCreatePlantModal = ref(false);
-const editingWatering = ref(null);
 const editingWorkerAssignment = ref(null);
 
 const newPlant = reactive({
@@ -801,6 +790,27 @@ const deleteWorkerAssignment = async (assignmentId) => {
   }
 };
 
+const deletePlant = async (placement) => {
+  if (!confirm(`Delete plant "${placement.plant?.species_name || placement.plant?.species_details?.name || 'Unknown'}"? This will remove the plant placement from this object.`)) {
+    return;
+  }
+
+  try {
+    await deletePlantPlacement(placement.id, auth.token);
+
+    await loadPlants();
+
+    if (selectedPlant.value?.id === placement.plant?.id) {
+      selectedPlant.value = null;
+    }
+
+    alert('Plant deleted successfully');
+  } catch (error) {
+    console.error('Error deleting plant:', error);
+    alert(`Failed to delete plant: ${error.response?.data?.detail || error.message}`);
+  }
+};
+
 onMounted(async () => {
   await Promise.all([loadPlants(), loadAdditionalData()]);
 });
@@ -962,12 +972,6 @@ watch(showCreatePlantModal, (val) => {
   font-weight: 500;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
 .empty-schedule,
 .empty-assignments {
   padding: 30px;
@@ -1024,6 +1028,30 @@ watch(showCreatePlantModal, (val) => {
 
 .delete-btn-small:hover {
   background-color: #ff5252;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.selected-row .delete-btn {
+  background-color: #dc3545;
+}
+
+.selected-row .delete-btn:hover {
+  background-color: #bd2130;
 }
 
 .plant-name-btn {
@@ -1170,30 +1198,6 @@ watch(showCreatePlantModal, (val) => {
   flex-direction: column;
   gap: 6px;
   align-items: flex-start;
-}
-
-.details-btn {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 11px;
-  transition: all 0.2s ease;
-}
-
-.details-btn:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-}
-
-.selected-row .details-btn {
-  background-color: #2196f3;
-}
-
-.selected-row .details-btn:hover {
-  background-color: #0b7dda;
 }
 
 [title] {

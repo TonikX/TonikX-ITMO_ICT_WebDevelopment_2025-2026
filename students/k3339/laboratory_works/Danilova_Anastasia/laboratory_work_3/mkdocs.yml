@@ -1,6 +1,8 @@
-site_name: Warriors Project Documentation
-site_description: Документация практической работы номер 3
+site_name: Web Development Documentation
+site_description: Документация лабораторных работ по веб-программированию
 site_author: Данилова Анастасия
+site_url: https://ndanilova.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+
 
 theme:
   name: material
@@ -27,17 +29,30 @@ theme:
 
 repo_name: TonikX-ITMO_ICT_WebDevelopment_2025-2026
 repo_url: https://github.com/ndanilova/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+edit_uri: edit/main/docs/
 
 nav:
   - Home: index.md
-  - 'Практическая работа 3.1':
-      - 'Практическое задание 1': practical_3_1_1.md
-      - 'Практическое задание 2': practical_3_1_2.md
-      - 'Практическое задание 3': practical_3_1_3.md
-  - 'Практическая работа 3.2':
-      - 'Практическое задание 1': practical_3_2_1.md
-      - 'Практическое задание 2': practical_3_2_2.md
+  - 'Лабораторная работа 1':
+      - Home: Lr1/index.md
+      - Task 1: Lr1/task1/index.md
+      - Task 2: Lr1/task2/index.md
+      - Task 3: Lr1/task3/index.md
+      - Task 4: Lr1/task4/index.md
+      - Task 5: Lr1/task5/index.md
+  - 'Лабораторная работа 2':
+      - Laboratory Work 2: Lr2/lab2.md
+      - Teacher Dependencies: Lr2/teacher.md
+      - Student Dependencies: Lr2/student.md
+      - Database Models: Lr2/models.md
   - 'Лабораторная работа 3':
+      - 'Практическая работа 3.1':
+          - 'Практическое задание 1': practical_3_1_1.md
+          - 'Практическое задание 2': practical_3_1_2.md
+          - 'Практическое задание 3': practical_3_1_3.md
+      - 'Практическая работа 3.2':
+          - 'Практическое задание 1': practical_3_2_1.md
+          - 'Практическое задание 2': practical_3_2_2.md
       - 'Задание': lab_report.md
       - 'Админка': admin.md
       - 'Диаграмма модели': models.md
@@ -45,7 +60,12 @@ nav:
       - 'Запросы': report_app.md
       - 'Djoser': djoser.md
   - 'Лабораторная работа 4':
+      - 'Подготовка к работе': lab4preparation.md
       - 'CORS': cors.md
+      - 'Router': router.md
+      - 'Управление состоянием': pinia.md
+      - 'Работа с серверной частью': services.md
+      - 'Пользовательские интерфейсы': interfaces.md
 
 plugins:
   - search
