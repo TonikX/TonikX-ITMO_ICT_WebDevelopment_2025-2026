@@ -1,0 +1,96 @@
+{
+    "model": "board.user",
+    "pk": 2,
+    "fields": {
+      "username": "student1",
+      "password": "TQt-pQN-uhW-u5w",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "student1@example.com",
+      "role": "student",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "board.user",
+    "pk": 3,
+    "fields": {
+      "username": "teacher1",
+      "password": "uDW-fyq-miR-reW",
+      "first_name": "Anna",
+      "last_name": "Brown",
+      "email": "teacher1@example.com",
+      "role": "teacher",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "board.user",
+    "pk": 4,
+    "fields": {
+      "username": "teacher2",
+      "password": "mMd-p3i-k8g-XLK",
+      "first_name": "Michael",
+      "last_name": "Johnson",
+      "email": "teacher2@example.com",
+      "role": "teacher",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "board.user",
+    "pk": 5,
+    "fields": {
+      "username": "student2",
+      "password": "L2M-kPE-ARS-w3d",
+      "first_name": "Emily",
+      "last_name": "Clark",
+      "email": "student2@example.com",
+      "role": "student",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+
+    "fields": {
+      "username": "student3",
+      "password": "TQt-pQN-uhW-u5w",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "student3@example.com",
+      "role": "student",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+    "fields": {
+      "username": "student4",
+      "password": "TQt-pQN-uhW-u5w",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "student4@example.com",
+      "role": "student",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+    "fields": {
+      "username": "student5",
+      "password": "TQt-pQN-uhW-u5w",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "student5@example.com",
+      "role": "student",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },

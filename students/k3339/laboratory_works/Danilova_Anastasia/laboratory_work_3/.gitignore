@@ -1,0 +1,338 @@
+# ============================================
+# Django Lab Work (University Project)
+# ============================================
+
+# Django Defaults
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+
+# Local Settings (never commit!)
+local_settings.py
+settings_local.py
+.env
+.env.local
+.env.*.local
+secrets.json
+config.json
+credentials.json
+
+# Virtual Environment
+venv/
+env/
+.venv/
+ENV/
+virtualenv/
+pythonenv/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Media and Static (collected/generated)
+media/
+staticfiles/
+uploads/
+static_collected/
+
+# Documentation builds
+docs/_build/
+site/
+_build/
+
+# Testing and Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+test_results/
+*.coverage
+.coverage.*
+.trcov
+
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django Migrations (optional - uncomment if needed)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Database backups and dumps
+*.dump
+*.backup
+*.sql
+*.sqlite
+dump.rdb
+redis_backup.rdb
+
+# Node.js (if using frontend tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# PyCharm specific
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VSCode specific
+.vscode/
+.history/
+
+# Redis
+dump.rdb
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# PyInstaller
+*.manifest
+*.spec
+
+# SageMath
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# Specific for this lab project
+# ===============================
+
+# API Documentation exports
+api_docs/
+openapi.json
+swagger.json
+
+# Postman collections/exports
+*.postman_collection.json
+postman/
+
+# Temporary files for lab work
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Lab-specific data files
+lab_data/
+test_fixtures/
+fixtures/dev/
+sample_data/
+
+# Migration files for specific apps (uncomment as needed)
+# cars_app/migrations/*
+# !cars_app/migrations/__init__.py
+# warriors_app/migrations/*
+# !warriors_app/migrations/__init__.py
+
+# Log files
+logs/
+*.log
+django.log
+debug.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+
+# Windows
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+
+# Project reports
+reports/
+*.pdf
+*.docx
+*.xlsx
+
+# Docker (if using)
+docker-compose.override.yml
+.dockerignore
+docker-data/
+
+# Backup files
+*.bak
+*.old
+*.orig
+
+# ============================================
+# University/Lab Specific
+# ============================================
+
+# Student submission files
+submission.zip
+lab_report.*
+презентация_лаба.*
+readme_lab.*
+
+# Screenshots and demo files
+screenshots/
+demo/
+video_demo/
+
+# PDFs and documents (if you generate any)
+*.pdf
+*.doc
+*.docx
+
+# Excel/CSV data files
+*.xlsx
+*.xls
+*.csv
+
+# Submission package
+# Дополнительно: чтобы не залить случайно архив сдачи
+laboratory_work_3.zip
+submission_*.zip
+
+# Python cache для конкретных папок
+students/**/__pycache__/
+students/**/*.pyc
+
+# ============================================
+# DRF/Djoser specific
+# ============================================
+
+# Token files
+*.token
+tokens.json
+
+# Authentication related (never commit!)
+secret_key.txt
+django_secret.txt
+jwt_secret.txt
+
+# API testing
+test_results.json
+api_test_results/
+
+# ============================================
+# MkDocs/ReadTheDocs specific
+# ============================================
+
+# MkDocs
+site/
+.mkdocs_build/
+
+# ReadTheDocs
+.readthedocs.yml.local
+_rtd/
+
+# Documentation
+docs/api/
+docs/build/
+
+# ============================================
+# Git related
+# ============================================
+
+# Git
+.git-credentials
+.gitattributes
+.gitconfig
+
+# ============================================
+# Frontend (if any Vue/React integration)
+# ============================================
+
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+*.css.map
+*.js.map
+
+# ============================================
+# EXTRA: For common mistakes in student projects
+# ============================================
+
+# Student часто забывают эти файлы
+settings.py.bak
+urls.py.old
+models.py.backup
+
+# Лабораторные отчеты в разных форматах
+отчет_лаба*
+lab_report*
+презентация*
+
+# Видео с демонстрацией работы
+*.mp4
+*.mov
+*.avi
+demo_video.*
+
+# Снимки экрана
+*.png
+*.jpg
+*.jpeg
+screenshot*
+
+# Python скрипты для генерации данных (если они создают файлы)
+generate_data.py
+seed.py
+scripts/populate_db.py
+
+# Файлы конфигурации IDE
+.vscode/settings.json
+.idea/workspace.xml

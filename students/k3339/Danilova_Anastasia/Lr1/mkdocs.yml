@@ -1,0 +1,14 @@
+site_name: LR1 — Report
+site_author: Anastasia
+site_url: ''
+
+nav:
+  - Home: index.md
+  - Task 1: task1/index.md
+  - Task 2: task2/index.md
+  - Task 3: task3/index.md
+  - Task 4: task4/index.md
+  - Task 5: task5/index.md
+
+theme:
+  name: material

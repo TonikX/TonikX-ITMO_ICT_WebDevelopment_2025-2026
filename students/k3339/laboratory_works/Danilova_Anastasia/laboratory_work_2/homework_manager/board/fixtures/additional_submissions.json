@@ -1,0 +1,212 @@
+[
+  {
+    "model": "board.homeworksubmission",
+    "pk": 8,
+    "fields": {
+      "homework": 6,
+      "student": 2,
+      "submitted_text": "Solved all triangle problems with proofs.",
+      "date_submitted": "2025-11-07",
+      "grade": 5,
+      "feedback": "Excellent geometric reasoning",
+      "last_edited": "2025-11-07T14:20:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 9,
+    "fields": {
+      "homework": 7,
+      "student": 5,
+      "submitted_text": "Lab report with circuit diagrams and calculations.",
+      "date_submitted": "2025-11-08",
+      "grade": 4,
+      "feedback": "Good diagrams but missing some calculations",
+      "last_edited": "2025-11-08T10:15:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 10,
+    "fields": {
+      "homework": 8,
+      "student": 2,
+      "submitted_text": "Creative story about space adventure.",
+      "date_submitted": "2025-11-09",
+      "grade": 5,
+      "feedback": "Very imaginative! Great vocabulary usage",
+      "last_edited": "2025-11-09T16:30:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 11,
+    "fields": {
+      "homework": 9,
+      "student": 5,
+      "submitted_text": "Photosynthesis research with diagrams.",
+      "date_submitted": "2025-11-10",
+      "grade": 5,
+      "feedback": "Thorough research and clear explanations",
+      "last_edited": "2025-11-10T11:45:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 12,
+    "fields": {
+      "homework": 10,
+      "student": 2,
+      "submitted_text": "Ancient Rome presentation slides.",
+      "date_submitted": "2025-11-11",
+      "grade": 4,
+      "feedback": "Good content, needs more visual elements",
+      "last_edited": "2025-11-11T13:20:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 13,
+    "fields": {
+      "homework": 11,
+      "student": 5,
+      "submitted_text": "Quadratic equations solved step by step.",
+      "date_submitted": "2025-11-12",
+      "grade": 5,
+      "feedback": "Perfect solutions with all work shown",
+      "last_edited": "2025-11-12T09:10:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 14,
+    "fields": {
+      "homework": 12,
+      "student": 5,
+      "submitted_text": "Book report with character analysis.",
+      "date_submitted": "2025-11-13",
+      "grade": 4,
+      "feedback": "Good analysis but needs more plot summary",
+      "last_edited": "2025-11-13T15:40:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 15,
+    "fields": {
+      "homework": 6,
+      "student": 5,
+      "submitted_text": "Geometry problems with some errors.",
+      "date_submitted": "2025-11-08",
+      "grade": 3,
+      "feedback": "Several calculation errors, review formulas",
+      "last_edited": "2025-11-08T17:25:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 16,
+    "fields": {
+      "homework": 7,
+      "student": 2,
+      "submitted_text": "Circuit lab report - basic completion.",
+      "date_submitted": "2025-11-09",
+      "grade": 3,
+      "feedback": "Missing detailed analysis sections",
+      "last_edited": "2025-11-09T12:50:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 17,
+    "fields": {
+      "homework": 8,
+      "student": 5,
+      "submitted_text": "Short story about family vacation.",
+      "date_submitted": "2025-11-10",
+      "grade": 4,
+      "feedback": "Good story structure, expand vocabulary",
+      "last_edited": "2025-11-10T14:15:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 18,
+    "fields": {
+      "homework": 9,
+      "student": 2,
+      "submitted_text": "Basic photosynthesis explanation.",
+      "date_submitted": "2025-11-11",
+      "grade": 3,
+      "feedback": "Too brief, needs more scientific detail",
+      "last_edited": "2025-11-11T16:05:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 19,
+    "fields": {
+      "homework": 10,
+      "student": 5,
+      "submitted_text": "Rome presentation with images.",
+      "date_submitted": "2025-11-12",
+      "grade": 5,
+      "feedback": "Excellent visual presentation",
+      "last_edited": "2025-11-12T11:30:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 20,
+    "fields": {
+      "homework": 11,
+      "student": 2,
+      "submitted_text": "Algebra problems partial completion.",
+      "date_submitted": "2025-11-13",
+      "grade": 2,
+      "feedback": "Only 40% completed, please redo",
+      "last_edited": "2025-11-13T13:55:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 21,
+    "fields": {
+      "homework": 12,
+      "student": 2,
+      "submitted_text": "Detailed book analysis with quotes.",
+      "date_submitted": "2025-11-14",
+      "grade": 5,
+      "feedback": "Outstanding literary analysis",
+      "last_edited": "2025-11-14T10:20:00Z",
+      "was_graded": true
+    }
+  },
+  {
+    "model": "board.homeworksubmission",
+    "pk": 22,
+    "fields": {
+      "homework": 6,
+      "student": 2,
+      "submitted_text": "Revised geometry problems.",
+      "date_submitted": "2025-11-09",
+      "grade": 4,
+      "feedback": "Much improved, one small error remaining",
+      "last_edited": "2025-11-09T15:10:00Z",
+      "was_graded": true
+    }
+  }
+]

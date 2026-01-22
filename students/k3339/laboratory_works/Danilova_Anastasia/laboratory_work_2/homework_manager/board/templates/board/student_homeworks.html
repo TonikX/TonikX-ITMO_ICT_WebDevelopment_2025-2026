@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School board</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+            <!-- Link for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+</head>
+<body class="student-homework">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand ps-2" href="{% url 'student_profile' %}">School board</a>
+
+        <!-- Burger menu button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_records' %}">
+                        <i class="bi bi-journal-text me-1"></i> Records
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-arrow-bar-left"></i> Log out</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="content mt-3 container-fluid">
+    {% if has_profile %}
+    <div class="card border-primary border-2">
+        <div class="card-header bg-primary d-flex justify-content-between align-items-baseline py-5">
+            <div>
+                <h3 class="text-white">{{ homework.text }}</h3>
+                <h5 class="text-white">Subject: {{ homework.subject }}</h5>
+                <span class="text-white">Assigned {{ homework.date_assigned }}</span>
+            </div>
+            <div class="d-flex flex-column gap-4">
+                <span class="badge bg-light text-dark "> Score: {{ homework_submission.grade }} / 5 </span>
+                <span class="text-white">{{ user.first_name }} {{ user.last_name }}</span>
+            </div>
+
+
+
+        </div>
+        <div class="card-body py-4 d-flex flex-column align-items-baseline gap-2">
+            <h4>Description:</h4>
+            <div class="d-flex flex-column">
+                <span><strong class="me-2">Deadline:</strong>{{ homework.due_date }}</span>
+                <span><strong class="me-2">Penalty:</strong> {{ homework.penalty_info }}</span>
+                <span><strong class="me-2">Days until due:</strong> {{ homework.days_until_due }}</span>
+                <span><strong class="me-2">Already submitted:</strong> {{ homework.get_students_who_submitted|length }}</span>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex flex-column gap-2 align-items-baseline py-5">
+            <h4>Submission</h4>
+            {% if homework_submission %}
+            <div class="d-flex flex-column mb-4">
+                <span>Last update: {{ homework_submission.date_submitted }}</span>
+                <span> Grade: {{ homework_submission.get_grade_display }} </span>
+                <span> Feedback: {{ homework_submission.feedback }} </span>
+            </div>
+
+            <span><strong>Your answer:</strong></span>
+
+            <p class="border border-primary rounded-2 py-2 px-3">{{ homework_submission.submitted_text|truncatewords:"20" }}</p>
+            {% endif %}
+
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                Edit assignment
+            </button>
+
+            <!-- modal window -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <form method="post" class="mt-3 container-fluid p-2">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="submitted_text" class="form-label">Your submission</label>
+                                <textarea name="submitted_text" id="submitted_text" class="form-control" rows="5">{{ homework_submission.submitted_text }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>

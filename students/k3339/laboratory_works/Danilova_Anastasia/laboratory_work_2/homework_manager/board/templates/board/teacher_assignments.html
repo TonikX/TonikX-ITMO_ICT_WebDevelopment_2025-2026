@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School board - Assignments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Link for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.075);
+        }
+
+        .filter-section {
+            background-color: #f8f9fa;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+        }
+    </style>
+</head>
+<body class="teacher-profile">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand ps-2" href="{% url 'teacher_profile' %}">School board</a>
+
+        <!-- Burger menu button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher_assignments' %}">
+                        <i class="bi bi-app-indicator"></i> Assignments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher_records' %}">
+                        <i class="bi bi-journal-text me-1"></i> Records
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-arrow-bar-left"></i> Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content container-fluid my-3">
+    <div class="">
+        {% if has_profile %}
+        <header class="mb-4 container-fluid">
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <h1 class="text-primary">All assignments</h1>
+                <div class="text-end">
+                    <h5 class="text-primary">Total submissions: <strong>{{ page_obj.paginator.count }}</strong></h5>
+                    <small class="text-muted">{{ user.get_full_name }} - {{ teacher.teacher_number }}</small>
+                </div>
+            </div>
+        </header>
+        </ul>
+
+        <!-- Assignments Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="bg-primary">
+                <tr>
+                    <th>
+                        <a href="?sort=subject{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
+                           class="text-white text-decoration-none">
+                            Subject
+                        </a>
+                    </th>
+                    <th class="text-white">Student</th>
+                    <th class="text-white">Group</th>
+                    <th class="text-white">Status</th>
+                    <th class="text-white">Grade</th>
+                    <th>
+                        <a href="?sort=last_edited{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
+                           class="text-white text-decoration-none">
+                            Last Edited
+                        </a>
+                    </th>
+                    <th class="text-white">Date Submitted</th>
+                    <th>
+                        <a href="?sort=due_date{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}"
+                           class="text-white text-decoration-none">
+                            Due Date
+                        </a>
+                    </th>
+                    <th class="text-white">Date Assigned</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for assignment in assignments %}
+                <tr>
+                    <td>{{ assignment.homework.subject.name }}</td>
+                    <td>
+                        <a href="{% url 'teacher_assignment_detail' assignment.submission.id %}"
+                           class="text-decoration-none">
+                            {{ assignment.student.user.get_full_name }}
+                        </a>
+                    </td>
+                    <td>{{ assignment.group.name }}</td>
+                    <td>
+                        {% if assignment.submission_status == 'graded' %}
+                        <span class="badge bg-success status-badge">Graded</span>
+                        {% elif assignment.submission_status == 'submitted' %}
+                        <span class="badge bg-primary status-badge">Submitted</span>
+                        {% elif assignment.submission_status == 'pending' %}
+                        <span class="badge bg-warning text-dark status-badge">Pending</span>
+                        {% elif assignment.submission_status == 'overdue' %}
+                        <span class="badge bg-danger status-badge">Overdue</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if assignment.submission.grade %}
+                        <span class="badge {% if assignment.submission.grade >= 4 %}bg-success{% elif assignment.submission.grade == 3 %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                                    {{ assignment.submission.get_grade_display }}
+                                </span>
+                        {% else %}
+                        <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ assignment.submission.last_edited|date:"M d, Y H:i" }}</td>
+                    <td>{{ assignment.submission.date_submitted|date:"M d, Y" }}</td>
+                    <td>
+                            <span class="{% if assignment.homework.is_overdue %}text-danger fw-bold{% endif %}">
+                                {{ assignment.homework.due_date|date:"M d, Y" }}
+                                {% if assignment.homework.is_overdue %}
+                                <i class="bi bi-exclamation-triangle"></i>
+                                {% endif %}
+                            </span>
+                    </td>
+                    <td>{{ assignment.date_assigned|date:"M d, Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox display-4 d-block mb-2"></i>
+                        {% if request.GET %}
+                        No assignments match your filters
+                        {% else %}
+                        No assignments found
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page=1{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+                       aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.previous_page_number }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;&laquo;</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ num }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                        {{ num }}
+                    </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.next_page_number }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date %}&date={{ request.GET.date }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+                       aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;&raquo;</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="text-center text-muted mt-2">
+            <small>
+                Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+                assignments
+            </small>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="alert alert-warning text-center">
+            <p class="mb-3">Your classes and subjects will appear later.</p>
+            <a class="btn btn-primary" href="{% url 'login' %}">Go back</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>

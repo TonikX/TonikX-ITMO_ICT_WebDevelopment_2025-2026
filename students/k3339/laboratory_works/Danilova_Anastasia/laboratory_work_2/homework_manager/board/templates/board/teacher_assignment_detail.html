@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School board - Grade Assignment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Link for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .card-header {
+            border-bottom: 3px solid #0d6efd;
+        }
+        .submission-text {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 1rem;
+            white-space: pre-wrap;
+        }
+        .grade-badge {
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+</head>
+<body class="teacher-assignment">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand ps-2" href="{% url 'teacher_profile' %}">School board</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher_assignments' %}">
+                        <i class="bi bi-app-indicator"></i> Assignments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher_records' %}">
+                        <i class="bi bi-journal-text me-1"></i> Records
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-arrow-bar-left"></i> Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content mt-3 container-fluid">
+    {% if has_profile %}
+    <div class="card border-primary border-2">
+        <div class="card-header bg-primary d-flex justify-content-between align-items-baseline py-4">
+            <div>
+                <h3 class="text-white">{{ homework.text }}</h3>
+                <h5 class="text-white">Subject: {{ homework.subject }}</h5>
+                <span class="text-white">Assigned {{ homework.date_assigned }}</span>
+            </div>
+            <div class="d-flex flex-column gap-3 align-items-end">
+                {% if submission.grade %}
+                <span class="badge bg-light text-dark grade-badge">
+                    Grade: {{ submission.get_grade_display }}
+                </span>
+                {% else %}
+                <span class="badge bg-warning text-dark grade-badge">
+                    Not Graded
+                </span>
+                {% endif %}
+                <span class="text-white">{{ student.user.get_full_name }}</span>
+                <span class="text-white">{{ student.school_class.name }}</span>
+            </div>
+        </div>
+
+        <div class="card-body py-4 d-flex flex-column align-items-baseline gap-3">
+            <h4 class="text-primary">Assignment Details</h4>
+            <div class="d-flex flex-column gap-2">
+                <span><strong class="me-2">Deadline:</strong> {{ homework.due_date }}</span>
+                <span><strong class="me-2">Days until due:</strong>
+                    <span class="{% if homework.days_until_due < 0 %}text-danger{% elif homework.days_until_due < 3 %}text-warning{% else %}text-success{% endif %}">
+                        {{ homework.days_until_due }}
+                    </span>
+                </span>
+                {% if homework.penalty_info %}
+                <span><strong class="me-2">Penalty Info:</strong> {{ homework.penalty_info }}</span>
+                {% endif %}
+                <span><strong class="me-2">Submission Date:</strong> {{ submission.date_submitted }}</span>
+                {% if submission.is_late %}
+                <span class="text-danger"><strong>⚠ Late submission:</strong> {{ submission.days_late }} days late</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-body border-top py-4">
+            <h4 class="text-primary mb-3">Student's Submission</h4>
+            <div class="submission-text mb-4">
+                {{ submission.submitted_text }}
+            </div>
+
+            {% if submission.feedback %}
+            <div class="mt-4">
+                <h5 class="text-primary">Your Feedback</h5>
+                <div class="alert alert-info">
+                    {{ submission.feedback }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card-footer py-4">
+            <h4 class="text-primary mb-3">Grade Assignment</h4>
+
+            {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post" class="row g-3">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label for="grade" class="form-label">Grade</label>
+                    <select name="grade" id="grade" class="form-select" required>
+                        <option value="">Select grade...</option>
+                        <option value="5" {% if submission.grade == 5 %}selected{% endif %}>A (5) - Excellent</option>
+                        <option value="4" {% if submission.grade == 4 %}selected{% endif %}>B (4) - Good</option>
+                        <option value="3" {% if submission.grade == 3 %}selected{% endif %}>D (3) - Satisfactory</option>
+                        <option value="2" {% if submission.grade == 2 %}selected{% endif %}>F (2) - Fail</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="feedback" class="form-label">Feedback</label>
+                    <textarea name="feedback" id="feedback" class="form-control" rows="4"
+                              placeholder="Provide constructive feedback to the student...">{% if submission.feedback %}{{ submission.feedback }}{% endif %}</textarea>
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-1"></i> Apply Grade
+                        </button>
+                        <a href="{% url 'teacher_assignments' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Assignments
+                        </a>
+                        {% if submission.grade %}
+                        <button type="button" class="btn btn-outline-info ms-auto" data-bs-toggle="modal" data-bs-target="#historyModal">
+                            <i class="bi bi-clock-history me-1"></i> View History
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    {% if submission.grade %}
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Submission History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column gap-2">
+                        <div><strong>Submitted:</strong> {{ submission.date_submitted }}</div>
+                        <div><strong>Last Edited:</strong> {{ submission.last_edited|date:"M d, Y H:i" }}</div>
+                        <div><strong>Graded:</strong> {{ submission.last_edited|date:"M d, Y H:i" }}</div>
+                        {% if submission.was_graded %}
+                        <div class="text-info"><small><i class="bi bi-info-circle me-1"></i>Student resubmitted after previous grading</small></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-warning text-center">
+        <p class="mb-3">Your classes and subjects will appear later.</p>
+        <a class="btn btn-primary" href="{% url 'login' %}">Go back</a>
+    </div>
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>

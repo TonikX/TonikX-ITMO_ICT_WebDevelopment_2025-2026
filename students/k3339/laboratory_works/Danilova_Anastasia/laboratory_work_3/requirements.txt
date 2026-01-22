@@ -1,0 +1,41 @@
+# requirements.txt
+# Основные зависимости Django
+Django==4.2.16
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+
+# Аутентификация
+djoser==2.2.0
+PyJWT==2.8.0
+social-auth-app-django==5.4.0
+social-auth-core==4.5.1
+
+# Утилиты разработки
+python-dotenv==1.0.0
+drf-yasg==1.21.7  # Swagger документация
+django-filter==23.5
+django-debug-toolbar==4.2.0
+
+# Тестирование
+pytest==7.4.3
+pytest-django==4.7.0
+pytest-cov==4.1.0
+factory-boy==3.3.0
+Faker==23.2.0
+
+# Форматирование кода
+black==23.12.1
+flake8==6.1.0
+isort==5.13.2
+
+# Безопасность
+python-decouple==3.8
+django-environ==0.11.2
+
+# Для работы с датами
+python-dateutil==2.8.2
+pytz==2023.3
+
+# HTTP клиенты
+requests==2.31.0
+httpx==0.25.2

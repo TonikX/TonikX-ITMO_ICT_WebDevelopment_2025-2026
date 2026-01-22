@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School board</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Link for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="student-profile">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand ps-2" href="{% url 'student_profile' %}">School board</a>
+
+        <!-- Burger menu button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_records' %}">
+                        <i class="bi bi-journal-text me-1"></i> Records
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-arrow-bar-left"></i> Log out</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="content container-fluid">
+    <div class="">
+        <div class=" my-3 d-flex flex-column align-items-start gap-2">
+            <h5 class="text-primary">Student's personal profile</h5>
+        </div>
+
+
+        <h2>Welcome back, <strong>{{ user.get_full_name }}!</strong></h2>
+        {% if has_profile %}
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Your class Info</h5>
+            </div>
+            <div class="card-body d-flex flex-column align-items-sm-start">
+                <p class=""><strong class="me-2">Class:</strong> {{ student.school_class.name }}</p>
+                <p class=""><strong class="me-2">Birthdate:</strong>{{ student.birth_date }}</p>
+                <p class=""><strong class="me-2">Student number:</strong> {{ student.student_number }}</p>
+                <p class=""><strong class="me-2">Total subjects:</strong> {{ subjects|length }}</p>
+                <p class=""><strong class="me-2">GPA:</strong> {{ student.get_average_grade }}</p>
+                <div class="bg-primary rounded-2 border-0 p-3"><a href="{% url 'student_records' %}"><strong
+                        class="text-white">Go to electronic class register</strong></a></div>
+
+            </div>
+        </div>
+        <div>
+            <h3>Your subjects:</h3>
+            {% for subject in subjects_with_stats %}
+            <a class="nav-link" href="{% url 'student_subject' subject.subject.id %} ">
+                <div class="subject card border-black my-3 p-3 d-flex flex-column align-items-baseline">
+                    <h4 class="text-primary"><strong>{{ subject.subject.name }}</strong></h4>
+                    <p><strong>Total homeworks:</strong> {{ subject.total }}</p>
+                    <p><strong>Active homeworks:</strong> {{ subject.active }}</p>
+                    <p><strong>Burning homeworks:</strong> {{ subject.burning }}</p>
+                    <p><strong class="text-danger">Overdue homeworks:</strong> {{ subject.get_overdue_homeworks|length }}
+                    </p>
+
+                    <a class="nav-link button bg-primary text-white rounded-2 p-2" href="{% url 'student_subject' subject.subject.id %} "> Go to subject</a>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+
+        {% else %}
+        <p>Your class and studies will appear later.</p>
+        <a class="button bg-primary text-white text-decoration-none" href="{% url 'login' %}">Go back</a>
+
+        {% endif %}
+
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+</html>

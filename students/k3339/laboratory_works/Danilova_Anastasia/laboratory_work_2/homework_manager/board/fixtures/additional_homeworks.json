@@ -1,0 +1,86 @@
+[
+  {
+    "model": "board.homework",
+    "pk": 6,
+    "fields": {
+      "subject": 6,
+      "school_class": 1,
+      "date_assigned": "2025-11-01",
+      "due_date": "2025-11-08",
+      "text": "Solve geometry problems on triangles and angles.",
+      "penalty_info": "-0.5 point for each late day"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 7,
+    "fields": {
+      "subject": 3,
+      "school_class": 2,
+      "date_assigned": "2025-11-02",
+      "due_date": "2025-11-09",
+      "text": "Lab report on electrical circuits.",
+      "penalty_info": "Late submissions lose 10% per day"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 8,
+    "fields": {
+      "subject": 4,
+      "school_class": 1,
+      "date_assigned": "2025-11-03",
+      "due_date": "2025-11-10",
+      "text": "Write a short story using new vocabulary.",
+      "penalty_info": "No penalty for creative work"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 9,
+    "fields": {
+      "subject": 5,
+      "school_class": 2,
+      "date_assigned": "2025-11-04",
+      "due_date": "2025-11-11",
+      "text": "Research paper on photosynthesis process.",
+      "penalty_info": "-1 point per late day"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 10,
+    "fields": {
+      "subject": 2,
+      "school_class": 1,
+      "date_assigned": "2025-11-05",
+      "due_date": "2025-11-12",
+      "text": "Presentation about Ancient Rome.",
+      "penalty_info": "Must present on due date"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 11,
+    "fields": {
+      "subject": 6,
+      "school_class": 2,
+      "date_assigned": "2025-11-06",
+      "due_date": "2025-11-13",
+      "text": "Algebra problems: quadratic equations.",
+      "penalty_info": "-2 points for incomplete work"
+    }
+  },
+  {
+    "model": "board.homework",
+    "pk": 12,
+    "fields": {
+      "subject": 4,
+      "school_class": 2,
+      "date_assigned": "2025-11-07",
+      "due_date": "2025-11-14",
+      "text": "Book report on assigned novel.",
+      "penalty_info": "-1 point per day late"
+    }
+  }
+]
