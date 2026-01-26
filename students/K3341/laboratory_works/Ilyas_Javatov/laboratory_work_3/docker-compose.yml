@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${DB_NAME:-school_db}
+      POSTGRES_USER: ${DB_USER:-school_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-school_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-school_user} -d ${DB_NAME:-school_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_ENGINE: django.db.backends.postgresql
+      DB_NAME: ${DB_NAME:-school_db}
+      DB_USER: ${DB_USER:-school_user}
+      DB_PASSWORD: ${DB_PASSWORD:-school_pass}
+      DB_HOST: db
+      DB_PORT: "5432"
+      DJANGO_DEBUG: False
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+    volumes:
+      - ./src:/app
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  postgres_data:
