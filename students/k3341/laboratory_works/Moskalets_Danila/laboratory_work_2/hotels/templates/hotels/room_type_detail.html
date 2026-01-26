@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ room_type.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'hotel_detail' room_type.hotel.id %}">{{ room_type.hotel.name }}</a></li>
+                <li class="breadcrumb-item active">{{ room_type.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title">{{ room_type.name }}</h1>
+                <p class="text-muted">Отель: {{ room_type.hotel.name }}</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Цена за ночь:</strong> {{ room_type.price }} руб.</p>
+                        <p><strong>Вместимость:</strong> {{ room_type.capacity }} человек</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Отель:</strong> {{ room_type.hotel.name }}</p>
+                        <p><strong>Адрес:</strong> {{ room_type.hotel.address }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'make_reservation' room_type.id %}" class="btn btn-primary btn-lg">Забронировать номер</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Войдите для бронирования</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if reservations %}
+<div class="alert alert-warning">
+    <h6>Занятые даты:</h6>
+    {% for reservation in reservations %}
+        <small>{{ reservation.check_in }} - {{ reservation.check_out }}</small><br>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

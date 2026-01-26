@@ -1,0 +1,965 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../lr2/">
+      
+      
+        <link rel="next" href="../lr3/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Практическая работа - ITMO ICT WebDevelopment 2025-2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#no31" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="ITMO ICT WebDevelopment 2025-2026" class="md-header__button md-logo" aria-label="ITMO ICT WebDevelopment 2025-2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ITMO ICT WebDevelopment 2025-2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Практическая работа
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ITMO ICT WebDevelopment 2025-2026" class="md-nav__button md-logo" aria-label="ITMO ICT WebDevelopment 2025-2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ITMO ICT WebDevelopment 2025-2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Главная
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lr1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lr2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная 3
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Лабораторная 3
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Практическая работа
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Содержание
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 3
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lr3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лабораторная работа
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Содержание
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задание 3
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="no31">Практическая работа №3.1</h1>
+<p><strong>Студент:</strong> Москалец Данила Алексеевич<br />
+<strong>Университет:</strong> ИТМО<br />
+<strong>Группа:</strong> К3341  </p>
+<hr />
+<h2 id="_1">Содержание</h2>
+<ol>
+<li><a href="#задание1">Задание 1</a></li>
+<li><a href="#задание2">Задание 2</a></li>
+<li><a href="#задание3">Задание 3</a></li>
+</ol>
+<hr />
+<h2 id="1">Задание 1<a id="задание1"></a></h2>
+<p>Проект из практической работы 2:
+<img alt="Схема базы данныз" src="../imgs/pr3.1_1.png" />
+models.py проекта: <a href="https://github.com/dany217mk/TonikX-ITMO_ICT_WebDevelopment_2025-2026/blob/lab2/students/k3341/practical_works/Moskalets_Danila/simple_django_web_project/django_project_moskalets/project_first_app/models.py">models.py</a></p>
+<p>Напишите запрос на создание 6-7 новых автовладельцев и 5-6 автомобилей, каждому автовладельцу назначьте удостоверение и от 1 до 3 автомобилей. Задание можете выполнить либо в интерактивном режиме интерпретатора, либо в отдельном python-файле. Результатом должны стать запросы и отображение созданных объектов. </p>
+<p><strong>Решение:</strong></p>
+<ol>
+<li>Добавим related_name для моделей <strong>CarOwner</strong>, <strong>DriverLicense</strong>, <strong>Ownership</strong>, выполним миграции</li>
+</ol>
+<pre><code>    python manage.py makemigrations
+    python manage.py migrate
+
+</code></pre>
+<p><img alt="Создали миграции" src="../imgs/pr3.1_2.png" /></p>
+<ol>
+<li>Запускаем manage.py shell и импортируем модели:</li>
+</ol>
+<pre><code>    python manage.py shell
+</code></pre>
+<pre><code class="language-python">    from project_first_app.models import * 
+</code></pre>
+<ol>
+<li>Добавляем автомобили, владельцев автомобилей, и водительские удостоверения</li>
+</ol>
+<p><strong>CarOwner:</strong></p>
+<pre><code class="language-python">owner1 = CarOwner.objects.create(
+    last_name=&quot;Соколов&quot;,
+    first_name=&quot;Александр&quot;,
+    birth_date=&quot;1991-06-20&quot;
+)
+
+owner2 = CarOwner.objects.create(
+    last_name=&quot;Морозова&quot;,
+    first_name=&quot;Екатерина&quot;,
+    birth_date=&quot;1987-09-12&quot;
+)
+
+owner3 = CarOwner.objects.create(
+    last_name=&quot;Никитин&quot;,
+    first_name=&quot;Максим&quot;,
+    birth_date=&quot;1993-02-28&quot;
+)
+
+owner4 = CarOwner.objects.create(
+    last_name=&quot;Волкова&quot;,
+    first_name=&quot;Ольга&quot;,
+    birth_date=&quot;1980-12-05&quot;
+)
+
+owner5 = CarOwner.objects.create(
+    last_name=&quot;Белов&quot;,
+    first_name=&quot;Артем&quot;,
+    birth_date=&quot;1996-04-15&quot;
+)
+
+owner6 = CarOwner.objects.create(
+    last_name=&quot;Ковалева&quot;,
+    first_name=&quot;Виктория&quot;,
+    birth_date=&quot;1989-07-30&quot;
+)
+</code></pre>
+<p><strong>Car:</strong></p>
+<pre><code class="language-python">car1 = Car.objects.create(
+    license_plate=&quot;А123ВС77&quot;,
+    brand=&quot;Toyota&quot;,
+    model=&quot;RAV4&quot;,
+    color=&quot;Серый металлик&quot;
+)
+
+car2 = Car.objects.create(
+    license_plate=&quot;В456ОР77&quot;,
+    brand=&quot;Hyundai&quot;,
+    model=&quot;Creta&quot;,
+    color=&quot;Белый&quot;
+)
+
+car3 = Car.objects.create(
+    license_plate=&quot;С789МН77&quot;,
+    brand=&quot;Kia&quot;,
+    model=&quot;Sportage&quot;,
+    color=&quot;Черный&quot;
+)
+
+car4 = Car.objects.create(
+    license_plate=&quot;Е012ТУ77&quot;,
+    brand=&quot;Volkswagen&quot;,
+    model=&quot;Tiguan&quot;,
+    color=&quot;Синий&quot;
+)
+
+car5 = Car.objects.create(
+    license_plate=&quot;К345ХА77&quot;,
+    brand=&quot;Skoda&quot;,
+    model=&quot;Kodiaq&quot;,
+    color=&quot;Красный&quot;
+)
+
+car6 = Car.objects.create(
+    license_plate=&quot;М678РВ77&quot;,
+    brand=&quot;Mazda&quot;,
+    model=&quot;CX-5&quot;,
+    color=&quot;Зеленый&quot;
+)
+</code></pre>
+<p><strong>DriverLicense:</strong></p>
+<pre><code class="language-python">license1 = DriverLicense.objects.create(
+    id_owner=owner1,
+    license_number=&quot;77АВ123456&quot;,
+    license_type=&quot;B&quot;,
+    issue_date=&quot;2012-08-10&quot;
+)
+
+license2 = DriverLicense.objects.create(
+    id_owner=owner2,
+    license_number=&quot;77СD234567&quot;,
+    license_type=&quot;C&quot;,
+    issue_date=&quot;2009-05-20&quot;
+)
+
+license3 = DriverLicense.objects.create(
+    id_owner=owner3,
+    license_number=&quot;77EF345678&quot;,
+    license_type=&quot;B&quot;,
+    issue_date=&quot;2015-11-30&quot;
+)
+
+license4 = DriverLicense.objects.create(
+    id_owner=owner4,
+    license_number=&quot;77GH456789&quot;,
+    license_type=&quot;D&quot;,
+    issue_date=&quot;2002-03-15&quot;
+)
+
+license5 = DriverLicense.objects.create(
+    id_owner=owner5,
+    license_number=&quot;77IJ567890&quot;,
+    license_type=&quot;A&quot;,
+    issue_date=&quot;2019-07-22&quot;
+)
+
+license6 = DriverLicense.objects.create(
+    id_owner=owner6,
+    license_number=&quot;77KL678901&quot;,
+    license_type=&quot;B&quot;,
+    issue_date=&quot;2010-04-18&quot;
+)
+</code></pre>
+<ol>
+<li>Связываем автомобили с владельцами через модель Ownership</li>
+</ol>
+<pre><code class="language-python">owner1.cars.add(car1, through_defaults={
+    'start_date': '2018-03-15',
+    'end_date': None
+})
+owner1.cars.add(car2, through_defaults={
+    'start_date': '2020-07-20',
+    'end_date': None
+})
+owner1.cars.add(car4, through_defaults={
+    'start_date': '2016-09-10',
+    'end_date': '2019-12-31'
+})
+
+owner2.cars.add(car3, through_defaults={
+    'start_date': '2015-11-05',
+    'end_date': None
+})
+owner2.cars.add(car5, through_defaults={
+    'start_date': '2021-02-14',
+    'end_date': None
+})
+
+owner3.cars.add(car6, through_defaults={
+    'start_date': '2022-01-10',
+    'end_date': None
+})
+
+owner4.cars.add(car1, through_defaults={
+    'start_date': '2014-05-22',
+    'end_date': '2017-08-30'
+})
+owner4.cars.add(car2, through_defaults={
+    'start_date': '2019-01-15',
+    'end_date': '2020-06-20'
+})
+owner4.cars.add(car5, through_defaults={
+    'start_date': '2020-08-01',
+    'end_date': None
+})
+
+owner5.cars.add(car3, through_defaults={
+    'start_date': '2021-05-30',
+    'end_date': None
+})
+owner5.cars.add(car4, through_defaults={
+    'start_date': '2023-03-10',
+    'end_date': None
+})
+
+owner6.cars.add(car6, through_defaults={
+    'start_date': '2019-09-25',
+    'end_date': None
+})
+</code></pre>
+<ol>
+<li>Проверяем, выведем все данные:</li>
+</ol>
+<pre><code>1. ВЛАДЕЛЬЦЫ:
+   Иванов Иван, рожд. 1990-05-15
+   Петров Петр, рожд. 1985-08-20
+   Соколов Александр, рожд. 1991-06-20
+   Морозова Екатерина, рожд. 1987-09-12
+   Никитин Максим, рожд. 1993-02-28
+   Волкова Ольга, рожд. 1980-12-05
+   Белов Артем, рожд. 1996-04-15
+   Ковалева Виктория, рожд. 1989-07-30
+
+2. АВТОМОБИЛИ:
+   Toyota C-Class, номер: A123BC777, цвет: белый
+   BMW Civic, номер: B456DE999, цвет: синий
+   Honda Camry, номер: C789FG111, цвет: серый
+   Mercedes X5, номер: D012HI333, цвет: черный
+   Toyota RAV4, номер: А123ВС77, цвет: Серый металлик
+   Hyundai Creta, номер: В456ОР77, цвет: Белый
+   Kia Sportage, номер: С789МН77, цвет: Черный
+   Volkswagen Tiguan, номер: Е012ТУ77, цвет: Синий
+   Skoda Kodiaq, номер: К345ХА77, цвет: Красный
+   Mazda CX-5, номер: М678РВ77, цвет: Зеленый
+
+3. ВОДИТЕЛЬСКИЕ УДОСТОВЕРЕНИЯ:
+   Иванов Иван: AB1234567 (тип B), выдано 2010-06-01
+   Петров Петр: CD9876543 (тип B), выдано 2008-09-15
+   Соколов Александр: 77АВ123456 (тип B), выдано 2012-08-10
+   Морозова Екатерина: 77СD234567 (тип C), выдано 2009-05-20
+   Никитин Максим: 77EF345678 (тип B), выдано 2015-11-30
+   Волкова Ольга: 77GH456789 (тип D), выдано 2002-03-15
+   Белов Артем: 77IJ567890 (тип A), выдано 2019-07-22
+   Ковалева Виктория: 77KL678901 (тип B), выдано 2010-04-18
+
+4. ЗАПИСИ О ВЛАДЕНИИ:
+   Иванов Иван -&gt; Toyota C-Class: с 2020-01-01 по 2021-12-31
+   Иванов Иван -&gt; Honda Camry: с 2022-01-01 по наст. время
+   Иванов Иван -&gt; BMW Civic: с 2023-01-01 по наст. время
+   Петров Петр -&gt; Mercedes X5: с 2019-03-01 по 2020-02-28
+   Петров Петр -&gt; Toyota C-Class: с 2022-01-01 по 2022-12-31
+   Петров Петр -&gt; Honda Camry: с 2021-01-01 по 2021-12-31
+   Соколов Александр -&gt; Toyota RAV4: с 2018-03-15 по наст. время
+   Соколов Александр -&gt; Hyundai Creta: с 2020-07-20 по наст. время
+   Соколов Александр -&gt; Volkswagen Tiguan: с 2016-09-10 по 2019-12-31
+   Морозова Екатерина -&gt; Kia Sportage: с 2015-11-05 по наст. время
+   Морозова Екатерина -&gt; Skoda Kodiaq: с 2021-02-14 по наст. время
+   Никитин Максим -&gt; Mazda CX-5: с 2022-01-10 по наст. время
+   Волкова Ольга -&gt; Toyota RAV4: с 2014-05-22 по 2017-08-30
+   Волкова Ольга -&gt; Hyundai Creta: с 2019-01-15 по 2020-06-20
+   Волкова Ольга -&gt; Skoda Kodiaq: с 2020-08-01 по наст. время
+   Белов Артем -&gt; Kia Sportage: с 2021-05-30 по наст. время
+   Белов Артем -&gt; Volkswagen Tiguan: с 2023-03-10 по наст. время
+   Ковалева Виктория -&gt; Mazda CX-5: с 2019-09-25 по наст. время
+
+5. АВТОМОБИЛИ ПО ВЛАДЕЛЬЦАМ:
+   Иванов Иван: Toyota C-Class, Honda Camry, BMW Civic
+   Петров Петр: Mercedes X5, Toyota C-Class, Honda Camry
+   Соколов Александр: Toyota RAV4, Hyundai Creta, Volkswagen Tiguan
+   Морозова Екатерина: Kia Sportage, Skoda Kodiaq
+   Никитин Максим: Mazda CX-5
+   Волкова Ольга: Toyota RAV4, Hyundai Creta, Skoda Kodiaq
+   Белов Артем: Kia Sportage, Volkswagen Tiguan
+   Ковалева Виктория: Mazda CX-5
+
+============================================================
+КОЛИЧЕСТВО ОБЪЕКТОВ:
+   Владельцев: 8
+   Автомобилей: 10
+   Удостоверений: 8
+   Записей о владении: 18
+============================================================
+
+</code></pre>
+<h2 id="2">Задание 2<a id="задание2"></a></h2>
+<p>По созданным в пр.1 данным написать следующие запросы на фильтрацию:</p>
+<ul>
+<li>Где это необходимо, добавьте related_name к полям модели</li>
+<li>Выведете все машины марки “Toyota” (или любой другой марки, которая у вас есть)</li>
+<li>Найти всех водителей с именем “Олег” (или любым другим именем на ваше усмотрение)</li>
+<li>Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели (можно в 2 запроса)</li>
+<li>Вывести всех владельцев красных машин (или любого другого цвета, который у вас присутствует)</li>
+<li>Найти всех владельцев, чей год владения машиной начинается с 2010 (или любой другой год, который присутствует у вас в базе)</li>
+</ul>
+<p><strong>Решение:</strong></p>
+<ol>
+<li>Все необходимые related_name были добавлены к полям модели в задании 1</li>
+<li>Выведете все машины марки “Toyota”</li>
+</ol>
+<pre><code class="language-python">toyota_cars = Car.objects.filter(brand=&quot;Toyota&quot;)
+print(&quot;Все машины марки Toyota:&quot;)
+if toyota_cars.exists():
+    for car in toyota_cars:
+        print(f&quot;- {car.brand} {car.model}, номер: {car.license_plate}, цвет: {car.color}&quot;)
+else:
+    print(&quot;- Нет автомобилей марки Toyota&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.2_1.png" /><br>
+3. Найти всех водителей с именем “Олег”</p>
+<pre><code class="language-python">alexander_owners = CarOwner.objects.filter(first_name=&quot;Александр&quot;)
+print(&quot;\nВсе водители с именем Александр:&quot;)
+if alexander_owners.exists():
+    for owner in alexander_owners:
+        print(f&quot;- {owner.last_name} {owner.first_name}, дата рождения: {owner.birth_date}&quot;)
+else:
+    print(&quot;- Нет водителей с именем Александр&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.2_2.png" /><br>
+4. Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели</p>
+<pre><code class="language-python">import random
+
+all_owners = list(CarOwner.objects.all())
+if all_owners:
+    random_owner = random.choice(all_owners)
+    print(f&quot;\nСлучайный владелец: {random_owner.last_name} {random_owner.first_name}&quot;)
+    print(f&quot;ID владельца: {random_owner.id_owner}&quot;)
+
+    try:
+        license = DriverLicense.objects.get(id_owner_id=random_owner.id_owner)
+        print(f&quot;Удостоверение: {license.license_number}, тип: {license.license_type}, выдано: {license.issue_date}&quot;)
+    except DriverLicense.DoesNotExist:
+        print(&quot;У владельца нет водительского удостоверения&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.2_3.png" /><br>
+5. Вывести всех владельцев белых машин</p>
+<pre><code class="language-python">white_cars = Car.objects.filter(color__icontains=&quot;бел&quot;)
+print(&quot;\nЗаписи владения для всех белых машин:&quot;)
+for car in white_cars:
+    car_ownerships = car.car_ownerships.all()
+    if car_ownerships.exists():
+        print(f&quot;\n{car}:&quot;)
+        for ownership in car_ownerships:
+            print(f&quot;  - {ownership.id_owner}: с {ownership.start_date}&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.2_4.png" /><br>
+6. Найти всех владельцев, чей год владения машиной начинается с 2010</p>
+<pre><code class="language-python">owners_since_2020 = CarOwner.objects.filter(
+    ownerships__start_date__year__gte=2020
+).distinct()
+print(&quot;Владельцы, которые владели машинами с 2020 года:&quot;)
+for owner in owners_since_2020:
+    print(f&quot;- {owner.last_name} {owner.first_name}&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.2_5.png" /><br></p>
+<h2 id="3">Задание 3<a id="задание3"></a></h2>
+<p>Необходимо реализовать следующие запросы c применением описанных методов:
+Вывод даты выдачи самого старшего водительского удостоверения
+Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе
+Выведите количество машин для каждого водителя
+Подсчитайте количество машин каждой марки
+Отсортируйте всех автовладельцев по дате выдачи удостоверения (Примечание: чтобы не выводить несколько раз одни и те же записи воспользуйтесь методом .distinct()</p>
+<ol>
+<li>Вывод даты выдачи самого старшего водительского удостоверения</li>
+</ol>
+<pre><code class="language-python">oldest = DriverLicense.objects.earliest('issue_date')
+print(f&quot;1. Самое старое удостоверение: {oldest.issue_date} ({oldest.id_owner})&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.3_1.png" /><br>
+2. Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе</p>
+<pre><code class="language-python">latest = Ownership.objects.filter(id_car__model=&quot;Creta&quot;).latest('start_date')
+print(f&quot;Самая поздняя дата владения Creta: {latest.start_date} ({latest.id_owner})&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.3_2.png" /><br>
+3. Выведите количество машин для каждого водителя</p>
+<pre><code class="language-python">from django.db.models import Count
+owners = CarOwner.objects.annotate(num_cars=Count('cars'))
+for owner in owners:
+    print(f&quot;{owner}: {owner.num_cars} машин(ы)&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.3_3.png" /><br>
+4. Подсчитайте количество машин каждой марки</p>
+<pre><code class="language-python">brands = Car.objects.values('brand').annotate(total=Count('id'))
+for brand in brands:
+    print(f&quot;{brand['brand']}: {brand['total']} машин(ы)&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.3_4.png" /><br>
+5. Отсортируйте всех автовладельцев по дате выдачи удостоверения</p>
+<pre><code class="language-python">from django.db.models import Min
+
+owners_sorted = CarOwner.objects.annotate(
+    first_license_date=Min('licences__issue_date')
+).order_by('first_license_date')
+for owner in owners_sorted:
+    if owner.first_license_date:
+        print(f&quot;{owner.last_name} {owner.first_name}: {owner.first_license_date}&quot;)
+    else:
+        print(f&quot;{owner.last_name} {owner.first_name}: нет удостоверения&quot;)
+</code></pre>
+<p><img alt="Результаты" src="../imgs/pr3.3_5.png" /><br></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [{"toc.integrate": false}], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

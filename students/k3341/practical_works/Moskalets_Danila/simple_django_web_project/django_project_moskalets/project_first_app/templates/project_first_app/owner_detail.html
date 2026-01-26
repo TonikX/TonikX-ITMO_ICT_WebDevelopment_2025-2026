@@ -1,0 +1,108 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    {{ owner.last_name }} {{ owner.first_name }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">{{ owner.last_name }} {{ owner.first_name }}</h1>
+        <a href="{% url 'owners_list_url' %}" class="btn btn-outline-secondary btn-sm">
+            Назад
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Информация</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>ID:</strong> {{ owner.id_owner }}</p>
+                    <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+                    <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+                    <p><strong>Дата рождения:</strong>
+                        {% if owner.birth_date %}
+                            {{ owner.birth_date|date:"d.m.Y" }}
+                        {% else %}
+                            <span class="text-muted">Не указана</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            {% if license %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Водительское удостоверение</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Номер:</strong> {{ license.license_number }}</p>
+                    <p><strong>Категория:</strong> {{ license.get_license_type_display }}</p>
+                    <p><strong>Дата выдачи:</strong> {{ license.issue_date|date:"d.m.Y" }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Автомобили ({{ ownerships|length }})</h5>
+                </div>
+                <div class="card-body">
+                    {% if ownerships %}
+                        {% for ownership in ownerships %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6 class="mb-1">{{ ownership.id_car.brand }} {{ ownership.id_car.model }}</h6>
+                            <p class="mb-1 text-muted small">
+                                <strong>Гос. номер:</strong> {{ ownership.id_car.license_plate }}
+                                {% if ownership.id_car.color %}
+                                    | <strong>Цвет:</strong> {{ ownership.id_car.color }}
+                                {% endif %}
+                            </p>
+                            <p class="mb-0 small">
+                                <strong>Период:</strong>
+                                {{ ownership.start_date|date:"d.m.Y" }} -
+                                {% if ownership.end_date %}
+                                    {{ ownership.end_date|date:"d.m.Y" }}
+                                {% else %}
+                                    <span class="text-success">по настоящее время</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Автомобилей нет</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="text-primary">{{ total_cars }}</h4>
+                            <p class="text-muted mb-0">Всего авто</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="text-success">{{ current_cars }}</h4>
+                            <p class="text-muted mb-0">Текущих</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="text-secondary">{{ past_cars }}</h4>
+                            <p class="text-muted mb-0">В истории</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

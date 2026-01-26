@@ -1,0 +1,14 @@
+site_name: ITMO ICT WebDevelopment 2025-2026
+nav:
+  - Главная: index.md
+  - Лабораторная 1: lr1.md
+  - Лабораторная 2: lr2.md
+  - Лабораторная 3:
+      - Практическая работа: pr3.md
+      - Лабораторная работа: lr3.md
+theme:
+  name: material
+  language: ru
+  features:
+    - toc.integrate: false
+

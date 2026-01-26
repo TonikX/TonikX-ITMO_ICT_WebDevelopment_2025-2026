@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование бронирования{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Редактирование бронирования</h4>
+            </div>
+            <div class="card-body">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ reservation.room_type.name }}</h5>
+                        <p class="card-text">
+                            <strong>Отель:</strong> {{ reservation.room_type.hotel.name }}<br>
+                            <strong>Текущие даты:</strong> {{ reservation.check_in|date:"d.m.Y" }} - {{ reservation.check_out|date:"d.m.Y" }}<br>
+                            <strong>Статус:</strong>
+                            <span class="badge
+                                {% if reservation.status == 'confirmed' %}bg-success
+                                {% elif reservation.status == 'pending' %}bg-warning
+                                {% elif reservation.status == 'checked_in' %}bg-primary
+                                {% elif reservation.status == 'checked_out' %}bg-secondary
+                                {% else %}bg-danger{% endif %}">
+                                {{ reservation.get_status_display }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                {% if occupied_dates %}
+                <div class="card mb-4 border-warning">
+                    <div class="card-header bg-warning text-dark">
+                        <h6 class="mb-0">Занятые даты этого номера</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            {% for date_range in occupied_dates %}
+                                <span class="badge bg-danger text-white me-2 mb-2">
+                                    {{ date_range.text }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                        <small class="text-muted">Не выбирайте эти даты для бронирования</small>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-success mb-4">
+                    Все даты свободны для бронирования!
+                </div>
+                {% endif %}
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6>Правила изменения дат:</h6>
+                        <ul class="small mb-0">
+                            <li>Дата заезда не может быть в прошлом</li>
+                            <li>Дата выезда должна быть после даты заезда</li>
+                            <li>Минимальное проживание - 1 ночь</li>
+                            <li>Нельзя выбрать уже занятые даты (отмечены красным)</li>
+                            <li>Если статус "Заселен" или "Выселен" - даты нельзя изменить</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in field.errors %}
+                            <div class="small">{{ error|linebreaksbr }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2">
+                        {% if reservation.status in 'pending,confirmed' %}
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        {% else %}
+                            <button type="button" class="btn btn-secondary" disabled>
+                                Изменение недоступно (статус: {{ reservation.get_status_display }})
+                            </button>
+                        {% endif %}
+                        <a href="{% url 'my_reservations' %}" class="btn btn-outline-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

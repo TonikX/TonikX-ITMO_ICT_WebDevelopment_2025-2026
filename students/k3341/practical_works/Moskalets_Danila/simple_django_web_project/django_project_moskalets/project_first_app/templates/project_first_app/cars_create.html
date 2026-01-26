@@ -1,0 +1,40 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    Добавить автомобиль - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Заголовок -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">🚗 Добавить автомобиль</h1>
+                <a href="{% url 'cars_list_url' %}" class="btn btn-outline-secondary btn-sm">
+                    ← Назад
+                </a>
+            </div>
+
+            <!-- Форма -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">📝 Данные автомобиля</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <div class="mt-3">
+                            <input type="submit" value="Сохранить" class="btn btn-success">
+                            <a href="{% url 'cars_list_url' %}" class="btn btn-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
