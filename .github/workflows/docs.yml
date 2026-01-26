@@ -1,0 +1,46 @@
+name: Deploy MkDocs (K3340 / Abakunov_Kirill) to GitHub Pages (gh-pages branch)
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "students/k3340/Abakunov_Kirill/docs/**"
+      - "students/k3340/Abakunov_Kirill/mkdocs.yml"
+      - "students/k3340/Abakunov_Kirill/requirements-docs.txt"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r students/k3340/Abakunov_Kirill/requirements-docs.txt
+
+      - name: Build site
+        run: |
+          rm -rf "$GITHUB_WORKSPACE/site"
+          mkdocs build -f students/k3340/Abakunov_Kirill/mkdocs.yml --site-dir "$GITHUB_WORKSPACE/site"
+          test -f "$GITHUB_WORKSPACE/site/index.html"
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ github.workspace }}/site
+          publish_branch: gh-pages

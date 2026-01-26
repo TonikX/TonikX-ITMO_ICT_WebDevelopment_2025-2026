@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>{{ hotel.name }}</h1>
+        <p class="lead"><strong>Владелец:</strong> {{ hotel.owner }}</p>
+        <p><strong>Адрес:</strong> {{ hotel.address }}</p>
+        <p>{{ hotel.description }}</p>
+    </div>
+</div>
+
+<hr class="my-4">
+
+<h2>Доступные типы номеров</h2>
+<div class="row mt-4">
+    {% for room in room_types %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ room.name }}</h5>
+                <p class="card-text">
+                    <strong>Цена:</strong> {{ room.price }} ₽/сутки<br>
+                    <strong>Вместимость:</strong> {{ room.capacity }} чел.<br>
+                    <strong>Доступно номеров:</strong> {{ room.available_count }}<br>
+                    {% if room.avg_rating %}
+                        <strong>Средний рейтинг:</strong> {{ room.avg_rating|floatformat:1 }}/10
+                    {% endif %}
+                </p>
+                {% if room.description %}
+                    <p class="text-muted">{{ room.description|truncatewords:15 }}</p>
+                {% endif %}
+                <div class="mb-2">
+                    <strong>Удобства:</strong><br>
+                    {% if room.amenities %}
+                        {% for amenity in room.amenities %}
+                            <span class="badge bg-secondary">{{ amenity }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-muted">Не указаны</span>
+                    {% endif %}
+                </div>
+                <a href="{% url 'room_detail' room.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'create_reservation' room.id %}" class="btn btn-success btn-sm">Забронировать</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            В этом отеле пока нет доступных типов номеров.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<a href="{% url 'home' %}" class="btn btn-secondary mt-3">← Вернуться к списку отелей</a>
+{% endblock %}

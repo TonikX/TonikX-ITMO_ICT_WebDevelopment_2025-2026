@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - Система отелей{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">Добро пожаловать в систему управления отелями</h1>
+        <p class="lead">Выберите отель для просмотра доступных номеров</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for hotel in hotels %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ hotel.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Владелец: {{ hotel.owner }}</h6>
+                <p class="card-text">
+                    <strong>Адрес:</strong> {{ hotel.address }}<br>
+                    {{ hotel.description|truncatewords:20 }}
+                </p>
+                <a href="{% url 'hotel_detail' hotel.id %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            Отели пока не добавлены. Администратор может добавить их через <a href="/admin/">админ-панель</a>.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

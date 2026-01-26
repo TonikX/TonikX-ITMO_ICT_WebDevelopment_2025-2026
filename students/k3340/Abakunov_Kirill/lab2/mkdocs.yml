@@ -1,0 +1,14 @@
+site_name: Лабораторная работа №2 — Бронирование отелей (Django)
+site_description: Отчет (одна страница) в формате MkDocs
+
+theme:
+  name: material
+  language: ru
+
+nav:
+  - Отчет: index.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
