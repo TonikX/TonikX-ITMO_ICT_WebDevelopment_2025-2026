@@ -1,0 +1,7 @@
+Django>=3.2,<4.3
+djangorestframework>=3.12
+djoser>=2.1
+psycopg2-binary>=2.9
+drf-yasg>=1.21
+mkdocs
+django-cors-headers>=4.3
