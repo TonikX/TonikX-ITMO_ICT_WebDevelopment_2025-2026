@@ -27,6 +27,12 @@ theme:
         - search.suggest
         - search.highlight
         - content.code.copy
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 nav:
     - Главная: index.md
     - Лабораторная работа №1:
@@ -34,5 +40,6 @@ nav:
     - Лабораторная работа №2:
           - Отчет: lab-2/lab_2_report.md
     - Лабораторная работа №3:
+          - Отчет: lab-3/lab_3_report.md
           - Практика 3.1: lab-3/prac_3_1_report.md
           - Практика 3.2: lab-3/prac_3_2_report.md
