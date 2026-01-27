@@ -1,0 +1,49 @@
+{% extends 'tours/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Мои бронирования</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Тур</th>
+                    <th>Человек</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reservations %}
+                <tr>
+                    <td>{{ r.tour.name }}</td>
+                    <td>{{ r.num_people }}</td>
+                    <td>
+                        {% if r.status == 'pending' %}
+                            <span class="label label-warning">Ожидает</span>
+                        {% elif r.status == 'confirmed' %}
+                            <span class="label label-success">Подтверждено</span>
+                        {% else %}
+                            <span class="label label-danger">Отменено</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if r.status == 'pending' %}
+                            <a href="{% url 'edit_reservation' r.pk %}" class="btn btn-primary btn-sm">Изменить</a>
+                            <a href="{% url 'delete_reservation' r.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="alert alert-info">Нет бронирований</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

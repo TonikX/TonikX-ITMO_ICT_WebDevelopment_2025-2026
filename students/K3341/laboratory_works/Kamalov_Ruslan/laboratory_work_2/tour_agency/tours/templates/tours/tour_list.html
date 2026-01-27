@@ -1,0 +1,85 @@
+{% extends 'tours/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h1>Туры</h1>
+
+<form method="get" class="form-inline">
+    <div class="form-group">
+        <input type="text" class="form-control" name="search" placeholder="Поиск по названию" value="{{ request.GET.search }}">
+    </div>
+    <div class="form-group">
+        <select name="country" class="form-control">
+            <option value="">Все страны</option>
+            {% for country in countries %}
+                <option value="{{ country.id }}" {% if request.GET.country == country.id|stringformat:"i" %}selected{% endif %}>{{ country.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Найти</button>
+    <a href="{% url 'tour_list' %}" class="btn btn-default">Сбросить</a>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Страна</th>
+            <th>Даты</th>
+            <th>Цена</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tour in tours %}
+        <tr>
+            <td>{{ tour.name }}</td>
+            <td>{{ tour.country }}</td>
+            <td>{{ tour.start_date }} - {{ tour.end_date }}</td>
+            <td>{{ tour.price }} руб.</td>
+            <td>
+                <a href="{% url 'tour_detail' tour.pk %}" class="btn btn-info btn-sm">Подробнее</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'reserve_tour' tour.pk %}" class="btn btn-success btn-sm">Забронировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li>
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
+{% if not tours %}
+    <div class="alert alert-info">Туры не найдены</div>
+{% endif %}
+
+{% endblock %}

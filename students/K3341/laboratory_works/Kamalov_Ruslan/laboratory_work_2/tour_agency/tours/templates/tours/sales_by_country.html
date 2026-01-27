@@ -1,0 +1,34 @@
+{% extends 'tours/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Продажи по странам</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Страна</th>
+                    <th>Бронирований</th>
+                    <th>Человек</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in stats %}
+                <tr>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.total }}</td>
+                    <td>{{ c.people|default:0 }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">
+                        <div class="alert alert-info">Нет данных</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

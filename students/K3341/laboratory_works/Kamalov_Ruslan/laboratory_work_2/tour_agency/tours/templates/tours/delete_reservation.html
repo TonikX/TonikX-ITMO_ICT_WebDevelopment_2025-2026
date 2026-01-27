@@ -1,0 +1,22 @@
+{% extends 'tours/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">Удаление бронирования</h1>
+            </div>
+            <div class="panel-body">
+                <p>Удалить бронирование на "{{ reservation.tour.name }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                    <a href="{% url 'my_reservations' %}" class="btn btn-default">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

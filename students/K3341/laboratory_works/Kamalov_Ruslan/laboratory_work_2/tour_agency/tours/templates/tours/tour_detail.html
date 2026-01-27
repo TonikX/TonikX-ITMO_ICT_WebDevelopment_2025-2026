@@ -1,0 +1,46 @@
+{% extends 'tours/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{ tour.name }}</h1>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p><b>Страна:</b> {{ tour.country }}</p>
+                <p><b>Агентство:</b> {{ tour.agency }}</p>
+                <p><b>Даты:</b> {{ tour.start_date }} - {{ tour.end_date }}</p>
+                <p><b>Цена:</b> {{ tour.price }} руб.</p>
+                <p><b>Описание:</b> {{ tour.description }}</p>
+                <p><b>Условия оплаты:</b> {{ tour.payment_conditions }}</p>
+                
+                {% if user.is_authenticated %}
+                <p>
+                    <a href="{% url 'reserve_tour' tour.pk %}" class="btn btn-success">Забронировать</a>
+                    <a href="{% url 'add_review' tour.pk %}" class="btn btn-primary">Оставить отзыв</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Отзывы</h2>
+        {% for r in reviews %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b>{{ r.user.username }}</b> - Рейтинг: {{ r.rating }}/10
+            </div>
+            <div class="panel-body">
+                <p><b>Даты тура:</b> {{ r.tour_date_start }} - {{ r.tour_date_end }}</p>
+                <p>{{ r.text }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">Отзывов пока нет</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

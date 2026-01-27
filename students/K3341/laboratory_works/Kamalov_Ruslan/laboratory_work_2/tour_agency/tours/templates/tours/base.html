@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap3 %}
+<html>
+<head>
+    <title>Туры</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'tour_list' %}">Туристическое агентство</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'tour_list' %}">Туры</a></li>
+                    <li><a href="{% url 'sales_by_country' %}">Продажи</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'my_reservations' %}">Мои брони</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Выход ({{ user.username }})</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Вход</a></li>
+                        <li><a href="{% url 'register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="messages">
+            {% for msg in messages %}
+                <div class="alert alert-success">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {% bootstrap_javascript %}
+</body>
+</html>
