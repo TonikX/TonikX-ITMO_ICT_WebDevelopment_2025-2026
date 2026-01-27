@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Пассажиры рейса {{ flight.flight_number }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Пассажиры рейса {{ flight.flight_number }}</h1>
+    <p class="text-muted">{{ flight.airline }} | {{ flight.departure_time|date:"d.m.Y H:i" }}</p>
+</div>
+
+{% if passengers %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Пассажир</th>
+                    <th>Место</th>
+                    <th>Номер билета</th>
+                    <th>Имя пассажира (из билета)</th>
+                    <th>Паспорт</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for passenger in passengers %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {% if passenger.user.first_name or passenger.user.last_name %}
+                                {{ passenger.user.first_name }} {{ passenger.user.last_name }}
+                            {% else %}
+                                {{ passenger.user.username }}
+                            {% endif %}
+                            <br>
+                            <small class="text-muted">({{ passenger.user.username }})</small>
+                        </td>
+                        <td><strong>{{ passenger.seat_number }}</strong></td>
+                        <td>
+                            {% if passenger.ticket %}
+                                <span class="label label-success">{{ passenger.ticket.ticket_number }}</span>
+                            {% else %}
+                                <span class="text-muted">Не выдан</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if passenger.ticket %}
+                                {{ passenger.ticket.passenger_name }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if passenger.ticket %}
+                                {{ passenger.ticket.passenger_passport }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>На этом рейсе пока нет пассажиров.</p>
+    </div>
+{% endif %}
+
+<a href="{% url 'flight_detail' flight.pk %}" class="btn btn-default">← Вернуться к рейсу</a>
+<a href="{% url 'flight_list' %}" class="btn btn-default">← Вернуться к списку</a>
+{% endblock %}
+
+
+

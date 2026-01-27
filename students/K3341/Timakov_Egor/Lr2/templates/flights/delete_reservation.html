@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Удаление резервирования{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h1>Удаление резервирования</h1>
+        </div>
+        
+        <div class="alert alert-warning">
+            <strong>Внимание!</strong> Вы уверены, что хотите удалить резервирование места <strong>{{ reservation.seat_number }}</strong> на рейс <strong>{{ reservation.flight.flight_number }}</strong>?
+        </div>
+        
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% buttons %}
+                <button type="submit" class="btn btn-danger btn-block">Да, удалить</button>
+                <a href="{% url 'my_reservations' %}" class="btn btn-default btn-block">Отмена</a>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+

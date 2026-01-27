@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Список рейсов{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Список рейсов</h1>
+</div>
+
+<!-- Поиск -->
+<form method="get" class="form-inline" style="margin-bottom: 20px;">
+    <div class="form-group">
+        <input type="text" name="search" class="form-control" placeholder="Поиск по номеру рейса, авиакомпании или гейту..." value="{{ search_query }}" style="width: 400px;">
+    </div>
+    <button type="submit" class="btn btn-primary">Поиск</button>
+    {% if search_query %}
+        <a href="{% url 'flight_list' %}" class="btn btn-default">Сбросить</a>
+    {% endif %}
+</form>
+
+<!-- Таблица рейсов -->
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Номер рейса</th>
+                <th>Авиакомпания</th>
+                <th>Отлет</th>
+                <th>Прилет</th>
+                <th>Тип</th>
+                <th>Гейт</th>
+                <th>Свободных мест</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flight in flights %}
+                <tr>
+                    <td><strong>{{ flight.flight_number }}</strong></td>
+                    <td>{{ flight.airline }}</td>
+                    <td>{{ flight.departure_time|date:"d.m.Y H:i" }}</td>
+                    <td>{{ flight.arrival_time|date:"d.m.Y H:i" }}</td>
+                    <td>
+                        {% if flight.flight_type == 'arrival' %}
+                            <span class="label label-success">Прилет</span>
+                        {% else %}
+                            <span class="label label-info">Отлет</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ flight.gate_number }}</td>
+                    <td>
+                        <span class="badge">{{ flight.available_seats }} / {{ flight.total_seats }}</span>
+                    </td>
+                    <td>
+                        <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-sm btn-primary">Подробнее</a>
+                        <a href="{% url 'flight_passengers' flight.pk %}" class="btn btn-sm btn-default">Пассажиры</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">Рейсы не найдены</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Пагинация -->
+{% if is_paginated %}
+    <div class="text-center">
+        {% bootstrap_pagination page_obj pages_to_show=5 %}
+    </div>
+{% endif %}
+{% endblock %}
+
+
+

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Мои резервирования{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Мои резервирования</h1>
+</div>
+
+{% if reservations %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Рейс</th>
+                    <th>Авиакомпания</th>
+                    <th>Отлет</th>
+                    <th>Место</th>
+                    <th>Статус</th>
+                    <th>Дата резервирования</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td><strong>{{ reservation.flight.flight_number }}</strong></td>
+                        <td>{{ reservation.flight.airline }}</td>
+                        <td>{{ reservation.flight.departure_time|date:"d.m.Y H:i" }}</td>
+                        <td>{{ reservation.seat_number }}</td>
+                        <td>
+                            {% if reservation.status == 'confirmed' %}
+                                <span class="label label-success">{{ reservation.get_status_display }}</span>
+                            {% elif reservation.status == 'pending' %}
+                                <span class="label label-warning">{{ reservation.get_status_display }}</span>
+                            {% else %}
+                                <span class="label label-danger">{{ reservation.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ reservation.created_at|date:"d.m.Y H:i" }}</td>
+                        <td>
+                            <a href="{% url 'flight_detail' reservation.flight.pk %}" class="btn btn-sm btn-info">Рейс</a>
+                            <a href="{% url 'edit_reservation' reservation.pk %}" class="btn btn-sm btn-primary">Редактировать</a>
+                            <a href="{% url 'delete_reservation' reservation.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>У вас пока нет резервирований. <a href="{% url 'flight_list' %}">Посмотреть рейсы</a></p>
+    </div>
+{% endif %}
+{% endblock %}
+
+
+

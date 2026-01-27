@@ -1,0 +1,11 @@
+site_name: отчеты к лабораторным работам
+site_author: Тимаков Егор K3341
+site_url: http://localhost:9090
+
+nav:
+  - Главная: index.md
+  - Первая лабораторная работа: Task1
+  - Вторая лабораторная работа: Task2
+
+theme:
+  name: mkdocs

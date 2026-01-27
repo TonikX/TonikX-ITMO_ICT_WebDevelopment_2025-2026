@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h1>Регистрация</h1>
+        </div>
+        
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+            {% endbuttons %}
+        </form>
+        
+        <p class="text-center" style="margin-top: 20px;">
+            Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+
+

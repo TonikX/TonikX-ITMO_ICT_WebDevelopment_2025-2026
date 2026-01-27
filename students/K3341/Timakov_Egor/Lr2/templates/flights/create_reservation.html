@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Резервирование места{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h1>Резервирование места</h1>
+            <p class="text-muted">Рейс: {{ flight.flight_number }} - {{ flight.airline }}</p>
+        </div>
+        
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary btn-block">Зарезервировать</button>
+                <a href="{% url 'flight_detail' flight.pk %}" class="btn btn-default btn-block">Отмена</a>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
