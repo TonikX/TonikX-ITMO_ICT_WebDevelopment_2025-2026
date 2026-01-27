@@ -1,0 +1,126 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Статистика продаж{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">
+            <i class="bi bi-bar-chart"></i> Статистика продаж по странам
+        </h1>
+        <p class="lead text-muted">Популярность туров по направлениям</p>
+    </div>
+</div>
+
+{% if data %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-graph-up"></i> Количество проданных туров
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <i class="bi bi-flag"></i> Страна
+                                </th>
+                                <th scope="col" class="text-end">
+                                    <i class="bi bi-cart-check"></i> Количество туров
+                                </th>
+                                <th scope="col" class="text-end">
+                                    <i class="bi bi-percent"></i> Процент
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>
+                                    <strong>{{ item.country }}</strong>
+                                </td>
+                                <td class="text-end">
+                                    <span class="badge bg-primary rounded-pill">
+                                        {{ item.count }}
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    {% widthratio item.count total_count 100 as percentage %}
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar bg-success" role="progressbar" 
+                                             style="width: {{ percentage }}%;" 
+                                             aria-valuenow="{{ percentage }}" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                            {{ percentage }}%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="2">Всего</th>
+                                <th class="text-end">
+                                    <span class="badge bg-success rounded-pill">
+                                        {{ total_count }}
+                                    </span>
+                                </th>
+                                <th class="text-end">100%</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-pie-chart"></i> Визуализация данных
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for item in data %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span><strong>{{ item.country }}</strong></span>
+                        <span class="text-muted">{{ item.count }} туров</span>
+                    </div>
+                    {% widthratio item.count total_count 100 as percentage %}
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated 
+                                    {% cycle 'bg-primary' 'bg-success' 'bg-info' 'bg-warning' 'bg-danger' %}" 
+                             role="progressbar" 
+                             style="width: {{ percentage }}%;">
+                            {{ percentage }}%
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-exclamation-triangle"></i> 
+            Пока нет данных о проданных турах
+            <hr>
+            <a href="{% url 'tour_list' %}" class="btn btn-primary">
+                <i class="bi bi-search"></i> Посмотреть доступные туры
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

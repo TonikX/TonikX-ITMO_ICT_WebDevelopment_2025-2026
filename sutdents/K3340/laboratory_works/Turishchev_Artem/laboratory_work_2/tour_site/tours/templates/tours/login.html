@@ -1,0 +1,45 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-box-arrow-in-right"></i> Вход в систему
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="bi bi-person"></i> Имя пользователя
+                        </label>
+                        <input type="text" name="username" id="username" class="form-control" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock"></i> Пароль
+                        </label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-check-circle"></i> Войти
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small class="text-muted">
+                    Нет аккаунта? 
+                    <a href="{% url 'register' %}">Зарегистрироваться</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

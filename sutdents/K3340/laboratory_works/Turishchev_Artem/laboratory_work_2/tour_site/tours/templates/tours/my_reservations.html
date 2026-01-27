@@ -1,0 +1,92 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}Мои бронирования{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">
+            <i class="bi bi-bookmark"></i> Мои бронирования
+        </h1>
+        <p class="lead text-muted">Управляйте своими бронированиями</p>
+    </div>
+</div>
+
+{% if reservations %}
+<div class="row">
+    {% for reservation in reservations %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm {% if reservation.reservation_approve %}border-success{% endif %}">
+            <div class="card-header {% if reservation.reservation_approve %}bg-success text-white{% else %}bg-warning{% endif %}">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-pin-map"></i> {{ reservation.tour.name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <strong><i class="bi bi-building"></i> Агентство:</strong> {{ reservation.tour.agency }}
+                </p>
+                <p class="card-text">
+                    <strong><i class="bi bi-flag"></i> Страна:</strong> {{ reservation.tour.country }}
+                </p>
+                <p class="card-text">
+                    <strong><i class="bi bi-calendar-event"></i> Даты:</strong><br>
+                    {{ reservation.start_date|date:"d.m.Y" }} - {{ reservation.end_date|date:"d.m.Y" }}
+                </p>
+                <p class="card-text">
+                    <strong><i class="bi bi-people"></i> Количество людей:</strong> {{ reservation.n_people }}
+                </p>
+                <hr>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <i class="bi bi-clock"></i> Забронировано: {{ reservation.reservation_date|date:"d.m.Y H:i" }}
+                    </small>
+                </p>
+                <p class="card-text">
+                    <strong>Статус:</strong>
+                    {% if reservation.reservation_approve %}
+                    <span class="badge bg-success">
+                        <i class="bi bi-check-circle"></i> Подтверждено
+                    </span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">
+                        <i class="bi bi-hourglass-split"></i> Ожидает подтверждения
+                    </span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'change_tour' reservation.tour.id reservation.id %}" class="btn btn-primary">
+                        <i class="bi bi-pencil-square"></i> Изменить бронирование
+                    </a>
+                    <a href="{% url 'add_review' reservation.tour.id %}" class="btn btn-outline-primary">
+                        <i class="bi bi-star"></i> Оставить отзыв
+                    </a>
+                    <form method="post" action="{% url 'delete_reservation' reservation.id %}"
+                          onsubmit="return confirm('Вы уверены, что хотите удалить это бронирование?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-trash"></i> Удалить бронирование
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i> У вас пока нет бронирований
+            <hr>
+            <a href="{% url 'tour_list' %}" class="btn btn-primary">
+                <i class="bi bi-search"></i> Посмотреть доступные туры
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

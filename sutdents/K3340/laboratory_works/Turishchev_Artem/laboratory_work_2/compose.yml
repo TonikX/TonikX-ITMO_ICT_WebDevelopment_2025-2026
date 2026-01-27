@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db_container
+    env_file:
+      - .env
+    ports:
+      - "8080:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+  web:
+    image: tour-site:latest
+    container_name: tour-site
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
