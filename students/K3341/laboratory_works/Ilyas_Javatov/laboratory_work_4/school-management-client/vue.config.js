@@ -1,0 +1,24 @@
+const { defineConfig } = require('@vue/cli-service')
+
+module.exports = defineConfig({
+  transpileDependencies: true,
+  devServer: {
+    port: 8080,
+    open: true,
+    client: {
+      overlay: false
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/api'
+        }
+      }
+    }
+  },
+  css: {
+    extract: false
+  }
+})
