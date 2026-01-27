@@ -1,0 +1,233 @@
+[
+  {
+    "model": "restaurant_app.position",
+    "pk": 1,
+    "fields": {
+      "position": "Шеф-повар",
+      "minimum_wage": "80000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.position",
+    "pk": 2,
+    "fields": {
+      "position": "Повар",
+      "minimum_wage": "50000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.position",
+    "pk": 3,
+    "fields": {
+      "position": "Официант",
+      "minimum_wage": "35000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.employee",
+    "pk": 1,
+    "fields": {
+      "full_name": "Иванов Иван Иванович",
+      "passport_data": "1234 567890",
+      "category": "chef",
+      "position": 1,
+      "salary": "85000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.employee",
+    "pk": 2,
+    "fields": {
+      "full_name": "Петров Петр Петрович",
+      "passport_data": "2345 678901",
+      "category": "cook",
+      "position": 2,
+      "salary": "55000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.employee",
+    "pk": 3,
+    "fields": {
+      "full_name": "Сидорова Анна Сергеевна",
+      "passport_data": "3456 789012",
+      "category": "waiter",
+      "position": 3,
+      "salary": "40000.00"
+    }
+  },
+  {
+    "model": "restaurant_app.ingredient",
+    "pk": 1,
+    "fields": {
+      "name": "Говядина",
+      "stock_quantity": 15.5,
+      "minimum_stock": 10.0,
+      "price_per_unit": "450.00",
+      "supplier": "МясоПром",
+      "ingredient_type": "meat"
+    }
+  },
+  {
+    "model": "restaurant_app.ingredient",
+    "pk": 2,
+    "fields": {
+      "name": "Картофель",
+      "stock_quantity": 25.0,
+      "minimum_stock": 20.0,
+      "price_per_unit": "35.00",
+      "supplier": "ОвощБаза",
+      "ingredient_type": "vegetable"
+    }
+  },
+  {
+    "model": "restaurant_app.ingredient",
+    "pk": 3,
+    "fields": {
+      "name": "Сыр",
+      "stock_quantity": 8.0,
+      "minimum_stock": 5.0,
+      "price_per_unit": "320.00",
+      "supplier": "МолокоПродукт",
+      "ingredient_type": "dairy"
+    }
+  },
+  {
+    "model": "restaurant_app.ingredient",
+    "pk": 4,
+    "fields": {
+      "name": "Соль",
+      "stock_quantity": 2.0,
+      "minimum_stock": 3.0,
+      "price_per_unit": "25.00",
+      "supplier": "СпецииТорг",
+      "ingredient_type": "spice"
+    }
+  },
+  {
+    "model": "restaurant_app.dish",
+    "pk": 1,
+    "fields": {
+      "name": "Стейк с картофелем",
+      "dish_type": "main"
+    }
+  },
+  {
+    "model": "restaurant_app.dish",
+    "pk": 2,
+    "fields": {
+      "name": "Картофель фри",
+      "dish_type": "appetizer"
+    }
+  },
+  {
+    "model": "restaurant_app.dishingredient",
+    "pk": 1,
+    "fields": {
+      "dish": 1,
+      "ingredient": 1,
+      "quantity": 0.3
+    }
+  },
+  {
+    "model": "restaurant_app.dishingredient",
+    "pk": 2,
+    "fields": {
+      "dish": 1,
+      "ingredient": 2,
+      "quantity": 0.2
+    }
+  },
+  {
+    "model": "restaurant_app.dishingredient",
+    "pk": 3,
+    "fields": {
+      "dish": 1,
+      "ingredient": 4,
+      "quantity": 0.01
+    }
+  },
+  {
+    "model": "restaurant_app.dishingredient",
+    "pk": 4,
+    "fields": {
+      "dish": 2,
+      "ingredient": 2,
+      "quantity": 0.25
+    }
+  },
+  {
+    "model": "restaurant_app.dishingredient",
+    "pk": 5,
+    "fields": {
+      "dish": 2,
+      "ingredient": 4,
+      "quantity": 0.005
+    }
+  },
+  {
+    "model": "restaurant_app.table",
+    "pk": 1,
+    "fields": {
+      "table_number": 1,
+      "capacity": 4,
+      "status": "free",
+      "employee": 3
+    }
+  },
+  {
+    "model": "restaurant_app.table",
+    "pk": 2,
+    "fields": {
+      "table_number": 2,
+      "capacity": 2,
+      "status": "occupied",
+      "employee": 3
+    }
+  },
+  {
+    "model": "restaurant_app.order",
+    "pk": 1,
+    "fields": {
+      "table": 2,
+      "status": "cooking",
+      "comments": "Стейк средней прожарки"
+    }
+  },
+  {
+    "model": "restaurant_app.orderdetail",
+    "pk": 1,
+    "fields": {
+      "order": 1,
+      "dish": 1,
+      "quantity": 1,
+      "special_requests": "Средняя прожарка"
+    }
+  },
+  {
+    "model": "restaurant_app.orderdetail",
+    "pk": 2,
+    "fields": {
+      "order": 1,
+      "dish": 2,
+      "quantity": 1,
+      "special_requests": null
+    }
+  },
+  {
+    "model": "restaurant_app.chefdish",
+    "pk": 1,
+    "fields": {
+      "employee": 1,
+      "dish": 1
+    }
+  },
+  {
+    "model": "restaurant_app.chefdish",
+    "pk": 2,
+    "fields": {
+      "employee": 2,
+      "dish": 2
+    }
+  }
+]

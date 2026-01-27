@@ -1,0 +1,141 @@
+[
+  {
+    "model": "warriors_app.profession",
+    "pk": 1,
+    "fields": {
+      "title": "Backend Developer",
+      "description": "Разработчик серверной части приложений"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 2,
+    "fields": {
+      "title": "Frontend Developer", 
+      "description": "Разработчик пользовательского интерфейса"
+    }
+  },
+  {
+    "model": "warriors_app.profession",
+    "pk": 3,
+    "fields": {
+      "title": "DevOps Engineer",
+      "description": "Специалист по автоматизации процессов"
+    }
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 1,
+    "fields": {"title": "Python"}
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 2,
+    "fields": {"title": "Django"}
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 3,
+    "fields": {"title": "JavaScript"}
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 4,
+    "fields": {"title": "React"}
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 5,
+    "fields": {"title": "Docker"}
+  },
+  {
+    "model": "warriors_app.skill",
+    "pk": 6,
+    "fields": {"title": "PostgreSQL"}
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 1,
+    "fields": {
+      "race": "d",
+      "name": "Алексей Петров",
+      "level": 8,
+      "profession": 1
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 2,
+    "fields": {
+      "race": "d",
+      "name": "Мария Иванова",
+      "level": 6,
+      "profession": 2
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 3,
+    "fields": {
+      "race": "t",
+      "name": "Дмитрий Сидоров",
+      "level": 10,
+      "profession": 3
+    }
+  },
+  {
+    "model": "warriors_app.warrior",
+    "pk": 4,
+    "fields": {
+      "race": "s",
+      "name": "Анна Козлова",
+      "level": 3,
+      "profession": 1
+    }
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 1,
+    "fields": {"skill": 1, "warrior": 1, "level": 9}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 2,
+    "fields": {"skill": 2, "warrior": 1, "level": 8}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 3,
+    "fields": {"skill": 6, "warrior": 1, "level": 7}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 4,
+    "fields": {"skill": 3, "warrior": 2, "level": 8}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 5,
+    "fields": {"skill": 4, "warrior": 2, "level": 7}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 6,
+    "fields": {"skill": 5, "warrior": 3, "level": 10}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 7,
+    "fields": {"skill": 1, "warrior": 3, "level": 8}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 8,
+    "fields": {"skill": 1, "warrior": 4, "level": 4}
+  },
+  {
+    "model": "warriors_app.skillofwarrior",
+    "pk": 9,
+    "fields": {"skill": 2, "warrior": 4, "level": 3}
+  }
+]

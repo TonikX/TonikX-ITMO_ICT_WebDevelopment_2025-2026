@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автовладельце</title>
+</head>
+<body>
+    <h1>Информация об автовладельце: {{ owner.first_name }} {{ owner.last_name }}</h1>
+    <p>Дата рождения: {{ owner.birth_date|default:"Не указана" }}</p>
+
+    <h2>Водительское удостоверение:</h2>
+    {% if owner.driverlicense %}
+        <p>Номер: {{ owner.driverlicense.license_number }}</p>
+        <p>Тип: {{ owner.driverlicense.license_type }}</p>
+        <p>Дата выдачи: {{ owner.driverlicense.issue_date }}</p>
+    {% else %}
+        <p>Водительское удостоверение не найдено.</p>
+    {% endif %}
+
+    <h2>История владения автомобилями:</h2>
+    {% if owner_ownerships %}
+        <ul>
+            {% for ownership in owner_ownerships %}
+                <li>
+                    <strong>Автомобиль:</strong> {{ ownership.car.make }} {{ ownership.car.model }} ({{ ownership.car.license_plate }})<br>
+                    <strong>Цвет:</strong> {{ ownership.car.color|default:"Не указан" }}<br>
+                    <strong>Гос. номер:</strong> {{ ownership.car.license_plate }}<br>
+                    <strong>Период владения:</strong> с {{ ownership.start_date }}
+                    {% if ownership.end_date %} по {{ ownership.end_date }} {% else %} (владеет по настоящее время) {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет информации о владении автомобилями.</p>
+    {% endif %}
+
+    <p><a href="/admin/">Вернуться в админ-панель</a></p>
+</body>
+</html>
