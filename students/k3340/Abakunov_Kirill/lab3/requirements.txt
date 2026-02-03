@@ -1,0 +1,10 @@
+Django==3.2.23
+djangorestframework==3.14.0
+djoser==2.2.0
+django-cors-headers==4.3.1
+psycopg2-binary==2.9.9
+python-decouple==3.8
+Faker==20.1.0
+mkdocs==1.5.3
+mkdocs-material==9.5.3
+drf-yasg==1.21.7

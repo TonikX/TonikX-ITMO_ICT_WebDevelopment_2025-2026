@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои резервирования{% endblock %}
+
+{% block content %}
+<h1>Мои резервирования</h1>
+
+<div class="table-responsive mt-4">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Отель</th>
+                <th>Тип номера</th>
+                <th>Дата заезда</th>
+                <th>Дата выезда</th>
+                <th>Стоимость</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.room_type.hotel.name }}</td>
+                <td>
+                    <a href="{% url 'room_detail' reservation.room_type.id %}">
+                        {{ reservation.room_type.name }}
+                    </a>
+                </td>
+                <td>{{ reservation.check_in_date }}</td>
+                <td>{{ reservation.check_out_date }}</td>
+                <td>{{ reservation.total_price }} ₽</td>
+                <td>
+                    {% if reservation.status == 'pending' %}
+                        <span class="badge bg-warning text-dark">Ожидает подтверждения</span>
+                    {% elif reservation.status == 'confirmed' %}
+                        <span class="badge bg-info">Подтверждено</span>
+                    {% elif reservation.status == 'checked_in' %}
+                        <span class="badge bg-success">Заселен</span>
+                    {% elif reservation.status == 'checked_out' %}
+                        <span class="badge bg-secondary">Выселен</span>
+                    {% elif reservation.status == 'cancelled' %}
+                        <span class="badge bg-danger">Отменено</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reservation.status == 'pending' %}
+                        <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-sm btn-primary">Изменить</a>
+                        <a href="{% url 'delete_reservation' reservation.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">У вас пока нет резервирований</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

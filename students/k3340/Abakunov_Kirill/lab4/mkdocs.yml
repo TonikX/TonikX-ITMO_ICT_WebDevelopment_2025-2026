@@ -1,0 +1,36 @@
+site_name: Система управления гостиницей - Frontend
+site_description: Документация клиентской части приложения на Vue.js
+site_author: Абакунов Кирилл
+
+theme:
+  name: material
+  language: ru
+  palette:
+    primary: blue
+    accent: light blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+
+nav:
+  - Главная: index.md
+  - Установка: installation.md
+  - Архитектура: architecture.md
+  - Интерфейсы:
+    - Авторизация: interfaces/auth.md
+    - Номера: interfaces/rooms.md
+    - Гости: interfaces/guests.md
+    - Служащие: interfaces/staff.md
+    - Расписания: interfaces/schedules.md
+    - Отчёты: interfaces/reports.md
+  - API: api.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
