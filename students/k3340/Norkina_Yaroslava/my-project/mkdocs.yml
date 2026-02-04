@@ -1,0 +1,4 @@
+site_name: Отчеты по вебу
+nav:
+  - Home: index.md
+  - About: about.md

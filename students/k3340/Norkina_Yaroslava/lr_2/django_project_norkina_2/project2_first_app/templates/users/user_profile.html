@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+<h1>Мой профиль</h1>
+<p><strong>Имя пользователя:</strong> {{ user.user_name|default:user.username }}</p>
+
+<h2>Мои поездки</h2>
+{% if trips %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Автомобиль</th>
+        <th>Начало</th>
+        <th>Окончание</th>
+        <th>Проблемы</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trip in trips %}
+      <tr>
+        <td>{{ trip.car.licence }}<br><small>{{ trip.car.model.brand }} {{ trip.car.model.model_name }}</small></td>
+        <td>{{ trip.start_time|date:"d.m.Y H:i" }}</td>
+        <td>{{ trip.end_time|date:"d.m.Y H:i" }}</td>
+        <td>
+          {% if trip.problems %}
+            <span class="badge bg-warning text-dark">Есть</span>
+            <div class="small text-muted mt-1">{{ trip.problems|truncatewords:10 }}</div>
+          {% else %}
+            <span class="text-success">Нет</span>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'add_comment' trip.id %}" class="btn btn-sm btn-outline-primary">Отзыв</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>У вас пока нет поездок.</p>
+{% endif %}
+
+<a href="{% url 'trip_list_last_month' %}" class="btn btn-secondary">← Все поездки</a>
+{% endblock %}

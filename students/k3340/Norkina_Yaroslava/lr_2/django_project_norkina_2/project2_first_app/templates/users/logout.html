@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Выход</title>
+</head>
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h2>Вы действительно хотите выйти?</h2>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Да, выйти</button>
+    </form>
+    <p><a href="{% url 'trip_list_last_month' %}">Отмена</a></p>
+</body>
+</html>
+{% endblock %}
