@@ -2,9 +2,10 @@ import socket
 
 # Создаем сокет
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 # Подключаемся к серверу
 client_socket.connect((socket.gethostname(), 8080))
+
+# Считываем строку вида "a b" - длины сторон треугольника
 a=input().encode('utf-8')
 # Отправляем сообщение серверу
 client_socket.sendall(a)

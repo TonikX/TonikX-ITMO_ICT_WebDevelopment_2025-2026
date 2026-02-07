@@ -2,3 +2,4 @@ site_name: Отчеты по вебу
 nav:
   - Home: index.md
   - About: about.md
+  - Лабораторная №2: Labwork_2.md

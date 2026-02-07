@@ -16,7 +16,7 @@ def load_html_file(filename):
         with open(filename, 'r', encoding='utf-8') as file:
             return file.read()
     except FileNotFoundError:
-        # Если файл не найден, возвращаем простую ошибку 404
+        # Если файл не найден, возвращаем текст ошибки 404
         return "<h1>404 Not Found</h1><p>Файл index.html не найден.</p>"
 
 while True:
