@@ -55,11 +55,7 @@ from django.contrib.auth.models import AbstractUser
 
 from django.core.validators import MinValueValidator, RegexValidator
 
-\# ========================
-
-\# 1. Расширенный пользователь (Users → User)
-
-\# ========================
+\# 1. Расширенный пользователь
 
 class User(AbstractUser):
 
@@ -74,11 +70,9 @@ def \_\_str\_\_(self):
 
 return self.user_name or self.username
 
-\# ========================
 
-\# 2. Models → Model
+\# 2. Модель автомобиля
 
-\# ========================
 
 class Model(models.Model):
 
@@ -116,11 +110,9 @@ def \_\_str\_\_(self):
 
 return f\"{self.brand} {self.model_name}\"
 
-\# ========================
 
-\# 3. Cars → Car
+\# 3. Автомобили
 
-\# ========================
 
 class Car(models.Model):
 
@@ -171,11 +163,9 @@ def \_\_str\_\_(self):
 
 return f\"{self.licence} ({self.model})\"
 
-\# ========================
 
-\# 4. Passport
+\# 4. Паспортные данные владельцев
 
-\# ========================
 
 class Passport(models.Model):
 
@@ -227,11 +217,9 @@ def \_\_str\_\_(self):
 
 return f\"Паспорт {self.serial_number} {self.passport_number}\"
 
-\# ========================
 
-\# 5. DriverLicense
+\# 5. Водительские права
 
-\# ========================
 
 class DriverLicense(models.Model):
 
@@ -275,11 +263,9 @@ self.full_clean()
 
 super().save(\*args, \*\*kwargs)
 
-\# ========================
 
-\# 6. Repairs
+\# 6. Ремонт
 
-\# ========================
 
 class Repair(models.Model):
 
@@ -309,11 +295,9 @@ def \_\_str\_\_(self):
 
 return f\"Ремонт {self.car.licence} от {self.datetime.date()}\"
 
-\# ========================
 
-\# 7. Payment
+\# 7. Платежи
 
-\# ========================
 
 class Payment(models.Model):
 
@@ -370,11 +354,9 @@ self.full_clean()
 
 super().save(\*args, \*\*kwargs)
 
-\# ========================
 
-\# 8. Tariffs
+\# 8. Тарифы цен
 
-\# ========================
 
 class Tariff(models.Model):
 
@@ -422,11 +404,9 @@ self.full_clean()
 
 super().save(\*args, \*\*kwargs)
 
-\# ========================
 
-\# 9. Trip
+\# 9. Поездка
 
-\# ========================
 
 class Trip(models.Model):
 
