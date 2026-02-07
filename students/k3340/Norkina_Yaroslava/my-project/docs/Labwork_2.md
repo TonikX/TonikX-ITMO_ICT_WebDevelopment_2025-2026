@@ -40,7 +40,7 @@
 
 Ход работы.
 
-1 Этап. Создание базы данных
+### 1 Этап. Создание базы данных
 
 <img width="974" height="434" alt="image" src="https://github.com/user-attachments/assets/a6151543-a799-429d-8529-dfa8ca88adc8" />
 
@@ -467,9 +467,9 @@ self.full_clean()
 super().save(\*args, \*\*kwargs)
 ```
 
-**2 Этап. Реализация проекта средствами Django-фрэймворка**
+### 2 Этап. Реализация проекта средствами Django-фрэймворка
 
-2.1 Перенос базы данных в проект
+#### 2.1 Перенос базы данных в проект
 
 Создаем новый проект: `django-admin startproject django_project_norkina_2`
 
@@ -497,7 +497,7 @@ super().save(\*args, \*\*kwargs)
 
 <img width="974" height="467" alt="image" src="https://github.com/user-attachments/assets/0a0f38f2-5ad3-484c-9ba9-258b234ab4db" />
 
-2.2 Реализация CRUD (Create, read, update and delete) интерфейсов 
+#### 2.2 Реализация CRUD (Create, read, update and delete) интерфейсов 
 
 \- Первоначально создана страница просмотра таблицы всех поездок
 
@@ -1412,9 +1412,9 @@ name=\'add_comment\'),
 <img width="974" height="257" alt="image" src="https://github.com/user-attachments/assets/75610d85-05da-4d0a-b94c-c271bf2e5c8f" />
 
 
-**3 Этап. Настройка оставшихся страниц по варианту**
+### 3 Этап. Настройка оставшихся страниц по варианту
 
-3.1 Добавление меню и пагинации страниц
+#### 3.1 Добавление меню и пагинации страниц
 
 \- Установим бутстрап: pip install django-bootstrap3
 
@@ -1757,8 +1757,6 @@ trip_list.html:
     \</tbody\>
 
   \</table\>
-
-  \<!\-- Пагинация через django-bootstrap3 \--\>
 
   {% bootstrap_pagination page_obj %}
 
