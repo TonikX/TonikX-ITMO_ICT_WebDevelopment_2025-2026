@@ -3,22 +3,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, RegexValidator
 
-# ========================
-# 1. Расширенный пользователь (Users → User)
-# ========================
 class User(AbstractUser):
     # Поле user_name из SQL заменяется на first_name + last_name или username
-    # Но если нужно именно user_name — добавим его
     user_name = models.CharField("Имя пользователя", max_length=50)
 
     def __str__(self):
         return self.user_name or self.username
 
 
-# ========================
-# 2. Models → Model
-# ========================
-# models.py
 from django.db import models
 from django.core.validators import MinLengthValidator
 
@@ -43,9 +35,6 @@ class Model(models.Model):
         return f"{self.brand} {self.model_name}"
 
 
-# ========================
-# 3. Cars → Car
-# ========================
 class Car(models.Model):
     mileage = models.PositiveIntegerField("Пробег", default=0)
     licence = models.CharField(
@@ -74,9 +63,6 @@ class Car(models.Model):
         return f"{self.licence} ({self.model})"
 
 
-# ========================
-# 4. Passport
-# ========================
 class Passport(models.Model):
     passport_number = models.CharField(
         "Номер паспорта",
@@ -105,9 +91,7 @@ class Passport(models.Model):
         return f"Паспорт {self.serial_number} {self.passport_number}"
 
 
-# ========================
-# 5. DriverLicense
-# ========================
+
 class DriverLicense(models.Model):
     date_of_issue = models.DateField("Дата выдачи")
     expiration_date = models.DateField("Срок действия")
@@ -135,9 +119,6 @@ class DriverLicense(models.Model):
         super().save(*args, **kwargs)
 
 
-# ========================
-# 6. Repairs
-# ========================
 class Repair(models.Model):
     description = models.TextField("Описание", blank=True)
     datetime = models.DateTimeField("Дата и время ремонта")
@@ -156,9 +137,6 @@ class Repair(models.Model):
         return f"Ремонт {self.car.licence} от {self.datetime.date()}"
 
 
-# ========================
-# 7. Payment
-# ========================
 class Payment(models.Model):
     description = models.TextField("Описание")
     value = models.FloatField(
@@ -192,9 +170,6 @@ class Payment(models.Model):
         super().save(*args, **kwargs)
 
 
-# ========================
-# 8. Tariffs
-# ========================
 class Tariff(models.Model):
     price_per_minute = models.PositiveIntegerField("Цена за минуту", null=True, blank=True)
     start_time = models.DateTimeField("Начало действия")
@@ -223,9 +198,7 @@ class Tariff(models.Model):
         super().save(*args, **kwargs)
 
 
-# ========================
-# 9. Trip
-# ========================
+
 class Trip(models.Model):
     start_time = models.DateTimeField("Начало поездки")
     end_time = models.DateTimeField("Окончание поездки")
