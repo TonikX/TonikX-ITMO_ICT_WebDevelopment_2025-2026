@@ -1,0 +1,20 @@
+{% comment %}Фрагмент для вставки в списки{% endcomment %}
+{% if is_paginated %}
+<nav aria-label="pagination" class="mt-3">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Назад</a>
+        </li>
+        {% endif %}
+        <li class="page-item disabled">
+            <span class="page-link">Стр. {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Вперёд</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

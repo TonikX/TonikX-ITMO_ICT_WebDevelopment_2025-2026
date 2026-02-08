@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Участники по конференциям{% endblock %}
+{% block content %}
+<h1>Участники по конференциям</h1>
+{% for c in conferences %}
+<h4 class="mt-4">{{ c.title }} <small class="text-muted">({{ c.participants_count }} уч.)</small></h4>
+<div class="table-responsive">
+    <table class="table table-sm table-striped">
+        <thead><tr><th>#</th><th>Участник</th><th>Доклад</th><th>Рекомендация</th></tr></thead>
+        <tbody>
+        {% for r in c.registrations.all %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ r.user.username }}</td>
+            <td>{{ r.talk_title }}</td>
+            <td>{% if r.recommended_to_publish %}Да{% elif r.recommended_to_publish is not None %}Нет{% else %}—{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Нет участников.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% empty %}
+<p>Конференций нет.</p>
+{% endfor %}
+{% endblock %}

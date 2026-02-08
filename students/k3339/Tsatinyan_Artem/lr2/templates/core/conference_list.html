@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Список конференций{% endblock %}
+{% block content %}
+<h1>Список конференций</h1>
+
+{% if conferences %}
+<div class="list-group conf-list">
+    {% for c in conferences %}
+    <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ c.title }}</h5>
+            <small>{{ c.start_date }} — {{ c.end_date }}</small>
+        </div>
+        <p class="mb-1">Место: {{ c.venue.name }}</p>
+        <small>
+            Темы:
+            {% for t in c.topics.all %}
+            <span class="badge bg-secondary">{{ t.name }}</span>
+            {% empty %}—{% endfor %}
+        </small>
+    </a>
+    {% endfor %}
+</div>
+
+{% include 'pagination.html' %}
+{% else %}
+<p>Ничего не найдено.</p>
+{% endif %}
+{% endblock %}
