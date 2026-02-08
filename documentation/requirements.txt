@@ -1,0 +1,1 @@
+mkdocs>=1.6pymdown-extensions>=10.8

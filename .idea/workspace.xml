@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b45d86a4-259a-42f1-9f2d-746636dfce9d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_skills_create.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_skills_list.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_warrior_delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_warrior_full_detail.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_warrior_update.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_warriors_professions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_2_warriors_skills.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task1_cars.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task1_owners.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task1_ownerships.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task2_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task2_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task2_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task2_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task3_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task3_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task3_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task3_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/img/lab3_task3_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/lab3_pract_3.1.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/lab3_pract_3.2.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentation/docs/lab3_rest_airport.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_api/fixtures/demo_data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_api/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/laboratory_work/airport_project/airport_api/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/practical_work/task1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/practical_work3_2/warriors_project/warriors_app/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3/practical_work3_2/warriors_project/warriors_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_24_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_49_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025,_17_50_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_24__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_49__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21_10_2025__17_50__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/lab2_task3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/lab2_task3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/search/search_index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task2/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task3/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task3/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task4/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task4/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/task5/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/task5/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/documentation/site/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/site/test/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="34KrZzRHCj4jdZwY9Zm7gNaF3Ma" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.task1.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lab3&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/maksim/Documents/GitHub/TonikX-ITMO_ICT_WebDevelopment_2025-2026/students/k3340/Ermakov_Maxim/lr3&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr3" />
+      <recent name="$PROJECT_DIR$/students/k3340/Ermakov_Maxim/lr2/laboratory_work/school_hw_board" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/documentation/docs" />
+      <recent name="$PROJECT_DIR$/documentation/docs/img" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b45d86a4-259a-42f1-9f2d-746636dfce9d" name="Changes" comment="" />
+      <created>1760973163871</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760973163871</updated>
+    </task>
+    <servers />
+  </component>
+</project>

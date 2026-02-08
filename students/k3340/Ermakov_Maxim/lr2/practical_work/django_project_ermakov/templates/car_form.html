@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Car form</title></head>
+<body>
+<h1>Car form</h1>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Save">
+</form>
+<p><a href="/cars/">Back</a></p>
+</body></html>

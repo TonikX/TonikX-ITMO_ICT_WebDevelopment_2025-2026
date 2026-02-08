@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Оценки класса</h2>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-sm align-middle">
+    <thead>
+      <tr>
+        <th>Студент</th>
+        {% for hw in homeworks %}
+          <th>{{ hw.subject.name }}<br><small>до {{ hw.due_date }}</small></th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.student.username }}</td>
+          {% for g in row.grades %}
+            <td>{% if g != None %}{{ g }}{% else %}—{% endif %}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

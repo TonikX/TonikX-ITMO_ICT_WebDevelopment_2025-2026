@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Практическая работа 3.1 - Отчеты по лабораторным работам. Ермаков Максим, K3340</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 3.1";
+        var mkdocs_page_input_path = "lab3_pract_3.1.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Отчеты по лабораторным работам. Ермаков Максим, K3340
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Главная</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №1</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Задание 1: UDP Клиент-Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Задание 2: TCP: площадь параллелограмма</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Задание 3: HTTP Сервер</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Задание 4: TCP Чат</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Задание 5: Веб-сервер (GET/POST)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №2: Django</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task1/">Практическая работа №1 — Знакомство с Django</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task2/">Практическая работа №2 — Реализация CRUD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2_task3/">Практическая работа №3 — Расширение модели пользователя</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab2/">Доска домашних заданий (Django)</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Лабораторная работа №3: Django rest</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Практическая работа 3.1</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#0">0. Подготовка проекта</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">Установка и создание проекта</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Подключение приложения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Модели данных</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1">Задание 1. Наполнение базы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-orm">Задание 2. Запросы через ORM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#21-toyota">2.1. Все машины марки «Toyota»</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#22">2.2. Все водители с именем «Олег»</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#23-id">2.3. Случайный владелец → его id → его удостоверения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#24">2.4. Владельцы машин черного цвета</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#25-2023">2.5. Владельцы, чьё владение началось в 2023 году</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">Практическое задание 3. Агрегаты, группировки, сортировки</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#31">3.1. Дата выдачи самого старшего водительского удостоверения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32">3.2. Самая поздняя дата владения машиной</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33">3.3. Количество машин для каждого водителя</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#34">3.4. Количество машин каждой марки</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#35">3.5. Отсортировать всех автовладельцев по дате выдачи удостоверения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Вывод</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_pract_3.2/">Практическая работа 3.2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../lab3_rest_airport/">Реализация серверной части на Django REST Framework</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Отчеты по лабораторным работам. Ермаков Максим, K3340</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Лабораторная работа №3: Django rest</li>
+      <li class="breadcrumb-item active">Практическая работа 3.1</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="3-django-rest-api">Лабораторная работа 3. Реализация серверной части на Django REST. Документирование API</h1>
+<p><strong>Практические работа 3.1</strong></p>
+<blockquote>
+<p>Проект: отдельный мини-проект <code>lr3_api</code> с приложением <code>garage</code>.<br />
+База: SQLite.  </p>
+</blockquote>
+<hr />
+<h2 id="0">0. Подготовка проекта</h2>
+<h3 id="_1">Установка и создание проекта</h3>
+<pre><code class="language-bash">pip install django
+
+django-admin startproject lr3_api .
+python manage.py startapp garage
+</code></pre>
+<h3 id="_2">Подключение приложения</h3>
+<p><code>lr3_api/settings.py</code> → <code>INSTALLED_APPS</code>:</p>
+<pre><code class="language-python">INSTALLED_APPS = [
+    # стандартные приложения Django …
+    'garage',
+]
+</code></pre>
+<h3 id="_3">Модели данных</h3>
+<p><code>garage/models.py</code>:</p>
+<pre><code class="language-python">from django.db import models
+
+class Owner(models.Model):
+    last_name  = models.CharField(&quot;Фамилия&quot;, max_length=30)
+    first_name = models.CharField(&quot;Имя&quot;, max_length=30)
+    birth_date = models.DateTimeField(&quot;Дата рождения&quot;, null=True, blank=True)
+    def __str__(self): return f&quot;{self.last_name} {self.first_name}&quot;
+    class Meta: verbose_name=&quot;Автовладелец&quot;; verbose_name_plural=&quot;Автовладельцы&quot;; ordering=[&quot;last_name&quot;,&quot;first_name&quot;,&quot;id&quot;]
+
+class Car(models.Model):
+    plate_number = models.CharField(&quot;Гос. номер&quot;, max_length=15)
+    make  = models.CharField(&quot;Марка&quot;,  max_length=20)
+    model = models.CharField(&quot;Модель&quot;, max_length=20)
+    color = models.CharField(&quot;Цвет&quot;, max_length=30, null=True, blank=True)
+    def __str__(self): return f&quot;{self.make} {self.model} ({self.plate_number})&quot;
+    class Meta:
+        verbose_name=&quot;Автомобиль&quot;; verbose_name_plural=&quot;Автомобили&quot;
+        ordering=[&quot;make&quot;,&quot;model&quot;,&quot;plate_number&quot;]
+        indexes=[models.Index(fields=[&quot;plate_number&quot;]), models.Index(fields=[&quot;make&quot;,&quot;model&quot;])]
+
+class Ownership(models.Model):
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name=&quot;ownerships&quot;, verbose_name=&quot;Владелец&quot;)
+    car   = models.ForeignKey(Car,   on_delete=models.CASCADE, related_name=&quot;ownerships&quot;, verbose_name=&quot;Автомобиль&quot;)
+    start_date = models.DateTimeField(&quot;Дата начала&quot;)
+    end_date   = models.DateTimeField(&quot;Дата окончания&quot;, null=True, blank=True)
+    def __str__(self): return f&quot;{self.owner} ↔ {self.car} [{self.start_date} — {self.end_date or 'по н.в.'}]&quot;
+    class Meta: verbose_name=&quot;Владение&quot;; verbose_name_plural=&quot;Владения&quot;; ordering=[&quot;-start_date&quot;,&quot;owner_id&quot;,&quot;car_id&quot;]
+
+Owner.add_to_class(&quot;cars&quot;,
+    models.ManyToManyField(Car, through=Ownership, related_name=&quot;owners&quot;, verbose_name=&quot;Автомобили&quot;, blank=True)
+)
+
+class DriverLicense(models.Model):
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name=&quot;licenses&quot;, verbose_name=&quot;Владелец&quot;)
+    number = models.CharField(&quot;Номер удостоверения&quot;, max_length=10)
+    type   = models.CharField(&quot;Тип&quot;, max_length=10)
+    issue_date = models.DateTimeField(&quot;Дата выдачи&quot;)
+    def __str__(self): return f&quot;ВУ {self.number} ({self.type}) — {self.owner}&quot;
+    class Meta:
+        verbose_name=&quot;Водительское удостоверение&quot;; verbose_name_plural=&quot;Водительские удостоверения&quot;
+        ordering=[&quot;-issue_date&quot;,&quot;number&quot;]; indexes=[models.Index(fields=[&quot;number&quot;])]
+</code></pre>
+<hr />
+<h2 id="1">Задание 1. Наполнение базы</h2>
+<p><strong>Цель:</strong> создать 6–7 автовладельцев, 5–6 автомобилей, выдать каждому владельцу удостоверение, связать каждого владельца с 1–3 машинами через ассоциативную сущность «Владение».</p>
+<p><code>/task1.py</code>:</p>
+<pre><code class="language-python">N_OWNERS = 7
+N_CARS = 6
+
+FIRST_NAMES = [&quot;Олег&quot;, &quot;Мария&quot;, &quot;Дмитрий&quot;, &quot;Анна&quot;, &quot;Илья&quot;, &quot;Елена&quot;, &quot;Сергей&quot;]
+LAST_NAMES  = [&quot;Иванов&quot;, &quot;Соколова&quot;, &quot;Петров&quot;, &quot;Кузнецова&quot;, &quot;Смирнов&quot;, &quot;Попова&quot;, &quot;Васильев&quot;]
+COLORS = [&quot;черный&quot;, &quot;белый&quot;, &quot;красный&quot;, &quot;синий&quot;, &quot;серый&quot;, &quot;зеленый&quot;, None]
+TYPES = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;BE&quot;, &quot;CE&quot;, &quot;DE&quot;]
+
+CAR_POOL = [
+    (&quot;Toyota&quot;,  &quot;Camry&quot;),
+    (&quot;BMW&quot;,     &quot;3 Series&quot;),
+    (&quot;Kia&quot;,     &quot;Rio&quot;),
+    (&quot;Lada&quot;,    &quot;Vesta&quot;),
+    (&quot;Hyundai&quot;, &quot;Solaris&quot;),
+    (&quot;Audi&quot;,    &quot;A4&quot;),
+]
+
+PLATES = [&quot;A123AA77&quot;, &quot;B456BB77&quot;, &quot;C789CC77&quot;, &quot;E001EE77&quot;, &quot;H234HH77&quot;, &quot;O777OO77&quot;]
+
+
+def rand_dt(year_from=2014, year_to=datetime.now().year):
+    y = randint(year_from, year_to)
+    m = randint(1, 12)
+    d = randint(1, 28)
+    hh = randint(8, 19)
+    mm = randint(0, 59)
+    return datetime(y, m, d, hh, mm)
+
+
+#  Очистка данных
+if RESET_DB:
+    Ownership.objects.all().delete()
+    DriverLicense.objects.all().delete()
+    Car.objects.all().delete()
+    Owner.objects.all().delete()
+
+
+#  Создаём владельцев
+owners = []
+for i in range(N_OWNERS):
+    o = Owner.objects.create(
+        last_name=LAST_NAMES[i % len(LAST_NAMES)],
+        first_name=FIRST_NAMES[i % len(FIRST_NAMES)],
+        birth_date=rand_dt(1980, 2002),
+    )
+    owners.append(o)
+
+#  Создаём автомобили
+cars = []
+for i in range(N_CARS):
+    make, model = CAR_POOL[i % len(CAR_POOL)]
+    car = Car.objects.create(
+        plate_number=PLATES[i],
+        make=make,
+        model=model,
+        color=choice(COLORS),
+    )
+    cars.append(car)
+
+#  Выдаём каждому владельцу удостоверение
+for idx, owner in enumerate(owners, start=1):
+    issue = rand_dt(2015, datetime.now().year)
+    DriverLicense.objects.create(
+        owner=owner,
+        number=f&quot;{700000+idx:010d}&quot;[:10],
+        type=choice(TYPES),
+        issue_date=issue,
+    )
+
+# Привязываем каждому владельцу от 1 до 3 машин через Ownership
+for owner in owners:
+    k = randint(1, 3)
+    owned = sample(cars, k)
+    for car in owned:
+        start = rand_dt(2016, 2024)
+        # иногда сделаем дату окончания, иногда нет
+        if randint(0, 1):
+            end = start + timedelta(days=randint(200, 1200))
+        else:
+            end = None
+        Ownership.objects.create(
+            owner=owner,
+            car=car,
+            start_date=start,
+            end_date=end,
+        )
+</code></pre>
+<p><strong>Скриншоты (консольный вывод):</strong>
+- <em>Владельцы и их удостоверения</em>:<br />
+<img alt="Владельцы и ВУ" src="../img/lab3_task1_owners.png" />
+- <em>Автомобили</em>:<br />
+<img alt="Автомобили" src="../img/lab3_task1_cars.png" />
+- <em>Владения</em>:<br />
+<img alt="Владения" src="../img/lab3_task1_ownerships.png" /></p>
+<hr />
+<h2 id="2-orm">Задание 2. Запросы через ORM</h2>
+<h3 id="21-toyota">2.1. Все машины марки «Toyota»</h3>
+<pre><code class="language-python">Car.objects.filter(make__iexact=&quot;Toyota&quot;)
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Все машины марки Toyota" src="../img/lab3_task2_1.png" /></p>
+<hr />
+<h3 id="22">2.2. Все водители с именем «Олег»</h3>
+<pre><code class="language-python">Owner.objects.filter(first_name__iexact=&quot;Олег&quot;)
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Водители с именем Олег" src="../img/lab3_task2_2.png" /></p>
+<hr />
+<h3 id="23-id">2.3. Случайный владелец → его id → его удостоверения</h3>
+<pre><code class="language-python">owner = random.choice(list(Owner.objects.all()))
+owner.id
+DriverLicense.objects.filter(owner_id=owner.id)
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Случайный владелец и его ВУ" src="../img/lab3_task2_3.png" /></p>
+<hr />
+<h3 id="24">2.4. Владельцы машин черного цвета</h3>
+<pre><code class="language-python">Owner.objects.filter(ownerships__car__color__iexact=&quot;черный&quot;).distinct()
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Владельцы черных машин" src="../img/lab3_task2_4.png" /></p>
+<hr />
+<h3 id="25-2023">2.5. Владельцы, чьё владение началось в 2023 году</h3>
+<pre><code class="language-python">Owner.objects.filter(ownerships__start_date__year=2023).distinct()
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Владельцы с началом владения в 2023" src="../img/lab3_task2_5.png" /></p>
+<hr />
+<h2 id="3">Практическое задание 3. Агрегаты, группировки, сортировки</h2>
+<p>Импорты:</p>
+<pre><code class="language-python">from django.db.models import Min, Max, Count
+</code></pre>
+<h3 id="31">3.1. Дата выдачи самого старшего водительского удостоверения</h3>
+<pre><code class="language-python">DriverLicense.objects.aggregate(oldest=Min(&quot;issue_date&quot;))
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Самая ранняя дата выдачи ВУ" src="../img/lab3_task3_1.png" /></p>
+<hr />
+<h3 id="32">3.2. Самая поздняя дата владения машиной</h3>
+<pre><code class="language-python">Ownership.objects.aggregate(latest_start=Max(&quot;start_date&quot;), latest_end=Max(&quot;end_date&quot;))
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Максимальные даты владений" src="../img/lab3_task3_2.png" /></p>
+<hr />
+<h3 id="33">3.3. Количество машин для каждого водителя</h3>
+<pre><code class="language-python">owners_car_counts = (
+    Owner.objects
+    .values(&quot;id&quot;, &quot;last_name&quot;, &quot;first_name&quot;)
+    .annotate(car_count=Count(&quot;ownerships__car&quot;, distinct=True))
+    .order_by(&quot;last_name&quot;, &quot;first_name&quot;)
+)
+list(owners_car_counts)[:10]
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Количество машин у каждого владельца" src="../img/lab3_task3_3.png" /></p>
+<hr />
+<h3 id="34">3.4. Количество машин каждой марки</h3>
+<pre><code class="language-python">Car.objects.values(&quot;make&quot;).annotate(total=Count(&quot;id&quot;)).order_by(&quot;make&quot;)
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Число машин по маркам" src="../img/lab3_task3_4.png" /></p>
+<hr />
+<h3 id="35">3.5. Отсортировать всех автовладельцев по дате выдачи удостоверения</h3>
+<pre><code class="language-python">Owner.objects.order_by(&quot;licenses__issue_date&quot;).distinct()
+</code></pre>
+<p><strong>Скриншот:</strong><br />
+<img alt="Сортировка владельцев по дате выдачи ВУ" src="../img/lab3_task3_5.png" /></p>
+<hr />
+<h3 id="_4">Вывод</h3>
+<ul>
+<li>Практическое задание 1: БД наполнена объектами и связями.  </li>
+<li>Практическое задание 2: Выполнены запросы выборки/фильтрации через shell.  </li>
+<li>Практическое задание 3: Выполнены агрегаты, группировки и сортировки.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../lab2/" class="btn btn-neutral float-left" title="Доска домашних заданий (Django)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lab3_pract_3.2/" class="btn btn-neutral float-right" title="Практическая работа 3.2">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../lab2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lab3_pract_3.2/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

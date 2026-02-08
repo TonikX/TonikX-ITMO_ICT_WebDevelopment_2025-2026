@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Новый предмет</h2>
+<form method="post" class="card card-body">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Сохранить</button>
+  <a class="btn btn-link" href="{% url 'homework_create' %}">Назад к созданию ДЗ</a>
+</form>
+{% endblock %}
