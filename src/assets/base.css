@@ -1,0 +1,108 @@
+:root {
+  /* Основные цвета */
+  --bg-main: #f4f1fb;
+  --bg-card: #ffffff;
+
+  --primary: #7c5cff;
+  --primary-soft: #b8a9ff;
+
+  --secondary: #f3a6d8;
+
+  --text-main: #2b1b3f;
+  --text-muted: #6b5e8c;
+
+  --border-radius: 18px;
+}
+
+/* Базовые стили */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter';
+  background: linear-gradient(
+    180deg,
+    #f4f1fb 0%,
+    #ede7ff 100%
+  );
+  color: var(--text-main);
+}
+
+/* Заголовки */
+h1, h2, h3 {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Карточки */
+.v-card {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-radius: var(--border-radius) !important;
+  box-shadow: 0 10px 30px rgba(124, 92, 255, 0.15);
+}
+
+/* Таблицы */
+.v-table,
+.v-data-table {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  border-radius: var(--border-radius);
+}
+
+.v-table th,
+.v-table td {
+  color: var(--text-main) !important;
+  font-weight: 500;
+}
+
+/* Кнопки */
+.v-btn {
+  border-radius: 999px !important;
+  font-weight: 500;
+  text-transform: none !important;
+}
+
+.v-btn--variant-tonal {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+  color: white !important;
+}
+
+/* Инпуты */
+.v-text-field input {
+  color: var(--text-main) !important;
+}
+
+.v-field {
+  border-radius: var(--border-radius) !important;
+}
+
+/* Навбар */
+header,
+.v-app-bar {
+  background: linear-gradient(
+    135deg,
+    #7c5cff,
+    #c6b7ff
+  ) !important;
+  color: white !important;
+}
+
+/* Ссылки */
+a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--secondary);
+}
