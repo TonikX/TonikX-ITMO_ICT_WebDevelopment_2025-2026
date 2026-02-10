@@ -1,0 +1,109 @@
+{% extends 'project_first_app/project_first_app_base.html' %}
+
+{% block title %}
+    Регистрация владельца - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">👤 Регистрация владельца автомобиля</h1>
+                <a href="{% url 'owners_list_url' %}" class="btn btn-outline-secondary btn-sm">
+                    ← Назад
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">📝 Личные данные</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Логин *</strong></label>
+                                    {{ form.username }}
+                                    {{ form.username.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Email *</strong></label>
+                                    {{ form.email }}
+                                    {{ form.email.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Имя</strong></label>
+                                    {{ form.first_name }}
+                                    {{ form.first_name.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Фамилия</strong></label>
+                                    {{ form.last_name }}
+                                    {{ form.last_name.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Номер паспорта</strong></label>
+                            {{ form.passport_number }}
+                            {{ form.passport_number.errors }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Домашний адрес</strong></label>
+                            {{ form.home_address }}
+                            {{ form.home_address.errors }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Национальность</strong></label>
+                            {{ form.nationality }}
+                            {{ form.nationality.errors }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Пароль *</strong></label>
+                                    {{ form.password1 }}
+                                    {{ form.password1.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label"><strong>Подтверждение пароля *</strong></label>
+                                    {{ form.password2 }}
+                                    {{ form.password2.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                💾 Зарегистрировать владельца
+                            </button>
+                            <a href="{% url 'owners_list_url' %}" class="btn btn-outline-secondary">
+                                ❌ Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

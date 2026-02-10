@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Бронирование номера</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5>{{ room_type.name }}</h5>
+                    <p class="text-muted">Отель: {{ room_type.hotel.name }}</p>
+                    <p><strong>Цена за ночь:</strong> {{ room_type.price }} руб.</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-danger">
+                            {% for error in field.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Подтвердить бронирование</button>
+                        <a href="{% url 'room_type_detail' room_type.id %}" class="btn btn-outline-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <h6>Занятые даты этого номера</h6>
+    </div>
+    <div class="card-body">
+        {% if occupied_dates %}
+            <div class="mb-2">
+                {% for date_range in occupied_dates %}
+                    <span class="badge bg-warning text-dark me-2 mb-2">
+                        {{ date_range.text }}
+                    </span>
+                {% endfor %}
+            </div>
+            <small class="text-muted">Не выбирайте эти даты для бронирования</small>
+        {% else %}
+            <p class="text-success mb-0">Номер свободен на все даты!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
