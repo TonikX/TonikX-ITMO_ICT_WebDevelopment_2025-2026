@@ -83,6 +83,11 @@ class RaceResult(models.Model):
     def __str__(self):
         return f"{self.racer.user.username} - {self.result}"
 
+    @property
+    def experience_display(self):
+        """Человекочитаемое отображение опыта"""
+        return dict(self.EXPERIENCE_CHOICES).get(self.experience, self.experience)
+
 
 # ===== МОДЕЛЬ КОММЕНТАРИЯ =====
 class Comment(models.Model):

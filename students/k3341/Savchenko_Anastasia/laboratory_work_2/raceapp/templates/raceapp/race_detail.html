@@ -49,6 +49,71 @@
         </div>
     </div>
 
+    <!-- ===== ПАНЕЛЬ АДМИНИСТРАТОРА ===== -->
+    {% if user.is_staff %}
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0"><i class="bi bi-shield-lock"></i> Панель администратора</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="mb-3">Управление регистрациями</h5>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Участник</th>
+                            <th>Команда</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for racer in race.racers.all %}
+                        <tr>
+                            <td>
+                                <strong>{{ racer.user.get_full_name|default:racer.user.username }}</strong>
+                                <br>
+                                <small class="text-muted">{{ racer.user.email }}</small>
+                            </td>
+                            <td>{{ racer.team_name }}</td>
+                            <td>
+                                {% if racer.is_confirmed %}
+                                    <span class="badge bg-success">Подтвержден</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Ожидает</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'raceapp:confirm_registration' racer.pk %}"
+                                   class="btn btn-sm {% if racer.is_confirmed %}btn-warning{% else %}btn-success{% endif %}"
+                                   onclick="return confirm('{% if racer.is_confirmed %}Отменить подтверждение{% else %}Подтвердить{% endif %} регистрацию {{ racer.user.username }}?')">
+                                    <i class="bi {% if racer.is_confirmed %}bi-x-circle{% else %}bi-check-circle{% endif %}"></i>
+                                    {% if racer.is_confirmed %}
+                                        Отменить
+                                    {% else %}
+                                        Подтвердить
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-3">
+                                <i class="bi bi-info-circle"></i> Нет зарегистрированных участников
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-info mt-3 mb-0">
+                <i class="bi bi-info-circle"></i>
+                <small>Подтвержденные участники будут отображаться с зеленым бейджем. Только подтвержденные регистрации допускаются к участию в гонке.</small>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Результаты -->
     <div class="card shadow mb-4">
         <div class="card-header bg-success text-white">

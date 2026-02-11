@@ -37,4 +37,7 @@ urlpatterns = [
     # ===== ПРОФИЛЬ =====
     path('profile/', views.profile, name='profile'),  # Просмотр профиля
     path('profile/edit/', views.edit_profile, name='edit_profile'),  # Редактирование профиля
+
+    # ===== ПОДТВЕРЖДЕНИЕ РЕГИСТРАЦИИ (АДМИН) =====
+    path('racer/confirm/<int:pk>/', views.confirm_registration, name='confirm_registration'),
 ]

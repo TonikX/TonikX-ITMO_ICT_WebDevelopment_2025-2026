@@ -5,7 +5,21 @@
 {% block content %}
 <div class="container mt-4">
     <!-- Заголовок -->
-    <h1 class="mb-4">Мои регистрации на гонки</h1>
+    <h1 class="mb-4">
+        {% if user.is_staff %}
+            <i class="bi bi-shield-lock"></i> Управление регистрациями
+        {% else %}
+            Мои регистрации на гонки
+        {% endif %}
+    </h1>
+
+    <!-- Информация для админа -->
+    {% if user.is_staff %}
+    <div class="alert alert-info mb-4">
+        <i class="bi bi-info-circle"></i>
+        Вы вошли как администратор. Вы видите все регистрации в системе.
+    </div>
+    {% endif %}
 
     <!-- Таблица регистраций -->
     {% if registrations %}
@@ -13,6 +27,9 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
             <tr>
+                {% if user.is_staff %}
+                <th>Участник</th>
+                {% endif %}
                 <th>Гонка</th>
                 <th>Дата</th>
                 <th>Команда</th>
@@ -26,6 +43,15 @@
             <tbody>
             {% for reg in registrations %}
             <tr>
+                <!-- Колонка с участником (только для админа) -->
+                {% if user.is_staff %}
+                <td>
+                    <strong>{{ reg.user.get_full_name|default:reg.user.username }}</strong>
+                    <br>
+                    <small class="text-muted">{{ reg.user.email }}</small>
+                </td>
+                {% endif %}
+
                 <!-- Название гонки -->
                 <td>
                     <a href="{% url 'raceapp:race_detail' reg.race.id %}" class="text-decoration-none">
@@ -59,11 +85,31 @@
 
                 <!-- Действия -->
                 <td>
+                    <!-- Кнопка подтверждения/отмены (только для админа) -->
+                    {% if user.is_staff %}
+                        {% if reg.is_confirmed %}
+                        <a href="{% url 'raceapp:confirm_registration' reg.id %}"
+                           class="btn btn-sm btn-warning mb-1"
+                           onclick="return confirm('Отменить подтверждение регистрации {{ reg.user.username }} на гонку {{ reg.race.name }}?')">
+                            <i class="bi bi-x-circle"></i> Отменить
+                        </a>
+                        {% else %}
+                        <a href="{% url 'raceapp:confirm_registration' reg.id %}"
+                           class="btn btn-sm btn-success mb-1"
+                           onclick="return confirm('Подтвердить регистрацию {{ reg.user.username }} на гонку {{ reg.race.name }}?')">
+                            <i class="bi bi-check-circle"></i> Подтвердить
+                        </a>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- Кнопка удаления (для своих регистраций или для админа) -->
+                    {% if reg.user == request.user or user.is_staff %}
                     <a href="{% url 'raceapp:racer_delete' reg.id %}"
-                       class="btn btn-sm btn-danger"
-                       onclick="return confirm('Отменить регистрацию на гонку {{ reg.race.name }}?')">
+                       class="btn btn-sm btn-danger {% if user.is_staff %}mt-1{% endif %}"
+                       onclick="return confirm('Отменить регистрацию{% if user.is_staff %} {{ reg.user.username }}{% endif %} на гонку {{ reg.race.name }}?')">
                         <i class="bi bi-trash"></i> Отменить
                     </a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -74,17 +120,23 @@
     <!-- Если регистраций нет -->
     <div class="alert alert-info text-center">
         <i class="bi bi-info-circle me-2"></i>
-        У вас нет зарегистрированных гонок.
-        <a href="{% url 'raceapp:racer_register' %}" class="alert-link">Зарегистрируйтесь на свою первую гонку!</a>
+        {% if user.is_staff %}
+            В системе пока нет ни одной регистрации на гонки.
+        {% else %}
+            У вас нет зарегистрированных гонок.
+            <a href="{% url 'raceapp:racer_register' %}" class="alert-link">Зарегистрируйтесь на свою первую гонку!</a>
+        {% endif %}
     </div>
     {% endif %}
 
     <!-- Навигационные кнопки -->
     <div class="d-flex justify-content-between mt-4">
         <div>
+            {% if not user.is_staff %}
             <a href="{% url 'raceapp:racer_register' %}" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Новая регистрация
             </a>
+            {% endif %}
         </div>
         <div>
             <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-secondary">

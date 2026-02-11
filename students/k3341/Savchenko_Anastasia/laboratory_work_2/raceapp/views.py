@@ -223,11 +223,16 @@ def racer_register(request):
 def my_registrations(request):
     """
     Страница с гонками, на которые зарегистрирован пользователь.
-    Только для авторизованных.
+    Админ видит ВСЕ регистрации.
     """
-    registrations = Racer.objects.filter(user=request.user)
-    return render(request, 'raceapp/my_registrations.html', {'registrations': registrations})
+    if request.user.is_staff:
+        # Админ видит все регистрации
+        registrations = Racer.objects.all().select_related('user', 'race').order_by('-registered_at')
+    else:
+        # Обычный пользователь видит только свои
+        registrations = Racer.objects.filter(user=request.user).select_related('race').order_by('-registered_at')
 
+    return render(request, 'raceapp/my_registrations.html', {'registrations': registrations})
 
 # ===== УДАЛЕНИЕ РЕГИСТРАЦИИ =====
 class RacerDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -387,3 +392,30 @@ def comment_list(request):
     view.request = request
     view.kwargs = {}
     return view.get(request)
+
+
+@login_required
+def confirm_registration(request, pk):
+    """
+    Подтверждение регистрации гонщика.
+    Доступно только администраторам.
+    """
+    # Проверяем, является ли пользователь администратором
+    if not request.user.is_staff:
+        messages.error(request, 'У вас нет прав для выполнения этого действия.')
+        return redirect('raceapp:my_registrations')
+
+    # Получаем регистрацию
+    registration = get_object_or_404(Racer, pk=pk)
+
+    # Переключаем статус подтверждения
+    registration.is_confirmed = not registration.is_confirmed
+    registration.save()
+
+    status = "подтверждена" if registration.is_confirmed else "отменена"
+    messages.success(request, f'Регистрация {registration.user.username} на гонку "{registration.race.name}" {status}.')
+
+    # Возвращаемся на страницу, с которой пришли
+    return redirect(request.META.get('HTTP_REFERER', 'raceapp:race_list'))
+
+

@@ -55,6 +55,7 @@
             </ul>
 
             <!-- Правая часть меню (авторизация) -->
+            <!-- Правая часть меню (авторизация) -->
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <!-- Дропдаун для авторизованного пользователя -->
@@ -64,13 +65,20 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'raceapp:profile' %}">Профиль</a></li>
-                        <li><a class="dropdown-item" href="{% url 'raceapp:my_registrations' %}">Мои регистрации</a>
-                        </li>
+                        <li><a class="dropdown-item" href="{% url 'raceapp:my_registrations' %}">
+                            {% if user.is_staff %}
+                            <i class="bi bi-shield-lock"></i> Управление регистрациями
+                            {% else %}
+                            Мои регистрации
+                            {% endif %}
+                        </a></li>
                         {% if user.is_staff %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/admin/">Админка</a></li>
+                        <li><a class="dropdown-item" href="/admin/">
+                            <i class="bi bi-gear"></i> Админ-панель Django
+                        </a></li>
                         {% endif %}
                         <li>
                             <hr class="dropdown-divider">
