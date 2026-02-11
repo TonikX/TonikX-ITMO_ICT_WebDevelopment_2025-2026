@@ -1,0 +1,6 @@
+site_name: Веб программирование
+nav:
+  - Lab 1: index.md
+  - Lab 2: lab2.md
+  - Lab 3 (API Docs): api.md
+  - Lab 4: lab4.md

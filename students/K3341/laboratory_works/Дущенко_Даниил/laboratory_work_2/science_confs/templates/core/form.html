@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title mb-4">{{ title }}</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="javascript:history.back()" class="btn btn-secondary">Отмена</a>
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
