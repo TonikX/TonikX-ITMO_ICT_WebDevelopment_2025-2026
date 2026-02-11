@@ -9,9 +9,7 @@
 
 ### 🐧 [Лабораторная работа 1](laboratory_work_1.md)
 ### 🐧 [Лабораторная работа 2](laboratory_work_2.md)
-### 🐣 [Лабораторная работа 3](laboratory_work_3.md)
+### 🐧 [Лабораторная работа 3](laboratory_work_3.md)
   - [Практическая работа 3.1](practical_work_3_1.md)
   - [Практическая работа 3.2](practical_work_3_2.md)
-### 🥚 [Лабораторная работа 4](laboratory_work_4.md)
-  - [Практическая работа 4.1](practical_work_4_1.md)
-  - [Практическая работа 4.2](practical_work_4_2.md)
+### 🐧 [Лабораторная работа 4](laboratory_work_4.md)

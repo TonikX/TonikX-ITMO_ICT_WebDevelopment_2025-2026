@@ -1,10 +1,10 @@
 import socket
 import threading
 
-clients = []
-lock = threading.Lock()
+clients = [] # глобальный список всех подключённых клиентских сокетов
+lock = threading.Lock() # объект для синхронизации потоков
 
-
+#  Функция широковещательной рассылки
 def send_to_all(msg, sender=None):
     with lock:
         for client in clients:
@@ -14,7 +14,7 @@ def send_to_all(msg, sender=None):
                 except:
                     clients.remove(client)
 
-
+# Функция-обработчик клиента (работает в отдельном потоке)
 def handle_client(client, addr):
     try:
         nickname = client.recv(1024).decode().strip()
