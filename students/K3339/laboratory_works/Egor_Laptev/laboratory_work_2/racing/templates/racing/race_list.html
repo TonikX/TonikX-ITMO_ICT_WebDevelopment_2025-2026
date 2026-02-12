@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Список гонок</h1>
+
+<!-- Форма поиска -->
+<form method="get" class="mb-4">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Поиск гонок..."
+           class="form-control" />
+</form>
+
+<div class="bg-white shadow rounded-xl p-6 mb-6">
+    <ul class="divide-y divide-gray-200">
+        {% for race in races %}
+            <li class="py-4">
+                <a href="{% url 'racing:race_detail' race.pk %}"
+                   class="text-lg font-medium text-blue-600 hover:text-blue-800 transition">
+                    {{ race.title }}
+                </a>
+                <div class="text-gray-500 text-sm">{{ race.date }}</div>
+            </li>
+        {% empty %}
+            <li class="py-4 text-gray-500 text-center">Пока нет гонок.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Пагинация -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"
+                   aria-label="Previous">
+                    &laquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}"
+                   aria-label="Next">
+                    &raquo;
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

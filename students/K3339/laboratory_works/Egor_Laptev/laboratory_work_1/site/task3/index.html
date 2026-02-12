@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Task 3 - Practice work 1</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Practice work 1</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task1/" class="nav-link">Task 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task2/" class="nav-link">Task 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Task 3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task4/" class="nav-link">Task 4</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task5/" class="nav-link">Task 5</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../task2/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../task4/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#3" class="nav-link">Задание 3:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="3">Задание 3:</h2>
+<p>Реализовать серверную часть приложения. Клиент подключается к серверу, и в ответ получает HTTP-сообщение, содержащее HTML-страницу, которая сервер подгружает из файла <code>index.html</code>.</p>
+<h3 id="_1">Используемые технологии:</h3>
+<ul>
+<li>Python socket</li>
+<li>Протокол TCP</li>
+<li>HTTP/1.1</li>
+</ul>
+<h3 id="_2">Файлы:</h3>
+<p><strong>server.py</strong></p>
+<pre><code class="language-python">import socket
+
+HOST = 'localhost'
+PORT = 8080
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.bind((HOST, PORT))
+sock.listen(1)
+print(f&quot;Server is running on {HOST}:{PORT}&quot;)
+
+while True:
+    conn, addr = sock.accept()
+    print(f&quot;Подключен клиент: {addr}&quot;)
+    try:
+        request = conn.recv(1024).decode()
+        print(f&quot;Запрос:\n{request}&quot;)
+
+        try:
+            with open(&quot;index.html&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+                html_content = f.read()
+        except FileNotFoundError:
+            html_content = &quot;&lt;h1&gt;Файл index.html не найден&lt;/h1&gt;&quot;
+
+        response = &quot;HTTP/1.1 200 OK\r\n&quot;
+        response += &quot;Content-Type: text/html; charset=utf-8\r\n&quot;
+        response += f&quot;Content-Length: {len(html_content.encode('utf-8'))}\r\n&quot;
+        response += &quot;\r\n&quot;
+        response += html_content
+
+        conn.sendall(response.encode('utf-8'))
+    except Exception as e:
+        print(f&quot;Ошибка: {e}&quot;)
+    finally:
+        conn.close()
+
+</code></pre>
+<p><strong>index.html</strong></p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Goofy Ass Page&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
+            font-family: &quot;Comic Sans MS&quot;, cursive, sans-serif;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-top: 50px;
+            animation: wobble 2s infinite;
+        }
+
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        p {
+            font-size: 2em;
+            animation: rainbowText 5s infinite;
+        }
+
+        @keyframes rainbowText {
+            0% { color: #ff0000; }
+            20% { color: #ff9900; }
+            40% { color: #ffff00; }
+            60% { color: #00ff00; }
+            80% { color: #00ffff; }
+            100% { color: #ff00ff; }
+        }
+
+        .bouncing {
+            position: absolute;
+            font-size: 3em;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { top: 10%; }
+            50% { top: 70%; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;HELLLOOO!!!&lt;/h1&gt;
+    &lt;p&gt;Welcome!&lt;/p&gt;
+
+    &lt;div class=&quot;bouncing&quot; style=&quot;left:10%;&quot;&gt;🤪&lt;/div&gt;
+    &lt;div class=&quot;bouncing&quot; style=&quot;left:40%; animation-delay: 1s;&quot;&gt;🦄&lt;/div&gt;
+    &lt;div class=&quot;bouncing&quot; style=&quot;left:70%; animation-delay: 2s;&quot;&gt;🍕&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+<h3 id="_3">Результат работы:</h3>
+<p>Сервер:</p>
+<pre><code>Server is running on localhost:8080
+Подключен клиент: ('127.0.0.1', 53214)
+Запрос:
+GET / HTTP/1.1
+Host: localhost:8080
+...
+
+</code></pre>
+<p>Клиент:
+Отображается HTML-страница</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

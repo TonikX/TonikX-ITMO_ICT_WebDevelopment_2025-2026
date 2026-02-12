@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-md mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Регистрация</h1>
+
+    <div class="bg-white shadow rounded-xl p-8">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                    <p class="font-semibold">Ошибка регистрации</p>
+                    <ul class="text-sm mt-1 list-disc list-inside">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="space-y-4">
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                        Имя пользователя
+                    </label>
+                    <input type="text" 
+                           name="{{ form.username.name }}" 
+                           id="{{ form.username.id_for_label }}"
+                           value="{{ form.username.value|default:'' }}"
+                           required
+                           autofocus
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% if form.username.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                    {% if form.username.help_text %}
+                        <p class="text-gray-500 text-xs mt-1">{{ form.username.help_text }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.password1.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                        Пароль
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password1.name }}" 
+                           id="{{ form.password1.id_for_label }}"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% if form.password1.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.password1.errors.0 }}</p>
+                    {% endif %}
+                    {% if form.password1.help_text %}
+                        <div class="text-gray-500 text-xs mt-1">
+                            {{ form.password1.help_text|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.password2.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                        Подтверждение пароля
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password2.name }}" 
+                           id="{{ form.password2.id_for_label }}"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% if form.password2.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                    {% if form.password2.help_text %}
+                        <p class="text-gray-500 text-xs mt-1">{{ form.password2.help_text }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition font-medium">
+                Зарегистрироваться
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-gray-600 text-sm">
+                Уже есть аккаунт? 
+                <a href="{% url 'racing:login' %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                    Войти
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

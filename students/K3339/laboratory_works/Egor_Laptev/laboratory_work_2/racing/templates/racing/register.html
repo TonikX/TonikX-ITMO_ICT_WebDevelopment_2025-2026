@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">
+    Регистрация на: {{ race.title }}
+</h1>
+
+{% if cars_count == 0 %}
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-6">
+        <p class="text-yellow-800 mb-4">
+            У вас пока нет автомобилей. Пожалуйста, добавьте автомобиль перед регистрацией.
+        </p>
+        <a href="{% url 'racing:add_car' %}"
+           class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition inline-block">
+            Добавить автомобиль
+        </a>
+    </div>
+{% else %}
+    <div class="bg-white shadow rounded-xl p-8 max-w-xl">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Django form rendered with Tailwind styles -->
+            <div class="space-y-4">
+                {% for field in form %}
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-1">
+                            {{ field.label }}
+                        </label>
+
+                        <select name="{{ field.name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">---------</option>
+                            {% for choice in field.field.queryset %}
+                                <option value="{{ choice.pk }}" {% if field.value == choice.pk %}selected{% endif %}>
+                                    {{ choice.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        {% if field.errors %}
+                            <p class="text-red-600 text-sm mt-1">
+                                {{ field.errors.0 }}
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+                    Зарегистрироваться
+                </button>
+                <a href="{% url 'racing:race_detail' race.pk %}"
+                   class="bg-gray-400 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-500 transition">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Task 5 - Practice work 1</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Practice work 1</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task1/" class="nav-link">Task 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task2/" class="nav-link">Task 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task3/" class="nav-link">Task 3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../task4/" class="nav-link">Task 4</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Task 5</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../task4/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#5" class="nav-link">Задание 5:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="5">Задание 5:</h2>
+<p>Написать простой веб-сервер для обработки GET и POST HTTP-запросов с помощью библиотеки socket в Python.</p>
+<h3 id="_1">Используемые технологии:</h3>
+<ul>
+<li>Python <code>socket</code></li>
+<li>HTTP/1.1</li>
+<li>Протокол TCP</li>
+</ul>
+<h3 id="_2">Файлы:</h3>
+<p><strong>server.py</strong></p>
+<pre><code class="language-python">import socket
+from urllib.parse import urlparse, parse_qs
+from email.utils import formatdate
+
+GRADES: dict[str, list[str]] = {}
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 8080
+SERVER_NAME = &quot;GradesServer&quot;
+
+
+class MyHTTPServer:
+    def __init__(self, host: str, port: int, name: str):
+        self.host = host
+        self.port = port
+        self.name = name
+
+    # Запуск сервера на сокете, обработка входящих соединений
+    def serve_forever(self):
+        serv_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        serv_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        serv_sock.bind((self.host, self.port))
+        serv_sock.listen(10)
+        print(f&quot;{self.name} listening at http://{self.host}:{self.port}/&quot;)
+
+        try:
+            while True:
+                conn, addr = serv_sock.accept()
+                try:
+                    self.serve_client(conn)
+                except Exception as e:
+                    self.send_error(conn, e)
+                finally:
+                    conn.close()
+        finally:
+            serv_sock.close()
+
+    # Обработка клиентского подключения
+    def serve_client(self, conn: socket.socket):
+        request_line, headers, body = self.parse_request(conn)
+        response = self.handle_request(request_line, headers, body)
+        self.send_response(conn, response)
+
+    # Обработка request line и подготовка rfile
+    def parse_request(self, conn: socket.socket):
+        rfile = conn.makefile(&quot;rb&quot;)
+        line = rfile.readline(64 * 1024)
+        if not line:
+            raise Exception(&quot;Empty request&quot;)
+        try:
+            line_str = line.decode(&quot;iso-8859-1&quot;).strip()
+        except UnicodeDecodeError:
+            raise Exception(&quot;Cannot decode request line&quot;)
+        parts = line_str.split()
+        if len(parts) != 3:
+            raise Exception(&quot;Malformed request line&quot;)
+        method, target, version = parts
+        if version != &quot;HTTP/1.1&quot;:
+            raise Exception(&quot;Unsupported HTTP version&quot;)
+        headers = self.parse_headers(rfile)
+        body = None
+        if &quot;content-length&quot; in headers:
+            length = int(headers[&quot;content-length&quot;])
+            body = rfile.read(length)
+        return (method, target, version), headers, body
+
+    # Обработка headers
+    def parse_headers(self, rfile):
+        headers = {}
+        for _ in range(100):
+            line = rfile.readline(64 * 1024)
+            if line in (b&quot;\r\n&quot;, b&quot;\n&quot;, b&quot;&quot;):
+                break
+            try:
+                line_str = line.decode(&quot;iso-8859-1&quot;).strip()
+            except UnicodeDecodeError:
+                continue
+            if &quot;:&quot; in line_str:
+                key, value = line_str.split(&quot;:&quot;, 1)
+                headers[key.lower().strip()] = value.strip()
+        return headers
+
+    # Обработка GET/POST
+    def handle_request(self, request_line, headers, body):
+        method, target, version = request_line
+        parsed_url = urlparse(target)
+        path = parsed_url.path
+        query = parse_qs(parsed_url.query, keep_blank_values=True)
+
+        if method == &quot;GET&quot; and path == &quot;/&quot;:
+            html = self.render_index_html()
+            return 200, &quot;OK&quot;, {&quot;Content-Type&quot;: &quot;text/html; charset=utf-8&quot;}, html.encode(&quot;utf-8&quot;)
+
+        if method == &quot;POST&quot; and path == &quot;/submit&quot;:
+            post_data = {}
+            if body:
+                post_data = parse_qs(body.decode(&quot;utf-8&quot;), keep_blank_values=True)
+            for k, v in query.items():
+                post_data.setdefault(k, []).extend(v)
+
+            subject = post_data.get(&quot;subject&quot;, [&quot;&quot;])[0].strip()
+            grade = post_data.get(&quot;grade&quot;, [&quot;&quot;])[0].strip()
+            if not subject or not grade:
+                return 400, &quot;Bad Request&quot;, {&quot;Content-Type&quot;: &quot;text/plain&quot;}, b&quot;Missing subject or grade&quot;
+
+            GRADES.setdefault(subject, []).append(grade)
+
+            # redirect after POST
+            return 303, &quot;See Other&quot;, {&quot;Location&quot;: &quot;/&quot;}, b&quot;&quot;
+
+        return 404, &quot;Not Found&quot;, {&quot;Content-Type&quot;: &quot;text/plain&quot;}, b&quot;Not Found&quot;
+
+    # Отправка ответа
+    def send_response(self, conn: socket.socket, response):
+        status, reason, headers, body = response
+        wfile = conn.makefile(&quot;wb&quot;)
+        wfile.write(f&quot;HTTP/1.1 {status} {reason}\r\n&quot;.encode(&quot;iso-8859-1&quot;))
+        headers[&quot;Date&quot;] = formatdate(usegmt=True)
+        headers[&quot;Server&quot;] = self.name
+        headers[&quot;Content-Length&quot;] = str(len(body))
+        headers[&quot;Connection&quot;] = &quot;close&quot;
+        for k, v in headers.items():
+            wfile.write(f&quot;{k}: {v}\r\n&quot;.encode(&quot;iso-8859-1&quot;))
+        wfile.write(b&quot;\r\n&quot;)
+        wfile.write(body)
+        wfile.flush()
+
+    def send_error(self, conn: socket.socket, error: Exception):
+        body = str(error).encode(&quot;utf-8&quot;)
+        self.send_response(conn, (500, &quot;Internal Server Error&quot;, {&quot;Content-Type&quot;: &quot;text/plain&quot;}, body))
+
+    def render_index_html(self) -&gt; str:
+        if not GRADES:
+            rows = &quot;&lt;tr&gt;&lt;td colspan='2'&gt;No records yet&lt;/td&gt;&lt;/tr&gt;&quot;
+        else:
+            rows = &quot;\n&quot;.join(
+                f&quot;&lt;tr&gt;&lt;td&gt;{self.escape(subject)}&lt;/td&gt;&lt;td&gt;{', '.join(self.escape(g) for g in grades)}&lt;/td&gt;&lt;/tr&gt;&quot;
+                for subject, grades in GRADES.items()
+            )
+        return f&quot;&quot;&quot;&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;title&gt;Grades&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Grades&lt;/h1&gt;
+&lt;table border=&quot;1&quot;&gt;
+&lt;tr&gt;&lt;th&gt;Subject&lt;/th&gt;&lt;th&gt;Grades&lt;/th&gt;&lt;/tr&gt;
+{rows}
+&lt;/table&gt;
+&lt;form method=&quot;POST&quot; action=&quot;/submit&quot;&gt;
+&lt;label&gt;Subject: &lt;input name=&quot;subject&quot; required&gt;&lt;/label&gt;
+&lt;label&gt;Grade: &lt;input name=&quot;grade&quot; required&gt;&lt;/label&gt;
+&lt;button type=&quot;submit&quot;&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;&quot;&quot;&quot;
+
+    @staticmethod
+    def escape(text: str) -&gt; str:
+        return (text.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)
+                .replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
+                .replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
+                .replace('&quot;', &quot;&amp;quot;&quot;)
+                .replace(&quot;'&quot;, &quot;&amp;#39;&quot;))
+
+
+if __name__ == &quot;__main__&quot;:
+    server = MyHTTPServer(HOST, PORT, SERVER_NAME)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print(&quot;\nServer stopped.&quot;)
+
+</code></pre>
+<h3 id="_3">Результат работы:</h3>
+<p>Сервер:</p>
+<pre><code>GradesServer listening at http://127.0.0.1:8080/
+</code></pre>
+<p>Клиент:
+1. При GET-запросе отображается HTML-страница с таблицей оценок и формой добавления новой записи.</p>
+<ol>
+<li>При POST-запросе данные формы добавляются на сервер, и страница автоматически обновляется (редирект на /).</li>
+</ol></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

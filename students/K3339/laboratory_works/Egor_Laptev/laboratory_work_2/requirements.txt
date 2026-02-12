@@ -1,0 +1,5 @@
+Django==5.2.8
+django-bootstrap3==25.3
+psycopg2-binary==2.9.9
+mkdocs-material>=9.0.0
+

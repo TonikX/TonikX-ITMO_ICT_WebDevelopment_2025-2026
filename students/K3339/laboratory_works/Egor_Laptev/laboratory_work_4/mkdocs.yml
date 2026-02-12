@@ -1,0 +1,55 @@
+site_name: Hotel Management Frontend Documentation
+site_description: Документация интерфейсов Vue 3 для системы управления отелем
+site_author: Egor Laptev
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Главная: index.md
+  - Интерфейсы:
+    - Авторизация: interfaces/login.md
+    - Регистрация: interfaces/register.md
+    - Профиль пользователя: interfaces/profile.md
+    - Типы номеров: interfaces/room-types.md
+    - Этажи: interfaces/floors.md
+    - Номера: interfaces/rooms.md
+    - Гости: interfaces/guests.md
+    - Проживания: interfaces/stays.md
+    - Сотрудники: interfaces/employees.md
+    - График уборки: interfaces/cleaning-schedule.md
+  - API взаимодействие: api-integration.md
+  - Архитектура: architecture.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - tables
+  - codehilite
+
+
+

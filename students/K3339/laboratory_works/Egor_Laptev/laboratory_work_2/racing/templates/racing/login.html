@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-md mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Вход в систему</h1>
+
+    <div class="bg-white shadow rounded-xl p-8">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                    <p class="font-semibold">Ошибка входа</p>
+                    <p class="text-sm mt-1">
+                        {% if form.non_field_errors %}
+                            {{ form.non_field_errors.0 }}
+                        {% else %}
+                            Пожалуйста, проверьте правильность введенных данных.
+                        {% endif %}
+                    </p>
+                </div>
+            {% endif %}
+
+            <div class="space-y-4">
+                <div>
+                    <label for="{{ form.username.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                        Имя пользователя
+                    </label>
+                    <input type="text" 
+                           name="{{ form.username.name }}" 
+                           id="{{ form.username.id_for_label }}"
+                           value="{{ form.username.value|default:'' }}"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% if form.username.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.password.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                        Пароль
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password.name }}" 
+                           id="{{ form.password.id_for_label }}"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% if form.password.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% elif next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% else %}
+                <input type="hidden" name="next" value="{% url 'racing:race_list' %}">
+            {% endif %}
+
+            <button type="submit"
+                    class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition font-medium">
+                Войти
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-gray-600 text-sm">
+                Нет аккаунта? 
+                <a href="{% url 'racing:register_user' %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                    Зарегистрироваться
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

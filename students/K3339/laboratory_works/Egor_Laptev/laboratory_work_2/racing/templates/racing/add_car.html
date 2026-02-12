@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Добавить автомобиль</h1>
+
+<div class="bg-white shadow rounded-xl p-8 max-w-xl">
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        <div class="space-y-4">
+            {% for field in form %}
+                <div>
+                    <label class="block text-gray-700 font-medium mb-1">
+                        {{ field.label }}
+                    </label>
+
+                    {% if field.field.widget.input_type == 'textarea' %}
+                        <textarea name="{{ field.name }}" rows="4"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ field.value|default:'' }}</textarea>
+                    {% else %}
+                        <input type="text" name="{{ field.name }}" value="{{ field.value|default:'' }}"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ field.errors.0 }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="bg-green-600 text-white px-6 py-2 rounded-lg shadow hover:bg-green-700 transition">
+                Добавить
+            </button>
+            <a href="{% url 'racing:profile' %}"
+               class="bg-gray-400 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-500 transition">
+                Отмена
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+

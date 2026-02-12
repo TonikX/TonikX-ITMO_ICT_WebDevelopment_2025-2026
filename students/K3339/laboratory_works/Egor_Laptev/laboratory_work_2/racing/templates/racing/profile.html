@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Мой профиль</h1>
+
+<div class="bg-white shadow rounded-xl p-8 mb-6">
+    <div class="flex justify-between items-start mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Информация о профиле</h2>
+        <a href="{% url 'racing:edit_profile' %}"
+           class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+            Редактировать
+        </a>
+    </div>
+
+    <div class="space-y-4">
+        <div>
+            <span class="font-semibold text-gray-700">ФИО:</span>
+            <span class="ml-2">{{ profile.full_name }}</span>
+        </div>
+        <div>
+            <span class="font-semibold text-gray-700">Команда:</span>
+            <span class="ml-2">{{ profile.team_name|default:"—" }}</span>
+        </div>
+        <div>
+            <span class="font-semibold text-gray-700">Опыт:</span>
+            <span class="ml-2">{{ profile.experience_years }} лет</span>
+        </div>
+        <div>
+            <span class="font-semibold text-gray-700">Класс:</span>
+            <span class="ml-2">{{ profile.get_participant_class_display }}</span>
+        </div>
+        {% if profile.description %}
+            <div>
+                <span class="font-semibold text-gray-700">Описание:</span>
+                <p class="ml-2 mt-1 text-gray-600">{{ profile.description }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-white shadow rounded-xl p-8 mb-6">
+    <div class="flex justify-between items-start mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Мои автомобили</h2>
+        <a href="{% url 'racing:add_car' %}"
+           class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition">
+            Добавить автомобиль
+        </a>
+    </div>
+
+    {% if cars %}
+        <div class="space-y-4">
+            {% for car in cars %}
+                <div class="border-b pb-4">
+                    <h3 class="font-semibold text-lg text-gray-800">{{ car.name }}</h3>
+                    {% if car.description %}
+                        <p class="text-gray-600 mt-1">{{ car.description }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">У вас пока нет автомобилей.</p>
+    {% endif %}
+</div>
+
+<div class="bg-white shadow rounded-xl p-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Мои регистрации</h2>
+
+    {% if registrations %}
+        <div class="space-y-4">
+            {% for reg in registrations %}
+                <div class="border-b pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold text-lg text-gray-800">
+                                <a href="{% url 'racing:race_detail' reg.race.pk %}" class="text-blue-600 hover:text-blue-800">
+                                    {{ reg.race.title }}
+                                </a>
+                            </h3>
+                            <p class="text-gray-600 text-sm mt-1">
+                                Дата: {{ reg.race.date|default:"Не указана" }}
+                            </p>
+                            {% if reg.car %}
+                                <p class="text-gray-600 text-sm">Автомобиль: {{ reg.car.name }}</p>
+                            {% endif %}
+                            {% if reg.position %}
+                                <p class="text-green-600 font-semibold mt-1">Позиция: #{{ reg.position }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="{% url 'racing:edit_registration' reg.pk %}"
+                               class="bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition">
+                                Редактировать
+                            </a>
+                            <form method="post" action="{% url 'racing:cancel_registration' reg.pk %}" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" 
+                                        onclick="return confirm('Вы уверены?');"
+                                        class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">У вас пока нет регистраций на гонки.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+

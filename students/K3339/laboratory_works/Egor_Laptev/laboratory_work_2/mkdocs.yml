@@ -1,0 +1,57 @@
+site_name: Отчет по лабораторной работе №2
+site_description: Система управления автогонками - Racing Portal
+site_author: Егор Лаптев
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+
+nav:
+  - Главная: index.md
+  - Описание задания: task.md
+  - Архитектура системы: architecture.md
+  - Интерфейсы: interfaces.md
+  - Установка и запуск: installation.md
+  - Модели данных: models.md
+  - Функциональность: functionality.md
+  - Заключение: conclusion.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - tables
+  - attr_list
+  - md_in_html
+
+plugins:
+  - search
+

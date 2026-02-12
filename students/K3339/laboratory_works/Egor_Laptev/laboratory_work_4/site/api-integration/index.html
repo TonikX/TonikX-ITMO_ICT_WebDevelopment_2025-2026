@@ -1,0 +1,3259 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Документация интерфейсов Vue 3 для системы управления отелем">
+      
+      
+        <meta name="author" content="Egor Laptev">
+      
+      
+      
+        <link rel="prev" href="../interfaces/cleaning-schedule/">
+      
+      
+        <link rel="next" href="../architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>API взаимодействие - Hotel Management Frontend Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Hotel Management Frontend Documentation" class="md-header__button md-logo" aria-label="Hotel Management Frontend Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hotel Management Frontend Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API взаимодействие
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Переключить на темную тему"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Переключить на темную тему" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Переключить на светлую тему"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Переключить на светлую тему" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Главная
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../interfaces/login/" class="md-tabs__link">
+          
+  
+  
+  Интерфейсы
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API взаимодействие
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Архитектура
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hotel Management Frontend Documentation" class="md-nav__button md-logo" aria-label="Hotel Management Frontend Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Hotel Management Frontend Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Интерфейсы
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Интерфейсы
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/login/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Авторизация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/register/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Регистрация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Профиль пользователя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/room-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Типы номеров
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/floors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Этажи
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/rooms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Номера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/guests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Гости
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/stays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Проживания
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/employees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Сотрудники
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interfaces/cleaning-schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    График уборки
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API взаимодействие
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API взаимодействие
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Архитектура взаимодействия
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Расположение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Конфигурация Axios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Конфигурация Axios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовый URL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#axios_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание экземпляра Axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interceptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interceptors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interceptors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request Interceptor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Interceptor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API методы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API методы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginusername-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        login(username, password)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logout()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Регистрация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Регистрация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registerusername-password-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register(username, password, email)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление профилем
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление профилем">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getcurrentuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        getCurrentUser()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updateuserdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        updateUser(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changepasswordcurrentpassword-newpassword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        changePassword(currentPassword, newPassword)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hotel-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotel API методы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hotel API методы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типы номеров
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Типы номеров">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roomtypeslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypescreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypespatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesstats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.stats()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этажи
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Этажи">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#floorslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsstats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.stats()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Номера
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Номера">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roomslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Гости
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Гости">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#guestslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проживания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Проживания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stayslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayssummarydate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.summary(date)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сотрудники
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сотрудники">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#employeeslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeescreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeespatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        График уборки
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="График уборки">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cleaninglist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaninggetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningcreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningpatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обработка ошибок
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Обработка ошибок">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типы ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример обработки ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Хранение токена
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS настройки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Безопасность
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Безопасность">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рекомендации
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Тестирование API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Архитектура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Архитектура взаимодействия
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Расположение
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Конфигурация Axios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Конфигурация Axios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовый URL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#axios_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание экземпляра Axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interceptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interceptors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interceptors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request Interceptor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-interceptor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Interceptor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API методы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API методы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginusername-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        login(username, password)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logout()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Регистрация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Регистрация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registerusername-password-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register(username, password, email)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление профилем
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление профилем">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getcurrentuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        getCurrentUser()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updateuserdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        updateUser(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changepasswordcurrentpassword-newpassword" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        changePassword(currentPassword, newPassword)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hotel-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotel API методы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hotel API методы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типы номеров
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Типы номеров">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roomtypeslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypescreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypespatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomtypesstats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        roomTypes.stats()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Этажи
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Этажи">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#floorslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floorsstats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        floors.stats()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Номера
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Номера">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roomslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roomsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rooms.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Гости
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Гости">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#guestslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guestsdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        guests.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проживания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Проживания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stayslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayscreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayspatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staysdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stayssummarydate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stays.summary(date)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сотрудники
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сотрудники">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#employeeslist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesgetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeescreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeespatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employeesdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        employees.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        График уборки
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="График уборки">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cleaninglist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.list()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaninggetid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.get(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningcreatedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.create(data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningupdateid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.update(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningpatchid-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.patch(id, data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaningdeleteid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cleaning.delete(id)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обработка ошибок
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Обработка ошибок">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типы ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример обработки ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Хранение токена
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS настройки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Безопасность
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Безопасность">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рекомендации
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Тестирование API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api">API взаимодействие</h1>
+<p>Документация описывает механизм взаимодействия Vue 3 приложения с Django REST Framework API.</p>
+<h2 id="_1">Архитектура взаимодействия</h2>
+<p>Frontend приложение взаимодействует с Backend API через HTTP запросы, используя библиотеку Axios. Все API вызовы централизованы в сервисе <code>api.js</code>.</p>
+<h2 id="_2">Расположение</h2>
+<p>Сервис API находится в файле <code>src/services/api.js</code></p>
+<h2 id="axios">Конфигурация Axios</h2>
+<h3 id="url">Базовый URL</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">API_BASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;http://localhost:8000&#39;</span>
+</code></pre></div>
+<p>API сервер должен быть запущен на порту 8000. Для production окружения необходимо изменить этот URL.</p>
+<h3 id="axios_1">Создание экземпляра Axios</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nx">baseURL</span><span class="o">:</span><span class="w"> </span><span class="nx">API_BASE_URL</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">})</span>
+</code></pre></div>
+<h2 id="interceptors">Interceptors</h2>
+<h3 id="request-interceptor">Request Interceptor</h3>
+<p>Автоматически добавляет токен авторизации к каждому запросу:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">api</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">request</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p">(</span><span class="nx">config</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">token</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nx">config</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">Authorization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`Token </span><span class="si">${</span><span class="nx">token</span><span class="si">}</span><span class="sb">`</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">config</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="response-interceptor">Response Interceptor</h3>
+<p>Обрабатывает ошибки авторизации и автоматически перенаправляет на страницу входа:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">api</span><span class="p">.</span><span class="nx">interceptors</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p">(</span><span class="nx">response</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">response</span><span class="o">?</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">401</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/login&#39;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="api_1">API методы</h2>
+<p>Все методы для работы с API сгруппированы в двух объектах: <code>authAPI</code> (аутентификация) и <code>hotelAPI</code> (управление отелем).</p>
+<h3 id="_3">Авторизация</h3>
+<h4 id="loginusername-password">login(username, password)</h4>
+<p>Выполняет вход пользователя в систему.</p>
+<p><strong>Endpoint:</strong> <code>POST /auth/token/login/</code></p>
+<p><strong>Параметры:</strong>
+- <code>username</code> (string) - имя пользователя
+- <code>password</code> (string) - пароль</p>
+<p><strong>Возвращает:</strong> Promise с объектом ответа, содержащим <code>auth_token</code></p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">login</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">)</span>
+</code></pre></div></p>
+<h4 id="logout">logout()</h4>
+<p>Выполняет выход пользователя из системы.</p>
+<p><strong>Endpoint:</strong> <code>POST /auth/token/logout/</code></p>
+<p><strong>Требует:</strong> Токен авторизации в заголовке</p>
+<p><strong>Возвращает:</strong> Promise</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">logout</span><span class="p">()</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="_4">Регистрация</h3>
+<h4 id="registerusername-password-email">register(username, password, email)</h4>
+<p>Регистрирует нового пользователя в системе.</p>
+<p><strong>Endpoint:</strong> <code>POST /auth/users/</code></p>
+<p><strong>Параметры:</strong>
+- <code>username</code> (string) - имя пользователя
+- <code>password</code> (string) - пароль
+- <code>email</code> (string) - email адрес</p>
+<p><strong>Возвращает:</strong> Promise с данными созданного пользователя</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;newuser&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;password123&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;user@example.com&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="_5">Управление профилем</h3>
+<h4 id="getcurrentuser">getCurrentUser()</h4>
+<p>Получает данные текущего авторизованного пользователя.</p>
+<p><strong>Endpoint:</strong> <code>GET /auth/users/me/</code></p>
+<p><strong>Требует:</strong> Токен авторизации в заголовке</p>
+<p><strong>Возвращает:</strong> Promise с данными пользователя</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">getCurrentUser</span><span class="p">()</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+</code></pre></div></p>
+<h4 id="updateuserdata">updateUser(data)</h4>
+<p>Обновляет данные текущего пользователя.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /auth/users/me/</code></p>
+<p><strong>Требует:</strong> Токен авторизации в заголовке</p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями для обновления:
+  - <code>username</code> (string, опционально)
+  - <code>email</code> (string, опционально)</p>
+<p><strong>Возвращает:</strong> Promise с обновленными данными пользователя</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">updateUser</span><span class="p">({</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nx">username</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;newusername&#39;</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;newemail@example.com&#39;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">})</span>
+</code></pre></div></p>
+<h4 id="changepasswordcurrentpassword-newpassword">changePassword(currentPassword, newPassword)</h4>
+<p>Изменяет пароль текущего пользователя.</p>
+<p><strong>Endpoint:</strong> <code>POST /auth/users/set_password/</code></p>
+<p><strong>Требует:</strong> Токен авторизации в заголовке</p>
+<p><strong>Параметры:</strong>
+- <code>currentPassword</code> (string) - текущий пароль
+- <code>newPassword</code> (string) - новый пароль</p>
+<p><strong>Возвращает:</strong> Promise</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">changePassword</span><span class="p">(</span><span class="s1">&#39;oldpassword&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;newpassword123&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="hotel-api">Hotel API методы</h2>
+<p>Все методы для работы с данными отеля сгруппированы в объекте <code>hotelAPI</code>:</p>
+<h3 id="_6">Типы номеров</h3>
+<h4 id="roomtypeslist">roomTypes.list()</h4>
+<p>Получает список всех типов номеров.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/room-types/</code></p>
+<p><strong>Возвращает:</strong> Promise с массивом типов номеров</p>
+<p><strong>Пример:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hotelAPI</span><span class="p">.</span><span class="nx">roomTypes</span><span class="p">.</span><span class="nx">list</span><span class="p">()</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div></p>
+<h4 id="roomtypesgetid">roomTypes.get(id)</h4>
+<p>Получает конкретный тип номера по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/room-types/{id}/</code></p>
+<p><strong>Параметры:</strong>
+- <code>id</code> (number) - ID типа номера</p>
+<p><strong>Возвращает:</strong> Promise с данными типа номера</p>
+<h4 id="roomtypescreatedata">roomTypes.create(data)</h4>
+<p>Создает новый тип номера.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/room-types/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>name</code> (string) - название типа
+  - <code>capacity</code> (number) - вместимость
+  - <code>price_per_day</code> (number) - цена за день</p>
+<p><strong>Возвращает:</strong> Promise с данными созданного типа номера</p>
+<h4 id="roomtypesupdateid-data">roomTypes.update(id, data)</h4>
+<p>Обновляет тип номера.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/room-types/{id}/</code></p>
+<p><strong>Параметры:</strong>
+- <code>id</code> (number) - ID типа номера
+- <code>data</code> (object) - объект с полями для обновления</p>
+<h4 id="roomtypespatchid-data">roomTypes.patch(id, data)</h4>
+<p>Частично обновляет тип номера.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/room-types/{id}/</code></p>
+<h4 id="roomtypesdeleteid">roomTypes.delete(id)</h4>
+<p>Удаляет тип номера.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/room-types/{id}/</code></p>
+<h4 id="roomtypesstats">roomTypes.stats()</h4>
+<p>Получает статистику по типам номеров.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/room-types/stats/</code></p>
+<p><strong>Возвращает:</strong> Promise с массивом статистики (включая количество номеров каждого типа)</p>
+<h3 id="_7">Этажи</h3>
+<h4 id="floorslist">floors.list()</h4>
+<p>Получает список всех этажей.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/floors/</code></p>
+<h4 id="floorsgetid">floors.get(id)</h4>
+<p>Получает конкретный этаж по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/floors/{id}/</code></p>
+<h4 id="floorscreatedata">floors.create(data)</h4>
+<p>Создает новый этаж.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/floors/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полем <code>number</code> (number)</p>
+<h4 id="floorsupdateid-data">floors.update(id, data)</h4>
+<p>Обновляет этаж.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/floors/{id}/</code></p>
+<h4 id="floorspatchid-data">floors.patch(id, data)</h4>
+<p>Частично обновляет этаж.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/floors/{id}/</code></p>
+<h4 id="floorsdeleteid">floors.delete(id)</h4>
+<p>Удаляет этаж.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/floors/{id}/</code></p>
+<h4 id="floorsstats">floors.stats()</h4>
+<p>Получает статистику по этажам.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/floors/stats/</code></p>
+<p><strong>Возвращает:</strong> Promise с массивом статистики (включая количество номеров и уборок на каждом этаже)</p>
+<h3 id="_8">Номера</h3>
+<h4 id="roomslist">rooms.list()</h4>
+<p>Получает список всех номеров.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/rooms/</code></p>
+<h4 id="roomsgetid">rooms.get(id)</h4>
+<p>Получает конкретный номер по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/rooms/{id}/</code></p>
+<h4 id="roomscreatedata">rooms.create(data)</h4>
+<p>Создает новый номер.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/rooms/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>number</code> (string) - номер комнаты
+  - <code>phone</code> (string, опционально) - телефон
+  - <code>type_id</code> (number) - ID типа номера
+  - <code>floor_id</code> (number) - ID этажа</p>
+<h4 id="roomsupdateid-data">rooms.update(id, data)</h4>
+<p>Обновляет номер.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/rooms/{id}/</code></p>
+<h4 id="roomspatchid-data">rooms.patch(id, data)</h4>
+<p>Частично обновляет номер.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/rooms/{id}/</code></p>
+<h4 id="roomsdeleteid">rooms.delete(id)</h4>
+<p>Удаляет номер.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/rooms/{id}/</code></p>
+<h3 id="_9">Гости</h3>
+<h4 id="guestslist">guests.list()</h4>
+<p>Получает список всех гостей.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/guests/</code></p>
+<h4 id="guestsgetid">guests.get(id)</h4>
+<p>Получает конкретного гостя по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/guests/{id}/</code></p>
+<h4 id="guestscreatedata">guests.create(data)</h4>
+<p>Создает нового гостя.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/guests/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>passport_number</code> (string) - номер паспорта
+  - <code>last_name</code> (string) - фамилия
+  - <code>first_name</code> (string) - имя
+  - <code>middle_name</code> (string, опционально) - отчество
+  - <code>city</code> (string) - город</p>
+<h4 id="guestsupdateid-data">guests.update(id, data)</h4>
+<p>Обновляет гостя.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/guests/{id}/</code></p>
+<h4 id="guestspatchid-data">guests.patch(id, data)</h4>
+<p>Частично обновляет гостя.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/guests/{id}/</code></p>
+<h4 id="guestsdeleteid">guests.delete(id)</h4>
+<p>Удаляет гостя.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/guests/{id}/</code></p>
+<h3 id="_10">Проживания</h3>
+<h4 id="stayslist">stays.list()</h4>
+<p>Получает список всех проживаний.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/stays/</code></p>
+<h4 id="staysgetid">stays.get(id)</h4>
+<p>Получает конкретное проживание по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/stays/{id}/</code></p>
+<h4 id="stayscreatedata">stays.create(data)</h4>
+<p>Создает новое проживание.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/stays/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>guest_id</code> (number) - ID гостя
+  - <code>room_id</code> (number) - ID номера
+  - <code>check_in</code> (string) - дата заезда (YYYY-MM-DD)
+  - <code>check_out</code> (string) - дата выезда (YYYY-MM-DD)</p>
+<h4 id="staysupdateid-data">stays.update(id, data)</h4>
+<p>Обновляет проживание.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/stays/{id}/</code></p>
+<h4 id="stayspatchid-data">stays.patch(id, data)</h4>
+<p>Частично обновляет проживание.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/stays/{id}/</code></p>
+<h4 id="staysdeleteid">stays.delete(id)</h4>
+<p>Удаляет проживание.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/stays/{id}/</code></p>
+<h4 id="stayssummarydate">stays.summary(date)</h4>
+<p>Получает сводку по проживаниям на определенную дату.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/stays/summary/?date=YYYY-MM-DD</code></p>
+<p><strong>Параметры:</strong>
+- <code>date</code> (string, опционально) - дата в формате YYYY-MM-DD (по умолчанию - сегодня)</p>
+<p><strong>Возвращает:</strong> Promise с объектом сводки:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-18&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">&quot;total_stays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">&quot;active_now&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">&quot;upcoming&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="nt">&quot;active_rooms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="_11">Сотрудники</h3>
+<h4 id="employeeslist">employees.list()</h4>
+<p>Получает список всех сотрудников.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/employees/</code></p>
+<h4 id="employeesgetid">employees.get(id)</h4>
+<p>Получает конкретного сотрудника по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/employees/{id}/</code></p>
+<h4 id="employeescreatedata">employees.create(data)</h4>
+<p>Создает нового сотрудника.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/employees/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>last_name</code> (string) - фамилия
+  - <code>first_name</code> (string) - имя
+  - <code>middle_name</code> (string, опционально) - отчество
+  - <code>employed</code> (boolean) - работает ли сотрудник</p>
+<h4 id="employeesupdateid-data">employees.update(id, data)</h4>
+<p>Обновляет сотрудника.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/employees/{id}/</code></p>
+<h4 id="employeespatchid-data">employees.patch(id, data)</h4>
+<p>Частично обновляет сотрудника.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/employees/{id}/</code></p>
+<h4 id="employeesdeleteid">employees.delete(id)</h4>
+<p>Удаляет сотрудника.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/employees/{id}/</code></p>
+<h3 id="_12">График уборки</h3>
+<h4 id="cleaninglist">cleaning.list()</h4>
+<p>Получает список всех записей графика уборки.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/cleaning/</code></p>
+<h4 id="cleaninggetid">cleaning.get(id)</h4>
+<p>Получает конкретную запись по ID.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/cleaning/{id}/</code></p>
+<h4 id="cleaningcreatedata">cleaning.create(data)</h4>
+<p>Создает новую запись в графике уборки.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/cleaning/</code></p>
+<p><strong>Параметры:</strong>
+- <code>data</code> (object) - объект с полями:
+  - <code>weekday</code> (string) - день недели (monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+  - <code>employee_id</code> (number) - ID сотрудника
+  - <code>floor_id</code> (number) - ID этажа</p>
+<h4 id="cleaningupdateid-data">cleaning.update(id, data)</h4>
+<p>Обновляет запись в графике уборки.</p>
+<p><strong>Endpoint:</strong> <code>PUT /api/cleaning/{id}/</code></p>
+<h4 id="cleaningpatchid-data">cleaning.patch(id, data)</h4>
+<p>Частично обновляет запись в графике уборки.</p>
+<p><strong>Endpoint:</strong> <code>PATCH /api/cleaning/{id}/</code></p>
+<h4 id="cleaningdeleteid">cleaning.delete(id)</h4>
+<p>Удаляет запись из графика уборки.</p>
+<p><strong>Endpoint:</strong> <code>DELETE /api/cleaning/{id}/</code></p>
+<h2 id="_13">Обработка ошибок</h2>
+<h3 id="_14">Типы ошибок</h3>
+<ol>
+<li>
+<p><strong>400 Bad Request</strong> - Ошибки валидации данных
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="s2">&quot;username&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Пользователь с таким именем уже существует.&quot;</span><span class="p">],</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="s2">&quot;email&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Пользователь с таким email уже существует.&quot;</span><span class="p">]</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>401 Unauthorized</strong> - Ошибки авторизации</p>
+</li>
+<li>Отсутствует токен</li>
+<li>Неверный токен</li>
+<li>
+<p>Токен истек</p>
+</li>
+<li>
+<p><strong>404 Not Found</strong> - Ресурс не найден</p>
+</li>
+<li>
+<p><strong>500 Internal Server Error</strong> - Ошибка сервера</p>
+</li>
+</ol>
+<h3 id="_15">Пример обработки ошибок</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">authAPI</span><span class="p">.</span><span class="nx">login</span><span class="p">(</span><span class="nx">username</span><span class="p">,</span><span class="w"> </span><span class="nx">password</span><span class="p">)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="c1">// Обработка успешного ответа</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="c1">// Сервер ответил с кодом ошибки</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">400</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">      </span><span class="c1">// Обработка ошибок валидации</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка валидации:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">401</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">      </span><span class="c1">// Обработка ошибок авторизации</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка авторизации:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">    </span><span class="c1">// Запрос был отправлен, но ответа не получено</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Сервер не отвечает&#39;</span><span class="p">)</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">    </span><span class="c1">// Ошибка при настройке запроса</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="_16">Хранение токена</h2>
+<p>Токен авторизации хранится в <code>localStorage</code> браузера под ключом <code>auth_token</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// Сохранение токена</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">)</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1">// Получение токена</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1">// Удаление токена</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="cors">CORS настройки</h2>
+<p>Для работы с API необходимо, чтобы на Django сервере были настроены CORS заголовки. В настройках Django (<code>settings.py</code>) должен быть установлен <code>corsheaders</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="c1"># ...</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="s1">&#39;corsheaders&#39;</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">]</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="c1"># ...</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="s1">&#39;corsheaders.middleware.CorsMiddleware&#39;</span><span class="p">,</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="c1"># ...</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="p">]</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="n">CORS_ORIGIN_ALLOW_ALL</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Для разработки</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="c1"># Или для production:</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1"># CORS_ALLOWED_ORIGINS = [</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="c1">#     &quot;http://localhost:5173&quot;,</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="c1"># ]</span>
+</code></pre></div>
+<h2 id="_17">Безопасность</h2>
+<h3 id="_18">Рекомендации</h3>
+<ol>
+<li>
+<p><strong>HTTPS в production</strong>: Всегда используйте HTTPS для передачи токенов в production окружении</p>
+</li>
+<li>
+<p><strong>Хранение токена</strong>: Токен хранится в <code>localStorage</code>, что делает его доступным для XSS атак. Для повышения безопасности можно использовать httpOnly cookies</p>
+</li>
+<li>
+<p><strong>Валидация на клиенте и сервере</strong>: Валидация данных происходит как на клиенте (для UX), так и на сервере (для безопасности)</p>
+</li>
+<li>
+<p><strong>Таймаут токена</strong>: Реализовать механизм обновления токена при истечении срока действия</p>
+</li>
+<li>
+<p><strong>Обработка ошибок</strong>: Никогда не показывать пользователю детальные технические ошибки в production</p>
+</li>
+</ol>
+<h2 id="api_2">Тестирование API</h2>
+<p>Для тестирования API можно использовать инструменты:</p>
+<ul>
+<li><strong>Postman</strong> - для отправки запросов и проверки endpoints</li>
+<li><strong>Swagger/ReDoc</strong> - документация API на <code>/swagger/</code> или <code>/redoc/</code></li>
+<li><strong>Browser DevTools</strong> - Network tab для просмотра запросов и ответов</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

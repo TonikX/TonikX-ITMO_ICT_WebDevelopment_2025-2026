@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-4xl font-bold text-gray-800 mb-8">Табло победителей автогонок</h1>
+
+{% if races_with_results %}
+    <div class="space-y-8">
+        {% for item in races_with_results %}
+            <div class="bg-white shadow rounded-xl p-6">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <a href="{% url 'racing:race_detail' item.race.pk %}" class="text-blue-600 hover:text-blue-800">
+                            {{ item.race.title }}
+                        </a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mt-1">
+                        Дата: {{ item.race.date|default:"Не указана" }} | 
+                        Место: {{ item.race.location|default:"Не указано" }} |
+                        Участников: {{ item.total_participants }}
+                    </p>
+                </div>
+
+                {% if item.has_results %}
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-100 border-b">
+                                <tr>
+                                    <th class="p-3 font-semibold text-gray-700">Место</th>
+                                    <th class="p-3 font-semibold text-gray-700">ФИО участника</th>
+                                    <th class="p-3 font-semibold text-gray-700">Команда</th>
+                                    <th class="p-3 font-semibold text-gray-700">Автомобиль</th>
+                                    <th class="p-3 font-semibold text-gray-700">Время (мс)</th>
+                                    <th class="p-3 font-semibold text-gray-700">Класс</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reg in item.top_results %}
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3">
+                                            <span class="font-bold text-blue-600">#{{ reg.position }}</span>
+                                        </td>
+                                        <td class="p-3 font-medium">{{ reg.participant.full_name }}</td>
+                                        <td class="p-3">{{ reg.participant.team_name|default:"—" }}</td>
+                                        <td class="p-3">
+                                            {% if reg.car %}
+                                                {{ reg.car.name }}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td class="p-3">
+                                            {% if reg.finish_time_ms %}
+                                                <span class="font-mono">{{ reg.finish_time_ms|floatformat:0 }}</span>
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+                                        <td class="p-3">
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
+                                                {{ reg.participant.get_participant_class_display }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-gray-500 text-center py-4">Результаты пока не опубликованы</p>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="{% url 'racing:race_detail' item.race.pk %}" 
+                       class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        Посмотреть все результаты →
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="bg-white shadow rounded-xl p-8 text-center">
+        <p class="text-gray-500 text-lg">Пока нет завершенных гонок с результатами.</p>
+        <a href="{% url 'racing:race_list' %}" class="text-blue-600 hover:text-blue-800 mt-4 inline-block">
+            Посмотреть все гонки
+        </a>
+    </div>
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Подтверждение удаления</h1>
+
+<div class="bg-white shadow rounded-xl p-8 max-w-xl">
+    <p class="text-gray-700 mb-6">
+        Вы уверены, что хотите удалить регистрацию на гонку "{{ object.race.title }}"?
+    </p>
+
+    <form method="post" class="flex gap-4">
+        {% csrf_token %}
+        <button type="submit"
+                class="bg-red-600 text-white px-6 py-2 rounded-lg shadow hover:bg-red-700 transition">
+            Да, удалить
+        </button>
+        <a href="{% url 'racing:race_detail' object.race.pk %}"
+           class="bg-gray-400 text-white px-6 py-2 rounded-lg shadow hover:bg-gray-500 transition">
+            Отмена
+        </a>
+    </form>
+</div>
+
+{% endblock %}
+

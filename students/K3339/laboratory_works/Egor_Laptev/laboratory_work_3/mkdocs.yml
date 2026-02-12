@@ -1,0 +1,56 @@
+site_name: Hotel Management API Documentation
+site_description: Документация API для системы управления отелем
+site_author: Egor Laptev
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Главная: index.md
+  - API Endpoints:
+    - Обзор: api/overview.md
+    - Room Types: api/room-types.md
+    - Floors: api/floors.md
+    - Rooms: api/rooms.md
+    - Guests: api/guests.md
+    - Stays: api/stays.md
+    - Employees: api/employees.md
+    - Cleaning Schedule: api/cleaning-schedule.md
+  - Аутентификация: authentication.md
+  - Модели данных: models.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - tables
+  - codehilite
+
+
+
+
+
+

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Заголовок гонки -->
+<div class="bg-white shadow rounded-xl p-8 mb-8">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">
+        {{ race.title }}
+    </h1>
+
+    <p class="text-gray-700 mb-4">
+        {{ race.description }}
+    </p>
+
+    <p class="text-gray-600 text-sm">
+        <span class="font-semibold">Дата:</span> {{ race.date }}
+        &nbsp; | &nbsp;
+        <span class="font-semibold">Место:</span> {{ race.location }}
+    </p>
+</div>
+
+
+<!-- Таблица результатов -->
+<h2 class="text-2xl font-bold text-gray-800 mb-4">Табло победителей автогонок</h2>
+
+<div class="overflow-x-auto bg-white shadow rounded-xl mb-10">
+    <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-100 border-b">
+            <tr>
+                <th class="p-3 font-semibold text-gray-700">Позиция</th>
+                <th class="p-3 font-semibold text-gray-700">ФИО участника</th>
+                <th class="p-3 font-semibold text-gray-700">Название команды</th>
+                <th class="p-3 font-semibold text-gray-700">Описание автомобиля</th>
+                <th class="p-3 font-semibold text-gray-700">Описание участника</th>
+                <th class="p-3 font-semibold text-gray-700">Опыт (лет)</th>
+                <th class="p-3 font-semibold text-gray-700">Класс участника</th>
+                <th class="p-3 font-semibold text-gray-700">Время заезда (мс)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for reg in registrations %}
+            <tr class="border-b hover:bg-gray-50">
+                <td class="p-3">
+                    {% if reg.position %}
+                        <span class="font-bold text-blue-600">#{{ reg.position }}</span>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td class="p-3 font-medium">{{ reg.participant.full_name }}</td>
+                <td class="p-3">{{ reg.participant.team_name|default:"—" }}</td>
+                <td class="p-3">
+                    {% if reg.car %}
+                        <div>
+                            <strong>{{ reg.car.name }}</strong>
+                            {% if reg.car.description %}
+                                <br><span class="text-sm text-gray-600">{{ reg.car.description|truncatewords:15 }}</span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td class="p-3">
+                    {% if reg.participant.description %}
+                        <span class="text-sm">{{ reg.participant.description|truncatewords:20 }}</span>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td class="p-3">{{ reg.participant.experience_years }}</td>
+                <td class="p-3">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
+                        {{ reg.participant.get_participant_class_display }}
+                    </span>
+                </td>
+                <td class="p-3">
+                    {% if reg.finish_time_ms %}
+                        <span class="font-mono">{{ reg.finish_time_ms|floatformat:0 }}</span>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="8" class="p-4 text-center text-gray-500">
+                    Нет регистраций
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Регистрация на гонку -->
+{% if user.is_authenticated %}
+    {% if user_registration %}
+        <div class="mb-10 flex gap-4">
+            <a href="{% url 'racing:edit_registration' user_registration.pk %}"
+               class="inline-block bg-yellow-600 text-white px-6 py-2 rounded-lg shadow hover:bg-yellow-700 transition">
+                Редактировать регистрацию
+            </a>
+            <form method="post" action="{% url 'racing:cancel_registration' user_registration.pk %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" 
+                        onclick="return confirm('Вы уверены, что хотите удалить регистрацию?');"
+                        class="bg-red-600 text-white px-6 py-2 rounded-lg shadow hover:bg-red-700 transition">
+                    Удалить регистрацию
+                </button>
+            </form>
+        </div>
+    {% else %}
+        <a href="{% url 'racing:register' race.pk %}"
+           class="inline-block mb-10 bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+            Зарегистрироваться
+        </a>
+    {% endif %}
+{% else %}
+    <p class="mb-10">
+        <a href="{% url 'racing:login' %}" class="text-blue-600 hover:text-blue-800">
+            Войдите
+        </a>, чтобы зарегистрироваться или комментировать.
+    </p>
+{% endif %}
+
+
+<!-- Комментарии -->
+<h2 class="text-2xl font-bold text-gray-800 mb-4">Отзывы и комментарии</h2>
+
+<div class="bg-white shadow rounded-xl p-6 mb-8">
+    <ul class="space-y-6">
+        {% for comment in comments %}
+        <li class="border-b pb-4">
+            <div class="flex justify-between items-center">
+                <strong class="text-gray-900">{{ comment.commentator.username }}</strong>
+                <span class="text-gray-500 text-sm">
+                    {{ comment.created_at }} &nbsp;•&nbsp;
+                    {{ comment.rating }}/10 &nbsp;•&nbsp;
+                    {{ comment.get_comment_type_display }}
+                </span>
+            </div>
+            <p class="text-gray-700 mt-2">{{ comment.text }}</p>
+        </li>
+        {% empty %}
+        <li class="text-gray-500">Комментариев ещё нет.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<!-- Форма добавления комментария -->
+{% if user.is_authenticated %}
+    {% if has_profile %}
+        <div class="bg-white shadow rounded-xl p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Оставить комментарий</h3>
+
+            <form method="post" action="{% url 'racing:add_comment' race.pk %}" class="space-y-4">
+                {% csrf_token %}
+                <div class="space-y-4">
+                    {% for field in comment_form %}
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1">
+                                {{ field.label }}
+                            </label>
+                            {% if field.field.widget.input_type == 'select' %}
+                                <select name="{{ field.name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                    {% for choice in field.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if field.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% elif field.field.widget.input_type == 'number' %}
+                                <input type="number" name="{{ field.name }}" value="{{ field.value|default:5 }}" min="1" max="10"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            {% else %}
+                                <textarea name="{{ field.name }}" rows="4"
+                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ field.value|default:'' }}</textarea>
+                            {% endif %}
+                            {% if field.errors %}
+                                <p class="text-red-600 text-sm mt-1">
+                                    {{ field.errors.0 }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit"
+                        class="bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 transition">
+                    Отправить
+                </button>
+            </form>
+        </div>
+    {% else %}
+        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <p class="text-yellow-800">
+                Для добавления комментариев необходимо создать профиль участника.
+                <a href="{% url 'racing:edit_profile' %}" class="text-yellow-900 font-semibold underline">
+                    Создать профиль
+                </a>
+            </p>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
