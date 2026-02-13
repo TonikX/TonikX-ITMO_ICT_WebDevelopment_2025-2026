@@ -1,0 +1,15 @@
+site_name: "ЛР4 — Клиент (Vue.js) — Документация"
+site_description: "Документация интерфейсов и инструкция по запуску (ЛР4)"
+repo_url: ""
+nav:
+  - Главная: index.md
+  - Установка фронтенда: setup_frontend.md
+  - Интерфейсы: interfaces.md
+  - CORS: cors.md
+  - Как запускать: how_to_run.md
+  - Скриншоты: screenshots.md
+  - Выводы: conclusions.md
+theme:
+  name: material
+plugins:
+  - search

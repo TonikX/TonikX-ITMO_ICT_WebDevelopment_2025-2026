@@ -1,0 +1,148 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}Register New Racer{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>🏎️ Register New Racer</h1>
+    <p>Create a new racing driver account</p>
+    <a href="{% url 'racer_list' %}" class="back-link">← Back to All Racers</a>
+</div>
+
+<div class="card">
+    <form method="POST" class="form-container">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div class="error-list">
+                    {% for error in field.errors %}
+                    <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">
+                Register Racer
+            </button>
+            <a href="{% url 'racer_list' %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-field {
+    margin-bottom: 1.5rem;
+}
+
+.form-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-control:focus {
+    border-color: #dc3545;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.help-text {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.error-list {
+    margin-top: 0.25rem;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 12px;
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e1e5e9;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    text-align: center;
+    flex: 1;
+}
+
+.cancel-btn:hover {
+    background: #5a6268;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Style select dropdowns */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+</style>
+{% endblock %}

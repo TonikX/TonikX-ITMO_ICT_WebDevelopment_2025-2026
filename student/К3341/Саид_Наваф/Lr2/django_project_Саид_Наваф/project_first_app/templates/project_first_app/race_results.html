@@ -1,0 +1,77 @@
+{% extends 'project_first_app/base.html' %}
+{% load racing_filters %}
+{% block title %}Race Results{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>📊 Race Results (Last 30 Days)</h1>
+    <p>Results from races since {{ last_month|date:"M d, Y" }}</p>
+</div>
+
+<div class="card">
+    {% if recent_races %}
+        {% for race in recent_races %}
+        <div class="race-results-section">
+            <h3>{{ race.name }} - {{ race.date }}</h3>
+            {% with race_registrations=recent_registrations|filter_by_race:race %}
+            {% if race_registrations %}
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Racer</th>
+                        <th>Car</th>
+                        <th>Best Lap</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registration in race_registrations|dictsort:"final_position" %}
+                    <tr>
+                        <td>{{ registration.final_position|default:"-" }}</td>
+                        <td>{{ registration.racer.first_name }} {{ registration.racer.last_name }}</td>
+                        <td>{{ registration.car.brand }} {{ registration.car.model }}</td>
+                        <td>{{ registration.lap_time|default:"-" }}</td>
+                        <td>{% if registration.dnf %}DNF{% else %}Finished{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No results available for this race yet.</p>
+            {% endif %}
+            {% endwith %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-owners">
+            <p>No race results found for the last 30 days.</p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.race-results-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e1e5e9;
+}
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.results-table th, .results-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e1e5e9;
+}
+.results-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+.results-table tr:hover {
+    background: #f8f9fa;
+}
+</style>
+{% endblock %}

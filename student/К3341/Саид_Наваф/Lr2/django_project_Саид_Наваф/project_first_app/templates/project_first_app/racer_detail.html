@@ -1,0 +1,63 @@
+{% extends 'project_first_app/base.html' %}
+
+{% block title %}{{ racer.first_name }} {{ racer.last_name }} - Racing Profile{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>👤 {{ racer.first_name }} {{ racer.last_name }}</h1>
+    <p>Racing Driver Profile</p>
+    <a href="{% url 'racer_list' %}" class="back-link">← Back to All Racers</a>
+</div>
+
+<div class="card">
+    <h2>Driver Information</h2>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Username:</span>
+            <span class="detail-value">{{ racer.username }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value">{{ racer.email|default:"Not provided" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Racing Class:</span>
+            <span class="detail-value">{{ racer.racing_class|default:"Not specified" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Experience:</span>
+            <span class="detail-value">{{ racer.racing_experience }} years</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Nationality:</span>
+            <span class="detail-value">{{ racer.nationality|default:"Not specified" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Date of Birth:</span>
+            <span class="detail-value">{{ racer.date_of_birth|default:"Not provided" }}</span>
+        </div>
+    </div>
+</div>
+
+{% if registrations %}
+<div class="card">
+    <h2>Race History</h2>
+    <div class="detail-grid">
+        {% for registration in registrations %}
+        <div class="detail-item">
+            <span class="detail-label">{{ registration.race.name }}</span>
+            <span class="detail-value">
+                {% if registration.final_position %}
+                    Position: {{ registration.final_position }}
+                    {% if registration.lap_time %} | Best Lap: {{ registration.lap_time }}{% endif %}
+                {% else %}
+                    Registered (No results yet)
+                {% endif %}
+                {% if registration.dnf %}(DNF){% endif %}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

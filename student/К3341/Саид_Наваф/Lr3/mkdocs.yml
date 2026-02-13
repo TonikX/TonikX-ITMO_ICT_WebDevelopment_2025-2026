@@ -1,0 +1,17 @@
+site_name: "ЛР3 — Документация API"
+site_description: "Лабораторная работа №3 — документация API (вариант 6)"
+repo_url: ""
+nav:
+  - Главная: index.md
+  - Модель данных: model.md
+  - API (эндпойнты): api_endpoints.md
+  - Как запустить: how_to_run.md
+  - Скриншоты: screenshots.md
+  - Выводы : conclusions.md
+theme:
+  name: material
+  palette:
+    primary: 'blue'
+    accent: 'light blue'
+plugins:
+  - search
