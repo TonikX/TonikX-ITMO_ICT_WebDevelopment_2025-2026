@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1 class="display-5 mb-4">Панель управления</h1>
+    <!-- Выбор периода -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-calendar"></i> Период статистики</h5>
+        </div>
+        <div class="card-body">
+            <div class="btn-group">
+                <a href="?period=30days" class="btn btn-outline-primary {% if current_period == '30days' %}active{% endif %}">
+                    30 дней
+                </a>
+                <a href="?period=90days" class="btn btn-outline-primary {% if current_period == '90days' %}active{% endif %}">
+                    90 дней
+                </a>
+                <a href="?period=1year" class="btn btn-outline-primary {% if current_period == '1year' %}active{% endif %}">
+                    1 год
+                </a>
+                <a href="?period=all" class="btn btn-outline-primary {% if current_period == 'all' %}active{% endif %}">
+                    Все время
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ключевые метрики -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-chart-simple"></i> Метрики</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6 col-6 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center p-3">
+                            <h3 class="text-white">{{ total_tours }}</h3>
+                            <h6 class="text-white">Всего туров</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center p-3">
+                            <h3 class="text-white">{{ active_tours }}</h3>
+                            <h6 class="text-white">Активных туров</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center p-3">
+                            <h3 class="text-white">{{ total_bookings }}</h3>
+                            <h6 class="text-white">Бронирований</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6 mb-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center p-3">
+                            <h3 class="text-white">{{ booking_stats.pending }}</h3>
+                            <h6 class="text-white">Ожидают подтверждения</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6 mb-3">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body text-center p-3">
+                            <h3 class="text-white">{{ total_reviews }}</h3>
+                            <h6 class="text-white">Отзывов</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Срочные уведомления -->
+    {% if booking_stats.pending > 0 or low_availability_tours %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-bell"></i> Срочные уведомления</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if booking_stats.pending > 0 %}
+                        <div class="col-md-6">
+                            <div class="alert alert-warning persistent-alert mb-0">
+                                <i class="fas fa-clock"></i>
+                                <strong>{{ booking_stats.pending }} бронирований</strong> ожидают подтверждения
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if low_availability_tours %}
+                        <div class="col-md-6">
+                            <div class="alert alert-info persistent-alert mb-0">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>{{ low_availability_tours|length }} туров</strong> с малым количеством мест
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <!-- Карточка внимания -->
+        <div class="col-lg-6 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-circle"></i> Требуют внимания</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Бронирования для подтверждения -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5><i class="fas fa-clock text-dark"></i> Бронирования для подтверждения</h5>
+                        <a href="{% url 'my_bookings' %}?show=active&search=&status=pending&country=&date_after=&date_before=" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </div>
+                    {% if pending_bookings %}
+                        {% for booking in pending_bookings %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <strong>{{ booking.tour.title }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        {{ booking.user.get_full_name }} • 
+                                        {{ booking.persons }} чел. • 
+                                        {{ booking.booking_date|date:"d.m.Y H:i" }}
+                                    </small>
+                                </div>
+                                <div class="btn-group btn-group-sm">
+                                    <form method="post" action="{% url 'confirm_booking' booking.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success" title="Подтвердить" onclick="return confirm('Подтвердить бронирование?')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{% url 'cancel_booking_admin' booking.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Отклонить бронирование?')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Нет бронирований, ожидающих подтверждения.</p>
+                    {% endif %}
+
+                    <!-- Туры с малым количеством мест -->
+                    <h5 class="mt-3"><i class="fas fa-users text-dark"></i> Туры с малым количеством мест</h5>
+                    {% if low_availability_tours %}
+                        {% for tour in low_availability_tours %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ tour.title }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        Осталось мест: <span class="badge bg-warning">{{ tour.available_spots_actual }}</span>
+                                    </small>
+                                </div>
+                                <a href="{% url 'tour_detail' tour.id %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Нет туров с малым количеством мест.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Популярные направления -->
+        <div class="col-lg-6 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-globe"></i> Популярные направления</h5>
+                </div>
+                <div class="card-body">
+                    {% if popular_countries %}
+                        {% for country in popular_countries %}
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                            <span class="fw-bold">{{ country.tour__country }}</span>
+                            <div class="text-end">
+                                <span class="badge bg-success">{{ country.bookings_count }} бронирований</span>
+                                <br>
+                                <small class="text-muted">{{ country.unique_customers }} клиентов</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Нет данных о популярных направлениях.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Последние отзывы -->
+        <div class="col-lg-6 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header text-white">
+                    <h5 class="mb-0"><i class="fas fa-comment"></i>Последние отзывы</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_reviews %}
+                        {% for review in recent_reviews %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="flex-grow-1">
+                                    <p class="mb-0">{{ review.text }}</p>
+                                    <small class="text-muted">
+                                        {{ review.user.get_full_name }} |
+                                        Дата тура: {{ review.tour_date }} | 
+                                        Отзыв от: {{ review.review_date|date:"d.m.Y" }}
+                                    </small>                                                     
+                                </div>
+                                <span class="badge bg-warning text-dark">{{ review.rating }}/10</span>
+                                <form method="post" action="{% url 'delete_review' review.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Удалить этот отзыв?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Нет данных о последних отзывах.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Последние бронирования -->
+        <div class="col-lg-6 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-history"></i> Последние бронирования</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_bookings %}
+                        {% for booking in recent_bookings %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ booking.tour.title }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        {{ booking.user.get_full_name }} • 
+                                        {{ booking.booking_date|date:"d.m.Y H:i" }}
+                                    </small>
+                                </div>
+                                <span class="badge {% if booking.status == 'confirmed' %}bg-success{% elif booking.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                                    {{ booking.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Нет последних бронирований.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Быстрые действия -->
+    <div class="card mt-4">
+        <div class="card-header text-white">
+            <h5 class="mb-0"><i class="fas fa-bolt"></i> Быстрые действия</h5>
+        </div>
+        <div class="card-body">
+            <div class="btn-group-sm">
+                <a href="{% url 'my_bookings' %}" class="btn btn-outline-primary mb-2">
+                    <i class="fas fa-list"></i> Все бронирования
+                </a>
+                <a href="{% url 'add_tour' %}" class="btn btn-outline-primary mb-2">
+                    <i class="fas fa-plus"></i> Добавить тур
+                </a>
+                <a href="{% url 'statistics' %}" class="btn btn-outline-primary mb-2">
+                    <i class="fas fa-chart-bar"></i> Общая статистика
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
