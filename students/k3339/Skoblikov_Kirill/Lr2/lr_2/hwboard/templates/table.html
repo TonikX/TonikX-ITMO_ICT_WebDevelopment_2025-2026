@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнал оценок - Электронный дневник</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: #fff;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #ffd166;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active {
+            background: #ffd166;
+            color: #1d2671;
+            border-color: #ffd166;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .messages-section {
+            margin-bottom: 30px;
+        }
+
+        .alert {
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            border-left: 5px solid #28a745;
+        }
+
+        .alert-error {
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+            border-left: 5px solid #dc3545;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .class-info h2 {
+            font-size: 32px;
+            color: #ffd166;
+            margin-bottom: 5px;
+        }
+
+        .student-info {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .total-avg {
+            text-align: center;
+        }
+
+        .avg-grade {
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffd166;
+            padding: 15px 30px;
+            background: rgba(255, 209, 102, 0.1);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 209, 102, 0.3);
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-form {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .subject-select {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .subject-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.5);
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: linear-gradient(to right, #ffd166, #ffb347);
+            border: none;
+            border-radius: 12px;
+            color: #1d2671;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow-x: auto;
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .grades-table th {
+            background: rgba(255, 209, 102, 0.15);
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffd166;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grades-table td {
+            padding: 18px 20px;
+            text-align: center;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .grades-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .grades-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .student-name {
+            text-align: left;
+            font-weight: 500;
+            color: white;
+        }
+
+        .student-name.highlight {
+            color: #ffd166;
+            font-weight: 600;
+        }
+
+        .grade-cell {
+            font-weight: 500;
+            position: relative;
+            min-width: 100px;
+            cursor: pointer;
+        }
+
+        .grade-cell:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .grade-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .average-grade {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .all-grades {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .grade-badge-5 { background: #4CAF50; color: white; }
+        .grade-badge-4 { background: #8BC34A; color: white; }
+        .grade-badge-3 { background: #FFC107; color: #333; }
+        .grade-badge-2 { background: #FF9800; color: white; }
+        .grade-badge-1 { background: #F44336; color: white; }
+
+        .grade-null {
+            color: rgba(255, 255, 255, 0.3);
+            font-style: italic;
+        }
+
+        .grades-count {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .current-user-mark {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffd166;
+            color: #1d2671;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .grades-table {
+                font-size: 14px;
+            }
+
+            .grades-table th,
+            .grades-table td {
+                padding: 15px;
+            }
+
+            .average-grade {
+                font-size: 16px;
+            }
+
+            .grade-badge {
+                padding: 2px 6px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .subject-select {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .avg-grade {
+                font-size: 32px;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Школа №4</h1>
+            <p>Электронный дневник</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="{% url 'grade_table' %}" class="nav-btn active">📊 Журнал</a>
+            <a href="{% url 'active_homeworks' %}" class="nav-btn">📚 Активные задания</a>
+            <a href="{% url 'student_profile' %}" class="nav-btn">👤 Профиль</a>
+            <a href="{% url 'logout' %}" class="nav-btn">🚪 Выход</a>
+        </div>
+    </div>
+
+    <div class="container fade-in">
+        {% if messages %}
+        <div class="messages-section">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="dashboard-header">
+            <div class="class-info">
+                <h2>{{ class_name }} класс</h2>
+                <p class="student-info">
+                    {{ current_user_profile.user.get_full_name_with_patronymic }}
+                </p>
+            </div>
+
+            <div class="total-avg">
+                <p style="margin-bottom: 10px; font-size: 14px; opacity: 0.8;">Ваш средний балл:</p>
+                <div class="avg-grade">
+                    {% if user_average_grade %}
+                        {{ user_average_grade|floatformat:1 }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <form method="GET" class="filter-form">
+                <label for="subject" class="filter-label">Фильтр по предмету:</label>
+                <select name="subject" id="subject" class="subject-select">
+                    <option value="">Все предметы</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.name }}"
+                                {% if selected_subject == subject.name %}selected{% endif %}>
+                            {{ subject.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="filter-btn">Применить фильтр</button>
+                {% if selected_subject %}
+                    <a href="{% url 'grade_table' %}" class="nav-btn" style="padding: 10px 20px;">
+                        Сбросить фильтр
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table class="grades-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Ученик</th>
+                        {% for subject in filtered_subjects %}
+                            <th>{{ subject }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for classmate in classmates %}
+                    <tr>
+                        <td class="student-name {% if classmate == current_user_profile %}highlight{% endif %}">
+                            {{ classmate.user.get_full_name_with_patronymic }}
+                            {% if classmate == current_user_profile %}
+                                <span style="font-size: 12px; opacity: 0.7;">(Вы)</span>
+                            {% endif %}
+                        </td>
+
+                        {% for subject in filtered_subjects %}
+                            <td class="grade-cell">
+                                {% comment %} Ищем данные для этого ученика и предмета {% endcomment %}
+                                {% comment %} Сначала ищем средний балл {% endcomment %}
+                                {% with subject_data_found=False %}
+                                {% for avg_data in student_subject_avg %}
+                                    {% if avg_data.student_id == classmate.id and avg_data.subject == subject %}
+                                        <div class="grade-display">
+                                            <div class="average-grade grade-badge-{% if avg_data.average >= 4.5 %}5{% elif avg_data.average >= 3.5 %}4{% elif avg_data.average >= 2.5 %}3{% elif avg_data.average >= 1.5 %}2{% else %}1{% endif %}">
+                                                {{ avg_data.average|floatformat:1 }}
+                                            </div>
+
+                                            {% comment %} Теперь ищем все оценки для отображения {% endcomment %}
+                                            <div class="all-grades">
+                                                {% for grade_item in student_subject_grades %}
+                                                    {% if grade_item.student_id == classmate.id and grade_item.subject == subject %}
+                                                        <span class="grade-badge grade-badge-{% if grade_item.grade >= 4.5 %}5{% elif grade_item.grade >= 3.5 %}4{% elif grade_item.grade >= 2.5 %}3{% elif grade_item.grade >= 1.5 %}2{% else %}1{% endif %}"
+                                                              title="Оценка: {{ grade_item.grade }}">
+                                                            {{ grade_item.grade }}
+                                                        </span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="grades-count">
+                                                {{ avg_data.count }} оценок
+                                            </div>
+                                        </div>
+                                        {% with subject_data_found=True %}
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if not subject_data_found %}
+                                    <span class="grade-null">-</span>
+                                {% endif %}
+
+                                {% if classmate == current_user_profile and subject_data_found %}
+                                    <span class="current-user-mark">★</span>
+                                {% endif %}
+                                {% endwith %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Обновлено: {% now "d.m.Y H:i" %}</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Подсветка активной кнопки навигации
+            const currentUrl = window.location.pathname;
+            const navButtons = document.querySelectorAll('.nav-btn');
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('href') === currentUrl) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Автоматическая отправка формы при выборе предмета на мобильных устройствах
+            const subjectSelect = document.getElementById('subject');
+            if (window.innerWidth <= 768) {
+                subjectSelect.addEventListener('change', function() {
+                    this.form.submit();
+                });
+            }
+
+            // Добавление анимации при наведении на строки таблицы
+            const tableRows = document.querySelectorAll('.grades-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.01)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Подсветка ячеек при наведении
+            const gradeCells = document.querySelectorAll('.grade-cell');
+            gradeCells.forEach(cell => {
+                cell.addEventListener('mouseenter', function() {
+                    if (!this.querySelector('.grade-null')) {
+                        this.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }
+                });
+
+                cell.addEventListener('mouseleave', function() {
+                    this.style.background = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

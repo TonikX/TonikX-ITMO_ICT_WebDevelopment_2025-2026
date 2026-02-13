@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро пожаловать</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeIn 1.2s ease;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 50px;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 30px;
+            background: #fff;
+            color: #c33764;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .features {
+            margin-top: 50px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .feature {
+            margin-bottom: 25px;
+        }
+
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ffd166;
+        }
+
+        .feature p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .btn {
+                padding: 18px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Школа №4</h1>
+        <h2>Электронный дневник</h2>
+        <p>Все оценки и задания в одном месте</p>
+
+        <div class="buttons-container">
+            <a href="/login" class="btn">Войти</a>
+            <a href="/register" class="btn">Зарегистрироваться</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>🔒 Безопасность</h3>
+                <p>Ваши данные защищены современными методами шифрования</p>
+            </div>
+            <div class="feature">
+                <h3>📚 Дневник больше не нужен!</h3>
+                <p>Все оценки и задания собраны тут!</p>
+            </div>
+            <div class="feature">
+                <h3>🌟 Уникальные возможности</h3>
+                <p>Получите комментарии к вашим заданиям</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Портал МБОУ СОШ №4</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

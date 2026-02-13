@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель преподавателя - Электронный дневник</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #ffd166;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .teacher-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 60px 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .teacher-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            color: #ffd166;
+            display: block;
+        }
+
+        .teacher-message h2 {
+            font-size: 48px;
+            color: #ffd166;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .teacher-message p {
+            font-size: 20px;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .teacher-info {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #ffd166;
+        }
+
+        .teacher-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffd166;
+            margin-bottom: 10px;
+        }
+
+        .teacher-subject {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .admin-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #ffd166, #ffb347);
+            color: #1d2671;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .admin-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffda7f, #ffc166);
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #ffd166;
+            margin-bottom: 15px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+            opacity: 0.9;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+                position: relative;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .teacher-card {
+                padding: 40px 20px;
+            }
+
+            .teacher-message h2 {
+                font-size: 32px;
+            }
+
+            .teacher-icon {
+                font-size: 80px;
+            }
+
+            .admin-button {
+                padding: 15px 30px;
+                font-size: 18px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Школа №4</h1>
+            <p>Электронный дневник</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="{% url 'logout' %}" class="nav-btn">🚪 Выход</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="teacher-card">
+            <div class="teacher-icon">👨‍🏫</div>
+
+            <div class="teacher-message">
+                <h2>Используйте административную панель</h2>
+                <p>Для управления заданиями, выставления оценок и работы с учениками перейдите в административную панель системы.</p>
+
+                {% if teacher_profile %}
+                <div class="teacher-info">
+                    <div class="teacher-name">{{ teacher_profile.user.get_full_name_with_patronymic }}</div>
+                    <div class="teacher-subject">Предмет: {{ teacher_profile.subject }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <a href="/admin/" target="_blank" class="admin-button">
+                📊 Перейти в административную панель
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h3><span>ℹ️</span> Возможности административной панели:</h3>
+            <ul>
+                <li>Создание и редактирование домашних заданий</li>
+                <li>Просмотр сданных работ учеников</li>
+                <li>Выставление оценок за задания</li>
+                <li>Управление предметами и классами</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация при загрузке
+            const teacherCard = document.querySelector('.teacher-card');
+            teacherCard.style.animation = 'fadeIn 1s ease';
+
+            // Подтверждение выхода
+            const logoutBtn = document.querySelector('a[href*="logout"]');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    if (!confirm('Вы уверены, что хотите выйти?')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+
+            // Автоматическое открытие админки в новом окне по клику на страницу (опционально)
+            // document.addEventListener('click', function() {
+            //     window.open('/admin/', '_blank');
+            // });
+        });
+    </script>
+</body>
+</html>
