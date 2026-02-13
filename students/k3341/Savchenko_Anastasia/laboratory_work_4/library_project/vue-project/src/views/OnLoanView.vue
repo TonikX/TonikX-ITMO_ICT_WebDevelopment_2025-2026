@@ -2,50 +2,93 @@
   <div class="on-loan-view">
     <h1>Книги на руках</h1>
 
+    <!-- Доступ только админам -->
     <div v-if="!isAdmin" class="not-admin">
       <p>Эта страница доступна только администраторам.</p>
     </div>
 
     <div v-else>
+      <!-- Кнопка обновления -->
       <div class="controls">
-        <button @click="loadOverdueLoans" :disabled="loading" class="refresh-btn">
+        <v-btn
+          color="primary"
+          @click="loadData"
+          :loading="loading"
+          prepend-icon="mdi-refresh"
+        >
           {{ loading ? 'Загрузка...' : 'Обновить список' }}
-        </button>
+        </v-btn>
       </div>
 
+      <!-- Состояния загрузки/ошибки -->
       <div v-if="loading" class="loading">Загрузка данных...</div>
       <div v-else-if="error" class="error">{{ error }}</div>
 
       <div v-else>
-        <h2>Просроченные выдачи (более 30 дней)</h2>
+        <!-- ===== ВСЕ АКТИВНЫЕ ВЫДАЧИ ===== -->
+        <div class="section">
+          <h2>📋 Все активные выдачи ({{ allLoans.length }})</h2>
 
-        <div v-if="overdueLoans.length === 0" class="no-data">
-          <p>Нет просроченных выдач.</p>
+          <v-data-table
+            v-if="allLoans.length"
+            :headers="allHeaders"
+            :items="allLoans"
+            class="elevation-1"
+            density="comfortable"
+          >
+            <!-- Статус с цветным бейджем -->
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                :color="item.days_overdue > 0 ? 'warning' : 'success'"
+                size="small"
+              >
+                {{ item.days_overdue > 0 ? 'Просрочена' : 'В сроке' }}
+              </v-chip>
+            </template>
+
+            <!-- Формат дат -->
+            <template v-slot:item.issued_at="{ item }">
+              {{ formatDate(item.issued_at) }}
+            </template>
+            <template v-slot:item.due_date="{ item }">
+              {{ formatDate(item.due_date) }}
+            </template>
+          </v-data-table>
+
+          <div v-else class="no-data">
+            <v-icon size="48" color="grey-lighten-1">mdi-book-off</v-icon>
+            <p class="text-grey mt-2">Нет активных выдач</p>
+          </div>
         </div>
 
-        <div v-else class="loans-table">
-          <table>
-            <thead>
-              <tr>
-                <th>ID выдачи</th>
-                <th>Читатель</th>
-                <th>Билет</th>
-                <th>Книга</th>
-                <th>Дата выдачи</th>
-                <th>Дней просрочки</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="loan in overdueLoans" :key="loan.loan_id">
-                <td>{{ loan.loan_id }}</td>
-                <td>{{ loan.reader_name }}</td>
-                <td>{{ loan.reader_card }}</td>
-                <td>{{ loan.book_title }}</td>
-                <td>{{ formatDate(loan.issued_at) }}</td>
-                <td class="overdue">{{ loan.days_overdue }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <v-divider class="my-6"></v-divider>
+
+        <!-- ===== ПРОСРОЧЕННЫЕ КНИГИ ===== -->
+        <div class="section">
+          <h2>⚠️ Просроченные книги ({{ overdueLoans.length }})</h2>
+
+          <v-data-table
+            v-if="overdueLoans.length"
+            :headers="overdueHeaders"
+            :items="overdueLoans"
+            class="elevation-1"
+            density="comfortable"
+          >
+            <template v-slot:item.issued_at="{ item }">
+              {{ formatDate(item.issued_at) }}
+            </template>
+            <template v-slot:item.due_date="{ item }">
+              {{ formatDate(item.due_date) }}
+            </template>
+            <template v-slot:item.days_overdue="{ item }">
+              <span class="overdue">{{ item.days_overdue }}</span>
+            </template>
+          </v-data-table>
+
+          <div v-else class="no-data">
+            <v-icon size="48" color="grey-lighten-1">mdi-check-circle</v-icon>
+            <p class="text-grey mt-2">Нет просроченных книг</p>
+          </div>
         </div>
       </div>
     </div>
@@ -57,47 +100,82 @@ import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import apiClient from '../api/client'
 
+// ===== STORE =====
 const auth = useAuthStore()
 const isAdmin = computed(() => auth.isAdmin)
 
+// ===== STATE =====
+const allLoans = ref([])
 const overdueLoans = ref([])
 const loading = ref(false)
 const error = ref(null)
 
+// ===== HEADERS =====
+const allHeaders = [
+  { title: 'ID', key: 'loan_id', width: '70px' },
+  { title: 'Читатель', key: 'reader_name' },
+  { title: 'Билет', key: 'reader_card' },
+  { title: 'Книга', key: 'book_title' },
+  { title: 'Дата выдачи', key: 'issued_at' },
+  { title: 'Срок возврата', key: 'due_date' },
+  { title: 'Дней', key: 'days_on_loan', width: '80px' },
+  { title: 'Статус', key: 'status', sortable: false }
+]
+
+const overdueHeaders = [
+  { title: 'ID', key: 'loan_id', width: '70px' },
+  { title: 'Читатель', key: 'reader_name' },
+  { title: 'Билет', key: 'reader_card' },
+  { title: 'Книга', key: 'book_title' },
+  { title: 'Дата выдачи', key: 'issued_at' },
+  { title: 'Срок возврата', key: 'due_date' },
+  { title: 'Дней просрочки', key: 'days_overdue', width: '120px' }
+]
+
+// ===== METHODS =====
 const formatDate = (dateString) => {
-  if (!dateString) return 'Не указано'
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ru-RU')
+  if (!dateString) return '—'
+  return new Date(dateString).toLocaleDateString('ru-RU')
 }
 
+// Загрузка всех активных выдач
+const loadAllLoans = async () => {
+  const response = await apiClient.get('loans/active/')
+  allLoans.value = response.data
+}
+
+// Загрузка просроченных выдач
 const loadOverdueLoans = async () => {
+  const response = await apiClient.get('loans/overdue/')
+  overdueLoans.value = response.data?.overdue_readers || []
+}
+
+// Общая загрузка
+const loadData = async () => {
   if (!isAdmin.value) return
 
   loading.value = true
   error.value = null
 
   try {
-    // Используем эндпоинт из твоего API
-    const response = await apiClient.get('loans/overdue/')
-    overdueLoans.value = response.data.overdue_readers || []
+    await Promise.all([loadAllLoans(), loadOverdueLoans()])
   } catch (err) {
-    console.error('Ошибка загрузки просроченных выдач:', err)
+    console.error('Ошибка:', err)
     error.value = 'Не удалось загрузить данные'
   } finally {
     loading.value = false
   }
 }
 
+// ===== LIFECYCLE =====
 onMounted(() => {
-  if (isAdmin.value) {
-    loadOverdueLoans()
-  }
+  if (isAdmin.value) loadData()
 })
 </script>
 
 <style scoped>
 .on-loan-view {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -107,7 +185,6 @@ onMounted(() => {
   padding: 40px;
   background: #f8f9fa;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
   color: #6c757d;
 }
 
@@ -115,25 +192,6 @@ onMounted(() => {
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
-}
-
-.refresh-btn {
-  padding: 10px 20px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.refresh-btn:hover:not(:disabled) {
-  background: #0069d9;
-}
-
-.refresh-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
 }
 
 .loading {
@@ -147,58 +205,42 @@ onMounted(() => {
   background: #f8d7da;
   color: #721c24;
   border-radius: 4px;
-  border: 1px solid #f5c6cb;
+  margin-bottom: 20px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  margin-bottom: 20px;
+  color: #343a40;
 }
 
 .no-data {
   text-align: center;
   padding: 40px;
-  color: #6c757d;
   background: #f8f9fa;
   border-radius: 8px;
 }
 
-.loans-table {
-  overflow-x: auto;
-  margin-top: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-thead {
-  background: #343a40;
-  color: white;
-}
-
-th, td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-}
-
-tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
 .overdue {
   color: #dc3545;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-@media (max-width: 768px) {
-  .loans-table {
-    font-size: 14px;
-  }
+/* Vuetify overrides */
+:deep(.v-data-table) {
+  border-radius: 8px;
+}
 
-  th, td {
-    padding: 8px 10px;
-  }
+:deep(.v-data-table thead th) {
+  background-color: #343a40 !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+:deep(.v-chip) {
+  font-weight: 500;
 }
 </style>

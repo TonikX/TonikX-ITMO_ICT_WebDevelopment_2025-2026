@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.db.models import Count, Q
+from django.contrib.auth.models import User
 from datetime import date, timedelta
 from .models import Book, Reader, CopyOfBook, LoanRecord, Author, BookAuthor, ReadingHall
 from .serializers import *
@@ -39,30 +41,55 @@ class ReaderBooksAPIView(APIView):
             return Response({'error': 'Reader not found'})
 
 
+# class OverdueLoansAPIView(APIView):
+#     """2. Кто из читателей взял книгу более месяца тому назад?"""
+#
+#     def get(self, request):
+#         month_ago = date.today() - timedelta(days=30)
+#
+#         overdue_loans = LoanRecord.objects.filter(
+#             issued_at__lt=month_ago,
+#             returned_at__isnull=True
+#         )
+#
+#         readers = []
+#         for loan in overdue_loans:
+#             readers.append({
+#                 'reader_id': loan.reader_id.reader_id,
+#                 'reader_name': loan.reader_id.full_name,
+#                 'book_title': loan.copy_book_id.book_id.title,
+#                 'copy_book_id': loan.copy_book_id.copy_book_id,
+#                 'issued_at': loan.issued_at,
+#                 'days_overdue': (date.today() - loan.issued_at).days
+#             })
+#
+#         return Response({'overdue_readers': readers})
 class OverdueLoansAPIView(APIView):
     """2. Кто из читателей взял книгу более месяца тому назад?"""
 
     def get(self, request):
-        month_ago = date.today() - timedelta(days=30)
+        today = date.today()
 
         overdue_loans = LoanRecord.objects.filter(
-            issued_at__lt=month_ago,
-            returned_at__isnull=True
+            returned_at__isnull=True,
+            due_date__lt=today  # ПРОСРОЧКА: срок возврата меньше сегодняшней даты
         )
 
         readers = []
         for loan in overdue_loans:
             readers.append({
+                'loan_id': loan.loan_id,
                 'reader_id': loan.reader_id.reader_id,
                 'reader_name': loan.reader_id.full_name,
+                'reader_card': loan.reader_id.library_card_id,
                 'book_title': loan.copy_book_id.book_id.title,
                 'copy_book_id': loan.copy_book_id.copy_book_id,
                 'issued_at': loan.issued_at,
-                'days_overdue': (date.today() - loan.issued_at).days
+                'due_date': loan.due_date,
+                'days_overdue': (today - loan.due_date).days  # ДНИ ПРОСРОЧКИ ОТ ДАТЫ ВОЗВРАТА!
             })
 
         return Response({'overdue_readers': readers})
-
 
 class RareBooksReadersAPIView(APIView):
     """3. За кем из читателей закреплены редкие книги (≤2 экз.)?"""
@@ -160,6 +187,13 @@ class ReaderListAPIView(generics.ListAPIView):
     queryset = Reader.objects.filter(is_active_member=True)
 
 
+class AdminReaderListAPIView(generics.ListAPIView):
+    """Список ВСЕХ читателей для администратора (включая неактивных)"""
+    serializer_class = ReaderSerializer
+    queryset = Reader.objects.all()  # БЕЗ фильтра!
+    permission_classes = [IsAdminUser]  # Только для админов
+
+
 class CopyOfBookListAPIView(generics.ListAPIView):
     """Список доступных экземпляров книг"""
     serializer_class = CopyOfBookSerializer
@@ -193,12 +227,15 @@ class AddBookAPIView(generics.CreateAPIView):
 
 class RemoveInactiveReadersAPIView(APIView):
     """7. Исключить неактивных читателей"""
+    permission_classes = [IsAdminUser]
 
     def post(self, request):
+        # Дата год назад
         one_year_ago = date.today() - timedelta(days=365)
 
+        # Ищем читателей, у которых last_registration_at ≤ one_year_ago
         inactive_readers = Reader.objects.filter(
-            last_registration_at__lt=one_year_ago,
+            last_registration_at__lte=one_year_ago,  # ИЗМЕНИТЬ: __lt → __lte
             is_active_member=True
         )
 
@@ -209,10 +246,10 @@ class RemoveInactiveReadersAPIView(APIView):
         inactive_readers.update(is_active_member=False)
 
         return Response({
-            'message': f'Removed {count} inactive readers',
-            'removed_readers': names
+            'message': f'Исключено {count} неактивных читателей',
+            'removed_readers': names,
+            'count': count
         })
-
 
 class DecommissionBookAPIView(APIView):
     """8. Списать книгу"""
@@ -373,3 +410,295 @@ class UpdateBookCodeAPIView(APIView):
 
         except Book.DoesNotExist:
             return Response({'error': 'Book not found'})
+
+
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+
+
+class LinkUserToReaderAPIView(APIView):
+    """Связать текущего пользователя с читателем"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+
+        # Проверяем, есть ли уже у пользователя профиль
+        if hasattr(user, 'reader_profile'):
+            return Response({
+                'message': 'User already has a reader profile',
+                'reader_id': user.reader_profile.reader_id
+            })
+
+        # Получаем данные из запроса
+        card_number = request.data.get('card_number')
+        passport = request.data.get('passport')
+
+        if not card_number or not passport:
+            return Response({'error': 'card_number and passport required'}, status=400)
+
+        try:
+            # Ищем читателя по номеру билета и паспорту
+            reader = Reader.objects.get(
+                library_card_id=card_number,
+                passport=passport
+            )
+
+            # Если у читателя уже есть привязанный пользователь
+            if reader.user:
+                return Response({'error': 'Reader already linked to another user'}, status=400)
+
+            # Связываем
+            reader.user = user
+            reader.save()
+
+            return Response({
+                'message': 'User successfully linked to reader',
+                'reader': ReaderSerializer(reader).data
+            })
+
+        except Reader.DoesNotExist:
+            return Response({'error': 'Reader not found'}, status=404)
+
+
+class MyProfileAPIView(APIView):
+    """Получить профиль текущего авторизованного читателя"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        if not hasattr(user, 'reader_profile'):
+            return Response({'error': 'No reader profile linked'}, status=404)
+
+        reader = user.reader_profile
+        serializer = ReaderSerializer(reader)
+
+        # Получаем активные выдачи
+        active_loans = LoanRecord.objects.filter(
+            reader_id=reader,
+            returned_at__isnull=True
+        )
+
+        loans_data = []
+        for loan in active_loans:
+            loans_data.append({
+                'loan_id': loan.loan_id,
+                'book_title': loan.copy_book_id.book_id.title,
+                'issued_at': loan.issued_at,
+                'due_date': loan.due_date,
+                'days_on_loan': (date.today() - loan.issued_at).days
+            })
+
+        return Response({
+            'reader': serializer.data,
+            'active_loans': loans_data
+        })
+
+
+class HallListAPIView(generics.ListAPIView):
+    """Список читальных залов"""
+    serializer_class = ReadingHallSerializer
+    queryset = ReadingHall.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class AuthorListAPIView(generics.ListAPIView):
+    """Список всех авторов"""
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class AuthorCreateAPIView(generics.CreateAPIView):
+    """Создание нового автора"""
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class AuthorDetailAPIView(generics.RetrieveAPIView):
+    """Получение одного автора"""
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+    permission_classes = [IsAdminUser]
+    lookup_field = 'pk'
+
+
+class BookAuthorCreateAPIView(generics.CreateAPIView):
+    """Создание связи книги и автора"""
+    serializer_class = BookAuthorSerializer
+    queryset = BookAuthor.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class CopyOfBookCreateAPIView(generics.CreateAPIView):
+    """Создание нового экземпляра книги"""
+    serializer_class = CopyOfBookSerializer
+    queryset = CopyOfBook.objects.all()
+    permission_classes = [IsAdminUser]
+
+    def perform_create(self, serializer):
+        serializer.save(
+            availability_status='available',
+            received_date=date.today()
+        )
+
+
+class AuthorListAPIView(generics.ListAPIView):
+    """Список всех авторов"""
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class AuthorCreateAPIView(generics.CreateAPIView):
+    """Создание нового автора"""
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class BookWithCopiesAPIView(generics.ListAPIView):
+    """Список книг с количеством доступных экземпляров"""
+    serializer_class = BookSerializer
+    permission_classes = [AllowAny]  # Доступно всем
+
+    def get_queryset(self):
+        return Book.objects.filter(is_in_catalog=True)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+
+        for book in queryset:
+            # Считаем доступные экземпляры (не выданные и не списанные)
+            available_copies = CopyOfBook.objects.filter(
+                book_id=book,
+                availability_status='available'
+            ).count()
+
+            book_data = BookSerializer(book).data
+            book_data['available_copies'] = available_copies
+            data.append(book_data)
+
+        return Response(data)
+
+
+class ActiveLoansAPIView(APIView):
+    """Все активные выдачи (невозвращенные)"""
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        active_loans = LoanRecord.objects.filter(
+            returned_at__isnull=True
+        ).select_related('reader_id', 'copy_book_id__book_id')
+
+        result = []
+        for loan in active_loans:
+            result.append({
+                'loan_id': loan.loan_id,
+                'reader_name': loan.reader_id.full_name,
+                'reader_card': loan.reader_id.library_card_id,
+                'book_title': loan.copy_book_id.book_id.title,
+                'issued_at': loan.issued_at,
+                'due_date': loan.due_date,
+                'days_on_loan': (date.today() - loan.issued_at).days,
+                'days_overdue': max(0, (date.today() - loan.due_date).days) if loan.due_date < date.today() else 0
+            })
+
+        return Response(result)
+
+
+class LoanCreateAPIView(generics.CreateAPIView):
+    """Создание новой выдачи книги"""
+    serializer_class = LoanRecordSerializer
+    permission_classes = [IsAdminUser]
+
+    def perform_create(self, serializer):
+        # При выдаче меняем статус экземпляра на 'on_loan'
+        copy = serializer.validated_data['copy_book_id']
+        copy.availability_status = 'on_loan'
+        copy.save()
+        serializer.save()
+
+
+class LoanCreateAPIView(generics.CreateAPIView):
+    """Создание новой выдачи книги"""
+    serializer_class = LoanRecordSerializer
+    permission_classes = [IsAdminUser]
+
+    def create(self, request, *args, **kwargs):
+        copy_id = request.data.get('copy_book_id')
+        reader_id = request.data.get('reader_id')
+
+        # Проверяем, доступен ли экземпляр
+        try:
+            book_copy = CopyOfBook.objects.get(pk=copy_id)
+            if book_copy.availability_status != 'available':
+                return Response(
+                    {'error': 'Этот экземпляр уже выдан или недоступен'},
+                    status=400
+                )
+        except CopyOfBook.DoesNotExist:
+            return Response(
+                {'error': 'Экземпляр не найден'},
+                status=404
+            )
+
+        # Создаем выдачу
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        # Обновляем статус экземпляра
+        book_copy.availability_status = 'on_loan'
+        book_copy.save()
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=201, headers=headers)
+
+
+class ReturnBookAPIView(APIView):
+    """Возврат книги читателем"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        loan_id = request.data.get('loan_id')
+
+        if not loan_id:
+            return Response({'error': 'loan_id is required'}, status=400)
+
+        try:
+            # Получаем запись о выдаче
+            loan = LoanRecord.objects.get(pk=loan_id)
+
+            # Проверяем, что книга действительно у этого читателя
+            if not hasattr(request.user, 'reader_profile') or loan.reader_id != request.user.reader_profile:
+                return Response({'error': 'Это не ваша книга'}, status=403)
+
+            # Проверяем, что книга еще не возвращена
+            if loan.returned_at is not None:
+                return Response({'error': 'Книга уже возвращена'}, status=400)
+
+            # Обновляем запись о выдаче
+            loan.returned_at = date.today()
+            loan.save()
+
+            # Обновляем статус экземпляра книги
+            book_copy = loan.copy_book_id
+            book_copy.availability_status = 'available'
+            book_copy.save()
+
+            return Response({
+                'success': True,
+                'message': 'Книга успешно возвращена',
+                'loan_id': loan.loan_id,
+                'book_title': book_copy.book_id.title,
+                'returned_at': loan.returned_at
+            })
+
+        except LoanRecord.DoesNotExist:
+            return Response({'error': 'Запись о выдаче не найдена'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)

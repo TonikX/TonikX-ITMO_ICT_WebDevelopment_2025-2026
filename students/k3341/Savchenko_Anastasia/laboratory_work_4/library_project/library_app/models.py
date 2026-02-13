@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Author(models.Model):
     """Автор книги"""
@@ -83,6 +83,15 @@ class Reader(models.Model):
         ('higher', 'Высшее'),
         ('degree', 'Ученая степень'),
     ]
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Пользователь',
+        related_name='reader_profile'
+    )
 
     reader_id = models.AutoField(primary_key=True)
     library_card_id = models.CharField(max_length=50, unique=True, verbose_name='Номер читательского билета',

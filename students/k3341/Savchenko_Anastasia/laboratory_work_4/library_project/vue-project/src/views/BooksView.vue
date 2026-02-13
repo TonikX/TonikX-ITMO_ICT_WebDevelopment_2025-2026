@@ -17,6 +17,14 @@
         <p><strong>Издательство:</strong> {{ book.publisher }}</p>
         <p><strong>Раздел:</strong> {{ book.section }}</p>
         <p><strong>Инв. номер:</strong> {{ book.inventory_code }}</p>
+
+        <!-- 👇 ДОБАВЛЯЕМ ИНФОРМАЦИЮ О ДОСТУПНЫХ ЭКЗЕМПЛЯРАХ -->
+        <div class="copies-info">
+          <span class="copies-label">📚 Доступно экземпляров:</span>
+          <span :class="['copies-count', { 'copies-zero': book.available_copies === 0 }]">
+            {{ book.available_copies || 0 }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -35,11 +43,18 @@ const loadBooks = async () => {
   error.value = null
 
   try {
-    const response = await apiClient.get('books/')
+    // Запрашиваем книги с количеством доступных экземпляров
+    const response = await apiClient.get('books/with-copies/')
     books.value = response.data
   } catch (err) {
-    error.value = 'Не удалось загрузить книги'
     console.error('Ошибка загрузки книг:', err)
+    // Если эндпоинт не работает, загружаем обычные книги
+    try {
+      const fallbackResponse = await apiClient.get('books/')
+      books.value = fallbackResponse.data
+    } catch (e) {
+      error.value = 'Не удалось загрузить книги'
+    }
   } finally {
     loading.value = false
   }
@@ -53,7 +68,7 @@ onMounted(() => {
 <style scoped>
 .books-view {
   padding: 20px;
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -116,6 +131,8 @@ onMounted(() => {
   background: white;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .book-card:hover {
@@ -138,5 +155,34 @@ onMounted(() => {
 
 .book-card strong {
   color: #34495e;
+}
+
+.copies-info {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copies-label {
+  font-size: 14px;
+  color: #34495e;
+  font-weight: 600;
+}
+
+.copies-count {
+  font-size: 18px;
+  font-weight: bold;
+  color: #27ae60;
+  padding: 4px 12px;
+  background: #e8f8f5;
+  border-radius: 20px;
+}
+
+.copies-zero {
+  color: #e74c3c;
+  background: #fde8e8;
 }
 </style>

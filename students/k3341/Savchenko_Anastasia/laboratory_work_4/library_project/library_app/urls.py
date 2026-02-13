@@ -47,10 +47,36 @@ urlpatterns = [
     # 9. Добавить книгу в фонд
     path('books/add/', AddBookAPIView.as_view()),
 
-
     # Перемещение книги между залами (из ТЗ: "Книги могут перерегистрироваться в другом зале")
     path('copies/transfer-hall/', TransferCopyToHallAPIView.as_view()),
 
     # Изменение шифра книги (из ТЗ: "Шифр книги может измениться в результате переклассификации")
     path('books/<int:pk>/update-code/', UpdateBookCodeAPIView.as_view()),
+    # Новые URL для связи User-Reader
+    path('user/link-reader/', LinkUserToReaderAPIView.as_view(), name='link-reader'),
+    path('user/my-profile/', MyProfileAPIView.as_view(), name='my-profile'),
+    path('halls/', HallListAPIView.as_view(), name='halls'),
+    # ========================================================================
+    # CRUD для авторов (НОВЫЕ)
+    # ========================================================================
+    path('authors/create/', AuthorCreateAPIView.as_view()),  # POST
+    path('authors/<int:pk>/', AuthorDetailAPIView.as_view()),  # GET одного
+
+    # ========================================================================
+    # CRUD для book-authors (НОВЫЕ)
+    # ========================================================================
+    path('book-authors/create/', BookAuthorCreateAPIView.as_view()),  # POST
+
+    # ========================================================================
+    # CRUD для экземпляров (НОВЫЕ)
+    # ========================================================================
+    path('copies/create/', CopyOfBookCreateAPIView.as_view()),  # POST
+    path('authors/', AuthorListAPIView.as_view()),  # GET - список
+    path('authors/create/', AuthorCreateAPIView.as_view()),  # POST - создать
+    path('admin/readers/', AdminReaderListAPIView.as_view()),
+
+    path('books/with-copies/', BookWithCopiesAPIView.as_view()),
+    path('loans/active/', ActiveLoansAPIView.as_view()),
+    path('loans/create/', LoanCreateAPIView.as_view()),
+    path('loans/return/', ReturnBookAPIView.as_view()),
 ]
