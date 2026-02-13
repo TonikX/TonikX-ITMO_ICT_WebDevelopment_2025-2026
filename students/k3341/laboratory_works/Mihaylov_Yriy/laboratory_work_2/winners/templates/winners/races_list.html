@@ -1,0 +1,88 @@
+<!-- templates/races/races_list.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/races_list.css' %}">
+    <title>Список гонок - Табло победителей гонок</title>
+</head>
+<body>
+<div class="races-container">
+    <div class="races-header">
+        <h1>Список автогонок</h1>
+        <p>Выберите гонку для просмотра информации или регистрации</p>
+
+        <!-- Фильтры по дате -->
+        <div class="filters">
+            <a href="?filter=all{% if page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}"
+               class="filter-btn {% if date_filter == 'all' %}active{% endif %}">Все</a>
+            <a href="?filter=future{% if page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}"
+               class="filter-btn {% if date_filter == 'future' %}active{% endif %}">Предстоящие</a>
+            <a href="?filter=past{% if page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}"
+               class="filter-btn {% if date_filter == 'past' %}active{% endif %}">Прошедшие</a>
+        </div>
+    </div>
+
+    <div class="races-list">
+        {% for race in page_obj %}
+        <div class="race-card">
+            <div class="race-info">
+                <h3>{{ race.name }}</h3>
+                <div class="race-time">
+                    {{ race.race_time|date:"d M Y H:i" }}
+                </div>
+            </div>
+
+            <div class="race-actions">
+                <a href="{% url 'race_about' race.id %}" class="action-btn btn-info">
+                    Подробнее о гонке
+                </a>
+
+                <a href="{% url 'race_comments' race.id %}" class="action-btn btn-comment">
+                    Комментарии ({{ race.comments_count }})
+                </a>
+
+                {% if is_racer %}
+                    {% if race.id in user_registrations %}
+                        <a href="{% url 'race_unregister' race.id %}" class="action-btn btn-unregister"
+                           onclick="return confirm('Вы уверены, что хотите отменить регистрацию?')">
+                            Отменить регистрацию
+                        </a>
+                    {% else %}
+                        <a href="{% url 'race_register' race.id %}" class="action-btn btn-register">
+                            Зарегистрироваться
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-races">
+            <h3>Гонки пока не добавлены</h3>
+            <p>Администратор скоро добавит новые гонки</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if date_filter != 'all' %}&filter={{ date_filter }}{% endif %}" class="page-btn">← Назад</a>
+        {% endif %}
+
+        <span class="page-info">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if date_filter != 'all' %}&filter={{ date_filter }}{% endif %}" class="page-btn">Вперед →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <a href="{% url 'profile' %}" class="back-to-profile">Назад в профиль</a>
+</div>
+</body>
+</html>

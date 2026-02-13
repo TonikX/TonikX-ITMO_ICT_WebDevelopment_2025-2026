@@ -1,0 +1,62 @@
+<!-- templates/races/race_about.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/race_pages.css' %}">
+    <title>{{ race.name }} - Табло победителей гонок</title>
+</head>
+<body>
+    <div class="race-page-container">
+        <div class="race-content">
+            <div class="race-header">
+                <h1>{{ race.name }}</h1>
+            </div>
+
+            <div class="race-card">
+                <div class="race-info">
+                    <h2>Информация о гонке</h2>
+                    <div class="race-time">
+                        <strong>Дата и время:</strong> {{ race.race_time|date:"d M Y H:i" }}
+                    </div>
+                    <div class="race-description">
+                        <strong>Описание:</strong>  {{ race.description }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="{% url 'races_list' %}" class="back-btn">← Назад к списку гонок</a>
+                <a href="{% url 'race_comments' race.id %}" class="submit-btn">Комментарии</a>
+                <a href="{% url 'race_results' race.id %}" class="submit-btn">Результаты заездов</a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="race-card">
+    <h2>Зарегистрированные участники</h2>
+    <div class="registered-racers">
+        {% if registered_racers %}
+        <div class="racers-list">
+            {% for registration in registered_racers %}
+            <div class="racer-item">
+                <div style="display: flex">
+                    <div class="racer-name">{{ registration.racer.user.username }}</div>
+                    <div class="racer-team">{{ registration.racer.team }}</div>
+                    <div class="racer-class">{{ registration.racer.classs }}</div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-racers">
+            <p>Пока нет зарегистрированных участников</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+    </div>
+</body>
+</html>
