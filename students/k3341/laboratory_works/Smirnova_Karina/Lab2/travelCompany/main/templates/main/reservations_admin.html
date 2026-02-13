@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation admin</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+  <h2>Заявки на бронирование туров</h2>
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>Пользователь</th>
+      <th>Тур</th>
+      <th>Дата бронирования</th>
+      <th>Статус</th>
+      <th>Действия</th>
+    </tr>
+    {% for res in reservations %}
+      <tr>
+        <td>{{ res.user.username }}</td>
+        <td>{{ res.tour.name }}</td>
+        <td>{{ res.reserved_at|date:"d.m.Y H:i" }}</td>
+        <td>
+          {% if res.status == "waiting" %}
+            <span style="color: orange;">Ожидает подтверждения</span>
+          {% elif res.status == "approved" %}
+            <span style="color: green;">Подтверждено</span>
+          {% elif res.status == "refused" %}
+            <span style="color: red;">Отклонено</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if res.status == "waiting" %}
+            <form action="{% url 'approve_reservation' res.pk %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit">Подтвердить</button>
+            </form>
+            <form action="{% url 'decline_reservation' res.pk %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" onclick="return confirm('Отклонить заявку?')">Отклонить</button>
+            </form>
+          {% else %}
+            <em>Действие недоступно</em>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">Нет заявок.</td></tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
