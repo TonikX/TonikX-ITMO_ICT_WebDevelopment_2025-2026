@@ -1,0 +1,186 @@
+/* static/winners/css/results.css */
+.results-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0c1a2d 0%, #1e3a5f 100%);
+    padding: 2rem;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+.results-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.results-header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: #60a5fa;
+}
+
+.heat-results {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.heat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.heat-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #60a5fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heat-time {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.results-table th {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 500;
+}
+
+.results-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.position-1 {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.2) 0%, transparent 50%);
+    color: #fbbf24;
+    font-weight: bold;
+}
+
+.position-2 {
+    background: linear-gradient(90deg, rgba(156, 163, 175, 0.2) 0%, transparent 50%);
+    color: #d1d5db;
+    font-weight: bold;
+}
+
+.position-3 {
+    background: linear-gradient(90deg, rgba(180, 83, 9, 0.2) 0%, transparent 50%);
+    color: #f97316;
+    font-weight: bold;
+}
+
+.generate-btn {
+    background: #059669;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.generate-btn:hover {
+    background: #047857;
+    transform: translateY(-2px);
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.7;
+}
+
+.admin-notice {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.back-btn {
+    background: #6b7280;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+.generate-btn {
+    background: #059669;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.generate-btn:hover {
+    background: #047857;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.page-info {
+    font-weight: 500;
+    color: #60a5fa;
+}

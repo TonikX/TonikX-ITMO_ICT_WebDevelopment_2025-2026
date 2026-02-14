@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/home.css' %}">
+    <title>Табло победителей гонок</title>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <h1 class="title">Табло победителей гонок</h1>
+            <div class="buttons">
+                <a href="{% url 'login' %}" class="btn btn-primary">Войти</a>
+                <a href="{% url 'base_register' %}" class="btn btn-secondary">Регистрация</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
