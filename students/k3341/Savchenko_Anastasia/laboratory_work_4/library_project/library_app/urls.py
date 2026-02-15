@@ -43,7 +43,6 @@ urlpatterns = [
 
     # 8. Списать книгу
     path('books/decommission/', DecommissionBookAPIView.as_view()),
-
     # 9. Добавить книгу в фонд
     path('books/add/', AddBookAPIView.as_view()),
 
