@@ -91,7 +91,7 @@ CORS_ALLOW_CREDENTIALS = True
 - ✅ Браузер успешно отправляет **preflight запросы** (OPTIONS) к API
 - ✅ API отвечает с заголовком `Access-Control-Allow-Origin: http://localhost:5173`
 
-![CORS настройки](assets/lab4/img.png)
+![CORS настройки](assets/lab4/cors.png)
 
 - ✅ Фронтенд может авторизоваться и получать данные с бэкенда
 - ✅ Кросс-доменные запросы обрабатываются без ошибок
