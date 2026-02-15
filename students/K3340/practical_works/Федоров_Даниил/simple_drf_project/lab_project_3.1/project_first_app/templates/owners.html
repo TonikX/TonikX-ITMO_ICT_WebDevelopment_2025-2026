@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Владельцы</title>
+</head>
+<body>
+    <h1>Все владельцы</h1>
+
+        {% for owner in dataset%}
+        Имя: {{owner.first_name}}<br/>
+        Фамилия: {{owner.last_name}}<br/>
+        Рождение: {{owner.birth_date}}<br/>
+        Национальность: {{ owner.nationality }}<br/>
+        Адрес: {{ owner.address }}<br/>
+        Паспорт: {{ owner.passport_number }}<br/>
+        <hr/>
+
+        {% endfor %}
+
+</body>
+</html>
+
+
