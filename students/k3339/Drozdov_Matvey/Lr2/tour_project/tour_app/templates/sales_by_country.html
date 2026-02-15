@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Статистика по странам{% endblock %}
+
+{% block content %}
+<h1>Проданные туры по странам</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Страна</th>
+            <th>Количество проданных туров</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if page_obj.object_list %}
+        {% for row in page_obj.object_list %}
+            <tr>
+                <td>{{ row.tour__country }}</td>
+                <td>{{ row.total }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">Пока нет проданных туров.</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+{# Пагинация #}
+<nav aria-label="Страницы статистики">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Назад</span>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Вперёд</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+<p class="mt-3">
+    <a href="{% url 'tour_list' %}">← Назад к списку туров</a>
+</p>
+{% endblock %}

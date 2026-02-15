@@ -1,0 +1,19 @@
+site_name: Library System Docs
+
+theme:
+  name: material
+
+nav:
+  - Главная: index.md
+
+  - Интерфейсы:
+      - Главная страница: interfaces/main.md
+      - Вход: interfaces/login.md
+      - Регистрация: interfaces/register.md
+      - Книги: interfaces/books.md
+      - Карточка книги: interfaces/book_detail.md
+      - Читатели: interfaces/readers.md
+      - Карточка читателя: interfaces/reader_detail.md
+      - Залы: interfaces/halls.md
+      - Выдача книг: interfaces/circulation.md
+      - Отчёты: interfaces/reports.md

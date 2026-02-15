@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'tour_list' %}">TourAgency</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tour_list' %}">Все туры</a>
+        </li>
+
+        {% if user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sales_by_country' %}">
+            Статистика
+          </a>
+        </li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'my_reservations' %}">Мои бронирования</a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <ul class="navbar-nav">
+
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text me-3">
+              Привет, {{ user.username }}!
+            </span>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button class="btn btn-outline-light btn-sm" type="submit">Выйти</button>
+            </form>
+          </li>
+
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Войти</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

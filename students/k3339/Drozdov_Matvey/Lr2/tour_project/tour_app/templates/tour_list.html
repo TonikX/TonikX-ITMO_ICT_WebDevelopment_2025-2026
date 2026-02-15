@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Все туры{% endblock %}
+
+{% block content %}
+<h1>Все туры</h1>
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text"
+               name="q"
+               class="form-control"
+               placeholder="Поиск по названию, стране, агентству"
+               value="{{ q }}">
+        <button class="btn btn-primary" type="submit">Искать</button>
+    </div>
+</form>
+
+{% if page_obj.object_list %}
+    <ul>
+        {% for tour in page_obj.object_list %}
+            <li>
+                <a href="{% url 'tour_detail' tour.pk %}">{{ tour.title }}</a>
+                — {{ tour.country }} — {{ tour.price }} ₽
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+
+<nav aria-label="Навигация по страницам">
+  <ul class="pagination">
+
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?q={{ q }}&page={{ page_obj.previous_page_number }}">Назад</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Назад</span>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ q }}&page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?q={{ q }}&page={{ page_obj.next_page_number }}">Вперёд</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Вперёд</span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+{% endblock %}
