@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Редактировать ДЗ{% else %}Создать ДЗ{% endif %}{% endblock %}
+{% block content %}
+<div class="row"><div class="col-md-8 col-lg-7 mx-auto">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h5 class="mb-0">{% if object %}Редактировать ДЗ{% else %}Создать ДЗ{% endif %}</h5>
+    </div>
+    <div class="card-body">
+      <form method="post">{% csrf_token %}
+        {% for field in form %}
+          <div class="mb-3">
+            {{ field.label_tag(attrs={"class":"form-label"}) }}
+            {{ field }}
+            {% for err in field.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+          </div>
+        {% endfor %}
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Сохранить</button>
+          <a class="btn btn-outline-secondary" href="{% url 'homework_list' %}">Отмена</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+site_name: Лабораторные работы — Web
+
+theme:
+  name: material
+
+nav:
+  - Главная: index.md
+  - ЛР2:
+      - Обзор: Lr2/index.md
+      - Модель данных: Lr2/data-model.md
+      - Интерфейс и роли: Lr2/ui-and-roles.md
+      - Эндпоинты: Lr2/endpoints.md
+  - ЛР3:
+      - Реализация backend: Lr3/implementation.md
+  - ЛР4:
+      - Реализация frontend: Lr4/implementation.md

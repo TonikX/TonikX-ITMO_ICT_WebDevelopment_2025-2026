@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Задание — {{ homework.subject.name }}{% endblock %}
+{% block content %}
+
+<h1>{{ homework.subject.name }} — задание от {{ homework.given_at }}</h1>
+<p><b>Выполнение:</b> {{ homework.due_from }} — {{ homework.due_to }}</p>
+<p><b>Штрафы:</b> {{ homework.penalty_info|default:"—" }}</p>
+<p>{{ homework.text|linebreaks }}</p>
+
+<hr>
+<h3>Моя сдача</h3>
+{% if user.is_authenticated %}
+  {% if my_submission %}
+    <p><b>Текст:</b> {{ my_submission.body|linebreaks }}</p>
+    <p><b>Оценка:</b> {{ my_submission.score|default:"не выставлена" }}</p>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'submission_update' my_submission.pk %}">Редактировать</a>
+    <a class="btn btn-sm btn-outline-danger" href="{% url 'submission_delete' my_submission.pk %}">Удалить</a>
+  {% else %}
+    <a class="btn btn-primary" href="{% url 'submission_create' homework.pk %}">Сдать задание</a>
+  {% endif %}
+{% else %}
+  <p>Чтобы сдать задание — <a href="{% url 'login' %}">войдите</a>.</p>
+{% endif %}
+
+{% if user.is_staff %}
+  <hr>
+  <a class="btn btn-warning" href="{% url 'manage_submissions' homework.pk %}">Управление сдачами</a>
+{% endif %}
+
+<hr>
+<h3>Отзывы</h3>
+<ul class="mb-3">
+  {% for r in homework.reviews.all %}
+    <li><b>{{ r.author.username }}</b>: {{ r.rating }}/10 — {{ r.text }}</li>
+  {% empty %}
+    <li>Пока нет отзывов.</li>
+  {% endfor %}
+</ul>
+{% if user.is_authenticated %}
+  <a class="btn btn-secondary" href="{% url 'review_add' homework.pk %}">Оставить отзыв</a>
+{% endif %}
+
+{% endblock %}

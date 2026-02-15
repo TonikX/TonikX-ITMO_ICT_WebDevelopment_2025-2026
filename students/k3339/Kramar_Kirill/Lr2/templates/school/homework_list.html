@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Список ДЗ{% endblock %}
+{% block content %}
+<h1>Список домашних заданий</h1>
+
+<form class="row g-2 mb-3">
+  <div class="col-auto">
+    <input type="text" name="q" placeholder="поиск по теме/тексту" class="form-control" value="{{ request.GET.q }}">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary">Искать</button>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead><tr><th>Предмет</th><th>Выдано</th><th>Период</th><th></th></tr></thead>
+  <tbody>
+  {% for hw in homeworks %}
+    <tr>
+      <td>{{ hw.subject.name }}</td>
+      <td>{{ hw.given_at }}</td>
+      <td>{{ hw.due_from }} — {{ hw.due_to }}</td>
+      <td><a class="btn btn-sm btn-secondary" href="{% url 'homework_detail' hw.pk %}">Открыть</a></td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Нет заданий</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?{% if request.GET.q %}q={{request.GET.q}}&{% endif %}page={{ page_obj.previous_page_number }}">«</a></li>
+    {% endif %}
+    <li class="page-item disabled"><span class="page-link">Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?{% if request.GET.q %}q={{request.GET.q}}&{% endif %}page={{ page_obj.next_page_number }}">»</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}

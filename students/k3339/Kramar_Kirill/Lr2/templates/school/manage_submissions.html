@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Управление сдачами{% endblock %}
+{% block content %}
+<h1>Сдачи — {{ homework.subject.name }} ({{ homework.given_at }})</h1>
+
+<table class="table table-hover align-middle">
+  <thead><tr><th>Студент</th><th>Текст</th><th style="width:180px">Оценка</th></tr></thead>
+  <tbody>
+  {% for s in subs %}
+    <tr>
+      <td>{{ s.student.username }}</td>
+      <td style="max-width:500px">{{ s.body|linebreaks }}</td>
+      <td>
+        <form method="post" action="{% url 'submission_score' s.pk %}" class="d-flex gap-2">
+          {% csrf_token %}
+          <input name="score" type="number" min="0" class="form-control" value="{{ s.score|default_if_none:'' }}">
+          <button class="btn btn-primary">Сохранить</button>
+        </form>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="3">Сдач пока нет.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+    {% endif %}
+    <li class="page-item disabled"><span class="page-link">Стр. {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

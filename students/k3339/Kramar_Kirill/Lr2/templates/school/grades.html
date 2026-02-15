@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Оценки{% endblock %}
+{% block content %}
+<h1 class="mb-3">Оценки всех студентов</h1>
+
+<table class="table table-striped table-hover align-middle">
+  <thead>
+    <tr>
+      <th>Предмет</th>
+      <th>Выдано</th>
+      <th>Студент</th>
+      <th>Оценка</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in submissions %}
+      <tr>
+        <td>{{ s.homework.subject.name }}</td>
+        <td>{{ s.homework.given_at }}</td>
+        <td>{{ s.student.username }}</td>
+        <td>{{ s.score|default:"—" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4">Пока нет сдач.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a>
+      </li>
+    {% endif %}
+    <li class="page-item disabled">
+      <span class="page-link">Стр. {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    </li>
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

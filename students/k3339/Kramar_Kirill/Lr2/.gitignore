@@ -1,0 +1,29 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.mo
+
+# Venv
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Coverage / build
+.coverage
+htmlcov/
+dist/
+build/
+
+# Env
+.env
+*.env
+
+# Node (если вдруг где-то используешь)
+node_modules/

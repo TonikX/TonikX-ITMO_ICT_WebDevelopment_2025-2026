@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Оставить отзыв{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8 col-lg-7 mx-auto">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h5 class="mb-0">Отзыв к заданию:
+          <span class="text-muted">{{ homework.subject.name }} — {{ homework.given_at }}</span>
+        </h5>
+      </div>
+      <div class="card-body">
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field.as_widget|safe }}
+              {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+              {% for err in field.errors %}
+                <div class="invalid-feedback d-block">{{ err }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Добавить отзыв</button>
+            <a class="btn btn-outline-secondary" href="{% url 'homework_detail' homework.pk %}">Отмена</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Удалить сдачу{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8 col-lg-7 mx-auto">
+    <div class="card border-danger shadow-sm">
+      <div class="card-header bg-danger text-white">
+        <h5 class="mb-0">Подтвердите удаление</h5>
+      </div>
+      <div class="card-body">
+        <p class="mb-4">
+          Вы действительно хотите удалить вашу сдачу
+          <strong>от {{ object.created_at|date:"d.m.Y H:i" }}</strong>? Это действие необратимо.
+        </p>
+        <form method="post">
+          {% csrf_token %}
+          <div class="d-flex gap-2">
+            <button class="btn btn-danger" type="submit">Удалить</button>
+            <a class="btn btn-outline-secondary" href="{% url 'homework_detail' object.homework.pk %}">Отмена</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
