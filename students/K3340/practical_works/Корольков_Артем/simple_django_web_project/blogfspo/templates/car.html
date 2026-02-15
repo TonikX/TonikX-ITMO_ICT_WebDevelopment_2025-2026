@@ -1,0 +1,63 @@
+<!-- templates/car.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ car.brand }} {{ car.model }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #28a745; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .info-section { background: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #ddd; }
+        .owners-list { background: white; padding: 15px; border-radius: 5px; }
+        .owner-item { border: 1px solid #eee; padding: 10px; margin: 10px 0; border-radius: 3px; }
+        .back-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 3px; }
+        .back-link:hover { background: #545b62; }
+        .current { background-color: #e8f5e8; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ car.brand }} {{ car.model }}</h1>
+        </div>
+
+        <div class="info-section">
+            <h2>Информация об автомобиле</h2>
+            <p><strong>Гос. номер:</strong> {{ car.state_number }}</p>
+            <p><strong>Марка:</strong> {{ car.brand }}</p>
+            <p><strong>Модель:</strong> {{ car.model }}</p>
+            <p><strong>Цвет:</strong> {{ car.get_color_display }}</p>
+        </div>
+
+        <div class="owners-list">
+            <h2>История владения</h2>
+
+            {% if ownerships %}
+                {% for ownership in ownerships %}
+                <div class="owner-item {% if ownership.is_current %}current{% endif %}">
+                    <h3>{{ ownership.owner.get_full_name }}</h3>
+                    <p><strong>Период владения:</strong>
+                        с {{ ownership.start_date|date:"d.m.Y" }}
+                        {% if ownership.end_date %}
+                            по {{ ownership.end_date|date:"d.m.Y" }}
+                        {% else %}
+                            по настоящее время
+                        {% endif %}
+                    </p>
+                    {% if ownership.is_current %}
+                    <span style="color: #28a745; font-weight: bold;">✓ Текущий владелец</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>История владения не найдена</p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'cars_list' %}" class="back-link">← Назад к списку автомобилей</a>
+        <a href="{% url 'automobiles_home' %}" class="back-link">На главную</a>
+    </div>
+</body>
+</html>

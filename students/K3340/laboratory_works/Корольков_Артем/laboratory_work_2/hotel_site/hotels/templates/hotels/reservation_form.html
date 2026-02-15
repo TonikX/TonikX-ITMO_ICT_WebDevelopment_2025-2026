@@ -1,0 +1,50 @@
+{% extends 'hotels/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{% if object %}Редактирование бронирования{% else %}Новое бронирование{% endif %}</h2>
+    
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Ошибка!</strong> Пожалуйста, исправьте ошибки ниже.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="{{ form.room_type.id_for_label }}" class="form-label">Тип номера</label>
+            {{ form.room_type }}
+            {% if form.room_type.errors %}
+            <div class="text-danger">{{ form.room_type.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.check_in.id_for_label }}" class="form-label">Дата заезда</label>
+            {{ form.check_in }}
+            {% if form.check_in.errors %}
+            <div class="text-danger">{{ form.check_in.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.check_out.id_for_label }}" class="form-label">Дата выезда</label>
+            {{ form.check_out }}
+            {% if form.check_out.errors %}
+            <div class="text-danger">{{ form.check_out.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'user_reservations' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+
+<style>
+    .form-control {
+        max-width: 300px;
+    }
+</style>
+{% endblock %}

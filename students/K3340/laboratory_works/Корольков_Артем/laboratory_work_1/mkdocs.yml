@@ -1,0 +1,21 @@
+site_name: Отчет по практической работе - Веб-программирование
+site_description: Реализация клиент-серверных приложений на сокетах
+site_author: Корольков Артем
+
+nav:
+  - 'Главная': 'index.md'
+  - 'Задание 1: UDP-клиент-сервер': 'task_1.md'
+  - 'Задание 2: TCP-сервер (площадь трапеции)': 'task_2.md'
+  - 'Задание 3: HTTP-сервер': 'task_3.md'
+  - 'Задание 4: Многопользовательский чат': 'task_4.md'
+  - 'Задание 5: Веб-сервер для учета оценок': 'task_5.md'
+
+theme: readthedocs
+markdown_extensions:
+  - codehilite
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search

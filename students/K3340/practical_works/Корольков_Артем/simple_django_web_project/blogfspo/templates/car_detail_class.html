@@ -1,0 +1,165 @@
+<!-- templates/car_detail_class.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ car.brand }} {{ car.model }} - Детали</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .car-info {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .history-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .ownership-item {
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 0 5px 5px 0;
+        }
+        .ownership-item.current {
+            border-left-color: #28a745;
+            background: #e8f5e8;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-primary { background: #007bff; }
+        .btn-success { background: #28a745; }
+        .btn-secondary { background: #6c757d; }
+        .btn:hover { opacity: 0.9; }
+        .actions {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ car.brand }} {{ car.model }}</h1>
+            <p>Детальная информация об автомобиле</p>
+        </div>
+
+        <div class="car-info">
+            <h2>Основная информация</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">ID автомобиля:</span>
+                    {{ car.id }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Гос. номер:</span>
+                    {{ car.state_number }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Марка:</span>
+                    {{ car.brand }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Модель:</span>
+                    {{ car.model }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Цвет:</span>
+                    {{ car.get_color_display }}
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Текущий владелец:</span>
+                    {% with current_owner=car.get_current_owner %}
+                        {% if current_owner %}
+                            <a href="{% url 'owner_detail' current_owner.id %}" style="color: #28a745;">
+                                {{ current_owner.get_full_name }}
+                            </a>
+                        {% else %}
+                            <span style="color: #dc3545;">Нет владельца</span>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h2>История владения</h2>
+            {% if ownerships %}
+                {% for ownership in ownerships %}
+                <div class="ownership-item {% if ownership.is_current %}current{% endif %}">
+                    <h3>{{ ownership.owner.get_full_name }}</h3>
+                    <p><strong>Период владения:</strong>
+                        с {{ ownership.start_date|date:"d.m.Y H:i" }}
+                        {% if ownership.end_date %}
+                            по {{ ownership.end_date|date:"d.m.Y H:i" }}
+                        {% else %}
+                            по настоящее время
+                        {% endif %}
+                    </p>
+                    {% if ownership.is_current %}
+                    <span style="color: #28a745; font-weight: bold;">Текущий владелец</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; color: #666; padding: 20px;">
+                    История владения не найдена
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'car_update' car.id %}" class="btn btn-success">Редактировать автомобиль</a>
+            <a href="{% url 'cars_list_class' %}" class="btn btn-primary">Назад к списку</a>
+            <a href="{% url 'automobiles_home' %}" class="btn btn-secondary">На главную</a>
+        </div>
+    </div>
+</body>
+</html>

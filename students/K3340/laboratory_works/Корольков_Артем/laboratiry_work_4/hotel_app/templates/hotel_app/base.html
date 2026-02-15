@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}🏨 Управление гостиницей{% endblock %}</title>
+
+    <!-- Vuetify CSS через CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@3.4.0/dist/vuetify.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <style>
+        /* ... ваш CSS ... */
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div id="app">
+        <!-- Навигационное меню -->
+        <v-app>
+            <v-app-bar color="deep-purple-darken-2" prominent>
+                <v-app-bar-nav-icon @click="drawer = !drawer" variant="text"></v-app-bar-nav-icon>
+
+                <v-app-bar-title>
+                    <v-icon icon="mdi-hotel" class="mr-2"></v-icon>
+                    <span class="font-weight-bold">Гостиничная система</span>
+                </v-app-bar-title>
+
+                <template v-if="isAuthenticated">
+                    <v-btn icon @click="refreshData">
+                        <v-icon>mdi-refresh</v-icon>
+                    </v-btn>
+
+                    <v-menu>
+                        <template v-slot:activator="{ props }">
+                            <v-btn icon v-bind="props">
+                                <v-icon>mdi-account-circle</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="goToProfile">
+                                <v-list-item-title>
+                                    <v-icon icon="mdi-account" class="mr-2"></v-icon>
+                                    Профиль
+                                </v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="logout">
+                                <v-list-item-title>
+                                    <v-icon icon="mdi-logout" class="mr-2"></v-icon>
+                                    Выйти
+                                </v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </template>
+            </v-app-bar>
+
+            <!-- Боковое меню -->
+            <v-navigation-drawer v-model="drawer" v-if="isAuthenticated">
+                <v-list density="compact" nav>
+                    <v-list-item prepend-icon="mdi-view-dashboard" title="Дашборд" value="dashboard" @click="currentView = 'dashboard'"></v-list-item>
+
+                    <v-list-group value="rooms">
+                        <template v-slot:activator="{ props }">
+                            <v-list-item v-bind="props" prepend-icon="mdi-bed" title="Номера"></v-list-item>
+                        </template>
+                        <v-list-item title="Все номера" value="rooms" @click="currentView = 'rooms'"></v-list-item>
+                        <v-list-item title="Доступные номера" value="available-rooms" @click="currentView = 'availableRooms'"></v-list-item>
+                    </v-list-group>
+
+                    <v-list-item prepend-icon="mdi-account-group" title="Клиенты" value="clients" @click="currentView = 'clients'"></v-list-item>
+
+                    <v-list-group value="staff">
+                        <template v-slot:activator="{ props }">
+                            <v-list-item v-bind="props" prepend-icon="mdi-account-tie" title="Сотрудники"></v-list-item>
+                        </template>
+                        <v-list-item title="Все сотрудники" value="staff" @click="currentView = 'staff'"></v-list-item>
+                        <v-list-item title="Услуги сотрудников" value="staff-services" @click="currentView = 'staffServices'"></v-list-item>
+                    </v-list-group>
+
+                    <v-list-item prepend-icon="mdi-broom" title="Расписание уборки" value="cleaning" @click="currentView = 'cleaning'"></v-list-item>
+
+                    <v-list-item prepend-icon="mdi-chart-box" title="Отчеты" value="reports" @click="currentView = 'reports'"></v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+
+            <!-- Основной контент -->
+            <v-main>
+                <v-container class="page-container">
+                    {% block content %}{% endblock %}
+                </v-container>
+            </v-main>
+
+            <!-- Уведомления -->
+            <v-snackbar v-model="showSnackbar" :color="snackbarColor" :timeout="3000">
+                {{ snackbarText }}
+                <template v-slot:actions>
+                    <v-btn variant="text" @click="showSnackbar = false">Закрыть</v-btn>
+                </template>
+            </v-snackbar>
+
+            <!-- Диалог загрузки -->
+            <v-dialog v-model="loading" persistent width="300">
+                <v-card color="primary" dark>
+                    <v-card-text>
+                        Загрузка...
+                        <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+        </v-app>
+    </div>
+
+    <!-- Vue.js и Vuetify через CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.4.0/dist/vuetify.min.js"></script>
+
+    <!-- Axios для HTTP запросов -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const { createApp, ref, computed, onMounted, watch } = Vue;
+        const { createVuetify } = Vuetify;
+
+        const vuetify = createVuetify();
+
+        // Глобальное приложение Vue
+        window.mainApp = createApp({
+            setup() {
+                const drawer = ref(true);
+                const currentView = ref('dashboard');
+                const isAuthenticated = ref(false);
+                const userData = ref(null);
+                const showSnackbar = ref(false);
+                const snackbarText = ref('');
+                const snackbarColor = ref('success');
+                const loading = ref(false);
+
+                // Токен аутентификации
+                const authToken = ref(localStorage.getItem('auth_token') || '');
+
+                // Проверка аутентификации
+                const checkAuth = () => {
+                    isAuthenticated.value = !!authToken.value;
+                    if (authToken.value) {
+                        fetchUserData();
+                    }
+                };
+
+                // Получение данных пользователя
+                const fetchUserData = async () => {
+                    try {
+                        const response = await axios.get('http://127.0.0.1:8000/auth/users/me/', {
+                            headers: {
+                                'Authorization': `Token ${authToken.value}`
+                            }
+                        });
+                        userData.value = response.data;
+                    } catch (error) {
+                        console.error('Ошибка при получении данных пользователя:', error);
+                        logout();
+                    }
+                };
+
+                // Вход в систему
+                const login = async (email, password) => {
+                    try {
+                        loading.value = true;
+                        const response = await axios.post('http://127.0.0.1:8000/auth/token/login/', {
+                            email: email,
+                            password: password
+                        });
+
+                        authToken.value = response.data.auth_token;
+                        localStorage.setItem('auth_token', authToken.value);
+                        isAuthenticated.value = true;
+                        showMessage('Успешный вход!', 'success');
+
+                        // Перенаправление на дашборд
+                        window.location.href = '/dashboard/';
+                    } catch (error) {
+                        showMessage('Ошибка входа. Проверьте email и пароль.', 'error');
+                    } finally {
+                        loading.value = false;
+                    }
+                };
+
+                // Регистрация
+                const register = async (userData) => {
+                    try {
+                        loading.value = true;
+                        const response = await axios.post('http://127.0.0.1:8000/auth/users/', userData);
+
+                        showMessage('Регистрация успешна! Теперь войдите в систему.', 'success');
+                        return { success: true, data: response.data };
+                    } catch (error) {
+                        const errorMsg = error.response?.data || 'Ошибка регистрации';
+                        showMessage(errorMsg, 'error');
+                        return { success: false, error: errorMsg };
+                    } finally {
+                        loading.value = false;
+                    }
+                };
+
+                // Выход из системы
+                const logout = async () => {
+                    try {
+                        await axios.post('http://127.0.0.1:8000/auth/token/logout/', {}, {
+                            headers: {
+                                'Authorization': `Token ${authToken.value}`
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Ошибка при выходе:', error);
+                    } finally {
+                        authToken.value = '';
+                        localStorage.removeItem('auth_token');
+                        isAuthenticated.value = false;
+                        userData.value = null;
+                        showMessage('Вы вышли из системы', 'info');
+                        window.location.href = '/login/';
+                    }
+                };
+
+                // Обновление данных пользователя
+                const updateProfile = async (userData) => {
+                    try {
+                        loading.value = true;
+                        const response = await axios.patch('http://127.0.0.1:8000/auth/users/me/', userData, {
+                            headers: {
+                                'Authorization': `Token ${authToken.value}`
+                            }
+                        });
+
+                        showMessage('Данные обновлены успешно!', 'success');
+                        await fetchUserData();
+                        return { success: true, data: response.data };
+                    } catch (error) {
+                        const errorMsg = error.response?.data || 'Ошибка обновления';
+                        showMessage(errorMsg, 'error');
+                        return { success: false, error: errorMsg };
+                    } finally {
+                        loading.value = false;
+                    }
+                };
+
+                // Изменение пароля
+                const changePassword = async (currentPassword, newPassword) => {
+                    try {
+                        loading.value = true;
+                        const response = await axios.post('http://127.0.0.1:8000/auth/users/set_password/', {
+                            current_password: currentPassword,
+                            new_password: newPassword
+                        }, {
+                            headers: {
+                                'Authorization': `Token ${authToken.value}`
+                            }
+                        });
+
+                        showMessage('Пароль изменен успешно!', 'success');
+                        return { success: true };
+                    } catch (error) {
+                        const errorMsg = error.response?.data || 'Ошибка изменения пароля';
+                        showMessage(errorMsg, 'error');
+                        return { success: false, error: errorMsg };
+                    } finally {
+                        loading.value = false;
+                    }
+                };
+
+                // Показать сообщение
+                const showMessage = (text, color = 'success') => {
+                    snackbarText.value = text;
+                    snackbarColor.value = color;
+                    showSnackbar.value = true;
+                };
+
+                // Переход к профилю
+                const goToProfile = () => {
+                    window.location.href = '/profile/';
+                };
+
+                // Обновление данных
+                const refreshData = () => {
+                    if (isAuthenticated.value) {
+                        fetchUserData();
+                        showMessage('Данные обновлены', 'info');
+                    }
+                };
+
+                // HTTP запрос с авторизацией
+                const apiRequest = async (method, url, data = null) => {
+                    try {
+                        loading.value = true;
+                        const config = {
+                            method: method,
+                            url: url,
+                            headers: {
+                                'Authorization': `Token ${authToken.value}`,
+                                'Content-Type': 'application/json'
+                            }
+                        };
+
+                        if (data) {
+                            config.data = data;
+                        }
+
+                        const response = await axios(config);
+                        return { success: true, data: response.data };
+                    } catch (error) {
+                        console.error('API Error:', error);
+                        return {
+                            success: false,
+                            error: error.response?.data || error.message
+                        };
+                    } finally {
+                        loading.value = false;
+                    }
+                };
+
+                // Получить список комнат
+                const getRooms = () => apiRequest('GET', 'http://127.0.0.1:8000/api/rooms/');
+
+                // Получить список клиентов
+                const getClients = () => apiRequest('GET', 'http://127.0.0.1:8000/api/clients/');
+
+                // Получить список сотрудников
+                const getStaff = () => apiRequest('GET', 'http://127.0.0.1:8000/api/staff/');
+
+                // Получить доступные комнаты
+                const getAvailableRooms = () => apiRequest('GET', 'http://127.0.0.1:8000/api/rooms/available_rooms/');
+
+                // Получить сотрудников с услугами
+                const getStaffWithServices = (staffId = '') => {
+                    const url = staffId
+                        ? `http://127.0.0.1:8000/api/staff/${staffId}/with_services/`
+                        : 'http://127.0.0.1:8000/api/staff/all_with_schedules/';
+                    return apiRequest('GET', url);
+                };
+
+                // Получить квартальный отчет
+                const getQuarterlyReport = (year, quarter) => {
+                    return apiRequest('GET', `http://127.0.0.1:8000/api/stays/quarterly_report/?year=${year}&quarter=${quarter}`);
+                };
+
+                // Получить клиентов по городу
+                const getClientsByCity = (city) => {
+                    return apiRequest('GET', `http://127.0.0.1:8000/api/clients/from_city/?city=${encodeURIComponent(city)}`);
+                };
+
+                // Инициализация при загрузке
+                onMounted(() => {
+                    checkAuth();
+                });
+
+                return {
+                    drawer,
+                    currentView,
+                    isAuthenticated,
+                    userData,
+                    showSnackbar,
+                    snackbarText,
+                    snackbarColor,
+                    loading,
+                    authToken,
+                    login,
+                    register,
+                    logout,
+                    updateProfile,
+                    changePassword,
+                    showMessage,
+                    goToProfile,
+                    refreshData,
+                    getRooms,
+                    getClients,
+                    getStaff,
+                    getAvailableRooms,
+                    getStaffWithServices,
+                    getQuarterlyReport,
+                    getClientsByCity
+                };
+            }
+        });
+
+        // Создаем глобальные методы для доступа из других компонентов
+        window.mainApp.config.globalProperties.$api = {
+            getRooms: () => window.mainApp._instance.proxy.getRooms(),
+            getClients: () => window.mainApp._instance.proxy.getClients(),
+            getStaff: () => window.mainApp._instance.proxy.getStaff(),
+            getAvailableRooms: () => window.mainApp._instance.proxy.getAvailableRooms(),
+            getClientsByCity: (city) => window.mainApp._instance.proxy.getClientsByCity(city),
+            getQuarterlyReport: (year, quarter) => window.mainApp._instance.proxy.getQuarterlyReport(year, quarter)
+        };
+
+        window.mainApp.use(vuetify).mount('#app');
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
