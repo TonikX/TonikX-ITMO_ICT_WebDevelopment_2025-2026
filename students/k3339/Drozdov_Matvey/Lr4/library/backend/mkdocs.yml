@@ -1,0 +1,34 @@
+site_name: Library API Docs
+site_description: Documentation for Django REST Framework endpoints
+site_author: Library Team
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+nav:
+  - Главная: index.md
+  - Авторизация: auth.md
+  - CRUD:
+      - Залы: halls.md
+      - Авторы: authors.md
+      - Книги: books.md
+      - Читатели: readers.md
+      - Выдачи: loans.md
+      - Остатки: stock.md
+      - Движения: movements.md
+      - Шифры книг: book_codes.md
+      - История читателя: reader_history.md
+      - Членство : membership_events.md
+  - Аналитика и отчёты: analytics.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - fenced_code
+  - codehilite
