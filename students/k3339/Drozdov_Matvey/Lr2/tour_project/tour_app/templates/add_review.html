@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% extends 'base.html' %}
+{% block title %}Отзыв о туре {{ tour.title }}{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Отзыв о туре {{ tour.title }}</title>
+</head>
+<body>
+
+
+<h1>Отзыв о туре: {{ tour.title }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить отзыв</button>
+</form>
+
+<p><a href="{% url 'tour_detail' tour.pk %}">← Назад к туру</a></p>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,10 @@
+site_name: Документация проекта «Туристическая фирма»
+
+theme:
+  name: mkdocs
+
+nav:
+  - Главная: index.md
+  - Модели: models.md
+  - Функционал: functionality.md
+  - Скриншоты: screenshots.md
