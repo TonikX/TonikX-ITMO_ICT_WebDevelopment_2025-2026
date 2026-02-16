@@ -1,0 +1,53 @@
+{% extends "board/base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-10 col-md-6 col-lg-5">
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-3">Вход</h3>
+        <p class="text-muted mb-4">Войдите, чтобы видеть задания и свои оценки.</p>
+
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">
+                {{ field.label }}
+              </label>
+
+              {{ field }}
+
+              {% if field.errors %}
+                <div class="text-danger small mt-1">
+                  {{ field.errors|striptags }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary w-100">
+            Войти
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <span class="text-muted">Нет аккаунта?</span>
+          <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

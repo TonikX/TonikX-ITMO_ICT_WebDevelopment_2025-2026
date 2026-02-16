@@ -1,0 +1,45 @@
+{% extends "board/base.html" %}
+{% load grade_filters %}
+
+{% block title %}Домашние задания{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Домашние задания</h2>
+
+{% for hw in homeworks %}
+  <div class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">
+        <a href="{% url 'homework_detail' hw.id %}" class="text-decoration-none">
+          {{ hw.subject }}
+        </a>
+      </h5>
+
+      <div class="text-muted mb-2">
+        Преподаватель: {{ hw.teacher }}<br>
+        Период: {{ hw.start_date }} → {{ hw.due_date }}
+      </div>
+
+      <p class="card-text">{{ hw.task_text|truncatechars:200 }}</p>
+
+      {% if user.is_authenticated %}
+        {% with sub=my_submissions|get_item:hw.id %}
+          {% if sub %}
+            <span class="badge bg-success">Сдано</span>
+            {% if sub.grade %}
+              <span class="badge bg-primary">Оценка: {{ sub.grade }}</span>
+            {% else %}
+              <span class="badge bg-secondary">Оценка: -</span>
+            {% endif %}
+          {% else %}
+            <span class="badge bg-danger">Не сдано</span>
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+    </div>
+  </div>
+{% empty %}
+  <p>Домашних заданий пока нет.</p>
+{% endfor %}
+
+{% endblock %}

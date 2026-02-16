@@ -1,0 +1,13 @@
+{% extends "board/base.html" %}
+{% block title %}Сдача{% endblock %}
+{% block content %}
+<h1>Сдача задания: {{ hw.subject }}</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Отправить</button>
+</form>
+
+<p><a href="{% url 'homework_detail' hw.id %}">Назад</a></p>
+{% endblock %}

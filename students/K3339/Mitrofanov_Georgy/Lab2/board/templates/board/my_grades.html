@@ -1,0 +1,35 @@
+{% extends "board/base.html" %}
+{% load grade_filters %}
+
+{% block title %}Мои оценки{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Мои оценки</h2>
+
+<table class="table table-bordered table-striped shadow-sm">
+  <thead class="table-primary">
+    <tr>
+      <th>Задание</th>
+      <th>Срок</th>
+      <th>Оценка</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for hw in homeworks %}
+      <tr>
+        <td>{{ hw.subject }}</td>
+        <td>до {{ hw.due_date }}</td>
+        <td>
+          {% if my_grade_map|get_item:hw.id %}
+            {{ my_grade_map|get_item:hw.id }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="3">Заданий пока нет</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

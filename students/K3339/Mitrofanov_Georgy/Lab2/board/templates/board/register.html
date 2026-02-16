@@ -1,0 +1,59 @@
+{% extends "board/base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-10 col-md-6 col-lg-5">
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="mb-3">Регистрация</h3>
+        <p class="text-muted mb-4">Создайте аккаунт ученика, чтобы сдавать задания.</p>
+
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">
+                {{ field.label }}
+              </label>
+
+              {{ field }}
+
+              {% if field.errors %}
+                <div class="text-danger small mt-1">
+                  {{ field.errors|striptags }}
+                </div>
+              {% endif %}
+
+              {% if field.help_text %}
+                <div class="text-muted small">
+                  {{ field.help_text|safe }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary w-100">
+            Зарегистрироваться
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <span class="text-muted">Уже есть аккаунт?</span>
+          <a href="{% url 'login' %}">Войти</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "board/base.html" %}
+{% block title %}{{ hw.subject }}{% endblock %}
+{% block content %}
+<h1>{{ hw.subject }}</h1>
+<p><b>Преподаватель:</b> {{ hw.teacher }}</p>
+<p><b>Дата выдачи:</b> {{ hw.issued_date }}</p>
+<p><b>Период выполнения:</b> {{ hw.start_date }} → {{ hw.due_date }}</p>
+<p><b>Задание:</b><br>{{ hw.task_text }}</p>
+<p><b>Штрафы:</b><br>{{ hw.penalties|default:"-" }}</p>
+
+{% if user.is_authenticated %}
+  <p><a href="{% url 'submit_homework' hw.id %}">Сдать / изменить сдачу</a></p>
+
+  {% if my_submission %}
+    <h3>Ваша сдача</h3>
+    <p><b>Сдано:</b> {{ my_submission.submitted_at }}</p>
+    <p><b>Текст:</b><br>{{ my_submission.answer_text }}</p>
+    <p><b>Оценка:</b> {{ my_submission.grade|default:"-" }}</p>
+    <p><b>Комментарий учителя:</b><br>{{ my_submission.teacher_comment|default:"-" }}</p>
+  {% else %}
+    <p><i>Вы ещё не сдавали это задание.</i></p>
+  {% endif %}
+{% else %}
+  <p>Войдите, чтобы сдавать задания.</p>
+{% endif %}
+{% endblock %}
