@@ -123,11 +123,11 @@ tzdata==2025.3
 
 ```bash
 # Создание проекта
-django-admin startproject personal_brand_project
-cd personal_brand_project
+django-admin startproject LAB34
+cd LAB34
 
 # Создание приложения
-python manage.py startapp core
+python manage.py startapp manager_services
 ```
 
 ### Шаг 5: Настройка `settings.py`
