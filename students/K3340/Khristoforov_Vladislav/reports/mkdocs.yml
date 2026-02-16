@@ -28,6 +28,7 @@ theme:
         - search.highlight
         - content.code.copy
 markdown_extensions:
+  - attr_list
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

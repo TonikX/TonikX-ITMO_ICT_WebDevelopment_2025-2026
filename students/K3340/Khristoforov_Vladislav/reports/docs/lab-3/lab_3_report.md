@@ -8,7 +8,7 @@
 
 ### 1. Цель работы
 
-Овладеть практическими навыками реализации web-сервисов средствами Django и Django REST Framework (DRF). Создать серверную часть приложения для предметной области "Гостиница", настроить взаимодействие с базой данных, реализовать API для CRUD-операций и настроить систему авторизации.
+Овладеть практическими навыками реализации web-сервисов средствами Django и Django REST Framework (DRF). Создать серверную часть приложения для предметной области "Гостиница", настроить взаимодействие с реляционной базой данных (PostgreSQL), реализовать API для CRUD-операций с фильтрацией и настроить систему авторизации.
 
 ### 2. Задание
 
@@ -29,7 +29,9 @@
 
     - Расчет стоимости проживания (автоматически при сохранении брони).
 
-5. **Технологии:** Django ORM, DRF, Djoser (авторизация по токенам).
+    - Получение списков с фильтрацией (по городу, статусу номера и т.д.).
+
+5. **Технологии:** Django ORM, DRF, Djoser, PostgreSQL.
 
 ### 3. Описание предметной области и структуры БД
 
@@ -37,7 +39,7 @@
 
 #### 3.1. Типы сущностей (Классификация по Э. Кодду)
 
-- **Стержневые:** `Room` (Номер), `Guest` (Клиент), `Employee` (Сотрудник). Независимые сущности.
+- **Стержневые:** `Floor` (Этаж), `Room` (Номер), `Guest` (Клиент), `Employee` (Сотрудник). Независимые сущности.
 
 - **Характеристические:** `RoomType` (Тип номера), `City` (Город). Справочники, уточняющие свойства стержневых сущностей.
 
@@ -48,25 +50,32 @@
 
 #### 3.2. Описание моделей (Таблицы)
 
-| Модель               | Тип                | Описание      | Ключевые поля                                          |
-| -------------------- | ------------------ | ------------- | ------------------------------------------------------ |
-| **RoomType**         | Характеристическая | Типы номеров  | `name`, `max_guests`, `price`                          |
-| **City**             | Характеристическая | Города        | `name`                                                 |
-| **Room**             | Стержневая         | Номера        | `number`, `room_type` (FK), `floor`, `phone`, `status` |
-| **Guest**            | Стержневая         | Клиенты       | `passport`, `fio`, `city` (FK)                         |
-| **Booking**          | Ассоциативная      | Бронирование  | `guest` (FK), `room` (FK), `check_in`, `check_out`     |
-| **Employee**         | Стержневая         | Сотрудники    | `fio`                                                  |
-| **CleaningSchedule** | Ассоциативная      | График уборки | `employee` (FK), `floor`, `day_of_week`                |
+| Модель               | Тип                | Описание      | Ключевые поля                                               |
+| -------------------- | ------------------ | ------------- | ----------------------------------------------------------- |
+| **RoomType**         | Характеристическая | Типы номеров  | `name`, `max_guests`, `price`                               |
+| **City**             | Характеристическая | Города        | `name`                                                      |
+| **Floor**            | Стержневая         | Этажи         | `number`                                                    |
+| **Room**             | Стержневая         | Номера        | `number`, `room_type` (FK), `floor` (FK), `phone`, `status` |
+| **Guest**            | Стержневая         | Клиенты       | `passport`, `fio`, `city` (FK)                              |
+| **Booking**          | Ассоциативная      | Бронирование  | `guest` (FK), `room` (FK), `check_in`, `check_out`          |
+| **Employee**         | Стержневая         | Сотрудники    | `fio`                                                       |
+| **CleaningSchedule** | Ассоциативная      | График уборки | `employee` (FK), `floor` (FK), `day_of_week`                |
 
 #### 3.3. ER-диаграмма (Схема связей)
 
 ```mermaid
 erDiagram
-    RoomType ||--o{ Room : "has"
     City ||--o{ Guest : "from"
-    Room ||--o{ Booking : "booked in"
     Guest ||--o{ Booking : "makes"
+    Room ||--o{ Booking : "booked in"
+
+
+    RoomType ||--o{ Room : "has type"
+    Floor ||--o{ Room : "located on"
+    Floor ||--o{ CleaningSchedule : "cleaned on"
     Employee ||--o{ CleaningSchedule : "assigned to"
+
+
 
 ```
 
@@ -74,7 +83,9 @@ erDiagram
 
 #### 4.1. Инициализация проекта
 
-Создан проект `hotel_project` и приложение `hotel_app`. В файле `hotel_project/settings.py` подключены необходимые приложения: `rest_framework`, `djoser` и `hotel_app`.
+1. Создана директория проекта и виртуальное окружение.
+2. Установлены необходимые библиотеки: `Django`, `djangorestframework`, `psycopg2-binary`, `python-dotenv`, `djoser`.
+3. Инициализирован Django-проект `hotel_project` и создано приложение `hotel_app`
 
 ```bash
 django-admin startproject hotel_project
@@ -82,9 +93,25 @@ cd hotel_project
 python manage.py startapp hotel_app
 ```
 
+**Настройка БД (PostgreSQL):** В файле `settings.py` настроено подключение к PostgreSQL через переменные окружения (`.env`):
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+}
+
+```
+
 #### 4.2. Реализация моделей (models.py)
 
-В файле `models.py` описаны классы моделей. Реализована сложная валидация данных на уровне моделей (метод clean в модели Booking), проверяющая даты, статус ремонта и переполнение номера.
+В файле `models.py` описаны классы моделей. Для обеспечения целостности данных использован метод `clean()`, реализующий бизнес-логику (проверка дат, статуса ремонта и переполнения номера).
 
 **Фрагмент кода (Модель Booking с валидацией):**
 
@@ -160,19 +187,33 @@ python manage.py migrate
 
 #### 4.3. Наполнение базы данных
 
-Модели были зарегистрированы в файле `hotel_app/admin.py`. Затем для тестирования системы база данных была наполнена тестовыми данными с помощью админ-панели Django. Были созданы:
+Модели были зарегистрированы в файле `hotel_app/admin.py`. База данных была наполнена тестовыми данными (города, типы номеров, этажи, сотрудники, гости) для проверки работоспособности системы.
 
 - Города: Москва, Санкт-Петербург, Сочи и др.
-- Типы номеров: Стандарт, Комфорт, Люкс.
+- Типы номеров: Эконом, Стандарт, Комфорт, Люкс, Президентский
+- Этажи: 1-5.
 - Номера: 101, 102, 205 и т.д.
 - Сотрудники и их графики уборки.
 - Гости и записи о бронировании.
 
-![rooms](img-lab-3/rooms.png)
+**Пример данных:**
 
-![guests](img-lab-3/guests.png)
-
-![bookings](img-lab-3/bookings.png)
+<table style="border: none; border-collapse: collapse; width: 100%;">
+    <tr style="border: none;">
+        <td style="border: none; vertical-align: top; width: 25%; padding: 5px;">
+            <img src="../img-lab-3/admin_models.png" style="width: 100%;">
+        </td>
+        <td style="border: none; vertical-align: top; width: 25%; padding: 5px;">
+            <img src="../img-lab-3/rooms.png" style="width: 100%;">
+        </td>
+        <td style="border: none; vertical-align: top; width: 20%; padding: 5px;">
+            <img src="../img-lab-3/guests.png" style="width: 100%;">
+        </td>
+        <td style="border: none; vertical-align: top; width: 30%; padding: 5px;">
+            <img src="../img-lab-3/bookings.png" style="width: 100%;">
+        </td>
+    </tr>
+</table>
 
 ### 5. Реализация API (DRF)
 
@@ -228,9 +269,9 @@ class BookingSerializer(serializers.ModelSerializer):
         return data
 ```
 
-#### 5.2. Представления (views.py) и Маршруты (urls.py)
+#### 5.2. Представления (Views) и Фильтрация
 
-Использованы `Generics` (`ListCreateAPIView`, `RetrieveUpdateDestroyAPIView`) для реализации полного набора CRUD-операций для всех моделей.
+Использованы `Generics` (`ListCreateAPIView`, `RetrieveUpdateDestroyAPIView`) для реализации полного набора CRUD-операций для всех моделей. Подключена фильтрация `django-filters`.
 
 **Фрагмент кода (Представления для бронирований):**
 
@@ -238,59 +279,96 @@ class BookingSerializer(serializers.ModelSerializer):
 class BookingList(generics.ListCreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['guest__last_name', 'room__number', 'is_active', 'check_in']
 
 class BookingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 ```
 
-**Реализованные эндпоинты:**
+#### 5.3 Описание реализованных эндпоинтов
 
-- `/api/rooms/` — Работа с номерами.
-- `/api/guests/` — Работа с гостями.
-- `/api/bookings/` — Управление заселением.
-- `/api/employees/` — Управление персоналом.
-- `/api/schedules/` — Управление графиком уборки.
+В соответствии с заданием, реализован API, покрывающий все сущности.
+
+| Метод         | URL                   | Описание                                               |
+| ------------- | --------------------- | ------------------------------------------------------ |
+| GET, POST     | `/api/rooms/`         | Список номеров / Создать номер (фильтры: статус, этаж) |
+| GET, PUT, DEL | `/api/rooms/{id}/`    | Детали номера, изменение, удаление                     |
+| GET, POST     | `/api/guests/`        | Список гостей (фильтр: город, фамилия)                 |
+| GET, PUT, DEL | `/api/guests/{id}/`   | Детали гостя                                           |
+| GET, POST     | `/api/bookings/`      | Список бронирований (фильтр: гость, номер, даты)       |
+| GET, PUT, DEL | `/api/bookings/{id}/` | Управление конкретной бронью                           |
+| GET, POST     | `/api/employees/`     | Список сотрудников                                     |
+| GET, POST     | `/api/schedules/`     | Графики уборки                                         |
+| GET           | `/api/room-types/`    | Справочник типов номеров                               |
+| GET           | `/api/cities/`        | Справочник городов                                     |
 
 ### 6. Примеры работы системы
 
-#### Сценарий 1: Просмотр списка текущих заселений
+#### Сценарий 1: Просмотр и фильтрация бронирований
 
-Администратор запрашивает список всех бронирований. Система возвращает JSON с подробной информацией о гостях и номерах.
+Администратор запрашивает список бронирований комнаты 101.
 
-![api_bookings](img-lab-3/api_bookings.png)
+`GET /api/bookings/?room__number=101`
+
+![api_bookings](img-lab-3/api_bookings_room.png){ width=60% }
 
 #### Сценарий 2: Заселение гостя (Валидация бизнес-логики)
 
 Администратор пытается заселить гостя.
 
+`POST /api/bookings/`
+
 - **Кейс А (Успех):** Заселение в свободный номер.
 
-    ![post_booking_form_success](img-lab-3/post_booking_form_success.png)
+    <table style="border: none; border-collapse: collapse; width: 100%;">
+        <tr style="border: none;">
+            <td style="border: none; vertical-align: top; width: 50%; padding: 5px;">
+                <img src="../img-lab-3/post_booking_form_success.png" style="width: 100%;">
+            </td>
+            <td style="border: none; vertical-align: top; width: 50%; padding: 5px;">
+                <img src="../img-lab-3/post_booking_success.png" style="width: 100%;">
+            </td>
+        </tr>
+    </table>
 
-    ![post_booking_success](img-lab-3/post_booking_success.png)
+- **Кейс Б (Ошибка):** Попытка заселить гостя в номер, который находится на ремонте. Система возвращает ошибку `400 Bad Request`.
 
-- **Кейс Б (Ошибка):** Попытка заселить гостя в номер, который уже занят (превышение вместимости) или находится на ремонте. Система возвращает ошибку `400 Bad Request`.
-
-    ![post_booking_form_failure](img-lab-3/post_booking_form_failure.png)
-
-    ![post_booking_failure](img-lab-3/post_booking_failure.png)
+    <table style="border: none; border-collapse: collapse; width: 100%;">
+        <tr style="border: none;">
+            <td style="border: none; vertical-align: top; width: 50%; padding: 5px;">
+                <img src="../img-lab-3/post_booking_form_failure.png" style="width: 100%;">
+            </td>
+            <td style="border: none; vertical-align: top; width: 50%; padding: 5px;">
+                <img src="../img-lab-3/post_booking_failure.png" style="width: 100%;">
+            </td>
+        </tr>
+    </table>
 
 ### 7. Авторизация и Аутентификация (Djoser)
 
-Подключена библиотека `Djoser` для управления пользователями. Реализована аутентификация по токенам (`TokenAuthentication`).
+Подключена библиотека `Djoser` для управления пользователями. Реализована аутентификация по токенам.
+
+**Конфигурация (urls.py):**
+
+```python
+path('auth/', include('djoser.urls')),
+path('auth/', include('djoser.urls.authtoken')),
+
+```
 
 1. **Регистрация пользователя:** `POST /auth/users/`
 2. **Вход в систему:** `POST /auth/token/login/`
 
 **Регистрация пользователя:**
 
-![auth_users](img-lab-3/auth_users.png)
+![auth_users](img-lab-3/auth_users.png){ width=60% }
 
 **Успешное получение токена при входе:**
 
-![token_create](img-lab-3/token_create.png)
+![token_create](img-lab-3/token_create.png){ width=60% }
 
 ### Заключение
 
-В результате выполнения лабораторной работы была успешно спроектирована и реализована серверная часть системы для администратора гостиницы, включающая нормализованную базу данных (3НФ) с учетом бизнес-логики предметной области, полноценный REST API с поддержкой CRUD и вложенной сериализации, а также систему авторизации на базе токенов.
+В результате выполнения лабораторной работы успешно спроектирована и реализована серверная часть системы для администратора гостиницы, включающая нормализованную базу данных (3НФ) (PostgreSQL) с учетом бизнес-логики предметной области, полноценный REST API на DRF с поддержкой CRUD, вложенной сериализации и фильтрацией, а также система авторизации на базе токенов.

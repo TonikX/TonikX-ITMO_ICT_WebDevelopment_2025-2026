@@ -2,6 +2,11 @@ from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from .models import *
 
+class FloorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Floor
+        fields = "__all__"
+
 class RoomTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomType
@@ -15,7 +20,10 @@ class CitySerializer(serializers.ModelSerializer):
 class RoomSerializer(serializers.ModelSerializer):
     room_type_details = RoomTypeSerializer(source='room_type', read_only=True)
     room_type = serializers.PrimaryKeyRelatedField(queryset=RoomType.objects.all())
-    
+
+    floor_details = FloorSerializer(source='floor', read_only=True)
+    floor = serializers.PrimaryKeyRelatedField(queryset=Floor.objects.all())
+  
     class Meta:
         model = Room
         fields = "__all__"
@@ -74,6 +82,10 @@ class BookingSerializer(serializers.ModelSerializer):
 
 class CleaningScheduleSerializer(serializers.ModelSerializer):
     day_display = serializers.CharField(source='get_day_of_week_display', read_only=True)
+
+    floor_details = FloorSerializer(source='floor', read_only=True)
+    floor = serializers.PrimaryKeyRelatedField(queryset=Floor.objects.all())
+
     class Meta:
         model = CleaningSchedule
         fields = "__all__"

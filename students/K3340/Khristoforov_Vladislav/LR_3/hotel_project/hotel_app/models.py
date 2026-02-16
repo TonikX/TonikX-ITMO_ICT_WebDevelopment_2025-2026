@@ -4,6 +4,13 @@ from django.core.validators import MinValueValidator
 from django.utils import timezone
 import datetime
 
+class Floor(models.Model):
+    """Этаж"""
+    number = models.IntegerField(verbose_name="Номер этажа", unique=True)
+    
+    def __str__(self):
+        return f"{self.number} этаж"
+
 class RoomType(models.Model):
     """Справочник типов номеров"""
     name = models.CharField(max_length=50, verbose_name="Название типа")
@@ -35,7 +42,7 @@ class Room(models.Model):
 
     number = models.CharField(max_length=10, verbose_name="Номер комнаты", unique=True)
     room_type = models.ForeignKey(RoomType, on_delete=models.PROTECT, verbose_name="Тип номера")
-    floor = models.IntegerField(verbose_name="Этаж")
+    floor = models.ForeignKey(Floor, on_delete=models.PROTECT, verbose_name="Этаж", related_name="rooms")
     phone = models.CharField(max_length=15, verbose_name="Телефон", blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='free', verbose_name="Статус")
 
@@ -131,7 +138,7 @@ class CleaningSchedule(models.Model):
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="schedules")
     day_of_week = models.CharField(max_length=3, choices=DAYS, verbose_name="День")
-    floor = models.IntegerField(verbose_name="Этаж")
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, verbose_name="Этаж", related_name="schedules")
 
     class Meta:
         unique_together = ('employee', 'day_of_week')
