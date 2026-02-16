@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grades</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: #f0f2f5; padding: 40px; color: #1a1a1a; }
+        h1 { margin-bottom: 24px; }
+        form { background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.1); margin-bottom: 32px; display: flex; gap: 12px; align-items: end; }
+        label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 500; }
+        input { padding: 8px 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 14px; }
+        button { padding: 8px 20px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; align-self: end; }
+        button:hover { background: #1d4ed8; }
+        table { width: 100%; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.1); border-collapse: collapse; }
+        th { background: #f9fafb; text-align: left; padding: 12px 16px; font-size: 13px; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; }
+        td { padding: 12px 16px; border-top: 1px solid #f0f0f0; font-size: 15px; }
+        .empty { text-align: center; padding: 32px; color: #9ca3af; }
+    </style>
+</head>
+<body>
+    <h1>Grades</h1>
+    <form method="POST" action="/">
+        <label>Subject<input name="subject" required></label>
+        <label>Grade<input name="grade" required></label>
+        <button type="submit">Add</button>
+    </form>
+    {{content}}
+</body>
+</html>
