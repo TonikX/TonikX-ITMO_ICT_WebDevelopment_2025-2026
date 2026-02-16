@@ -123,8 +123,8 @@ tzdata==2025.3
 
 ```bash
 # Создание проекта
-django-admin startproject LAB34
-cd LAB34
+django-admin startproject brand_manager
+cd brand_manager
 
 # Создание приложения
 python manage.py startapp manager_services
@@ -133,7 +133,7 @@ python manage.py startapp manager_services
 ### Шаг 5: Настройка `settings.py`
 
 ```python
-# personal_brand_project/settings.py
+# brand_manager/settings.py
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -148,7 +148,7 @@ INSTALLED_APPS = [
     'djoser',
     
     # Local apps
-    'core',
+    'manager_services',
 ]
 
 # Настройки базы данных (PostgreSQL)
