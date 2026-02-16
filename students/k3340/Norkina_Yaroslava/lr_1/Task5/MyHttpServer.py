@@ -99,7 +99,7 @@ class MyHTTPServer:
         discipline = None
         grade = None
 
-        # 1️⃣ Сначала пробуем извлечь из ТЕЛА запроса (для HTML-формы)
+        # Сначала пробуем извлечь из ТЕЛА запроса (для HTML-формы)
         if req.method == 'POST':
             content_length_header = req.headers.get('Content-Length')
             if content_length_header:
@@ -116,12 +116,12 @@ class MyHTTPServer:
                 except Exception as e:
                     print(f"Ошибка парсинга тела запроса: {e}")
 
-        # 2️⃣ Если в теле нет данных — пробуем СТРОКУ ЗАПРОСА (для curl)
+        # Если в теле нет данных — пробуем СТРОКУ ЗАПРОСА (для curl)
         if discipline is None or grade is None:
             discipline = req.query.get('discipline', [None])[0]
             grade = req.query.get('grade', [None])[0]
 
-        # 3️⃣ Валидация
+        # Валидация
         if not discipline or not grade:
             raise HTTPError(400, 'Bad Request',
                             'Требуются параметры: discipline и grade')
@@ -141,7 +141,7 @@ class MyHTTPServer:
             raise HTTPError(400, 'Bad Request',
                             'Оценка должна быть целым числом от 1 до 5')
 
-        # 4️⃣ Сохранение данных
+        # Сохранение данных
         if discipline_key in self._grades:
             self._grades[discipline_key]['grades'].append(grade_int)
         else:
