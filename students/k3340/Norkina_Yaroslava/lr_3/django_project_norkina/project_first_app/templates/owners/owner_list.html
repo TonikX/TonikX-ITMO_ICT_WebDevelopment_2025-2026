@@ -1,0 +1,13 @@
+<h1>Список владельцев</h1>
+<ul>
+{% for user in users %}
+  <li>
+    {{ user.last_name }} {{ user.first_name }}
+    {% if user.birth_date %} ({{ user.birth_date }}){% endif %}
+    {% if user.passport_number %} — Паспорт: {{ user.passport_number }}{% endif %}
+  </li>
+{% empty %}
+  <li>Нет пользователей</li>
+{% endfor %}
+</ul>
+<a href="{% url 'register_user' %}">Добавить владельца</a>

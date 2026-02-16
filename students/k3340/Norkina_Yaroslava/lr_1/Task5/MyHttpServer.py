@@ -14,7 +14,8 @@ class MyHTTPServer:
         self._host = host
         self._port = port
         self._server_name = server_name
-        self._grades = []  # Список: [{'discipline': '...', 'grade': '...'}, ...]
+        # Новая структура: {'Математика': [5, 4, 5], 'Физика': [3, 4]}
+        self._grades = {}
 
     def serve_forever(self):
         serv_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -99,37 +100,80 @@ class MyHTTPServer:
         grade = req.query.get('grade', [None])[0]
 
         if not discipline or not grade:
-            raise HTTPError(400, 'Bad Request', 'Требуются параметры: discipline и grade')
+            raise HTTPError(400, 'Bad Request',
+                            'Требуются параметры: discipline и grade')
 
-        # Опционально: проверка, что grade — число от 1 до 5
+        # Очистка и нормализация названия дисциплины
+        discipline_clean = discipline.strip()
+        discipline_key = discipline_clean.lower()
+
+        if not discipline_clean:
+            raise HTTPError(400, 'Bad Request',
+                            'Название дисциплины не может быть пустым')
+
+        # Валидация оценки
         try:
             grade_int = int(grade)
             if not (1 <= grade_int <= 5):
                 raise ValueError
         except ValueError:
-            raise HTTPError(400, 'Bad Request', 'Оценка должна быть целым числом от 1 до 5')
+            raise HTTPError(400, 'Bad Request',
+                            'Оценка должна быть целым числом от 1 до 5')
 
-        self._grades.append({'discipline': discipline, 'grade': grade_int})
+        # Добавление/обновление оценок по дисциплине
+        if discipline_key in self._grades:
+            self._grades[discipline_key]['grades'].append(grade_int)
+        else:
+            # Сохраняем оригинальное написание при первом добавлении
+            self._grades[discipline_key] = {
+                'name': discipline_clean,
+                'grades': [grade_int]
+            }
+
         return Response(204, 'Created')
 
     def handle_get_grades(self, req):
         accept = req.headers.get('Accept', '')
+
         if 'text/html' in accept:
             contentType = 'text/html; charset=utf-8'
             body = '<html><head><meta charset="utf-8"><title>Оценки</title></head><body>'
-            body += '<h2>Список оценок</h2>'
+            body += '<h2>Список оценок по дисциплинам</h2>'
+
             if self._grades:
                 body += '<ul>'
-                for item in self._grades:
-                    body += f'<li><strong>{item["discipline"]}:</strong> {item["grade"]}</li>'
+                # Сохраняем порядок добавления дисциплин (Python 3.7+)
+                for data in self._grades.values():
+                    discipline_name = data['name']
+                    grades_list = data['grades']
+                    # Форматируем оценки: "5, 4, 5 (среднее: 4.67)"
+                    grades_str = ', '.join(str(g) for g in grades_list)
+                    avg = sum(grades_list) / len(grades_list)
+                    body += f'<li><strong>{discipline_name}:</strong> {grades_str} <em>(среднее: {avg:.2f})</em></li>'
                 body += '</ul>'
             else:
                 body += '<p>Нет записей.</p>'
-            body += '<hr><a href="/">Обновить</a>'
-            body += '</body></html>'
+
+            body += '''
+            <hr>
+            <h3>Добавить оценку</h3>
+            <form method="POST" action="/grades">
+                <label>Дисциплина: <input name="discipline" required></label><br><br>
+                <label>Оценка (1-5): <input name="grade" type="number" min="1" max="5" required></label><br><br>
+                <button type="submit">Добавить</button>
+            </form>
+            <hr>
+            <a href="/grades">Обновить</a>
+            </body></html>
+            '''
+
         elif 'application/json' in accept:
             contentType = 'application/json; charset=utf-8'
-            body = json.dumps(self._grades, ensure_ascii=False)
+            # Формируем удобочитаемый JSON: {"Математика": [5,4,5], ...}
+            json_data = {data['name']: data['grades']
+                         for data in self._grades.values()}
+            body = json.dumps(json_data, ensure_ascii=False, indent=2)
+
         else:
             return Response(406, 'Not Acceptable')
 
@@ -174,6 +218,8 @@ class Request:
         self.version = version
         self.headers = headers
         self.rfile = rfile
+
+
 
     @property
     def path(self):
