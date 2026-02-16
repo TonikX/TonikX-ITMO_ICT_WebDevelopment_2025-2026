@@ -1,7 +1,0 @@
-<h1>{% if object %}Редактировать автомобиль{% else %}Добавить автомобиль{% endif %}</h1>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Сохранить</button>
-</form>
-<a href="{% url 'car_list' %}">Отмена</a>
