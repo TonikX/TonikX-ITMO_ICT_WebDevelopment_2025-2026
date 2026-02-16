@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Владелец успешно добавлен</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        h1 {
+            color: #4CAF50;
+            margin-top: 50px;
+        }
+        .success-message {
+            background: #e8f5e8;
+            border: 1px solid #4CAF50;
+            padding: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+            border-radius: 5px;
+        }
+        .owner-info {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+        }
+        .btn-add {
+            background: #4CAF50;
+        }
+        .btn-list {
+            background: #2196F3;
+        }
+        .btn-home {
+            background: #FF9800;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <h1>✅ Владелец успешно добавлен!</h1>
+
+    <div class="success-message">
+        <div class="owner-info">
+            <strong>Добавлен новый владелец:</strong><br>
+            {{ owner.last_name }} {{ owner.first_name }}
+        </div>
+
+        <p>Дата рождения: {{ owner.birth_date|date:"d.m.Y"|default:"не указана" }}</p>
+        <p>ID владельца: {{ owner.id_owner }}</p>
+    </div>
+
+    <div class="actions">
+        <a class="btn btn-add" href="/owner/create/">Добавить еще одного владельца</a>
+        <a class="btn btn-list" href="/owners/">Посмотреть всех владельцев</a>
+        <a class="btn btn-home" href="/">На главную</a>
+    </div>
+</body>
+</html>

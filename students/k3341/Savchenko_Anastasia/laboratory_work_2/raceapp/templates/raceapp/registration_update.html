@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование регистрации{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <!-- Заголовок -->
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil"></i> Редактирование регистрации
+                    </h4>
+                    <p class="mb-0 mt-2 small">Гонка: {{ object.race.name }}</p>
+                </div>
+
+                <div class="card-body">
+                    <!-- Форма редактирования -->
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Название команды -->
+                        <div class="mb-3">
+                            <label class="form-label">Название команды *</label>
+                            {{ form.team_name }}
+                            {% if form.team_name.errors %}
+                            <div class="text-danger small">{{ form.team_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Описание автомобиля -->
+                        <div class="mb-3">
+                            <label class="form-label">Описание автомобиля *</label>
+                            {{ form.car_description }}
+                            <small class="form-text text-muted">Марка, модель, модификации</small>
+                        </div>
+
+                        <!-- Описание участника -->
+                        <div class="mb-3">
+                            <label class="form-label">Описание участника *</label>
+                            {{ form.racer_description }}
+                            <small class="form-text text-muted">Ваш опыт, достижения</small>
+                        </div>
+
+                        <!-- Опыт и класс -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Опыт участия *</label>
+                                {{ form.experience }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Класс участника *</label>
+                                {{ form.racer_class }}
+                                <small class="form-text text-muted">Например: любитель, спортсмен</small>
+                            </div>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-check-circle"></i> Сохранить изменения
+                            </button>
+                            <a href="{% url 'raceapp:my_registrations' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Примечание -->
+                <div class="card-footer text-muted">
+                    <small><i class="bi bi-info-circle"></i> * Обязательные поля. Некоторые поля нельзя изменить после
+                        подтверждения.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <!-- Заголовок формы -->
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0"><i class="bi bi-box-arrow-in-right"></i> Вход в систему</h3>
+                </div>
+
+                <!-- Тело формы -->
+                <div class="card-body">
+                    <!-- Форма входа -->
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Отображение ошибок формы -->
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Неправильное имя пользователя или пароль
+                        </div>
+                        {% endif %}
+
+                        <!-- Поле username -->
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Имя пользователя</label>
+                            <input type="text"
+                                   name="username"
+                                   id="id_username"
+                                   class="form-control"
+                                   required
+                                   placeholder="Введите ваш username">
+                        </div>
+
+                        <!-- Поле пароля -->
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Пароль</label>
+                            <input type="password"
+                                   name="password"
+                                   id="id_password"
+                                   class="form-control"
+                                   required
+                                   placeholder="Введите пароль">
+                        </div>
+
+                        <!-- Кнопка входа -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-box-arrow-in-right"></i> Войти
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Ссылки на другие страницы -->
+                    <div class="mt-4 pt-3 border-top text-center">
+                        <p class="mb-2">
+                            Нет аккаунта?
+                            <a href="{% url 'raceapp:register' %}" class="text-decoration-none">
+                                Зарегистрироваться
+                            </a>
+                        </p>
+                        <p class="mb-0">
+                            <a href="{% url 'raceapp:home' %}" class="text-decoration-none">
+                                <i class="bi bi-arrow-left"></i> Вернуться на главную
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

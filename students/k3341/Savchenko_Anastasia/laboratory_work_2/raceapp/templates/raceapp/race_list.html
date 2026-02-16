@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Список гонок{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Заголовок и поиск -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1 class="page-title">Список гонок</h1>
+        </div>
+        <div class="col-md-6">
+            <form method="get" action="{% url 'raceapp:race_list' %}" class="d-flex">
+                <input type="text" name="q" class="form-control me-2"
+                       placeholder="Поиск по названию или описанию..."
+                       value="{{ request.GET.q|default:'' }}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Найти
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ФИЛЬТРЫ С ПОБОЧНОЙ ПАНЕЛЬЮ -->
+    <div class="row mb-4">
+        <!-- Боковая панель с фильтрами -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card shadow-sm sticky-top" style="top: 80px;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-filter"></i> Фильтры гонок</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'raceapp:race_list' %}">
+
+                        <!-- Поиск (в боковой панели) -->
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-search"></i> Поиск</label>
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   value="{{ request.GET.q|default:'' }}"
+                                   placeholder="Название, описание...">
+                        </div>
+
+                        <!-- Фильтр по дате -->
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-calendar"></i> По дате</label>
+                            <select name="date_filter" class="form-select">
+                                <option value="">Все гонки</option>
+                                <option value="upcoming" {% if request.GET.date_filter == 'upcoming' %}selected{% endif %}>
+                                    Предстоящие
+                                </option>
+                                <option value="past" {% if request.GET.date_filter == 'past' %}selected{% endif %}>
+                                    Прошедшие
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Фильтр по количеству комментариев -->
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-chat"></i> Комментарии</label>
+                            <select name="comments_filter" class="form-select">
+                                <option value="">Любое количество</option>
+                                <option value="has_comments" {% if request.GET.comments_filter == 'has_comments' %}selected{% endif %}>
+                                    Есть комментарии
+                                </option>
+                                <option value="no_comments" {% if request.GET.comments_filter == 'no_comments' %}selected{% endif %}>
+                                    Без комментариев
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Сортировка -->
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-sort-down"></i> Сортировка</label>
+                            <select name="sort" class="form-select">
+                                <option value="-date" {% if request.GET.sort == '-date' or not request.GET.sort %}selected{% endif %}>
+                                    Дата (сначала новые)
+                                </option>
+                                <option value="date" {% if request.GET.sort == 'date' %}selected{% endif %}>
+                                    Дата (сначала старые)
+                                </option>
+                                <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>
+                                    Название (А-Я)
+                                </option>
+                                <option value="-name" {% if request.GET.sort == '-name' %}selected{% endif %}>
+                                    Название (Я-А)
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-funnel"></i> Применить фильтры
+                            </button>
+                            <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Сбросить все
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Статистика в боковой панели -->
+                <div class="card-footer bg-light">
+                    <h6 class="mb-2"><i class="bi bi-bar-chart"></i> Статистика</h6>
+                    <p class="mb-1 small">Всего гонок: <strong>{{ total_races }}</strong></p>
+                    <p class="mb-1 small">Участников: <strong>{{ total_racers }}</strong></p>
+                    <p class="mb-0 small">Комментариев: <strong>{{ total_comments }}</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основной контент с карточками гонок -->
+        <div class="col-lg-9 col-md-8">
+            <!-- Информация о активных фильтрах -->
+            {% if request.GET.q or request.GET.date_filter or request.GET.comments_filter or request.GET.sort %}
+            <div class="alert alert-info py-2 mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-funnel me-2"></i>
+                        <small>
+                            {% if request.GET.q %}<span class="badge bg-dark me-2">Поиск: "{{ request.GET.q }}"</span>{% endif %}
+                            {% if request.GET.date_filter %}
+                                <span class="badge bg-primary me-2">
+                                    {% if request.GET.date_filter == 'upcoming' %}Предстоящие{% endif %}
+                                    {% if request.GET.date_filter == 'past' %}Прошедшие{% endif %}
+                                </span>
+                            {% endif %}
+                            {% if request.GET.comments_filter %}
+                                <span class="badge bg-success me-2">
+                                    {% if request.GET.comments_filter == 'has_comments' %}Есть комментарии{% endif %}
+                                    {% if request.GET.comments_filter == 'no_comments' %}Без комментариев{% endif %}
+                                </span>
+                            {% endif %}
+                            {% if request.GET.sort %}
+                                <span class="badge bg-warning text-dark me-2">
+                                    {% if request.GET.sort == '-date' %}Новые→Старые{% endif %}
+                                    {% if request.GET.sort == 'date' %}Старые→Новые{% endif %}
+                                    {% if request.GET.sort == 'name' %}А→Я{% endif %}
+                                    {% if request.GET.sort == '-name' %}Я→А{% endif %}
+                                </span>
+                            {% endif %}
+                        </small>
+                    </div>
+                    <a href="{% url 'raceapp:race_list' %}" class="btn btn-sm btn-outline-dark">
+                        <i class="bi bi-x-lg"></i> Очистить фильтры
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Карточки гонок -->
+            <div class="row">
+                {% for race in races %}
+                <div class="col-md-6 mb-4">
+                    <div class="card race-card shadow-sm h-100">
+                        <div class="card-header gradient-primary text-white">
+                            <h5 class="mb-0">{{ race.name }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ race.description|truncatewords:25 }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar text-primary"></i> {{ race.date|date:"d.m.Y" }}<br>
+                                    <i class="bi bi-geo-alt text-danger"></i> {{ race.location }}
+                                </small>
+                            </p>
+                            {% if race.comments.count %}
+                                <p class="card-text">
+                                    <small>
+                                        <i class="bi bi-chat-left-text text-info"></i>
+                                        {{ race.comments.count }} комментариев
+                                        {% if race.avg_rating %}
+                                            <span class="badge bg-info ms-1">
+                                                ★ {{ race.avg_rating|default:'0.0' }}
+                                            </span>
+                                        {% endif %}
+                                    </small>
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <!-- Кнопки действий -->
+                            <a href="{% url 'raceapp:race_detail' race.pk %}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-info-circle"></i> Подробнее
+                            </a>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'raceapp:racer_register' %}" class="btn btn-outline-success btn-sm">
+                                    <i class="bi bi-plus-circle"></i> Участвовать
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <!-- Если гонок нет -->
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        {% if request.GET.q or request.GET.date_filter or request.GET.comments_filter %}
+                            Гонки не найдены по заданным фильтрам
+                        {% else %}
+                            Пока нет гонок. Зайдите позже!
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Пагинация с сохранением ВСЕХ фильтров -->
+            {% if page_obj.paginator.num_pages > 1 %}
+                <nav aria-label="Навигация по страницам" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                    <i class="bi bi-chevron-left"></i> Назад
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ num }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                        {{ num }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                    Вперед <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Дополнительная статистика внизу (опционально) -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="stats-card text-center py-3 rounded">
+                <h2>{{ total_races }}</h2>
+                <p class="mb-0">Всего гонок</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card text-center py-3 rounded" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h2>{{ total_racers }}</h2>
+                <p class="mb-0">Участников</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card text-center py-3 rounded" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <h2>{{ total_comments }}</h2>
+                <p class="mb-0">Комментариев</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

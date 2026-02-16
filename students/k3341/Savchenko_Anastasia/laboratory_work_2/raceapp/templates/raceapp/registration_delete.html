@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Отмена регистрации{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Карточка подтверждения удаления -->
+            <div class="card border-danger shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle"></i> Отмена регистрации
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <!-- Предупреждение -->
+                    <h5 class="mb-3">Вы уверены, что хотите отменить регистрацию?</h5>
+
+                    <!-- Информация о регистрации -->
+                    <div class="alert alert-warning mt-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Гонка:</strong> {{ object.race.name }}<br>
+                        <strong>Дата:</strong> {{ object.race.date|date:"d.m.Y" }}<br>
+                        <strong>Команда:</strong> {{ object.team_name }}<br>
+                        <strong>Статус:</strong>
+                        {% if object.is_confirmed %}
+                        <span class="badge bg-success">Подтверждена</span>
+                        {% else %}
+                        <span class="badge bg-warning">Ожидает подтверждения</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Примечание -->
+                    <p class="text-muted mb-4">
+                        <i class="bi bi-info-circle"></i>
+                        После отмены регистрации вы сможете зарегистрироваться на эту гонку снова.
+                    </p>
+
+                    <!-- Форма удаления -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'raceapp:my_registrations' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Вернуться
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Да, отменить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

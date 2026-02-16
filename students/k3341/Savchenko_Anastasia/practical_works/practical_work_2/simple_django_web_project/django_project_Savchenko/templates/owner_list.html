@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список владельцев</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #2196F3;
+            font-weight: bold;
+        }
+        a:hover { color: #0b7dda; }
+        .time-info {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список всех владельцев автомобилей</h1>
+
+    {% if owners %}
+        <ul>
+            {% for owner in owners %}
+            <li>
+                <a href="/owner/{{ owner.id_owner }}/">
+                    {{ owner.last_name }} {{ owner.first_name }}
+                </a>
+                <br>
+                <small>Дата рождения: {{ owner.birth_date|date:"d.m.Y"|default:"не указана" }}</small>
+                <br>
+                <small>ID: {{ owner.id_owner }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет зарегистрированных владельцев</p>
+    {% endif %}
+
+    <div class="time-info">
+        <strong>Текущее время сервера:</strong> {{ current_time|date:"H:i:s d.m.Y" }}
+    </div>
+
+    <br>
+    <a href="/admin/">Перейти в админ-панель</a>
+</body>
+</html>

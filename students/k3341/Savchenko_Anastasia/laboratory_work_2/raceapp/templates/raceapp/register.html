@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Регистрация нового пользователя</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Основная информация -->
+                        <h5 class="mb-3"><i class="bi bi-person"></i> Основная информация</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Имя пользователя*</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                <div class="text-danger small">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email*</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                <div class="text-danger small">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Имя*</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Фамилия*</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <!-- Безопасность -->
+                        <h5 class="mb-3 mt-4"><i class="bi bi-shield-lock"></i> Безопасность</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Пароль*</label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                <div class="text-danger small">{{ form.password1.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Подтверждение*</label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                <div class="text-danger small">{{ form.password2.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Дополнительная информация -->
+                        <h5 class="mb-3 mt-4"><i class="bi bi-info-circle"></i> Дополнительная информация</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Номер паспорта</label>
+                                {{ form.passport_number }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Национальность</label>
+                                {{ form.nationality }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Домашний адрес</label>
+                            {{ form.home_address }}
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-person-plus"></i> Зарегистрироваться
+                            </button>
+                            <a href="{% url 'raceapp:login' %}" class="btn btn-outline-secondary">
+                                Уже есть аккаунт? Войти
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Подвал с примечанием -->
+                <div class="card-footer text-muted">
+                    <small><i class="bi bi-asterisk text-danger"></i> Обязательные поля</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

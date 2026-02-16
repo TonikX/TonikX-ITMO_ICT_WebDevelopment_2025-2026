@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <!-- Заголовок формы -->
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-person-gear"></i> Редактирование профиля</h4>
+                </div>
+
+                <div class="card-body">
+                    <!-- Форма редактирования -->
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Основная информация -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Имя пользователя</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                <div class="text-danger small">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                <div class="text-danger small">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Имя и фамилия -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Имя</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Фамилия</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <!-- Паспорт и национальность -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Номер паспорта</label>
+                                {{ form.passport_number }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Национальность</label>
+                                {{ form.nationality }}
+                            </div>
+                        </div>
+
+                        <!-- Адрес -->
+                        <div class="mb-4">
+                            <label class="form-label">Домашний адрес</label>
+                            {{ form.home_address }}
+                            <small class="form-text text-muted">Улица, дом, квартира, город</small>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Сохранить
+                            </button>
+                            <a href="{% url 'raceapp:profile' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Примечание -->
+                <div class="card-footer text-muted">
+                    <small><i class="bi bi-info-circle"></i> Пароль изменяется в отдельном разделе</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

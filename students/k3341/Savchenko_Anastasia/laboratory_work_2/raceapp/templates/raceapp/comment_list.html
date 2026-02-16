@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Все комментарии{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Боковая панель с фильтрами -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-filter"></i> Фильтры комментариев</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'raceapp:comment_list' %}">
+                        <!-- Поиск -->
+                        <div class="mb-3">
+                            <label class="form-label">Поиск</label>
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   value="{{ request.GET.q|default:'' }}"
+                                   placeholder="Текст или автор">
+                        </div>
+
+                        <!-- Фильтр по типу -->
+                        <div class="mb-3">
+                            <label class="form-label">Тип комментария</label>
+                            <select name="comment_type" class="form-select">
+                                <option value="">Все типы</option>
+                                <option value="coop" {% if request.GET.comment_type == 'coop' %}selected{% endif %}>
+                                    Вопрос о сотрудничестве
+                                </option>
+                                <option value="race" {% if request.GET.comment_type == 'race' %}selected{% endif %}>
+                                    Вопрос о гонках
+                                </option>
+                                <option value="other" {% if request.GET.comment_type == 'other' %}selected{% endif %}>
+                                    Иное
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Фильтр по рейтингу -->
+                        <div class="mb-3">
+                            <label class="form-label">Минимальный рейтинг</label>
+                            <select name="min_rating" class="form-select">
+                                <option value="">Любой</option>
+                                <option value="8" {% if request.GET.min_rating == '8' %}selected{% endif %}>
+                                    ★ 8+
+                                </option>
+                                <option value="6" {% if request.GET.min_rating == '6' %}selected{% endif %}>
+                                    ★ 6+
+                                </option>
+                                <option value="4" {% if request.GET.min_rating == '4' %}selected{% endif %}>
+                                    ★ 4+
+                                </option>
+                                <option value="1" {% if request.GET.min_rating == '1' %}selected{% endif %}>
+                                    Все оценки
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-info text-white">
+                                <i class="bi bi-search"></i> Применить
+                            </button>
+                            <a href="{% url 'raceapp:comment_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Сбросить
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="col-md-9">
+            <!-- Заголовок -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h1 class="page-title">Комментарии к гонкам</h1>
+                </div>
+                <div class="col-md-6">
+                    <!-- Форма поиска в шапке (опционально) -->
+                    <form method="get" action="{% url 'raceapp:comment_list' %}" class="d-flex">
+                        <input type="text"
+                               name="q"
+                               class="form-control me-2"
+                               placeholder="Поиск по тексту комментария..."
+                               value="{{ request.GET.q|default:'' }}">
+                        <button type="submit" class="btn btn-primary">Найти</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Информация о активных фильтрах -->
+            {% if request.GET.q or request.GET.comment_type or request.GET.min_rating %}
+            <div class="alert alert-info mb-3">
+                <i class="bi bi-funnel me-2"></i>
+                Активные фильтры:
+                {% if request.GET.q %}Поиск: "{{ request.GET.q }}"{% endif %}
+                {% if request.GET.comment_type %}| Тип:
+                    {% if request.GET.comment_type == 'coop' %}Сотрудничество{% endif %}
+                    {% if request.GET.comment_type == 'race' %}Гонки{% endif %}
+                    {% if request.GET.comment_type == 'other' %}Иное{% endif %}
+                {% endif %}
+                {% if request.GET.min_rating %}| Рейтинг: {{ request.GET.min_rating }}+{% endif %}
+                <a href="{% url 'raceapp:comment_list' %}" class="float-end">× Сбросить все</a>
+            </div>
+            {% endif %}
+
+            <!-- Список комментариев - ФИКСИРУЕМ -->
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="card mb-3 comment-card">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ comment.user.username }}</strong>
+                                к гонке
+                                <a href="{% url 'raceapp:race_detail' comment.race.pk %}" class="text-decoration-none">
+                                    {{ comment.race.name }}
+                                </a>
+                                <span class="badge bg-info ms-2">{{ comment.get_comment_type_display }}</span>
+                            </div>
+                            <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Текст -->
+                        <p class="card-text">{{ comment.text }}</p>
+
+                        <!-- Рейтинг и действия -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <!-- Звезды рейтинга -->
+                            <div>
+                                <span class="rating-stars">
+                                    {% for i in "1234567890"|make_list %}
+                                        {% if forloop.counter <= comment.rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                <span class="badge bg-warning text-dark ms-2">Рейтинг: {{ comment.rating }}/10</span>
+                            </div>
+
+                            <!-- Кнопка удаления -->
+                            {% if user == comment.user or user.is_staff %}
+                            <a href="{% url 'raceapp:delete_comment' comment.pk %}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Удалить этот комментарий?')">
+                                <i class="bi bi-trash"></i> Удалить
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Пагинация -->
+                {% if page_obj.paginator.num_pages > 1 %}
+                <nav aria-label="Навигация по комментариям">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                <i class="bi bi-chevron-left"></i> Назад
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ num }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                    {{ num }}
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}">
+                                Вперед <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% else %}
+            <!-- Сообщение если нет комментариев -->
+            <div class="alert alert-info">
+                <i class="bi bi-chat-left-text me-2"></i>
+                {% if request.GET.q or request.GET.comment_type or request.GET.min_rating %}
+                    По вашему запросу ничего не найдено.
+                    <a href="{% url 'raceapp:comment_list' %}" class="alert-link">Показать все комментарии</a>
+                {% else %}
+                    Пока нет комментариев.
+                    <a href="{% url 'raceapp:race_list' %}" class="alert-link">
+                        Выберите гонку и оставьте первый комментарий!
+                    </a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Кнопки навигации -->
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-flag"></i> К списку гонок
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'raceapp:profile' %}" class="btn btn-outline-info">
+                    <i class="bi bi-person"></i> Мой профиль
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

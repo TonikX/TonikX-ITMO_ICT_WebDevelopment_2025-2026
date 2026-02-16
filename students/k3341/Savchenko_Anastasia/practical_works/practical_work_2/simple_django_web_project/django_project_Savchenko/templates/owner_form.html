@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить нового владельца</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .form-container {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 25px;
+            max-width: 500px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus,
+        input[type="date"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            width: 100%;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            background: #ffe6e6;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .form-help {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .form-title {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .field-errors {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добавить нового владельца автомобиля</h1>
+
+    <div class="form-container">
+        <h2 class="form-title">Заполните данные владельца</h2>
+
+        <form method="post">
+            <!-- защитный токен - ОБЯЗАТЕЛЬНО для форм в Django -->
+            {% csrf_token %}
+
+            <!-- поле Фамилия -->
+            <div class="form-group">
+                <label for="id_last_name">Фамилия:</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <div class="field-errors">
+                    {% for error in form.last_name.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- поле Имя -->
+            <div class="form-group">
+                <label for="id_first_name">Имя:</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="field-errors">
+                    {% for error in form.first_name.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- поле Дата рождения -->
+            <div class="form-group">
+                <label for="id_birth_date">Дата рождения:</label>
+                {{ form.birth_date }}
+                {% if form.birth_date.errors %}
+                <div class="field-errors">
+                    {% for error in form.birth_date.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-help">Формат: ГГГГ-ММ-ДД (например: 1990-05-20)</div>
+            </div>
+
+            <!-- кнопка отправки формы -->
+            <input type="submit" value="Добавить владельца">
+        </form>
+    </div>
+
+    <br>
+    <a class="back-link" href="/owners/">← Вернуться к списку владельцев</a>
+    <br>
+    <a class="back-link" href="/">← На главную страницу</a>
+    <br>
+    <a class="back-link" href="/admin/">← Админ-панель</a>
+</body>
+</html>

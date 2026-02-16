@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Основная информация о гонке -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <h3 class="mb-0"><i class="bi bi-flag"></i> {{ race.name }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong><i class="bi bi-calendar"></i> Дата:</strong> {{ race.date|date:"d.m.Y" }}</p>
+                    <p><strong><i class="bi bi-geo-alt"></i> Место:</strong> {{ race.location }}</p>
+                    <p><strong><i class="bi bi-clock-history"></i> Создана:</strong> {{ race.created_at|date:"d.m.Y" }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Описание:</h5>
+                    <p class="text-muted">{{ race.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Участники -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0"><i class="bi bi-people"></i> Участники</h4>
+        </div>
+        <div class="card-body">
+            {% if race.racers.all %}
+            <div class="list-group">
+                {% for racer in race.racers.all %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ racer.user.username }}</strong> — {{ racer.team_name }}
+                        <span class="badge bg-light text-dark ms-2">{{ racer.get_experience_display }}</span>
+                    </div>
+                    <span class="badge bg-primary">{{ racer.racer_class }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted mb-0">Нет зарегистрированных участников</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ===== ПАНЕЛЬ АДМИНИСТРАТОРА ===== -->
+    {% if user.is_staff %}
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0"><i class="bi bi-shield-lock"></i> Панель администратора</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="mb-3">Управление регистрациями</h5>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Участник</th>
+                            <th>Команда</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for racer in race.racers.all %}
+                        <tr>
+                            <td>
+                                <strong>{{ racer.user.get_full_name|default:racer.user.username }}</strong>
+                                <br>
+                                <small class="text-muted">{{ racer.user.email }}</small>
+                            </td>
+                            <td>{{ racer.team_name }}</td>
+                            <td>
+                                {% if racer.is_confirmed %}
+                                    <span class="badge bg-success">Подтвержден</span>
+                                {% else %}
+                                    <span class="badge bg-warning">Ожидает</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'raceapp:confirm_registration' racer.pk %}"
+                                   class="btn btn-sm {% if racer.is_confirmed %}btn-warning{% else %}btn-success{% endif %}"
+                                   onclick="return confirm('{% if racer.is_confirmed %}Отменить подтверждение{% else %}Подтвердить{% endif %} регистрацию {{ racer.user.username }}?')">
+                                    <i class="bi {% if racer.is_confirmed %}bi-x-circle{% else %}bi-check-circle{% endif %}"></i>
+                                    {% if racer.is_confirmed %}
+                                        Отменить
+                                    {% else %}
+                                        Подтвердить
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-3">
+                                <i class="bi bi-info-circle"></i> Нет зарегистрированных участников
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-info mt-3 mb-0">
+                <i class="bi bi-info-circle"></i>
+                <small>Подтвержденные участники будут отображаться с зеленым бейджем. Только подтвержденные регистрации допускаются к участию в гонке.</small>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Результаты -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0"><i class="bi bi-trophy"></i> Результаты</h4>
+        </div>
+        <div class="card-body">
+            {% if race.racers.all %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Участник</th>
+                        <th>Команда</th>
+                        <th>Время</th>
+                        <th>Результат</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for racer in race.racers.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ racer.user.username }}</td>
+                        <td>{{ racer.team_name }}</td>
+                        <td>
+                            {% if racer.results.first %}
+                            <span class="badge bg-info">{{ racer.results.first.race_time }}</span>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if racer.results.first %}
+                            {% with result=racer.results.first.result %}
+                            {% if result == '1 место' or result == '1' %}
+                            <span class="badge bg-warning text-dark">🥇 1 место</span>
+                            {% elif result == '2 место' or result == '2' %}
+                            <span class="badge bg-secondary">🥈 2 место</span>
+                            {% elif result == '3 место' or result == '3' %}
+                            <span class="badge bg-danger">🥉 3 место</span>
+                            {% else %}
+                            <span class="badge bg-light text-dark">{{ result }}</span>
+                            {% endif %}
+                            {% endwith %}
+                            {% else %}
+                            <span class="badge bg-light text-dark">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Примечание для админа -->
+            {% if user.is_staff %}
+            <div class="alert alert-info mt-3">
+                <i class="bi bi-shield-lock"></i>
+                <small>Админ: редактируйте результаты в <a href="/admin/" class="alert-link">админ-панели</a></small>
+            </div>
+            {% endif %}
+            {% else %}
+            <p class="text-muted">Результаты появятся после гонки</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Комментарии -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="bi bi-chat"></i> Комментарии</h4>
+                <span class="badge bg-light text-dark">{{ race.comments.count }}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Кнопка добавления -->
+            {% if user.is_authenticated %}
+            <a href="{% url 'raceapp:add_comment' race.pk %}" class="btn btn-outline-primary mb-3">
+                <i class="bi bi-plus-circle"></i> Добавить комментарий
+            </a>
+            {% else %}
+            <div class="alert alert-secondary mb-3">
+                <i class="bi bi-lock"></i> Войдите, чтобы оставить комментарий
+            </div>
+            {% endif %}
+
+            <!-- Список комментариев -->
+            {% if race.comments.all %}
+            {% for comment in race.comments.all %}
+            <div class="card border-start border-3 border-info mb-3">
+                <div class="card-body py-2">
+                    <!-- Заголовок -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <strong class="small">{{ comment.user.username }}</strong>
+                            <span class="badge bg-secondary ms-2">{{ comment.get_comment_type_display }}</span>
+                        </div>
+                        <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+
+                    <!-- Текст комментария -->
+                    <p class="card-text mb-2">{{ comment.text }}</p>
+
+                    <!-- Рейтинг и действия -->
+                    <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-warning text-dark">
+                                <i class="bi bi-star"></i> {{ comment.rating }}/10
+                            </span>
+
+                        <!-- Удаление (только для автора или админа) -->
+                        {% if user == comment.user or user.is_staff %}
+                        <a href="{% url 'raceapp:delete_comment' comment.pk %}"
+                           class="btn btn-outline-danger btn-sm"
+                           onclick="return confirm('Удалить комментарий?')">
+                            <i class="bi bi-trash"></i> Удалить
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Если комментариев нет -->
+            <div class="text-center py-4">
+                <i class="bi bi-chat-text text-muted" style="font-size: 2rem;"></i>
+                <p class="text-muted mt-2">Пока нет комментариев. Будьте первым!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <div class="mt-4 text-center">
+        <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> К списку гонок
+        </a>
+    </div>
+</div>
+{% endblock %}

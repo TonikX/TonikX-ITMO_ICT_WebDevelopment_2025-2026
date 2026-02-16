@@ -1,0 +1,182 @@
+/*
+ * RaceTab - Кастомные стили
+ * Лабораторная работа №2
+ * Студент: Савченко Анастасия, K3341
+ */
+
+/* ===== ОБЩИЕ СТИЛИ ===== */
+
+/* Карточки гонок с анимацией при наведении */
+.race-card {
+    transition: all 0.3s ease;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.race-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    border-color: #0d6efd;
+}
+
+/* ===== ТАБЛИЦЫ ===== */
+
+/* Таблица результатов */
+.table-results {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-results thead th {
+    background-color: #212529;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+}
+
+/* Подсветка строк таблицы */
+.table-results tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* ===== КОММЕНТАРИИ ===== */
+
+/* Карточка комментария */
+.comment-card {
+    border-left: 4px solid #0d6efd;
+    border-radius: 8px;
+}
+
+.comment-card .badge {
+    font-size: 0.8em;
+}
+
+/* Звезды рейтинга */
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.2em;
+}
+
+/* ===== КНОПКИ И ФОРМЫ ===== */
+
+/* Кастомные кнопки */
+.btn-race {
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 500;
+}
+
+/* Фокус на полях форм */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+
+.page-title {
+    border-bottom: 3px solid #0d6efd;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    color: #212529;
+}
+
+/* ===== КАРТОЧКИ СТАТИСТИКИ ===== */
+
+.stats-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.stats-card h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+
+.navbar-brand {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 1.5rem;
+}
+
+/* ===== АНИМАЦИИ ===== */
+
+/* Плавное появление элементов */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Пульсация для акцентов */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ===== ГРАДИЕНТЫ ДЛЯ КАРТОЧЕК ===== */
+
+.gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.gradient-success {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+
+.gradient-warning {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+}
+
+.gradient-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+
+@media (max-width: 768px) {
+    .race-card {
+        margin-bottom: 20px;
+    }
+
+    .table-responsive {
+        font-size: 0.9em;
+    }
+}
+
+/* Стили для фильтров */
+.filter-card {
+    transition: all 0.3s ease;
+}
+
+.filter-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.active-filters {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 4px solid #0d6efd;
+}
+
+/* Адаптивность для фильтров */
+@media (max-width: 768px) {
+    .filter-card {
+        margin-bottom: 20px;
+    }
+}
+

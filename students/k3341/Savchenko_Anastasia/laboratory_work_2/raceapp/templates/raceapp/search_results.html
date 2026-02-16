@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Результаты поиска</h1>
+
+    <!-- Информация о поисковом запросе -->
+    {% if query %}
+        <p class="text-muted">По запросу "{{ query }}" найдено {{ races.paginator.count }} гонок:</p>
+    {% else %}
+        <p class="text-muted">Введите поисковый запрос</p>
+    {% endif %}
+
+    <!-- Результаты поиска -->
+    <div class="row">
+        {% for race in races %}
+        <div class="col-md-6 mb-4">
+            <div class="card race-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ race.name }}</h5>
+                    <p class="card-text">{{ race.description|truncatewords:30 }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar"></i> {{ race.date|date:"d.m.Y" }} |
+                            <i class="bi bi-geo-alt"></i> {{ race.location }}
+                        </small>
+                    </p>
+                    <a href="{% url 'raceapp:race_detail' race.pk %}" class="btn btn-primary">
+                        <i class="bi bi-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Если ничего не найдено -->
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                <i class="bi bi-search me-2"></i>
+                По запросу "{{ query }}" ничего не найдено.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация для поиска (если много результатов) -->
+    {% if races.paginator.num_pages > 1 %}
+        <div class="d-flex justify-content-center mt-4">
+            {% bootstrap_pagination races extra=request.GET.urlencode %}
+        </div>
+    {% endif %}
+
+    <!-- Кнопка возврата -->
+    <div class="text-center mt-4">
+        <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> К списку всех гонок
+        </a>
+    </div>
+</div>
+{% endblock %}

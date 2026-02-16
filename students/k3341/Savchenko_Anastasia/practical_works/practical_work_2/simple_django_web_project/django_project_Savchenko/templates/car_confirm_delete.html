@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Удаление автомобиля</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .warning { background: #ffe6e6; border: 2px solid #ff0000; padding: 20px; margin: 20px 0; }
+        .car-info { background: white; padding: 15px; margin: 10px 0; }
+        .btn { padding: 10px 15px; margin: 5px; text-decoration: none; border-radius: 4px; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-primary { background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Удаление автомобиля</h1>
+
+    <div class="warning">
+        <h2>Вы уверены, что хотите удалить этот автомобиль?</h2>
+
+        <div class="car-info">
+            <strong>Автомобиль:</strong> {{ object.brand }} {{ object.model }}<br>
+            <strong>Госномер:</strong> {{ object.state_number }}<br>
+            <strong>Цвет:</strong> {{ object.color|default:"не указан" }}
+        </div>
+
+        <p><strong>Внимание:</strong> Это действие нельзя отменить!</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="/car/{{ object.id_car }}/" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+
+    <br>
+    <a href="/cars/" class="btn btn-primary">← К списку автомобилей</a>
+</body>
+</html>

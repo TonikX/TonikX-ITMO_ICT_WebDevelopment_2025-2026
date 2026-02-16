@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Левый блок: информация профиля -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-person"></i> Мой профиль</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Основная информация -->
+                    <h5 class="mb-3">{{ user.get_full_name|default:user.username }}</h5>
+
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Паспорт:</strong> {{ user.passport_number|default:"Не указан" }}</p>
+                    <p><strong>Адрес:</strong> {{ user.home_address|default:"Не указан" }}</p>
+                    <p><strong>Национальность:</strong> {{ user.nationality|default:"Не указана" }}</p>
+
+                    <!-- Статистика -->
+                    <div class="mt-3 pt-3 border-top">
+                        <p class="mb-1"><strong>Всего регистраций:</strong> {{ total_registrations }}</p>
+                        <p class="mb-0"><strong>Всего комментариев:</strong> {{ user.comments.count }}</p>
+                    </div>
+
+                    <!-- Кнопка редактирования -->
+                    <div class="mt-4">
+                        <a href="{% url 'raceapp:edit_profile' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-pencil"></i> Редактировать профиль
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правый блок: регистрации -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="bi bi-flag"></i> Последние регистрации</h4>
+                        {% if total_registrations > 5 %}
+                        <small>Показано 5 из {{ total_registrations }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {% if registrations %}
+                    <div class="list-group">
+                        {% for reg in registrations %}
+                        <div class="list-group-item mb-2">
+                            <!-- Заголовок регистрации -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">
+                                    <a href="{% url 'raceapp:race_detail' reg.race.pk %}" class="text-decoration-none">
+                                        {{ reg.race.name }}
+                                    </a>
+                                    {% if reg.is_confirmed %}
+                                    <span class="badge bg-success ms-2">Подтверждена</span>
+                                    {% else %}
+                                    <span class="badge bg-warning ms-2">Ожидает</span>
+                                    {% endif %}
+                                </h6>
+                                <small class="text-muted">{{ reg.registered_at|date:"d.m.Y" }}</small>
+                            </div>
+
+                            <!-- Детали регистрации -->
+                            <p class="mb-1 small"><strong>Команда:</strong> {{ reg.team_name }}</p>
+                            <p class="mb-1 small"><strong>Автомобиль:</strong> {{ reg.car_description|truncatechars:50 }}</p>
+                            <p class="mb-1 small"><strong>Опыт:</strong> {{ reg.get_experience_display }}</p>
+                            <p class="mb-2 small"><strong>Класс:</strong> {{ reg.racer_class }}</p>
+
+                            <!-- Кнопка отмены -->
+                            <div class="mt-2">
+                                <a href="{% url 'raceapp:racer_delete' reg.pk %}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Отменить регистрацию на {{ reg.race.name }}?')">
+                                    <i class="bi bi-x-circle"></i> Отменить
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Если регистраций нет -->
+                    <div class="alert alert-info text-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        У вас нет зарегистрированных гонок.
+                        <a href="{% url 'raceapp:racer_register' %}" class="alert-link">Зарегистрируйтесь на гонку!</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Футер с кнопками -->
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'raceapp:racer_register' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Новая регистрация
+                        </a>
+                        <a href="{% url 'raceapp:my_registrations' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-list"></i> Все регистрации
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок с комментариями -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="bi bi-chat"></i> Последние комментарии</h4>
+                        {% if user.comments.count > 5 %}
+                        <small>Показано 5 из {{ user.comments.count }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {% if user.comments.all %}
+                    <div class="list-group">
+                        {% for comment in user.comments.all|slice:":5" %}
+                        <div class="list-group-item">
+                            <!-- Заголовок комментария -->
+                            <div class="d-flex justify-content-between mb-2">
+                                <h6 class="mb-0">
+                                    <a href="{% url 'raceapp:race_detail' comment.race.pk %}"
+                                       class="text-decoration-none">
+                                        {{ comment.race.name }}
+                                    </a>
+                                    <span class="badge bg-info ms-2">{{ comment.get_comment_type_display }}</span>
+                                </h6>
+                                <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                            </div>
+
+                            <!-- Текст комментария -->
+                            <p class="mb-2 small">{{ comment.text|truncatechars:100 }}</p>
+
+                            <!-- Рейтинг -->
+                            <p class="mb-1 small">
+                                <strong>Рейтинг:</strong>
+                                <span class="rating-stars">
+                                    {% for i in "1234567890"|make_list %}
+                                        {% if forloop.counter <= comment.rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                <span class="ms-2">({{ comment.rating }}/10)</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Если комментариев нет -->
+                    <p class="text-muted text-center">Вы еще не оставляли комментариев.</p>
+                    {% endif %}
+
+                    <!-- Ссылка на все комментарии -->
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'raceapp:comment_list' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-chat-left-text"></i> Все мои комментарии
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

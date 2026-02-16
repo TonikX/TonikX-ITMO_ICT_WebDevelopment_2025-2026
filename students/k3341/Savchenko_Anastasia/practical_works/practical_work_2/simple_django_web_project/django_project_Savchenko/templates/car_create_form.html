@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить новый автомобиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .form-container {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 25px;
+            max-width: 500px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            width: 100%;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            background: #ffe6e6;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .form-help {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .form-title {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .field-errors {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .btn-cancel {
+            background: #f44336;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .btn-cancel:hover {
+            background: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добавить новый автомобиль</h1>
+
+    <div class="form-container">
+        <h2 class="form-title">Заполните данные автомобиля</h2>
+
+        <form method="post">
+            <!-- защитный токен -->
+            {% csrf_token %}
+
+            <!-- поле Госномер -->
+            <div class="form-group">
+                <label for="id_state_number">Государственный номер:</label>
+                {{ form.state_number }}
+                {% if form.state_number.errors %}
+                <div class="field-errors">
+                    {% for error in form.state_number.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-help">Например: А123БВ77 или A123BC</div>
+            </div>
+
+            <!-- поле Марка -->
+            <div class="form-group">
+                <label for="id_brand">Марка:</label>
+                {{ form.brand }}
+                {% if form.brand.errors %}
+                <div class="field-errors">
+                    {% for error in form.brand.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-help">Например: Toyota, BMW, Volkswagen</div>
+            </div>
+
+            <!-- поле Модель -->
+            <div class="form-group">
+                <label for="id_model">Модель:</label>
+                {{ form.model }}
+                {% if form.model.errors %}
+                <div class="field-errors">
+                    {% for error in form.model.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-help">Например: Camry, X5, Tiguan</div>
+            </div>
+
+            <!-- поле Цвет -->
+            <div class="form-group">
+                <label for="id_color">Цвет:</label>
+                {{ form.color }}
+                {% if form.color.errors %}
+                <div class="field-errors">
+                    {% for error in form.color.errors %}
+                    <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-help">Необязательное поле</div>
+            </div>
+
+            <!-- кнопки -->
+            <div style="display: flex; gap: 10px;">
+                <input type="submit" value="Добавить автомобиль">
+                <a href="/cars/" class="btn-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <a class="back-link" href="/cars/">← Вернуться к списку автомобилей</a>
+    <br>
+    <a class="back-link" href="/">← На главную страницу</a>
+</body>
+</html>

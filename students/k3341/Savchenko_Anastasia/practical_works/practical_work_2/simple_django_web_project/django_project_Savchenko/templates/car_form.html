@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактирование автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .form-container {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            max-width: 500px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-help {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Редактирование автомобиля</h1>
+
+    <div class="form-container">
+        <form method="post">
+            <!-- защитный токен - обязательно! -->
+            {% csrf_token %}
+
+            <!-- поле для госномера -->
+            <div class="form-group">
+                <label for="id_state_number">Госномер:</label>
+                {{ form.state_number }}
+                {% if form.state_number.errors %}
+                <div class="error">{{ form.state_number.errors }}</div>
+                {% endif %}
+                <div class="form-help">Например: А123БВ77</div>
+            </div>
+
+            <!-- поле для марки -->
+            <div class="form-group">
+                <label for="id_brand">Марка:</label>
+                {{ form.brand }}
+                {% if form.brand.errors %}
+                <div class="error">{{ form.brand.errors }}</div>
+                {% endif %}
+                <div class="form-help">Например: Toyota, BMW</div>
+            </div>
+
+            <!-- поле для модели -->
+            <div class="form-group">
+                <label for="id_model">Модель:</label>
+                {{ form.model }}
+                {% if form.model.errors %}
+                <div class="error">{{ form.model.errors }}</div>
+                {% endif %}
+                <div class="form-help">Например: Camry, X5</div>
+            </div>
+
+            <!-- поле для цвета -->
+            <div class="form-group">
+                <label for="id_color">Цвет:</label>
+                {{ form.color }}
+                {% if form.color.errors %}
+                <div class="error">{{ form.color.errors }}</div>
+                {% endif %}
+                <div class="form-help">Необязательное поле</div>
+            </div>
+
+            <!-- кнопка сохранения -->
+            <input type="submit" value="Сохранить изменения">
+        </form>
+    </div>
+
+    <br>
+    <a class="back-link" href="/car/{{ object.id_car }}/">← Вернуться к автомобилю</a>
+    <br>
+    <a class="back-link" href="/cars/">← Все автомобили</a>
+</body>
+</html>

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<!-- Герой-секция -->
+<div class="jumbotron bg-dark text-white rounded p-5 mb-5 shadow">
+    <h1 class="display-4">🏁 Добро пожаловать на RaceTab!</h1>
+    <p class="lead">Табло победителей автогонок. Следите за результатами, регистрируйтесь на гонки и оставляйте
+        комментарии.</p>
+    <hr class="my-4 bg-light">
+    <p>Самые престижные гонки мира в одном месте. Присоединяйтесь к сообществу гонщиков!</p>
+
+    <!-- Кнопки действий -->
+    <div class="d-flex flex-wrap gap-3 mt-4">
+        {% if not user.is_authenticated %}
+        <a class="btn btn-primary btn-lg px-4" href="{% url 'raceapp:register' %}" role="button">
+            <i class="bi bi-person-plus"></i> Регистрация
+        </a>
+        <a class="btn btn-outline-light btn-lg px-4" href="{% url 'raceapp:login' %}" role="button">
+            <i class="bi bi-box-arrow-in-right"></i> Войти
+        </a>
+        {% endif %}
+        <a class="btn btn-success btn-lg px-4" href="{% url 'raceapp:race_list' %}" role="button">
+            <i class="bi bi-speedometer2"></i> Смотреть гонки
+        </a>
+    </div>
+</div>
+
+<!-- Статистика платформы -->
+<h2 class="page-title mb-4">Статистика платформы</h2>
+<div class="row mb-5">
+    <!-- Карточка гонок -->
+    {% if total_races > 0 %}
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card text-center shadow gradient-primary">
+            <div class="card-body">
+                <i class="bi bi-flag display-4 mb-3"></i>
+                <h2 class="display-6">{{ total_races }}</h2>
+                <p class="card-text">Гонок в системе</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Карточка участников -->
+    {% if total_racers > 0 %}
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card text-center shadow gradient-success">
+            <div class="card-body">
+                <i class="bi bi-person display-4 mb-3"></i>
+                <h2 class="display-6">{{ total_racers }}</h2>
+                <p class="card-text">Зарегистрированных участников</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Карточка комментариев -->
+    {% if total_comments > 0 %}
+    <div class="col-md-4 mb-3">
+        <div class="card stats-card text-center shadow gradient-info">
+            <div class="card-body">
+                <i class="bi bi-chat-left-text display-4 mb-3"></i>
+                <h2 class="display-6">{{ total_comments }}</h2>
+                <p class="card-text">Комментариев</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Если статистика пустая -->
+{% if total_races == 0 or total_racers == 0 or total_comments == 0 %}
+<div class="alert alert-info mb-4">
+    <i class="bi bi-info-circle"></i>
+    Статистика обновляется в реальном времени. Добавьте больше данных через админ-панель.
+</div>
+{% endif %}
+
+<!-- Возможности платформы -->
+<h2 class="page-title mb-4">Возможности платформы</h2>
+<div class="row mt-4">
+    <!-- Карточка гонок -->
+    <div class="col-md-4 mb-4">
+        <div class="card race-card h-100 shadow">
+            <div class="card-body text-center">
+                <div class="icon-wrapper mb-3">
+                    <i class="bi bi-flag-fill display-4 text-primary"></i>
+                </div>
+                <h3 class="card-title">Гонки</h3>
+                <p class="card-text">Просматривайте информацию о предстоящих и прошедших автогонках. Детальная
+                    информация, результаты, участники.</p>
+                <a href="{% url 'raceapp:race_list' %}" class="btn btn-outline-primary mt-2">Перейти</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Карточка регистрации -->
+    <div class="col-md-4 mb-4">
+        <div class="card race-card h-100 shadow">
+            <div class="card-body text-center">
+                <div class="icon-wrapper mb-3">
+                    <i class="bi bi-person-plus-fill display-4 text-success"></i>
+                </div>
+                <h3 class="card-title">Регистрация</h3>
+                <p class="card-text">Зарегистрируйтесь как участник автогонок. Укажите свой автомобиль, опыт и команду.
+                    Управляйте своими заявками.</p>
+                <a href="{% url 'raceapp:racer_register' %}" class="btn btn-outline-success mt-2">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Карточка комментариев -->
+    <div class="col-md-4 mb-4">
+        <div class="card race-card h-100 shadow">
+            <div class="card-body text-center">
+                <div class="icon-wrapper mb-3">
+                    <i class="bi bi-chat-dots-fill display-4 text-warning"></i>
+                </div>
+                <h3 class="card-title">Комментарии</h3>
+                <p class="card-text">Оставляйте отзывы и задавайте вопросы о гонках. Обсуждайте результаты, делитесь
+                    мнениями с сообществом.</p>
+                <a href="{% url 'raceapp:comment_list' %}" class="btn btn-outline-warning mt-2">Обсудить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ближайшие гонки -->
+<h2 class="page-title mt-5 mb-4">Ближайшие гонки</h2>
+<div class="row">
+    {% for race in upcoming_races|slice:":3" %}
+    <div class="col-md-4 mb-4">
+        <div class="card race-card h-100 shadow">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">{{ race.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ race.description|truncatewords:20 }}</p>
+                <p class="card-text">
+                    <i class="bi bi-calendar text-primary"></i> {{ race.date|date:"d.m.Y" }}<br>
+                    <i class="bi bi-geo-alt text-danger"></i> {{ race.location }}
+                </p>
+                <a href="{% url 'raceapp:race_detail' race.pk %}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-info-circle"></i> Подробнее
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <!-- Если нет ближайших гонок -->
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i>
+            Информация о ближайших гонках появится позже.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

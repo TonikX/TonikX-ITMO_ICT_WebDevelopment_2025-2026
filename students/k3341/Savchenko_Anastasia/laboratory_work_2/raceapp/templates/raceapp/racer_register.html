@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация на гонку{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-plus"></i> Регистрация на гонку
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Выбор гонки -->
+                        <div class="mb-3">
+                            <label class="form-label">Гонка*</label>
+                            {{ form.race }}
+                            {% if form.race.errors %}
+                            <div class="text-danger small">{{ form.race.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Информация о команде -->
+                        <div class="mb-3">
+                            <label class="form-label">Название команды*</label>
+                            {{ form.team_name }}
+                        </div>
+
+                        <!-- Описание автомобиля -->
+                        <div class="mb-3">
+                            <label class="form-label">Описание автомобиля*</label>
+                            {{ form.car_description }}
+                            <small class="form-text text-muted">Марка, модель, модификации</small>
+                        </div>
+
+                        <!-- Описание участника -->
+                        <div class="mb-3">
+                            <label class="form-label">Описание участника*</label>
+                            {{ form.racer_description }}
+                            <small class="form-text text-muted">Ваш опыт, достижения</small>
+                        </div>
+
+                        <!-- Опыт и класс -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Опыт участия*</label>
+                                {{ form.experience }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Класс участника*</label>
+                                {{ form.racer_class }}
+                                <small class="form-text text-muted">Например: любитель, спортсмен</small>
+                            </div>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Зарегистрироваться
+                            </button>
+                            <a href="{% url 'raceapp:race_list' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

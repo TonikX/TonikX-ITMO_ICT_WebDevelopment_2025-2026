@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ car.brand }} {{ car.model }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .car-info {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .owners-section, .history-section {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-right: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-edit {
+            background: #4CAF50;
+        }
+        .btn-delete {
+            background: #f44336;
+        }
+        .btn-back {
+            background: #2196F3;
+        }
+        .btn-list {
+            background: #FF9800;
+        }
+        .btn-home {
+            background: #9C27B0;
+        }
+        .btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .no-data {
+            color: #666;
+            font-style: italic;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .actions {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .warning-text {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ car.brand }} {{ car.model }}</h1>
+
+    <div class="car-info">
+        <p><strong>Государственный номер:</strong> {{ car.state_number }}</p>
+        <p><strong>Марка:</strong> {{ car.brand }}</p>
+        <p><strong>Модель:</strong> {{ car.model }}</p>
+        <p><strong>Цвет:</strong> {{ car.color|default:"не указан" }}</p>
+        <p><strong>ID автомобиля:</strong> {{ car.id_car }}</p>
+    </div>
+
+    {% if owners %}
+    <div class="owners-section">
+        <h2>Все владельцы (за всё время)</h2>
+        <ul>
+            {% for owner in owners %}
+            <li>
+                <a href="/owner/{{ owner.id_owner }}/">
+                    {{ owner.last_name }} {{ owner.first_name }}
+                </a>
+                (ID: {{ owner.id_owner }})
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class="owners-section">
+        <h2>Все владельцы (за всё время)</h2>
+        <p class="no-data">Нет зарегистрированных владельцев</p>
+    </div>
+    {% endif %}
+
+    {% if ownerships %}
+    <div class="history-section">
+        <h2>История владения</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Владелец</th>
+                    <th>Начало владения</th>
+                    <th>Окончание владения</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ownership in ownerships %}
+                <tr>
+                    <td>
+                        <a href="/owner/{{ ownership.id_owner.id_owner }}/">
+                            {{ ownership.id_owner.last_name }} {{ ownership.id_owner.first_name }}
+                        </a>
+                    </td>
+                    <td>{{ ownership.start_date|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if ownership.end_date %}
+                            {{ ownership.end_date|date:"d.m.Y" }}
+                        {% else %}
+                            По настоящее время
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="history-section">
+        <h2>История владения</h2>
+        <p class="no-data">Нет истории владения</p>
+    </div>
+    {% endif %}
+
+    <!-- Блок с кнопками действий - ОБНОВЛЕННЫЙ -->
+    <div class="actions">
+        <p><strong>Действия с автомобилем:</strong></p>
+
+        <a class="btn btn-edit" href="/car/{{ car.id_car }}/update/">
+            ✏️ Редактировать
+        </a>
+
+        <a class="btn btn-delete" href="/car/{{ car.id_car }}/delete/">
+            🗑️ Удалить автомобиль
+        </a>
+
+        <a class="btn btn-list" href="/cars/">
+            📋 Все автомобили
+        </a>
+
+        <a class="btn btn-home" href="/">
+            🏠 На главную
+        </a>
+
+        <div class="warning-text">
+            Внимание: При удалении автомобиля также удалится вся история владения им!
+        </div>
+    </div>
+</body>
+</html>

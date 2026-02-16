@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список автомобилей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .car-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .car-item {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .car-item:hover {
+            background: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .car-link {
+            text-decoration: none;
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .car-link:hover {
+            color: #0b7dda;
+            text-decoration: underline;
+        }
+        .car-info {
+            margin-left: 20px;
+            margin-top: 5px;
+            color: #555;
+        }
+        .stats {
+            background: #e8f5e8;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .btn-detail {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-detail:hover {
+            background: #0b7dda;
+        }
+        .btn-edit {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-edit:hover {
+            background: #45a049;
+        }
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+        .btn-add {
+            background: #FF9800;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .btn-add:hover {
+            background: #f57c00;
+        }
+        .nav-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .nav-link:hover {
+            background-color: #45a049;
+        }
+        .nav-link-admin {
+            background-color: #9C27B0;
+        }
+        .nav-link-admin:hover {
+            background-color: #7b1fa2;
+        }
+        .nav-link-home {
+            background-color: #2196F3;
+        }
+        .nav-link-home:hover {
+            background-color: #0b7dda;
+        }
+        .empty-message {
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .car-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .owner-count {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .car-id {
+            color: #888;
+            font-size: 14px;
+        }
+        .car-meta {
+            font-size: 13px;
+            color: #666;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="car-header">
+        <h1>Список всех автомобилей</h1>
+        <a href="/car/create/" class="btn-add">
+            ➕ Добавить новый автомобиль
+        </a>
+    </div>
+
+    <div class="stats">
+        <strong>📊 Статистика:</strong><br>
+        Всего автомобилей в базе: <strong>{{ car_count }}</strong><br>
+        {% if car_count > 0 %}
+            Последний добавленный: <strong>{{ cars.0.brand }} {{ cars.0.model }}</strong> ({{ cars.0.state_number }})
+        {% endif %}
+    </div>
+
+    {% if cars %}
+        <ul class="car-list">
+            {% for car in cars %}
+            <li class="car-item">
+                <!-- заголовок автомобиля -->
+                <a class="car-link" href="/car/{{ car.id_car }}/">
+                    {{ car.brand }} {{ car.model }}
+                    <span class="owner-count">{{ car.owners.count }}</span>
+                </a>
+                <div class="car-id">ID: {{ car.id_car }}</div>
+
+                <!-- информация об автомобиле -->
+                <div class="car-info">
+                    <strong>Государственный номер:</strong> {{ car.state_number }}<br>
+                    <strong>Цвет:</strong> {{ car.color|default:"не указан" }}
+                    <div class="car-meta">
+                        {% if car.owners.count > 0 %}
+                            💼 Есть владельцы: {{ car.owners.count }}
+                        {% else %}
+                            ⚠️ Нет владельцев
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- кнопки действий -->
+                <div class="actions">
+                    <a class="btn btn-detail" href="/car/{{ car.id_car }}/" title="Подробная информация">
+                        👁️ Подробнее
+                    </a>
+                    <a class="btn btn-edit" href="/car/{{ car.id_car }}/update/" title="Редактировать автомобиль">
+                        ✏️ Редактировать
+                    </a>
+                    <a class="btn btn-delete" href="/car/{{ car.id_car }}/delete/" title="Удалить автомобиль"
+                       onclick="return confirm('Вы уверены, что хотите удалить автомобиль {{ car.brand }} {{ car.model }}?')">
+                        🗑️ Удалить
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-message">
+            <p>🚗 Нет автомобилей в базе данных</p>
+            <a href="/car/create/" class="btn-add">
+                ➕ Добавить первый автомобиль
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- навигационные ссылки -->
+    <div class="nav-links">
+        <a href="/" class="nav-link nav-link-home">🏠 На главную (к владельцам)</a>
+        <a href="/owners/" class="nav-link">👥 Все владельцы</a>
+        <a href="/admin/" class="nav-link nav-link-admin">⚙️ Админ-панель</a>
+    </div>
+
+    <script>
+        // JavaScript для подтверждения удаления
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const carName = this.parentElement.querySelector('.car-link').textContent.trim();
+                    const confirmed = confirm(`Вы уверены, что хотите удалить автомобиль "${carName}"?\n\n⚠️ Это действие нельзя отменить!`);
+
+                    if (!confirmed) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
