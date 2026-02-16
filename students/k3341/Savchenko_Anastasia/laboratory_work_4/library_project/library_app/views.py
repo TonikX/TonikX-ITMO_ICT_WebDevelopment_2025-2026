@@ -558,7 +558,7 @@ class AuthorCreateAPIView(generics.CreateAPIView):
     queryset = Author.objects.all()
     permission_classes = [IsAdminUser]
 
-
+# ЛАБА 4 /books/with-copies/ Поиск книги с количеством доступных экземпляров
 class BookWithCopiesAPIView(generics.ListAPIView):
     """Список книг с количеством доступных экземпляров"""
     serializer_class = BookSerializer
@@ -702,3 +702,23 @@ class ReturnBookAPIView(APIView):
             return Response({'error': 'Запись о выдаче не найдена'}, status=404)
         except Exception as e:
             return Response({'error': str(e)}, status=500)
+
+
+class ReaderRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Reader.objects.all()
+    serializer_class = ReaderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        # Разрешаем читателю редактировать только себя
+        if self.request.method == 'GET':
+            return [IsAuthenticated()]
+        # Для PATCH проверяем, что это его профиль
+        return [IsAuthenticated()]
+
+    def update(self, request, *args, **kwargs):
+        reader = self.get_object()
+        # Проверяем, что читатель редактирует свой профиль
+        if not request.user.is_staff and reader.user != request.user:
+            return Response({'error': 'Нет прав'}, status=403)
+        return super().update(request, *args, **kwargs)

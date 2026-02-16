@@ -74,8 +74,10 @@ urlpatterns = [
     path('authors/create/', AuthorCreateAPIView.as_view()),  # POST - создать
     path('admin/readers/', AdminReaderListAPIView.as_view()),
 
-    path('books/with-copies/', BookWithCopiesAPIView.as_view()),
+    path('books/with-copies/', BookWithCopiesAPIView.as_view()),  # Поиск книги с количеством доступных экземпляров
     path('loans/active/', ActiveLoansAPIView.as_view()),
-    path('loans/create/', LoanCreateAPIView.as_view()),
+    path('loans/create/', LoanCreateAPIView.as_view()),  # Создание выдачи Связывание читателя, книги и срока возврата
     path('loans/return/', ReturnBookAPIView.as_view()),
+
+    path('readers/<int:pk>/', ReaderRetrieveUpdateAPIView.as_view()),
 ]
