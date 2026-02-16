@@ -80,7 +80,7 @@
 
 ## Установка и настройка
 
-### Шаг 1: Создание виртуального окружения
+### 1. Создание виртуального окружения
 
 ```bash
 # Создание виртуального окружения
@@ -88,12 +88,9 @@ python -m venv .venv
 
 # Активация (Windows)
 .\.venv\Scripts\activate
-
-# Активация (Linux/Mac)
-source .venv/bin/activate
 ```
 
-### Шаг 2: Установка зависимостей
+### 2. Установка зависимостей
 
 ```bash
 pip install django
@@ -103,13 +100,13 @@ pip install djoser
 pip install psycopg2-binary  # для PostgreSQL
 ```
 
-### Шаг 3: Создание файла зависимостей
+### 3. Создание файла зависимостей
 
 ```bash
 pip freeze > requirements.txt
 ```
 
-**Содержимое `requirements.txt`:**
+**Файл `requirements.txt`:**
 ```txt
 asgiref==3.11.0
 Django==3.2.25
@@ -122,7 +119,7 @@ sqlparse==0.5.5
 tzdata==2025.3
 ```
 
-### Шаг 4: Создание проекта и приложения
+### 4. Создание проекта и приложения django
 
 ```bash
 # Создание проекта
