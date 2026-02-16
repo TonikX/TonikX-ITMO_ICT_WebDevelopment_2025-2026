@@ -130,7 +130,7 @@ cd brand_manager
 python manage.py startapp manager_services
 ```
 
-### Шаг 5: Настройка `settings.py`
+### 5. Настройка `settings.py`
 
 ```python
 # brand_manager/settings.py
@@ -482,20 +482,20 @@ class OrderStatusHistory(models.Model):
 
 ## Работа с базой данных через Django ORM
 
-### Шаг 1: Создание и применение миграций
+### 1. Создание и применение миграций
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### Шаг 2: Запуск интерактивного режима
+### 2. Запуск интерактивного режима
 
 ```bash
 python manage.py shell
 ```
 
-### Шаг 3: Импорт моделей
+### 3. Импорт моделей
 
 ```python
 from core.models import User, Service, Order, Comment, File, Review, OrderStatusHistory
@@ -503,7 +503,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 ```
 
-### Шаг 4: Создание объектов
+### 4. Создание объектов
 
 #### Создание пользователей
 
