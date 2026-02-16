@@ -154,12 +154,8 @@ INSTALLED_APPS = [
 # Настройки базы данных (PostgreSQL)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'personal_brand_db',
-        'USER': 'your_username',
-        'PASSWORD': 'your_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -172,30 +168,24 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Настройки Djoser
 DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    'SEND_CONFIRMATION_EMAIL': False,
-    'SET_USERNAME_RETYPE': True,
-    'SET_PASSWORD_RETYPE': True,
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SERIALIZERS': {
-        'user_create': 'core.serializers.UserCreateSerializer',
-        'user': 'core.serializers.UserSerializer',
-        'current_user': 'core.serializers.UserSerializer',
+    "HIDE_USERS": True,
+    "USER_ID_FIELD": "id",
+
+    "USER_CREATE_PASSWORD_RETYPE": False,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": False,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": False,
+    "SEND_ACTIVATION_EMAIL": False,
+    "SEND_CONFIRMATION_EMAIL": False,
+
+    "SERIALIZERS": {
+        "user_create": "manager_services.serializers.UserCreateSerializer",
+        "user": "manager_services.serializers.UserSerializer",
+        "current_user": "manager_services.serializers.UserSerializer",
     },
 }
 
@@ -203,35 +193,8 @@ DJOSER = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
-
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'JWK_URL': None,
-    'LEEWAY': 0,
-
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
-
-    'JTI_CLAIM': 'jti',
-
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=3),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=5),
 }
 ```
 
@@ -249,100 +212,66 @@ from django.db import models
 
 class User(AbstractUser):
     """Пользователь системы"""
-    
-    ROLE_CHOICES = (
-        ('user', 'Пользователь'),
-        ('admin', 'Администратор'),
-    )
-    
-    username = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True, max_length=254, verbose_name='Электронная почта')
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-    phone = models.CharField(max_length=20, blank=True, verbose_name='Номер телефона')
+
+    class Role(models.TextChoices):
+        USER = 'user', 'Пользователь'
+        ADMIN = 'admin', 'Администратор'
+
+    username = models.CharField(verbose_name='username', max_length=20, unique=True)
+    email = models.EmailField('Электронная почта', unique=True)
+    phone = models.CharField('Номер телефона', max_length=20, blank=True)
     role = models.CharField(
+        'Роль',
         max_length=10,
-        choices=ROLE_CHOICES,
-        default='user',
-        verbose_name='Роль'
+        choices=Role.choices,
+        default=Role.USER
     )
-    date_joined = models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')
-    
-    # Поле для аутентификации
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-    
-    def __str__(self):
-        return f"{self.email} ({self.get_role_display()})"
-    
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
-        indexes = [
-            models.Index(fields=['email']),
-            models.Index(fields=['role']),
-        ]
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        ordering = ['-date_joined']
+
+    def __str__(self):
+        return f'{self.get_full_name()} ({self.email})'
+
+    @property
+    def is_admin(self):
+        return self.role == self.Role.ADMIN
 ```
 
 ### Модель: Услуга (Service)
 
 ```python
 class Service(models.Model):
-    """Услуга для продвижения личного бренда"""
-    
-    CATEGORY_CHOICES = (
-        ('consulting', 'Консультация'),
-        ('coaching', 'Коучинг'),
-        ('training', 'Тренинг'),
-        ('content', 'Контент'),
-        ('design', 'Дизайн'),
-        ('marketing', 'Маркетинг'),
-    )
-    
-    name = models.CharField(max_length=200, verbose_name='Название услуги')
-    description = models.TextField(verbose_name='Описание услуги')
-    price = models.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        verbose_name='Цена'
-    )
-    duration = models.IntegerField(
-        verbose_name='Продолжительность (в минутах)',
-        default=60
-    )
-    category = models.CharField(
-        max_length=100,
-        choices=CATEGORY_CHOICES,
-        verbose_name='Категория'
-    )
-    is_active = models.BooleanField(default=True, verbose_name='Активна')
+    """Услуга"""
+
+    name = models.CharField('Название услуги', max_length=200)
+    description = models.TextField('Описание услуги')
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+    duration = models.PositiveIntegerField('Продолжительность (в минутах)')
+    category = models.CharField('Категория', max_length=100)
+    is_active = models.BooleanField('Активна', default=True)
     created_by = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        verbose_name='Кто создал',
+        on_delete=models.PROTECT,
         related_name='created_services',
-        verbose_name='Кто создал'
+        limit_choices_to={'role': User.Role.ADMIN}
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
-    
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField('Дата обновления', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Услуга'
+        verbose_name_plural = 'Услуги'
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.name
-    
-    class Meta:
-        verbose_name = "Услуга"
-        verbose_name_plural = "Услуги"
-        indexes = [
-            models.Index(fields=['is_active']),
-            models.Index(fields=['category']),
-        ]
-    
-    @property
-    def primary_image(self):
-        """Получить главное изображение услуги"""
-        primary = self.files.filter(is_primary=True).first()
-        if primary:
-            return primary.file_url
-        return None
 ```
 
 ### Модель: Заявка (Order)
@@ -350,254 +279,203 @@ class Service(models.Model):
 ```python
 class Order(models.Model):
     """Заявка на услугу"""
-    
-    STATUS_CHOICES = (
-        ('new', 'Новая'),
-        ('in_progress', 'В работе'),
-        ('completed', 'Завершена'),
-        ('cancelled', 'Отменена'),
-    )
-    
+
+    class Status(models.TextChoices):
+        NEW = 'new', 'Новая'
+        IN_PROGRESS = 'in_progress', 'В работе'
+        COMPLETED = 'completed', 'Завершена'
+        CANCELLED = 'cancelled', 'Отменена'
+
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        related_name='orders',
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
+        on_delete=models.PROTECT,
+        related_name='orders'
     )
     service = models.ForeignKey(
         Service,
-        on_delete=models.CASCADE,
-        related_name='orders',
-        verbose_name='Услуга'
+        verbose_name='Услуга',
+        on_delete=models.PROTECT,
+        related_name='orders'
     )
     status = models.CharField(
+        'Статус',
         max_length=20,
-        choices=STATUS_CHOICES,
-        default='new',
-        verbose_name='Статус'
+        choices=Status.choices,
+        default=Status.NEW
     )
-    notes = models.TextField(blank=True, verbose_name='Дополнительные заметки')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
-    completed_at = models.DateTimeField(
-        null=True,
-        blank=True,
-        verbose_name='Дата завершения'
-    )
-    
-    def __str__(self):
-        return f"Заявка #{self.id} - {self.user.email} - {self.service.name}"
-    
+    notes = models.TextField('Дополнительные заметки', blank=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    completed_at = models.DateTimeField('Дата завершения', null=True, blank=True)
+
     class Meta:
-        verbose_name = "Заявка"
-        verbose_name_plural = "Заявки"
-        indexes = [
-            models.Index(fields=['user', 'status']),
-            models.Index(fields=['service']),
-        ]
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Заявка #{self.id} - {self.user.email}'
+
+    def save(self, *args, **kwargs):
+        # Автоматически устанавливаем completed_at при завершении заявки
+        if self.status == self.Status.COMPLETED and not self.completed_at:
+            from django.utils import timezone
+            self.completed_at = timezone.now()
+        elif self.status != self.Status.COMPLETED:
+            self.completed_at = None
+        super().save(*args, **kwargs)
 ```
 
 ### Модель: Комментарий (Comment)
 
 ```python
 class Comment(models.Model):
-    """Комментарий к заявке (от администратора)"""
-    
+    """Комментарий к заявке"""
+
     order = models.ForeignKey(
         Order,
+        verbose_name='Заявка',
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Заявка'
+        related_name='comments'
     )
     admin = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        related_name='admin_comments',
-        verbose_name='Администратор'
+        verbose_name='Администратор',
+        on_delete=models.PROTECT,
+        related_name='comments',
+        limit_choices_to={'role': User.Role.ADMIN}
     )
-    content = models.TextField(verbose_name='Текст комментария')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    is_visible_to_user = models.BooleanField(
-        default=True,
-        verbose_name='Виден пользователю'
-    )
-    
-    def __str__(self):
-        return f"Комментарий к заявке #{self.order.id} от {self.admin.email}"
-    
+    content = models.TextField('Текст комментария')
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    is_visible_to_user = models.BooleanField('Виден пользователю', default=True)
+
     class Meta:
-        verbose_name = "Комментарий"
-        verbose_name_plural = "Комментарии"
-        indexes = [
-            models.Index(fields=['order']),
-            models.Index(fields=['admin']),
-        ]
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f'Комментарий к заявке #{self.order.id}'
 ```
 
 ### Модель: Файл/Изображение (File)
 
 ```python
 class File(models.Model):
-    """Файл/изображение для услуги"""
-    
+    """Файл/Изображение для услуги"""
+
     service = models.ForeignKey(
         Service,
+        verbose_name='Услуга',
         on_delete=models.CASCADE,
-        related_name='files',
-        verbose_name='Услуга'
+        related_name='files'
     )
-    file = models.FileField(
-        upload_to='service_files/',
-        verbose_name='Файл'
-    )
-    file_name = models.CharField(
-        max_length=255,
-        verbose_name='Оригинальное имя файла'
-    )
-    file_path = models.CharField(
-        max_length=500,
-        verbose_name='Путь к файлу',
-        blank=True
-    )
-    file_size = models.IntegerField(
-        verbose_name='Размер файла (в байтах)',
-        default=0
-    )
-    mime_type = models.CharField(
-        max_length=100,
-        verbose_name='Тип файла',
-        blank=True
-    )
-    is_primary = models.BooleanField(
-        default=False,
-        verbose_name='Главное изображение'
-    )
-    display_order = models.PositiveIntegerField(
-        default=0,
-        verbose_name='Порядок отображения'
-    )
+    file_name = models.CharField('Оригинальное имя файла', max_length=255)
+    file_path = models.CharField('Путь к файлу', max_length=500)
+    file_size = models.PositiveIntegerField('Размер файла (в байтах)')
+    mime_type = models.CharField('Тип файла', max_length=100)
+    is_primary = models.BooleanField('Главное изображение', default=False)
+    display_order = models.PositiveIntegerField('Порядок отображения', default=0)
+    uploaded_at = models.DateTimeField('Дата загрузки', auto_now_add=True)
     uploaded_by = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        verbose_name='Кто загрузил',
+        on_delete=models.PROTECT,
         related_name='uploaded_files',
-        verbose_name='Кто загрузил'
+        limit_choices_to={'role': User.Role.ADMIN}
     )
-    uploaded_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата загрузки'
-    )
-    alt_text = models.CharField(
-        max_length=255,
-        blank=True,
-        verbose_name='Альтернативный текст'
-    )
-    
+    alt_text = models.CharField('Альтернативный текст', max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = 'Файл'
+        verbose_name_plural = 'Файлы'
+        ordering = ['display_order', 'uploaded_at']
+
     def __str__(self):
         return self.file_name
-    
-    @property
-    def file_url(self):
-        """Получить URL файла"""
-        return self.file.url if self.file else None
-    
-    class Meta:
-        verbose_name = "Файл"
-        verbose_name_plural = "Файлы"
-        indexes = [
-            models.Index(fields=['service', 'is_primary']),
-            models.Index(fields=['display_order']),
-        ]
 ```
 
 ### Модель: Отзыв (Review)
 
 ```python
 class Review(models.Model):
-    """Отзыв о услуге"""
-    
+    """Отзыв на услугу"""
+
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        related_name='reviews',
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
+        on_delete=models.PROTECT,
+        related_name='reviews'
     )
     service = models.ForeignKey(
         Service,
-        on_delete=models.CASCADE,
-        related_name='reviews',
-        verbose_name='Услуга'
+        verbose_name='Услуга',
+        on_delete=models.PROTECT,
+        related_name='reviews'
     )
     order = models.ForeignKey(
         Order,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='reviews',
-        verbose_name='Заявка'
+        verbose_name='Заявка',
+        on_delete=models.PROTECT,
+        related_name='reviews'
     )
-    rating = models.IntegerField(
-        choices=[(i, i) for i in range(1, 6)],
-        verbose_name='Оценка'
+    rating = models.PositiveSmallIntegerField(
+        'Оценка',
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
-    title = models.CharField(max_length=200, verbose_name='Заголовок')
-    content = models.TextField(verbose_name='Текст отзыва')
-    is_verified = models.BooleanField(
-        default=False,
-        verbose_name='Подтвержден'
-    )
-    is_published = models.BooleanField(
-        default=False,
-        verbose_name='Опубликован'
-    )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
-    
-    def __str__(self):
-        return f"{self.title} - {self.user.email} - {self.rating}★"
-    
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Текст отзыва')
+    is_verified = models.BooleanField('Подтвержден', default=True)
+    is_published = models.BooleanField('Опубликован', default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField('Дата обновления', auto_now=True)
+
     class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
-        indexes = [
-            models.Index(fields=['service', 'is_published']),
-            models.Index(fields=['user']),
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['order'],
+                name='unique_review_per_order'
+            )
         ]
+
+    def __str__(self):
+        return f'Отзыв от {self.user.email} на {self.service.name}'
 ```
 
 ### Модель: История статусов (OrderStatusHistory)
 
 ```python
 class OrderStatusHistory(models.Model):
-    """История изменений статуса заявки"""
-    
+    """История изменения статусов заявки"""
+
     order = models.ForeignKey(
         Order,
+        verbose_name='Заявка',
         on_delete=models.CASCADE,
-        related_name='status_history',
-        verbose_name='Заявка'
+        related_name='status_history'
     )
-    status = models.CharField(
-        max_length=20,
-        choices=Order.STATUS_CHOICES,
-        verbose_name='Статус'
-    )
+    old_status = models.CharField('Старый статус', max_length=20, choices=Order.Status.choices)
+    new_status = models.CharField('Новый статус', max_length=20, choices=Order.Status.choices)
     changed_by = models.ForeignKey(
         User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='status_changes',
-        verbose_name='Кто изменил'
+        verbose_name='Кто изменил',
+        on_delete=models.PROTECT,
+        related_name='changed_statuses',
+        limit_choices_to={'role': User.Role.ADMIN}
     )
-    comment = models.TextField(blank=True, verbose_name='Комментарий к изменению')
-    changed_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата изменения')
-    
-    def __str__(self):
-        return f"{self.order.id} - {self.status} - {self.changed_at}"
-    
+    changed_at = models.DateTimeField('Дата изменения', auto_now_add=True)
+    comment = models.TextField('Комментарий к изменению', blank=True)
+
     class Meta:
-        verbose_name = "История статуса"
-        verbose_name_plural = "История статусов"
+        verbose_name = 'История статуса'
+        verbose_name_plural = 'История статусов'
         ordering = ['-changed_at']
+
+    def __str__(self):
+        return f'{self.order} - {self.old_status} → {self.new_status}'
 ```
 
 ---
