@@ -96,14 +96,36 @@ class MyHTTPServer:
         raise HTTPError(404, 'Not Found')
 
     def handle_post_grade(self, req):
-        discipline = req.query.get('discipline', [None])[0]
-        grade = req.query.get('grade', [None])[0]
+        discipline = None
+        grade = None
 
+        # 1️⃣ Сначала пробуем извлечь из ТЕЛА запроса (для HTML-формы)
+        if req.method == 'POST':
+            content_length_header = req.headers.get('Content-Length')
+            if content_length_header:
+                try:
+                    content_length = int(content_length_header)
+                    if content_length > 0:
+                        body_data = req.body()
+                        if body_data:
+                            body_str = body_data.decode('utf-8')
+                            parsed_body = parse_qs(body_str)
+                            discipline = parsed_body.get(
+                                'discipline', [None])[0]
+                            grade = parsed_body.get('grade', [None])[0]
+                except Exception as e:
+                    print(f"Ошибка парсинга тела запроса: {e}")
+
+        # 2️⃣ Если в теле нет данных — пробуем СТРОКУ ЗАПРОСА (для curl)
+        if discipline is None or grade is None:
+            discipline = req.query.get('discipline', [None])[0]
+            grade = req.query.get('grade', [None])[0]
+
+        # 3️⃣ Валидация
         if not discipline or not grade:
             raise HTTPError(400, 'Bad Request',
                             'Требуются параметры: discipline и grade')
 
-        # Очистка и нормализация названия дисциплины
         discipline_clean = discipline.strip()
         discipline_key = discipline_clean.lower()
 
@@ -111,7 +133,6 @@ class MyHTTPServer:
             raise HTTPError(400, 'Bad Request',
                             'Название дисциплины не может быть пустым')
 
-        # Валидация оценки
         try:
             grade_int = int(grade)
             if not (1 <= grade_int <= 5):
@@ -120,11 +141,10 @@ class MyHTTPServer:
             raise HTTPError(400, 'Bad Request',
                             'Оценка должна быть целым числом от 1 до 5')
 
-        # Добавление/обновление оценок по дисциплине
+        # 4️⃣ Сохранение данных
         if discipline_key in self._grades:
             self._grades[discipline_key]['grades'].append(grade_int)
         else:
-            # Сохраняем оригинальное написание при первом добавлении
             self._grades[discipline_key] = {
                 'name': discipline_clean,
                 'grades': [grade_int]
