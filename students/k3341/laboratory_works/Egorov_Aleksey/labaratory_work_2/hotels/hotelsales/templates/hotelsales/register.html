@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            padding: 30px;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .register-card {
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        h2 {
+            color: #bb86fc;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        /* Стили для формы */
+        form p {
+            margin-bottom: 20px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #2d2d2d;
+            color: #e0e0e0;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        form input:focus {
+            outline: none;
+            border-color: #bb86fc;
+            background: #333;
+        }
+
+        /* Хелп текст */
+        form .helptext {
+            display: block;
+            color: #999;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* Список ошибок/требований */
+        form ul {
+            color: #cf6679;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        form ul li {
+            margin-bottom: 3px;
+        }
+
+        /* Кнопка */
+        button {
+            width: 100%;
+            background: #bb86fc;
+            color: #121212;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #a370d0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(187,134,252,0.3);
+        }
+
+        /* Ссылки */
+        .links {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .back-link {
+            color: #bb86fc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #a370d0;
+            text-decoration: underline;
+        }
+        .login-link {
+            color: #999;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.95rem;
+        }
+        .login-link:hover {
+            color: #bb86fc;
+        }
+
+        /* Разделитель */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #444;
+            margin: 20px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #333;
+        }
+        .divider span {
+            padding: 0 10px;
+        }
+
+        /* Иконки (псевдо-элементы для полей) */
+        .field-wrapper {
+            position: relative;
+        }
+        .field-icon {
+            position: absolute;
+            left: 12px;
+            top: 38px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Регистрация</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        
+        <a href="{% url 'hotelsales:home' %}" class="back">← На главную</a>
+    </div>
+</body>
+</html>

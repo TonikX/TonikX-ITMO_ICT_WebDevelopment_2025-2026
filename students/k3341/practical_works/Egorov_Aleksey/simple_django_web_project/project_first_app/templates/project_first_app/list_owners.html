@@ -1,0 +1,11 @@
+<ul>
+    {% for data in dataset %}
+	<li>
+		<strong>Имя:</strong> {{ data.first_name }} {{ data.last_name }}
+		<p><strong>Дата рождения:</strong> {{ data.birth_date }}</p>
+		<p><strong>Паспорт:</strong> {{ data.passport_number }}</p>
+		<p><strong>Домашний адрес:</strong> {{ data.home_address }}</p>
+		<p><strong>Национальность:</strong> {{ data.nationality }}</p>
+	</li>
+    {% endfor %}
+</ul>

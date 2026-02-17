@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои бронирования</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            padding: 30px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #bb86fc;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Таблица */
+        .table-wrapper {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #2d2d2d;
+            color: #bb86fc;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #bb86fc;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+        tr:hover {
+            background: #2d2d2d;
+        }
+
+        /* Статусы */
+        .status-pending {
+            color: #f39c12;
+            font-weight: bold;
+            background: #3a2e1e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .status-cancelled {
+            color: #cf6679;
+            font-weight: bold;
+            background: #3a1e1e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .status-checked_in {
+            color: #3498db;
+            font-weight: bold;
+            background: #1e2a3a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .status-checked_out, .status-completed {
+            color: #8bc34a;
+            font-weight: bold;
+            background: #1e3a2e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Кнопки */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn-cancel {
+            background: #cf6679;
+            color: #121212;
+        }
+        .btn-edit {
+            background: #f39c12;
+            color: #121212;
+        }
+        .btn-review {
+            background: #8bc34a;
+            color: #121212;
+        }
+        .btn-disabled {
+            background: #444;
+            color: #999;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Отзыв в ячейке */
+        .review-cell {
+            max-width: 250px;
+        }
+        .review-item {
+            background: #2d2d2d;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+        }
+        .review-item strong {
+            color: #bb86fc;
+        }
+        .review-item small {
+            color: #999;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* Сообщения */
+        .messages {
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #1e3a2e;
+            color: #8bc34a;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #8bc34a;
+            margin-bottom: 10px;
+        }
+        .error {
+            background: #3a1e1e;
+            color: #cf6679;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #cf6679;
+            margin-bottom: 10px;
+        }
+
+        /* Ссылки */
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: #bb86fc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Пустое состояние */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 60px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        /* Сумма */
+        .total-price {
+            font-weight: bold;
+            color: #8bc34a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Мои бронирования</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Отель</th>
+                    <th>Тип номера</th>
+                    <th>Заезд — Выезд</th>
+                    <th>Гости</th>
+                    <th>Стоимость</th>
+                    <th>Статус</th>
+                    <th>Отзыв</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.room_type.hotel.name }}</td>
+                        <td>{{ booking.room_type.name }}</td>
+                        <td>{{ booking.check_in|date:"d.m.Y" }} — {{ booking.check_out|date:"d.m.Y" }}</td>
+                        <td>{{ booking.adults }} + {{ booking.children }} = {{ booking.adults|add:booking.children }}</td>
+                        <td>{{ booking.total_price|floatformat:2 }} ₽</td>
+                        <td class="{% if booking.status == 'pending' %}status-pending{% elif booking.status == 'cancelled' %}status-cancelled{% elif booking.status == 'checked_in' %}status-checked_in{% else %}status-checked_out{% endif %}">
+                            {{ booking.get_status_display }}
+                        </td>
+                        <td class="review-cell">
+                            {% if booking.reviews.exists %}
+                                {% for review in booking.reviews.all %}
+                                    <strong>Рейтинг: {{ review.rating }}/10</strong><br>
+                                    {{ review.comment|truncatewords:20 }}<br>
+                                    <small>{{ review.created_at|date:"d.m.Y H:i" }}</small>
+                                    {% if not forloop.last %}<hr style="margin:8px 0;">{% endif %}
+                                {% endfor %}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if booking.status == 'pending' %}
+                                <form method="post" style="display:inline-block; margin-right:10px;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                    <button type="submit" name="cancel_booking" class="btn btn-cancel">
+                                        Отменить
+                                    </button>
+                                </form>
+
+                                <a href="{% url 'hotelsales:edit_booking' booking.id %}" class="btn btn-edit">
+                                    Редактировать
+                                </a>
+                            {% elif booking.status in 'checked_out completed' %}
+                                {% if not booking.reviews.exists %}
+                                    <a href="{% url 'hotelsales:add_review' booking.id %}" class="btn btn-review">
+                                        Оставить отзыв
+                                    </a>
+                                {% else %}
+                                    <span style="color:#7f8c8d;">Отзыв оставлен</span>
+                                {% endif %}
+                            {% else %}
+                                <span style="color:#7f8c8d;">Недоступно</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" style="text-align:center; color:#7f8c8d; padding:40px;">
+                            У вас пока нет бронирований.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center; font-size:1.3em; color:#7f8c8d; margin-top:50px;">
+            У вас пока нет бронирований.
+        </p>
+    {% endif %}
+
+    <a href="{% url 'hotelsales:home' %}" class="back-link">← На главную</a>
+</div>
+
+</body>
+</html>
