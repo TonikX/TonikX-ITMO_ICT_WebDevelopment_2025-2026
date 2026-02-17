@@ -1,0 +1,58 @@
+site_name: Fedorov Ivan - Web Development
+site_description: Лабораторные работы по веб-разработке
+site_author: Ivan Fedorov
+site_url: https://faraLimansk.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+repo_url: https://github.com/FaraLimansk/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+repo_name: FaraLimansk/TonikX-ITMO_ICT_WebDevelopment_2025-2026
+
+# Тема
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: blue
+      accent: light blue
+    - scheme: slate
+      primary: blue
+      accent: blue
+
+# Навигация
+nav:
+  - Главная: index.md
+  - Лабораторная работа №1:
+    - Задание 1: task1.md
+    - Задание 2: task2.md
+    - Задание 3: task3.md
+    - Задание 4: task4.md
+    - Задание 5: task5.md
+  - Лабораторная работа №2:
+    - Задание 1: lab2_task1.md
+#    - Задание 2: lab2_task2.md
+#    - Задание 3: lab2_task3.md
+#    - Задание 4: lab2_task4.md
+#    - Задание 5: lab2_task5.md
+  - Лабораторная работа №3:
+    - Ход выполнения работы: lab3_task1.md
+  - Лабораторная работа №4:
+      - Ход выполнения работы: lab4.md
+
+# Плагины
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - toc:
+      permalink: true
+  - tables

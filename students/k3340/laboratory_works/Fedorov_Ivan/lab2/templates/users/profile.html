@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Профиль пользователя</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Информация о гонщике</h5>
+                <p><strong>Имя:</strong> {{ user.get_full_name|default:"Не указано" }}</p>
+                <p><strong>Опыт:</strong> {{ user.get_experience_display }}</p>
+                <p><strong>Класс гонщика:</strong> {{ user.driver_class|default:"Не указан" }}</p>
+                <p><strong>Команда:</strong> {{ user.team_name|default:"Не указана" }}</p>
+                <p><strong>Описание автомобиля:</strong> {{ user.car_description|default:"Не указано" }}</p>
+                <p><strong>Описание гонщика:</strong> {{ user.driver_description|default:"Не указано" }}</p>
+            </div>
+        </div>
+
+        <h3>Мои регистрации на гонки</h3>
+        {% if user_registrations %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Гонка</th>
+                            <th>Дата регистрации</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registration in user_registrations %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'race_detail' registration.race.id %}">
+                                        {{ registration.race.name }}
+                                    </a>
+                                </td>
+                                <td>{{ registration.registration_date|date:"d.m.Y H:i" }}</td>
+                                <td>
+                                    {% if registration.is_confirmed %}
+                                        <span class="badge bg-success">Подтверждена</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Ожидает подтверждения</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Вы еще не зарегистрировались ни на одну гонку.
+            </div>
+        {% endif %}
+
+        <h3 class="mt-4">Мои результаты</h3>
+        {% if user_results %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Гонка</th>
+                            <th>Позиция</th>
+                            <th>Время круга</th>
+                            <th>Пройдено кругов</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in user_results %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'race_detail' result.race.id %}">
+                                        {{ result.race.name }}
+                                    </a>
+                                </td>
+                                <td>{{ result.position }}</td>
+                                <td>{{ result.lap_time|default:"-" }}</td>
+                                <td>{{ result.completed_laps }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                У вас пока нет результатов гонок.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
