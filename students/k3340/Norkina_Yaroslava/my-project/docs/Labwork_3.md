@@ -480,30 +480,36 @@ class OrderStatusHistory(models.Model):
 
 ---
 
+Отлично! Давайте исправим Шаги 4-7 в документации, чтобы они полностью соответствовали новой структуре проекта.
+
+---
+
 ## Работа с базой данных через Django ORM
 
-### 1. Создание и применение миграций
+### Шаг 1: Создание и применение миграций
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 2. Запуск интерактивного режима
+### Шаг 2: Запуск интерактивного режима
 
 ```bash
 python manage.py shell
 ```
 
-### 3. Импорт моделей
+### Шаг 3: Импорт моделей
 
 ```python
-from core.models import User, Service, Order, Comment, File, Review, OrderStatusHistory
+from manager_services.models import User, Service, Order, Comment, File, Review, OrderStatusHistory
 from django.utils import timezone
 from datetime import datetime, timedelta
 ```
 
-### 4. Создание объектов
+---
+
+### Шаг 4: Создание объектов
 
 #### Создание пользователей
 
@@ -516,7 +522,7 @@ admin = User.objects.create_user(
     first_name='Админ',
     last_name='Админов',
     phone='+79001112233',
-    role='admin'
+    role=User.Role.ADMIN
 )
 
 # Создание обычных пользователей
@@ -527,7 +533,7 @@ user1 = User.objects.create_user(
     first_name='Иван',
     last_name='Иванов',
     phone='+79001112244',
-    role='user'
+    role=User.Role.USER
 )
 
 user2 = User.objects.create_user(
@@ -537,17 +543,27 @@ user2 = User.objects.create_user(
     first_name='Анна',
     last_name='Смирнова',
     phone='+79001112255',
-    role='user'
+    role=User.Role.USER
+)
+
+user3 = User.objects.create_user(
+    username='petr_petrov',
+    email='petr@example.com',
+    password='user123',
+    first_name='Петр',
+    last_name='Петров',
+    phone='+79001112266',
+    role=User.Role.USER
 )
 ```
 
 #### Создание услуг
 
 ```python
-# Создание услуг
+# Создание услуг администратором
 service1 = Service.objects.create(
     name='Консультация по личному бренду',
-    description='Индивидуальная консультация по развитию личного бренда',
+    description='Индивидуальная консультация по развитию личного бренда с анализом текущей ситуации и разработкой стратегии',
     price=5000,
     duration=60,
     category='consulting',
@@ -557,7 +573,7 @@ service1 = Service.objects.create(
 
 service2 = Service.objects.create(
     name='Создание контента для соцсетей',
-    description='Разработка контент-плана и создание постов',
+    description='Разработка контент-плана и создание постов для социальных сетей на 2 недели',
     price=15000,
     duration=120,
     category='content',
@@ -567,10 +583,30 @@ service2 = Service.objects.create(
 
 service3 = Service.objects.create(
     name='Фотосессия для профиля',
-    description='Профессиональная фотосессия для социальных сетей',
+    description='Профессиональная фотосессия для социальных сетей и профессионального профиля',
     price=10000,
     duration=90,
     category='design',
+    is_active=True,
+    created_by=admin
+)
+
+service4 = Service.objects.create(
+    name='Коучинг по карьерному росту',
+    description='Индивидуальный коучинг для достижения карьерных целей и профессионального развития',
+    price=12000,
+    duration=90,
+    category='coaching',
+    is_active=True,
+    created_by=admin
+)
+
+service5 = Service.objects.create(
+    name='Анализ конкурентов',
+    description='Глубокий анализ конкурентов в вашей нише с выявлением сильных и слабых сторон',
+    price=8000,
+    duration=60,
+    category='marketing',
     is_active=True,
     created_by=admin
 )
@@ -579,55 +615,84 @@ service3 = Service.objects.create(
 #### Создание заявок
 
 ```python
-# Создание заявок
+# Создание заявок пользователями
 order1 = Order.objects.create(
     user=user1,
     service=service1,
-    status='new',
-    notes='Хочу обсудить стратегию развития в LinkedIn'
+    status=Order.Status.NEW,
+    notes='Хочу обсудить стратегию развития в LinkedIn и профессиональном сообществе'
 )
 
 order2 = Order.objects.create(
     user=user1,
     service=service2,
-    status='in_progress',
-    notes='Нужен контент на 2 недели для Instagram'
+    status=Order.Status.IN_PROGRESS,
+    notes='Нужен контент на 2 недели для Instagram с акцентом на экспертность'
 )
 
 order3 = Order.objects.create(
     user=user2,
     service=service3,
-    status='completed',
-    notes='Фотосессия для профиля в соцсетях'
+    status=Order.Status.COMPLETED,
+    notes='Фотосессия для профиля в соцсетях и LinkedIn'
+)
+
+order4 = Order.objects.create(
+    user=user3,
+    service=service4,
+    status=Order.Status.NEW,
+    notes='Хочу проработать карьерные цели на следующие 2 года'
+)
+
+order5 = Order.objects.create(
+    user=user2,
+    service=service5,
+    status=Order.Status.IN_PROGRESS,
+    notes='Анализ конкурентов в сфере консалтинга'
 )
 ```
 
 #### Создание комментариев
 
 ```python
-# Создание комментариев к заявкам
+# Создание комментариев администратором к заявкам
 comment1 = Comment.objects.create(
     order=order1,
     admin=admin,
-    content='Здравствуйте! Готов обсудить вашу стратегию. Когда вам удобно?',
+    content='Здравствуйте, Иван! Готов обсудить вашу стратегию. Предлагаю назначить встречу на следующей неделе. Какие у вас предпочтения по времени?',
     is_visible_to_user=True
 )
 
 comment2 = Comment.objects.create(
     order=order2,
     admin=admin,
-    content='Начинаю работу над контент-планом. Пришлю черновик через 2 дня.',
+    content='Начинаю работу над контент-планом. Пришлю черновик через 2 дня для вашего согласования.',
+    is_visible_to_user=True
+)
+
+comment3 = Comment.objects.create(
+    order=order3,
+    admin=admin,
+    content='Фотосессия успешно завершена! Отправляю вам отобранные фотографии для выбора финальных вариантов.',
+    is_visible_to_user=True
+)
+
+comment4 = Comment.objects.create(
+    order=order4,
+    admin=admin,
+    content='Петр, давайте начнем с анализа вашей текущей ситуации и определим приоритетные цели.',
     is_visible_to_user=True
 )
 ```
 
-#### Создание файлов
+#### Создание файлов/изображений
 
 ```python
-# Создание файлов (в реальном проекте файлы загружаются через форму)
+# Создание файлов для услуг (в реальном проекте файлы загружаются через форму)
 file1 = File.objects.create(
     service=service1,
-    file_name='consultation.jpg',
+    file_name='consultation_main.jpg',
+    file_path='/media/service_files/consultation_main.jpg',
     file_size=256000,
     mime_type='image/jpeg',
     is_primary=True,
@@ -637,32 +702,93 @@ file1 = File.objects.create(
 )
 
 file2 = File.objects.create(
-    service=service2,
-    file_name='content_plan.png',
+    service=service1,
+    file_name='consultation_process.png',
+    file_path='/media/service_files/consultation_process.png',
     file_size=512000,
     mime_type='image/png',
+    is_primary=False,
+    display_order=2,
+    uploaded_by=admin,
+    alt_text='Процесс консультации'
+)
+
+file3 = File.objects.create(
+    service=service2,
+    file_name='content_plan_example.jpg',
+    file_path='/media/service_files/content_plan_example.jpg',
+    file_size=384000,
+    mime_type='image/jpeg',
     is_primary=True,
     display_order=1,
     uploaded_by=admin,
-    alt_text='Создание контента'
+    alt_text='Пример контент-плана'
+)
+
+file4 = File.objects.create(
+    service=service3,
+    file_name='photo_session_samples.jpg',
+    file_path='/media/service_files/photo_session_samples.jpg',
+    file_size=768000,
+    mime_type='image/jpeg',
+    is_primary=True,
+    display_order=1,
+    uploaded_by=admin,
+    alt_text='Примеры фотосессий'
 )
 ```
 
 #### Создание отзывов
 
 ```python
-# Создание отзывов
+# Создание отзывов (только для завершенных заявок)
 review1 = Review.objects.create(
     user=user2,
     service=service3,
     order=order3,
     rating=5,
     title='Отличная фотосессия!',
-    content='Очень доволен результатом. Фотографии получились профессиональными.',
+    content='Очень доволен результатом! Фотографии получились профессиональными и естественными. Рекомендую!',
     is_verified=True,
     is_published=True
 )
+
+# Попытка создать отзыв для незавершенной заявки вызовет ошибку из-за ограничения
+# (в реальном проекте это проверяется в сериализаторе)
 ```
+
+#### Создание истории статусов
+
+```python
+# История изменений статусов (создается автоматически при изменении статуса)
+# Пример ручного создания для демонстрации:
+
+history1 = OrderStatusHistory.objects.create(
+    order=order1,
+    old_status=Order.Status.NEW,
+    new_status=Order.Status.IN_PROGRESS,
+    changed_by=admin,
+    comment='Начал работу над заявкой'
+)
+
+history2 = OrderStatusHistory.objects.create(
+    order=order3,
+    old_status=Order.Status.IN_PROGRESS,
+    new_status=Order.Status.COMPLETED,
+    changed_by=admin,
+    comment='Услуга оказана, фотографии переданы клиенту'
+)
+
+history3 = OrderStatusHistory.objects.create(
+    order=order2,
+    old_status=Order.Status.NEW,
+    new_status=Order.Status.IN_PROGRESS,
+    changed_by=admin,
+    comment='Начал разработку контент-плана'
+)
+```
+
+---
 
 ### Шаг 5: Фильтрация и запросы
 
@@ -671,18 +797,27 @@ review1 = Review.objects.create(
 ```python
 # Все активные услуги
 active_services = Service.objects.filter(is_active=True)
+print(f"Активных услуг: {active_services.count()}")
 
 # Все заявки пользователя
 user_orders = Order.objects.filter(user=user1)
+print(f"Заявок у {user1.username}: {user_orders.count()}")
 
 # Заявки со статусом "в работе"
-in_progress_orders = Order.objects.filter(status='in_progress')
+in_progress_orders = Order.objects.filter(status=Order.Status.IN_PROGRESS)
+print(f"Заявок в работе: {in_progress_orders.count()}")
 
 # Отзывы с оценкой 5
 five_star_reviews = Review.objects.filter(rating=5)
+print(f"Отзывов на 5 звезд: {five_star_reviews.count()}")
 
 # Комментарии, видимые пользователю
 visible_comments = Comment.objects.filter(is_visible_to_user=True)
+print(f"Видимых комментариев: {visible_comments.count()}")
+
+# Администраторы
+admins = User.objects.filter(role=User.Role.ADMIN)
+print(f"Администраторов: {admins.count()}")
 ```
 
 #### Фильтрация по связанным таблицам
@@ -690,15 +825,23 @@ visible_comments = Comment.objects.filter(is_visible_to_user=True)
 ```python
 # Заявки для конкретной услуги
 service_orders = Order.objects.filter(service=service1)
+print(f"Заявок на услугу '{service1.name}': {service_orders.count()}")
 
 # Отзывы для конкретной услуги
-service_reviews = Review.objects.filter(service=service1)
+service_reviews = Review.objects.filter(service=service3)
+print(f"Отзывов на услугу '{service3.name}': {service_reviews.count()}")
 
 # Комментарии для конкретной заявки
 order_comments = Comment.objects.filter(order=order1)
+print(f"Комментариев к заявке #{order1.id}: {order_comments.count()}")
 
 # Файлы для конкретной услуги
 service_files = File.objects.filter(service=service1)
+print(f"Файлов для услуги '{service1.name}': {service_files.count()}")
+
+# Главные изображения всех услуг
+primary_images = File.objects.filter(is_primary=True)
+print(f"Главных изображений: {primary_images.count()}")
 ```
 
 #### Комбинированная фильтрация
@@ -711,37 +854,92 @@ from datetime import timedelta
 one_month_ago = timezone.now() - timedelta(days=30)
 completed_orders = Order.objects.filter(
     user=user1,
-    status='completed',
+    status=Order.Status.COMPLETED,
     completed_at__gte=one_month_ago
 )
+print(f"Завершенных заявок за месяц: {completed_orders.count()}")
 
 # Опубликованные отзывы для активной услуги
 published_reviews = Review.objects.filter(
     service__is_active=True,
     is_published=True
 )
+print(f"Опубликованных отзывов: {published_reviews.count()}")
 
 # Заявки администратора со статусом "новая" или "в работе"
 admin_active_orders = Order.objects.filter(
     service__created_by=admin,
-    status__in=['new', 'in_progress']
+    status__in=[Order.Status.NEW, Order.Status.IN_PROGRESS]
 )
+print(f"Активных заявок администратора: {admin_active_orders.count()}")
+
+# Пользователи с ролью "пользователь" и не пустым телефоном
+active_users = User.objects.filter(
+    role=User.Role.USER,
+    phone__isnull=False,
+    phone__ne=''
+)
+print(f"Активных пользователей с телефоном: {active_users.count()}")
+
+# Заявки, созданные за последние 7 дней
+week_ago = timezone.now() - timedelta(days=7)
+recent_orders = Order.objects.filter(created_at__gte=week_ago)
+print(f"Заявок за неделю: {recent_orders.count()}")
 ```
+
+#### Фильтрация по тексту
+
+```python
+# Услуги, название которых содержит "консультация"
+consulting_services = Service.objects.filter(
+    name__icontains='консультация'
+)
+print(f"Услуг с 'консультация': {consulting_services.count()}")
+
+# Услуги категории "коучинг" или "консалтинг"
+coaching_services = Service.objects.filter(
+    category__in=['coaching', 'consulting']
+)
+print(f"Коучинговых услуг: {coaching_services.count()}")
+
+# Отзывы с заголовком, начинающимся на "Отлично"
+excellent_reviews = Review.objects.filter(
+    title__istartswith='отлично'
+)
+print(f"Отзывов 'Отлично': {excellent_reviews.count()}")
+```
+
+#### Фильтрация через историю статусов
+
+```python
+# Заявки, которые были переведены в статус "завершена" администратором
+completed_by_admin = OrderStatusHistory.objects.filter(
+    new_status=Order.Status.COMPLETED,
+    changed_by=admin
+)
+print(f"Завершенных администратором: {completed_by_admin.count()}")
+
+# Заявки, которые были отменены
+cancelled_orders = Order.objects.filter(status=Order.Status.CANCELLED)
+print(f"Отмененных заявок: {cancelled_orders.count()}")
+```
+
+---
 
 ### Шаг 6: Агрегация и аннотация
 
 #### Агрегация
 
 ```python
-from django.db.models import Avg, Count, Min, Max, Sum
+from django.db.models import Avg, Count, Min, Max, Sum, Q
 
-# Средняя оценка услуги
-avg_rating = Review.objects.filter(service=service1).aggregate(Avg('rating'))
-# {'rating__avg': 4.5}
+# Средняя оценка всех отзывов
+avg_rating = Review.objects.aggregate(Avg('rating'))
+print(f"Средняя оценка: {avg_rating['rating__avg']}")
 
-# Количество заявок для услуги
+# Количество заявок для конкретной услуги
 order_count = Order.objects.filter(service=service1).aggregate(Count('id'))
-# {'id__count': 10}
+print(f"Заявок на услугу '{service1.name}': {order_count['id__count']}")
 
 # Минимальная и максимальная цена услуг
 price_stats = Service.objects.aggregate(
@@ -749,7 +947,22 @@ price_stats = Service.objects.aggregate(
     max_price=Max('price'),
     avg_price=Avg('price')
 )
-# {'min_price': 5000, 'max_price': 15000, 'avg_price': 10000}
+print(f"Цены: мин {price_stats['min_price']}, макс {price_stats['max_price']}, сред {price_stats['avg_price']}")
+
+# Общее количество отзывов
+total_reviews = Review.objects.aggregate(Count('id'))
+print(f"Всего отзывов: {total_reviews['id__count']}")
+
+# Количество опубликованных отзывов
+published_count = Review.objects.filter(is_published=True).aggregate(Count('id'))
+print(f"Опубликованных отзывов: {published_count['id__count']}")
+
+# Статистика по статусам заявок
+status_stats = Order.objects.values('status').annotate(
+    count=Count('id')
+).order_by('status')
+for stat in status_stats:
+    print(f"Статус {stat['status']}: {stat['count']} заявок")
 ```
 
 #### Аннотация
@@ -760,24 +973,47 @@ services_with_reviews = Service.objects.annotate(
     review_count=Count('reviews')
 ).order_by('-review_count')
 
+print("\nУслуги по количеству отзывов:")
 for service in services_with_reviews:
-    print(f"{service.name}: {service.review_count} отзывов")
+    print(f"  {service.name}: {service.review_count} отзывов")
 
 # Средняя оценка для каждой услуги
 services_with_avg_rating = Service.objects.annotate(
     avg_rating=Avg('reviews__rating')
-).filter(avg_rating__isnull=False)
+).filter(avg_rating__isnull=False).order_by('-avg_rating')
 
+print("\nУслуги по средней оценке:")
 for service in services_with_avg_rating:
-    print(f"{service.name}: {service.avg_rating}★")
+    print(f"  {service.name}: {service.avg_rating:.1f}★")
 
 # Количество заявок для каждого пользователя
-users_with_order_count = User.objects.annotate(
+users_with_order_count = User.objects.filter(
+    role=User.Role.USER
+).annotate(
     order_count=Count('orders')
-).filter(order_count__gt=0)
+).filter(order_count__gt=0).order_by('-order_count')
 
+print("\nПользователи по количеству заявок:")
 for user in users_with_order_count:
-    print(f"{user.email}: {user.order_count} заявок")
+    print(f"  {user.username}: {user.order_count} заявок")
+
+# Количество комментариев для каждой заявки
+orders_with_comments = Order.objects.annotate(
+    comment_count=Count('comments')
+).filter(comment_count__gt=0).order_by('-comment_count')
+
+print("\nЗаявки по количеству комментариев:")
+for order in orders_with_comments:
+    print(f"  Заявка #{order.id}: {order.comment_count} комментариев")
+
+# Количество файлов для каждой услуги
+services_with_files = Service.objects.annotate(
+    file_count=Count('files')
+).order_by('-file_count')
+
+print("\nУслуги по количеству файлов:")
+for service in services_with_files:
+    print(f"  {service.name}: {service.file_count} файлов")
 ```
 
 #### Группировка с `.values()`
@@ -786,37 +1022,350 @@ for user in users_with_order_count:
 # Статистика по категориям услуг
 category_stats = Service.objects.values('category').annotate(
     count=Count('id'),
-    avg_price=Avg('price')
+    avg_price=Avg('price'),
+    min_price=Min('price'),
+    max_price=Max('price')
 ).order_by('-count')
 
+print("\nСтатистика по категориям:")
 for stat in category_stats:
-    print(f"{stat['category']}: {stat['count']} услуг, средняя цена: {stat['avg_price']}")
+    print(f"  {stat['category']}: {stat['count']} услуг, "
+          f"сред. цена: {stat['avg_price']:.0f}, "
+          f"диапазон: {stat['min_price']} - {stat['max_price']}")
 
-# Статистика по статусам заявок
-status_stats = Order.objects.values('status').annotate(
+# Статистика по статусам заявок с группировкой по пользователю
+user_status_stats = Order.objects.values(
+    'user__username',
+    'status'
+).annotate(
     count=Count('id')
-).order_by('status')
+).order_by('user__username', 'status')
 
-for stat in status_stats:
-    print(f"{stat['status']}: {stat['count']} заявок")
+print("\nСтатистика заявок по пользователям и статусам:")
+current_user = None
+for stat in user_status_stats:
+    if stat['user__username'] != current_user:
+        current_user = stat['user__username']
+        print(f"\n  {current_user}:")
+    print(f"    {stat['status']}: {stat['count']}")
+
+# Статистика отзывов по оценкам
+rating_distribution = Review.objects.values('rating').annotate(
+    count=Count('id')
+).order_by('rating')
+
+print("\nРаспределение оценок:")
+for stat in rating_distribution:
+    print(f"  {stat['rating']}★: {stat['count']} отзывов")
+
+# Статистика по администраторам (кто сколько комментариев оставил)
+admin_comment_stats = Comment.objects.values(
+    'admin__username'
+).annotate(
+    comment_count=Count('id')
+).order_by('-comment_count')
+
+print("\nСтатистика комментариев по администраторам:")
+for stat in admin_comment_stats:
+    print(f"  {stat['admin__username']}: {stat['comment_count']} комментариев")
 ```
+
+---
 
 ### Шаг 7: Обновление и удаление
 
+#### Обновление объектов
+
 ```python
-# Обновление статуса заявки
-order1.status = 'in_progress'
+# Обновление статуса заявки (автоматически создается запись в истории)
+order1.status = Order.Status.IN_PROGRESS
 order1.save()
+print(f"Статус заявки #{order1.id} изменен на: {order1.get_status_display()}")
 
-# Обновление через update()
-Order.objects.filter(id=order1.id).update(status='completed')
+# Проверка автоматического создания истории
+history = OrderStatusHistory.objects.filter(
+    order=order1,
+    new_status=Order.Status.IN_PROGRESS
+).first()
+if history:
+    print(f"Создана запись в истории: {history.old_status} → {history.new_status}")
 
-# Удаление услуги
-service3.delete()
+# Обновление через update() (не вызывает сигналы и не создает историю)
+Order.objects.filter(id=order2.id).update(
+    status=Order.Status.COMPLETED
+)
+print(f"Заявка #{order2.id} завершена через update()")
 
-# Мягкое удаление (деактивация)
-service2.is_active = False
-service2.save()
+# Обновление нескольких полей
+service1.name = 'Премиум консультация по личному бренду'
+service1.price = 7000
+service1.save()
+print(f"Услуга обновлена: {service1.name}, новая цена: {service1.price}")
+
+# Частичное обновление через словарь
+Service.objects.filter(id=service2.id).update(
+    price=18000,
+    duration=150
+)
+print(f"Услуга '{service2.name}' обновлена: цена {service2.price}, длительность {service2.duration}")
+
+# Обновление видимости комментария
+comment1.is_visible_to_user = False
+comment1.save()
+print(f"Комментарий #{comment1.id} скрыт от пользователя")
+
+# Публикация отзыва
+review1.is_published = True
+review1.save()
+print(f"Отзыв опубликован: {review1.title}")
+```
+
+#### Удаление объектов
+
+```python
+# Удаление отзыва
+review_to_delete = Review.objects.filter(
+    user=user2,
+    service=service3
+).first()
+if review_to_delete:
+    review_id = review_to_delete.id
+    review_to_delete.delete()
+    print(f"Отзыв #{review_id} удален")
+
+# Мягкое удаление (деактивация услуги)
+service_to_deactivate = Service.objects.get(id=service5.id)
+service_to_deactivate.is_active = False
+service_to_deactivate.save()
+print(f"Услуга '{service_to_deactivate.name}' деактивирована")
+
+# Проверка, что деактивированная услуга не показывается в публичном списке
+active_count = Service.objects.filter(is_active=True).count()
+print(f"Активных услуг после деактивации: {active_count}")
+
+# Удаление комментария
+comment_to_delete = Comment.objects.filter(
+    order=order4
+).first()
+if comment_to_delete:
+    comment_id = comment_to_delete.id
+    comment_to_delete.delete()
+    print(f"Комментарий #{comment_id} удален")
+
+# Внимание: удаление пользователя с заявками вызовет ошибку из-за on_delete=PROTECT
+# Сначала нужно удалить или переназначить связанные объекты
+```
+
+#### Пакетное обновление
+
+```python
+# Деактивация всех услуг категории "устаревшие"
+old_services = Service.objects.filter(
+    category='old',
+    is_active=True
+)
+count = old_services.update(is_active=False)
+print(f"Деактивировано {count} устаревших услуг")
+
+# Обновление статуса всех отмененных заявок
+cancelled_count = Order.objects.filter(
+    status=Order.Status.CANCELLED
+).update(
+    completed_at=timezone.now()
+)
+print(f"Обновлено {cancelled_count} отмененных заявок")
+
+# Публикация всех подтвержденных отзывов
+published_count = Review.objects.filter(
+    is_verified=True,
+    is_published=False
+).update(is_published=True)
+print(f"Опубликовано {published_count} отзывов")
+```
+
+---
+
+### Шаг 8: Практические примеры запросов
+
+#### Пример 1: Создание тестовых данных
+
+```python
+# Создаем 3 дополнительных администратора
+admin2 = User.objects.create_user(
+    username='admin2',
+    email='admin2@personalbrand.com',
+    password='admin123',
+    first_name='Мария',
+    last_name='Петрова',
+    phone='+79001112277',
+    role=User.Role.ADMIN
+)
+
+admin3 = User.objects.create_user(
+    username='admin3',
+    email='admin3@personalbrand.com',
+    password='admin123',
+    first_name='Алексей',
+    last_name='Сидоров',
+    phone='+79001112288',
+    role=User.Role.ADMIN
+)
+
+# Создаем 5 дополнительных пользователей
+test_users = []
+for i in range(6, 11):
+    user = User.objects.create_user(
+        username=f'user{i}',
+        email=f'user{i}@example.com',
+        password='user123',
+        first_name=f'Имя{i}',
+        last_name=f'Фамилия{i}',
+        phone=f'+790011122{i}0',
+        role=User.Role.USER
+    )
+    test_users.append(user)
+
+print(f"Создано {len(test_users)} тестовых пользователей")
+
+# Создаем 10 дополнительных услуг
+categories = ['consulting', 'coaching', 'training', 'content', 'design', 'marketing']
+for i in range(6, 16):
+    category = categories[i % len(categories)]
+    service = Service.objects.create(
+        name=f'Услуга {i} ({category})',
+        description=f'Описание услуги {i} в категории {category}',
+        price=5000 + i * 1000,
+        duration=30 + i * 15,
+        category=category,
+        is_active=True,
+        created_by=admin if i % 2 == 0 else admin2
+    )
+
+print(f"Создано {Service.objects.count()} услуг всего")
+
+# Создаем 20 заявок
+for i in range(1, 21):
+    user = test_users[i % len(test_users)]
+    service = Service.objects.all()[i % Service.objects.count()]
+    status = Order.Status.NEW if i % 4 == 0 else \
+             Order.Status.IN_PROGRESS if i % 4 == 1 else \
+             Order.Status.COMPLETED if i % 4 == 2 else \
+             Order.Status.CANCELLED
+    
+    order = Order.objects.create(
+        user=user,
+        service=service,
+        status=status,
+        notes=f'Тестовая заявка {i}'
+    )
+
+print(f"Создано {Order.objects.count()} заявок всего")
+```
+
+#### Пример 2: Комплексные запросы
+
+```python
+# 1. Найти всех пользователей с 2 и более заявками
+users_with_multiple_orders = User.objects.filter(
+    role=User.Role.USER
+).annotate(
+    order_count=Count('orders')
+).filter(
+    order_count__gte=2
+).order_by('-order_count')
+
+print("\nПользователи с 2+ заявками:")
+for user in users_with_multiple_orders:
+    print(f"  {user.username}: {user.order_count} заявок")
+
+# 2. Найти услуги с самой высокой средней оценкой (минимум 2 отзыва)
+top_rated_services = Service.objects.annotate(
+    avg_rating=Avg('reviews__rating'),
+    review_count=Count('reviews')
+).filter(
+    review_count__gte=2,
+    avg_rating__isnull=False
+).order_by('-avg_rating')[:5]
+
+print("\nТоп-5 услуг по рейтингу:")
+for service in top_rated_services:
+    print(f"  {service.name}: {service.avg_rating:.1f}★ ({service.review_count} отзывов)")
+
+# 3. Найти администратора, который обработал больше всего заявок
+top_admin = User.objects.filter(
+    role=User.Role.ADMIN
+).annotate(
+    completed_orders=Count('created_services__orders', filter=Q(created_services__orders__status=Order.Status.COMPLETED))
+).order_by('-completed_orders').first()
+
+if top_admin:
+    print(f"\nТоп администратор: {top_admin.username} - {top_admin.completed_orders} завершенных заявок")
+
+# 4. Найти пользователей, у которых есть завершенные заявки, но нет отзывов
+users_without_reviews = User.objects.filter(
+    orders__status=Order.Status.COMPLETED
+).exclude(
+    reviews__isnull=False
+).distinct()
+
+print(f"\nПользователей с завершенными заявками без отзывов: {users_without_reviews.count()}")
+
+# 5. Статистика по категориям услуг с количеством заявок
+category_order_stats = Service.objects.values('category').annotate(
+    service_count=Count('id'),
+    order_count=Count('orders'),
+    avg_price=Avg('price')
+).order_by('-order_count')
+
+print("\nСтатистика категорий по заявкам:")
+for stat in category_order_stats:
+    print(f"  {stat['category']}: {stat['service_count']} услуг, "
+          f"{stat['order_count']} заявок, "
+          f"сред. цена: {stat['avg_price']:.0f}")
+
+# 6. Найти заявки, которые находятся в работе более 7 дней
+week_ago = timezone.now() - timedelta(days=7)
+long_running_orders = Order.objects.filter(
+    status=Order.Status.IN_PROGRESS,
+    created_at__lt=week_ago
+)
+
+print(f"\nЗаявок в работе более 7 дней: {long_running_orders.count()}")
+
+# 7. Найти услуги без изображений
+services_without_images = Service.objects.filter(
+    files__isnull=True
+)
+
+print(f"\nУслуг без изображений: {services_without_images.count()}")
+
+# 8. Подсчитать общую выручку от завершенных заявок
+total_revenue = Order.objects.filter(
+    status=Order.Status.COMPLETED
+).aggregate(
+    total=Sum('service__price')
+)
+
+print(f"\nОбщая выручка: {total_revenue['total']}")
+
+# 9. Найти пользователей, зарегистрированных за последнюю неделю
+week_ago = timezone.now() - timedelta(days=7)
+new_users = User.objects.filter(
+    role=User.Role.USER,
+    date_joined__gte=week_ago
+)
+
+print(f"\nНовых пользователей за неделю: {new_users.count()}")
+
+# 10. Получить историю всех изменений статусов для конкретной заявки
+order_history = OrderStatusHistory.objects.filter(
+    order=order1
+).order_by('changed_at')
+
+print(f"\nИстория заявки #{order1.id}:")
+for entry in order_history:
+    print(f"  {entry.changed_at}: {entry.old_status} → {entry.new_status} "
+          f"(админ: {entry.changed_by.username})")
 ```
 
 ---
