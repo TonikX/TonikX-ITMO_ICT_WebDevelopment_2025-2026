@@ -1,6 +1,7 @@
-site_name: Hackathon API Documentation
-site_description: Документация API для системы проведения хакатонов
+site_name: Лабораторные работы по Web-программированию
+site_description: Документация по лабораторным работам курса "Основы Web-программирования" ИТМО
 site_author: ITMO Web Programming Course
+site_url: https://Cherepnya-Yaroslav.github.io/web-itmo/
 
 theme:
   name: material
@@ -21,14 +22,34 @@ theme:
 
 nav:
   - Главная: index.md
-  - Аутентификация: authentication.md
-  - Endpoints:
-    - Задачи: endpoints/tasks.md
-    - Команды: endpoints/teams.md
-    - Решения: endpoints/solutions.md
-    - Оценки: endpoints/evaluations.md
-  - Роли и права: roles.md
-  - Примеры запросов: examples.md
+  - Лабораторная работа 1:
+    - Обзор: lab1/index.md
+    - "Задание 1: UDP Hello": lab1/task1_udp_hello.md
+    - "Задание 2: TCP Math Server": lab1/task2_tcp_math.md
+    - "Задание 3: HTTP Server": lab1/task3_http_server.md
+    - "Задание 4: TCP Chat": lab1/task4_tcp_chat.md
+    - "Задание 5: Web Server": lab1/task5_web_server.md
+  - Лабораторная работа 2:
+    - Обзор: lab2/index.md
+    - Установка и запуск: lab2/installation.md
+    - Модели данных: lab2/models.md
+    - Представления и URL: lab2/views.md
+    - Шаблоны: lab2/templates.md
+  - Лабораторная работа 3:
+    - Обзор: lab3/index.md
+    - Аутентификация: authentication.md
+    - Endpoints:
+      - Задачи: endpoints/tasks.md
+      - Команды: endpoints/teams.md
+      - Решения: endpoints/solutions.md
+      - Оценки: endpoints/evaluations.md
+    - Роли и права: roles.md
+    - Примеры запросов: examples.md
+  - Лабораторная работа 4:
+    - Обзор: lab4/index.md
+    - Установка и запуск: lab4/setup.md
+    - Интерфейсы: lab4/interfaces.md
+    - Пользовательские сценарии: lab4/flows.md
 
 markdown_extensions:
   - pymdownx.highlight:

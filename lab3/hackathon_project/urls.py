@@ -23,6 +23,8 @@ from hackathon_api.views import api_root
 urlpatterns = [
     path('', api_root, name='api-root'),
     path('admin/', admin.site.urls),
+    # Session-based login/logout for DRF browsable API
+    path('api-auth/', include('rest_framework.urls')),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
     path('api/', include('hackathon_api.urls')),
