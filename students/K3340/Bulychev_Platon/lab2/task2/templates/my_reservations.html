@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My Reservations{% endblock %}
+{% block content %}
+<h1>My Reservations</h1>
+{% for r in reservations %}
+<div class="card">
+    <h2><a href="{% url 'tour_detail' r.tour.pk %}">{{r.tour.name}}</a></h2>
+    <p>{{r.tour.start_date}} — {{r.tour.end_date}} · {{r.tour.price}} ₽</p>
+    <p><span class="badge {{r.status}}">{{r.get_status_display}}</span></p>
+    <div class="actions">
+        <a href="{% url 'edit_reservation' r.pk %}" class="btn btn-primary btn-sm">Edit</a>
+        <a href="{% url 'delete_reservation' r.pk %}" class="btn btn-danger btn-sm">Delete</a>
+    </div>
+</div>
+{% empty %}
+<p>No reservations yet</p>
+{% endfor %}
+{% endblock %}

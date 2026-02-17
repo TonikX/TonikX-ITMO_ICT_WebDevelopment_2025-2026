@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{tour.name}}{% endblock %}
+{% block content %}
+<h1>{{tour.name}}</h1>
+<div class="card">
+    <p><strong>Agency:</strong> {{tour.agency}}</p>
+    <p><strong>Country:</strong> {{tour.country}}</p>
+    <p><strong>Period:</strong> {{tour.start_date}} — {{tour.end_date}}</p>
+    <p><strong>Price:</strong> {{tour.price}} ₽</p>
+    <p><strong>Payment:</strong> {{tour.payment_terms}}</p>
+    <p>{{tour.description}}</p>
+    {% if user.is_authenticated %}
+    <div class="actions">
+        <a href="{% url 'reserve_tour' tour.pk %}" class="btn btn-primary btn-sm">Reserve</a>
+        <a href="{% url 'add_review' tour.pk %}" class="btn btn-primary btn-sm">Add Review</a>
+    </div>
+    {% endif %}
+</div>
+{% if reviews %}
+<h2 style="margin: 20px 0 12px;">Reviews</h2>
+<div class="card">
+    {% for r in reviews %}
+    <div class="review">
+        <p><strong>{{r.user.username}}</strong> — {{r.rating}}/10</p>
+        <p>{{r.text}}</p>
+        <p class="meta">Tour: {{r.tour_date_start}} — {{r.tour_date_end}} · {{r.created_at|date:"d.m.Y"}}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

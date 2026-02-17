@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Tours{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: #f0f2f5; color: #1a1a1a; }
+        nav { background: #1e293b; padding: 12px 32px; display: flex; gap: 16px; align-items: center; }
+        nav a { color: #cbd5e1; text-decoration: none; font-size: 14px; }
+        nav a:hover { color: #fff; }
+        nav .spacer { flex: 1; }
+        nav .user { color: #94a3b8; font-size: 13px; }
+        .container { max-width: 900px; margin: 32px auto; padding: 0 16px; }
+        h1 { margin-bottom: 20px; }
+        .card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 20px; margin-bottom: 16px; }
+        .card h2 { margin-bottom: 8px; }
+        .card h2 a { color: #1e293b; text-decoration: none; }
+        .card h2 a:hover { color: #2563eb; }
+        .card p { color: #475569; font-size: 14px; margin-bottom: 4px; }
+        .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge.pending { background: #fef3c7; color: #92400e; }
+        .badge.confirmed { background: #d1fae5; color: #065f46; }
+        .badge.cancelled { background: #fee2e2; color: #991b1b; }
+        table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); border-collapse: collapse; }
+        th { background: #f8fafc; text-align: left; padding: 10px 16px; font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: .5px; }
+        td { padding: 10px 16px; border-top: 1px solid #f1f5f9; font-size: 14px; }
+        form p { margin-bottom: 12px; }
+        form label { font-size: 14px; font-weight: 500; }
+        input, textarea, select { padding: 8px 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 14px; width: 100%; margin-top: 4px; }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn { display: inline-block; padding: 8px 20px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; text-decoration: none; }
+        .btn-primary { background: #2563eb; color: #fff; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-danger { background: #dc2626; color: #fff; }
+        .btn-danger:hover { background: #b91c1c; }
+        .btn-sm { padding: 4px 12px; font-size: 13px; }
+        .actions { margin-top: 12px; display: flex; gap: 8px; }
+        .review { border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 12px; }
+        .review:first-child { border: none; margin: 0; padding: 0; }
+        .review .meta { font-size: 12px; color: #94a3b8; }
+        ul { list-style: none; }
+        .errorlist { color: #dc2626; font-size: 13px; list-style: none; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'tour_list' %}">Tours</a>
+        <a href="{% url 'sold_tours' %}">Stats</a>
+        <span class="spacer"></span>
+        {% if user.is_authenticated %}
+            <a href="{% url 'my_reservations' %}">My Reservations</a>
+            <span class="user">{{user.username}}</span>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

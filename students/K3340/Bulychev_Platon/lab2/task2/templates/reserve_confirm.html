@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Reserve{% endblock %}
+{% block content %}
+<h1>Reserve "{{tour.name}}"?</h1>
+<div class="card">
+    <p>{{tour.agency}} · {{tour.country}}</p>
+    <p>{{tour.start_date}} — {{tour.end_date}} · {{tour.price}} ₽</p>
+    <form method="post" style="margin-top: 16px;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Confirm reservation</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Sold Tours{% endblock %}
+{% block content %}
+<h1>Sold Tours by Country</h1>
+<table>
+    <tr><th>Country</th><th>Sold</th></tr>
+    {% for row in stats %}
+    <tr><td>{{row.tour__country}}</td><td>{{row.count}}</td></tr>
+    {% empty %}
+    <tr><td colspan="2">No confirmed tours yet</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
