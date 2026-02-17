@@ -19,27 +19,19 @@ const stats = ref({
 const loading = ref(true)
 
 // Функция загрузки статистики с сервера
-async function fetchStats() {
+async function fetchHomeStats() {
   try {
-    // 1. Получаем количество свободных номеров
-    const roomsRes = await api.get('/api/rooms/?status=free')
-    stats.value.freeRooms = roomsRes.data.length
+    // Используем эндпоинт для получения кол-ва свободных номеров
+    const freeRes = await api.get('/api/analytics/', { params: { type: 'free_rooms' } })
+    stats.value.freeRooms = freeRes.data.free_rooms_count
 
-    // 2. Считаем активных гостей (тех, кто сейчас живет)
-    // Загружаем все активные брони
     const bookingsRes = await api.get('/api/bookings/?is_active=true')
-    const activeBookings = bookingsRes.data.filter(b => b.is_active)
-    stats.value.activeGuests = activeBookings.length
+    stats.value.activeGuests = bookingsRes.data.filter(b => b.is_active).length
 
     // 3. Получаем количество занятых номеров
     const occupiedRoomsRes = await api.get('/api/rooms/?status=occupied')
     stats.value.occupiedRooms = occupiedRoomsRes.data.length
-
-  } catch (e) {
-    console.error("Ошибка при загрузке статистики:", e)
-  } finally {
-    loading.value = false
-  }
+  } catch (e) { console.error(e) } finally { loading.value = false }
 }
 
 // Функция для перехода на страницы создания с параметром ?new=true
@@ -48,11 +40,7 @@ function quickAction(path) {
 }
 
 // Загружаем данные при монтировании, если пользователь авторизован
-onMounted(() => {
-  if (localStorage.getItem('auth_token')) {
-    fetchStats()
-  }
-})
+onMounted(fetchHomeStats)
 </script>
 
 <template>

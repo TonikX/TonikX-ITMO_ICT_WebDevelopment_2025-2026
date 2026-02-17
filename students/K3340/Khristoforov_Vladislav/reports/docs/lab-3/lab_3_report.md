@@ -8,11 +8,11 @@
 
 ### 1. Цель работы
 
-Овладеть практическими навыками реализации web-сервисов средствами Django и Django REST Framework (DRF). Создать серверную часть приложения для предметной области "Гостиница", настроить взаимодействие с реляционной базой данных (PostgreSQL), реализовать API для CRUD-операций с фильтрацией и настроить систему авторизации.
+Овладеть практическими навыками реализации web-сервисов средствами Django и Django REST Framework (DRF). Создать серверную часть приложения для предметной области "Гостиница", настроить взаимодействие с реляционной базой данных (PostgreSQL), реализовать API для CRUD-операций и разработать систему сложных агрегационных запросов для аналитики.
 
 ### 2. Задание
 
-Разработать информационную систему для администратора гостиницы.
+Разработать бэкенд-систему для администратора гостиницы, поддерживающую учет номеров, клиентов и персонала, а также обеспечивающую выдачу специфической отчетности.
 
 **Основные требования:**
 
@@ -23,15 +23,30 @@
 3. **Учет сотрудников:** Хранение данных о персонале и графике уборки этажей.
 
 4. **Бизнес-логика:**
+
     - Заселение клиентов в номера (учет дат заезда/выезда).
 
     - Контроль вместимости (нельзя заселить в номер больше людей, чем положено, с учетом пересечения дат).
 
     - Расчет стоимости проживания (автоматически при сохранении брони).
 
-    - Получение списков с фильтрацией (по городу, статусу номера и т.д.).
+    - Управление жизненным циклом и состояниями объектов (статусы номеров)
 
-5. **Технологии:** Django ORM, DRF, Djoser, PostgreSQL.
+5. **Аналитические запросы:**
+
+    - Информация о клиентах в номере за период.
+
+    - Количество клиентов из конкретного города.
+
+    - Поиск сотрудников, убиравших номер в заданный день.
+
+    - Статистика свободных номеров.
+
+    - Поиск "соседей" (пересечение дат проживания разных гостей).
+
+6. **Отчетность:** Автоматический квартальный отчет (доходы по номерам, структура этажей, общая выручка).
+
+7. **Технологии:** Django ORM, DRF, Djoser, PostgreSQL.
 
 ### 3. Описание предметной области и структуры БД
 
@@ -79,7 +94,7 @@ erDiagram
 
 ```
 
-### 4. Ход выполнения работы
+### 4. Реализация серверной части
 
 #### 4.1. Инициализация проекта
 
@@ -215,9 +230,9 @@ python manage.py migrate
     </tr>
 </table>
 
-### 5. Реализация API (DRF)
+#### 4.4. Реализация API (DRF)
 
-#### 5.1. Сериализаторы (serializers.py)
+##### 4.4.1 Сериализаторы (serializers.py)
 
 Для преобразования моделей в JSON использованы `ModelSerializer`.
 
@@ -269,7 +284,7 @@ class BookingSerializer(serializers.ModelSerializer):
         return data
 ```
 
-#### 5.2. Представления (Views) и Фильтрация
+##### 4.4.2. Представления (Views) и Фильтрация
 
 Использованы `Generics` (`ListCreateAPIView`, `RetrieveUpdateDestroyAPIView`) для реализации полного набора CRUD-операций для всех моделей. Подключена фильтрация `django-filters`.
 
@@ -287,24 +302,146 @@ class BookingDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookingSerializer
 ```
 
-#### 5.3 Описание реализованных эндпоинтов
+#### 4.5 Агрегационные запросы и аналитика
 
-В соответствии с заданием, реализован API, покрывающий все сущности.
+Для получения информации и отчетов реализован эндпоинт `/api/analytics/`, который выполняет сложные вычисления на стороне СУБД с помощью инструментов `Sum`, `Count` и `Q`-фильтров.
 
-| Метод         | URL                   | Описание                                               |
-| ------------- | --------------------- | ------------------------------------------------------ |
-| GET, POST     | `/api/rooms/`         | Список номеров / Создать номер (фильтры: статус, этаж) |
-| GET, PUT, DEL | `/api/rooms/{id}/`    | Детали номера, изменение, удаление                     |
-| GET, POST     | `/api/guests/`        | Список гостей (фильтр: город, фамилия)                 |
-| GET, PUT, DEL | `/api/guests/{id}/`   | Детали гостя                                           |
-| GET, POST     | `/api/bookings/`      | Список бронирований (фильтр: гость, номер, даты)       |
-| GET, PUT, DEL | `/api/bookings/{id}/` | Управление конкретной бронью                           |
-| GET, POST     | `/api/employees/`     | Список сотрудников                                     |
-| GET, POST     | `/api/schedules/`     | Графики уборки                                         |
-| GET           | `/api/room-types/`    | Справочник типов номеров                               |
-| GET           | `/api/cities/`        | Справочник городов                                     |
+**Реализованная функциональность:**
 
-### 6. Примеры работы системы
+1. **Квартальный отчет:** Агрегация доходов по каждому номеру и подсчет количества номеров на каждом этаже за выбранный период.
+
+2. **Информационные выборки:**
+
+    - Поиск пересекающихся интервалов дат для нахождения "соседей".
+
+    - Цепочка связей для определения уборщика (Гость -> Номер -> Этаж -> График).
+
+    - Подсчет текущего свободного фонда.
+
+**Фрагмент кода (`HotelAnalyticsView`):**
+```python
+class HotelAnalyticsView(APIView):
+    """
+    Эндпоинт для выполнения специфических информационных запросов и генерации
+    отчетов о работе гостиницы.
+    """
+    def get(self, request):
+        query_type = request.query_params.get('type')
+
+        # --- 1. КВАРТАЛЬНЫЙ ОТЧЕТ ---
+        if query_type == 'quarterly_report':
+            quarter = request.query_params.get('quarter') # 1, 2, 3 или 4
+            year = request.query_params.get('year', datetime.date.today().year)
+            
+            if not quarter:
+                return Response({"error": "Укажите номер квартала (1-4)"}, status=400)
+            
+            try:
+                year = int(year)
+                # Определение временных границ кварталов
+                q_dates = {
+                    '1': ((1, 1), (3, 31)),
+                    '2': ((4, 1), (6, 30)),
+                    '3': ((7, 1), (9, 30)),
+                    '4': ((10, 1), (12, 31)),
+                }
+                
+                (start_m, start_d), (end_m, end_d) = q_dates.get(quarter)
+                start_date = datetime.date(year, start_m, start_d)
+                end_date = datetime.date(year, end_m, end_d)
+
+                # А) Число клиентов и доход за период в каждом номере
+                # Используем фильтрованные агрегации (Conditional Aggregation)
+                room_stats = Room.objects.annotate(
+                    clients_count=Count('bookings', filter=Q(bookings__check_in__range=(start_date, end_date))),
+                    income=Sum('bookings__total_cost', filter=Q(bookings__check_in__range=(start_date, end_date)))
+                ).values('number', 'clients_count', 'income')
+
+                # Б) Количество номеров на каждом этаже
+                floor_stats = Floor.objects.annotate(
+                    rooms_count=Count('rooms')
+                ).values('number', 'rooms_count')
+
+                # В) Суммарный доход по всей гостинице
+                total_income = Booking.objects.filter(
+                    check_in__range=(start_date, end_date)
+                ).aggregate(total=Sum('total_cost'))['total'] or 0
+
+                return Response({
+                    "period": f"Квартал {quarter}, {year}",
+                    "rooms_efficiency": list(room_stats),
+                    "floors_structure": list(floor_stats),
+                    "total_hotel_income": total_income
+                })
+            except (ValueError, TypeError, KeyError):
+                return Response({"error": "Некорректные параметры квартала или года"}, status=400)
+
+        # --- 2. О клиентах, проживавших в заданном номере в заданный период ---
+        elif query_type == 'clients_in_room':
+            room_num = request.query_params.get('room')
+            start = request.query_params.get('start')
+            end = request.query_params.get('end')
+            bookings = Booking.objects.filter(
+                room__number=room_num,
+                check_in__lte=end,
+                check_out__gte=start
+            )
+            data = [{"fio": f"{b.guest.last_name} {b.guest.first_name}", "from": b.check_in, "to": b.check_out} for b in bookings]
+            return Response(data)
+
+        # --- 3. О количестве клиентов из заданного города ---
+        elif query_type == 'clients_by_city':
+            city_id = request.query_params.get('city_id')
+            count = Guest.objects.filter(city_id=city_id).count()
+            return Response({"count": count})
+
+        # --- 4. Кто убирал номер указанного клиента в заданный день недели ---
+        elif query_type == 'cleaner_info':
+            guest_id = request.query_params.get('guest_id')
+            day = request.query_params.get('day') # 'mon', 'tue'...
+            # Находим активную бронь гостя
+            booking = Booking.objects.filter(guest_id=guest_id, is_active=True).first()
+            if not booking:
+                return Response({"error": "Активное проживание не найдено"}, status=404)
+            
+            floor = booking.room.floor
+            schedules = CleaningSchedule.objects.filter(floor=floor, day_of_week=day)
+            cleaners = [f"{s.employee.last_name} {s.employee.first_name}" for s in schedules]
+            return Response({"cleaners": cleaners, "floor": floor.number, "room": booking.room.number})
+
+        # --- 5. Сколько в гостинице свободных номеров ---
+        elif query_type == 'free_rooms':
+            count = Room.objects.filter(status='free').count()
+            return Response({"free_rooms_count": count})
+
+        # --- 6. Список "соседей" (пересечение дат проживания) ---
+        elif query_type == 'overlapping_guests':
+            target_guest_id = request.query_params.get('guest_id')
+            # Находим последнюю или текущую бронь целевого клиента
+            target_b = Booking.objects.filter(guest_id=target_guest_id).order_by('-check_in').first()
+            if not target_b:
+                return Response({"error": "Клиент не найден в базе бронирований"}, status=404)
+            
+            # Ищем пересечения по датам
+            others = Booking.objects.filter(
+                check_in__lt=target_b.check_out if target_b.check_out else datetime.date.max,
+                check_out__gt=target_b.check_in
+            ).exclude(guest_id=target_guest_id)
+
+            data = [{
+                "fio": f"{b.guest.last_name} {b.guest.first_name}",
+                "city": b.guest.city.name,
+                "room": b.room.number,
+                "period": f"{b.check_in} - {b.check_out}"
+            } for b in others]
+            return Response(data)
+
+        return Response({"error": "Неверный тип запроса или отсутствуют параметры"}, status=400)
+```
+
+![analytics](img-lab-3/analytics.png){ width=60% }
+
+### 5. Примеры работы системы
 
 #### Сценарий 1: Просмотр и фильтрация бронирований
 
@@ -346,7 +483,7 @@ class BookingDetail(generics.RetrieveUpdateDestroyAPIView):
         </tr>
     </table>
 
-### 7. Авторизация и Аутентификация (Djoser)
+### 6. Авторизация и Аутентификация (Djoser)
 
 Подключена библиотека `Djoser` для управления пользователями. Реализована аутентификация по токенам.
 
@@ -369,6 +506,79 @@ path('auth/', include('djoser.urls.authtoken')),
 
 ![token_create](img-lab-3/token_create.png){ width=60% }
 
+### 7. Описание реализованных эндпоинтов
+
+В соответствии с заданием, реализован API, покрывающий все сущности.
+
+| Метод         | URL                   | Описание                                               |
+| ------------- | --------------------- | ------------------------------------------------------ |
+| GET, POST     | `/api/rooms/`         | Список номеров / Создать номер (фильтры: статус, этаж) |
+| GET, PUT, DEL | `/api/rooms/{id}/`    | Детали номера, изменение, удаление                     |
+| GET, POST     | `/api/guests/`        | Список гостей (фильтр: город, фамилия)                 |
+| GET, PUT, DEL | `/api/guests/{id}/`   | Детали гостя                                           |
+| GET, POST     | `/api/bookings/`      | Список бронирований (фильтр: гость, номер, даты)       |
+| GET, PUT, DEL | `/api/bookings/{id}/` | Управление конкретной бронью                           |
+| GET, POST     | `/api/employees/`     | Список сотрудников                                     |
+| GET, PUT, DEL | `/api/employees/{id}/`| Детали сотрудника                                      |
+| GET, POST     | `/api/schedules/`     | Графики уборки                                         |
+| GET, PUT, DEL | `/api/schedules/{id}/`| Детали графика                                         |
+| GET, POST     | `/api/floors/`        | Список этажей                                          |
+| GET           | `/api/room-types/`    | Справочник типов номеров                               |
+| GET           | `/api/cities/`        | Справочник городов                                     |
+| GET           | `/api/analytics/`     | Аналитика и отчеты                                     |
+| POST          | `/auth/users/`        | Регистрация нового пользователя (Djoser)               |
+| POST          | `/auth/token/login/`  | Авторизация (получение токена) (Djoser)                |
+| GET, PATCH    | `/auth/users/me/`     | Данные профиля текущего пользователя (Djoser)          |
+
+### 8. Инструкция по установке и запуску
+
+Для развертывания проекта на локальной машине необходимо выполнить следующие действия:
+
+1. **Подготовка окружения:**
+
+    ```bash
+    # Клонирование репозитория и переход в папку с исходным кодом серверной части
+    git clone <url_репозитория>
+    cd hotel_project
+
+    # Создание и активация виртуального окружения
+    python -m venv venv
+    source venv/bin/activate  # Для Windows: venv\Scripts\activate
+
+    # Установка зависимостей
+    pip install django djangorestframework psycopg2-binary django-cors-headers djoser python-dotenv django-filter
+    ```
+
+2. **Настройка базы данных (PostgreSQL):** 
+
+    - Создайте пустую базу данных через интерфейс pgAdmin или через psql:
+
+        ```
+        CREATE DATABASE hotel_db;
+        ```
+
+    - Создайте файл `.env` в корне проекта. Пример заполнения (можно использовать данные ниже для быстрого запуска):
+
+        ```
+        DEBUG=True
+        SECRET_KEY=django-insecure-example-key-for-lab-work
+        DB_NAME=hotel_db
+        DB_USER=postgres
+        DB_PASSWORD=ваш_пароль
+        DB_HOST=127.0.0.1
+        DB_PORT=5432
+        ```
+
+3. **Инициализация БД и запуск:**
+
+    ```
+    python manage.py migrate
+    python manage.py createsuperuser # Создайте админа (логин/пароль) для тестов
+    python manage.py runserver
+    ```
+
+API будет доступно по адресу: `http://127.0.0.1:8000/api/`
+
 ### Заключение
 
-В результате выполнения лабораторной работы успешно спроектирована и реализована серверная часть системы для администратора гостиницы, включающая нормализованную базу данных (3НФ) (PostgreSQL) с учетом бизнес-логики предметной области, полноценный REST API на DRF с поддержкой CRUD, вложенной сериализации и фильтрацией, а также система авторизации на базе токенов.
+В результате выполнения лабораторной работы успешно спроектирована и реализована серверная часть системы для администратора гостиницы, включающая нормализованную базу данных (3НФ), полноценный REST API на DRF с поддержкой CRUD и сложной аналитики, а также систему авторизации.

@@ -20,4 +20,6 @@ urlpatterns = [
     path('bookings/<int:pk>/', BookingDetail.as_view()),
     path('schedules/', CleaningScheduleList.as_view()),
     path('schedules/<int:pk>/', CleaningScheduleDetail.as_view()),
+
+    path('analytics/', HotelAnalyticsView.as_view())
 ]
