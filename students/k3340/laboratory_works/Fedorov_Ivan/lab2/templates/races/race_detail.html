@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ race.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'race_list' %}">Гонки</a></li>
+                <li class="breadcrumb-item active">{{ race.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ race.name }}</h1>
+            {% if user.is_staff %}
+                <a href="{% url 'admin:races_race_change' race.id %}" class="btn btn-outline-secondary">Редактировать</a>
+            {% endif %}
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="lead">{{ race.description }}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>📅 Дата проведения:</strong> {{ race.date|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>👥 Зарегистрировано:</strong> {{ race.get_registered_users_count }} участников</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            {% if user.is_authenticated %}
+                {% if user_registration %}
+                    <div class="alert alert-success">
+                        <strong>✅ Вы зарегистрированы на эту гонку!</strong>
+                        <form method="post" action="{% url 'unregister_from_race' race.id %}" class="d-inline ms-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning btn-sm">Отменить регистрацию</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <form method="post" action="{% url 'register_for_race' race.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">🏁 Зарегистрироваться на гонку</button>
+                        <small class="text-muted ms-2">Станьте участником этой гонки!</small>
+                    </form>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Войдите</a> для регистрации на гонку
+                </div>
+            {% endif %}
+        </div>
+
+        <h3>🏆 Результаты гонки</h3>
+        {% if results %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Место</th>
+                            <th>Гонщик</th>
+                            <th>Команда</th>
+                            <th>Опыт</th>
+                            <th>Время круга</th>
+                            <th>Круги</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                            <tr {% if result.user == user %}class="table-info"{% endif %}>
+                                <td>
+                                    {% if result.position == 1 %}
+                                        <span class="badge bg-warning text-dark">🥇 {{ result.position }}</span>
+                                    {% elif result.position == 2 %}
+                                        <span class="badge bg-secondary">🥈 {{ result.position }}</span>
+                                    {% elif result.position == 3 %}
+                                        <span class="badge bg-danger">🥉 {{ result.position }}</span>
+                                    {% else %}
+                                        {{ result.position }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <strong>{{ result.user.get_full_name|default:result.user.username }}</strong>
+                                    {% if result.user == user %}
+                                        <span class="badge bg-primary">Вы</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ result.user.team_name|default:"-" }}</td>
+                                <td>
+                                    <span class="badge bg-light text-dark">{{ result.user.get_experience_display }}</span>
+                                </td>
+                                <td>{{ result.get_lap_time_display }}</td>
+                                <td>{{ result.completed_laps }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h5>Результаты пока не добавлены</h5>
+                <p class="mb-0">Результаты будут опубликованы после завершения гонки.</p>
+            </div>
+        {% endif %}
+
+        <h3 class="mt-5 mb-4" id="comments">💬 Комментарии ({{ race.comment_set.count }})</h3>
+
+        {% if user.is_authenticated %}
+            <div class="mb-4">
+                <a href="{% url 'add_comment' race.id %}" class="btn btn-primary">
+                    ✏️ Добавить комментарий
+                </a>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mb-4">
+                <a href="{% url 'login' %}" class="btn btn-sm btn-primary">Войдите</a>, чтобы оставить комментарий
+            </div>
+        {% endif %}
+
+        <!-- Комментарии с пагинацией -->
+        {% if page_obj.object_list %}
+            {% for comment in page_obj %}
+                <div class="card mb-3 {% if comment.author == user %}border-primary{% endif %}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="card-title mb-1">
+                                <strong>{{ comment.author.get_full_name|default:comment.author.username }}</strong>
+                                <small class="text-muted">- {{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                            </h6>
+                            <span class="badge bg-secondary">{{ comment.get_comment_type_display }}</span>
+                        </div>
+                        <p class="card-text mt-2">{{ comment.text|linebreaks }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-warning text-dark">⭐ Рейтинг: {{ comment.rating }}/10</span>
+                                <small class="text-muted ms-2">📅 Заезд: {{ comment.race_date|date:"d.m.Y" }}</small>
+                            </div>
+                            {% if comment.author == user %}
+                                <form method="post" action="{% url 'delete_comment' comment.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Пагинация -->
+            {% if page_obj.paginator.num_pages > 1 %}
+                <nav aria-label="Навигация по комментариям">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1#comments" aria-label="Первая">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}#comments" aria-label="Предыдущая">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}#comments">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}#comments" aria-label="Следующая">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}#comments" aria-label="Последняя">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="text-center mt-2">
+                        <small class="text-muted">
+                            Показаны комментарии {{ page_obj.start_index }}-{{ page_obj.end_index }} из {{ page_obj.paginator.count }}
+                        </small>
+                    </div>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info text-center">
+                <h5>Пока нет комментариев</h5>
+                <p class="mb-0">Будьте первым, кто оставит комментарий к этой гонке!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
