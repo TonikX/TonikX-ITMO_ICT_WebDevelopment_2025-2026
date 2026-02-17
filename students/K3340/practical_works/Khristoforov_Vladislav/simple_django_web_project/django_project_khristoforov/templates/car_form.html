@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% if object %}Редактировать{% else %}Добавить{% endif %} автомобиль
+        </title>
+    </head>
+    <body>
+        <h1>
+            {% if object %}Редактировать автомобиль{% else %}Добавить новый
+            автомобиль{% endif %}
+        </h1>
+
+        <form method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+
+        <br />
+        <a href="{% url 'car_list' %}">Назад к списку автомобилей</a>
+    </body>
+</html>

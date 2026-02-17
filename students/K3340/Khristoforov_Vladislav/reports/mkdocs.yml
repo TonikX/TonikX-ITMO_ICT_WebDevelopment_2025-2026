@@ -1,0 +1,48 @@
+site_name: Лабораторные работы
+site_url: https://NovemberMoon.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+theme:
+    name: material
+    language: ru
+    palette:
+        # Схема для светлой темы
+        - scheme: default
+          primary: indigo
+          accent: purple
+          toggle:
+              icon: material/weather-night
+              name: Switch to dark mode
+        # Схема для темной темы
+        - scheme: slate
+          primary: indigo
+          accent: lime
+          toggle:
+              icon: material/weather-sunny
+              name: Switch to light mode
+    features:
+        - navigation.tabs
+        - navigation.sections
+        - navigation.expand
+        - navigation.top
+        - toc.follow
+        - search.suggest
+        - search.highlight
+        - content.code.copy
+markdown_extensions:
+  - attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+    - Главная: index.md
+    - Лабораторная работа №1:
+          - Отчет: lab-1/lab_1_report.md
+    - Лабораторная работа №2:
+          - Отчет: lab-2/lab_2_report.md
+    - Лабораторная работа №3:
+          - Отчет: lab-3/lab_3_report.md
+          - Практика 3.1: lab-3/prac_3_1_report.md
+          - Практика 3.2: lab-3/prac_3_2_report.md
+    - Лабораторная работа №4:
+          - Отчет: lab-4/lab_4_report.md

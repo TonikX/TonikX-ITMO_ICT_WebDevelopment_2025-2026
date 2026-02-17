@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ tour.title }}{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Информация о туре -->
+            <div class="card tour-card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">{{ tour.title }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Турагенство:</strong> {{ tour.agency }}</p>
+                            <p><strong>Страна:</strong> {{ tour.country }}</p>
+                            <p><strong>Даты:</strong> {{ tour.start_date }} - {{ tour.end_date }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Цена:</strong> <span class="badge bg-success">{{ tour.price }} руб.</span></p>
+                            <p><strong>Доступные места:</strong> 
+                                <span class="badge bg-success">{{ tour.get_available_spots }} из {{ tour.available_spots }} свободно</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <h5>Описание тура</h5>
+                    <p class="card-text">{{ tour.description }}</p>
+                    
+                    <h5>Условия оплаты</h5>
+                    <p class="card-text">{{ tour.payment_conditions }}</p>
+                </div>
+            </div>
+
+            <!-- Отзывы -->
+            <div class="card tour-card mt-4">
+                <div class="card-header">
+                    <h4 class="mb-0">Отзывы о туре</h4>
+                </div>
+                <div class="card-body">
+                    {% if reviews %}
+                        {% for review in reviews %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <!-- В разделе отзывов, для каждого отзыва: -->
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h6>{{ review.user.first_name }} {{ review.user.last_name }}</h6>
+                                <div>
+                                    <span class="badge bg-warning text-dark">{{ review.rating }}/10</span>
+                                    {% if user_is_staff %}
+                                    <form method="post" action="{% url 'delete_review' review.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Удалить этот отзыв?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-2">
+                                Дата тура: {{ review.tour_date }} | 
+                                Отзыв от: {{ review.review_date|date:"d.m.Y" }}
+                            </p>
+                            <p class="mb-0">{{ review.text }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Пока нет отзывов о этом туре.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Бронирование -->
+            {% if user.is_authenticated %}
+            {% if not is_archive %}
+            <div class="card tour-card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Забронировать тур</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="booking" value="true">
+                        <div class="mb-3">
+                            {{ booking_form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-check"></i> Забронировать
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Отзыв -->
+            <div class="card tour-card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Оставить отзыв</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="review" value="true">
+                        <div class="mb-3">
+                            {{ review_form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-info w-100 text-white">
+                            <i class="fas fa-star"></i> Оставить отзыв
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="card tour-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-lock fa-2x text-muted mb-3"></i>
+                    <h5>Требуется авторизация</h5>
+                    <p>Для бронирования тура и оставления отзывов необходимо войти в систему.</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary">Регистрация</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'tour_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Назад к списку туров
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование бронирования{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Редактирование бронирования</h1>
+    <p><strong>Тур:</strong> {{ booking.tour.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="{% url 'my_bookings' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

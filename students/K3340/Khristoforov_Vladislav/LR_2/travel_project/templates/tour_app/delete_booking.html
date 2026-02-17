@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Отмена бронирования{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Отмена бронирования</h1>
+    
+    <div class="tour-card">
+        <h3>Вы уверены, что хотите отменить бронирование?</h3>
+        <p><strong>Тур:</strong> {{ booking.tour.title }}</p>
+        <p><strong>Дата бронирования:</strong> {{ booking.booking_date|date:"d.m.Y H:i" }}</p>
+        <p><strong>Количество человек:</strong> {{ booking.persons }}</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, отменить бронирование</button>
+        <a href="{% url 'my_bookings' %}" class="btn btn-secondary">Нет, вернуться назад</a>
+    </form>
+</div>
+{% endblock %}
