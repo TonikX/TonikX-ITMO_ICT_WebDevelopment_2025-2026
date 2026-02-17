@@ -13,6 +13,10 @@ class CityList(generics.ListCreateAPIView):
     serializer_class = CitySerializer
 
 # Основные
+class FloorList(generics.ListCreateAPIView):
+    queryset = Floor.objects.all()
+    serializer_class = FloorSerializer
+    
 class RoomList(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
@@ -37,6 +41,10 @@ class EmployeeList(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
 # Операции
 class BookingList(generics.ListCreateAPIView):
     queryset = Booking.objects.all()
@@ -49,5 +57,9 @@ class BookingDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BookingSerializer
 
 class CleaningScheduleList(generics.ListCreateAPIView):
+    queryset = CleaningSchedule.objects.all()
+    serializer_class = CleaningScheduleSerializer
+
+class CleaningScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CleaningSchedule.objects.all()
     serializer_class = CleaningScheduleSerializer

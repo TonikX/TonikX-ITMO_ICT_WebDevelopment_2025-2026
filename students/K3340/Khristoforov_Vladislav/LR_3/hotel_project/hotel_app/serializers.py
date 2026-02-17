@@ -20,13 +20,33 @@ class CitySerializer(serializers.ModelSerializer):
 class RoomSerializer(serializers.ModelSerializer):
     room_type_details = RoomTypeSerializer(source='room_type', read_only=True)
     room_type = serializers.PrimaryKeyRelatedField(queryset=RoomType.objects.all())
-
+    
     floor_details = FloorSerializer(source='floor', read_only=True)
     floor = serializers.PrimaryKeyRelatedField(queryset=Floor.objects.all())
-  
+    
     class Meta:
         model = Room
         fields = "__all__"
+
+    def validate(self, data):
+        # Если это создание или обновление номера
+        number = data.get('number')
+        floor = data.get('floor')
+
+        # Если обновляем, и поля не переданы, берем из instance
+        if self.instance:
+            number = number or self.instance.number
+            floor = floor or self.instance.floor
+
+        # Проверка: Номер комнаты должен начинаться с номера этажа
+        if number and floor:
+            # Превращаем всё в строки для сравнения
+            str_floor = str(floor.number)
+            if not number.startswith(str_floor):
+                raise serializers.ValidationError(
+                    f"Номер комнаты {number} должен начинаться с цифры этажа ({str_floor})!"
+                )
+        return data
 
 class GuestSerializer(serializers.ModelSerializer):
     city_details = CitySerializer(source='city', read_only=True)

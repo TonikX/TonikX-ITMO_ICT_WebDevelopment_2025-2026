@@ -65,14 +65,16 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     patronymic = models.CharField(max_length=50, verbose_name="Отчество", blank=True)
+    is_active = models.BooleanField(default=True, verbose_name="Работает")
     
     def __str__(self):
-        return f"{self.last_name} {self.first_name} {self.patronymic}"
+        status = "" if self.is_active else " (Уволен)"
+        return f"{self.last_name} {self.first_name}{status}"
 
 class Booking(models.Model):
     """Бронирование"""
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, verbose_name="Номер", related_name="bookings")
-    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, verbose_name="Гость", related_name="bookings")
+    room = models.ForeignKey(Room, on_delete=models.PROTECT, verbose_name="Номер", related_name="bookings")
+    guest = models.ForeignKey(Guest, on_delete=models.PROTECT, verbose_name="Гость", related_name="bookings")
     check_in = models.DateField(verbose_name="Дата заезда")
     check_out = models.DateField(verbose_name="Дата выезда", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="Активно")
@@ -110,21 +112,32 @@ class Booking(models.Model):
                  raise ValidationError(f"Номер {self.room.number} занят на выбранные даты!")
 
     def save(self, *args, **kwargs):
-        self.clean()
-        if self.check_out:
-            days = (self.check_out - self.check_in).days
-            if days == 0: days = 1
-            self.total_cost = days * self.room.room_type.price
+            self.clean()
             
-            # Автоматическое освобождение, если дата выезда прошла или сегодня
-            if self.check_out <= timezone.now().date():
+            # Расчет стоимости
+            if self.check_out:
+                days = (self.check_out - self.check_in).days
+                if days == 0: days = 1
+                self.total_cost = days * self.room.room_type.price
+
+            # Управление статусом номера
+            # 1. Если бронь отменена/неактивна -> Номер свободен
+            if not self.is_active:
                 self.room.status = 'free'
-                self.room.save()
-        else:
-            self.room.status = 'occupied'
-            self.room.save()
             
-        super().save(*args, **kwargs)
+            # 2. Если бронь активна
+            else:
+                # Если дата выезда сегодня или уже прошла -> Номер свободен
+                if self.check_out and self.check_out <= timezone.now().date():
+                    self.room.status = 'free'
+                # Иначе (живет сейчас или будет жить) -> Номер занят
+                else:
+                    self.room.status = 'occupied'
+            
+            # Сохраняем статус комнаты
+            self.room.save()
+                
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.guest} -> {self.room}"
