@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная — Отели</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            padding: 30px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            color: #bb86fc;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #999;
+            font-size: 1.2em;
+        }
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .hotel-card {
+            background: #1e1e1e;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            transition: transform 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            border-color: #bb86fc;
+        }
+        .hotel-photo {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .hotel-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .hotel-name {
+            font-size: 1.5rem;
+            margin: 0 0 10px;
+            color: #bb86fc;
+        }
+        .hotel-address {
+            color: #999;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .hotel-description {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .hotel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stars {
+            color: #f1c40f;
+            font-size: 1.1rem;
+        }
+        .rating-value {
+            color: #999;
+            font-size: 0.95rem;
+        }
+        .rooms-count {
+            color: #bb86fc;
+            font-size: 0.95rem;
+        }
+        .no-rating {
+            color: #666;
+            font-style: italic;
+        }
+        .auth-block {
+            margin-top: 0px;
+            padding: 30px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .auth-text {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #bb86fc;
+            color: #121212;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        .btn:hover {
+            background: #a370d0;
+        }
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 80px 0;
+        }
+        .hotel-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="auth-block">
+        {% if user.is_authenticated %}
+            <p class="auth-text">Профиль: <strong>{{ user.username }}</strong></p>
+            <a href="{% url 'hotelsales:my_bookings' %}" class="btn">Мои бронирования</a>
+            <a href="{% url 'hotelsales:recent_guests' %}" class="btn" style="margin-left:20px; background:#2ecc71;">
+                Список бронирования
+            </a>
+        {% else %}
+            <p class="auth-text">Вы гость. Зарегистрируйтесь, чтобы бронировать номера.</p>
+            <a href="{% url 'hotelsales:register' %}" class="btn">Регистрация</a>
+        {% endif %}
+    </div>
+
+    <header>
+        <h1>Cистема бронирования отелей</h1>
+        <p class="subtitle">Вы можете выбрать отель</p>
+    </header>
+
+    {% if hotels %}
+        <div class="hotel-grid">
+            {% for hotel in hotels %}
+                <a href="{% url 'hotelsales:hotel_detail' hotel.id %}" class="hotel-card">
+                    {% if hotel.photo %}
+                        <div>
+                        <img src="{{ hotel.photo.url }}" alt="{{ hotel.name }}" class="hotel-photo">
+                        </div>
+                    {% else %}
+                        <div class="hotel-photo" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#aaa;">
+                            Нет фото
+                        </div>
+                    {% endif %}
+                    <div class="hotel-info">
+                        <h2 class="hotel-name">{{ hotel.name }}</h2>
+                        <div class="hotel-address">{{ hotel.address }}</div>
+                        <div class="hotel-description">
+                            {{ hotel.description|truncatewords:35|linebreaksbr }}
+                        </div>
+
+                        <div class="hotel-rating">
+                            {% if hotel.average_rating %}
+                               <span class="text">Оценка: </span>
+                                <span class="rating-text">{{ hotel.average_rating|floatformat:1 }}</span>
+                            {% else %}
+                                <span class="no-rating">Нет отзывов</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            Пока нет доступных отелей.<br>
+            <small>Добавьте их в <a href="/admin/">админ-панели</a></small>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
