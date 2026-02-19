@@ -1,17 +1,13 @@
-# Welcome to MkDocs
+# Добро пожаловать!
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Это документация к курсу "Web-программирование"
 
-## Commands
+В ходе выполнения работ был создан сайт с отчетами по [курсу](https://github.com/TonikX/TonikX-ITMO_ICT_WebDevelopment_2025-2026?tab=readme-ov-file)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Преподаватель: Говоров А.И.
+Выполнила: Норкина Я.И.
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+- [Лабораторная №1](Labwork_1.md)
+- [Лабораторная №2](Labwork_2.md)
+- [Лабораторная №3](Labwork_3.md)
+- [Лабораторная №4](Labwork_4.md)
