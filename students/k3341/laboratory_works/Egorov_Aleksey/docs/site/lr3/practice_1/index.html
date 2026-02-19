@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Практическое задание 1 - Отчеты по лабораторным работам. Егоров Алексей, K3341</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 \u21163.1", url: "#_top", children: [
+              {title: "\u041c\u043e\u0434\u0435\u043b\u0438 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445", url: "#_1" },
+              {title: "\u0418\u043c\u043f\u043e\u0440\u0442 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0445 \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a", url: "#_2" },
+              {title: "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 1", url: "#1" },
+              {title: "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 2", url: "#2" },
+              {title: "\u0417\u0430\u0434\u0430\u043d\u0438\u0435 3", url: "#3" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../practice_2/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../practice_2/" class="btn btn-xs btn-link">
+        Практическое задание 2
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../lr2/lr2/" class="btn btn-xs btn-link">
+        Лабораторная работа №2
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="no31">Практическая работа №3.1</h1>
+<h2 id="_1">Модели базы данных</h2>
+<pre><code class="language-python">class CarOwner(models.Model):
+    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    birth_date = models.DateField(null=True, blank=True)
+
+    class Meta: 
+        db_table = 'car_owner'
+
+    def __str__(self):
+        return f&quot;{self.first_name} {self.last_name}&quot;
+
+
+class DrivingLicense(models.Model):
+    id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, related_name='driving_license')
+    number_license = models.CharField(max_length=10)
+    type = models.CharField(max_length=10)
+    date_issue = models.DateField()
+
+    class Meta: 
+        db_table = 'driving_license'
+
+    def __str__(self):
+        return f&quot;License {self.number_license} ({self.type}) — {self.id_owner}&quot;
+
+
+class Car(models.Model):
+    state_number = models.CharField(max_length=15)
+    brand = models.CharField(max_length=20)
+    model = models.CharField(max_length=20)
+    colour = models.CharField(max_length=30, null=True, blank=True)
+    owners = models.ManyToManyField(CarOwner, through='Ownership')
+
+    class Meta: 
+        db_table = 'car'
+
+    def __str__(self):
+        return f&quot;{self.brand} {self.model} ({self.state_number})&quot;
+
+
+class Ownership(models.Model):
+    id_owner = models.ForeignKey(CarOwner, null=True, on_delete=models.SET_NULL, related_name=&quot;owner_car&quot;)
+    id_car = models.ForeignKey(Car, null=True, on_delete=models.SET_NULL)
+    start_date = models.DateField()
+    final_date = models.DateField(null=True, blank=True)
+
+    class Meta: 
+        db_table = 'ownership'
+
+    def __str__(self):
+        owner = self.id_owner or &quot;Unknown owner&quot;
+        car = self.id_car or &quot;Unknown car&quot;
+        status = &quot;current&quot; if self.final_date is None else f&quot;ended {self.final_date}&quot;
+        return f&quot;{owner} → {car} ({self.start_date} – {status})&quot;
+</code></pre>
+<h2 id="_2">Импорт необходимых библиотек</h2>
+<p><img alt="1" src="../images/1.png" /></p>
+<h2 id="1">Задание 1</h2>
+<h3 id="6-7">Создать 6-7 автовладельцев</h3>
+<p><img alt="2" src="../images/2.png" /></p>
+<h3 id="5-6">Создать 5-6 автомобилей</h3>
+<p><img alt="3" src="../images/3.png" /></p>
+<h3 id="_3">Выдать каждому владельцу удостоверение</h3>
+<p><img alt="4" src="../images/4.png" />
+<img alt="5" src="../images/5.png" /></p>
+<h3 id="13">Связать каждого владельца с 1–3 машинами через ассоциативную сущность «Владение».</h3>
+<p><img alt="2" src="../images/6.png" /></p>
+<h3 id="_4">Отобразить автомобиль</h3>
+<p><img alt="2" src="../images/7.png" /></p>
+<h3 id="_5">Отобразить автовладельца</h3>
+<p><img alt="2" src="../images/8.png" /></p>
+<h3 id="_6">Отобразить владельцев конкретного автомобиля</h3>
+<p><img alt="2" src="../images/9.png" /></p>
+<h2 id="2">Задание 2</h2>
+<h3 id="toyota">Выведете все машины марки “Toyota”</h3>
+<p><img alt="10" src="../images/10.png" /></p>
+<h3 id="_7">Найти всех водителей с именем “Олег” (или любым другим именем на ваше усмотрение)</h3>
+<p><img alt="11" src="../images/11.png" /></p>
+<h3 id="id-id-2">Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели (можно в 2 запроса)</h3>
+<p><img alt="12" src="../images/12.png" /></p>
+<h3 id="_8">Вывести всех владельцев красных машин (или любого другого цвета, который у вас присутствует)</h3>
+<p><img alt="13" src="../images/13.png" /></p>
+<h3 id="2010">Найти всех владельцев, чей год владения машиной начинается с 2010 (или любой другой год, который присутствует у вас в базе)</h3>
+<p><img alt="14" src="../images/14.png" /></p>
+<h2 id="3">Задание 3</h2>
+<h3 id="_9">Вывод даты выдачи самого старшего водительского удостоверения</h3>
+<p><img alt="15" src="../images/15.png" /></p>
+<h3 id="-">Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе</h3>
+<p><img alt="16" src="../images/16.png" /></p>
+<h3 id="_10">Выведите количество машин для каждого водителя</h3>
+<p><img alt="17" src="../images/17.png" /></p>
+<h3 id="_11">Подсчитайте количество машин каждой марки</h3>
+<p><img alt="18" src="../images/18.png" /></p>
+<h3 id="_12">Отсортируйте всех автовладельцев по дате выдачи удостоверения</h3>
+<p><img alt="19" src="../images/19.png" /></p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../practice_2/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../practice_2/" class="btn btn-xs btn-link">
+        Практическое задание 2
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../../lr2/lr2/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../lr2/lr2/" class="btn btn-xs btn-link">
+        Лабораторная работа №2
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="container-fluid wm-page-content">
+  <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

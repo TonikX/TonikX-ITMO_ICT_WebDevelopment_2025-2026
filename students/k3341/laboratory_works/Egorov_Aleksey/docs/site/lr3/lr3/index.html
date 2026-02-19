@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Лабораторная работа - Отчеты по лабораторным работам. Егоров Алексей, K3341</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "\u041b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 \u21163. \u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0441\u0435\u0440\u0432\u0435\u0440\u043d\u043e\u0439 \u0447\u0430\u0441\u0442\u0438 \u043d\u0430 Django REST Framework", url: "#_top", children: [
+              {title: "\u041c\u043e\u0434\u0435\u043b\u0438 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445", url: "#_1" },
+              {title: "\u0410\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f", url: "#_2" },
+              {title: "CRUD \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u0438", url: "#crud" },
+              {title: "\u041e\u0442\u0447\u0435\u0442\u044b", url: "#_44" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../practice_2/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../practice_2/" class="btn btn-xs btn-link">
+        Практическое задание 2
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="no3-django-rest-framework">Лабораторная работа №3. Реализация серверной части на Django REST Framework</h1>
+<p><strong>Цель</strong>: овладеть практическими навыками и умениями реализации web-сервисов
+средствами Django.  </p>
+<p>В данном отчёте представлены модели базы данных и описание API.</p>
+<hr />
+<h2 id="_1">Модели базы данных</h2>
+<h3 id="1-breed">1. <strong>Breed (Порода)</strong></h3>
+<p>Представляет породу кур.</p>
+<ul>
+<li><strong><code>name</code></strong> (<code>CharField</code>) — название породы (уникальное, макс. 80 символов).</li>
+<li><strong><code>efficiency</code></strong> (<code>PositiveIntegerField</code>) — среднее количество яиц в месяц.</li>
+<li><strong><code>mean_weight</code></strong> (<code>PositiveIntegerField</code>) — средний вес курицы в граммах.</li>
+<li><strong><code>diets</code></strong> (<code>ManyToManyField</code> через <code>BreedDiet</code>) — связь с диетами по сезонам.</li>
+</ul>
+<p><strong>Связи:</strong>
+- Связана с моделью <code>Diet</code> через промежуточную модель <code>BreedDiet</code>.
+- Используется в модели <code>Hen</code>.</p>
+<hr />
+<h3 id="2-diet">2. <strong>Diet (Диета)</strong></h3>
+<p>Описывает рацион питания кур.</p>
+<ul>
+<li><strong><code>number</code></strong> (<code>IntegerField</code>) — уникальный номер диеты.</li>
+<li><strong><code>structure</code></strong> (<code>TextField</code>) — описание состава диеты.</li>
+</ul>
+<p><strong>Связи:</strong>
+- Связана с <code>Breed</code> через <code>BreedDiet</code>.</p>
+<hr />
+<h3 id="3-breeddiet">3. <strong>BreedDiet (Диета породы)</strong></h3>
+<p>Промежуточная модель для связи породы, диеты и сезона.</p>
+<ul>
+<li><strong><code>breed</code></strong> (<code>ForeignKey</code> → <code>Breed</code>) — порода.</li>
+<li><strong><code>diet</code></strong> (<code>ForeignKey</code> → <code>Diet</code>) — диета.</li>
+<li><strong><code>season</code></strong> (<code>CharField</code> с выбором из: <code>winter</code>, <code>spring</code>, <code>summer</code>, <code>autumn</code>) — сезон.</li>
+</ul>
+<p><strong>Особенности:</strong>
+- Уникальность по тройке: <code>(breed, diet, season)</code>.</p>
+<hr />
+<h3 id="4-hen">4. <strong>Hen (Курица)</strong></h3>
+<p>Отдельная особь курицы.</p>
+<ul>
+<li><strong><code>breed</code></strong> (<code>ForeignKey</code> → <code>Breed</code>, <code>on_delete=PROTECT</code>) — порода.</li>
+<li><strong><code>weight</code></strong> (<code>PositiveIntegerField</code>) — текущий вес в граммах.</li>
+<li><strong><code>birth_date</code></strong> (<code>DateTimeField</code>) — дата рождения.</li>
+<li><strong><code>death_date</code></strong> (<code>DateTimeField</code>, опционально) — дата смерти.</li>
+<li><strong><code>cages</code></strong> (<code>ManyToManyField</code> через <code>HenCage</code>) — история размещения по клеткам.</li>
+</ul>
+<p><strong>Связи:</strong>
+- Связана с <code>Cage</code> через <code>HenCage</code>.
+- Используется в <code>HenEggs</code>.</p>
+<hr />
+<h3 id="5-heneggs">5. <strong>HenEggs (Яйценоскость)</strong></h3>
+<p>Фиксирует количество снесённых яиц конкретной курицей в определённую дату.</p>
+<ul>
+<li><strong><code>hen</code></strong> (<code>ForeignKey</code> → <code>Hen</code>) — курица.</li>
+<li><strong><code>count_eggs</code></strong> (<code>PositiveIntegerField</code>) — количество яиц.</li>
+<li><strong><code>date</code></strong> (<code>DateField</code>) — дата сбора яиц.</li>
+</ul>
+<p><strong>Особенности:</strong>
+- Уникальность по паре: <code>(hen, date)</code>.</p>
+<hr />
+<h3 id="6-cage">6. <strong>Cage (Клетка)</strong></h3>
+<p>Описывает физическое расположение клетки.</p>
+<ul>
+<li><strong><code>workshop_number</code></strong> (<code>PositiveIntegerField</code>) — номер цеха.</li>
+<li><strong><code>row_number</code></strong> (<code>PositiveIntegerField</code>) — номер ряда.</li>
+<li><strong><code>in_row_number</code></strong> (<code>PositiveIntegerField</code>) — номер клетки в ряду.</li>
+</ul>
+<p><strong>Особенности:</strong>
+- Уникальность по тройке: <code>(workshop_number, row_number, in_row_number)</code>.</p>
+<p><strong>Связи:</strong>
+- Используется в <code>HenCage</code> и <code>EmployeeCage</code>.</p>
+<hr />
+<h3 id="7-hencage">7. <strong>HenCage (Размещение курицы)</strong></h3>
+<p>Промежуточная модель, отслеживающая, когда и куда заселялась курица.</p>
+<ul>
+<li><strong><code>hen</code></strong> (<code>ForeignKey</code> → <code>Hen</code>) — курица.</li>
+<li><strong><code>cage</code></strong> (<code>ForeignKey</code> → <code>Cage</code>) — клетка.</li>
+<li><strong><code>date_start</code></strong> (<code>DateField</code>) — дата заселения.</li>
+<li><strong><code>date_end</code></strong> (<code>DateField</code>, опционально) — дата выселения.</li>
+</ul>
+<hr />
+<h3 id="8-employee">8. <strong>Employee (Работник)</strong></h3>
+<p>Информация о сотруднике.</p>
+<ul>
+<li><strong><code>full_name</code></strong> (<code>CharField</code>) — ФИО.</li>
+<li><strong><code>passport_series</code></strong> (<code>CharField</code>, 4 цифры, валидация регулярным выражением).</li>
+<li><strong><code>passport_number</code></strong> (<code>CharField</code>, 6 цифр, валидация регулярным выражением).</li>
+<li><strong><code>cages</code></strong> (<code>ManyToManyField</code> через <code>EmployeeCage</code>) — история закрепления за клетками.</li>
+</ul>
+<p><strong>Связи:</strong>
+- Связана с <code>Cage</code> через <code>EmployeeCage</code>.
+- Используется в <code>Employment</code>.</p>
+<hr />
+<h3 id="9-employeecage">9. <strong>EmployeeCage (Закрепление клетки за работником)</strong></h3>
+<p>Промежуточная модель для отслеживания, за какими клетками закреплён работник.</p>
+<ul>
+<li><strong><code>employee</code></strong> (<code>ForeignKey</code> → <code>Employee</code>) — работник.</li>
+<li><strong><code>cage</code></strong> (<code>ForeignKey</code> → <code>Cage</code>) — клетка.</li>
+<li><strong><code>date_start</code></strong> (<code>DateField</code>) — дата начала закрепления.</li>
+<li><strong><code>date_end</code></strong> (<code>DateField</code>, опционально) — дата окончания закрепления.</li>
+</ul>
+<hr />
+<h3 id="10-employment">10. <strong>Employment (Трудоустройство)</strong></h3>
+<p>Информация о трудовом договоре и должности сотрудника.</p>
+<ul>
+<li><strong><code>employee</code></strong> (<code>ForeignKey</code> → <code>Employee</code>) — работник.</li>
+<li><strong><code>position</code></strong> (<code>CharField</code>) — должность.</li>
+<li><strong><code>contract</code></strong> (<code>CharField</code>, уникальный) — номер трудового договора.</li>
+<li><strong><code>salary_rub</code></strong> (<code>DecimalField</code>) — зарплата (до 10 цифр, 2 знака после запятой).</li>
+<li><strong><code>date_start</code></strong> (<code>DateField</code>) — дата начала работы.</li>
+<li><strong><code>date_end</code></strong> (<code>DateField</code>, опционально) — дата увольнения.</li>
+<li><strong><code>termination_reason</code></strong> (<code>CharField</code> с выбором из предопределённых причин, опционально).</li>
+<li><strong><code>termination_order_num</code></strong> (<code>CharField</code>, опционально) — номер приказа об увольнении.</li>
+</ul>
+<hr />
+<h2 id="_2">Аутентификация</h2>
+<p>Токены необходимо передавать в заголовке запроса:</p>
+<pre><code>Authorization: Token &lt;access_token&gt;
+</code></pre>
+<h3 id="1">1. Регистрация пользователя</h3>
+<p><strong>Endpoint:</strong> <code>/auth/users/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Любой пользователь</p>
+<pre><code class="language-json">{
+    &quot;username&quot;: &quot;first_name&quot;,
+    &quot;password&quot;: &quot;jkhfcgxxx5366&quot;,
+    &quot;email&quot;: &quot;first_user@mail.ru&quot;,
+    &quot;first_name&quot;: &quot;Ivan&quot;,
+    &quot;last_name&quot;: &quot;Ivanov&quot;
+}
+</code></pre>
+<h3 id="2">2. Получение токена</h3>
+<p><strong>Endpoint:</strong> <code>/auth/token/login/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Любой пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;username&quot;: &quot;first_name&quot;,
+    &quot;password&quot;: &quot;jkhfcgxxx5366&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;auth_token&quot;: &quot;88a66ce54788bb36773548ee613250954a3cb909&quot;
+}
+</code></pre>
+<p><strong>Коды ответов:</strong>
+| Код | Описание |
+|-----|----------|
+| 200 | Успешная аутентификация |
+| 401 | Неверные учетные данные |</p>
+<h3 id="3">3. Текущий пользователь</h3>
+<p><strong>Endpoint:</strong> <code>/auth/users/me/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;email&quot;: &quot;first_user@mail.ru&quot;,
+    &quot;id&quot;: 1,
+    &quot;username&quot;: &quot;first_user&quot;
+}
+</code></pre>
+<p><strong>Коды ответов:</strong>
+| Код | Описание |
+|-----|----------|
+| 200 | Информация о пользователе получена |
+| 401 | Необходима аутентификация |</p>
+<hr />
+<h2 id="crud">CRUD операции</h2>
+<h3 id="1-breeds">1. Породы (Breeds)</h3>
+<h4 id="_3">Получение списка пород</h4>
+<p><strong>Endpoint:</strong> <code>/api/breeds/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Леггорн&quot;,
+        &quot;efficiency&quot;: 300,
+        &quot;mean_weight&quot;: 1000
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Род-Айленд&quot;,
+        &quot;efficiency&quot;: 280,
+        &quot;mean_weight&quot;: 988
+    }
+]
+</code></pre>
+<h4 id="_4">Создание новой породы</h4>
+<p><strong>Endpoint:</strong> <code>/api/breeds/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;Хайсекс&quot;,
+    &quot;efficiency&quot;: 310,
+    &quot;mean_weight&quot;: 2005
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Хайсекс&quot;,
+    &quot;efficiency&quot;: 310,
+    &quot;mean_weight&quot;: 2005
+}
+</code></pre>
+<h4 id="_5">Изменение породы</h4>
+<p><strong>Endpoint:</strong> <code>/api/breeds/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;efficiency&quot;: 315
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;Хайсекс&quot;,
+    &quot;efficiency&quot;: 315,
+    &quot;mean_weight&quot;: 2005
+}
+</code></pre>
+<h4 id="_6">Удаление породы</h4>
+<p><strong>Endpoint:</strong> <code>/api/breeds/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (204 No Content):</strong> Пустой ответ</p>
+<p><strong>Ошибка при удалении породы с привязанными курами (400 Bad Request):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Нельзя удалить породу, к которой привязаны куры&quot;
+}
+</code></pre>
+<h3 id="2-hens">2. Куры (Hens)</h3>
+<h4 id="_7">Получение списка кур</h4>
+<p><strong>Endpoint:</strong> <code>/api/hens/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;breed&quot;: 1,
+        &quot;weight&quot;: 2000,
+        &quot;birth_date&quot;: &quot;2025-01-26T00:00:00Z&quot;,
+        &quot;death_date&quot;: null,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;breed&quot;: 1,
+        &quot;weight&quot;: 2050,
+        &quot;birth_date&quot;: &quot;2025-01-16T00:00:00Z&quot;,
+        &quot;death_date&quot;: null,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;
+    }
+]
+</code></pre>
+<h4 id="_8">Обновление характеристик курицы</h4>
+<p><strong>Endpoint:</strong> <code>/api/hens/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;weight&quot;: 2100
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 1,
+    &quot;breed&quot;: 1,
+    &quot;weight&quot;: 2100,
+    &quot;birth_date&quot;: &quot;2025-01-26T00:00:00Z&quot;,
+    &quot;death_date&quot;: null,
+    &quot;breed_name&quot;: &quot;Леггорн&quot;
+}
+</code></pre>
+<p>Разрешено менять только: weight (масса), death_date (дата и время смерти).</p>
+<p><strong>Ошибка при попытке изменить запрещенное поле (400 Bad Request):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Обновление полей breed запрещено.&quot;
+}
+</code></pre>
+<h4 id="_9">Детальная информация о курице</h4>
+<p><strong>Endpoint:</strong> <code>/api/hens/&lt;id&gt;/detail/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 1,
+    &quot;breed&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Леггорн&quot;,
+        &quot;efficiency&quot;: 300,
+        &quot;mean_weight&quot;: 988
+    },
+    &quot;weight&quot;: 2100,
+    &quot;birth_date&quot;: &quot;2024-05-31T00:00:00Z&quot;,
+    &quot;death_date&quot;: null,
+    &quot;current_cage&quot;: {
+        &quot;id&quot;: 5,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 4,
+        &quot;date_start&quot;: &quot;2025-06-01&quot;,
+        &quot;date_end&quot;: null
+    }
+}
+</code></pre>
+<h3 id="3-cages">3. Клетки (Cages)</h3>
+<h4 id="_10">Детальная информация о клетке</h4>
+<p><strong>Endpoint:</strong> <code>/api/cages/&lt;id&gt;/detail/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 5,
+    &quot;workshop_number&quot;: 2,
+    &quot;row_number&quot;: 3,
+    &quot;in_row_number&quot;: 4,
+    &quot;current_hens&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;breed_name&quot;: &quot;Леггорн&quot;,
+            &quot;weight&quot;: 2100,
+            &quot;birth_date&quot;: &quot;2025-06-01&quot;,
+            &quot;date_start&quot;: &quot;2025-06-01&quot;,
+            &quot;date_end&quot;: null
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;breed_name&quot;: &quot;Леггорн&quot;,
+            &quot;weight&quot;: 2050,
+            &quot;birth_date&quot;: &quot;2025-06-05&quot;,
+            &quot;date_start&quot;: &quot;2025-06-05&quot;,
+            &quot;date_end&quot;: null
+        }
+    ]
+}
+</code></pre>
+<h3 id="4-diets">4. Диеты (Diets)</h3>
+<h4 id="_11">Получение списка диет</h4>
+<p><strong>Endpoint:</strong> <code>/api/diets/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;number&quot;: 2,
+        &quot;structure&quot;: &quot;Летняя: комбикорм 60%, трава 30%, минералы 10%&quot;
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;number&quot;: 3,
+        &quot;structure&quot;: &quot;Универсальная: зерно 40%, бобовые 30%, витамины 30%&quot;
+    }
+]
+</code></pre>
+<h4 id="_12">Создание новой диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/diets/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;number&quot;: 4,
+    &quot;structure&quot;: &quot;Зеленые корма + зерносмесь + ракушка&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 4,
+    &quot;number&quot;: 4,
+    &quot;structure&quot;: &quot;Зеленые корма + зерносмесь + ракушка&quot;
+}
+</code></pre>
+<h4 id="_13">Изменение диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/diets/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;structure&quot;: &quot;Зерносмесь 50%, шрот 30%, минералы 20%&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 4,
+    &quot;number&quot;: 4,
+    &quot;structure&quot;: &quot;Зерносмесь 50%, шрот 30%, минералы 20%&quot;
+}
+</code></pre>
+<h4 id="_14">Удаление диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/diets/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (204 No Content):</strong> Пустой ответ</p>
+<p><strong>Ошибка при удалении диеты с привязанными породами (400 Bad Request):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Нельзя удалить диету, к которой привязаны породы&quot;
+}
+</code></pre>
+<h3 id="5-breeddiets">5. Сезонные диеты для пород (BreedDiets)</h3>
+<h4 id="_15">Получение списка сезонных диет</h4>
+<p><strong>Endpoint:</strong> <code>/api/breed-diets/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;breed&quot;: 1,
+        &quot;diet&quot;: 1,
+        &quot;season&quot;: &quot;winter&quot;,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;diet_number&quot;: 1
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;breed&quot;: 1,
+        &quot;diet&quot;: 2,
+        &quot;season&quot;: &quot;spring&quot;,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;diet_number&quot;: 2
+    }
+]
+</code></pre>
+<h4 id="_16">Фильтрация по породе</h4>
+<p><strong>Endpoint:</strong> <code>/api/breed-diets/?breed_id=1</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;breed&quot;: 1,
+        &quot;diet_id&quot;: 1,
+        &quot;season&quot;: &quot;Зима&quot;,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;diet_number&quot;: 1
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;breed&quot;: 1,
+        &quot;diet_id&quot;: 2,
+        &quot;season&quot;: &quot;Лето&quot;,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;diet_number&quot;: 2
+    },
+]
+</code></pre>
+<h4 id="_17">Создание сезонной диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/breed-diets/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;breed&quot;: 1,
+    &quot;diet&quot;: 3,
+    &quot;season&quot;: &quot;summer&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;breed&quot;: 1,
+    &quot;diet&quot;: 3,
+    &quot;season&quot;: &quot;summer&quot;,
+    &quot;breed_name&quot;: &quot;Леггорн&quot;,
+    &quot;diet_number&quot;: 3
+}
+</code></pre>
+<h4 id="_18">Обновление сезонной диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/breed-diets/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;diet&quot;: 4
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;breed&quot;: 1,
+    &quot;diet&quot;: 4,
+    &quot;season&quot;: &quot;summer&quot;,
+    &quot;breed_name&quot;: &quot;Леггорн&quot;,
+    &quot;diet_number&quot;: 4
+}
+</code></pre>
+<h4 id="_19">Удаление сезонной диеты</h4>
+<p><strong>Endpoint:</strong> <code>/api/breed-diets/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (204 No Content):</strong> Пустой ответ</p>
+<p><strong>Коды ответов:</strong>
+| Код | Описание |
+|-----|----------|
+| 204 | Сезонная диета успешно удалена |
+| 404 | Сезонная диета не найдена |</p>
+<h3 id="6-heneggs">6. Яйценоскость (HenEggs)</h3>
+<h4 id="_20">Получение записей яйценоскости</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-eggs/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Параметры фильтрации:</strong>
+- <code>hen_id</code> - ID курицы
+- <code>date_from</code> - начальная дата (формат YYYY-MM-DD)
+- <code>date_to</code> - конечная дата (формат YYYY-MM-DD)</p>
+<p><strong>Пример:</strong> <code>/api/hen-eggs/?hen=1&amp;date_from=2025-11-01&amp;date_to=2025-11-30</code></p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;hen&quot;: 1,
+        &quot;count_eggs&quot;: 28,
+        &quot;date&quot;: &quot;2025-11-01&quot;
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;hen&quot;: 1,
+        &quot;count_eggs&quot;: 30,
+        &quot;date&quot;: &quot;2025-11-02&quot;
+    }
+]
+</code></pre>
+<h4 id="_21">Создание записи яйценоскости</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-eggs/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;hen&quot;: 1,
+    &quot;count_eggs&quot;: 29,
+    &quot;date&quot;: &quot;2025-12-01&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;hen&quot;: 1,
+    &quot;count_eggs&quot;: 29,
+    &quot;date&quot;: &quot;2025-12-01&quot;
+}
+</code></pre>
+<p>Если уже существует запись для этой курицы и даты:<br />
+<strong>Ответ (400 Bad Request):</strong></p>
+<pre><code class="language-json">{
+    &quot;non_field_errors&quot;: [
+        &quot;The fields hen, date must make a unique set.&quot;
+    ]
+}
+</code></pre>
+<h4 id="_22">Обновление записи яйценоскости</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-eggs/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;count_eggs&quot;: 31
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;hen_id&quot;: 1,
+    &quot;count_eggs&quot;: 31,
+    &quot;date&quot;: &quot;2025-12-01&quot;
+}
+</code></pre>
+<h4 id="_23">Удаление записи яйценоскости</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-eggs/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ограничение:</strong> Удаление разрешено только в течение 24 часов после создания</p>
+<p><strong>Ответ (204 No Content):</strong> Пустой ответ</p>
+<p><strong>Ошибка при попытке удаления старой записи (403 Forbidden):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Удаление записей о яйценоскости разрешено только в течение 24 часов&quot;
+}
+</code></pre>
+<h3 id="7-employees">7. Работники (Employees)</h3>
+<h4 id="_24">Получение списка работников</h4>
+<p><strong>Endpoint:</strong> <code>/api/employees/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+        &quot;passport_series&quot;: &quot;1234&quot;,
+        &quot;passport_number&quot;: &quot;567890&quot;
+    },
+    {
+        &quot;id&quot;: 2,
+        &quot;full_name&quot;: &quot;Петров Петр Петрович&quot;,
+        &quot;passport_series&quot;: &quot;2345&quot;,
+        &quot;passport_number&quot;: &quot;678901&quot;
+    }
+]
+</code></pre>
+<h4 id="_25">Создание работника</h4>
+<p><strong>Endpoint:</strong> <code>/api/employees/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;full_name&quot;: &quot;Сидоров Сидор Сидорович&quot;,
+    &quot;passport_series&quot;: &quot;3456&quot;,
+    &quot;passport_number&quot;: &quot;789012&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;full_name&quot;: &quot;Сидоров Сидор Сидорович&quot;,
+    &quot;passport_series&quot;: &quot;3456&quot;,
+    &quot;passport_number&quot;: &quot;789012&quot;
+}
+</code></pre>
+<h4 id="_26">Обновление работника</h4>
+<p><strong>Endpoint:</strong> <code>/api/employees/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;full_name&quot;: &quot;Сидоров С.С.&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;full_name&quot;: &quot;Сидоров С.С.&quot;,
+    &quot;passport_series&quot;: &quot;3456&quot;,
+    &quot;passport_number&quot;: &quot;789012&quot;
+}
+</code></pre>
+<h4 id="_27">Удаление работника</h4>
+<p><strong>Endpoint:</strong> <code>/api/employees/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Запрещено</p>
+<p><strong>Ответ (405 Method Not Allowed):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Удаление сотрудников запрещено. Используйте увольнение через Employment&quot;
+}
+</code></pre>
+<h3 id="8-employeecages">8. Закрепление работников за клетками (EmployeeCages)</h3>
+<h4 id="_28">Получение списка закреплений</h4>
+<p><strong>Endpoint:</strong> <code>/api/employee-cages/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Параметры фильтрации:</strong>
+- <code>employee</code> - ID работника
+- <code>cage</code> - ID клетки
+- <code>active</code> - только текущие закрепления (true/false)</p>
+<p><strong>Пример:</strong> <code>/api/employee-cages/?employee=1&amp;active=true</code></p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;employee&quot;: 1,
+        &quot;cage&quot;: 5,
+        &quot;date_start&quot;: &quot;2025-06-01&quot;,
+        &quot;date_end&quot;: null,
+        &quot;employee_details&quot;: {
+            &quot;id&quot;: 1,
+            &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+            &quot;passport_series&quot;: &quot;1234&quot;,
+            &quot;passport_number&quot;: &quot;567890&quot;
+        },
+        &quot;cage_details&quot;: {
+            &quot;id&quot;: 5,
+            &quot;workshop_number&quot;: 2,
+            &quot;row_number&quot;: 3,
+            &quot;in_row_number&quot;: 4
+        }
+    }
+]
+</code></pre>
+<h4 id="_29">Создание закрепления</h4>
+<p><strong>Endpoint:</strong> <code>/api/employee-cages/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;employee&quot;: 1,
+    &quot;cage&quot;: 6,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: null
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 2,
+    &quot;employee&quot;: 1,
+    &quot;cage&quot;: 6,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: &quot;2026-12-01&quot;,
+    &quot;employee_details&quot;: {
+        &quot;id&quot;: 1,
+        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+        &quot;passport_series&quot;: &quot;1234&quot;,
+        &quot;passport_number&quot;: &quot;567890&quot;
+    },
+    &quot;cage_details&quot;: {
+        &quot;id&quot;: 6,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 5
+    }
+}
+</code></pre>
+<h4 id="_30">Обновление закрепления</h4>
+<p><strong>Endpoint:</strong> <code>/api/employee-cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос (открепление работника):</strong></p>
+<pre><code class="language-json">{
+    &quot;date_end&quot;: &quot;2025-12-15&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 2,
+    &quot;employee&quot;: 1,
+    &quot;cage&quot;: 6,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: &quot;2025-12-15&quot;,
+    &quot;employee_details&quot;: {
+        &quot;id&quot;: 1,
+        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+        &quot;passport_series&quot;: &quot;1234&quot;,
+        &quot;passport_number&quot;: &quot;567890&quot;
+    },
+    &quot;cage_details&quot;: {
+        &quot;id&quot;: 6,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 5
+    }
+}
+</code></pre>
+<h4 id="_31">Удаление закрепления</h4>
+<p><strong>Endpoint:</strong> <code>/api/employee-cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Запрещено</p>
+<p><strong>Ответ (405 Method Not Allowed):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Удаление записей о закреплении запрещено. Используйте обновление даты открепления&quot;
+}
+</code></pre>
+<h3 id="9-employments">9. Трудоустройство (Employments)</h3>
+<h4 id="_32">Получение списка трудоустройств</h4>
+<p><strong>Endpoint:</strong> <code>/api/employments/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Параметры фильтрации:</strong>
+- <code>employee_id</code> - ID работника
+- <code>active</code> - только текущие трудоустройства (true/false)</p>
+<p><strong>Пример:</strong> <code>/api/employments/?employee_id=1&amp;active=true</code></p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+
+    {
+        &quot;id&quot;: 3,
+        &quot;employee&quot;: 2,
+        &quot;position&quot;: &quot;Старший птицевод&quot;,
+        &quot;contract&quot;: &quot;ДОГ-2023-020&quot;,
+        &quot;salary_rub&quot;: &quot;48000.00&quot;,
+        &quot;date_start&quot;: &quot;2025-06-06&quot;,
+        &quot;date_end&quot;: null,
+        &quot;termination_reason&quot;: null,
+        &quot;termination_order_num&quot;: null,
+        &quot;employee_details&quot;: {
+            &quot;id&quot;: 2,
+            &quot;full_name&quot;: &quot;Петрова Анна Сергеевна&quot;,
+            &quot;passport_series&quot;: &quot;4502&quot;,
+            &quot;passport_number&quot;: &quot;234567&quot;
+        }
+    }
+]
+</code></pre>
+<h4 id="_33">Создание трудоустройства</h4>
+<p><strong>Endpoint:</strong> <code>/api/employments/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<pre><code class="language-json">{
+    &quot;employee&quot;: 3,
+    &quot;position&quot;: &quot;Птицевод&quot;,
+    &quot;contract&quot;: &quot;DOGOVOR-003&quot;,
+    &quot;salary_rub&quot;: &quot;75000.00&quot;,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;employee&quot;: 3,
+    &quot;position&quot;: &quot;Ветеринар&quot;,
+    &quot;contract&quot;: &quot;DOGOVOR-003&quot;,
+    &quot;salary_rub&quot;: &quot;75000.00&quot;,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: null,
+    &quot;termination_reason&quot;: null,
+    &quot;termination_order_num&quot;: null,
+    &quot;employee_details&quot;: {
+        &quot;id&quot;: 3,
+        &quot;full_name&quot;: &quot;Сидоров С.С.&quot;,
+        &quot;passport_series&quot;: &quot;3456&quot;,
+        &quot;passport_number&quot;: &quot;789012&quot;
+    }
+}
+</code></pre>
+<h4 id="_34">Обновление трудоустройства</h4>
+<p><strong>Endpoint:</strong> <code>/api/employments/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос (изменение зарплаты):</strong></p>
+<pre><code class="language-json">{
+    &quot;salary_rub&quot;: &quot;80000.00&quot;
+}
+</code></pre>
+<p><strong>Запрос (увольнение):</strong></p>
+<pre><code class="language-json">{
+    &quot;date_end&quot;: &quot;2025-12-15&quot;,
+    &quot;termination_reason&quot;: &quot;employee_initiative&quot;,
+    &quot;termination_order_num&quot;: &quot;PRIKAZ-001&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 3,
+    &quot;employee&quot;: 3,
+    &quot;position&quot;: &quot;Ветеринар&quot;,
+    &quot;contract&quot;: &quot;DOGOVOR-003&quot;,
+    &quot;salary_rub&quot;: &quot;80000.00&quot;,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: &quot;2025-12-15&quot;,
+    &quot;termination_reason&quot;: &quot;employee_initiative&quot;,
+    &quot;termination_order_num&quot;: &quot;PRIKAZ-001&quot;,
+    &quot;employee_details&quot;: {
+        &quot;id&quot;: 3,
+        &quot;full_name&quot;: &quot;Сидоров С.С.&quot;,
+        &quot;passport_series&quot;: &quot;3456&quot;,
+        &quot;passport_number&quot;: &quot;789012&quot;
+    }
+}
+</code></pre>
+<h4 id="_35">Удаление трудоустройства</h4>
+<p><strong>Endpoint:</strong> <code>/api/employments/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Запрещено</p>
+<p><strong>Ответ (405 Method Not Allowed):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Удаление записей о трудоустройстве запрещено. Используйте пометку об увольнении&quot;
+}
+</code></pre>
+<h3 id="10-hencages">10. Заселение кур в клетки (HenCages)</h3>
+<h4 id="_36">Получение списка заселений</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-cages/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Параметры фильтрации:</strong>
+- <code>hen_id</code> - ID курицы
+- <code>cage_id</code> - ID клетки
+- <code>active</code> - только текущие заселения (true/false)</p>
+<p><strong>Пример:</strong> <code>/api/hen-cages/?hen_id=1&amp;active=true</code></p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 1,
+        &quot;hen&quot;: 1,
+        &quot;cage&quot;: 5,
+        &quot;date_start&quot;: &quot;2025-06-01&quot;,
+        &quot;date_end&quot;: null,
+        &quot;hen_details&quot;: {
+            &quot;id&quot;: 1,
+            &quot;breed&quot;: 1,
+            &quot;weight&quot;: 2000,
+            &quot;birth_date&quot;: &quot;2025-06-01&quot;,
+            &quot;death_date&quot;: null,
+            &quot;breed_name&quot;: &quot;Леггорн&quot;
+        },
+        &quot;cage_details&quot;: {
+            &quot;id&quot;: 5,
+            &quot;workshop_number&quot;: 2,
+            &quot;row_number&quot;: 3,
+            &quot;in_row_number&quot;: 4
+        }
+    }
+]
+</code></pre>
+<h4 id="_37">Создание заселения</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-cages/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;hen&quot;: 2,
+    &quot;cage&quot;: 5,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 2,
+    &quot;hen&quot;: 2,
+    &quot;cage&quot;: 5,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: null,
+    &quot;hen_details&quot;: {
+        &quot;id&quot;: 2,
+        &quot;breed&quot;: 1,
+        &quot;weight&quot;: 2050,
+        &quot;birth_date&quot;: &quot;2025-06-05&quot;,
+        &quot;death_date&quot;: null,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;
+    },
+    &quot;cage_details&quot;: {
+        &quot;id&quot;: 5,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 4
+    }
+}
+</code></pre>
+<h4 id="_38">Обновление заселения</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос (выселение курицы):</strong></p>
+<pre><code class="language-json">{
+    &quot;date_end&quot;: &quot;2025-12-15&quot;
+}
+</code></pre>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 2,
+    &quot;hen&quot;: 2,
+    &quot;cage&quot;: 5,
+    &quot;date_start&quot;: &quot;2025-12-01&quot;,
+    &quot;date_end&quot;: &quot;2025-12-15&quot;,
+    &quot;hen_details&quot;: {
+        &quot;id&quot;: 2,
+        &quot;breed&quot;: 1,
+        &quot;weight&quot;: 2050,
+        &quot;birth_date&quot;: &quot;2025-06-05&quot;,
+        &quot;death_date&quot;: null,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;
+    },
+    &quot;cage_details&quot;: {
+        &quot;id&quot;: 5,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 4
+    }
+}
+</code></pre>
+<h4 id="_39">Удаление заселения</h4>
+<p><strong>Endpoint:</strong> <code>/api/hen-cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Запрещено</p>
+<p><strong>Ответ (405 Method Not Allowed):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Удаление записей о заселении запрещено. Используйте обновление даты выселения&quot;
+}
+</code></pre>
+<h3 id="11-cages">11. Клетки (Cages)</h3>
+<h4 id="_40">Получение списка клеток</h4>
+<p><strong>Endpoint:</strong> <code>/api/cages/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;id&quot;: 5,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 4
+    },
+    {
+        &quot;id&quot;: 6,
+        &quot;workshop_number&quot;: 2,
+        &quot;row_number&quot;: 3,
+        &quot;in_row_number&quot;: 5
+    }
+]
+</code></pre>
+<h4 id="_41">Создание клетки</h4>
+<p><strong>Endpoint:</strong> <code>/api/cages/</code><br />
+<strong>Метод:</strong> POST<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Запрос:</strong></p>
+<pre><code class="language-json">{
+    &quot;workshop_number&quot;: 3,
+    &quot;row_number&quot;: 1,
+    &quot;in_row_number&quot;: 1
+}
+</code></pre>
+<p><strong>Ответ (201 Created):</strong></p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 7,
+    &quot;workshop_number&quot;: 3,
+    &quot;row_number&quot;: 1,
+    &quot;in_row_number&quot;: 1
+}
+</code></pre>
+<h4 id="_42">Обновление клетки</h4>
+<p><strong>Endpoint:</strong> <code>/api/cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> PATCH<br />
+<strong>Права доступа:</strong> Запрещено</p>
+<p><strong>Ответ (405 Method Not Allowed):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Обновление параметров клетки запрещено&quot;
+}
+</code></pre>
+<h4 id="_43">Удаление клетки</h4>
+<p><strong>Endpoint:</strong> <code>/api/cages/&lt;id&gt;/</code><br />
+<strong>Метод:</strong> DELETE<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ограничение:</strong> Удаление разрешено только для пустых клеток</p>
+<p><strong>Ответ (204 No Content):</strong> Пустой ответ</p>
+<p><strong>Ошибка при удалении непустой клетки (400 Bad Request):</strong></p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Нельзя удалить клетку, в которой есть куры или за которой закреплены работники&quot;
+}
+</code></pre>
+<hr />
+<h2 id="_44">Отчеты</h2>
+<h3 id="1_1">1. Яйценоскость по характеристикам курицы</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/eggs-by-characteristics/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;hen_id&quot;: 1,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;weight&quot;: 1106.0,
+        &quot;age_months&quot;: 10.4,
+        &quot;birth_date&quot;: &quot;2025-01-26&quot;,
+        &quot;avg_eggs&quot;: 1.17
+    },
+    {
+        &quot;hen_id&quot;: 2,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;weight&quot;: 1820.0,
+        &quot;age_months&quot;: 10.7,
+        &quot;birth_date&quot;: &quot;2025-01-16&quot;,
+        &quot;avg_eggs&quot;: 1.0
+    }
+]
+</code></pre>
+<p>Обладает параметрами: <code>breed</code>, <code>weight_category</code>, <code>age_category</code>.</p>
+<p>Доступные возрастные категории <code>weight_category</code>:
+* 'до_6_месяцев'
+* '6-12_месяцев'
+* 'старше_года'</p>
+<p>Доступные весовые категории <code>age_category</code>:
+* 'до_1.5_кг'
+* '1.5-2.0_кг'
+* 'свыше_2.0_кг'</p>
+<p><strong>Endpoint:</strong> <code>/api/reports/eggs-by-characteristics/?breed=Леггорн</code> </p>
+<pre><code class="language-json">[
+    {
+        &quot;hen_id&quot;: 2,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;weight&quot;: 1820.0,
+        &quot;age_months&quot;: 10.7,
+        &quot;birth_date&quot;: &quot;2025-01-16&quot;,
+        &quot;avg_eggs&quot;: 1.0
+    },
+    {
+        &quot;hen_id&quot;: 3,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;weight&quot;: 1830.0,
+        &quot;age_months&quot;: 11.0,
+        &quot;birth_date&quot;: &quot;2025-01-06&quot;,
+        &quot;avg_eggs&quot;: 1.0
+    },
+]
+</code></pre>
+<h3 id="2_1">2. Цех с наибольшим количеством кур определенной породы</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/top-workshop/&lt;breed_name&gt;/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Пример:</strong> <code>/api/reports/top-workshop/Леггорн/</code></p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;workshop_number&quot;: 2,
+        &quot;breed_count&quot;: 48
+    }
+]
+</code></pre>
+<h3 id="3_1">3. Среднее количество яиц на работника в день</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/employee-average-eggs/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;employee_name&quot;: &quot;Иванов И.И.&quot;,
+        &quot;avg_eggs_per_day&quot;: 95.3
+    },
+    {
+        &quot;employee_name&quot;: &quot;Петров П.П.&quot;,
+        &quot;avg_eggs_per_day&quot;: 112.7
+    },
+]
+</code></pre>
+<h3 id="4">4. Распределение пород кур по цехам</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/breed-distribution/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;workshop_number&quot;: 1,
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;count&quot;: 5
+    },
+    {
+        &quot;workshop_number&quot;: 1,
+        &quot;breed_name&quot;: &quot;Плимутрок&quot;,
+        &quot;count&quot;: 2
+    },
+    {
+        &quot;workshop_number&quot;: 1,
+        &quot;breed_name&quot;: &quot;Род-Айленд&quot;,
+        &quot;count&quot;: 4
+    }
+]
+</code></pre>
+<h3 id="5">5. Разница эффективности породы и среднего по фабрике</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/breed-efficiency-difference/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">[
+    {
+        &quot;breed_name&quot;: &quot;Леггорн&quot;,
+        &quot;breed_efficiency&quot;: 28,
+        &quot;factory_avg&quot;: 1.11,
+        &quot;difference&quot;: -0.04
+    },
+    {
+        &quot;breed_name&quot;: &quot;Род-Айленд&quot;,
+        &quot;breed_efficiency&quot;: 20,
+        &quot;factory_avg&quot;: 1.11,
+        &quot;difference&quot;: 0.12
+    },
+    {
+        &quot;breed_name&quot;: &quot;Плимутрок&quot;,
+        &quot;breed_efficiency&quot;: 16,
+        &quot;factory_avg&quot;: 1.11,
+        &quot;difference&quot;: -0.05
+    }
+]
+</code></pre>
+<h3 id="6">6. Ежемесячный отчет</h3>
+<p><strong>Endpoint:</strong> <code>/api/reports/monthly/</code><br />
+<strong>Метод:</strong> GET<br />
+<strong>Права доступа:</strong> Аутентифицированный пользователь</p>
+<p><strong>Ответ (200 OK):</strong></p>
+<pre><code class="language-json">{
+    &quot;period&quot;: &quot;2025-11-01 - 2025-11-30&quot;,
+    &quot;total_hens&quot;: 30,
+    &quot;total_eggs&quot;: 363,
+    &quot;workshops&quot;: [
+        {
+            &quot;workshop_number&quot;: 1,
+            &quot;total_hens&quot;: 11,
+            &quot;total_eggs&quot;: 165,
+            &quot;breeds&quot;: [
+                {
+                    &quot;breed_name&quot;: &quot;Леггорн&quot;,
+                    &quot;count&quot;: 5,
+                    &quot;eggs&quot;: 100
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Плимутрок&quot;,
+                    &quot;count&quot;: 2,
+                    &quot;eggs&quot;: 19
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Род-Айленд&quot;,
+                    &quot;count&quot;: 4,
+                    &quot;eggs&quot;: 46
+                }
+            ]
+        },
+        {
+            &quot;workshop_number&quot;: 2,
+            &quot;total_hens&quot;: 9,
+            &quot;total_eggs&quot;: 69,
+            &quot;breeds&quot;: [
+                {
+                    &quot;breed_name&quot;: &quot;Леггорн&quot;,
+                    &quot;count&quot;: 1,
+                    &quot;eggs&quot;: 16
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Плимутрок&quot;,
+                    &quot;count&quot;: 4,
+                    &quot;eggs&quot;: 23
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Род-Айленд&quot;,
+                    &quot;count&quot;: 4,
+                    &quot;eggs&quot;: 30
+                }
+            ]
+        },
+        {
+            &quot;workshop_number&quot;: 3,
+            &quot;total_hens&quot;: 10,
+            &quot;total_eggs&quot;: 129,
+            &quot;breeds&quot;: [
+                {
+                    &quot;breed_name&quot;: &quot;Леггорн&quot;,
+                    &quot;count&quot;: 4,
+                    &quot;eggs&quot;: 64
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Плимутрок&quot;,
+                    &quot;count&quot;: 4,
+                    &quot;eggs&quot;: 39
+                },
+                {
+                    &quot;breed_name&quot;: &quot;Род-Айленд&quot;,
+                    &quot;count&quot;: 2,
+                    &quot;eggs&quot;: 26
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../practice_2/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../practice_2/" class="btn btn-xs btn-link">
+        Практическое задание 2
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="container-fluid wm-page-content">
+  <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
