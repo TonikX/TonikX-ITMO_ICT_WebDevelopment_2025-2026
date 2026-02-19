@@ -1,0 +1,2661 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../pr32/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Сервис лизинга авто (frontend) - Отчёты по лабораторным работам</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Отчёты по лабораторным работам" class="md-header__button md-logo" aria-label="Отчёты по лабораторным работам" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчёты по лабораторным работам
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Сервис лизинга авто (frontend)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Отчёты по лабораторным работам" class="md-nav__button md-logo" aria-label="Отчёты по лабораторным работам" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчёты по лабораторным работам
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Главная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задача 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задача 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задача 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задача 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Задача 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Табло победителей автогонок
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Сервис лизинга авто
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая работа №3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Практическая работа №3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr31/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pr32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Сервис лизинга авто (frontend)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Сервис лизинга авто (frontend)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-vuejs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend - Vue.js приложение
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frontend - Vue.js приложение">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Описание
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологии
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и запуск
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и запуск">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Требования
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запуск в режиме разработки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сборка для production
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Архитектура приложения
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Архитектура приложения">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Компоненты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сервисы и API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сервисы и API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка Axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные API эндпоинты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление состоянием (Vuex)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление состоянием (Vuex)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth-store-storemodulesauthjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth Store (store/modules/auth.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vue-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Маршрутизация (Vue Router)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Маршрутизация (Vue Router)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Публичные маршруты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Административные маршруты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Защита маршрутов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация и авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация и авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Процесс входа
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обновление токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Хранение токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uiux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UI/UX особенности
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI/UX особенности">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vuetify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vuetify компоненты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Валидация форм
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пагинация и фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обработка ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные бизнес-процессы системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Основные бизнес-процессы системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Добавление нового автомобиля в автопарк
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Создание компании по обслуживанию и добавление записи об обслуживании
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Получение отчетов о деятельности компании
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Подача заявки на аренду и ее обработка
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сущности и связи системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сущности и связи системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные сущности:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Связи между сущностями:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры использования системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры использования системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Полный цикл аренды автомобиля
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Техническое обслуживание автомобиля
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 3: Анализ эффективности автопарка
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Особенности реализации
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Особенности реализации">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Безопасность
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Производительность
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uxui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX/UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Масштабируемость
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-vuejs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend - Vue.js приложение
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frontend - Vue.js приложение">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Описание
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологии
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и запуск
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и запуск">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Требования
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запуск в режиме разработки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сборка для production
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Архитектура приложения
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Архитектура приложения">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Компоненты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сервисы и API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сервисы и API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка Axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные API эндпоинты
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление состоянием (Vuex)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление состоянием (Vuex)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth-store-storemodulesauthjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth Store (store/modules/auth.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vue-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Маршрутизация (Vue Router)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Маршрутизация (Vue Router)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Публичные маршруты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Административные маршруты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Защита маршрутов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация и авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация и авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Процесс входа
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обновление токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Хранение токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uiux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UI/UX особенности
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI/UX особенности">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vuetify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vuetify компоненты
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Валидация форм
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пагинация и фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обработка ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные бизнес-процессы системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Основные бизнес-процессы системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Добавление нового автомобиля в автопарк
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Создание компании по обслуживанию и добавление записи об обслуживании
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Получение отчетов о деятельности компании
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Подача заявки на аренду и ее обработка
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сущности и связи системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сущности и связи системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные сущности:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Связи между сущностями:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры использования системы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры использования системы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Полный цикл аренды автомобиля
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Техническое обслуживание автомобиля
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 3: Анализ эффективности автопарка
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Особенности реализации
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Особенности реализации">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Безопасность
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Производительность
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uxui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX/UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Масштабируемость
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Автоматизированная система управления автопарком лизинговой компании</h1>
+<h2 id="frontend-vuejs">Frontend - Vue.js приложение</h2>
+<h3 id="_2">Описание</h3>
+<p>Frontend часть системы представляет собой современное одностраничное приложение (SPA) для управления автопарком лизинговой компании. Приложение построено на Vue.js 3 с использованием Composition API и Vuetify 3 для создания профессионального пользовательского интерфейса. Система разделена на две части: публичный интерфейс для клиентов и административную панель для сотрудников компании.</p>
+<h3 id="_3">Технологии</h3>
+<ul>
+<li><strong>Vue.js 3.4</strong> - прогрессивный JavaScript фреймворк</li>
+<li><strong>Vuetify 3.5</strong> - Material Design компоненты для Vue</li>
+<li><strong>Vue Router 4.2</strong> - маршрутизация</li>
+<li><strong>Vuex 4.0</strong> - управление состоянием</li>
+<li><strong>Axios 1.6</strong> - HTTP клиент</li>
+<li><strong>@vue/cli</strong> - сборщик и dev-сервер</li>
+<li><strong>Material Design Icons</strong> - иконки Material Design</li>
+</ul>
+<h3 id="_4">Установка и запуск</h3>
+<h4 id="_5">Требования</h4>
+<ul>
+<li>Node.js версии 18.0 или выше</li>
+<li>npm или yarn для управления зависимостями</li>
+<li>Работающий Django бэкенд с API на http://localhost:8000</li>
+</ul>
+<h4 id="_6">Установка зависимостей</h4>
+<pre><code class="language-bash">    cd frontend
+npm install
+</code></pre>
+<h4 id="_7">Запуск в режиме разработки</h4>
+<pre><code class="language-bash">npm run serve
+</code></pre>
+<p>Приложение будет доступно по адресу: http://localhost:8080</p>
+<h4 id="production">Сборка для production</h4>
+<pre><code class="language-bash">npm run build
+</code></pre>
+<h3 id="_8">Архитектура приложения</h3>
+<h4 id="_9">Структура проекта</h4>
+<pre><code>src/
+├── api/              # Настройки API и эндпоинты
+├── assets/           # Статические ресурсы
+├── components/       # Переиспользуемые компоненты
+├── plugins/          # Плагины Vuetify
+├── router/           # Конфигурация маршрутизации
+├── store/            # Vuex хранилище
+└── views/            # Основные страницы приложения
+    ├── admin/        # Административная панель
+    │   ├── applications/  # Управление заявками
+    │   ├── cars/          # Управление автомобилями
+    │   ├── clients/       # Управление клиентами
+    │   ├── leases/        # Управление договорами
+    │   └── maintenance/   # Управление обслуживанием
+    └── cars/         # Публичный раздел автомобилей
+</code></pre>
+<h4 id="_10">Компоненты</h4>
+<p><strong>Главный компонент (App.vue)</strong>
+- Управление авторизацией
+- Главный layout приложения
+- Навигация между публичной и админской частями</p>
+<p><strong>Страницы (Views)</strong></p>
+<p><em>Публичная часть:</em>
+- <strong>HomeView</strong> - Главная страница с информацией о компании
+- <strong>Login.vue</strong> - Страница входа в систему
+- <strong>Register.vue</strong> - Страница регистрации сотрудников
+- <strong>Profile.vue</strong> - Личный кабинет пользователя
+- <strong>CarsList.vue</strong> - Каталог доступных автомобилей для аренды
+- <strong>CarDetail.vue</strong> - Детальная страница автомобиля
+- <strong>CarApplication.vue</strong> - Форма подачи заявки на аренду</p>
+<p><em>Административная панель:</em>
+- <strong>AdminLayout.vue</strong> - Основной layout админки с боковым меню
+- <strong>Dashboard.vue</strong> - Дашборд с основной статистикой
+- <strong>AdminReports.vue</strong> - Система отчетов (доходы, загрузка, обслуживание)
+- <strong>AdminCarList.vue</strong> - Управление автомобилями
+- <strong>AdminCarDetail.vue</strong> - Детальная информация об автомобиле
+- <strong>AdminCarForm.vue</strong> - Форма добавления/редактирования автомобиля
+- <strong>CarMaintenance.vue</strong> - История обслуживания автомобиля
+- <strong>CarSpecificationDetail.vue</strong> - Просмотр характеристик автомобиля
+- <strong>CarSpecificationForm.vue</strong> - Форма добавления характеристик
+- <strong>AdminClientList.vue</strong> - Управление клиентами
+- <strong>AdminClientDetail.vue</strong> - Детальная информация о клиенте
+- <strong>AdminLeaseList.vue</strong> - Управление договорами аренды
+- <strong>AdminLeaseDetail.vue</strong> - Детальная информация о договоре
+- <strong>AdminApplicationList.vue</strong> - Управление заявками на аренду
+- <strong>AdminApplicationDetail.vue</strong> - Детальная информация о заявке
+- <strong>AdminMaintenanceCompanyList.vue</strong> - Управление сервисными компаниями
+- <strong>AdminMaintenanceCompanyDetail.vue</strong> - Детальная информация о сервисной компании
+- <strong>AdminMaintenanceCompanyForm.vue</strong> - Форма добавления/редактирования сервисной компании</p>
+<h3 id="api">Сервисы и API</h3>
+<h4 id="axios">Настройка Axios</h4>
+<pre><code class="language-javascript">// main.js
+axios.defaults.baseURL = 'http://localhost:8000/api/'
+
+// Интерцептор для добавления JWT токена
+axios.interceptors.request.use(config =&gt; {
+    const token = localStorage.getItem('token')
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+})
+</code></pre>
+<h4 id="api_1">Основные API эндпоинты</h4>
+<p><strong>Аутентификация:</strong>
+- <code>POST /auth/users/</code> - регистрация сотрудника
+- <code>POST /auth/jwt/create/</code> - вход в систему
+- <code>POST /auth/jwt/refresh/</code> - обновление токена
+- <code>GET /auth/users/me/</code> - данные текущего пользователя
+- <code>PATCH /auth/users/me/</code> - обновление профиля
+- <code>POST /auth/users/set_password/</code> - смена пароля</p>
+<p><strong>Автомобили:</strong>
+- <code>GET /cars/</code> - список автомобилей (публичный)
+- <code>GET /admin/cars/</code> - список автомобилей (админка)
+- <code>GET /admin/cars/{id}/</code> - детали автомобиля
+- <code>POST /admin/cars/</code> - создание автомобиля
+- <code>PATCH /admin/cars/{id}/</code> - обновление автомобиля
+- <code>POST /admin/cars/{id}/specifications/create</code> - добавление характеристик
+- <code>GET /admin/cars/{id}/maintenance/</code> - история обслуживания
+- <code>POST /admin/cars/{id}/maintenance/</code> - добавление записи об обслуживании</p>
+<p><strong>Характеристики автомобилей:</strong>
+- <code>GET /admin/car_specifications/</code> - список всех характеристик
+- <code>PATCH /admin/car_specifications/</code> - обновление характеристик
+- <code>DELETE /admin/car_specifications/</code> - удаление характеристик</p>
+<p><strong>Клиенты:</strong>
+- <code>GET /admin/clients/</code> - список клиентов
+- <code>GET /admin/clients/{id}/</code> - детали клиента
+- <code>POST /admin/clients/</code> - создание клиента
+- <code>PATCH /admin/clients/{id}/</code> - обновление клиента
+- <code>DELETE /admin/clients/{id}/</code> - удаление клиента</p>
+<p><strong>Договоры аренды:</strong>
+- <code>GET /admin/leases/</code> - список договоров
+- <code>GET /admin/leases/{id}/</code> - детали договора
+- <code>PATCH /admin/leases/</code> - обновление договора
+- <code>POST /admin/leases/</code> - создание договора</p>
+<p><strong>Заявки на аренду:</strong>
+- <code>GET /admin/lease_applications/</code> - список заявок
+- <code>GET /admin/lease_applications/{id}/</code> - детали заявки
+- <code>POST /admin/lease_applications/{id}/approve/</code> - одобрение заявки
+- <code>DELETE /admin/lease_applications/{id}/</code> - удаление заявки</p>
+<p><strong>Компании по обслуживанию:</strong>
+- <code>GET /admin/maintenance_companies/</code> - список компаний
+- <code>GET /admin/maintenance_companies/{id}/</code> - детали компании
+- <code>POST /admin/maintenance_companies/</code> - создание компании
+- <code>PATCH /admin/maintenance_companies/{id}/</code> - обновление компании
+- <code>DELETE /admin/maintenance_companies/{id}/</code> - удаление компании</p>
+<p><strong>Отчеты:</strong>
+- <code>GET /admin/reports/revenue/</code> - отчет по доходам
+- <code>GET /admin/reports/utilization/</code> - отчет по загрузке автопарка
+- <code>GET /admin/reports/maintenance_costs/</code> - отчет по затратам на обслуживание</p>
+<h3 id="vuex">Управление состоянием (Vuex)</h3>
+<h4 id="auth-store-storemodulesauthjs">Auth Store (<code>store/modules/auth.js</code>)</h4>
+<p>Управление состоянием аутентификации:</p>
+<pre><code class="language-javascript">const state = {
+    user: null,
+    token: localStorage.getItem('token') || null,
+    loading: false,
+    error: null
+}
+
+const getters = {
+    isAuthenticated: state =&gt; !!state.token,
+    currentUser: state =&gt; state.user
+}
+
+const mutations = {
+    SET_TOKEN(state, token) {
+        state.token = token
+        localStorage.setItem('token', token)
+    },
+    SET_USER(state, user) {
+        state.user = user
+    },
+    LOGOUT(state) {
+        state.token = null
+        state.user = null
+        localStorage.removeItem('token')
+    }
+}
+
+const actions = {
+    async login({ commit }, credentials) {
+        // Логика входа
+    },
+    async logout({ commit }) {
+        commit('LOGOUT')
+    },
+    async fetchCurrentUser({ commit }) {
+        // Загрузка данных пользователя
+    }
+}
+</code></pre>
+<h3 id="vue-router">Маршрутизация (Vue Router)</h3>
+<h4 id="_11">Публичные маршруты</h4>
+<pre><code class="language-javascript">{
+    path: '/cars',
+    name: 'CarsList',
+    component: CarsList
+},
+{
+    path: '/cars/:id',
+    name: 'CarDetail',
+    component: CarDetail,
+    props: true
+},
+{
+    path: '/cars/:id/application',
+    name: 'CarApplication',
+    component: CarApplication,
+    props: true,
+    meta: { requiresAuth: true }
+},
+... и другие
+</code></pre>
+<h4 id="_12">Административные маршруты</h4>
+<pre><code class="language-javascript">{
+    path: '/admin',
+    component: AdminLayout,
+    meta: { requiresAuth: true, requiresAdmin: true },
+    children: [
+        {
+            path: '',
+            name: 'AdminDashboard',
+            component: Dashboard
+        },
+        {
+            path: 'reports',
+            name: 'AdminReports',
+            component: AdminReports
+        },
+        {
+            path: 'cars',
+            name: 'AdminCars',
+            component: AdminCarList
+        },
+        // ... остальные админ-маршруты
+    ]
+}
+</code></pre>
+<h4 id="_13">Защита маршрутов</h4>
+<ul>
+<li>Все административные маршруты требуют аутентификации и прав администратора</li>
+<li>Публичные маршруты доступны всем пользователям</li>
+<li>Автоматический редирект на /login при отсутствии токена</li>
+<li>Проверка JWT токена при каждом запросе через axios interceptor</li>
+</ul>
+<h3 id="_14">Аутентификация и авторизация</h3>
+<h4 id="_15">Процесс входа</h4>
+<ol>
+<li>Пользователь вводит username и password</li>
+<li>Отправляется POST запрос на <code>/auth/jwt/create/</code></li>
+<li>При успешной аутентификации JWT токен сохраняется в localStorage</li>
+<li>Токен автоматически добавляется к каждому API запросу через axios interceptor</li>
+<li>Загружаются данные пользователя через <code>/auth/users/me/</code></li>
+</ol>
+<h4 id="_16">Обновление токена</h4>
+<p>Система поддерживает автоматическое обновление JWT токенов:
+- При получении ошибки 401 (Unauthorized) проверяется наличие refresh токена
+- Автоматическая отправка запроса на <code>/auth/jwt/refresh/</code>
+- Обновление access токена без необходимости повторного входа</p>
+<h4 id="_17">Хранение токена</h4>
+<ul>
+<li>Access token хранится в localStorage</li>
+<li>При каждом запросе добавляется в заголовок <code>Authorization: Bearer &lt;token&gt;</code></li>
+<li>При выходе из системы токен удаляется из localStorage</li>
+</ul>
+<h3 id="uiux">UI/UX особенности</h3>
+<h4 id="vuetify">Vuetify компоненты</h4>
+<p>Приложение использует Material Design компоненты из Vuetify 3:
+- <strong>v-data-table</strong> - таблицы с пагинацией, сортировкой и фильтрацией
+- <strong>v-dialog</strong> - модальные окна для форм создания/редактирования
+- <strong>v-form</strong> - формы с комплексной валидацией
+- <strong>v-tabs</strong> - вкладки для организации контента
+- <strong>v-card</strong> - карточки для структурированного отображения информации
+- <strong>v-chip</strong> - чипы для статусов и категорий
+- <strong>v-alert</strong> - уведомления об ошибках и успешных операциях
+- <strong>v-progress-linear</strong> - индикаторы загрузки</p>
+<h4 id="_18">Валидация форм</h4>
+<p>Все формы имеют многоуровневую валидацию:
+- Проверка обязательных полей
+- Валидация форматов (email, даты, номера)
+- Проверка диапазонов значений
+- Сравнение паролей при регистрации и смене пароля
+- Отображение ошибок под соответствующими полями</p>
+<h4 id="_19">Пагинация и фильтрация</h4>
+<ul>
+<li>Все таблицы поддерживают пагинацию (по умолчанию 5-10 элементов на странице)</li>
+<li>Фильтрация по статусам, датам, текстовым полям</li>
+<li>Сортировка по ключевым элементам</li>
+<li>Поиск по ключевым полям (марка автомобиля, название компании и т.д.)</li>
+</ul>
+<h4 id="_20">Обработка ошибок</h4>
+<ul>
+<li>Отображение ошибок валидации под полями форм</li>
+<li>Глобальные уведомления об ошибках API</li>
+<li>Уведомления об успешных операциях с автоматическим скрытием</li>
+<li>Обработка сетевых ошибок и ошибок сервера</li>
+</ul>
+<h3 id="-">Основные бизнес-процессы системы</h3>
+<h4 id="1">1. Добавление нового автомобиля в автопарк</h4>
+<p><strong>Процесс:</strong>
+1. Администратор переходит в раздел "Автомобили" → "Добавить автомобиль"
+2. Заполняет основную информацию: марка, модель, год, VIN, гос. номер
+3. После сохранения добавляет технические характеристики:
+   - Тип двигателя, объем, мощность
+   - Коробка передач, привод, тип кузова
+   - Расход топлива, цвет, дополнительные опции
+4. Автомобиль появляется в каталоге с статусом "Доступен"</p>
+<p><strong>Техническая реализация:</strong></p>
+<pre><code class="language-javascript">// AdminCarForm.vue - форма добавления автомобиля
+const submitForm = async () =&gt; {
+    const response = await axios.post('admin/cars/', formData)
+    // После успешного создания - переход к добавлению характеристик
+    router.push(`/admin/cars/${response.data.id}/specifications/create`)
+}
+</code></pre>
+<h4 id="2">2. Создание компании по обслуживанию и добавление записи об обслуживании</h4>
+<p><strong>Процесс:</strong>
+1. Администратор создает компанию по обслуживанию через раздел "Обслуживание" → "Добавить компанию"
+2. Указывает название, телефон и адрес компании
+3. Для конкретного автомобиля добавляет запись об обслуживании:
+   - Выбирает сервисную компанию из списка
+   - Указывает дату, вид обслуживания, стоимость
+   - Добавляет описание выполненных работ
+4. Запись сохраняется в истории обслуживания автомобиля</p>
+<p><strong>Техническая реализация:</strong></p>
+<pre><code class="language-javascript">// CarMaintenance.vue - добавление обслуживания
+const addMaintenance = async () =&gt; {
+    const payload = {
+        maintenance_company: selectedCompany.id,
+        date: maintenanceForm.date,
+        service: maintenanceForm.service,
+        cost: maintenanceForm.cost,
+        description: maintenanceForm.description,
+        car: carId
+    }
+    await axios.post(`admin/cars/${carId}/maintenance/`, payload)
+}
+</code></pre>
+<h4 id="3">3. Получение отчетов о деятельности компании</h4>
+<p><strong>Процесс:</strong>
+1. Администратор переходит в раздел "Отчеты"
+2. Выбирает тип отчета:
+   - <strong>Отчет по доходам</strong>: общий доход по аренде, количество договоров
+   - <strong>Отчет по загрузке</strong>: средняя загрузка автопарка, дни аренды по автомобилям
+   - <strong>Отчет по обслуживанию</strong>: общие затраты, средние затраты на авто
+3. Получает данные в виде таблиц с агрегированной статистикой
+4. Может экспортировать данные для анализа</p>
+<p><strong>Техническая реализация:</strong></p>
+<pre><code class="language-javascript">// AdminReports.vue - загрузка отчетов
+const fetchRevenueReport = async () =&gt; {
+    const response = await axios.get('admin/reports/revenue/')
+    revenueData.value = response.data.results
+    // Расчет статистики
+    revenueStats.value.totalLeases = revenueData.value.reduce((sum, item) =&gt; sum + item.leasings_count, 0)
+    revenueStats.value.totalIncome = revenueData.value.reduce((sum, item) =&gt; sum + (item.total_income || 0), 0)
+}
+</code></pre>
+<h4 id="4">4. Подача заявки на аренду и ее обработка</h4>
+<p><strong>Процесс:</strong>
+<strong>Со стороны клиента:</strong>
+1. Клиент просматривает каталог доступных автомобилей
+2. Выбирает понравившийся автомобиль и нажимает "Арендовать"
+3. Заполняет заявку с указанием компании и контактных данных
+4. Заявка отправляется на рассмотрение</p>
+<p><strong>Со стороны администратора:</strong>
+1. В разделе "Заявки" видит новую заявку
+2. Проверяет доступность автомобиля
+3. Варианты действий:
+   - <strong>Одобрить</strong>: создать договор аренды с указанием дат и стоимости
+   - <strong>Отклонить</strong>: удалить заявку с указанием причины
+4. При одобрении автоматически создается договор, автомобиль переводится в статус "В аренде"</p>
+<p><strong>Техническая реализация:</strong></p>
+<pre><code class="language-javascript">// AdminApplicationDetail.vue - одобрение заявки
+const approveApplication = async () =&gt; {
+    const payload = {
+        start_date: approveForm.start_date,
+        end_date: approveForm.end_date,
+        monthly_payment: approveForm.monthly_payment
+    }
+    const response = await axios.post(`admin/lease_applications/${applicationId}/approve/`, payload)
+    // Извлечение ID созданного договора из сообщения
+    const leaseId = response.data.success.match(/Договор #(\d+)/)[1]
+}
+</code></pre>
+<h3 id="_21">Сущности и связи системы</h3>
+<h4 id="_22">Основные сущности:</h4>
+<ol>
+<li><strong>AdminUser</strong> - Сотрудник компании</li>
+<li>Аутентификация через Django</li>
+<li>
+<p>Поля: username, email, phone, position</p>
+</li>
+<li>
+<p><strong>Client</strong> - Компания-клиент</p>
+</li>
+<li>Юридическое лицо, арендующее автомобили</li>
+<li>
+<p>Поля: company_name, inn, email, phone, address, contact_person</p>
+</li>
+<li>
+<p><strong>Car</strong> - Автомобиль</p>
+</li>
+<li>Основная сущность автопарка</li>
+<li>Статусы: available, leased, maintenance, sold</li>
+<li>
+<p>Поля: make, model, year, vin, license_plate, status</p>
+</li>
+<li>
+<p><strong>CarSpecification</strong> - Характеристики автомобиля</p>
+</li>
+<li>OneToOne связь с Car</li>
+<li>
+<p>Поля: engine_type, engine_volume, horsepower, transmission, drivetrain, body_type</p>
+</li>
+<li>
+<p><strong>Lease</strong> - Договор аренды</p>
+</li>
+<li>Связывает Car и Client</li>
+<li>Статусы: active, completed, cancelled</li>
+<li>
+<p>Поля: start_date, end_date, monthly_payment, status</p>
+</li>
+<li>
+<p><strong>LeaseApplication</strong> - Заявка на аренду</p>
+</li>
+<li>Предварительная заявка от клиента</li>
+<li>
+<p>Связывает Car и Client до создания договора</p>
+</li>
+<li>
+<p><strong>MaintenanceCompany</strong> - Компания по обслуживанию</p>
+</li>
+<li>Сервисные центры и СТО</li>
+<li>
+<p>Поля: name, phone, address</p>
+</li>
+<li>
+<p><strong>Maintenance</strong> - Запись об обслуживании</p>
+</li>
+<li>История обслуживания автомобиля</li>
+<li>Поля: date, service, cost, description</li>
+<li>Связывает Car и MaintenanceCompany</li>
+</ol>
+<h4 id="_23">Связи между сущностями:</h4>
+<ul>
+<li><strong>Car</strong> → <strong>CarSpecification</strong> (OneToOne)</li>
+<li><strong>Car</strong> → <strong>Lease</strong> (OneToMany)</li>
+<li><strong>Car</strong> → <strong>LeaseApplication</strong> (OneToMany)</li>
+<li><strong>Car</strong> → <strong>Maintenance</strong> (OneToMany)</li>
+<li><strong>Client</strong> → <strong>Lease</strong> (OneToMany)</li>
+<li><strong>Client</strong> → <strong>LeaseApplication</strong> (OneToMany)</li>
+<li><strong>MaintenanceCompany</strong> → <strong>Maintenance</strong> (OneToMany)</li>
+<li><strong>AdminUser</strong> → <strong>Lease</strong> (ForeignKey - created_by_admin)</li>
+<li><strong>AdminUser</strong> → <strong>Maintenance</strong> (ForeignKey - created_by_admin)</li>
+</ul>
+<h3 id="_24">Примеры использования системы</h3>
+<h4 id="1_1">Пример 1: Полный цикл аренды автомобиля</h4>
+<ol>
+<li><strong>Клиент просматривает каталог</strong>: </li>
+<li>Переходит на страницу /cars</li>
+<li>Видит список доступных автомобилей с фильтрацией по марке, году, характеристикам</li>
+<li>
+<p>Выбирает автомобиль и нажимает "Подробнее"</p>
+</li>
+<li>
+<p><strong>Подача заявки</strong>:</p>
+</li>
+<li>На странице автомобиля нажимает "Арендовать"</li>
+<li>Заполняет форму заявки с данными компании</li>
+<li>
+<p>Отправляет заявку на рассмотрение</p>
+</li>
+<li>
+<p><strong>Администратор обрабатывает заявку</strong>:</p>
+</li>
+<li>Видит новую заявку в разделе "Заявки"</li>
+<li>Проверяет доступность автомобиля</li>
+<li>Одобряет заявку, создавая договор аренды</li>
+<li>
+<p>Указывает даты аренды и стоимость</p>
+</li>
+<li>
+<p><strong>Создание договора</strong>:</p>
+</li>
+<li>Система автоматически создает договор</li>
+<li>Автомобиль переводится в статус "В аренде"</li>
+<li>Клиент получает уведомление</li>
+</ol>
+<h4 id="2_1">Пример 2: Техническое обслуживание автомобиля</h4>
+<ol>
+<li><strong>Создание сервисной компании</strong>:</li>
+<li>Администратор добавляет новую СТО через раздел "Обслуживание"</li>
+<li>
+<p>Указывает контактные данные и адрес</p>
+</li>
+<li>
+<p><strong>Добавление записи об обслуживании</strong>:</p>
+</li>
+<li>Переходит к конкретному автомобилю</li>
+<li>Нажимает "Обслуживание" → "Добавить обслуживание"</li>
+<li>Выбирает сервисную компанию из списка</li>
+<li>
+<p>Заполняет данные об услуге, стоимости и описании</p>
+</li>
+<li>
+<p><strong>Просмотр истории обслуживания</strong>:</p>
+</li>
+<li>Вся история обслуживания доступна на странице автомобиля</li>
+<li>Возможность фильтрации по дате, сервису, стоимости</li>
+<li>Статистика затрат на обслуживание</li>
+</ol>
+<h4 id="3_1">Пример 3: Анализ эффективности автопарка</h4>
+<ol>
+<li><strong>Просмотр отчетов</strong>:</li>
+<li>Администратор переходит в раздел "Отчеты"</li>
+<li>Выбирает отчет "Доходы по аренде"</li>
+<li>Видит таблицу с доходами по каждому автомобилю</li>
+<li>
+<p>Анализирует наиболее доходные модели</p>
+</li>
+<li>
+<p><strong>Оптимизация загрузки</strong>:</p>
+</li>
+<li>Просматривает отчет "Загрузка автопарка"</li>
+<li>Определяет автомобили с низкой загрузкой</li>
+<li>
+<p>Принимает решения о продаже или рекламе</p>
+</li>
+<li>
+<p><strong>Контроль затрат</strong>:</p>
+</li>
+<li>Анализирует отчет "Затраты на обслуживание"</li>
+<li>Выявляет автомобили с высокими затратами</li>
+<li>Планирует профилактические мероприятия</li>
+</ol>
+<h3 id="_25">Особенности реализации</h3>
+<h4 id="_26">Безопасность</h4>
+<ul>
+<li>JWT аутентификация с автоматическим обновлением токенов</li>
+<li>Защита маршрутов на уровне Vue Router</li>
+<li>Валидация всех входных данных на клиенте и сервере</li>
+<li>Защита от XSS и CSRF атак</li>
+</ul>
+<h4 id="_27">Производительность</h4>
+<ul>
+<li>Быстрая загрузка компонентов</li>
+<li>Пагинация больших списков</li>
+<li>Оптимизированные API запросы</li>
+</ul>
+<h4 id="uxui">UX/UI</h4>
+<ul>
+<li>Адаптивный дизайн </li>
+<li>Интуитивная навигация</li>
+<li>Визуальная обратная связь для всех действий</li>
+<li>Единый стиль интерфейса</li>
+</ul>
+<h4 id="_28">Масштабируемость</h4>
+<ul>
+<li>Модульная архитектура компонентов</li>
+<li>Централизованное управление состоянием</li>
+<li>Легкое добавление новых функциональных модулей</li>
+</ul>
+<h3 id="_29">Заключение</h3>
+<p>Разработанная frontend часть системы управления автопарком лизинговой компании представляет собой полнофункциональное современное веб-приложение, которое:</p>
+<ol>
+<li><strong>Обеспечивает удобный интерфейс</strong> для клиентов и администраторов</li>
+<li><strong>Автоматизирует ключевые бизнес-процессы</strong> компании</li>
+<li><strong>Предоставляет инструменты аналитики</strong> для принятия управленческих решений</li>
+<li><strong>Обеспечивает безопасность</strong> и сохранность данных</li>
+<li><strong>Легко масштабируется</strong> и поддерживается</li>
+</ol>
+<p>Система готова к эксплуатации и может быть развернута как на собственной инфраструктуре компании, так и в облачных средах.
+```</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
