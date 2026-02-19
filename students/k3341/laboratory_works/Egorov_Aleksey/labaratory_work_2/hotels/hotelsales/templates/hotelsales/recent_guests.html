@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Постояльцы за последний месяц</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            padding: 30px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #bb86fc;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .period {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #999;
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Таблица */
+        .table-wrapper {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #2d2d2d;
+            color: #bb86fc;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #bb86fc;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+        tr:hover {
+            background: #2d2d2d;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Статусы */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background: #3a2e1e;
+            color: #f39c12;
+        }
+        .status-cancelled {
+            background: #3a1e1e;
+            color: #cf6679;
+        }
+        .status-checked_in {
+            background: #1e2a3a;
+            color: #3498db;
+        }
+        .status-checked_out, .status-completed {
+            background: #1e3a2e;
+            color: #8bc34a;
+        }
+
+        /* Информация о госте */
+        .guest-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .guest-name {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .guest-email {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Количество гостей */
+        .guests-count {
+            background: #2d2d2d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Пустое состояние */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 60px;
+            background: #1e1e1e;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        .empty-state p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Кнопка */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #bb86fc;
+            color: #121212;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #a370d0;
+        }
+
+        /* Ссылка назад */
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: #bb86fc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Статистика */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+        .stat-card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            flex: 1;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            color: #bb86fc;
+            font-weight: bold;
+        }
+        .stat-label {
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Постояльцы за последний месяц</h1>
+    <div class="period">
+        Период: {{ period_start|date:"d.m.Y" }} — {{ period_end|date:"d.m.Y" }}
+    </div>
+
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Гость</th>
+                    <th>Отель</th>
+                    <th>Тип номера</th>
+                    <th>Заезд</th>
+                    <th>Выезд</th>
+                    <th>Гости</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.user.username }} ({{ booking.user.email|default:"—" }})</td>
+                        <td>{{ booking.room_type.hotel.name }}</td>
+                        <td>{{ booking.room_type.name }}</td>
+                        <td>{{ booking.check_in|date:"d.m.Y" }}</td>
+                        <td>{{ booking.check_out|date:"d.m.Y" }}</td>
+                        <td>{{ booking.adults }} + {{ booking.children }} = {{ booking.adults|add:booking.children }}</td>
+                        <td>{{ booking.get_status_display }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding:40px; color:#7f8c8d;">
+                            За последний месяц постояльцев не было.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center; font-size:1.2em; color:#7f8c8d;">
+            За последний месяц постояльцев не было.
+        </p>
+    {% endif %}
+
+    <a href="{% url 'hotelsales:home' %}" class="back-link">← На главную</a>
+</div>
+
+</body>
+</html>

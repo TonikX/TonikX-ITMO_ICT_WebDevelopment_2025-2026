@@ -1,0 +1,24 @@
+site_name: Отчеты по лабораторным работам. Егоров Алексей, K3341
+
+theme:
+  name: windmill
+  language: ru
+  palette:
+    scheme: default
+  features:
+    - navigation.tabs
+    - navigation.top
+
+nav:
+  - 'Главная': 'index.md'
+  - 'Лабораторная работа №1':
+    - 'Задание 1: UDP Клиент-Сервер': 'lr1/task1.md'
+    - 'Задание 2: TCP Калькулятор': 'lr1/task2.md'
+    - 'Задание 3: HTTP Сервер': 'lr1/task3.md'
+    - 'Задание 4: TCP Чат': 'lr1/task4.md'
+    - 'Задание 5: Веб-сервер (GET/POST)': 'lr1/task5.md'
+  - 'Лабораторная работа №2': lr2/lr2.md
+  - 'Лабораторная работа №3':
+    - 'Практическое задание 1': 'lr3/practice_1.md'
+    - 'Практическое задание 2': 'lr3/practice_2.md'
+    - 'Лабораторная работа': 'lr3/lr3.md'

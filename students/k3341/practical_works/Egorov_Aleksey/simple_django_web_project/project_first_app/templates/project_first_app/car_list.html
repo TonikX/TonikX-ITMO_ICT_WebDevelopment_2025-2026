@@ -1,0 +1,15 @@
+<ul>
+    <!-- Iterate over object_list -->
+    {% for object in object_list %}
+    <!-- Display Objects -->
+    <li><strong>State Number:</strong> {{ object.state_number }}</li>
+    <li><strong>Brand:</strong> {{ object.brand }}</li>
+	<li><strong>Model:</strong> {{ object.model }}</li>
+	<li><strong>Colour:</strong> {{ object.colour }}</li>
+  
+    <hr/>
+    <!-- If objet_list is empty  -->
+    {% empty %}
+    <li>No objects yet.</li>
+    {% endfor %}
+</ul>
