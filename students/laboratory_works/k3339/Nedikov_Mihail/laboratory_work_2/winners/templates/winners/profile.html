@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/profile.css' %}">
+    <title>Профиль - Табло победителей гонок</title>
+</head>
+<body>
+<div class="profile-container">
+    <div class="profile-content">
+        {% if user.racer %}
+        <h2>Профиль гонщика</h2>
+        <div class="profile-info">
+            <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+            <p><strong>Команда:</strong> {{ user.racer.team }}</p>
+            <p><strong>Опыт:</strong> {{ user.racer.experience }} лет</p>
+            <p><strong>Класс:</strong> {{ user.racer.classs }}</p>
+            <p><strong>Автомобиль:</strong> {{ user.racer.car_description }}</p>
+            <p><strong>Описание гонщика:</strong> {{ user.racer.racer_description }}</p>
+        </div>
+        {% elif user.commentator %}
+        <h2>Профиль комментатора</h2>
+        <div class="profile-info">
+            <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+            <p>Вы зарегистрированы как комментатор</p>
+        </div>
+        {% else %}
+        <h2>Завершите регистрацию</h2>
+        <div class="no-role-message">
+            <p>Выберите роль для полного доступа к функциям:</p>
+        </div>
+        <div class="role-buttons">
+            <a href="{% url 'register_racer' %}" class="btn btn-primary">Стать гонщиком</a>
+            <a href="{% url 'register_commentator' %}" class="btn btn-secondary">Стать комментатором</a>
+        </div>
+        {% endif %}
+<br>
+        <div class="profile-actions" style="margin-top: 2rem; text-align: center;">
+            <a href="{% url 'races_list' %}" class="btn btn-primary" style="display: inline-block;">
+                Перейти к гонкам
+            </a>
+        </div>
+<br>
+<br>
+        <div class="logout-section">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-logout">Выйти из аккаунта</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/choose_role.css' %}">
+    <title>Выбор роли - Табло победителей гонок</title>
+</head>
+<body>
+    <div class="choose-role-container">
+        <div class="choose-role-content">
+            <h2>Выберите роль</h2>
+            <p>Вы успешно зарегистрированы! Теперь выберите свою роль:</p>
+
+            <div class="role-choices">
+                <a href="{% url 'register_racer' %}" class="role-btn btn-primary">
+                    Продолжить регистрацию в качестве гонщика
+                    <div class="role-description">Участвуйте в гонках, управляйте своим профилем и автомобилем</div>
+                </a>
+                <a href="{% url 'register_commentator' %}" class="role-btn btn-secondary">
+                    Продолжить как комментатор
+                    <div class="role-description">Оставляйте комментарии и отзывы о гонках</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

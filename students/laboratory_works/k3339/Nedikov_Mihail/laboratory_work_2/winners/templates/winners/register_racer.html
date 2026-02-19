@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'winners/css/register_racer.css' %}">
+    <title>Регистрация гонщика - Табло победителей гонок</title>
+</head>
+<body>
+    <div class="racer-register-container">
+        <div class="racer-register-form">
+            <h2>Регистрация гонщика</h2>
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="id_team">Команда:</label>
+                    {{ form.team }}
+                    {% if form.team.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.team.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_car_description">Описание автомобиля:</label>
+                    {{ form.car_description }}
+                    {% if form.car_description.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.car_description.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_racer_description">Описание гонщика:</label>
+                    {{ form.racer_description }}
+                    {% if form.racer_description.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.racer_description.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_experience">Опыт (лет):</label>
+                    {{ form.experience }}
+                    {% if form.experience.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.experience.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_classs">Класс:</label>
+                    {{ form.classs }}
+                    {% if form.classs.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.classs.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="submit-btn">Завершить регистрацию гонщика</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
