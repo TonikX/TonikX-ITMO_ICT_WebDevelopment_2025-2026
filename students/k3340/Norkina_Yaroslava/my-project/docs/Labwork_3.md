@@ -783,6 +783,9 @@ history3 = OrderStatusHistory.objects.create(
     comment='Начал разработку контент-плана'
 )
 ```
+Результат:
+
+<img width="1289" height="697" alt="image" src="https://github.com/user-attachments/assets/c366d192-3be4-47be-93a6-b0d3d9ee107e" />
 
 ---
 
