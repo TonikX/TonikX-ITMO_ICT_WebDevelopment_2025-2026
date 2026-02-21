@@ -783,9 +783,6 @@ history3 = OrderStatusHistory.objects.create(
     comment='Начал разработку контент-плана'
 )
 ```
-Результат:
-
-<img width="1289" height="697" alt="image" src="https://github.com/user-attachments/assets/c366d192-3be4-47be-93a6-b0d3d9ee107e" />
 
 ---
 
@@ -819,6 +816,11 @@ admins = User.objects.filter(role=User.Role.ADMIN)
 print(f"Администраторов: {admins.count()}")
 ```
 
+Результат:
+
+<img width="1289" height="697" alt="image" src="https://github.com/user-attachments/assets/c366d192-3be4-47be-93a6-b0d3d9ee107e" />
+
+
 #### Фильтрация по связанным таблицам
 
 ```python
@@ -834,14 +836,10 @@ print(f"Отзывов на услугу '{service3.name}': {service_reviews.cou
 order_comments = Comment.objects.filter(order=order1)
 print(f"Комментариев к заявке #{order1.id}: {order_comments.count()}")
 
-# Файлы для конкретной услуги
-service_files = File.objects.filter(service=service1)
-print(f"Файлов для услуги '{service1.name}': {service_files.count()}")
-
-# Главные изображения всех услуг
-primary_images = File.objects.filter(is_primary=True)
-print(f"Главных изображений: {primary_images.count()}")
 ```
+Результат:
+
+<img width="1120" height="504" alt="image" src="https://github.com/user-attachments/assets/2ca58d55-7efd-4f77-b2ec-df2a941b75ce" />
 
 #### Комбинированная фильтрация
 
