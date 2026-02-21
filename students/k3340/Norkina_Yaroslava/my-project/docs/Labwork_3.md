@@ -1153,1174 +1153,1837 @@ if comment_to_delete:
 # Сначала нужно удалить или переназначить связанные объекты
 ```
 
-#### Пакетное обновление
-
-```python
-# Деактивация всех услуг категории "устаревшие"
-old_services = Service.objects.filter(
-    category='old',
-    is_active=True
-)
-count = old_services.update(is_active=False)
-print(f"Деактивировано {count} устаревших услуг")
-
-# Обновление статуса всех отмененных заявок
-cancelled_count = Order.objects.filter(
-    status=Order.Status.CANCELLED
-).update(
-    completed_at=timezone.now()
-)
-print(f"Обновлено {cancelled_count} отмененных заявок")
-
-# Публикация всех подтвержденных отзывов
-published_count = Review.objects.filter(
-    is_verified=True,
-    is_published=False
-).update(is_published=True)
-print(f"Опубликовано {published_count} отзывов")
-```
-
----
-
-### Шаг 8: Практические примеры запросов
-
-#### Пример 1: Создание тестовых данных
-
-```python
-# Создаем 3 дополнительных администратора
-admin2 = User.objects.create_user(
-    username='admin2',
-    email='admin2@personalbrand.com',
-    password='admin123',
-    first_name='Мария',
-    last_name='Петрова',
-    phone='+79001112277',
-    role=User.Role.ADMIN
-)
-
-admin3 = User.objects.create_user(
-    username='admin3',
-    email='admin3@personalbrand.com',
-    password='admin123',
-    first_name='Алексей',
-    last_name='Сидоров',
-    phone='+79001112288',
-    role=User.Role.ADMIN
-)
-
-# Создаем 5 дополнительных пользователей
-test_users = []
-for i in range(6, 11):
-    user = User.objects.create_user(
-        username=f'user{i}',
-        email=f'user{i}@example.com',
-        password='user123',
-        first_name=f'Имя{i}',
-        last_name=f'Фамилия{i}',
-        phone=f'+790011122{i}0',
-        role=User.Role.USER
-    )
-    test_users.append(user)
-
-print(f"Создано {len(test_users)} тестовых пользователей")
-
-# Создаем 10 дополнительных услуг
-categories = ['consulting', 'coaching', 'training', 'content', 'design', 'marketing']
-for i in range(6, 16):
-    category = categories[i % len(categories)]
-    service = Service.objects.create(
-        name=f'Услуга {i} ({category})',
-        description=f'Описание услуги {i} в категории {category}',
-        price=5000 + i * 1000,
-        duration=30 + i * 15,
-        category=category,
-        is_active=True,
-        created_by=admin if i % 2 == 0 else admin2
-    )
-
-print(f"Создано {Service.objects.count()} услуг всего")
-
-# Создаем 20 заявок
-for i in range(1, 21):
-    user = test_users[i % len(test_users)]
-    service = Service.objects.all()[i % Service.objects.count()]
-    status = Order.Status.NEW if i % 4 == 0 else \
-             Order.Status.IN_PROGRESS if i % 4 == 1 else \
-             Order.Status.COMPLETED if i % 4 == 2 else \
-             Order.Status.CANCELLED
-    
-    order = Order.objects.create(
-        user=user,
-        service=service,
-        status=status,
-        notes=f'Тестовая заявка {i}'
-    )
-
-print(f"Создано {Order.objects.count()} заявок всего")
-```
-
-#### Пример 2: Комплексные запросы
-
-```python
-# 1. Найти всех пользователей с 2 и более заявками
-users_with_multiple_orders = User.objects.filter(
-    role=User.Role.USER
-).annotate(
-    order_count=Count('orders')
-).filter(
-    order_count__gte=2
-).order_by('-order_count')
-
-print("\nПользователи с 2+ заявками:")
-for user in users_with_multiple_orders:
-    print(f"  {user.username}: {user.order_count} заявок")
-
-# 2. Найти услуги с самой высокой средней оценкой (минимум 2 отзыва)
-top_rated_services = Service.objects.annotate(
-    avg_rating=Avg('reviews__rating'),
-    review_count=Count('reviews')
-).filter(
-    review_count__gte=2,
-    avg_rating__isnull=False
-).order_by('-avg_rating')[:5]
-
-print("\nТоп-5 услуг по рейтингу:")
-for service in top_rated_services:
-    print(f"  {service.name}: {service.avg_rating:.1f}★ ({service.review_count} отзывов)")
-
-# 3. Найти администратора, который обработал больше всего заявок
-top_admin = User.objects.filter(
-    role=User.Role.ADMIN
-).annotate(
-    completed_orders=Count('created_services__orders', filter=Q(created_services__orders__status=Order.Status.COMPLETED))
-).order_by('-completed_orders').first()
-
-if top_admin:
-    print(f"\nТоп администратор: {top_admin.username} - {top_admin.completed_orders} завершенных заявок")
-
-# 4. Найти пользователей, у которых есть завершенные заявки, но нет отзывов
-users_without_reviews = User.objects.filter(
-    orders__status=Order.Status.COMPLETED
-).exclude(
-    reviews__isnull=False
-).distinct()
-
-print(f"\nПользователей с завершенными заявками без отзывов: {users_without_reviews.count()}")
-
-# 5. Статистика по категориям услуг с количеством заявок
-category_order_stats = Service.objects.values('category').annotate(
-    service_count=Count('id'),
-    order_count=Count('orders'),
-    avg_price=Avg('price')
-).order_by('-order_count')
-
-print("\nСтатистика категорий по заявкам:")
-for stat in category_order_stats:
-    print(f"  {stat['category']}: {stat['service_count']} услуг, "
-          f"{stat['order_count']} заявок, "
-          f"сред. цена: {stat['avg_price']:.0f}")
-
-# 6. Найти заявки, которые находятся в работе более 7 дней
-week_ago = timezone.now() - timedelta(days=7)
-long_running_orders = Order.objects.filter(
-    status=Order.Status.IN_PROGRESS,
-    created_at__lt=week_ago
-)
-
-print(f"\nЗаявок в работе более 7 дней: {long_running_orders.count()}")
-
-# 7. Найти услуги без изображений
-services_without_images = Service.objects.filter(
-    files__isnull=True
-)
-
-print(f"\nУслуг без изображений: {services_without_images.count()}")
-
-# 8. Подсчитать общую выручку от завершенных заявок
-total_revenue = Order.objects.filter(
-    status=Order.Status.COMPLETED
-).aggregate(
-    total=Sum('service__price')
-)
-
-print(f"\nОбщая выручка: {total_revenue['total']}")
-
-# 9. Найти пользователей, зарегистрированных за последнюю неделю
-week_ago = timezone.now() - timedelta(days=7)
-new_users = User.objects.filter(
-    role=User.Role.USER,
-    date_joined__gte=week_ago
-)
-
-print(f"\nНовых пользователей за неделю: {new_users.count()}")
-
-# 10. Получить историю всех изменений статусов для конкретной заявки
-order_history = OrderStatusHistory.objects.filter(
-    order=order1
-).order_by('changed_at')
-
-print(f"\nИстория заявки #{order1.id}:")
-for entry in order_history:
-    print(f"  {entry.changed_at}: {entry.old_status} → {entry.new_status} "
-          f"(админ: {entry.changed_by.username})")
-```
-
 ---
 
 ## API (Django REST Framework)
 
-### Шаг 1: Создание сериализаторов
+### Создание сериализаторов
 
-**Файл: `core/serializers.py`**
+**Файл: `manager_services/serializers.py`**
 
 ```python
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from djoser.serializers import UserSerializer as BaseUserSerializer
+from .models import User
+
+class UserCreateSerializer(BaseUserCreateSerializer):
+    class Meta(BaseUserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'username', 'phone', 'password')
+
+class UserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'username', 'phone', 'role', 'date_joined')
+
+
 from rest_framework import serializers
-from django.contrib.auth.password_validation import validate_password
-from .models import User, Service, Order, Comment, File, Review, OrderStatusHistory
+from django.contrib.auth import get_user_model
+from .models import Service, File, Order, OrderStatusHistory, Comment, Review
+from django.utils import timezone
+
+User = get_user_model()
 
 
-# ==================== СЕРИАЛИЗАТОРЫ ПОЛЬЗОВАТЕЛЕЙ ====================
-
-class UserSerializer(serializers.ModelSerializer):
-    """Сериализатор для пользователя"""
-    
-    class Meta:
-        model = User
-        fields = [
-            'id', 'email', 'first_name', 'last_name',
-            'username', 'phone', 'role', 'date_joined'
-        ]
-        read_only_fields = ['id', 'username', 'date_joined', 'role']
-
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    """Сериализатор для создания пользователя"""
-    
-    password = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=[validate_password]
-    )
-    password2 = serializers.CharField(write_only=True, required=True)
-    
-    class Meta:
-        model = User
-        fields = [
-            'id', 'email', 'username', 'first_name',
-            'last_name', 'phone', 'password', 'password2'
-        ]
-        extra_kwargs = {
-            'first_name': {'required': False},
-            'last_name': {'required': False},
-            'phone': {'required': False},
-        }
-    
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({
-                "password": "Пароли не совпадают."
-            })
-        return attrs
-    
-    def create(self, validated_data):
-        validated_data.pop('password2')
-        user = User.objects.create_user(**validated_data)
-        return user
-
-
-# ==================== СЕРИАЛИЗАТОРЫ УСЛУГ ====================
-
-class ServiceSerializer(serializers.ModelSerializer):
-    """Сериализатор для услуг (публичный)"""
-    
+class ServiceListSerializer(serializers.ModelSerializer):
+    """Сериализатор для списка услуг (публичный)"""
     primary_image = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Service
-        fields = [
-            'id', 'name', 'description', 'price',
-            'duration', 'category', 'is_active',
-            'created_at', 'primary_image'
-        ]
-        read_only_fields = ['id', 'created_at', 'primary_image']
-    
+        fields = ['id', 'name', 'description', 'price', 'duration',
+                  'category', 'primary_image', 'created_at']
+        read_only_fields = ['created_at']
+
     def get_primary_image(self, obj):
-        return obj.primary_image
+        """Получить главное изображение услуги"""
+        primary_file = obj.files.filter(is_primary=True).first()
+        if primary_file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(primary_file.file_path)
+            return primary_file.file_path
+        return None
 
 
-class ServiceAdminSerializer(serializers.ModelSerializer):
-    """Сериализатор для услуг (админ)"""
-    
-    created_by_email = serializers.EmailField(
-        source='created_by.email',
-        read_only=True
-    )
-    
-    class Meta:
-        model = Service
-        fields = [
-            'id', 'name', 'description', 'price',
-            'duration', 'category', 'is_active',
-            'created_by', 'created_by_email',
-            'created_at', 'updated_at', 'primary_image'
+class ServiceDetailSerializer(ServiceListSerializer):
+    """Сериализатор для деталей услуги (публичный)"""
+    images = serializers.SerializerMethodField()
+    review_count = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
+
+    class Meta(ServiceListSerializer.Meta):
+        fields = ServiceListSerializer.Meta.fields + [
+            'images', 'review_count', 'average_rating'
         ]
-        read_only_fields = ['id', 'created_by', 'created_by_email', 'created_at', 'updated_at']
+
+    def get_images(self, obj):
+        """Получить все изображения услуги"""
+        files = obj.files.all().order_by('display_order')
+        request = self.context.get('request')
+        return [
+            {
+                'id': file.id,
+                'url': request.build_absolute_uri(file.file_path) if request else file.file_path,
+                'alt_text': file.alt_text,
+                'is_primary': file.is_primary
+            }
+            for file in files
+        ]
+
+    def get_review_count(self, obj):
+        """Количество опубликованных отзывов"""
+        return obj.reviews.filter(is_published=True).count()
+
+    def get_average_rating(self, obj):
+        """Средний рейтинг опубликованных отзывов"""
+        published_reviews = obj.reviews.filter(is_published=True)
+        if published_reviews.exists():
+            return round(
+                sum(review.rating for review in published_reviews) / published_reviews.count(),
+                1
+            )
+        return None
 
 
-# ==================== СЕРИАЛИЗАТОРЫ ЗАЯВОК ====================
+class ServiceAdminSerializer(ServiceListSerializer):  # Изменено: наследуемся от ServiceListSerializer
+    """Сериализатор для админской работы с услугами"""
+    created_by_email = serializers.EmailField(source='created_by.email', read_only=True)
 
-class OrderCreateSerializer(serializers.ModelSerializer):
-    """Сериализатор для создания заявки"""
-    
-    class Meta:
-        model = Order
-        fields = ['id', 'service', 'notes']
-        read_only_fields = ['id']
+    class Meta(ServiceListSerializer.Meta):
+        fields = ServiceListSerializer.Meta.fields + ['is_active', 'created_by', 'created_by_email',
+                  'created_at', 'updated_at']
+        read_only_fields = ['created_by', 'created_at', 'updated_at']
+
+    def create(self, validated_data):
+        """При создании услуги автоматически устанавливаем создателя"""
+        user = self.context['request'].user
+        validated_data['created_by'] = user
+        return super().create(validated_data)
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    """Сериализатор для заявки (пользователь)"""
-    
+class FileSerializer(serializers.ModelSerializer):
+    """Сериализатор для файлов (админ)"""
+    uploaded_by_email = serializers.EmailField(source='uploaded_by.email', read_only=True)
     service_name = serializers.CharField(source='service.name', read_only=True)
-    service_price = serializers.DecimalField(
-        source='service.price',
-        max_digits=8,
-        decimal_places=2,
-        read_only=True
-    )
-    
+    file_url = serializers.SerializerMethodField()
+
     class Meta:
-        model = Order
-        fields = [
-            'id', 'service', 'service_name', 'service_price',
-            'status', 'notes', 'created_at', 'updated_at', 'completed_at'
-        ]
-        read_only_fields = [
-            'id', 'service_name', 'service_price',
-            'status', 'created_at', 'updated_at', 'completed_at'
-        ]
+        model = File
+        fields = ['id', 'service', 'service_name', 'file_name', 'file_url',
+                  'file_path', 'file_size', 'mime_type', 'is_primary',
+                  'display_order', 'uploaded_by', 'uploaded_by_email',
+                  'uploaded_at', 'alt_text']
+        read_only_fields = ['uploaded_by', 'uploaded_at', 'file_path',
+                            'file_size', 'mime_type']
+
+    def get_file_url(self, obj):
+        """Полный URL к файлу"""
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.file_path)
+        return obj.file_path
+
+    def validate(self, data):
+        """Проверка, что только один файл может быть главным"""
+        if data.get('is_primary', False):
+            service = data.get('service') or self.instance.service
+            # Если это обновление, исключаем текущий файл из проверки
+            if self.instance:
+                other_primary = File.objects.filter(
+                    service=service,
+                    is_primary=True
+                ).exclude(id=self.instance.id).exists()
+            else:
+                other_primary = File.objects.filter(
+                    service=service,
+                    is_primary=True
+                ).exists()
+
+            if other_primary:
+                raise serializers.ValidationError({
+                    'is_primary': 'У услуги уже есть главное изображение'
+                })
+        return data
+
+    def create(self, validated_data):
+        """При создании файла автоматически устанавливаем загрузившего"""
+        user = self.context['request'].user
+        validated_data['uploaded_by'] = user
+        return super().create(validated_data)
 
 
-class OrderAdminSerializer(serializers.ModelSerializer):
-    """Сериализатор для заявки (админ)"""
-    
-    user_email = serializers.EmailField(source='user.email', read_only=True)
-    user_full_name = serializers.SerializerMethodField()
-    service_name = serializers.CharField(source='service.name', read_only=True)
-    
-    class Meta:
-        model = Order
-        fields = [
-            'id', 'user', 'user_email', 'user_full_name',
-            'service', 'service_name', 'status', 'notes',
-            'created_at', 'updated_at', 'completed_at'
-        ]
-        read_only_fields = ['id', 'user_email', 'user_full_name', 'service_name']
-    
-    def get_user_full_name(self, obj):
-        return f"{obj.user.first_name} {obj.user.last_name}".strip()
+class FileUploadSerializer(serializers.Serializer):
+    """Сериализатор для загрузки файлов"""
+    service = serializers.PrimaryKeyRelatedField(queryset=Service.objects.all())
+    file = serializers.FileField()
+    alt_text = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    is_primary = serializers.BooleanField(default=False)
+    display_order = serializers.IntegerField(default=0, min_value=0)
 
-
-# ==================== СЕРИАЛИЗАТОРЫ КОММЕНТАРИЕВ ====================
 
 class CommentSerializer(serializers.ModelSerializer):
     """Сериализатор для комментариев"""
-    
     admin_email = serializers.EmailField(source='admin.email', read_only=True)
     admin_full_name = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Comment
-        fields = [
-            'id', 'order', 'admin', 'admin_email',
-            'admin_full_name', 'content', 'created_at', 'is_visible_to_user'
-        ]
-        read_only_fields = [
-            'id', 'admin', 'admin_email', 'admin_full_name', 'created_at'
-        ]
-    
+        fields = ['id', 'order', 'admin', 'admin_email', 'admin_full_name',
+                  'content', 'created_at', 'is_visible_to_user']
+        read_only_fields = ['admin', 'created_at']
+
     def get_admin_full_name(self, obj):
-        return f"{obj.admin.first_name} {obj.admin.last_name}".strip()
+        return obj.admin.get_full_name()
+
+    def create(self, validated_data):
+        """При создании комментария автоматически устанавливаем администратора"""
+        user = self.context['request'].user
+        validated_data['admin'] = user
+        return super().create(validated_data)
 
 
-# ==================== СЕРИАЛИЗАТОРЫ ФАЙЛОВ ====================
+class CommentVisibilitySerializer(serializers.ModelSerializer):
+    """Сериализатор для изменения видимости комментария"""
 
-class FileSerializer(serializers.ModelSerializer):
-    """Сериализатор для файлов (публичный)"""
-    
-    file_url = serializers.SerializerMethodField()
-    
     class Meta:
-        model = File
-        fields = [
-            'id', 'service', 'file_name', 'file_url',
-            'file_size', 'mime_type', 'is_primary',
-            'display_order', 'alt_text'
-        ]
-        read_only_fields = [
-            'id', 'file_url', 'file_size', 'mime_type'
-        ]
-    
-    def get_file_url(self, obj):
-        request = self.context.get('request')
-        if obj.file and request:
-            return request.build_absolute_uri(obj.file.url)
-        return None
+        model = Comment
+        fields = ['is_visible_to_user']
 
-
-class FileUploadSerializer(serializers.ModelSerializer):
-    """Сериализатор для загрузки файлов"""
-    
-    class Meta:
-        model = File
-        fields = [
-            'service', 'file', 'alt_text',
-            'is_primary', 'display_order'
-        ]
-        extra_kwargs = {
-            'file': {'required': True},
-            'service': {'required': True},
-        }
-
-
-class FileAdminSerializer(serializers.ModelSerializer):
-    """Сериализатор для файлов (админ)"""
-    
-    service_name = serializers.CharField(source='service.name', read_only=True)
-    uploaded_by_email = serializers.EmailField(
-        source='uploaded_by.email',
-        read_only=True
-    )
-    file_url = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = File
-        fields = [
-            'id', 'service', 'service_name', 'file_name',
-            'file_url', 'file_path', 'file_size', 'mime_type',
-            'is_primary', 'display_order', 'uploaded_by',
-            'uploaded_by_email', 'uploaded_at', 'alt_text'
-        ]
-        read_only_fields = [
-            'id', 'file_name', 'file_path', 'file_size',
-            'mime_type', 'uploaded_by', 'uploaded_by_email', 'uploaded_at'
-        ]
-    
-    def get_file_url(self, obj):
-        request = self.context.get('request')
-        if obj.file and request:
-            return request.build_absolute_uri(obj.file.url)
-        return None
-
-
-# ==================== СЕРИАЛИЗАТОРЫ ОТЗЫВОВ ====================
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
     """Сериализатор для создания отзыва"""
-    
+
     class Meta:
         model = Review
-        fields = [
-            'order', 'service', 'rating',
-            'title', 'content'
-        ]
-        extra_kwargs = {
-            'order': {'required': True},
-            'service': {'required': True},
-            'rating': {'required': True},
-            'title': {'required': True},
-            'content': {'required': True},
-        }
+        fields = ['order', 'service', 'rating', 'title', 'content']
+        read_only_fields = ['user', 'is_verified', 'is_published']
+
+    def validate(self, data):
+        """Проверка возможности оставить отзыв"""
+        user = self.context['request'].user
+        order = data['order']
+        service = data['service']
+
+        # Проверка, что заявка принадлежит пользователю
+        if order.user != user:
+            raise serializers.ValidationError({
+                'order': 'Эта заявка не принадлежит вам'
+            })
+
+        # Проверка, что заявка завершена
+        if order.status != Order.Status.COMPLETED:
+            raise serializers.ValidationError({
+                'order': 'Отзыв можно оставить только к завершенной заявке'
+            })
+
+        # Проверка, что услуга в заявке соответствует выбранной услуге
+        if order.service != service:
+            raise serializers.ValidationError({
+                'service': 'Услуга в заявке не соответствует выбранной услуге'
+            })
+
+        # Проверка, что отзыв еще не оставляли
+        if Review.objects.filter(order=order).exists():
+            raise serializers.ValidationError({
+                'order': 'Вы уже оставляли отзыв к этой заявке'
+            })
+
+        return data
+
+    def create(self, validated_data):
+        """При создании отзыва автоматически устанавливаем пользователя"""
+        user = self.context['request'].user
+        validated_data['user'] = user
+        return super().create(validated_data)
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    """Сериализатор для отзыва (публичный)"""
-    
-    user_email = serializers.EmailField(source='user.email', read_only=True)
+class ReviewListSerializer(serializers.ModelSerializer):
+    """Сериализатор для списка отзывов (публичный)"""
+    user_full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user_full_name', 'rating', 'title', 'content',
+                  'created_at', 'is_verified']
+        read_only_fields = ['created_at']
+
+    def get_user_full_name(self, obj):
+        # Показываем только инициалы для приватности
+        full_name = obj.user.get_full_name()
+        if full_name:
+            parts = full_name.split()
+            if len(parts) >= 2:
+                return f"{parts[0]} {parts[1][0]}."
+        return full_name
+
+
+class ReviewDetailSerializer(ReviewListSerializer):
+    """Сериализатор для деталей отзыва"""
     service_name = serializers.CharField(source='service.name', read_only=True)
-    
-    class Meta:
-        model = Review
-        fields = [
-            'id', 'user', 'user_email', 'service',
-            'service_name', 'rating', 'title',
-            'content', 'created_at', 'updated_at'
-        ]
-        read_only_fields = [
-            'id', 'user', 'user_email', 'service',
-            'service_name', 'created_at', 'updated_at'
-        ]
+
+    class Meta(ReviewListSerializer.Meta):
+        fields = ReviewListSerializer.Meta.fields + ['service_name', 'updated_at']
 
 
 class ReviewAdminSerializer(serializers.ModelSerializer):
-    """Сериализатор для отзыва (админ)"""
-    
+    """Сериализатор для админской работы с отзывами"""
     user_email = serializers.EmailField(source='user.email', read_only=True)
     service_name = serializers.CharField(source='service.name', read_only=True)
     order_id = serializers.IntegerField(source='order.id', read_only=True)
-    
+
     class Meta:
         model = Review
-        fields = [
-            'id', 'user', 'user_email', 'service',
-            'service_name', 'order_id', 'rating',
-            'title', 'content', 'is_verified',
-            'is_published', 'created_at', 'updated_at'
-        ]
-        read_only_fields = [
-            'id', 'user', 'user_email', 'service',
-            'service_name', 'order_id', 'created_at', 'updated_at'
-        ]
+        fields = ['id', 'user', 'user_email',
+                  'service', 'service_name', 'order_id', 'rating',
+                  'title', 'content', 'is_verified', 'is_published',
+                  'created_at', 'updated_at']
+        read_only_fields = ['user', 'service', 'order', 'created_at', 'updated_at']
 
 
-# ==================== СЕРИАЛИЗАТОРЫ СТАТУСОВ ====================
+class UserAdminListSerializer(serializers.ModelSerializer):
+    """Сериализатор для списка пользователей (админ)"""
+    order_count = serializers.SerializerMethodField()
+    review_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone',
+                  'role', 'date_joined', 'order_count', 'review_count']
+
+    def get_order_count(self, obj):
+        return obj.orders.count()
+
+    def get_review_count(self, obj):
+        return obj.reviews.count()
+
+
+class UserAdminDetailSerializer(UserAdminListSerializer):
+    """Сериализатор для деталей пользователя (админ)"""
+
+    class Meta(UserAdminListSerializer.Meta):
+        fields = UserAdminListSerializer.Meta.fields + ['last_login']
+
+
+class UserRoleUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для изменения роли пользователя"""
+
+    class Meta:
+        model = User
+        fields = ['role']
+
+
+class CategorySerializer(serializers.Serializer):
+    """Сериализатор для категорий услуг"""
+    name = serializers.CharField()
+    service_count = serializers.IntegerField()
+
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания заявки"""
+
+    class Meta:
+        model = Order
+        fields = ['service', 'notes']
+
+    def validate_service(self, value):
+        """Проверка, что услуга активна"""
+        if not value.is_active:
+            raise serializers.ValidationError("Эта услуга временно недоступна")
+        return value
+
+    def create(self, validated_data):
+        """При создании заявки автоматически устанавливаем пользователя"""
+        user = self.context['request'].user
+        validated_data['user'] = user
+        return super().create(validated_data)
+
+
+class OrderListSerializer(serializers.ModelSerializer):
+    """Сериализатор для списка заявок пользователя"""
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    service_price = serializers.DecimalField(
+        source='service.price',
+        read_only=True,
+        max_digits=10,
+        decimal_places=2
+    )
+    comment_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = ['id', 'service', 'service_name', 'service_price',
+                  'status', 'created_at', 'completed_at', 'comment_count']
+        read_only_fields = ['status', 'created_at', 'completed_at']
+
+    def get_comment_count(self, obj):
+        """Количество видимых комментариев"""
+        return obj.comments.filter(is_visible_to_user=True).count()
+
+
+class OrderDetailSerializer(OrderListSerializer):
+    """Сериализатор для деталей заявки"""
+    service_details = ServiceListSerializer(source='service', read_only=True)
+    visible_comments = serializers.SerializerMethodField()
+
+    class Meta(OrderListSerializer.Meta):
+        fields = OrderListSerializer.Meta.fields + [
+            'notes', 'service_details', 'visible_comments'
+        ]
+
+    def get_visible_comments(self, obj):
+        """Только видимые пользователю комментарии"""
+        comments = obj.comments.filter(is_visible_to_user=True)
+        return CommentSerializer(comments, many=True, context=self.context).data
+
+
+class OrderAdminSerializer(serializers.ModelSerializer):
+    """Сериализатор для админской работы с заявками"""
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+    user_full_name = serializers.SerializerMethodField()
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    all_comments = CommentSerializer(source='comments', many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'user', 'user_email', 'user_full_name',
+                  'service', 'service_name', 'status', 'notes',
+                  'created_at', 'completed_at', 'all_comments']
+        read_only_fields = ['user', 'service', 'created_at']
+
+    def get_user_full_name(self, obj):
+        return obj.user.get_full_name()
+
 
 class OrderStatusUpdateSerializer(serializers.Serializer):
     """Сериализатор для изменения статуса заявки"""
-    
-    STATUS_CHOICES = ['new', 'in_progress', 'completed', 'cancelled']
-    
-    status = serializers.ChoiceField(choices=STATUS_CHOICES)
+    status = serializers.ChoiceField(choices=Order.Status.choices)
     comment = serializers.CharField(required=False, allow_blank=True)
-    
+
     def validate_status(self, value):
-        if value not in self.STATUS_CHOICES:
-            raise serializers.ValidationError("Неверный статус")
+        """Проверка валидности статуса"""
+        order = self.context.get('order')
+        if order and order.status == Order.Status.COMPLETED and value != Order.Status.COMPLETED:
+            raise serializers.ValidationError(
+                "Нельзя изменить статус завершенной заявки"
+            )
         return value
 
 
 class OrderStatusHistorySerializer(serializers.ModelSerializer):
     """Сериализатор для истории статусов"""
-    
-    changed_by_email = serializers.EmailField(
-        source='changed_by.email',
-        read_only=True
-    )
-    
+    changed_by_email = serializers.EmailField(source='changed_by.email', read_only=True)
+
     class Meta:
         model = OrderStatusHistory
-        fields = [
-            'id', 'order', 'status', 'changed_by',
-            'changed_by_email', 'comment', 'changed_at'
-        ]
-        read_only_fields = [
-            'id', 'order', 'changed_by', 'changed_by_email', 'changed_at'
-        ]
+        fields = ['id', 'old_status', 'new_status', 'changed_by',
+                  'changed_by_email', 'changed_at', 'comment']
+        read_only_fields = ['changed_by', 'changed_at']
+
+class ReviewPublishSerializer(serializers.Serializer):
+    """Сериализатор для публикации отзыва"""
+    is_published = serializers.BooleanField(required=True)
+
+class ReviewVerifySerializer(serializers.Serializer):
+    """Сериализатор для подтверждения отзыва"""
+    is_verified = serializers.BooleanField(required=True)
 ```
 
 ---
 
-### Шаг 2: Создание представлений
+### Создание представлений
 
-**Файл: `core/views.py`**
+**Файл: `manager_services/views.py`**
 
 ```python
-from rest_framework import generics, permissions, status
+import uuid
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import action
-from django.shortcuts import get_object_or_404
-from django.db.models import Count, Avg, Q
-from datetime import datetime
-from .models import User, Service, Order, Comment, File, Review, OrderStatusHistory
-from .serializers import (
-    UserSerializer, ServiceSerializer, ServiceAdminSerializer,
-    OrderCreateSerializer, OrderSerializer, OrderAdminSerializer,
-    CommentSerializer, FileSerializer, FileUploadSerializer,
-    FileAdminSerializer, ReviewCreateSerializer, ReviewSerializer,
-    ReviewAdminSerializer, OrderStatusUpdateSerializer,
-    OrderStatusHistorySerializer
-)
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django.db.models import Count, Q, Avg
+from .models import *
+from .serializers import *
+import os
+from django.conf import settings
+from django.core.files.storage import default_storage
 
 
-# ==================== ПЕРМИШЕНЫ (РАЗРЕШЕНИЯ) ====================
+class ServiceListAPIView(APIView):
+    """
+    GET: Список всех активных услуг (публичный)
+    """
 
-class IsAdmin(permissions.BasePermission):
-    """Разрешение только для администраторов"""
-    
-    def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.role == 'admin'
-
-
-class IsOwnerOrAdmin(permissions.BasePermission):
-    """Разрешение для владельца объекта или администратора"""
-    
-    def has_object_permission(self, request, view, obj):
-        if request.user.role == 'admin':
-            return True
-        return obj.user == request.user
-
-
-# ==================== ПУБЛИЧНЫЕ ЕНДПОИНТЫ ====================
-
-class ServiceListView(generics.ListAPIView):
-    """GET: Список всех активных услуг (публичный)"""
-    
-    queryset = Service.objects.filter(is_active=True)
-    serializer_class = ServiceSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class ServiceDetailView(generics.RetrieveAPIView):
-    """GET: Детали услуги (публичный)"""
-    
-    queryset = Service.objects.filter(is_active=True)
-    serializer_class = ServiceSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class ServiceFilesView(generics.ListAPIView):
-    """GET: Получить файлы для конкретной услуги (публичный)"""
-    
-    serializer_class = FileSerializer
-    permission_classes = [permissions.AllowAny]
-    
-    def get_queryset(self):
-        service_id = self.kwargs.get('service_id')
-        return File.objects.filter(
-            service_id=service_id,
-            service__is_active=True
-        ).order_by('display_order')
-
-
-class ServiceReviewsView(generics.ListAPIView):
-    """GET: Список опубликованных отзывов на услугу"""
-    
-    serializer_class = ReviewSerializer
-    permission_classes = [permissions.AllowAny]
-    
-    def get_queryset(self):
-        service_id = self.kwargs.get('service_id')
-        return Review.objects.filter(
-            service_id=service_id,
-            is_published=True
-        ).order_by('-created_at')
-
-
-class ServiceCategoriesView(APIView):
-    """GET: Список всех категорий услуг с количеством услуг в каждой"""
-    
-    permission_classes = [permissions.AllowAny]
-    
     def get(self, request):
-        categories = Service.objects.filter(is_active=True).values(
-            'category'
-        ).annotate(
-            count=Count('id')
-        ).order_by('category')
-        
-        return Response(categories)
+        services = Service.objects.filter(is_active=True).order_by('-created_at')
+
+        # Фильтрация по категории, если указана
+        category = request.query_params.get('category')
+        if category:
+            services = services.filter(category=category)
+
+        # Поиск по названию, если указан
+        search = request.query_params.get('search')
+        if search:
+            services = services.filter(name__icontains=search)
+
+        serializer = ServiceListSerializer(services, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
-# ==================== ЕНДПОИНТЫ ПОЛЬЗОВАТЕЛЯ ====================
+class ServiceDetailAPIView(APIView):
+    """
+    GET: Детали услуги (публичный)
+    """
 
-class OrderListView(generics.ListCreateAPIView):
-    """GET: Список заявок текущего пользователя | POST: Создание новой заявки"""
-    
-    serializer_class = OrderCreateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).order_by('-created_at')
-    
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class OrderDetailView(generics.RetrieveAPIView):
-    """GET: Детали заявки пользователя"""
-    
-    serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
-    
-    def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
-
-
-class OrderCancelView(APIView):
-    """POST: Отмена заявки (пользователем)"""
-    
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def post(self, request, id):
-        order = get_object_or_404(Order, id=id, user=request.user)
-        
-        if order.status == 'cancelled':
+    def get(self, request, pk):
+        try:
+            service = Service.objects.get(id=pk, is_active=True)
+        except Service.DoesNotExist:
             return Response(
-                {"detail": "Заявка уже отменена"},
+                {"error": "Услуга не найдена или неактивна"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ServiceDetailSerializer(service, context={'request': request})
+        return Response(serializer.data)
+
+
+class ServiceCategoriesAPIView(APIView):
+    """
+    GET: Список всех категорий услуг с количеством услуг в каждой
+    """
+
+    def get(self, request):
+        # Получаем все категории из активных услуг
+        categories = Service.objects.filter(is_active=True) \
+            .values('category') \
+            .annotate(service_count=Count('id')) \
+            .order_by('category')
+
+        # Преобразуем QuerySet в список словарей для сериализации
+        categories_list = [
+            {'name': cat['category'], 'service_count': cat['service_count']}
+            for cat in categories
+        ]
+
+        serializer = CategorySerializer(categories_list, many=True)
+        return Response(serializer.data)
+
+
+class AdminServiceListAPIView(APIView):
+    """
+    GET: Список всех услуг (для админа, с неактивными)
+    POST: Создание новой услуги (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = ServiceAdminSerializer
+
+    def get(self, request):
+        services = Service.objects.all().order_by('-created_at')
+
+        # Фильтрация по активности, если указана
+        is_active = request.query_params.get('is_active')
+        if is_active is not None:
+            services = services.filter(is_active=is_active.lower() == 'true')
+
+        # Фильтрация по категории, если указана
+        category = request.query_params.get('category')
+        if category:
+            services = services.filter(category=category)
+
+        # Поиск по названию, если указан
+        search = request.query_params.get('search')
+        if search:
+            services = services.filter(name__icontains=search)
+
+        serializer = ServiceAdminSerializer(services, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ServiceAdminSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AdminServiceDetailAPIView(APIView):
+    """
+    GET: Детали услуги (админ)
+    PUT: Полное обновление услуги (админ)
+    PATCH: Частичное обновление (админ)
+    DELETE: Удаление услуги из БД (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = ServiceAdminSerializer
+
+    def get_object(self, pk):
+        try:
+            return Service.objects.get(pk=pk)
+        except Service.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        service = self.get_object(pk)
+        if not service:
+            return Response(
+                {"error": "Услуга не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ServiceAdminSerializer(service, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        service = self.get_object(pk)
+        if not service:
+            return Response(
+                {"error": "Услуга не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ServiceAdminSerializer(service, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        service = self.get_object(pk)
+        if not service:
+            return Response(
+                {"error": "Услуга не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ServiceAdminSerializer(service, data=request.data, partial=True, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        service = self.get_object(pk)
+        if not service:
+            return Response(
+                {"error": "Услуга не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, есть ли связанные заявки
+        if service.orders.exists():
+            return Response(
+                {
+                    "error": "Невозможно удалить услугу, так как существуют связанные заявки",
+                    "order_count": service.orders.count()
+                },
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        if order.status == 'completed':
-            return Response(
-                {"detail": "Нельзя отменить завершенную заявку"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        order.status = 'cancelled'
-        order.save()
-        
-        # Создаем запись в истории
-        OrderStatusHistory.objects.create(
-            order=order,
-            status='cancelled',
-            changed_by=request.user,
-            comment='Отменено пользователем'
+
+        # Удаляем файлы, связанные с услугой
+        if service.files.exists():
+            for file in service.files.all():
+
+                file_path = os.path.join(settings.MEDIA_ROOT, file.file_path)
+
+
+                if os.path.exists(file_path):
+                    try:
+                        os.remove(file_path)
+                    except OSError as e:
+                        # Логируем ошибку
+                        print(f"Ошибка при удалении файла {file_path}: {e}")
+
+                # Удаляем запись из БД
+                file.delete()
+
+        # Удаляем саму услугу
+        service.delete()
+
+        return Response(
+            {"message": "Услуга успешно удалена"},
+            status=status.HTTP_200_OK
         )
-        
-        return Response({"detail": "Заявка отменена"})
 
 
-class OrderCommentsView(generics.ListAPIView):
-    """GET: Получить комментарии к заявке (видимые пользователю)"""
-    
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def get_queryset(self):
-        order_id = self.kwargs.get('order_id')
-        order = get_object_or_404(Order, id=order_id, user=self.request.user)
-        return Comment.objects.filter(
-            order=order,
-            is_visible_to_user=True
-        ).order_by('created_at')
+class AdminServiceDeactivateAPIView(APIView):
+    """
+    POST: Деактивация услуги (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
-
-class ReviewCreateView(generics.CreateAPIView):
-    """POST: Создать отзыв (только для завершенных заказов пользователя)"""
-    
-    serializer_class = ReviewCreateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
-    def perform_create(self, serializer):
-        order = serializer.validated_data.get('order')
-        
-        # Проверяем, что заявка принадлежит пользователю и завершена
-        if order.user != self.request.user:
-            raise serializers.ValidationError(
-                "Вы не можете оставить отзыв на эту заявку"
+    def post(self, request, pk):
+        try:
+            service = Service.objects.get(pk=pk)
+        except Service.DoesNotExist:
+            return Response(
+                {"error": "Услуга не найдена"},
+                status=status.HTTP_404_NOT_FOUND
             )
-        
-        if order.status != 'completed':
-            raise serializers.ValidationError(
-                "Отзыв можно оставить только на завершенную заявку"
-            )
-        
-        # Проверяем, что отзыв еще не оставлен
-        if Review.objects.filter(order=order).exists():
-            raise serializers.ValidationError(
-                "Отзыв на эту заявку уже существует"
-            )
-        
-        serializer.save(user=self.request.user, is_verified=True)
 
-
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - УСЛУГИ ====================
-
-class AdminServiceListView(generics.ListCreateAPIView):
-    """GET: Список всех услуг (для админа, с неактивными) | POST: Создание новой услуги"""
-    
-    serializer_class = ServiceAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Service.objects.all().order_by('-created_at')
-    
-    def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
-
-
-class AdminServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """GET: Детали услуги (админ) | PUT: Полное обновление | PATCH: Частичное | DELETE: Удаление"""
-    
-    serializer_class = ServiceAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Service.objects.all()
-
-
-class AdminServiceDeactivateView(APIView):
-    """POST: Деактивация услуги (админ)"""
-    
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def post(self, request, id):
-        service = get_object_or_404(Service, id=id)
+        # Деактивируем услугу
         service.is_active = False
         service.save()
-        return Response({"detail": "Услуга деактивирована"})
 
-
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ЗАЯВКИ ====================
-
-class AdminOrderListView(generics.ListAPIView):
-    """GET: Список всех заявок (админ, с фильтрами)"""
-    
-    serializer_class = OrderAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        queryset = Order.objects.all().order_by('-created_at')
-        
-        # Фильтрация по статусу
-        status = self.request.query_params.get('status')
-        if status:
-            queryset = queryset.filter(status=status)
-        
-        # Фильтрация по пользователю
-        user_id = self.request.query_params.get('user_id')
-        if user_id:
-            queryset = queryset.filter(user_id=user_id)
-        
-        # Фильтрация по услуге
-        service_id = self.request.query_params.get('service_id')
-        if service_id:
-            queryset = queryset.filter(service_id=service_id)
-        
-        return queryset
-
-
-class AdminOrderDetailView(generics.RetrieveAPIView):
-    """GET: Детали заявки (админ)"""
-    
-    serializer_class = OrderAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Order.objects.all()
-
-
-class AdminOrderStatusHistoryView(generics.ListAPIView):
-    """GET: История статусов заявки (админ)"""
-    
-    serializer_class = OrderStatusHistorySerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        order_id = self.kwargs.get('id')
-        return OrderStatusHistory.objects.filter(
-            order_id=order_id
-        ).order_by('-changed_at')
-
-
-class AdminOrderStatusUpdateView(APIView):
-    """PATCH: Изменение статуса заявки (админ)"""
-    
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def patch(self, request, id):
-        order = get_object_or_404(Order, id=id)
-        serializer = OrderStatusUpdateSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            new_status = serializer.validated_data['status']
-            comment_text = serializer.validated_data.get('comment', '')
-            
-            # Обновляем статус
-            order.status = new_status
-            
-            # Если заявка завершена, устанавливаем дату завершения
-            if new_status == 'completed' and not order.completed_at:
-                order.completed_at = datetime.now()
-            
-            order.save()
-            
-            # Создаем запись в истории
-            OrderStatusHistory.objects.create(
-                order=order,
-                status=new_status,
-                changed_by=request.user,
-                comment=comment_text
-            )
-            
-            return Response({"detail": "Статус изменен"})
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - КОММЕНТАРИИ ====================
-
-class AdminCommentListView(generics.ListCreateAPIView):
-    """GET: Список всех комментариев (админ) | POST: Добавить комментарий к заявке"""
-    
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        queryset = Comment.objects.all().order_by('-created_at')
-        
-        # Фильтрация по заявке
-        order_id = self.request.query_params.get('order_id')
-        if order_id:
-            queryset = queryset.filter(order_id=order_id)
-        
-        return queryset
-    
-    def perform_create(self, serializer):
-        serializer.save(admin=self.request.user)
-
-
-class AdminCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """GET: Получить комментарий | PUT/PATCH: Обновить | DELETE: Удалить"""
-    
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Comment.objects.all()
-
-
-class AdminCommentVisibilityView(APIView):
-    """PATCH: Изменить видимость комментария (админ)"""
-    
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def patch(self, request, id):
-        comment = get_object_or_404(Comment, id=id)
-        comment.is_visible_to_user = not comment.is_visible_to_user
-        comment.save()
+        serializer = ServiceAdminSerializer(service, context={'request': request})
         return Response({
-            "detail": f"Видимость изменена на {comment.is_visible_to_user}"
+            "message": "Услуга успешно деактивирована",
+            "service": serializer.data
         })
 
 
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ФАЙЛЫ ====================
-
-class AdminFileUploadView(generics.CreateAPIView):
-    """POST: Загрузка файла для услуги (админ)"""
-    
+class AdminFileUploadAPIView(APIView):
+    """
+    POST: Загрузка файла для услуги (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = FileUploadSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def perform_create(self, serializer):
-        file_obj = serializer.validated_data['file']
-        
-        # Создаем запись о файле
-        file_instance = serializer.save(
-            uploaded_by=self.request.user,
-            file_name=file_obj.name,
-            file_size=file_obj.size,
-            mime_type=file_obj.content_type
+
+    def post(self, request):
+        serializer = FileUploadSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Получаем валидированные данные
+        service = serializer.validated_data['service']
+        uploaded_file = request.FILES['file']
+        alt_text = serializer.validated_data.get('alt_text', '')
+        is_primary = serializer.validated_data.get('is_primary', False)
+        display_order = serializer.validated_data.get('display_order', 0)
+
+        # Проверяем, что только один файл может быть главным
+        if is_primary:
+            existing_primary = File.objects.filter(service=service, is_primary=True).exists()
+            if existing_primary:
+                return Response(
+                    {"error": "У услуги уже есть главное изображение"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        # Генерируем уникальное имя файла
+        original_filename = uploaded_file.name
+        file_extension = os.path.splitext(original_filename)[1]
+        unique_filename = f"{uuid.uuid4()}{file_extension}"
+
+        # Определяем путь для сохранения
+        upload_path = f"services/{service.id}/{unique_filename}"
+
+        # Сохраняем файл на диск
+        file_path = default_storage.save(upload_path, uploaded_file)
+
+        try:
+            # Получаем информацию о файле
+            file_size = uploaded_file.size
+            mime_type = uploaded_file.content_type
+
+            # Создаем запись в БД
+            file_obj = File.objects.create(
+                service=service,
+                file_name=original_filename,
+                file_path=file_path,
+                file_size=file_size,
+                mime_type=mime_type,
+                is_primary=is_primary,
+                display_order=display_order,
+                uploaded_by=request.user,
+                alt_text=alt_text
+            )
+
+            # Сериализуем и возвращаем результат
+            serializer = FileSerializer(file_obj, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            # Если что-то пошло не так, удаляем загруженный файл
+            if default_storage.exists(file_path):
+                default_storage.delete(file_path)
+
+            return Response(
+                {"error": f"Ошибка при сохранении файла: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class AdminFileDetailAPIView(APIView):
+    """
+    GET: Получить информацию о файле (админ)
+    PUT: Обновить информацию о файле (админ)
+    PATCH: Частичное обновление информации о файле (админ)
+    DELETE: Удалить файл (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = FileSerializer
+
+    def get_object(self, pk):
+        try:
+            return File.objects.get(pk=pk)
+        except File.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        file_obj = self.get_object(pk)
+        if not file_obj:
+            return Response(
+                {"error": "Файл не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = FileSerializer(file_obj, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        file_obj = self.get_object(pk)
+        if not file_obj:
+            return Response(
+                {"error": "Файл не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = FileSerializer(file_obj, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        file_obj = self.get_object(pk)
+        if not file_obj:
+            return Response(
+                {"error": "Файл не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, что устанавливается is_primary
+        if 'is_primary' in request.data and request.data['is_primary']:
+            # Проверяем, есть ли уже главное изображение у этой услуги
+            existing_primary = File.objects.filter(
+                service=file_obj.service,
+                is_primary=True
+            ).exclude(id=file_obj.id).exists()
+
+            if existing_primary:
+                return Response(
+                    {"error": "У услуги уже есть главное изображение"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        serializer = FileSerializer(file_obj, data=request.data, partial=True, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        file_obj = self.get_object(pk)
+        if not file_obj:
+            return Response(
+                {"error": "Файл не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Сохраняем путь к файлу перед удалением
+        file_path = file_obj.file_path
+
+        # Удаляем запись из БД
+        file_obj.delete()
+
+        # Удаляем физический файл с диска
+        if default_storage.exists(file_path):
+            try:
+                default_storage.delete(file_path)
+            except Exception as e:
+                # Логируем ошибку, но не возвращаем ошибку пользователю
+                print(f"Ошибка при удалении файла {file_path}: {e}")
+
+        return Response(
+            {"message": "Файл успешно удален"},
+            status=status.HTTP_200_OK
         )
-        
-        # Сохраняем путь к файлу
-        file_instance.file_path = file_instance.file.name
-        file_instance.save()
 
 
-class AdminFileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """GET: Получить информацию о файле | PUT/PATCH: Обновить | DELETE: Удалить"""
-    
-    serializer_class = FileAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return File.objects.all()
+class ServiceFilesAPIView(APIView):
+    """
+    GET: Получить файлы для конкретной услуги (публичный)
+    """
+
+    def get(self, request, service_id):
+        try:
+            service = Service.objects.get(id=service_id, is_active=True)
+        except Service.DoesNotExist:
+            return Response(
+                {"error": "Услуга не найдена или неактивна"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Получаем файлы услуги, отсортированные по порядку отображения
+        files = service.files.all().order_by('display_order', 'uploaded_at')
+
+        file_type = request.query_params.get('type')
+        if file_type == 'images':
+            files = files.filter(mime_type__startswith='image/')
+        elif file_type == 'documents':
+            files = files.exclude(mime_type__startswith='image/')
+
+        serializer = FileSerializer(files, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ОТЗЫВЫ ====================
+class OrderListCreateAPIView(APIView):
+    """
+    GET: Список заявок текущего пользователя
+    POST: Создание новой заявки
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderCreateSerializer
 
-class AdminReviewListView(generics.ListAPIView):
-    """GET: Все отзывы (админ)"""
-    
-    serializer_class = ReviewAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Review.objects.all().order_by('-created_at')
+    def get(self, request):
+        # Получаем заявки текущего пользователя
+        orders = Order.objects.filter(user=request.user).order_by('-created_at')
+
+        # Фильтрация по статусу, если указана
+        status_filter = request.query_params.get('status')
+        if status_filter:
+            orders = orders.filter(status=status_filter)
+
+        # Фильтрация по услуге, если указана
+        service_id = request.query_params.get('service_id')
+        if service_id:
+            orders = orders.filter(service_id=service_id)
+
+        serializer = OrderListSerializer(orders, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = OrderCreateSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        # Создаем заявку
+        order = serializer.save()
+
+        # Создаем запись в истории статусов
+        OrderStatusHistory.objects.create(
+            order=order,
+            old_status='',  # Первый статус, поэтому старого нет
+            new_status=order.status,
+            changed_by=request.user,
+            comment='Создание заявки'
+        )
+
+        # Возвращаем детали созданной заявки
+        detail_serializer = OrderDetailSerializer(order, context={'request': request})
+        return Response(detail_serializer.data, status=status.HTTP_201_CREATED)
 
 
-class AdminReviewPendingView(generics.ListAPIView):
-    """GET: Список отзывов на модерации (админ)"""
-    
-    serializer_class = ReviewAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Review.objects.filter(is_published=False).order_by('-created_at')
+class OrderDetailAPIView(APIView):
+    """
+    GET: Детали заявки пользователя
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk, user):
+        try:
+            return Order.objects.get(pk=pk, user=user)
+        except Order.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        order = self.get_object(pk, request.user)
+        if not order:
+            return Response(
+                {"error": "Заявка не найдена или у вас нет к ней доступа"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = OrderDetailSerializer(order, context={'request': request})
+        return Response(serializer.data)
 
 
-class AdminReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """GET: Детали отзыва | PUT/PATCH: Обновить | DELETE: Удалить"""
-    
-    serializer_class = ReviewAdminSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return Review.objects.all()
+class OrderCancelAPIView(APIView):
+    """
+    POST: Отмена заявки (пользователем)
+    """
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request, pk):
+        try:
+            order = Order.objects.get(pk=pk, user=request.user)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена или у вас нет к ней доступа"},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
-class AdminReviewPublishView(APIView):
-    """PATCH: Опубликовать/скрыть отзыв (админ)"""
-    
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def patch(self, request, id):
-        review = get_object_or_404(Review, id=id)
-        review.is_published = not review.is_published
-        review.save()
+        # Проверяем, можно ли отменить заявку
+        if order.status == Order.Status.COMPLETED:
+            return Response(
+                {"error": "Нельзя отменить завершенную заявку"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if order.status == Order.Status.CANCELLED:
+            return Response(
+                {"error": "Заявка уже отменена"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Сохраняем старый статус
+        old_status = order.status
+
+        # Меняем статус на отменен
+        order.status = Order.Status.CANCELLED
+        order.save()
+
+        # Создаем запись в истории статусов
+        OrderStatusHistory.objects.create(
+            order=order,
+            old_status=old_status,
+            new_status=order.status,
+            changed_by=request.user,
+            comment='Отмена пользователем'
+        )
+
+        serializer = OrderDetailSerializer(order, context={'request': request})
         return Response({
-            "detail": f"Отзыв {'опубликован' if review.is_published else 'скрыт'}"
+            "message": "Заявка успешно отменена",
+            "order": serializer.data
         })
 
 
-# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ПОЛЬЗОВАТЕЛИ ====================
+class AdminOrderListAPIView(APIView):
+    """
+    GET: Список всех заявок (админ, с фильтрами)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
-class AdminUserListView(generics.ListAPIView):
-    """GET: Список всех пользователей (админ)"""
-    
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return User.objects.all().order_by('-date_joined')
+    def get(self, request):
+        orders = Order.objects.all().order_by('-created_at')
+
+        # Фильтрация по статусу
+        status_filter = request.query_params.get('status')
+        if status_filter:
+            orders = orders.filter(status=status_filter)
+
+        # Фильтрация по пользователю
+        user_id = request.query_params.get('user_id')
+        if user_id:
+            orders = orders.filter(user_id=user_id)
+
+        # Фильтрация по услуге
+        service_id = request.query_params.get('service_id')
+        if service_id:
+            orders = orders.filter(service_id=service_id)
+
+        # Фильтрация по дате создания (от)
+        date_from = request.query_params.get('date_from')
+        if date_from:
+            orders = orders.filter(created_at__date__gte=date_from)
+
+        # Фильтрация по дате создания (до)
+        date_to = request.query_params.get('date_to')
+        if date_to:
+            orders = orders.filter(created_at__date__lte=date_to)
+
+        # Поиск по email пользователя
+        search = request.query_params.get('search')
+        if search:
+            orders = orders.filter(
+                Q(user__email__icontains=search) |
+                Q(user__first_name__icontains=search) |
+                Q(user__last_name__icontains=search) |
+                Q(notes__icontains=search)
+            )
+
+        serializer = OrderAdminSerializer(orders, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
-class AdminUserDetailView(generics.RetrieveAPIView):
-    """GET: Детали пользователя (админ)"""
-    
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def get_queryset(self):
-        return User.objects.all()
+class AdminOrderDetailAPIView(APIView):
+    """
+    GET: Детали заявки (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            order = Order.objects.get(pk=pk)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = OrderAdminSerializer(order, context={'request': request})
+        return Response(serializer.data)
 
 
-class AdminUserRoleUpdateView(APIView):
-    """PATCH: Изменить роль пользователя (админ)"""
-    
-    permission_classes = [permissions.IsAuthenticated, IsAdmin]
-    
-    def patch(self, request, id):
-        user = get_object_or_404(User, id=id)
-        
-        # Нельзя изменить роль самого себя
+class AdminOrderStatusUpdateAPIView(APIView):
+    """
+    PATCH: Изменение статуса заявки (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = OrderStatusUpdateSerializer
+
+    def patch(self, request, pk):
+        try:
+            order = Order.objects.get(pk=pk)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = OrderStatusUpdateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Сохраняем старый статус
+        old_status = order.status
+        new_status = serializer.validated_data['status']
+        comment = serializer.validated_data.get('comment', '')
+
+        # Проверяем, что статус изменился
+        if old_status == new_status:
+            return Response(
+                {"error": "Новый статус совпадает со старым"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Проверяем, что нельзя изменить статус завершенной заявки
+        if old_status == Order.Status.COMPLETED:
+            return Response(
+                {"error": "Нельзя изменить статус завершенной заявки"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Меняем статус
+        order.status = new_status
+        order.save()
+
+        # Создаем запись в истории статусов
+        OrderStatusHistory.objects.create(
+            order=order,
+            old_status=old_status,
+            new_status=new_status,
+            changed_by=request.user,
+            comment=comment or f'Изменение статуса администратором'
+        )
+
+        # Возвращаем обновленную заявку
+        order_serializer = OrderAdminSerializer(order, context={'request': request})
+        return Response({
+            "message": "Статус заявки успешно обновлен",
+            "order": order_serializer.data
+        })
+
+
+class AdminOrderHistoryAPIView(APIView):
+    """
+    GET: История статусов заявки (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            order = Order.objects.get(pk=pk)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Получаем историю статусов для этой заявки
+        history = order.status_history.all().order_by('-changed_at')
+
+        serializer = OrderStatusHistorySerializer(history, many=True)
+        return Response(serializer.data)
+
+
+class OrderCommentsAPIView(APIView):
+    """
+    GET: Получить комментарии к заявке (видимые пользователю)
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, order_id):
+        try:
+            # Проверяем, что заявка принадлежит пользователю или пользователь - админ
+            if request.user.is_admin:
+                order = Order.objects.get(pk=order_id)
+            else:
+                order = Order.objects.get(pk=order_id, user=request.user)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена или у вас нет к ней доступа"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Получаем только видимые комментарии
+        comments = order.comments.filter(is_visible_to_user=True).order_by('created_at')
+
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class AdminCommentListAPIView(APIView):
+    """
+    GET: Список всех комментариев (админ, с фильтрами)
+    POST: Добавить комментарий к заявке (админ)
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = CommentSerializer
+
+    def get(self, request):
+        comments = Comment.objects.all().order_by('-created_at')
+
+        # Фильтрация по заявке
+        order_id = request.query_params.get('order_id')
+        if order_id:
+            comments = comments.filter(order_id=order_id)
+
+        # Фильтрация по администратору
+        admin_id = request.query_params.get('admin_id')
+        if admin_id:
+            comments = comments.filter(admin_id=admin_id)
+
+        # Фильтрация по видимости
+        is_visible = request.query_params.get('is_visible')
+        if is_visible is not None:
+            comments = comments.filter(is_visible_to_user=is_visible.lower() == 'true')
+
+        # Поиск по содержимому
+        search = request.query_params.get('search')
+        if search:
+            comments = comments.filter(content__icontains=search)
+
+        # Фильтрация по дате создания (от)
+        date_from = request.query_params.get('date_from')
+        if date_from:
+            comments = comments.filter(created_at__date__gte=date_from)
+
+        # Фильтрация по дате создания (до)
+        date_to = request.query_params.get('date_to')
+        if date_to:
+            comments = comments.filter(created_at__date__lte=date_to)
+
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request):
+        # Проверяем, что заявка существует
+        order_id = request.data.get('order')
+        if not order_id:
+            return Response(
+                {"error": "Не указана заявка"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            order = Order.objects.get(pk=order_id)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Заявка не найдена"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Создаем комментарий
+        serializer = CommentSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AdminCommentDetailAPIView(APIView):
+    """
+    GET: Получить комментарий (админ)
+    PUT: Обновить комментарий (админ)
+    PATCH: Частичное обновление комментария (админ)
+    DELETE: Удалить комментарий (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = CommentSerializer
+
+    def get_object(self, pk):
+        try:
+            return Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        comment = self.get_object(pk)
+        if not comment:
+            return Response(
+                {"error": "Комментарий не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = CommentSerializer(comment, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        comment = self.get_object(pk)
+        if not comment:
+            return Response(
+                {"error": "Комментарий не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, что можно редактировать только свои комментарии
+        if comment.admin != request.user:
+            return Response(
+                {"error": "Вы можете редактировать только свои комментарии"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        serializer = CommentSerializer(comment, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        comment = self.get_object(pk)
+        if not comment:
+            return Response(
+                {"error": "Комментарий не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Для изменения видимости - доступно всем админам
+        # Для изменения контента - только автору
+        if 'content' in request.data and comment.admin != request.user:
+            return Response(
+                {"error": "Вы можете редактировать только свои комментарии"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        serializer = CommentSerializer(comment, data=request.data, partial=True, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        comment = self.get_object(pk)
+        if not comment:
+            return Response(
+                {"error": "Комментарий не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, что можно удалять только свои комментарии
+        if comment.admin != request.user:
+            return Response(
+                {"error": "Вы можете удалять только свои комментарии"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        comment.delete()
+        return Response(
+            {"message": "Комментарий успешно удален"},
+            status=status.HTTP_200_OK
+        )
+
+
+class AdminCommentVisibilityAPIView(APIView):
+    """
+    PATCH: Изменить видимость комментария (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def patch(self, request, pk):
+        try:
+            comment = Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            return Response(
+                {"error": "Комментарий не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = CommentVisibilitySerializer(comment, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({
+            "message": "Видимость комментария успешно изменена",
+            "comment": CommentSerializer(comment, context={'request': request}).data
+        })
+
+
+class ServiceReviewsAPIView(APIView):
+    """
+    GET: Список опубликованных отзывов на услугу
+    """
+
+    def get(self, request, service_id):
+        try:
+            service = Service.objects.get(id=service_id, is_active=True)
+        except Service.DoesNotExist:
+            return Response(
+                {"error": "Услуга не найдена или неактивна"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Получаем только опубликованные отзывы
+        reviews = service.reviews.filter(is_published=True).order_by('-created_at')
+
+        # Фильтрация по рейтингу, если указан
+        rating = request.query_params.get('rating')
+        if rating:
+            reviews = reviews.filter(rating=rating)
+
+        # Фильтрация по подтвержденным отзывам
+        verified_only = request.query_params.get('verified_only')
+        if verified_only and verified_only.lower() == 'true':
+            reviews = reviews.filter(is_verified=True)
+
+        # Пагинация (базовая)
+        limit = request.query_params.get('limit')
+        if limit and limit.isdigit():
+            reviews = reviews[:int(limit)]
+
+        # Статистика по отзывам
+        total_reviews = reviews.count()
+        average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        rating_distribution = reviews.values('rating').annotate(count=Count('id')).order_by('-rating')
+
+        serializer = ReviewListSerializer(reviews, many=True, context={'request': request})
+
+        return Response({
+            "service_id": service_id,
+            "service_name": service.name,
+            "statistics": {
+                "total_reviews": total_reviews,
+                "average_rating": round(average_rating, 1),
+                "rating_distribution": list(rating_distribution)
+            },
+            "reviews": serializer.data
+        })
+
+
+class UserReviewCreateAPIView(APIView):
+    """
+    POST: Создать отзыв (только для завершенных заказов пользователя)
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReviewCreateSerializer
+
+    def post(self, request):
+        serializer = ReviewCreateSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        review = serializer.save()
+
+        # Возвращаем детали созданного отзыва
+        detail_serializer = ReviewDetailSerializer(review, context={'request': request})
+        return Response(detail_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ReviewDetailAPIView(APIView):
+    """
+    GET: Детали отзыва (публичный)
+    """
+
+    def get(self, request, pk):
+        try:
+            review = Review.objects.get(pk=pk, is_published=True)
+        except Review.DoesNotExist:
+            return Response(
+                {"error": "Отзыв не найден или не опубликован"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ReviewDetailSerializer(review, context={'request': request})
+        return Response(serializer.data)
+
+
+class AdminReviewListAPIView(APIView):
+    """
+    GET: Все отзывы (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        reviews = Review.objects.all().order_by('-created_at')
+
+        # Фильтрация по услуге
+        service_id = request.query_params.get('service_id')
+        if service_id:
+            reviews = reviews.filter(service_id=service_id)
+
+        # Фильтрация по пользователю
+        user_id = request.query_params.get('user_id')
+        if user_id:
+            reviews = reviews.filter(user_id=user_id)
+
+        # Фильтрация по статусу публикации
+        is_published = request.query_params.get('is_published')
+        if is_published is not None:
+            reviews = reviews.filter(is_published=is_published.lower() == 'true')
+
+        # Фильтрация по подтверждению
+        is_verified = request.query_params.get('is_verified')
+        if is_verified is not None:
+            reviews = reviews.filter(is_verified=is_verified.lower() == 'true')
+
+        # Фильтрация по рейтингу
+        rating = request.query_params.get('rating')
+        if rating:
+            reviews = reviews.filter(rating=rating)
+
+
+        # Фильтрация по дате создания (от)
+        date_from = request.query_params.get('date_from')
+        if date_from:
+            reviews = reviews.filter(created_at__date__gte=date_from)
+
+        # Фильтрация по дате создания (до)
+        date_to = request.query_params.get('date_to')
+        if date_to:
+            reviews = reviews.filter(created_at__date__lte=date_to)
+
+        serializer = ReviewAdminSerializer(reviews, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class AdminPendingReviewsAPIView(APIView):
+    """
+    GET: Список отзывов на модерации (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        # Отзывы, ожидающие модерации (не опубликованные)
+        pending_reviews = Review.objects.filter(is_published=False).order_by('created_at')
+
+        # Фильтрация по услуге, если указана
+        service_id = request.query_params.get('service_id')
+        if service_id:
+            pending_reviews = pending_reviews.filter(service_id=service_id)
+
+        # Фильтрация по дате создания (от)
+        date_from = request.query_params.get('date_from')
+        if date_from:
+            pending_reviews = pending_reviews.filter(created_at__date__gte=date_from)
+
+        serializer = ReviewAdminSerializer(pending_reviews, many=True, context={'request': request})
+
+        # Статистика
+        total_pending = pending_reviews.count()
+
+        return Response({
+            "statistics": {
+                "total_pending": total_pending,
+                "pending_by_service": pending_reviews.values('service__name').annotate(count=Count('id'))
+            },
+            "reviews": serializer.data
+        })
+
+
+class AdminReviewDetailAPIView(APIView):
+    """
+    GET: Детали отзыва (админ)
+    PUT: Полное обновление отзыва (админ)
+    PATCH: Частичное обновление отзыва (админ)
+    DELETE: Удалить отзыв (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = ReviewAdminSerializer
+
+    def get_object(self, pk):
+        try:
+            return Review.objects.get(pk=pk)
+        except Review.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        review = self.get_object(pk)
+        if not review:
+            return Response(
+                {"error": "Отзыв не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ReviewAdminSerializer(review, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        review = self.get_object(pk)
+        if not review:
+            return Response(
+                {"error": "Отзыв не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ReviewAdminSerializer(review, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        review = self.get_object(pk)
+        if not review:
+            return Response(
+                {"error": "Отзыв не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ReviewAdminSerializer(review, data=request.data, partial=True, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, pk):
+        review = self.get_object(pk)
+        if not review:
+            return Response(
+                {"error": "Отзыв не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        review.delete()
+        return Response(
+            {"message": "Отзыв успешно удален"},
+            status=status.HTTP_200_OK
+        )
+
+
+class AdminReviewPublishAPIView(APIView):
+    """
+    PATCH: Опубликовать/скрыть отзыв (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = ReviewPublishSerializer
+
+    def patch(self, request, pk):
+        try:
+            review = Review.objects.get(pk=pk)
+        except Review.DoesNotExist:
+            return Response(
+                {"error": "Отзыв не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, что указан статус публикации
+        is_published = request.data.get('is_published')
+        if is_published is None:
+            return Response(
+                {"error": "Не указан статус публикации (is_published)"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Меняем статус публикации
+        review.is_published = is_published
+        review.save()
+
+        action = "опубликован" if is_published else "скрыт"
+        serializer = ReviewAdminSerializer(review, context={'request': request})
+
+        return Response({
+            "message": f"Отзыв успешно {action}",
+            "review": serializer.data
+        })
+
+
+class AdminUserListAPIView(APIView):
+    """
+    GET: Список всех пользователей (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        users = User.objects.all().order_by('-date_joined')
+
+        # Фильтрация по роли
+        role = request.query_params.get('role')
+        if role:
+            users = users.filter(role=role)
+
+        # Фильтрация по активности
+        is_active = request.query_params.get('is_active')
+        if is_active is not None:
+            users = users.filter(is_active=is_active.lower() == 'true')
+
+        # Поиск по email, имени, фамилии
+        search = request.query_params.get('search')
+        if search:
+            users = users.filter(
+                Q(email__icontains=search) |
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(phone__icontains=search)
+            )
+
+        # Фильтрация по дате регистрации (от)
+        date_from = request.query_params.get('date_from')
+        if date_from:
+            users = users.filter(date_joined__date__gte=date_from)
+
+        # Фильтрация по дате регистрации (до)
+        date_to = request.query_params.get('date_to')
+        if date_to:
+            users = users.filter(date_joined__date__lte=date_to)
+
+        # Аннотация с количеством заявок и отзывов
+        users = users.annotate(
+            order_count=Count('orders', distinct=True),
+            review_count=Count('reviews', distinct=True)
+        )
+
+        serializer = UserAdminListSerializer(users, many=True)
+        return Response(serializer.data)
+
+
+class AdminUserDetailAPIView(APIView):
+    """
+    GET: Детали пользователя (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "Пользователь не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Получаем статистику пользователя
+        user_data = UserAdminDetailSerializer(user).data
+
+        # Дополнительная статистика
+        orders = user.orders.all()
+        reviews = user.reviews.all()
+
+        # Статистика по заявкам
+        order_stats = {
+            "total": orders.count(),
+            "by_status": orders.values('status').annotate(count=Count('id')),
+            "recent_orders": orders.order_by('-created_at')[:5].values('id', 'service__name', 'status', 'created_at')
+        }
+
+        # Статистика по отзывам
+        review_stats = {
+            "total": reviews.count(),
+            "published": reviews.filter(is_published=True).count(),
+            "average_rating": reviews.aggregate(avg_rating=Avg('rating'))['avg_rating'] if reviews.exists() else None,
+            "recent_reviews": reviews.order_by('-created_at')[:5].values('id', 'service__name', 'rating', 'created_at')
+        }
+
+        return Response({
+            "user": user_data,
+            "statistics": {
+                "orders": order_stats,
+                "reviews": review_stats
+            }
+        })
+
+
+class AdminUserRoleUpdateAPIView(APIView):
+    """
+    PATCH: Изменить роль пользователя (админ)
+    """
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def patch(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "Пользователь не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Проверяем, что пользователь не меняет свою собственную роль
         if user == request.user:
             return Response(
-                {"detail": "Нельзя изменить свою роль"},
+                {"error": "Вы не можете изменить свою собственную роль"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        new_role = request.data.get('role')
-        if new_role not in ['user', 'admin']:
-            return Response(
-                {"detail": "Неверная роль"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        user.role = new_role
-        user.save()
-        
+
+        # Проверяем, что указана новая роль
+        serializer = UserRoleUpdateSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        # Сохраняем новую роль
+        old_role = user.role
+        serializer.save()
+
         return Response({
-            "detail": f"Роль пользователя изменена на {new_role}"
+            "message": f"Роль пользователя успешно изменена с '{old_role}' на '{user.role}'",
+            "user": UserAdminDetailSerializer(user).data
         })
 ```
 
 ---
 
-### Шаг 3: Настройка маршрутов
+### Настройка маршрутов
 
-**Файл: `core/urls.py`**
+**Файл: `manager_services/urls.py`**
 
 ```python
 from django.urls import path
-from .views import (
-    ServiceListView, ServiceDetailView, ServiceFilesView,
-    ServiceReviewsView, ServiceCategoriesView,
-    OrderListView, OrderDetailView, OrderCancelView,
-    OrderCommentsView, ReviewCreateView,
-    AdminServiceListView, AdminServiceDetailView,
-    AdminServiceDeactivateView, AdminOrderListView,
-    AdminOrderDetailView, AdminOrderStatusHistoryView,
-    AdminOrderStatusUpdateView, AdminCommentListView,
-    AdminCommentDetailView, AdminCommentVisibilityView,
-    AdminFileUploadView, AdminFileDetailView,
-    AdminReviewListView, AdminReviewPendingView,
-    AdminReviewDetailView, AdminReviewPublishView,
-    AdminUserListView, AdminUserDetailView,
-    AdminUserRoleUpdateView
-)
-
-app_name = "core"
+from . import views
 
 urlpatterns = [
-    # ==================== ПУБЛИЧНЫЕ ЕНДПОИНТЫ ====================
-    
-    # Услуги (публичные)
-    path('services/', ServiceListView.as_view(), name='service-list'),
-    path('services/<int:id>/', ServiceDetailView.as_view(), name='service-detail'),
-    path('services/<int:service_id>/files/', ServiceFilesView.as_view(), name='service-files'),
-    path('services/<int:service_id>/reviews/', ServiceReviewsView.as_view(), name='service-reviews'),
-    path('services/categories/', ServiceCategoriesView.as_view(), name='service-categories'),
-    
-    # Заявки (пользователь)
-    path('orders/', OrderListView.as_view(), name='order-list'),
-    path('orders/<int:id>/', OrderDetailView.as_view(), name='order-detail'),
-    path('orders/<int:id>/cancel/', OrderCancelView.as_view(), name='order-cancel'),
-    path('orders/<int:order_id>/comments/', OrderCommentsView.as_view(), name='order-comments'),
-    
-    # Отзывы (публичные)
-    path('reviews/', ReviewCreateView.as_view(), name='review-create'),
-    
-    
-    # ==================== АДМИНСКИЕ ЕНДПОИНТЫ ====================
-    
-    # Админ - Услуги
-    path('admin/services/', AdminServiceListView.as_view(), name='admin-service-list'),
-    path('admin/services/<int:id>/', AdminServiceDetailView.as_view(), name='admin-service-detail'),
-    path('admin/services/<int:id>/deactivate/', AdminServiceDeactivateView.as_view(), name='admin-service-deactivate'),
-    
-    # Админ - Заявки
-    path('admin/orders/', AdminOrderListView.as_view(), name='admin-order-list'),
-    path('admin/orders/<int:id>/', AdminOrderDetailView.as_view(), name='admin-order-detail'),
-    path('admin/orders/<int:id>/history/', AdminOrderStatusHistoryView.as_view(), name='admin-order-history'),
-    path('admin/orders/<int:id>/status/', AdminOrderStatusUpdateView.as_view(), name='admin-order-status'),
-    
-    # Админ - Комментарии
-    path('admin/comments/', AdminCommentListView.as_view(), name='admin-comment-list'),
-    path('admin/comments/<int:id>/', AdminCommentDetailView.as_view(), name='admin-comment-detail'),
-    path('admin/comments/<int:id>/visibility/', AdminCommentVisibilityView.as_view(), name='admin-comment-visibility'),
-    
-    # Админ - Файлы
-    path('admin/files/upload/', AdminFileUploadView.as_view(), name='admin-file-upload'),
-    path('admin/files/<int:id>/', AdminFileDetailView.as_view(), name='admin-file-detail'),
-    
-    # Админ - Отзывы
-    path('admin/reviews/', AdminReviewListView.as_view(), name='admin-review-list'),
-    path('admin/reviews/pending/', AdminReviewPendingView.as_view(), name='admin-review-pending'),
-    path('admin/reviews/<int:id>/', AdminReviewDetailView.as_view(), name='admin-review-detail'),
-    path('admin/reviews/<int:id>/publish/', AdminReviewPublishView.as_view(), name='admin-review-publish'),
-    
-    # Админ - Пользователи
-    path('admin/users/', AdminUserListView.as_view(), name='admin-user-list'),
-    path('admin/users/<int:id>/', AdminUserDetailView.as_view(), name='admin-user-detail'),
-    path('admin/users/<int:id>/role/', AdminUserRoleUpdateView.as_view(), name='admin-user-role'),
+    path('api/services/', views.ServiceListAPIView.as_view(), name='service-list'),
+    path('api/services/<int:pk>/', views.ServiceDetailAPIView.as_view(), name='service-detail'),
+    path('api/services/categories/', views.ServiceCategoriesAPIView.as_view(), name='service-categories'),
+
+    path('api/admin/services/', views.AdminServiceListAPIView.as_view(), name='admin-service-list'),
+    path('api/admin/services/<int:pk>/', views.AdminServiceDetailAPIView.as_view(), name='admin-service-detail'),
+    path('api/admin/services/<int:pk>/deactivate/', views.AdminServiceDeactivateAPIView.as_view(),
+         name='admin-service-deactivate'),
+
+    path('api/admin/files/upload/', views.AdminFileUploadAPIView.as_view(), name='admin-file-upload'),
+    path('api/admin/files/<int:pk>/', views.AdminFileDetailAPIView.as_view(), name='admin-file-detail'),
+    path('api/services/<int:service_id>/files/', views.ServiceFilesAPIView.as_view(), name='service-files'),
+
+    path('api/orders/', views.OrderListCreateAPIView.as_view(), name='order-list-create'),
+    path('api/orders/<int:pk>/', views.OrderDetailAPIView.as_view(), name='order-detail'),
+    path('api/orders/<int:pk>/cancel/', views.OrderCancelAPIView.as_view(), name='order-cancel'),
+
+    path('api/admin/orders/', views.AdminOrderListAPIView.as_view(), name='admin-order-list'),
+    path('api/admin/orders/<int:pk>/', views.AdminOrderDetailAPIView.as_view(), name='admin-order-detail'),
+    path('api/admin/orders/<int:pk>/status/', views.AdminOrderStatusUpdateAPIView.as_view(), name='admin-order-status'),
+    path('api/admin/orders/<int:pk>/history/', views.AdminOrderHistoryAPIView.as_view(), name='admin-order-history'),
+
+    path('api/orders/<int:order_id>/comments/', views.OrderCommentsAPIView.as_view(), name='order-comments'),
+
+    path('api/admin/comments/', views.AdminCommentListAPIView.as_view(), name='admin-comment-list'),
+    path('api/admin/comments/<int:pk>/', views.AdminCommentDetailAPIView.as_view(), name='admin-comment-detail'),
+    path('api/admin/comments/<int:pk>/visibility/', views.AdminCommentVisibilityAPIView.as_view(),
+         name='admin-comment-visibility'),
+
+    path('api/services/<int:service_id>/reviews/', views.ServiceReviewsAPIView.as_view(), name='service-reviews'),
+    path('api/reviews/', views.UserReviewCreateAPIView.as_view(), name='review-create'),
+    path('api/reviews/<int:pk>/', views.ReviewDetailAPIView.as_view(), name='review-detail'),
+
+    path('api/admin/reviews/', views.AdminReviewListAPIView.as_view(), name='admin-review-list'),
+    path('api/admin/reviews/pending/', views.AdminPendingReviewsAPIView.as_view(), name='admin-pending-reviews'),
+    path('api/admin/reviews/<int:pk>/', views.AdminReviewDetailAPIView.as_view(), name='admin-review-detail'),
+    path('api/admin/reviews/<int:pk>/publish/', views.AdminReviewPublishAPIView.as_view(), name='admin-review-publish'),
+
+    path('api/admin/users/', views.AdminUserListAPIView.as_view(), name='admin-user-list'),
+    path('api/admin/users/<int:pk>/', views.AdminUserDetailAPIView.as_view(), name='admin-user-detail'),
+    path('api/admin/users/<int:pk>/role/', views.AdminUserRoleUpdateAPIView.as_view(), name='admin-user-role'),
 ]
 ```
 
-**Файл: `personal_brand_project/urls.py`**
+**Файл: `brand_manager/urls.py`**
 
 ```python
 from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path, include, re_path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 urlpatterns = [
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+
     path('admin/', admin.site.urls),
-    
-    # Djoser аутентификация
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-    
-    # API приложения
-    path('api/', include('core.urls')),
+    path('', include('manager_services.urls')),
+    # maybe not 
+    re_path(r'^auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.jwt')),
 ]
-
-# Настройка медиа файлов в режиме разработки
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
 ---
