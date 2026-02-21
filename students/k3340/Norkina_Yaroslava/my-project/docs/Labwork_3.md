@@ -2990,10 +2990,6 @@ urlpatterns = [
 
 ## Аутентификация (Djoser)
 
-### Настройка Djoser
-
-Djoser уже настроен в `settings.py` (см. раздел "Установка и настройка").
-
 ### Доступные ендпоинты аутентификации
 
 | Метод | URL | Описание |
@@ -3197,14 +3193,14 @@ curl -X POST http://127.0.0.1:8000/api/admin/files/upload/ \
 ## Структура проекта
 
 ```
-personal_brand_project/
-├── personal_brand_project/          # Основной пакет проекта
+lab34/
+├── brand_manager/          # Основной пакет проекта
 │   ├── __init__.py
 │   ├── settings.py                  # Настройки проекта
 │   ├── urls.py                      # Главные маршруты
 │   ├── wsgi.py
 │   └── asgi.py
-├── core/                            # Приложение
+├── services_manager/                            # Приложение
 │   ├── __init__.py
 │   ├── models.py                    # Модели данных
 │   ├── serializers.py               # Сериализаторы
@@ -3214,10 +3210,9 @@ personal_brand_project/
 │   └── apps.py
 ├── media/                           # Медиа файлы (изображения)
 │   └── service_files/
-├── .venv/                           # Виртуальное окружение
 ├── manage.py
 ├── requirements.txt                 # Зависимости
-└── db.sqlite3 (или PostgreSQL)     # База данных
+└── db.sqlite3                       # База данных
 ```
 
 ---
