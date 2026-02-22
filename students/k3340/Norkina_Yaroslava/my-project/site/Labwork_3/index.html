@@ -1,0 +1,4876 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Labwork_2/">
+      
+      
+        <link rel="next" href="../Labwork_4/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Лабораторная работа №3 - Отчеты по вебу</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#no3" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Отчеты по вебу" class="md-header__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчеты по вебу
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Лабораторная работа №3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Отчеты по вебу" class="md-nav__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчеты по вебу
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная №1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Practice_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №3
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#django-djangorestframework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Реализация серверной части приложения средствами django и djangorestframework в соответствии с заданием.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ДОКУМЕНТАЦИЯ ПРОЕКТА
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ДОКУМЕНТАЦИЯ ПРОЕКТА">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сайт для продвижения личного бренда
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Описание проекта
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Описание проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель проекта
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные сущности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологический стек
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и настройка
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и настройка">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Создание виртуального окружения
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Установка зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Создание файла зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-django" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Создание проекта и приложения django
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-settingspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Настройка settings.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура базы данных
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Структура базы данных">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Пользователь (User)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Услуга (Service)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Заявка (Order)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Комментарий (Comment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Файл/Изображение (File)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Отзыв (Review)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orderstatushistory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: История статусов (OrderStatusHistory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Работа с базой данных через Django ORM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Работа с базой данных через Django ORM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Создание и применение миграций
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Запуск интерактивного режима
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Импорт моделей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 4: Создание объектов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 4: Создание объектов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание пользователей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание услуг
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание заявок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание комментариев
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание файлов/изображений
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание отзывов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание истории статусов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 5: Фильтрация и запросы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 5: Фильтрация и запросы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовая фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация по связанным таблицам
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Комбинированная фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация по тексту
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация через историю статусов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 6: Агрегация и аннотация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 6: Агрегация и аннотация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Агрегация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аннотация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Группировка с .values()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 7: Обновление и удаление
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 7: Обновление и удаление">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обновление объектов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Удаление объектов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пакетное обновление
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 8: Практические примеры запросов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 8: Практические примеры запросов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Создание тестовых данных
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Комплексные запросы
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API (Django REST Framework)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API (Django REST Framework)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Создание сериализаторов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Создание представлений
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Настройка маршрутов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация (Djoser)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация (Djoser)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#djoser_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка Djoser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Доступные ендпоинты аутентификации
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры запросов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры запросов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Регистрация пользователя
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Получение JWT токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Просмотр списка услуг
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Создание заявки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Просмотр своих заявок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Создание услуги (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Изменение статуса заявки (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Загрузка файла для услуги (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Справочник по методам
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Справочник по методам">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP методы и их назначение
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Статус-коды ответов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чек-лист для развёртывания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чек-лист для развёртывания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Быстрый старт
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проверка работоспособности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#django-djangorestframework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Реализация серверной части приложения средствами django и djangorestframework в соответствии с заданием.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ДОКУМЕНТАЦИЯ ПРОЕКТА
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ДОКУМЕНТАЦИЯ ПРОЕКТА">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сайт для продвижения личного бренда
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Описание проекта
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Описание проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель проекта
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Основные сущности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологический стек
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и настройка
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и настройка">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Создание виртуального окружения
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Установка зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Создание файла зависимостей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-django" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Создание проекта и приложения django
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-settingspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Настройка settings.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура базы данных
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Структура базы данных">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Пользователь (User)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Услуга (Service)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Заявка (Order)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Комментарий (Comment)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Файл/Изображение (File)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: Отзыв (Review)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orderstatushistory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Модель: История статусов (OrderStatusHistory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-orm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Работа с базой данных через Django ORM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Работа с базой данных через Django ORM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Создание и применение миграций
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Запуск интерактивного режима
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Импорт моделей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 4: Создание объектов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 4: Создание объектов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание пользователей
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание услуг
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание заявок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание комментариев
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание файлов/изображений
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание отзывов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создание истории статусов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 5: Фильтрация и запросы
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 5: Фильтрация и запросы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовая фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация по связанным таблицам
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Комбинированная фильтрация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация по тексту
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фильтрация через историю статусов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 6: Агрегация и аннотация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 6: Агрегация и аннотация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Агрегация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аннотация
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Группировка с .values()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 7: Обновление и удаление
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 7: Обновление и удаление">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обновление объектов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Удаление объектов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пакетное обновление
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 8: Практические примеры запросов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Шаг 8: Практические примеры запросов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Создание тестовых данных
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Комплексные запросы
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API (Django REST Framework)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API (Django REST Framework)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Создание сериализаторов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Создание представлений
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Настройка маршрутов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация (Djoser)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация (Djoser)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#djoser_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка Djoser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Доступные ендпоинты аутентификации
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры запросов
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры запросов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Регистрация пользователя
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Получение JWT токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Просмотр списка услуг
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Создание заявки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Просмотр своих заявок
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Создание услуги (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Изменение статуса заявки (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Загрузка файла для услуги (админ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Справочник по методам
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Справочник по методам">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP методы и их назначение
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Статус-коды ответов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чек-лист для развёртывания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чек-лист для развёртывания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Быстрый старт
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проверка работоспособности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="no3">Лабораторная работа №3.</h1>
+<h2 id="django-djangorestframework">Реализация серверной части приложения средствами django и djangorestframework в соответствии с заданием.</h2>
+<p><strong>Цель:</strong> овладеть практическими навыками и умениями реализации web-сервисов средствами Django. 
+Программное обеспечение: Python 3.6+, Django 3, Django REST Framework (DRF), PostgreSQL *.</p>
+<p>Практическое задание:
+Реализовать сайт, используя фреймворк Django 3, Django REST Framework, Djoser и СУБД PostgreSQL *, в соответствии с вариантом задания лабораторной работы.</p>
+<p>Свой вариант «Сайт для продвижения личного бренда».
+Есть несколько сущностей: администратор, пользователи. У пользователей есть возможность выбрать услугу на сайте (при этом он должен зарегистрироваться и имеет доступ к кабинету с историей покупок), после выбора услуги можно отправить заявку, узнать статус заявки, посмотреть комментарии, которые появятся к заявке. Личный кабинет пользователя должен быть с возможностью отредактировать личные данные.
+Комментарии к заявке и изменение ее статуса должны быть доступны администратору через отдельный админский интерфейс. Также администратор должен иметь возможность добавлять, удалять и редактировать услуги.</p>
+<p>База данных:
+<img width="897" height="775" alt="image" src="https://github.com/user-attachments/assets/b3fc94c5-ee23-4b73-a3e4-66691d4f044a" /></p>
+<h2 id="_1">ДОКУМЕНТАЦИЯ ПРОЕКТА</h2>
+<h3 id="_2">Сайт для продвижения личного бренда</h3>
+<hr />
+<h2 id="_3">Описание проекта</h2>
+<h3 id="_4">Цель проекта</h3>
+<p>Разработка веб-сервиса для продвижения личного бренда, где пользователи могут:
+- Просматривать доступные услуги
+- Регистрироваться и авторизовываться
+- Создавать заявки на услуги
+- Отслеживать статус заявок
+- Просматривать комментарии к заявкам
+- Оставлять отзывы
+- Редактировать личные данные в личном кабинете</p>
+<p>Администраторы могут:
+- Управлять услугами (создавать, редактировать, удалять, деактивировать)
+- Просматривать и изменять статус заявок
+- Оставлять комментарии к заявкам
+- Управлять отзывами (публиковать/скрывать)
+- Управлять пользователями</p>
+<h3 id="_5">Основные сущности</h3>
+<ul>
+<li><strong>Пользователь</strong> (обычный пользователь / администратор)</li>
+<li><strong>Услуга</strong> (предлагаемые услуги)</li>
+<li><strong>Заявка</strong> (заказ услуги пользователем)</li>
+<li><strong>Комментарий</strong> (комментарии администратора к заявке)</li>
+<li><strong>Файл/Изображение</strong> (материалы к услугам)</li>
+<li><strong>Отзыв</strong> (отзывы пользователей об услугах)</li>
+</ul>
+<hr />
+<h2 id="_6">Технологический стек</h2>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Версия/Технология</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend Framework</td>
+<td>Django 3+</td>
+</tr>
+<tr>
+<td>REST Framework</td>
+<td>Django REST Framework</td>
+</tr>
+<tr>
+<td>Аутентификация</td>
+<td>Djoser (JWT)</td>
+</tr>
+<tr>
+<td>База данных</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>Язык программирования</td>
+<td>Python 3.6+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">Установка и настройка</h2>
+<h3 id="1">1. Создание виртуального окружения</h3>
+<pre><code class="language-bash"># Создание виртуального окружения
+python -m venv .venv
+
+# Активация (Windows)
+.\.venv\Scripts\activate
+</code></pre>
+<h3 id="2">2. Установка зависимостей</h3>
+<pre><code class="language-bash">pip install django
+pip install djangorestframework
+pip install djangorestframework-simplejwt
+pip install djoser
+pip install psycopg2-binary  # для PostgreSQL
+</code></pre>
+<h3 id="3">3. Создание файла зависимостей</h3>
+<pre><code class="language-bash">pip freeze &gt; requirements.txt
+</code></pre>
+<p><strong>Файл <code>requirements.txt</code>:</strong></p>
+<pre><code class="language-txt">asgiref==3.11.0
+Django==3.2.25
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1
+djoser==2.2.0
+psycopg2-binary==2.9.9
+PyJWT==2.8.0
+sqlparse==0.5.5
+tzdata==2025.3
+</code></pre>
+<h3 id="4-django">4. Создание проекта и приложения django</h3>
+<pre><code class="language-bash"># Создание проекта
+django-admin startproject brand_manager
+cd brand_manager
+
+# Создание приложения
+python manage.py startapp manager_services
+</code></pre>
+<h3 id="5-settingspy">5. Настройка <code>settings.py</code></h3>
+<pre><code class="language-python"># brand_manager/settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # Third-party apps
+    'rest_framework',
+    'djoser',
+
+    # Local apps
+    'manager_services',
+]
+
+# Настройки базы данных (PostgreSQL)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Настройки статических файлов и медиа
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Настройки аутентификации
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    &quot;DEFAULT_SCHEMA_CLASS&quot;: &quot;drf_spectacular.openapi.AutoSchema&quot;,
+}
+
+# Настройки Djoser
+DJOSER = {
+    &quot;HIDE_USERS&quot;: True,
+    &quot;USER_ID_FIELD&quot;: &quot;id&quot;,
+
+    &quot;USER_CREATE_PASSWORD_RETYPE&quot;: False,
+    &quot;USERNAME_CHANGED_EMAIL_CONFIRMATION&quot;: False,
+    &quot;PASSWORD_CHANGED_EMAIL_CONFIRMATION&quot;: False,
+    &quot;SEND_ACTIVATION_EMAIL&quot;: False,
+    &quot;SEND_CONFIRMATION_EMAIL&quot;: False,
+
+    &quot;SERIALIZERS&quot;: {
+        &quot;user_create&quot;: &quot;manager_services.serializers.UserCreateSerializer&quot;,
+        &quot;user&quot;: &quot;manager_services.serializers.UserSerializer&quot;,
+        &quot;current_user&quot;: &quot;manager_services.serializers.UserSerializer&quot;,
+    },
+}
+
+# Настройки JWT
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=3),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=5),
+}
+</code></pre>
+<hr />
+<h2 id="_8">Структура базы данных</h2>
+<h3 id="user">Модель: Пользователь (User)</h3>
+<pre><code class="language-python"># core/models.py
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class User(AbstractUser):
+    &quot;&quot;&quot;Пользователь системы&quot;&quot;&quot;
+
+    class Role(models.TextChoices):
+        USER = 'user', 'Пользователь'
+        ADMIN = 'admin', 'Администратор'
+
+    username = models.CharField(verbose_name='username', max_length=20, unique=True)
+    email = models.EmailField('Электронная почта', unique=True)
+    phone = models.CharField('Номер телефона', max_length=20, blank=True)
+    role = models.CharField(
+        'Роль',
+        max_length=10,
+        choices=Role.choices,
+        default=Role.USER
+    )
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        ordering = ['-date_joined']
+
+    def __str__(self):
+        return f'{self.get_full_name()} ({self.email})'
+
+    @property
+    def is_admin(self):
+        return self.role == self.Role.ADMIN
+</code></pre>
+<h3 id="service">Модель: Услуга (Service)</h3>
+<pre><code class="language-python">class Service(models.Model):
+    &quot;&quot;&quot;Услуга&quot;&quot;&quot;
+
+    name = models.CharField('Название услуги', max_length=200)
+    description = models.TextField('Описание услуги')
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+    duration = models.PositiveIntegerField('Продолжительность (в минутах)')
+    category = models.CharField('Категория', max_length=100)
+    is_active = models.BooleanField('Активна', default=True)
+    created_by = models.ForeignKey(
+        User,
+        verbose_name='Кто создал',
+        on_delete=models.PROTECT,
+        related_name='created_services',
+        limit_choices_to={'role': User.Role.ADMIN}
+    )
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField('Дата обновления', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Услуга'
+        verbose_name_plural = 'Услуги'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
+</code></pre>
+<h3 id="order">Модель: Заявка (Order)</h3>
+<pre><code class="language-python">class Order(models.Model):
+    &quot;&quot;&quot;Заявка на услугу&quot;&quot;&quot;
+
+    class Status(models.TextChoices):
+        NEW = 'new', 'Новая'
+        IN_PROGRESS = 'in_progress', 'В работе'
+        COMPLETED = 'completed', 'Завершена'
+        CANCELLED = 'cancelled', 'Отменена'
+
+    user = models.ForeignKey(
+        User,
+        verbose_name='Пользователь',
+        on_delete=models.PROTECT,
+        related_name='orders'
+    )
+    service = models.ForeignKey(
+        Service,
+        verbose_name='Услуга',
+        on_delete=models.PROTECT,
+        related_name='orders'
+    )
+    status = models.CharField(
+        'Статус',
+        max_length=20,
+        choices=Status.choices,
+        default=Status.NEW
+    )
+    notes = models.TextField('Дополнительные заметки', blank=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    completed_at = models.DateTimeField('Дата завершения', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Заявка #{self.id} - {self.user.email}'
+
+    def save(self, *args, **kwargs):
+        # Автоматически устанавливаем completed_at при завершении заявки
+        if self.status == self.Status.COMPLETED and not self.completed_at:
+            from django.utils import timezone
+            self.completed_at = timezone.now()
+        elif self.status != self.Status.COMPLETED:
+            self.completed_at = None
+        super().save(*args, **kwargs)
+</code></pre>
+<h3 id="comment">Модель: Комментарий (Comment)</h3>
+<pre><code class="language-python">class Comment(models.Model):
+    &quot;&quot;&quot;Комментарий к заявке&quot;&quot;&quot;
+
+    order = models.ForeignKey(
+        Order,
+        verbose_name='Заявка',
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    admin = models.ForeignKey(
+        User,
+        verbose_name='Администратор',
+        on_delete=models.PROTECT,
+        related_name='comments',
+        limit_choices_to={'role': User.Role.ADMIN}
+    )
+    content = models.TextField('Текст комментария')
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    is_visible_to_user = models.BooleanField('Виден пользователю', default=True)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f'Комментарий к заявке #{self.order.id}'
+</code></pre>
+<h3 id="file">Модель: Файл/Изображение (File)</h3>
+<pre><code class="language-python">class File(models.Model):
+    &quot;&quot;&quot;Файл/Изображение для услуги&quot;&quot;&quot;
+
+    service = models.ForeignKey(
+        Service,
+        verbose_name='Услуга',
+        on_delete=models.CASCADE,
+        related_name='files'
+    )
+    file_name = models.CharField('Оригинальное имя файла', max_length=255)
+    file_path = models.CharField('Путь к файлу', max_length=500)
+    file_size = models.PositiveIntegerField('Размер файла (в байтах)')
+    mime_type = models.CharField('Тип файла', max_length=100)
+    is_primary = models.BooleanField('Главное изображение', default=False)
+    display_order = models.PositiveIntegerField('Порядок отображения', default=0)
+    uploaded_at = models.DateTimeField('Дата загрузки', auto_now_add=True)
+    uploaded_by = models.ForeignKey(
+        User,
+        verbose_name='Кто загрузил',
+        on_delete=models.PROTECT,
+        related_name='uploaded_files',
+        limit_choices_to={'role': User.Role.ADMIN}
+    )
+    alt_text = models.CharField('Альтернативный текст', max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = 'Файл'
+        verbose_name_plural = 'Файлы'
+        ordering = ['display_order', 'uploaded_at']
+
+    def __str__(self):
+        return self.file_name
+</code></pre>
+<h3 id="review">Модель: Отзыв (Review)</h3>
+<pre><code class="language-python">class Review(models.Model):
+    &quot;&quot;&quot;Отзыв на услугу&quot;&quot;&quot;
+
+    user = models.ForeignKey(
+        User,
+        verbose_name='Пользователь',
+        on_delete=models.PROTECT,
+        related_name='reviews'
+    )
+    service = models.ForeignKey(
+        Service,
+        verbose_name='Услуга',
+        on_delete=models.PROTECT,
+        related_name='reviews'
+    )
+    order = models.ForeignKey(
+        Order,
+        verbose_name='Заявка',
+        on_delete=models.PROTECT,
+        related_name='reviews'
+    )
+    rating = models.PositiveSmallIntegerField(
+        'Оценка',
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Текст отзыва')
+    is_verified = models.BooleanField('Подтвержден', default=True)
+    is_published = models.BooleanField('Опубликован', default=False)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField('Дата обновления', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['order'],
+                name='unique_review_per_order'
+            )
+        ]
+
+    def __str__(self):
+        return f'Отзыв от {self.user.email} на {self.service.name}'
+</code></pre>
+<h3 id="orderstatushistory">Модель: История статусов (OrderStatusHistory)</h3>
+<pre><code class="language-python">class OrderStatusHistory(models.Model):
+    &quot;&quot;&quot;История изменения статусов заявки&quot;&quot;&quot;
+
+    order = models.ForeignKey(
+        Order,
+        verbose_name='Заявка',
+        on_delete=models.CASCADE,
+        related_name='status_history'
+    )
+    old_status = models.CharField('Старый статус', max_length=20, choices=Order.Status.choices)
+    new_status = models.CharField('Новый статус', max_length=20, choices=Order.Status.choices)
+    changed_by = models.ForeignKey(
+        User,
+        verbose_name='Кто изменил',
+        on_delete=models.PROTECT,
+        related_name='changed_statuses',
+        limit_choices_to={'role': User.Role.ADMIN}
+    )
+    changed_at = models.DateTimeField('Дата изменения', auto_now_add=True)
+    comment = models.TextField('Комментарий к изменению', blank=True)
+
+    class Meta:
+        verbose_name = 'История статуса'
+        verbose_name_plural = 'История статусов'
+        ordering = ['-changed_at']
+
+    def __str__(self):
+        return f'{self.order} - {self.old_status} → {self.new_status}'
+</code></pre>
+<hr />
+<p>Отлично! Давайте исправим Шаги 4-7 в документации, чтобы они полностью соответствовали новой структуре проекта.</p>
+<hr />
+<h2 id="django-orm">Работа с базой данных через Django ORM</h2>
+<h3 id="1_1">Шаг 1: Создание и применение миграций</h3>
+<pre><code class="language-bash">python manage.py makemigrations
+python manage.py migrate
+</code></pre>
+<h3 id="2_1">Шаг 2: Запуск интерактивного режима</h3>
+<pre><code class="language-bash">python manage.py shell
+</code></pre>
+<h3 id="3_1">Шаг 3: Импорт моделей</h3>
+<pre><code class="language-python">from manager_services.models import User, Service, Order, Comment, File, Review, OrderStatusHistory
+from django.utils import timezone
+from datetime import datetime, timedelta
+</code></pre>
+<hr />
+<h3 id="4">Шаг 4: Создание объектов</h3>
+<h4 id="_9">Создание пользователей</h4>
+<pre><code class="language-python"># Создание администратора
+admin = User.objects.create_user(
+    username='admin_user',
+    email='admin@personalbrand.com',
+    password='admin123',
+    first_name='Админ',
+    last_name='Админов',
+    phone='+79001112233',
+    role=User.Role.ADMIN
+)
+
+# Создание обычных пользователей
+user1 = User.objects.create_user(
+    username='ivan_ivanov',
+    email='ivan@example.com',
+    password='user123',
+    first_name='Иван',
+    last_name='Иванов',
+    phone='+79001112244',
+    role=User.Role.USER
+)
+
+user2 = User.objects.create_user(
+    username='anna_smirnova',
+    email='anna@example.com',
+    password='user123',
+    first_name='Анна',
+    last_name='Смирнова',
+    phone='+79001112255',
+    role=User.Role.USER
+)
+
+user3 = User.objects.create_user(
+    username='petr_petrov',
+    email='petr@example.com',
+    password='user123',
+    first_name='Петр',
+    last_name='Петров',
+    phone='+79001112266',
+    role=User.Role.USER
+)
+</code></pre>
+<h4 id="_10">Создание услуг</h4>
+<pre><code class="language-python"># Создание услуг администратором
+service1 = Service.objects.create(
+    name='Консультация по личному бренду',
+    description='Индивидуальная консультация по развитию личного бренда с анализом текущей ситуации и разработкой стратегии',
+    price=5000,
+    duration=60,
+    category='consulting',
+    is_active=True,
+    created_by=admin
+)
+
+service2 = Service.objects.create(
+    name='Создание контента для соцсетей',
+    description='Разработка контент-плана и создание постов для социальных сетей на 2 недели',
+    price=15000,
+    duration=120,
+    category='content',
+    is_active=True,
+    created_by=admin
+)
+
+service3 = Service.objects.create(
+    name='Фотосессия для профиля',
+    description='Профессиональная фотосессия для социальных сетей и профессионального профиля',
+    price=10000,
+    duration=90,
+    category='design',
+    is_active=True,
+    created_by=admin
+)
+
+service4 = Service.objects.create(
+    name='Коучинг по карьерному росту',
+    description='Индивидуальный коучинг для достижения карьерных целей и профессионального развития',
+    price=12000,
+    duration=90,
+    category='coaching',
+    is_active=True,
+    created_by=admin
+)
+
+service5 = Service.objects.create(
+    name='Анализ конкурентов',
+    description='Глубокий анализ конкурентов в вашей нише с выявлением сильных и слабых сторон',
+    price=8000,
+    duration=60,
+    category='marketing',
+    is_active=True,
+    created_by=admin
+)
+</code></pre>
+<h4 id="_11">Создание заявок</h4>
+<pre><code class="language-python"># Создание заявок пользователями
+order1 = Order.objects.create(
+    user=user1,
+    service=service1,
+    status=Order.Status.NEW,
+    notes='Хочу обсудить стратегию развития в LinkedIn и профессиональном сообществе'
+)
+
+order2 = Order.objects.create(
+    user=user1,
+    service=service2,
+    status=Order.Status.IN_PROGRESS,
+    notes='Нужен контент на 2 недели для Instagram с акцентом на экспертность'
+)
+
+order3 = Order.objects.create(
+    user=user2,
+    service=service3,
+    status=Order.Status.COMPLETED,
+    notes='Фотосессия для профиля в соцсетях и LinkedIn'
+)
+
+order4 = Order.objects.create(
+    user=user3,
+    service=service4,
+    status=Order.Status.NEW,
+    notes='Хочу проработать карьерные цели на следующие 2 года'
+)
+
+order5 = Order.objects.create(
+    user=user2,
+    service=service5,
+    status=Order.Status.IN_PROGRESS,
+    notes='Анализ конкурентов в сфере консалтинга'
+)
+</code></pre>
+<h4 id="_12">Создание комментариев</h4>
+<pre><code class="language-python"># Создание комментариев администратором к заявкам
+comment1 = Comment.objects.create(
+    order=order1,
+    admin=admin,
+    content='Здравствуйте, Иван! Готов обсудить вашу стратегию. Предлагаю назначить встречу на следующей неделе. Какие у вас предпочтения по времени?',
+    is_visible_to_user=True
+)
+
+comment2 = Comment.objects.create(
+    order=order2,
+    admin=admin,
+    content='Начинаю работу над контент-планом. Пришлю черновик через 2 дня для вашего согласования.',
+    is_visible_to_user=True
+)
+
+comment3 = Comment.objects.create(
+    order=order3,
+    admin=admin,
+    content='Фотосессия успешно завершена! Отправляю вам отобранные фотографии для выбора финальных вариантов.',
+    is_visible_to_user=True
+)
+
+comment4 = Comment.objects.create(
+    order=order4,
+    admin=admin,
+    content='Петр, давайте начнем с анализа вашей текущей ситуации и определим приоритетные цели.',
+    is_visible_to_user=True
+)
+</code></pre>
+<h4 id="_13">Создание файлов/изображений</h4>
+<pre><code class="language-python"># Создание файлов для услуг (в реальном проекте файлы загружаются через форму)
+file1 = File.objects.create(
+    service=service1,
+    file_name='consultation_main.jpg',
+    file_path='/media/service_files/consultation_main.jpg',
+    file_size=256000,
+    mime_type='image/jpeg',
+    is_primary=True,
+    display_order=1,
+    uploaded_by=admin,
+    alt_text='Консультация по личному бренду'
+)
+
+file2 = File.objects.create(
+    service=service1,
+    file_name='consultation_process.png',
+    file_path='/media/service_files/consultation_process.png',
+    file_size=512000,
+    mime_type='image/png',
+    is_primary=False,
+    display_order=2,
+    uploaded_by=admin,
+    alt_text='Процесс консультации'
+)
+
+file3 = File.objects.create(
+    service=service2,
+    file_name='content_plan_example.jpg',
+    file_path='/media/service_files/content_plan_example.jpg',
+    file_size=384000,
+    mime_type='image/jpeg',
+    is_primary=True,
+    display_order=1,
+    uploaded_by=admin,
+    alt_text='Пример контент-плана'
+)
+
+file4 = File.objects.create(
+    service=service3,
+    file_name='photo_session_samples.jpg',
+    file_path='/media/service_files/photo_session_samples.jpg',
+    file_size=768000,
+    mime_type='image/jpeg',
+    is_primary=True,
+    display_order=1,
+    uploaded_by=admin,
+    alt_text='Примеры фотосессий'
+)
+</code></pre>
+<h4 id="_14">Создание отзывов</h4>
+<pre><code class="language-python"># Создание отзывов (только для завершенных заявок)
+review1 = Review.objects.create(
+    user=user2,
+    service=service3,
+    order=order3,
+    rating=5,
+    title='Отличная фотосессия!',
+    content='Очень доволен результатом! Фотографии получились профессиональными и естественными. Рекомендую!',
+    is_verified=True,
+    is_published=True
+)
+
+# Попытка создать отзыв для незавершенной заявки вызовет ошибку из-за ограничения
+# (в реальном проекте это проверяется в сериализаторе)
+</code></pre>
+<h4 id="_15">Создание истории статусов</h4>
+<pre><code class="language-python"># История изменений статусов (создается автоматически при изменении статуса)
+# Пример ручного создания для демонстрации:
+
+history1 = OrderStatusHistory.objects.create(
+    order=order1,
+    old_status=Order.Status.NEW,
+    new_status=Order.Status.IN_PROGRESS,
+    changed_by=admin,
+    comment='Начал работу над заявкой'
+)
+
+history2 = OrderStatusHistory.objects.create(
+    order=order3,
+    old_status=Order.Status.IN_PROGRESS,
+    new_status=Order.Status.COMPLETED,
+    changed_by=admin,
+    comment='Услуга оказана, фотографии переданы клиенту'
+)
+
+history3 = OrderStatusHistory.objects.create(
+    order=order2,
+    old_status=Order.Status.NEW,
+    new_status=Order.Status.IN_PROGRESS,
+    changed_by=admin,
+    comment='Начал разработку контент-плана'
+)
+</code></pre>
+<hr />
+<h3 id="5">Шаг 5: Фильтрация и запросы</h3>
+<h4 id="_16">Базовая фильтрация</h4>
+<pre><code class="language-python"># Все активные услуги
+active_services = Service.objects.filter(is_active=True)
+print(f&quot;Активных услуг: {active_services.count()}&quot;)
+
+# Все заявки пользователя
+user_orders = Order.objects.filter(user=user1)
+print(f&quot;Заявок у {user1.username}: {user_orders.count()}&quot;)
+
+# Заявки со статусом &quot;в работе&quot;
+in_progress_orders = Order.objects.filter(status=Order.Status.IN_PROGRESS)
+print(f&quot;Заявок в работе: {in_progress_orders.count()}&quot;)
+
+# Отзывы с оценкой 5
+five_star_reviews = Review.objects.filter(rating=5)
+print(f&quot;Отзывов на 5 звезд: {five_star_reviews.count()}&quot;)
+
+# Комментарии, видимые пользователю
+visible_comments = Comment.objects.filter(is_visible_to_user=True)
+print(f&quot;Видимых комментариев: {visible_comments.count()}&quot;)
+
+# Администраторы
+admins = User.objects.filter(role=User.Role.ADMIN)
+print(f&quot;Администраторов: {admins.count()}&quot;)
+</code></pre>
+<h4 id="_17">Фильтрация по связанным таблицам</h4>
+<pre><code class="language-python"># Заявки для конкретной услуги
+service_orders = Order.objects.filter(service=service1)
+print(f&quot;Заявок на услугу '{service1.name}': {service_orders.count()}&quot;)
+
+# Отзывы для конкретной услуги
+service_reviews = Review.objects.filter(service=service3)
+print(f&quot;Отзывов на услугу '{service3.name}': {service_reviews.count()}&quot;)
+
+# Комментарии для конкретной заявки
+order_comments = Comment.objects.filter(order=order1)
+print(f&quot;Комментариев к заявке #{order1.id}: {order_comments.count()}&quot;)
+
+# Файлы для конкретной услуги
+service_files = File.objects.filter(service=service1)
+print(f&quot;Файлов для услуги '{service1.name}': {service_files.count()}&quot;)
+
+# Главные изображения всех услуг
+primary_images = File.objects.filter(is_primary=True)
+print(f&quot;Главных изображений: {primary_images.count()}&quot;)
+</code></pre>
+<h4 id="_18">Комбинированная фильтрация</h4>
+<pre><code class="language-python"># Завершенные заявки пользователя за последний месяц
+from django.utils import timezone
+from datetime import timedelta
+
+one_month_ago = timezone.now() - timedelta(days=30)
+completed_orders = Order.objects.filter(
+    user=user1,
+    status=Order.Status.COMPLETED,
+    completed_at__gte=one_month_ago
+)
+print(f&quot;Завершенных заявок за месяц: {completed_orders.count()}&quot;)
+
+# Опубликованные отзывы для активной услуги
+published_reviews = Review.objects.filter(
+    service__is_active=True,
+    is_published=True
+)
+print(f&quot;Опубликованных отзывов: {published_reviews.count()}&quot;)
+
+# Заявки администратора со статусом &quot;новая&quot; или &quot;в работе&quot;
+admin_active_orders = Order.objects.filter(
+    service__created_by=admin,
+    status__in=[Order.Status.NEW, Order.Status.IN_PROGRESS]
+)
+print(f&quot;Активных заявок администратора: {admin_active_orders.count()}&quot;)
+
+# Пользователи с ролью &quot;пользователь&quot; и не пустым телефоном
+active_users = User.objects.filter(
+    role=User.Role.USER,
+    phone__isnull=False,
+    phone__ne=''
+)
+print(f&quot;Активных пользователей с телефоном: {active_users.count()}&quot;)
+
+# Заявки, созданные за последние 7 дней
+week_ago = timezone.now() - timedelta(days=7)
+recent_orders = Order.objects.filter(created_at__gte=week_ago)
+print(f&quot;Заявок за неделю: {recent_orders.count()}&quot;)
+</code></pre>
+<h4 id="_19">Фильтрация по тексту</h4>
+<pre><code class="language-python"># Услуги, название которых содержит &quot;консультация&quot;
+consulting_services = Service.objects.filter(
+    name__icontains='консультация'
+)
+print(f&quot;Услуг с 'консультация': {consulting_services.count()}&quot;)
+
+# Услуги категории &quot;коучинг&quot; или &quot;консалтинг&quot;
+coaching_services = Service.objects.filter(
+    category__in=['coaching', 'consulting']
+)
+print(f&quot;Коучинговых услуг: {coaching_services.count()}&quot;)
+
+# Отзывы с заголовком, начинающимся на &quot;Отлично&quot;
+excellent_reviews = Review.objects.filter(
+    title__istartswith='отлично'
+)
+print(f&quot;Отзывов 'Отлично': {excellent_reviews.count()}&quot;)
+</code></pre>
+<h4 id="_20">Фильтрация через историю статусов</h4>
+<pre><code class="language-python"># Заявки, которые были переведены в статус &quot;завершена&quot; администратором
+completed_by_admin = OrderStatusHistory.objects.filter(
+    new_status=Order.Status.COMPLETED,
+    changed_by=admin
+)
+print(f&quot;Завершенных администратором: {completed_by_admin.count()}&quot;)
+
+# Заявки, которые были отменены
+cancelled_orders = Order.objects.filter(status=Order.Status.CANCELLED)
+print(f&quot;Отмененных заявок: {cancelled_orders.count()}&quot;)
+</code></pre>
+<hr />
+<h3 id="6">Шаг 6: Агрегация и аннотация</h3>
+<h4 id="_21">Агрегация</h4>
+<pre><code class="language-python">from django.db.models import Avg, Count, Min, Max, Sum, Q
+
+# Средняя оценка всех отзывов
+avg_rating = Review.objects.aggregate(Avg('rating'))
+print(f&quot;Средняя оценка: {avg_rating['rating__avg']}&quot;)
+
+# Количество заявок для конкретной услуги
+order_count = Order.objects.filter(service=service1).aggregate(Count('id'))
+print(f&quot;Заявок на услугу '{service1.name}': {order_count['id__count']}&quot;)
+
+# Минимальная и максимальная цена услуг
+price_stats = Service.objects.aggregate(
+    min_price=Min('price'),
+    max_price=Max('price'),
+    avg_price=Avg('price')
+)
+print(f&quot;Цены: мин {price_stats['min_price']}, макс {price_stats['max_price']}, сред {price_stats['avg_price']}&quot;)
+
+# Общее количество отзывов
+total_reviews = Review.objects.aggregate(Count('id'))
+print(f&quot;Всего отзывов: {total_reviews['id__count']}&quot;)
+
+# Количество опубликованных отзывов
+published_count = Review.objects.filter(is_published=True).aggregate(Count('id'))
+print(f&quot;Опубликованных отзывов: {published_count['id__count']}&quot;)
+
+# Статистика по статусам заявок
+status_stats = Order.objects.values('status').annotate(
+    count=Count('id')
+).order_by('status')
+for stat in status_stats:
+    print(f&quot;Статус {stat['status']}: {stat['count']} заявок&quot;)
+</code></pre>
+<h4 id="_22">Аннотация</h4>
+<pre><code class="language-python"># Количество отзывов для каждой услуги
+services_with_reviews = Service.objects.annotate(
+    review_count=Count('reviews')
+).order_by('-review_count')
+
+print(&quot;\nУслуги по количеству отзывов:&quot;)
+for service in services_with_reviews:
+    print(f&quot;  {service.name}: {service.review_count} отзывов&quot;)
+
+# Средняя оценка для каждой услуги
+services_with_avg_rating = Service.objects.annotate(
+    avg_rating=Avg('reviews__rating')
+).filter(avg_rating__isnull=False).order_by('-avg_rating')
+
+print(&quot;\nУслуги по средней оценке:&quot;)
+for service in services_with_avg_rating:
+    print(f&quot;  {service.name}: {service.avg_rating:.1f}★&quot;)
+
+# Количество заявок для каждого пользователя
+users_with_order_count = User.objects.filter(
+    role=User.Role.USER
+).annotate(
+    order_count=Count('orders')
+).filter(order_count__gt=0).order_by('-order_count')
+
+print(&quot;\nПользователи по количеству заявок:&quot;)
+for user in users_with_order_count:
+    print(f&quot;  {user.username}: {user.order_count} заявок&quot;)
+
+# Количество комментариев для каждой заявки
+orders_with_comments = Order.objects.annotate(
+    comment_count=Count('comments')
+).filter(comment_count__gt=0).order_by('-comment_count')
+
+print(&quot;\nЗаявки по количеству комментариев:&quot;)
+for order in orders_with_comments:
+    print(f&quot;  Заявка #{order.id}: {order.comment_count} комментариев&quot;)
+
+# Количество файлов для каждой услуги
+services_with_files = Service.objects.annotate(
+    file_count=Count('files')
+).order_by('-file_count')
+
+print(&quot;\nУслуги по количеству файлов:&quot;)
+for service in services_with_files:
+    print(f&quot;  {service.name}: {service.file_count} файлов&quot;)
+</code></pre>
+<h4 id="values">Группировка с <code>.values()</code></h4>
+<pre><code class="language-python"># Статистика по категориям услуг
+category_stats = Service.objects.values('category').annotate(
+    count=Count('id'),
+    avg_price=Avg('price'),
+    min_price=Min('price'),
+    max_price=Max('price')
+).order_by('-count')
+
+print(&quot;\nСтатистика по категориям:&quot;)
+for stat in category_stats:
+    print(f&quot;  {stat['category']}: {stat['count']} услуг, &quot;
+          f&quot;сред. цена: {stat['avg_price']:.0f}, &quot;
+          f&quot;диапазон: {stat['min_price']} - {stat['max_price']}&quot;)
+
+# Статистика по статусам заявок с группировкой по пользователю
+user_status_stats = Order.objects.values(
+    'user__username',
+    'status'
+).annotate(
+    count=Count('id')
+).order_by('user__username', 'status')
+
+print(&quot;\nСтатистика заявок по пользователям и статусам:&quot;)
+current_user = None
+for stat in user_status_stats:
+    if stat['user__username'] != current_user:
+        current_user = stat['user__username']
+        print(f&quot;\n  {current_user}:&quot;)
+    print(f&quot;    {stat['status']}: {stat['count']}&quot;)
+
+# Статистика отзывов по оценкам
+rating_distribution = Review.objects.values('rating').annotate(
+    count=Count('id')
+).order_by('rating')
+
+print(&quot;\nРаспределение оценок:&quot;)
+for stat in rating_distribution:
+    print(f&quot;  {stat['rating']}★: {stat['count']} отзывов&quot;)
+
+# Статистика по администраторам (кто сколько комментариев оставил)
+admin_comment_stats = Comment.objects.values(
+    'admin__username'
+).annotate(
+    comment_count=Count('id')
+).order_by('-comment_count')
+
+print(&quot;\nСтатистика комментариев по администраторам:&quot;)
+for stat in admin_comment_stats:
+    print(f&quot;  {stat['admin__username']}: {stat['comment_count']} комментариев&quot;)
+</code></pre>
+<hr />
+<h3 id="7">Шаг 7: Обновление и удаление</h3>
+<h4 id="_23">Обновление объектов</h4>
+<pre><code class="language-python"># Обновление статуса заявки (автоматически создается запись в истории)
+order1.status = Order.Status.IN_PROGRESS
+order1.save()
+print(f&quot;Статус заявки #{order1.id} изменен на: {order1.get_status_display()}&quot;)
+
+# Проверка автоматического создания истории
+history = OrderStatusHistory.objects.filter(
+    order=order1,
+    new_status=Order.Status.IN_PROGRESS
+).first()
+if history:
+    print(f&quot;Создана запись в истории: {history.old_status} → {history.new_status}&quot;)
+
+# Обновление через update() (не вызывает сигналы и не создает историю)
+Order.objects.filter(id=order2.id).update(
+    status=Order.Status.COMPLETED
+)
+print(f&quot;Заявка #{order2.id} завершена через update()&quot;)
+
+# Обновление нескольких полей
+service1.name = 'Премиум консультация по личному бренду'
+service1.price = 7000
+service1.save()
+print(f&quot;Услуга обновлена: {service1.name}, новая цена: {service1.price}&quot;)
+
+# Частичное обновление через словарь
+Service.objects.filter(id=service2.id).update(
+    price=18000,
+    duration=150
+)
+print(f&quot;Услуга '{service2.name}' обновлена: цена {service2.price}, длительность {service2.duration}&quot;)
+
+# Обновление видимости комментария
+comment1.is_visible_to_user = False
+comment1.save()
+print(f&quot;Комментарий #{comment1.id} скрыт от пользователя&quot;)
+
+# Публикация отзыва
+review1.is_published = True
+review1.save()
+print(f&quot;Отзыв опубликован: {review1.title}&quot;)
+</code></pre>
+<h4 id="_24">Удаление объектов</h4>
+<pre><code class="language-python"># Удаление отзыва
+review_to_delete = Review.objects.filter(
+    user=user2,
+    service=service3
+).first()
+if review_to_delete:
+    review_id = review_to_delete.id
+    review_to_delete.delete()
+    print(f&quot;Отзыв #{review_id} удален&quot;)
+
+# Мягкое удаление (деактивация услуги)
+service_to_deactivate = Service.objects.get(id=service5.id)
+service_to_deactivate.is_active = False
+service_to_deactivate.save()
+print(f&quot;Услуга '{service_to_deactivate.name}' деактивирована&quot;)
+
+# Проверка, что деактивированная услуга не показывается в публичном списке
+active_count = Service.objects.filter(is_active=True).count()
+print(f&quot;Активных услуг после деактивации: {active_count}&quot;)
+
+# Удаление комментария
+comment_to_delete = Comment.objects.filter(
+    order=order4
+).first()
+if comment_to_delete:
+    comment_id = comment_to_delete.id
+    comment_to_delete.delete()
+    print(f&quot;Комментарий #{comment_id} удален&quot;)
+
+# Внимание: удаление пользователя с заявками вызовет ошибку из-за on_delete=PROTECT
+# Сначала нужно удалить или переназначить связанные объекты
+</code></pre>
+<h4 id="_25">Пакетное обновление</h4>
+<pre><code class="language-python"># Деактивация всех услуг категории &quot;устаревшие&quot;
+old_services = Service.objects.filter(
+    category='old',
+    is_active=True
+)
+count = old_services.update(is_active=False)
+print(f&quot;Деактивировано {count} устаревших услуг&quot;)
+
+# Обновление статуса всех отмененных заявок
+cancelled_count = Order.objects.filter(
+    status=Order.Status.CANCELLED
+).update(
+    completed_at=timezone.now()
+)
+print(f&quot;Обновлено {cancelled_count} отмененных заявок&quot;)
+
+# Публикация всех подтвержденных отзывов
+published_count = Review.objects.filter(
+    is_verified=True,
+    is_published=False
+).update(is_published=True)
+print(f&quot;Опубликовано {published_count} отзывов&quot;)
+</code></pre>
+<hr />
+<h3 id="8">Шаг 8: Практические примеры запросов</h3>
+<h4 id="1_2">Пример 1: Создание тестовых данных</h4>
+<pre><code class="language-python"># Создаем 3 дополнительных администратора
+admin2 = User.objects.create_user(
+    username='admin2',
+    email='admin2@personalbrand.com',
+    password='admin123',
+    first_name='Мария',
+    last_name='Петрова',
+    phone='+79001112277',
+    role=User.Role.ADMIN
+)
+
+admin3 = User.objects.create_user(
+    username='admin3',
+    email='admin3@personalbrand.com',
+    password='admin123',
+    first_name='Алексей',
+    last_name='Сидоров',
+    phone='+79001112288',
+    role=User.Role.ADMIN
+)
+
+# Создаем 5 дополнительных пользователей
+test_users = []
+for i in range(6, 11):
+    user = User.objects.create_user(
+        username=f'user{i}',
+        email=f'user{i}@example.com',
+        password='user123',
+        first_name=f'Имя{i}',
+        last_name=f'Фамилия{i}',
+        phone=f'+790011122{i}0',
+        role=User.Role.USER
+    )
+    test_users.append(user)
+
+print(f&quot;Создано {len(test_users)} тестовых пользователей&quot;)
+
+# Создаем 10 дополнительных услуг
+categories = ['consulting', 'coaching', 'training', 'content', 'design', 'marketing']
+for i in range(6, 16):
+    category = categories[i % len(categories)]
+    service = Service.objects.create(
+        name=f'Услуга {i} ({category})',
+        description=f'Описание услуги {i} в категории {category}',
+        price=5000 + i * 1000,
+        duration=30 + i * 15,
+        category=category,
+        is_active=True,
+        created_by=admin if i % 2 == 0 else admin2
+    )
+
+print(f&quot;Создано {Service.objects.count()} услуг всего&quot;)
+
+# Создаем 20 заявок
+for i in range(1, 21):
+    user = test_users[i % len(test_users)]
+    service = Service.objects.all()[i % Service.objects.count()]
+    status = Order.Status.NEW if i % 4 == 0 else \
+             Order.Status.IN_PROGRESS if i % 4 == 1 else \
+             Order.Status.COMPLETED if i % 4 == 2 else \
+             Order.Status.CANCELLED
+
+    order = Order.objects.create(
+        user=user,
+        service=service,
+        status=status,
+        notes=f'Тестовая заявка {i}'
+    )
+
+print(f&quot;Создано {Order.objects.count()} заявок всего&quot;)
+</code></pre>
+<h4 id="2_2">Пример 2: Комплексные запросы</h4>
+<pre><code class="language-python"># 1. Найти всех пользователей с 2 и более заявками
+users_with_multiple_orders = User.objects.filter(
+    role=User.Role.USER
+).annotate(
+    order_count=Count('orders')
+).filter(
+    order_count__gte=2
+).order_by('-order_count')
+
+print(&quot;\nПользователи с 2+ заявками:&quot;)
+for user in users_with_multiple_orders:
+    print(f&quot;  {user.username}: {user.order_count} заявок&quot;)
+
+# 2. Найти услуги с самой высокой средней оценкой (минимум 2 отзыва)
+top_rated_services = Service.objects.annotate(
+    avg_rating=Avg('reviews__rating'),
+    review_count=Count('reviews')
+).filter(
+    review_count__gte=2,
+    avg_rating__isnull=False
+).order_by('-avg_rating')[:5]
+
+print(&quot;\nТоп-5 услуг по рейтингу:&quot;)
+for service in top_rated_services:
+    print(f&quot;  {service.name}: {service.avg_rating:.1f}★ ({service.review_count} отзывов)&quot;)
+
+# 3. Найти администратора, который обработал больше всего заявок
+top_admin = User.objects.filter(
+    role=User.Role.ADMIN
+).annotate(
+    completed_orders=Count('created_services__orders', filter=Q(created_services__orders__status=Order.Status.COMPLETED))
+).order_by('-completed_orders').first()
+
+if top_admin:
+    print(f&quot;\nТоп администратор: {top_admin.username} - {top_admin.completed_orders} завершенных заявок&quot;)
+
+# 4. Найти пользователей, у которых есть завершенные заявки, но нет отзывов
+users_without_reviews = User.objects.filter(
+    orders__status=Order.Status.COMPLETED
+).exclude(
+    reviews__isnull=False
+).distinct()
+
+print(f&quot;\nПользователей с завершенными заявками без отзывов: {users_without_reviews.count()}&quot;)
+
+# 5. Статистика по категориям услуг с количеством заявок
+category_order_stats = Service.objects.values('category').annotate(
+    service_count=Count('id'),
+    order_count=Count('orders'),
+    avg_price=Avg('price')
+).order_by('-order_count')
+
+print(&quot;\nСтатистика категорий по заявкам:&quot;)
+for stat in category_order_stats:
+    print(f&quot;  {stat['category']}: {stat['service_count']} услуг, &quot;
+          f&quot;{stat['order_count']} заявок, &quot;
+          f&quot;сред. цена: {stat['avg_price']:.0f}&quot;)
+
+# 6. Найти заявки, которые находятся в работе более 7 дней
+week_ago = timezone.now() - timedelta(days=7)
+long_running_orders = Order.objects.filter(
+    status=Order.Status.IN_PROGRESS,
+    created_at__lt=week_ago
+)
+
+print(f&quot;\nЗаявок в работе более 7 дней: {long_running_orders.count()}&quot;)
+
+# 7. Найти услуги без изображений
+services_without_images = Service.objects.filter(
+    files__isnull=True
+)
+
+print(f&quot;\nУслуг без изображений: {services_without_images.count()}&quot;)
+
+# 8. Подсчитать общую выручку от завершенных заявок
+total_revenue = Order.objects.filter(
+    status=Order.Status.COMPLETED
+).aggregate(
+    total=Sum('service__price')
+)
+
+print(f&quot;\nОбщая выручка: {total_revenue['total']}&quot;)
+
+# 9. Найти пользователей, зарегистрированных за последнюю неделю
+week_ago = timezone.now() - timedelta(days=7)
+new_users = User.objects.filter(
+    role=User.Role.USER,
+    date_joined__gte=week_ago
+)
+
+print(f&quot;\nНовых пользователей за неделю: {new_users.count()}&quot;)
+
+# 10. Получить историю всех изменений статусов для конкретной заявки
+order_history = OrderStatusHistory.objects.filter(
+    order=order1
+).order_by('changed_at')
+
+print(f&quot;\nИстория заявки #{order1.id}:&quot;)
+for entry in order_history:
+    print(f&quot;  {entry.changed_at}: {entry.old_status} → {entry.new_status} &quot;
+          f&quot;(админ: {entry.changed_by.username})&quot;)
+</code></pre>
+<hr />
+<h2 id="api-django-rest-framework">API (Django REST Framework)</h2>
+<h3 id="1_3">Шаг 1: Создание сериализаторов</h3>
+<p><strong>Файл: <code>core/serializers.py</code></strong></p>
+<pre><code class="language-python">from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
+from .models import User, Service, Order, Comment, File, Review, OrderStatusHistory
+
+
+# ==================== СЕРИАЛИЗАТОРЫ ПОЛЬЗОВАТЕЛЕЙ ====================
+
+class UserSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для пользователя&quot;&quot;&quot;
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'email', 'first_name', 'last_name',
+            'username', 'phone', 'role', 'date_joined'
+        ]
+        read_only_fields = ['id', 'username', 'date_joined', 'role']
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для создания пользователя&quot;&quot;&quot;
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password]
+    )
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'id', 'email', 'username', 'first_name',
+            'last_name', 'phone', 'password', 'password2'
+        ]
+        extra_kwargs = {
+            'first_name': {'required': False},
+            'last_name': {'required': False},
+            'phone': {'required': False},
+        }
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({
+                &quot;password&quot;: &quot;Пароли не совпадают.&quot;
+            })
+        return attrs
+
+    def create(self, validated_data):
+        validated_data.pop('password2')
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
+# ==================== СЕРИАЛИЗАТОРЫ УСЛУГ ====================
+
+class ServiceSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для услуг (публичный)&quot;&quot;&quot;
+
+    primary_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Service
+        fields = [
+            'id', 'name', 'description', 'price',
+            'duration', 'category', 'is_active',
+            'created_at', 'primary_image'
+        ]
+        read_only_fields = ['id', 'created_at', 'primary_image']
+
+    def get_primary_image(self, obj):
+        return obj.primary_image
+
+
+class ServiceAdminSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для услуг (админ)&quot;&quot;&quot;
+
+    created_by_email = serializers.EmailField(
+        source='created_by.email',
+        read_only=True
+    )
+
+    class Meta:
+        model = Service
+        fields = [
+            'id', 'name', 'description', 'price',
+            'duration', 'category', 'is_active',
+            'created_by', 'created_by_email',
+            'created_at', 'updated_at', 'primary_image'
+        ]
+        read_only_fields = ['id', 'created_by', 'created_by_email', 'created_at', 'updated_at']
+
+
+# ==================== СЕРИАЛИЗАТОРЫ ЗАЯВОК ====================
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для создания заявки&quot;&quot;&quot;
+
+    class Meta:
+        model = Order
+        fields = ['id', 'service', 'notes']
+        read_only_fields = ['id']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для заявки (пользователь)&quot;&quot;&quot;
+
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    service_price = serializers.DecimalField(
+        source='service.price',
+        max_digits=8,
+        decimal_places=2,
+        read_only=True
+    )
+
+    class Meta:
+        model = Order
+        fields = [
+            'id', 'service', 'service_name', 'service_price',
+            'status', 'notes', 'created_at', 'updated_at', 'completed_at'
+        ]
+        read_only_fields = [
+            'id', 'service_name', 'service_price',
+            'status', 'created_at', 'updated_at', 'completed_at'
+        ]
+
+
+class OrderAdminSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для заявки (админ)&quot;&quot;&quot;
+
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+    user_full_name = serializers.SerializerMethodField()
+    service_name = serializers.CharField(source='service.name', read_only=True)
+
+    class Meta:
+        model = Order
+        fields = [
+            'id', 'user', 'user_email', 'user_full_name',
+            'service', 'service_name', 'status', 'notes',
+            'created_at', 'updated_at', 'completed_at'
+        ]
+        read_only_fields = ['id', 'user_email', 'user_full_name', 'service_name']
+
+    def get_user_full_name(self, obj):
+        return f&quot;{obj.user.first_name} {obj.user.last_name}&quot;.strip()
+
+
+# ==================== СЕРИАЛИЗАТОРЫ КОММЕНТАРИЕВ ====================
+
+class CommentSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для комментариев&quot;&quot;&quot;
+
+    admin_email = serializers.EmailField(source='admin.email', read_only=True)
+    admin_full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = [
+            'id', 'order', 'admin', 'admin_email',
+            'admin_full_name', 'content', 'created_at', 'is_visible_to_user'
+        ]
+        read_only_fields = [
+            'id', 'admin', 'admin_email', 'admin_full_name', 'created_at'
+        ]
+
+    def get_admin_full_name(self, obj):
+        return f&quot;{obj.admin.first_name} {obj.admin.last_name}&quot;.strip()
+
+
+# ==================== СЕРИАЛИЗАТОРЫ ФАЙЛОВ ====================
+
+class FileSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для файлов (публичный)&quot;&quot;&quot;
+
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = File
+        fields = [
+            'id', 'service', 'file_name', 'file_url',
+            'file_size', 'mime_type', 'is_primary',
+            'display_order', 'alt_text'
+        ]
+        read_only_fields = [
+            'id', 'file_url', 'file_size', 'mime_type'
+        ]
+
+    def get_file_url(self, obj):
+        request = self.context.get('request')
+        if obj.file and request:
+            return request.build_absolute_uri(obj.file.url)
+        return None
+
+
+class FileUploadSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для загрузки файлов&quot;&quot;&quot;
+
+    class Meta:
+        model = File
+        fields = [
+            'service', 'file', 'alt_text',
+            'is_primary', 'display_order'
+        ]
+        extra_kwargs = {
+            'file': {'required': True},
+            'service': {'required': True},
+        }
+
+
+class FileAdminSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для файлов (админ)&quot;&quot;&quot;
+
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    uploaded_by_email = serializers.EmailField(
+        source='uploaded_by.email',
+        read_only=True
+    )
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = File
+        fields = [
+            'id', 'service', 'service_name', 'file_name',
+            'file_url', 'file_path', 'file_size', 'mime_type',
+            'is_primary', 'display_order', 'uploaded_by',
+            'uploaded_by_email', 'uploaded_at', 'alt_text'
+        ]
+        read_only_fields = [
+            'id', 'file_name', 'file_path', 'file_size',
+            'mime_type', 'uploaded_by', 'uploaded_by_email', 'uploaded_at'
+        ]
+
+    def get_file_url(self, obj):
+        request = self.context.get('request')
+        if obj.file and request:
+            return request.build_absolute_uri(obj.file.url)
+        return None
+
+
+# ==================== СЕРИАЛИЗАТОРЫ ОТЗЫВОВ ====================
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для создания отзыва&quot;&quot;&quot;
+
+    class Meta:
+        model = Review
+        fields = [
+            'order', 'service', 'rating',
+            'title', 'content'
+        ]
+        extra_kwargs = {
+            'order': {'required': True},
+            'service': {'required': True},
+            'rating': {'required': True},
+            'title': {'required': True},
+            'content': {'required': True},
+        }
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для отзыва (публичный)&quot;&quot;&quot;
+
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+    service_name = serializers.CharField(source='service.name', read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [
+            'id', 'user', 'user_email', 'service',
+            'service_name', 'rating', 'title',
+            'content', 'created_at', 'updated_at'
+        ]
+        read_only_fields = [
+            'id', 'user', 'user_email', 'service',
+            'service_name', 'created_at', 'updated_at'
+        ]
+
+
+class ReviewAdminSerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для отзыва (админ)&quot;&quot;&quot;
+
+    user_email = serializers.EmailField(source='user.email', read_only=True)
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    order_id = serializers.IntegerField(source='order.id', read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [
+            'id', 'user', 'user_email', 'service',
+            'service_name', 'order_id', 'rating',
+            'title', 'content', 'is_verified',
+            'is_published', 'created_at', 'updated_at'
+        ]
+        read_only_fields = [
+            'id', 'user', 'user_email', 'service',
+            'service_name', 'order_id', 'created_at', 'updated_at'
+        ]
+
+
+# ==================== СЕРИАЛИЗАТОРЫ СТАТУСОВ ====================
+
+class OrderStatusUpdateSerializer(serializers.Serializer):
+    &quot;&quot;&quot;Сериализатор для изменения статуса заявки&quot;&quot;&quot;
+
+    STATUS_CHOICES = ['new', 'in_progress', 'completed', 'cancelled']
+
+    status = serializers.ChoiceField(choices=STATUS_CHOICES)
+    comment = serializers.CharField(required=False, allow_blank=True)
+
+    def validate_status(self, value):
+        if value not in self.STATUS_CHOICES:
+            raise serializers.ValidationError(&quot;Неверный статус&quot;)
+        return value
+
+
+class OrderStatusHistorySerializer(serializers.ModelSerializer):
+    &quot;&quot;&quot;Сериализатор для истории статусов&quot;&quot;&quot;
+
+    changed_by_email = serializers.EmailField(
+        source='changed_by.email',
+        read_only=True
+    )
+
+    class Meta:
+        model = OrderStatusHistory
+        fields = [
+            'id', 'order', 'status', 'changed_by',
+            'changed_by_email', 'comment', 'changed_at'
+        ]
+        read_only_fields = [
+            'id', 'order', 'changed_by', 'changed_by_email', 'changed_at'
+        ]
+</code></pre>
+<hr />
+<h3 id="2_3">Шаг 2: Создание представлений</h3>
+<p><strong>Файл: <code>core/views.py</code></strong></p>
+<pre><code class="language-python">from rest_framework import generics, permissions, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from django.db.models import Count, Avg, Q
+from datetime import datetime
+from .models import User, Service, Order, Comment, File, Review, OrderStatusHistory
+from .serializers import (
+    UserSerializer, ServiceSerializer, ServiceAdminSerializer,
+    OrderCreateSerializer, OrderSerializer, OrderAdminSerializer,
+    CommentSerializer, FileSerializer, FileUploadSerializer,
+    FileAdminSerializer, ReviewCreateSerializer, ReviewSerializer,
+    ReviewAdminSerializer, OrderStatusUpdateSerializer,
+    OrderStatusHistorySerializer
+)
+
+
+# ==================== ПЕРМИШЕНЫ (РАЗРЕШЕНИЯ) ====================
+
+class IsAdmin(permissions.BasePermission):
+    &quot;&quot;&quot;Разрешение только для администраторов&quot;&quot;&quot;
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'admin'
+
+
+class IsOwnerOrAdmin(permissions.BasePermission):
+    &quot;&quot;&quot;Разрешение для владельца объекта или администратора&quot;&quot;&quot;
+
+    def has_object_permission(self, request, view, obj):
+        if request.user.role == 'admin':
+            return True
+        return obj.user == request.user
+
+
+# ==================== ПУБЛИЧНЫЕ ЕНДПОИНТЫ ====================
+
+class ServiceListView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Список всех активных услуг (публичный)&quot;&quot;&quot;
+
+    queryset = Service.objects.filter(is_active=True)
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ServiceDetailView(generics.RetrieveAPIView):
+    &quot;&quot;&quot;GET: Детали услуги (публичный)&quot;&quot;&quot;
+
+    queryset = Service.objects.filter(is_active=True)
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ServiceFilesView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Получить файлы для конкретной услуги (публичный)&quot;&quot;&quot;
+
+    serializer_class = FileSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        service_id = self.kwargs.get('service_id')
+        return File.objects.filter(
+            service_id=service_id,
+            service__is_active=True
+        ).order_by('display_order')
+
+
+class ServiceReviewsView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Список опубликованных отзывов на услугу&quot;&quot;&quot;
+
+    serializer_class = ReviewSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        service_id = self.kwargs.get('service_id')
+        return Review.objects.filter(
+            service_id=service_id,
+            is_published=True
+        ).order_by('-created_at')
+
+
+class ServiceCategoriesView(APIView):
+    &quot;&quot;&quot;GET: Список всех категорий услуг с количеством услуг в каждой&quot;&quot;&quot;
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        categories = Service.objects.filter(is_active=True).values(
+            'category'
+        ).annotate(
+            count=Count('id')
+        ).order_by('category')
+
+        return Response(categories)
+
+
+# ==================== ЕНДПОИНТЫ ПОЛЬЗОВАТЕЛЯ ====================
+
+class OrderListView(generics.ListCreateAPIView):
+    &quot;&quot;&quot;GET: Список заявок текущего пользователя | POST: Создание новой заявки&quot;&quot;&quot;
+
+    serializer_class = OrderCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class OrderDetailView(generics.RetrieveAPIView):
+    &quot;&quot;&quot;GET: Детали заявки пользователя&quot;&quot;&quot;
+
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+
+class OrderCancelView(APIView):
+    &quot;&quot;&quot;POST: Отмена заявки (пользователем)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, id):
+        order = get_object_or_404(Order, id=id, user=request.user)
+
+        if order.status == 'cancelled':
+            return Response(
+                {&quot;detail&quot;: &quot;Заявка уже отменена&quot;},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if order.status == 'completed':
+            return Response(
+                {&quot;detail&quot;: &quot;Нельзя отменить завершенную заявку&quot;},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        order.status = 'cancelled'
+        order.save()
+
+        # Создаем запись в истории
+        OrderStatusHistory.objects.create(
+            order=order,
+            status='cancelled',
+            changed_by=request.user,
+            comment='Отменено пользователем'
+        )
+
+        return Response({&quot;detail&quot;: &quot;Заявка отменена&quot;})
+
+
+class OrderCommentsView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Получить комментарии к заявке (видимые пользователю)&quot;&quot;&quot;
+
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        order_id = self.kwargs.get('order_id')
+        order = get_object_or_404(Order, id=order_id, user=self.request.user)
+        return Comment.objects.filter(
+            order=order,
+            is_visible_to_user=True
+        ).order_by('created_at')
+
+
+class ReviewCreateView(generics.CreateAPIView):
+    &quot;&quot;&quot;POST: Создать отзыв (только для завершенных заказов пользователя)&quot;&quot;&quot;
+
+    serializer_class = ReviewCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        order = serializer.validated_data.get('order')
+
+        # Проверяем, что заявка принадлежит пользователю и завершена
+        if order.user != self.request.user:
+            raise serializers.ValidationError(
+                &quot;Вы не можете оставить отзыв на эту заявку&quot;
+            )
+
+        if order.status != 'completed':
+            raise serializers.ValidationError(
+                &quot;Отзыв можно оставить только на завершенную заявку&quot;
+            )
+
+        # Проверяем, что отзыв еще не оставлен
+        if Review.objects.filter(order=order).exists():
+            raise serializers.ValidationError(
+                &quot;Отзыв на эту заявку уже существует&quot;
+            )
+
+        serializer.save(user=self.request.user, is_verified=True)
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - УСЛУГИ ====================
+
+class AdminServiceListView(generics.ListCreateAPIView):
+    &quot;&quot;&quot;GET: Список всех услуг (для админа, с неактивными) | POST: Создание новой услуги&quot;&quot;&quot;
+
+    serializer_class = ServiceAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Service.objects.all().order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+
+class AdminServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    &quot;&quot;&quot;GET: Детали услуги (админ) | PUT: Полное обновление | PATCH: Частичное | DELETE: Удаление&quot;&quot;&quot;
+
+    serializer_class = ServiceAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Service.objects.all()
+
+
+class AdminServiceDeactivateView(APIView):
+    &quot;&quot;&quot;POST: Деактивация услуги (админ)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def post(self, request, id):
+        service = get_object_or_404(Service, id=id)
+        service.is_active = False
+        service.save()
+        return Response({&quot;detail&quot;: &quot;Услуга деактивирована&quot;})
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ЗАЯВКИ ====================
+
+class AdminOrderListView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Список всех заявок (админ, с фильтрами)&quot;&quot;&quot;
+
+    serializer_class = OrderAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        queryset = Order.objects.all().order_by('-created_at')
+
+        # Фильтрация по статусу
+        status = self.request.query_params.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+
+        # Фильтрация по пользователю
+        user_id = self.request.query_params.get('user_id')
+        if user_id:
+            queryset = queryset.filter(user_id=user_id)
+
+        # Фильтрация по услуге
+        service_id = self.request.query_params.get('service_id')
+        if service_id:
+            queryset = queryset.filter(service_id=service_id)
+
+        return queryset
+
+
+class AdminOrderDetailView(generics.RetrieveAPIView):
+    &quot;&quot;&quot;GET: Детали заявки (админ)&quot;&quot;&quot;
+
+    serializer_class = OrderAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Order.objects.all()
+
+
+class AdminOrderStatusHistoryView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: История статусов заявки (админ)&quot;&quot;&quot;
+
+    serializer_class = OrderStatusHistorySerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        order_id = self.kwargs.get('id')
+        return OrderStatusHistory.objects.filter(
+            order_id=order_id
+        ).order_by('-changed_at')
+
+
+class AdminOrderStatusUpdateView(APIView):
+    &quot;&quot;&quot;PATCH: Изменение статуса заявки (админ)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def patch(self, request, id):
+        order = get_object_or_404(Order, id=id)
+        serializer = OrderStatusUpdateSerializer(data=request.data)
+
+        if serializer.is_valid():
+            new_status = serializer.validated_data['status']
+            comment_text = serializer.validated_data.get('comment', '')
+
+            # Обновляем статус
+            order.status = new_status
+
+            # Если заявка завершена, устанавливаем дату завершения
+            if new_status == 'completed' and not order.completed_at:
+                order.completed_at = datetime.now()
+
+            order.save()
+
+            # Создаем запись в истории
+            OrderStatusHistory.objects.create(
+                order=order,
+                status=new_status,
+                changed_by=request.user,
+                comment=comment_text
+            )
+
+            return Response({&quot;detail&quot;: &quot;Статус изменен&quot;})
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - КОММЕНТАРИИ ====================
+
+class AdminCommentListView(generics.ListCreateAPIView):
+    &quot;&quot;&quot;GET: Список всех комментариев (админ) | POST: Добавить комментарий к заявке&quot;&quot;&quot;
+
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        queryset = Comment.objects.all().order_by('-created_at')
+
+        # Фильтрация по заявке
+        order_id = self.request.query_params.get('order_id')
+        if order_id:
+            queryset = queryset.filter(order_id=order_id)
+
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(admin=self.request.user)
+
+
+class AdminCommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    &quot;&quot;&quot;GET: Получить комментарий | PUT/PATCH: Обновить | DELETE: Удалить&quot;&quot;&quot;
+
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Comment.objects.all()
+
+
+class AdminCommentVisibilityView(APIView):
+    &quot;&quot;&quot;PATCH: Изменить видимость комментария (админ)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def patch(self, request, id):
+        comment = get_object_or_404(Comment, id=id)
+        comment.is_visible_to_user = not comment.is_visible_to_user
+        comment.save()
+        return Response({
+            &quot;detail&quot;: f&quot;Видимость изменена на {comment.is_visible_to_user}&quot;
+        })
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ФАЙЛЫ ====================
+
+class AdminFileUploadView(generics.CreateAPIView):
+    &quot;&quot;&quot;POST: Загрузка файла для услуги (админ)&quot;&quot;&quot;
+
+    serializer_class = FileUploadSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def perform_create(self, serializer):
+        file_obj = serializer.validated_data['file']
+
+        # Создаем запись о файле
+        file_instance = serializer.save(
+            uploaded_by=self.request.user,
+            file_name=file_obj.name,
+            file_size=file_obj.size,
+            mime_type=file_obj.content_type
+        )
+
+        # Сохраняем путь к файлу
+        file_instance.file_path = file_instance.file.name
+        file_instance.save()
+
+
+class AdminFileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    &quot;&quot;&quot;GET: Получить информацию о файле | PUT/PATCH: Обновить | DELETE: Удалить&quot;&quot;&quot;
+
+    serializer_class = FileAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return File.objects.all()
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ОТЗЫВЫ ====================
+
+class AdminReviewListView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Все отзывы (админ)&quot;&quot;&quot;
+
+    serializer_class = ReviewAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Review.objects.all().order_by('-created_at')
+
+
+class AdminReviewPendingView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Список отзывов на модерации (админ)&quot;&quot;&quot;
+
+    serializer_class = ReviewAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Review.objects.filter(is_published=False).order_by('-created_at')
+
+
+class AdminReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+    &quot;&quot;&quot;GET: Детали отзыва | PUT/PATCH: Обновить | DELETE: Удалить&quot;&quot;&quot;
+
+    serializer_class = ReviewAdminSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return Review.objects.all()
+
+
+class AdminReviewPublishView(APIView):
+    &quot;&quot;&quot;PATCH: Опубликовать/скрыть отзыв (админ)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def patch(self, request, id):
+        review = get_object_or_404(Review, id=id)
+        review.is_published = not review.is_published
+        review.save()
+        return Response({
+            &quot;detail&quot;: f&quot;Отзыв {'опубликован' if review.is_published else 'скрыт'}&quot;
+        })
+
+
+# ==================== АДМИНСКИЕ ЕНДПОИНТЫ - ПОЛЬЗОВАТЕЛИ ====================
+
+class AdminUserListView(generics.ListAPIView):
+    &quot;&quot;&quot;GET: Список всех пользователей (админ)&quot;&quot;&quot;
+
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return User.objects.all().order_by('-date_joined')
+
+
+class AdminUserDetailView(generics.RetrieveAPIView):
+    &quot;&quot;&quot;GET: Детали пользователя (админ)&quot;&quot;&quot;
+
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        return User.objects.all()
+
+
+class AdminUserRoleUpdateView(APIView):
+    &quot;&quot;&quot;PATCH: Изменить роль пользователя (админ)&quot;&quot;&quot;
+
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def patch(self, request, id):
+        user = get_object_or_404(User, id=id)
+
+        # Нельзя изменить роль самого себя
+        if user == request.user:
+            return Response(
+                {&quot;detail&quot;: &quot;Нельзя изменить свою роль&quot;},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        new_role = request.data.get('role')
+        if new_role not in ['user', 'admin']:
+            return Response(
+                {&quot;detail&quot;: &quot;Неверная роль&quot;},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user.role = new_role
+        user.save()
+
+        return Response({
+            &quot;detail&quot;: f&quot;Роль пользователя изменена на {new_role}&quot;
+        })
+</code></pre>
+<hr />
+<h3 id="3_2">Шаг 3: Настройка маршрутов</h3>
+<p><strong>Файл: <code>core/urls.py</code></strong></p>
+<pre><code class="language-python">from django.urls import path
+from .views import (
+    ServiceListView, ServiceDetailView, ServiceFilesView,
+    ServiceReviewsView, ServiceCategoriesView,
+    OrderListView, OrderDetailView, OrderCancelView,
+    OrderCommentsView, ReviewCreateView,
+    AdminServiceListView, AdminServiceDetailView,
+    AdminServiceDeactivateView, AdminOrderListView,
+    AdminOrderDetailView, AdminOrderStatusHistoryView,
+    AdminOrderStatusUpdateView, AdminCommentListView,
+    AdminCommentDetailView, AdminCommentVisibilityView,
+    AdminFileUploadView, AdminFileDetailView,
+    AdminReviewListView, AdminReviewPendingView,
+    AdminReviewDetailView, AdminReviewPublishView,
+    AdminUserListView, AdminUserDetailView,
+    AdminUserRoleUpdateView
+)
+
+app_name = &quot;core&quot;
+
+urlpatterns = [
+    # ==================== ПУБЛИЧНЫЕ ЕНДПОИНТЫ ====================
+
+    # Услуги (публичные)
+    path('services/', ServiceListView.as_view(), name='service-list'),
+    path('services/&lt;int:id&gt;/', ServiceDetailView.as_view(), name='service-detail'),
+    path('services/&lt;int:service_id&gt;/files/', ServiceFilesView.as_view(), name='service-files'),
+    path('services/&lt;int:service_id&gt;/reviews/', ServiceReviewsView.as_view(), name='service-reviews'),
+    path('services/categories/', ServiceCategoriesView.as_view(), name='service-categories'),
+
+    # Заявки (пользователь)
+    path('orders/', OrderListView.as_view(), name='order-list'),
+    path('orders/&lt;int:id&gt;/', OrderDetailView.as_view(), name='order-detail'),
+    path('orders/&lt;int:id&gt;/cancel/', OrderCancelView.as_view(), name='order-cancel'),
+    path('orders/&lt;int:order_id&gt;/comments/', OrderCommentsView.as_view(), name='order-comments'),
+
+    # Отзывы (публичные)
+    path('reviews/', ReviewCreateView.as_view(), name='review-create'),
+
+
+    # ==================== АДМИНСКИЕ ЕНДПОИНТЫ ====================
+
+    # Админ - Услуги
+    path('admin/services/', AdminServiceListView.as_view(), name='admin-service-list'),
+    path('admin/services/&lt;int:id&gt;/', AdminServiceDetailView.as_view(), name='admin-service-detail'),
+    path('admin/services/&lt;int:id&gt;/deactivate/', AdminServiceDeactivateView.as_view(), name='admin-service-deactivate'),
+
+    # Админ - Заявки
+    path('admin/orders/', AdminOrderListView.as_view(), name='admin-order-list'),
+    path('admin/orders/&lt;int:id&gt;/', AdminOrderDetailView.as_view(), name='admin-order-detail'),
+    path('admin/orders/&lt;int:id&gt;/history/', AdminOrderStatusHistoryView.as_view(), name='admin-order-history'),
+    path('admin/orders/&lt;int:id&gt;/status/', AdminOrderStatusUpdateView.as_view(), name='admin-order-status'),
+
+    # Админ - Комментарии
+    path('admin/comments/', AdminCommentListView.as_view(), name='admin-comment-list'),
+    path('admin/comments/&lt;int:id&gt;/', AdminCommentDetailView.as_view(), name='admin-comment-detail'),
+    path('admin/comments/&lt;int:id&gt;/visibility/', AdminCommentVisibilityView.as_view(), name='admin-comment-visibility'),
+
+    # Админ - Файлы
+    path('admin/files/upload/', AdminFileUploadView.as_view(), name='admin-file-upload'),
+    path('admin/files/&lt;int:id&gt;/', AdminFileDetailView.as_view(), name='admin-file-detail'),
+
+    # Админ - Отзывы
+    path('admin/reviews/', AdminReviewListView.as_view(), name='admin-review-list'),
+    path('admin/reviews/pending/', AdminReviewPendingView.as_view(), name='admin-review-pending'),
+    path('admin/reviews/&lt;int:id&gt;/', AdminReviewDetailView.as_view(), name='admin-review-detail'),
+    path('admin/reviews/&lt;int:id&gt;/publish/', AdminReviewPublishView.as_view(), name='admin-review-publish'),
+
+    # Админ - Пользователи
+    path('admin/users/', AdminUserListView.as_view(), name='admin-user-list'),
+    path('admin/users/&lt;int:id&gt;/', AdminUserDetailView.as_view(), name='admin-user-detail'),
+    path('admin/users/&lt;int:id&gt;/role/', AdminUserRoleUpdateView.as_view(), name='admin-user-role'),
+]
+</code></pre>
+<p><strong>Файл: <code>personal_brand_project/urls.py</code></strong></p>
+<pre><code class="language-python">from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    # Djoser аутентификация
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+
+    # API приложения
+    path('api/', include('core.urls')),
+]
+
+# Настройка медиа файлов в режиме разработки
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+</code></pre>
+<hr />
+<h2 id="djoser">Аутентификация (Djoser)</h2>
+<h3 id="djoser_1">Настройка Djoser</h3>
+<p>Djoser уже настроен в <code>settings.py</code> (см. раздел "Установка и настройка").</p>
+<h3 id="_26">Доступные ендпоинты аутентификации</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>URL</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/auth/users/</code></td>
+<td>Регистрация нового пользователя</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/auth/jwt/create/</code></td>
+<td>Получение JWT токена</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/auth/jwt/refresh/</code></td>
+<td>Обновление JWT токена</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/auth/jwt/verify/</code></td>
+<td>Проверка валидности токена</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/auth/users/me/</code></td>
+<td>Получение информации о текущем пользователе</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td><code>/auth/users/me/</code></td>
+<td>Обновление данных текущего пользователя</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/auth/users/set_password/</code></td>
+<td>Изменение пароля</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_27">Примеры запросов</h2>
+<h3 id="1_4">1. Регистрация пользователя</h3>
+<pre><code class="language-bash">curl -X POST http://127.0.0.1:8000/auth/users/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;username&quot;: &quot;newuser&quot;,
+    &quot;password&quot;: &quot;securepassword123&quot;,
+    &quot;password2&quot;: &quot;securepassword123&quot;,
+    &quot;first_name&quot;: &quot;Иван&quot;,
+    &quot;last_name&quot;: &quot;Иванов&quot;,
+    &quot;phone&quot;: &quot;+79001234567&quot;
+  }'
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;email&quot;: &quot;user@example.com&quot;,
+  &quot;username&quot;: &quot;newuser&quot;,
+  &quot;first_name&quot;: &quot;Иван&quot;,
+  &quot;last_name&quot;: &quot;Иванов&quot;,
+  &quot;phone&quot;: &quot;+79001234567&quot;
+}
+</code></pre>
+<h3 id="2-jwt">2. Получение JWT токена</h3>
+<pre><code class="language-bash">curl -X POST http://127.0.0.1:8000/auth/jwt/create/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;password&quot;: &quot;securepassword123&quot;
+  }'
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;access&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGc...&quot;,
+  &quot;refresh&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGc...&quot;
+}
+</code></pre>
+<h3 id="3_3">3. Просмотр списка услуг</h3>
+<pre><code class="language-bash">curl http://127.0.0.1:8000/api/services/
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Консультация по личному бренду&quot;,
+    &quot;description&quot;: &quot;Индивидуальная консультация...&quot;,
+    &quot;price&quot;: &quot;5000.00&quot;,
+    &quot;duration&quot;: 60,
+    &quot;category&quot;: &quot;consulting&quot;,
+    &quot;is_active&quot;: true,
+    &quot;created_at&quot;: &quot;2026-02-16T10:00:00Z&quot;,
+    &quot;primary_image&quot;: &quot;/media/service_files/consultation.jpg&quot;
+  }
+]
+</code></pre>
+<h3 id="4_1">4. Создание заявки</h3>
+<pre><code class="language-bash">curl -X POST http://127.0.0.1:8000/api/orders/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc...&quot; \
+  -d '{
+    &quot;service&quot;: 1,
+    &quot;notes&quot;: &quot;Хочу обсудить стратегию развития&quot;
+  }'
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;service&quot;: 1,
+  &quot;notes&quot;: &quot;Хочу обсудить стратегию развития&quot;
+}
+</code></pre>
+<h3 id="5_1">5. Просмотр своих заявок</h3>
+<pre><code class="language-bash">curl http://127.0.0.1:8000/api/orders/ \
+  -H &quot;Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc...&quot;
+</code></pre>
+<p><strong>Ответ:</strong></p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 1,
+    &quot;service&quot;: 1,
+    &quot;service_name&quot;: &quot;Консультация по личному бренду&quot;,
+    &quot;service_price&quot;: &quot;5000.00&quot;,
+    &quot;status&quot;: &quot;new&quot;,
+    &quot;notes&quot;: &quot;Хочу обсудить стратегию развития&quot;,
+    &quot;created_at&quot;: &quot;2026-02-16T11:00:00Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-02-16T11:00:00Z&quot;
+  }
+]
+</code></pre>
+<h3 id="6_1">6. Создание услуги (админ)</h3>
+<pre><code class="language-bash">curl -X POST http://127.0.0.1:8000/api/admin/services/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc...&quot; \
+  -d '{
+    &quot;name&quot;: &quot;Коучинг по карьерному росту&quot;,
+    &quot;description&quot;: &quot;Индивидуальный коучинг...&quot;,
+    &quot;price&quot;: 10000,
+    &quot;duration&quot;: 90,
+    &quot;category&quot;: &quot;coaching&quot;,
+    &quot;is_active&quot;: true
+  }'
+</code></pre>
+<h3 id="7_1">7. Изменение статуса заявки (админ)</h3>
+<pre><code class="language-bash">curl -X PATCH http://127.0.0.1:8000/api/admin/orders/1/status/ \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc...&quot; \
+  -d '{
+    &quot;status&quot;: &quot;in_progress&quot;,
+    &quot;comment&quot;: &quot;Начинаю работу над заявкой&quot;
+  }'
+</code></pre>
+<h3 id="8_1">8. Загрузка файла для услуги (админ)</h3>
+<pre><code class="language-bash">curl -X POST http://127.0.0.1:8000/api/admin/files/upload/ \
+  -H &quot;Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc...&quot; \
+  -F &quot;service=1&quot; \
+  -F &quot;file=@/path/to/image.jpg&quot; \
+  -F &quot;alt_text=Изображение услуги&quot; \
+  -F &quot;is_primary=true&quot;
+</code></pre>
+<hr />
+<h2 id="_28">Справочник по методам</h2>
+<h3 id="http">HTTP методы и их назначение</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Назначение</th>
+<th>Пример использования</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GET</strong></td>
+<td>Получение данных</td>
+<td>Просмотр списка услуг</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td>Создание данных</td>
+<td>Создание заявки</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td>Полное обновление</td>
+<td>Обновление всех полей услуги</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td>Частичное обновление</td>
+<td>Изменение статуса заявки</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td>Удаление</td>
+<td>Удаление отзыва</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-">Статус-коды ответов</h3>
+<table>
+<thead>
+<tr>
+<th>Код</th>
+<th>Описание</th>
+<th>Пример</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>200 OK</strong></td>
+<td>Успешный запрос</td>
+<td>Получение списка услуг</td>
+</tr>
+<tr>
+<td><strong>201 Created</strong></td>
+<td>Ресурс создан</td>
+<td>Регистрация пользователя</td>
+</tr>
+<tr>
+<td><strong>204 No Content</strong></td>
+<td>Успешное удаление</td>
+<td>Удаление комментария</td>
+</tr>
+<tr>
+<td><strong>400 Bad Request</strong></td>
+<td>Ошибка валидации</td>
+<td>Неверные данные формы</td>
+</tr>
+<tr>
+<td><strong>401 Unauthorized</strong></td>
+<td>Не авторизован</td>
+<td>Отсутствует токен</td>
+</tr>
+<tr>
+<td><strong>403 Forbidden</strong></td>
+<td>Нет прав доступа</td>
+<td>Обычный пользователь пытается удалить услугу</td>
+</tr>
+<tr>
+<td><strong>404 Not Found</strong></td>
+<td>Ресурс не найден</td>
+<td>Запрос несуществующей услуги</td>
+</tr>
+<tr>
+<td><strong>500 Internal Server Error</strong></td>
+<td>Ошибка сервера</td>
+<td>Внутренняя ошибка приложения</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_29">Структура проекта</h2>
+<pre><code>personal_brand_project/
+├── personal_brand_project/          # Основной пакет проекта
+│   ├── __init__.py
+│   ├── settings.py                  # Настройки проекта
+│   ├── urls.py                      # Главные маршруты
+│   ├── wsgi.py
+│   └── asgi.py
+├── core/                            # Приложение
+│   ├── __init__.py
+│   ├── models.py                    # Модели данных
+│   ├── serializers.py               # Сериализаторы
+│   ├── views.py                     # Представления
+│   ├── urls.py                      # Маршруты приложения
+│   ├── admin.py                     # Админ-панель
+│   └── apps.py
+├── media/                           # Медиа файлы (изображения)
+│   └── service_files/
+├── .venv/                           # Виртуальное окружение
+├── manage.py
+├── requirements.txt                 # Зависимости
+└── db.sqlite3 (или PostgreSQL)     # База данных
+</code></pre>
+<hr />
+<h2 id="-_1">Чек-лист для развёртывания</h2>
+<h3 id="_30">Быстрый старт</h3>
+<pre><code class="language-bash"># 1. Клонирование репозитория
+git clone &lt;repository-url&gt;
+cd personal_brand_project
+
+# 2. Создание и активация виртуального окружения
+python -m venv .venv
+.\.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Linux/Mac
+
+# 3. Установка зависимостей
+pip install -r requirements.txt
+
+# 4. Настройка базы данных
+# Создайте базу данных в PostgreSQL
+# Обновите настройки в settings.py
+
+# 5. Миграции
+python manage.py migrate
+
+# 6. Создание суперпользователя
+python manage.py createsuperuser
+
+# 7. Запуск сервера
+python manage.py runserver
+</code></pre>
+<h3 id="_31">Проверка работоспособности</h3>
+<ul>
+<li>[ ] Сервер запускается без ошибок</li>
+<li>[ ] Доступна админ-панель (<code>/admin/</code>)</li>
+<li>[ ] Работает регистрация пользователя (<code>/auth/users/</code>)</li>
+<li>[ ] Работает получение токена (<code>/auth/jwt/create/</code>)</li>
+<li>[ ] Доступен список услуг (<code>/api/services/</code>)</li>
+<li>[ ] Работает создание заявки (с токеном)</li>
+<li>[ ] Админские ендпоинты работают (с ролью <code>admin</code>)</li>
+</ul>
+<hr />
+<h2 id="_32">Заключение</h2>
+<p>Документация предоставляет полное руководство по развёртыванию и использованию проекта "Сайт для продвижения личного бренда". Проект реализует все требования лабораторной работы:</p>
+<ul>
+<li>Модели базы данных через Django ORM</li>
+<li>API через Django REST Framework</li>
+<li>Аутентификация через Djoser (JWT)</li>
+<li>Разделение прав доступа (пользователь/админ)</li>
+<li>Полноценная документация в формате Markdown</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

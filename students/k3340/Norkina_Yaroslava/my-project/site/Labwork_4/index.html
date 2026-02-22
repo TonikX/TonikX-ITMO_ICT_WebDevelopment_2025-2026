@@ -1,0 +1,2840 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Labwork_3/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Лабораторная работа №4 - Отчеты по вебу</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Отчеты по вебу" class="md-header__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчеты по вебу
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Лабораторная работа №4
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Отчеты по вебу" class="md-nav__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчеты по вебу
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная №1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Practice_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №4
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сайт для продвижения личного бренда
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сайт для продвижения личного бренда">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-vuejs-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фронтенд-часть (Vue.js 3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обзор архитектуры фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологический стек
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и настройка проекта
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и настройка проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Установка зависимостей фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Настройка прокси для разработки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Настройка бэкенда для CORS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vue-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка маршрутизации (Vue Router)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Настройка маршрутизации (Vue Router)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcrouterindexjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/router/index.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ключевые особенности маршрутизации:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vuexstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление состоянием (Vuex/Store)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление состоянием (Vuex/Store)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcstoremodulesauthjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/store/modules/auth.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcstoreindexjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/store/index.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Использование в компонентах:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация и авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация и авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Процесс аутентификации:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Защита маршрутов:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ключевые компоненты фронтенда
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ключевые компоненты фронтенда">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-homeviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Главная страница (HomeView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-servicesviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Список услуг (ServicesView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-createorderviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Создание заявки (CreateOrderView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-profileviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Личный кабинет (ProfileView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-adminservicesviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Управление услугами (админ) (AdminServicesView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-adminservicedetailviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Детали услуги (админ) (AdminServiceDetailView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-adminordersviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Управление заявками (админ) (AdminOrdersView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Интеграция с бэкендом (API)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Интеграция с бэкендом (API)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовые запросы через axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Карта эндпоинтов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры использования
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры использования">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Создание нового пользователя через API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Получение списка услуг с фильтрацией
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 3: Работа с изображениями
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 4: Защищённый запрос с обработкой ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чек-лист для развёртывания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чек-лист для развёртывания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Бэкенд (Django)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuejs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фронтенд (Vue.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Интеграция фронтенда и бэкенда
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проверка работоспособности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Сайт для продвижения личного бренда
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Сайт для продвижения личного бренда">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-vuejs-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фронтенд-часть (Vue.js 3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Обзор архитектуры фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Технологический стек
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Установка и настройка проекта
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Установка и настройка проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 1: Установка зависимостей фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 2: Настройка прокси для разработки
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-cors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Шаг 3: Настройка бэкенда для CORS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура проекта фронтенда
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vue-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Настройка маршрутизации (Vue Router)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Настройка маршрутизации (Vue Router)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcrouterindexjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/router/index.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ключевые особенности маршрутизации:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vuexstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Управление состоянием (Vuex/Store)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Управление состоянием (Vuex/Store)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#srcstoremodulesauthjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/store/modules/auth.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srcstoreindexjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Файл: src/store/index.js
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Использование в компонентах:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Аутентификация и авторизация
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Аутентификация и авторизация">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Процесс аутентификации:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Защита маршрутов:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ключевые компоненты фронтенда
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ключевые компоненты фронтенда">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-homeviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Главная страница (HomeView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-servicesviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Список услуг (ServicesView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-createorderviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Создание заявки (CreateOrderView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-profileviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Личный кабинет (ProfileView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-adminservicesviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Управление услугами (админ) (AdminServicesView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-adminservicedetailviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Детали услуги (админ) (AdminServiceDetailView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-adminordersviewvue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Управление заявками (админ) (AdminOrdersView.vue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Интеграция с бэкендом (API)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Интеграция с бэкендом (API)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#axios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Базовые запросы через axios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Карта эндпоинтов
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Примеры использования
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Примеры использования">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 1: Создание нового пользователя через API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 2: Получение списка услуг с фильтрацией
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 3: Работа с изображениями
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пример 4: Защищённый запрос с обработкой ошибок
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чек-лист для развёртывания
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чек-лист для развёртывания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Бэкенд (Django)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuejs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Фронтенд (Vue.js)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Интеграция фронтенда и бэкенда
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проверка работоспособности
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="4">Лабораторная работа 4. ДОКУМЕНТАЦИЯ ПРОЕКТА</h1>
+<h2 id="_1">Сайт для продвижения личного бренда</h2>
+<h3 id="-vuejs-3">Фронтенд-часть (Vue.js 3)</h3>
+<hr />
+<h2 id="_2">Обзор архитектуры фронтенда</h2>
+<p>Проект реализован по архитектуре <strong>разделённого фронтенда и бэкенда</strong> (decoupled frontend):</p>
+<pre><code>brand_manager/          # Бэкенд (Django)
+├── brand_manager/      # Основной пакет Django
+├── manager_services/   # Приложение с моделями и API
+└── ...
+
+frontend/               # Фронтенд (Vue.js)
+├── brand_app/          # SPA приложение на Vue 3
+│   ├── public/         # Статические файлы
+│   ├── src/
+│   │   ├── assets/     # Изображения, стили
+│   │   ├── components/ # Переиспользуемые компоненты
+│   │   ├── router/     # Настройка маршрутизации
+│   │   ├── store/      # Vuex хранилище
+│   │   ├── views/      # Страницы приложения
+│   │   ├── App.vue     # Корневой компонент
+│   │   └── main.js     # Точка входа
+│   ├── package.json    # Зависимости фронтенда
+│   └── vite.config.js  # Конфигурация сборки
+└── ...
+</code></pre>
+<p><strong>Принцип работы:</strong>
+- Фронтенд — полностью независимое SPA-приложение на Vue.js
+- Бэкенд предоставляет REST API через Django REST Framework
+- Аутентификация реализована через JWT токены (Djoser + SimpleJWT)
+- Все запросы к бэкенду выполняются через <code>axios</code>
+- CORS настроен для разрешения кросс-доменных запросов</p>
+<hr />
+<h2 id="_3">Технологический стек</h2>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Технология</th>
+<th>Версия</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Фронтенд фреймворк</td>
+<td>Vue.js</td>
+<td>3.x</td>
+</tr>
+<tr>
+<td>Маршрутизация</td>
+<td>Vue Router</td>
+<td>4.x</td>
+</tr>
+<tr>
+<td>Управление состоянием</td>
+<td>Vuex</td>
+<td>4.x</td>
+</tr>
+<tr>
+<td>HTTP клиент</td>
+<td>Axios</td>
+<td>1.x</td>
+</tr>
+<tr>
+<td>UI компоненты</td>
+<td>Vuetify</td>
+<td>3.x</td>
+</tr>
+<tr>
+<td>Сборка</td>
+<td>Vite</td>
+<td>4.x</td>
+</tr>
+<tr>
+<td>Бэкенд</td>
+<td>Django</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>REST Framework</td>
+<td>Django REST Framework</td>
+<td>3.14</td>
+</tr>
+<tr>
+<td>Аутентификация</td>
+<td>Djoser + SimpleJWT</td>
+<td>2.2 + 5.3</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">Установка и настройка проекта</h2>
+<h3 id="1">Шаг 1: Установка зависимостей фронтенда</h3>
+<pre><code class="language-bash"># Перейти в папку фронтенда
+cd frontend/brand_app
+
+# Установка зависимостей
+npm install
+# или
+yarn install
+</code></pre>
+<p><strong>Содержимое <code>package.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;brand-app&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;vite&quot;,
+    &quot;build&quot;: &quot;vite build&quot;,
+    &quot;preview&quot;: &quot;vite preview&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;axios&quot;: &quot;^1.6.0&quot;,
+    &quot;vue&quot;: &quot;^3.3.0&quot;,
+    &quot;vue-router&quot;: &quot;^4.2.0&quot;,
+    &quot;vuex&quot;: &quot;^4.1.0&quot;,
+    &quot;vuetify&quot;: &quot;^3.3.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@vitejs/plugin-vue&quot;: &quot;^4.2.0&quot;,
+    &quot;vite&quot;: &quot;^4.4.0&quot;
+  }
+}
+</code></pre>
+<h3 id="2">Шаг 2: Настройка прокси для разработки</h3>
+<p>Создайте файл <code>vite.config.js</code> для настройки прокси к бэкенду:</p>
+<pre><code class="language-javascript">// frontend/brand_app/vite.config.js
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [vue()],
+  server: {
+    port: 8080,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false
+      },
+      '/auth': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false
+      },
+      '/media': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
+})
+</code></pre>
+<h3 id="3-cors">Шаг 3: Настройка бэкенда для CORS</h3>
+<p>В <code>brand_manager/settings.py</code> убедитесь, что настроены следующие параметры:</p>
+<pre><code class="language-python"># Установка пакета
+pip install django-cors-headers
+
+# settings.py
+INSTALLED_APPS = [
+    # ...
+    'corsheaders',
+    # ...
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # ← Должен быть первым!
+    # ...
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'x-csrftoken',
+    'accept',
+    'origin',
+    'user-agent',
+]
+</code></pre>
+<hr />
+<h2 id="_5">Структура проекта фронтенда</h2>
+<pre><code>frontend/brand_app/
+├── public/
+│   └── index.html              # HTML шаблон
+├── src/
+│   ├── assets/
+│   │   └── logo.png            # Логотип и другие ресурсы
+│   ├── components/
+│   │   └── ...                 # Переиспользуемые компоненты (опционально)
+│   ├── router/
+│   │   └── index.js            # Настройка маршрутизации
+│   ├── store/
+│   │   ├── index.js            # Vuex хранилище
+│   │   └── modules/
+│   │       └── auth.js         # Модуль аутентификации
+│   ├── views/
+│   │   ├── HomeView.vue        # Главная страница
+│   │   ├── LoginView.vue       # Страница входа
+│   │   ├── RegisterView.vue    # Страница регистрации
+│   │   ├── ServicesView.vue    # Список услуг
+│   │   ├── ServiceDetailView.vue # Детали услуги
+│   │   ├── CreateOrderView.vue # Создание заявки
+│   │   ├── ProfileView.vue     # Личный кабинет
+│   │   ├── OrdersView.vue      # Мои заявки
+│   │   ├── AdminServicesView.vue # Управление услугами (админ)
+│   │   ├── AdminServiceDetailView.vue # Детали услуги (админ)
+│   │   ├── AdminServiceEditView.vue # Редактирование услуги (админ)
+│   │   ├── AdminOrdersView.vue # Управление заявками (админ)
+│   │   └── AdminReviewsView.vue # Управление отзывами (админ)
+│   ├── App.vue                 # Корневой компонент
+│   └── main.js                 # Точка входа приложения
+├── package.json
+├── vite.config.js
+└── README.md
+</code></pre>
+<hr />
+<h2 id="vue-router">Настройка маршрутизации (Vue Router)</h2>
+<h3 id="srcrouterindexjs">Файл: <code>src/router/index.js</code></h3>
+<pre><code class="language-javascript">import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store'
+
+// Импорт всех страниц
+import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import ServicesView from '../views/ServicesView.vue'
+import ProfileView from '../views/ProfileView.vue'
+import ServiceDetailView from '../views/ServiceDetailView.vue'
+import CreateOrderView from '../views/CreateOrderView.vue'
+import AdminServicesView from '../views/AdminServicesView.vue'
+import AdminServiceDetailView from '../views/AdminServiceDetailView.vue'
+import AdminServiceEditView from '../views/AdminServiceEditView.vue'
+import AdminOrdersView from '../views/AdminOrdersView.vue'
+import AdminReviewsView from '../views/AdminReviewsView.vue'
+import OrdersView from '../views/OrdersView.vue'
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: HomeView
+  },
+  {
+    path: '/services',
+    name: 'Services',
+    component: ServicesView
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginView,
+    meta: { guestOnly: true }  // Только для неавторизованных
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView,
+    meta: { guestOnly: true }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileView,
+    meta: { requiresAuth: true }  // Требует авторизации
+  },
+  {
+    path: '/services/:id',
+    name: 'ServiceDetail',
+    component: ServiceDetailView,
+    meta: { title: 'Детали услуги' }
+  },
+  {
+    path: '/orders/new',
+    name: 'CreateOrder',
+    component: CreateOrderView,
+    meta: {
+      title: 'Новая заявка',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/admin/services',
+    name: 'AdminServices',
+    component: AdminServicesView,
+    meta: {
+      title: 'Управление услугами',
+      requiresAuth: true,
+      requiresAdmin: true  // Требует прав администратора
+    }
+  },
+  {
+    path: '/admin/services/new',
+    name: 'AdminServiceCreate',
+    component: AdminServiceEditView,
+    meta: {
+      title: 'Новая услуга',
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/admin/services/:id',
+    name: 'AdminServiceDetail',
+    component: AdminServiceDetailView,
+    meta: {
+      title: 'Детали услуги',
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/admin/services/:id/edit',
+    name: 'AdminServiceEdit',
+    component: AdminServiceEditView,
+    meta: {
+      title: 'Редактирование услуги',
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/admin/orders',
+    name: 'AdminOrders',
+    component: AdminOrdersView,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/admin/reviews',
+    name: 'AdminReviews',
+    component: AdminReviewsView,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: OrdersView,
+    meta: { requiresAuth: true }
+  }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+// Навигационная охрана (Navigation Guards)
+router.beforeEach((to, from, next) =&gt; {
+  const isAuthenticated = store.state.auth.token
+  const user = store.state.auth.user
+  const isAdmin = user?.role === 'admin' || user?.is_staff === true
+
+  // Если маршрут только для гостей (неавторизованных)
+  if (to.meta.guestOnly &amp;&amp; isAuthenticated) {
+    next('/')
+    return
+  }
+
+  // Если маршрут требует авторизации
+  if (to.meta.requiresAuth &amp;&amp; !isAuthenticated) {
+    next('/login')
+    return
+  }
+
+  // Если маршрут требует админских прав
+  if (to.meta.requiresAdmin &amp;&amp; (!isAuthenticated || !isAdmin)) {
+    next('/')
+    return
+  }
+
+  next()
+})
+
+export default router
+</code></pre>
+<h3 id="_6">Ключевые особенности маршрутизации:</h3>
+<table>
+<thead>
+<tr>
+<th>Фича</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Мета-поля</strong></td>
+<td><code>guestOnly</code>, <code>requiresAuth</code>, <code>requiresAdmin</code> для контроля доступа</td>
+</tr>
+<tr>
+<td><strong>Динамические параметры</strong></td>
+<td><code>:id</code> для передачи ID сущности (услуга, заявка)</td>
+</tr>
+<tr>
+<td><strong>Навигационные гарды</strong></td>
+<td>Проверка авторизации перед переходом на защищённые маршруты</td>
+</tr>
+<tr>
+<td><strong>Ленивая загрузка</strong></td>
+<td>Возможность подключения через <code>() =&gt; import(...)</code> для оптимизации</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="vuexstore">Управление состоянием (Vuex/Store)</h2>
+<h3 id="srcstoremodulesauthjs">Файл: <code>src/store/modules/auth.js</code></h3>
+<pre><code class="language-javascript">import axios from 'axios'
+
+const API_URL = '/auth'  // Проксируется через Vite к бэкенду
+
+export default {
+  namespaced: true,
+  state: {
+    token: localStorage.getItem('token') || null,
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    isLoading: false,
+    error: null
+  },
+  getters: {
+    isAuthenticated: state =&gt; !!state.token,
+    isAdmin: state =&gt; state.user?.role === 'admin' || state.user?.is_staff === true,
+    userName: state =&gt; state.user ? `${state.user.first_name} ${state.user.last_name}`.trim() : state.user?.username || 'Пользователь',
+    userData: state =&gt; state.user,
+    isLoading: state =&gt; state.isLoading,
+    authError: state =&gt; state.error
+  },
+  mutations: {
+    SET_TOKEN(state, token) {
+      state.token = token
+      localStorage.setItem('token', token)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    },
+    SET_USER(state, user) {
+      state.user = user
+      localStorage.setItem('user', JSON.stringify(user))
+    },
+    CLEAR_AUTH(state) {
+      state.token = null
+      state.user = null
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      delete axios.defaults.headers.common['Authorization']
+    },
+    SET_LOADING(state, status) {
+      state.isLoading = status
+    },
+    SET_ERROR(state, error) {
+      state.error = error
+    },
+    CLEAR_ERROR(state) {
+      state.error = null
+    }
+  },
+  actions: {
+    async login({ commit }, credentials) {
+      commit('SET_LOADING', true)
+      commit('CLEAR_ERROR')
+
+      try {
+        // Получение токена
+        const response = await axios.post(`${API_URL}/jwt/create/`, {
+          username: credentials.email,  // В проекте используется username вместо email
+          password: credentials.password
+        })
+
+        const { access, refresh } = response.data
+        commit('SET_TOKEN', access)
+
+        // Получение данных пользователя
+        const userResponse = await axios.get(`${API_URL}/users/me/`)
+        commit('SET_USER', userResponse.data)
+
+        return { success: true }
+      } catch (error) {
+        commit('SET_ERROR', error.response?.data || { detail: 'Ошибка авторизации' })
+        return { success: false, error: error.response?.data }
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
+    async register({ commit }, userData) {
+      commit('SET_LOADING', true)
+      commit('CLEAR_ERROR')
+
+      try {
+        const response = await axios.post(`${API_URL}/users/`, userData)
+        return { success: true, user: response.data }
+      } catch (error) {
+        commit('SET_ERROR', error.response?.data)
+        return { success: false, error: error.response?.data }
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
+    async logout({ commit }) {
+      commit('CLEAR_AUTH')
+    },
+
+    async updateProfile({ commit, state }, userData) {
+      commit('SET_LOADING', true)
+      commit('CLEAR_ERROR')
+
+      try {
+        const response = await axios.patch(`${API_URL}/users/${state.user.id}/`, userData)
+        commit('SET_USER', response.data)
+        return { success: true }
+      } catch (error) {
+        commit('SET_ERROR', error.response?.data)
+        return { success: false, error: error.response?.data }
+      } finally {
+        commit('SET_LOADING', false)
+      }
+    },
+
+    // Автоматическая установка токена при инициализации приложения
+    initAuth({ commit }) {
+      const token = localStorage.getItem('token')
+      const user = localStorage.getItem('user')
+
+      if (token) {
+        commit('SET_TOKEN', token)
+      }
+
+      if (user) {
+        commit('SET_USER', JSON.parse(user))
+      }
+    }
+  }
+}
+</code></pre>
+<h3 id="srcstoreindexjs">Файл: <code>src/store/index.js</code></h3>
+<pre><code class="language-javascript">import { createStore } from 'vuex'
+import auth from './modules/auth'
+
+export default createStore({
+  modules: {
+    auth
+  }
+})
+</code></pre>
+<h3 id="_7">Использование в компонентах:</h3>
+<pre><code class="language-vue">&lt;script&gt;
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated', 'isAdmin', 'userName', 'userData', 'isLoading', 'authError'])
+  },
+  methods: {
+    ...mapActions('auth', ['login', 'logout', 'register', 'updateProfile'])
+  },
+  mounted() {
+    // Автоматическая инициализация аутентификации
+    this.$store.dispatch('auth/initAuth')
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<hr />
+<h2 id="_8">Аутентификация и авторизация</h2>
+<h3 id="_9">Процесс аутентификации:</h3>
+<ol>
+<li><strong>Регистрация пользователя</strong></li>
+<li>Запрос: <code>POST /auth/users/</code></li>
+<li>Тело: <code>{ username, email, password, first_name, last_name, phone }</code></li>
+<li>
+<p>Ответ: данные пользователя (без пароля)</p>
+</li>
+<li>
+<p><strong>Получение JWT токена</strong></p>
+</li>
+<li>Запрос: <code>POST /auth/jwt/create/</code></li>
+<li>Тело: <code>{ username, password }</code></li>
+<li>
+<p>Ответ: <code>{ access, refresh }</code></p>
+</li>
+<li>
+<p><strong>Хранение токена</strong></p>
+</li>
+<li><code>access</code> токен сохраняется в <code>localStorage</code></li>
+<li>
+<p>Токен автоматически добавляется в заголовок <code>Authorization: Bearer &lt;token&gt;</code> для всех запросов через <code>axios</code></p>
+</li>
+<li>
+<p><strong>Получение данных текущего пользователя</strong></p>
+</li>
+<li>Запрос: <code>GET /auth/users/me/</code></li>
+<li>
+<p>Ответ: полные данные пользователя с ролью</p>
+</li>
+<li>
+<p><strong>Обновление токена (опционально)</strong></p>
+</li>
+<li>Запрос: <code>POST /auth/jwt/refresh/</code></li>
+<li>Тело: <code>{ refresh }</code></li>
+<li>Ответ: новый <code>access</code> токен</li>
+</ol>
+<h3 id="_10">Защита маршрутов:</h3>
+<pre><code class="language-javascript">// В компоненте страницы
+export default {
+  beforeRouteEnter(to, from, next) {
+    // Проверка авторизации перед входом на страницу
+    const token = localStorage.getItem('token')
+    if (!token &amp;&amp; to.meta.requiresAuth) {
+      next('/login')
+    } else {
+      next()
+    }
+  }
+}
+</code></pre>
+<hr />
+<h2 id="_11">Ключевые компоненты фронтенда</h2>
+<h3 id="1-homeviewvue">1. Главная страница (<code>HomeView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение приветственного сообщения
+- Кнопки навигации в зависимости от роли пользователя:
+  - Неавторизованные: регистрация, просмотр услуг
+  - Авторизованные: личный кабинет, мои заявки
+  - Администраторы: панели управления услугами, заявками, отзывами</p>
+<p><strong>Особенности:</strong>
+- Использование <code>mapGetters</code> для получения состояния авторизации
+- Динамическое отображение кнопок в зависимости от роли</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;v-container class=&quot;my-12&quot;&gt;
+    &lt;v-row&gt;
+      &lt;v-col cols=&quot;12&quot;&gt;
+        &lt;h1 class=&quot;text-h4 text-center mb-4&quot;&gt;Главная страница&lt;/h1&gt;
+        &lt;div class=&quot;text-center mb-8&quot;&gt;
+          &lt;!-- Кнопки навигации --&gt;
+          &lt;v-btn to=&quot;/services&quot; color=&quot;primary&quot; class=&quot;mr-4&quot;&gt;Услуги&lt;/v-btn&gt;
+
+          &lt;!-- Только для неавторизованных --&gt;
+          &lt;v-btn v-if=&quot;!isAuthenticated&quot; to=&quot;/register&quot; variant=&quot;outlined&quot; color=&quot;primary&quot;&gt;
+            Регистрация
+          &lt;/v-btn&gt;
+
+          &lt;!-- Для авторизованных --&gt;
+          &lt;v-btn v-if=&quot;isAuthenticated&quot; to=&quot;/profile&quot; color=&quot;secondary&quot; class=&quot;mr-4&quot;&gt;
+            Личный кабинет
+          &lt;/v-btn&gt;
+
+          &lt;!-- Для администраторов --&gt;
+          &lt;v-btn v-if=&quot;isAdmin&quot; to=&quot;/admin/services&quot; color=&quot;error&quot;&gt;
+            &lt;v-icon start&gt;mdi-shield-account&lt;/v-icon&gt;
+            Админ: Услуги
+          &lt;/v-btn&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Информация о пользователе --&gt;
+        &lt;div v-if=&quot;isAuthenticated&quot; class=&quot;text-center&quot;&gt;
+          &lt;p&gt;Добро пожаловать, {{ userName }}&lt;/p&gt;
+          &lt;p&gt;Роль: {{ userData.role }}&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/v-col&gt;
+    &lt;/v-row&gt;
+  &lt;/v-container&gt;
+&lt;/template&gt;
+</code></pre>
+<h3 id="2-servicesviewvue">2. Список услуг (<code>ServicesView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение списка активных услуг
+- Карточки услуг с изображением, названием, ценой, категорией
+- Кнопка "Выбрать" для создания заявки
+- Автоматическая переадресация на страницу входа для неавторизованных</p>
+<p><strong>Особенности:</strong>
+- Загрузка данных через <code>axios.get('/api/services/')</code>
+- Обработка изображений: извлечение имени файла из пути <code>primary_image</code>
+- Обрезка длинного описания до 100 символов</p>
+<pre><code class="language-javascript">methods: {
+  async loadServices() {
+    this.loading = true
+    try {
+      const response = await axios.get('/api/services/')
+      this.services = response.data
+    } catch (error) {
+      console.error('Ошибка загрузки услуг:', error)
+      this.services = []
+    } finally {
+      this.loading = false
+    }
+  },
+
+  getImagePath(service) {
+    if (service.primary_image) {
+      const parts = service.primary_image.split('/')
+      const filename = parts[parts.length - 1]
+      return `../../../../media/services/${service.id}/${filename}`
+    }
+    // Заглушка для отсутствующего изображения
+    return 'data:image/svg+xml;utf8,&lt;svg ...&gt;Нет изображения&lt;/svg&gt;'
+  }
+}
+</code></pre>
+<h3 id="3-createorderviewvue">3. Создание заявки (<code>CreateOrderView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение информации о выбранной услуге
+- Поле для ввода комментария/пожеланий
+- Отправка заявки через <code>POST /api/orders/</code>
+- Автоматическое создание комментария к заявке с текстом пользователя</p>
+<p><strong>Особенности:</strong>
+- Получение ID услуги из параметров маршрута: <code>this.$route.query.service_id</code>
+- Валидация данных перед отправкой
+- Обработка ошибок через <code>try/catch</code></p>
+<pre><code class="language-javascript">async submitOrder() {
+  this.loading = true
+  this.error = null
+  try {
+    // Создание заявки
+    const response = await axios.post('/api/orders/', this.form)
+    const createdOrder = response.data
+
+    // Автоматическое создание комментария с пожеланиями
+    if (this.form.notes &amp;&amp; this.form.notes.trim() !== '') {
+      try {
+        await axios.post('/api/admin/comments/', {
+          order: createdOrder.id,
+          content: this.form.notes,
+          is_visible_to_user: true
+        })
+      } catch (commentError) {
+        console.error('Ошибка создания комментария:', commentError)
+      }
+    }
+
+    alert('Заявка успешно создана!')
+    this.$router.push('/profile/orders')
+  } catch (error) {
+    console.error('Ошибка создания заявки:', error)
+    this.error = error.response?.data?.detail || 'Ошибка при создании заявки'
+  } finally {
+    this.loading = false
+  }
+}
+</code></pre>
+<h3 id="4-profileviewvue">4. Личный кабинет (<code>ProfileView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение информации о пользователе (имя, фамилия, email, телефон, роль)
+- Форма редактирования профиля
+- Обновление данных через <code>PATCH /auth/users/{id}/</code></p>
+<p><strong>Особенности:</strong>
+- Использование <code>watch</code> для синхронизации формы с данными пользователя
+- Сохранение обновлённых данных в <code>localStorage</code>
+- Отображение временных сообщений об успехе/ошибке</p>
+<pre><code class="language-javascript">watch: {
+  user: {
+    immediate: true,
+    handler(newUser) {
+      if (newUser) {
+        this.editForm = {
+          first_name: newUser.first_name || '',
+          last_name: newUser.last_name || '',
+          phone: newUser.phone || ''
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<h3 id="5-adminservicesviewvue">5. Управление услугами (админ) (<code>AdminServicesView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение всех услуг (включая неактивные)
+- Визуальная индикация статуса (активна/неактивна)
+- Кнопки действий: просмотр, редактирование, удаление
+- Создание новой услуги через кнопку "Добавить услугу"</p>
+<p><strong>Особенности:</strong>
+- Загрузка данных через админский эндпоинт: <code>GET /api/admin/services/</code>
+- Обработка состояния удаления (<code>deletingId</code>) для отображения лоадера на кнопке
+- Подтверждение удаления через <code>confirm()</code></p>
+<pre><code class="language-javascript">async deleteService(service) {
+  if (!confirm(`Удалить услугу &quot;${service.name}&quot;?`)) return
+  this.deletingId = service.id
+  try {
+    await axios.delete(`/api/admin/services/${service.id}/`)
+    this.services = this.services.filter(s =&gt; s.id !== service.id)
+    alert('Услуга удалена')
+  } catch (error) {
+    console.error('Ошибка удаления:', error)
+    alert('Ошибка при удалении услуги')
+  } finally {
+    this.deletingId = null
+  }
+}
+</code></pre>
+<h3 id="6-adminservicedetailviewvue">6. Детали услуги (админ) (<code>AdminServiceDetailView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение полной информации об услуге
+- Управление статусом активности (активировать/деактивировать)
+- Загрузка изображений через форму
+- Редактирование и удаление услуги</p>
+<p><strong>Особенности:</strong>
+- Отображение основного изображения через <code>getMainImage()</code>
+- Модальное окно для загрузки изображений (<code>v-dialog</code>)
+- Форматирование дат через <code>formatDate()</code>
+- Подтверждение опасных действий (удаление, деактивация)</p>
+<pre><code class="language-javascript">methods: {
+  async uploadImage() {
+    if (!this.uploadFile) return
+    const formData = new FormData()
+    formData.append('service', this.service.id)
+    formData.append('file', this.uploadFile)
+    formData.append('alt_text', this.uploadAltText)
+    formData.append('is_primary', this.uploadIsPrimary)
+    formData.append('display_order', this.uploadDisplayOrder)
+
+    try {
+      await axios.post('/api/admin/files/upload/', formData)
+      alert('Изображение загружено')
+      this.showUploadDialog = false
+      await this.loadService()
+    } catch (error) {
+      console.error('Ошибка загрузки:', error)
+      alert('Ошибка при загрузке изображения')
+    }
+  }
+}
+</code></pre>
+<h3 id="7-adminordersviewvue">7. Управление заявками (админ) (<code>AdminOrdersView.vue</code>)</h3>
+<p><strong>Функционал:</strong>
+- Отображение списка всех заявок
+- Просмотр истории изменений статуса
+- Изменение статуса заявки
+- Добавление комментариев к заявке</p>
+<p><strong>Особенности:</strong>
+- Загрузка истории через <code>GET /api/admin/orders/{id}/history/</code>
+- Изменение статуса через <code>PATCH /api/admin/orders/{id}/status/</code>
+- Модальные окна для истории, изменения статуса и комментариев</p>
+<pre><code class="language-javascript">async changeStatus() {
+  try {
+    await axios.patch(
+      `/api/admin/orders/${this.selectedOrder.id}/status/`,
+      { 
+        status: this.newStatus, 
+        comment: this.comment 
+      }
+    )
+    // Обновление локального состояния или перезагрузка списка
+  } finally {
+    this.statusDialog = false
+  }
+}
+</code></pre>
+<hr />
+<h2 id="api">Интеграция с бэкендом (API)</h2>
+<h3 id="axios">Базовые запросы через <code>axios</code></h3>
+<pre><code class="language-javascript">import axios from 'axios'
+
+// Настройка базового URL (проксируется через Vite)
+axios.defaults.baseURL = '/'
+
+// Автоматическая установка токена из хранилища
+axios.interceptors.request.use(config =&gt; {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+// Обработка ошибок 401 (неавторизован)
+axios.interceptors.response.use(
+  response =&gt; response,
+  error =&gt; {
+    if (error.response?.status === 401) {
+      // Очистка токена и перенаправление на страницу входа
+      localStorage.removeItem('token')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  }
+)
+</code></pre>
+<h3 id="_12">Карта эндпоинтов</h3>
+<table>
+<thead>
+<tr>
+<th>Функционал</th>
+<th>Метод</th>
+<th>Эндпоинт</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Аутентификация</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Регистрация</td>
+<td>POST</td>
+<td><code>/auth/users/</code></td>
+<td>Создание нового пользователя</td>
+</tr>
+<tr>
+<td>Получение токена</td>
+<td>POST</td>
+<td><code>/auth/jwt/create/</code></td>
+<td>Аутентификация и получение JWT</td>
+</tr>
+<tr>
+<td>Обновление токена</td>
+<td>POST</td>
+<td><code>/auth/jwt/refresh/</code></td>
+<td>Обновление access токена</td>
+</tr>
+<tr>
+<td>Данные пользователя</td>
+<td>GET</td>
+<td><code>/auth/users/me/</code></td>
+<td>Получение профиля текущего пользователя</td>
+</tr>
+<tr>
+<td>Обновление профиля</td>
+<td>PATCH</td>
+<td><code>/auth/users/me/</code></td>
+<td>Редактирование личных данных</td>
+</tr>
+<tr>
+<td><strong>Услуги</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Список услуг</td>
+<td>GET</td>
+<td><code>/api/services/</code></td>
+<td>Публичный список активных услуг</td>
+</tr>
+<tr>
+<td>Детали услуги</td>
+<td>GET</td>
+<td><code>/api/services/{id}/</code></td>
+<td>Информация об услуге</td>
+</tr>
+<tr>
+<td>Файлы услуги</td>
+<td>GET</td>
+<td><code>/api/services/{id}/files/</code></td>
+<td>Изображения и файлы услуги</td>
+</tr>
+<tr>
+<td>Отзывы услуги</td>
+<td>GET</td>
+<td><code>/api/services/{id}/reviews/</code></td>
+<td>Опубликованные отзывы</td>
+</tr>
+<tr>
+<td>Админ: список</td>
+<td>GET</td>
+<td><code>/api/admin/services/</code></td>
+<td>Все услуги (включая неактивные)</td>
+</tr>
+<tr>
+<td>Админ: создание</td>
+<td>POST</td>
+<td><code>/api/admin/services/</code></td>
+<td>Создание новой услуги</td>
+</tr>
+<tr>
+<td>Админ: редактирование</td>
+<td>PATCH</td>
+<td><code>/api/admin/services/{id}/</code></td>
+<td>Обновление услуги</td>
+</tr>
+<tr>
+<td>Админ: деактивация</td>
+<td>POST</td>
+<td><code>/api/admin/services/{id}/deactivate/</code></td>
+<td>Скрытие услуги из публичного списка</td>
+</tr>
+<tr>
+<td>Админ: удаление</td>
+<td>DELETE</td>
+<td><code>/api/admin/services/{id}/</code></td>
+<td>Полное удаление услуги</td>
+</tr>
+<tr>
+<td><strong>Заявки</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Мои заявки</td>
+<td>GET</td>
+<td><code>/api/orders/</code></td>
+<td>Список заявок текущего пользователя</td>
+</tr>
+<tr>
+<td>Создание заявки</td>
+<td>POST</td>
+<td><code>/api/orders/</code></td>
+<td>Оформление новой заявки</td>
+</tr>
+<tr>
+<td>Детали заявки</td>
+<td>GET</td>
+<td><code>/api/orders/{id}/</code></td>
+<td>Информация о заявке</td>
+</tr>
+<tr>
+<td>Отмена заявки</td>
+<td>POST</td>
+<td><code>/api/orders/{id}/cancel/</code></td>
+<td>Отмена пользователем</td>
+</tr>
+<tr>
+<td>Комментарии заявки</td>
+<td>GET</td>
+<td><code>/api/orders/{id}/comments/</code></td>
+<td>Комментарии, видимые пользователю</td>
+</tr>
+<tr>
+<td>Админ: все заявки</td>
+<td>GET</td>
+<td><code>/api/admin/orders/</code></td>
+<td>Список всех заявок</td>
+</tr>
+<tr>
+<td>Админ: история</td>
+<td>GET</td>
+<td><code>/api/admin/orders/{id}/history/</code></td>
+<td>История изменений статуса</td>
+</tr>
+<tr>
+<td>Админ: изменение статуса</td>
+<td>PATCH</td>
+<td><code>/api/admin/orders/{id}/status/</code></td>
+<td>Обновление статуса заявки</td>
+</tr>
+<tr>
+<td><strong>Отзывы</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Создание отзыва</td>
+<td>POST</td>
+<td><code>/api/reviews/</code></td>
+<td>Оставление отзыва на завершенную заявку</td>
+</tr>
+<tr>
+<td>Админ: все отзывы</td>
+<td>GET</td>
+<td><code>/api/admin/reviews/</code></td>
+<td>Список всех отзывов</td>
+</tr>
+<tr>
+<td>Админ: модерация</td>
+<td>PATCH</td>
+<td><code>/api/admin/reviews/{id}/</code></td>
+<td>Публикация/скрытие отзыва</td>
+</tr>
+<tr>
+<td><strong>Файлы</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Админ: загрузка</td>
+<td>POST</td>
+<td><code>/api/admin/files/upload/</code></td>
+<td>Загрузка изображения для услуги</td>
+</tr>
+<tr>
+<td>Админ: управление</td>
+<td>GET/PUT/PATCH/DELETE</td>
+<td><code>/api/admin/files/{id}/</code></td>
+<td>Работа с файлами</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_13">Примеры использования</h2>
+<h3 id="1-api">Пример 1: Создание нового пользователя через API</h3>
+<pre><code class="language-javascript">// Регистрация
+const userData = {
+  username: 'new_user',
+  email: 'user@example.com',
+  password: 'securepassword123',
+  first_name: 'Иван',
+  last_name: 'Иванов',
+  phone: '+79001234567'
+}
+
+try {
+  const response = await axios.post('/auth/users/', userData)
+  console.log('Пользователь создан:', response.data)
+} catch (error) {
+  console.error('Ошибка регистрации:', error.response.data)
+}
+</code></pre>
+<h3 id="2_1">Пример 2: Получение списка услуг с фильтрацией</h3>
+<pre><code class="language-javascript">// Получение услуг определенной категории
+async function getServicesByCategory(category) {
+  try {
+    const response = await axios.get('/api/services/', {
+      params: { category }
+    })
+    return response.data
+  } catch (error) {
+    console.error('Ошибка загрузки услуг:', error)
+    return []
+  }
+}
+
+// Использование
+const consultingServices = await getServicesByCategory('consulting')
+</code></pre>
+<h3 id="3">Пример 3: Работа с изображениями</h3>
+<pre><code class="language-javascript">// Загрузка изображения для услуги
+async function uploadServiceImage(serviceId, file, options = {}) {
+  const formData = new FormData()
+  formData.append('service', serviceId)
+  formData.append('file', file)
+  formData.append('alt_text', options.altText || '')
+  formData.append('is_primary', options.isPrimary || false)
+  formData.append('display_order', options.displayOrder || 0)
+
+  try {
+    const response = await axios.post('/api/admin/files/upload/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response.data
+  } catch (error) {
+    console.error('Ошибка загрузки изображения:', error)
+    throw error
+  }
+}
+</code></pre>
+<h3 id="4_1">Пример 4: Защищённый запрос с обработкой ошибок</h3>
+<pre><code class="language-javascript">async function getProtectedData() {
+  try {
+    // Токен автоматически добавляется через axios interceptor
+    const response = await axios.get('/api/orders/')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      // Сервер ответил с кодом статуса вне диапазона 2xx
+      if (error.response.status === 401) {
+        // Неавторизован - перенаправление на логин
+        router.push('/login')
+      } else if (error.response.status === 403) {
+        // Нет прав доступа
+        alert('У вас нет прав для выполнения этого действия')
+      }
+    } else if (error.request) {
+      // Запрос был сделан, но ответ не получен
+      alert('Сервер не отвечает. Проверьте подключение.')
+    } else {
+      // Ошибка при настройке запроса
+      console.error('Ошибка запроса:', error.message)
+    }
+    throw error
+  }
+}
+</code></pre>
+<hr />
+<h2 id="-">Чек-лист для развёртывания</h2>
+<h3 id="django">Бэкенд (Django)</h3>
+<pre><code class="language-bash"># 1. Установка зависимостей
+pip install -r requirements.txt
+
+# 2. Применение миграций
+python manage.py migrate
+
+# 3. Создание суперпользователя (для админки)
+python manage.py createsuperuser
+
+# 4. Сборка статических файлов (для продакшена)
+python manage.py collectstatic --noinput
+
+# 5. Запуск сервера разработки
+python manage.py runserver
+</code></pre>
+<h3 id="vuejs">Фронтенд (Vue.js)</h3>
+<pre><code class="language-bash"># 1. Установка зависимостей
+cd frontend/brand_app
+npm install
+
+# 2. Запуск сервера разработки (с прокси к бэкенду)
+npm run dev
+# или
+yarn dev
+
+# 3. Сборка для продакшена
+npm run build
+# или
+yarn build
+</code></pre>
+<h3 id="_14">Интеграция фронтенда и бэкенда</h3>
+<p><strong>Вариант A: Раздельное развёртывание</strong></p>
+<ol>
+<li>Бэкенд: запуск через Gunicorn + Nginx на порту 8000</li>
+<li>Фронтенд: сборка через <code>npm run build</code>, раздача статики через Nginx на порту 80</li>
+<li>Настройка прокси в Nginx для <code>/api</code>, <code>/auth</code>, <code>/media</code></li>
+</ol>
+<p><strong>Вариант B: Единый сервер (для разработки)</strong></p>
+<pre><code class="language-nginx"># nginx.conf
+server {
+    listen 80;
+
+    # Статика фронтенда
+    location / {
+        root /path/to/frontend/brand_app/dist;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API бэкенда
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Аутентификация
+    location /auth/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Медиа файлы
+    location /media/ {
+        alias /path/to/brand_manager/media/;
+    }
+}
+</code></pre>
+<h3 id="_15">Проверка работоспособности</h3>
+<ul>
+<li>[ ] Бэкенд доступен по <code>http://localhost:8000/admin/</code></li>
+<li>[ ] API доступен по <code>http://localhost:8000/api/services/</code></li>
+<li>[ ] Фронтенд доступен по <code>http://localhost:8080/</code></li>
+<li>[ ] Регистрация нового пользователя работает</li>
+<li>[ ] Авторизация через JWT работает</li>
+<li>[ ] Создание заявки работает для авторизованного пользователя</li>
+<li>[ ] Админские функции работают для пользователя с ролью <code>admin</code></li>
+<li>[ ] Изображения услуг загружаются и отображаются корректно</li>
+<li>[ ] Комментарии к заявкам создаются и отображаются</li>
+</ul>
+<hr />
+<h2 id="_16">Заключение</h2>
+<p>Документация предоставляет полное руководство по развёртыванию и использованию фронтенд-части проекта "Сайт для продвижения личного бренда". Проект реализует все требования лабораторной работы:</p>
+<ul>
+<li>Современный фронтенд на Vue.js 3  </li>
+<li>Аутентификация через JWT (Djoser)  </li>
+<li>Разделение прав доступа (пользователь/админ)  </li>
+<li>Полноценные интерфейсы для всех ролей  </li>
+<li>Интеграция с бэкендом через REST API  </li>
+<li>Адаптивный дизайн через Vuetify  </li>
+</ul>
+<p>Для дальнейшего развития проекта можно добавить:
+- Тестирование компонентов (Vitest)
+- TypeScript для типизации
+- PWA функциональность
+- Уведомления в реальном времени (WebSockets)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
