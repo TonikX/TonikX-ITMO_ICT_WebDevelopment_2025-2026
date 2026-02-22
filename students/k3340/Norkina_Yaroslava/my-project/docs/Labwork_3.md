@@ -1033,6 +1033,14 @@ print("\nУслуги по количеству файлов:")
 for service in services_with_files:
     print(f"  {service.name}: {service.file_count} файлов")
 ```
+Результат аннотации: 
+
+<img width="1190" height="758" alt="image" src="https://github.com/user-attachments/assets/699afd39-8f8a-4761-8714-47b448fa2595" />
+
+<img width="1161" height="582" alt="image" src="https://github.com/user-attachments/assets/eff085df-e17a-4395-bdaf-cd149094d82b" />
+
+<img width="1180" height="794" alt="image" src="https://github.com/user-attachments/assets/f588e978-4f21-4915-b159-acde8d2ab6e7" />
+
 
 #### Группировка с `.values()`
 
