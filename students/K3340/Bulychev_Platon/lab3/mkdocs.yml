@@ -1,0 +1,7 @@
+site_name: Bus Fleet API Docs
+nav:
+  - Home: index.md
+  - Auth: auth.md
+  - Endpoints: endpoints.md
+theme:
+  name: readthedocs
