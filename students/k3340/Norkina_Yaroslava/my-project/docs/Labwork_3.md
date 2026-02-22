@@ -977,6 +977,12 @@ for stat in status_stats:
     print(f"Статус {stat['status']}: {stat['count']} заявок")
 ```
 
+Результат агрегации:
+<img width="1218" height="181" alt="image" src="https://github.com/user-attachments/assets/3f0c6783-86b5-41d3-aa07-8ad425f072b9" />
+
+<img width="1305" height="836" alt="image" src="https://github.com/user-attachments/assets/805127b7-f2f0-4c2a-a0cc-6b87a650a6d6" />
+
+
 #### Аннотация
 
 ```python
