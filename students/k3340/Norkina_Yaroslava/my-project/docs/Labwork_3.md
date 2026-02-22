@@ -912,6 +912,11 @@ excellent_reviews = Review.objects.filter(
 print(f"Отзывов 'Отлично': {excellent_reviews.count()}")
 ```
 
+Результат:
+
+<img width="1005" height="607" alt="image" src="https://github.com/user-attachments/assets/6766a8a1-20a6-4415-9669-ea1b6f6f178e" />
+
+
 #### Фильтрация через историю статусов
 
 ```python
@@ -926,6 +931,10 @@ print(f"Завершенных администратором: {completed_by_adm
 cancelled_orders = Order.objects.filter(status=Order.Status.CANCELLED)
 print(f"Отмененных заявок: {cancelled_orders.count()}")
 ```
+Вывод:
+
+<img width="1101" height="343" alt="image" src="https://github.com/user-attachments/assets/cef0d159-867f-488d-8ec0-79b421729912" />
+
 
 ---
 
