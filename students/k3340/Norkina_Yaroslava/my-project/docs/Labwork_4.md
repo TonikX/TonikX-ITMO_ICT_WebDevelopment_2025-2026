@@ -1,6 +1,6 @@
 # Лабораторная работа 4. ДОКУМЕНТАЦИЯ ПРОЕКТА
 ## Сайт для продвижения личного бренда
----
+
 **Цель работы:** Овладеть практическими навыками разработки клиентской части веб-приложений на базе фреймворка Vue 3. Настроить взаимодействие с серверной частью (Django REST Framework), реализовать динамический интерфейс с использованием библиотеки компонентов Vuetify, настроить систему роутинга и авторизации по токенам.
 
 ### Фронтенд-часть (Vue.js 3)
@@ -64,10 +64,10 @@ frontend/               # Фронтенд (Vue.js)
 
 ## Установка и настройка проекта
 
-### Шаг 1: Установка зависимостей фронтенда
+### Установка зависимостей фронтенда
 
 ```bash
-# Перейти в папку фронтенда
+# Папка фронтенда
 cd frontend/brand_app
 
 # Установка зависимостей
@@ -103,41 +103,42 @@ yarn install
 
 ### Шаг 2: Настройка прокси для разработки
 
-Создайте файл `vite.config.js` для настройки прокси к бэкенду:
+Создан файл `vite.config.js` для настройки прокси к бэкенду:
 
 ```javascript
-// frontend/brand_app/vite.config.js
+import { fileURLToPath, URL } from 'node:url'
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-  server: {
+  plugins: [
+    vue(),
+    vueDevTools(),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  }, // changed by author
+   server: {
     port: 8080,
     proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false
-      },
-      '/auth': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false
-      },
       '/media': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false
       }
     }
-  }
+  } // to this
 })
 ```
 
-### Шаг 3: Настройка бэкенда для CORS
+### Настройка бэкенда для CORS
 
-В `brand_manager/settings.py` убедитесь, что настроены следующие параметры:
+В `brand_manager/settings.py` настроены следующие параметры:
 
 ```python
 # Установка пакета
@@ -389,6 +390,63 @@ export default router
 | **Динамические параметры** | `:id` для передачи ID сущности (услуга, заявка) |
 | **Навигационные гарды** | Проверка авторизации перед переходом на защищённые маршруты |
 | **Ленивая загрузка** | Возможность подключения через `() => import(...)` для оптимизации |
+
+---
+## Подключен плагин vuetify
+
+### Файл: `src\plugins\vuetify.js`
+```javascript
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+
+// Пастельные цвета
+const lightTheme = {
+    dark: false,
+    colors: {
+        primary: '#2f6aff',
+        secondary: '#00cc66',
+        accent: '#FFB6C1',
+        success: '#77DD77',
+        error: '#FF6961',
+        warning: '#FFD700',
+        info: '#84B6F4',
+        background: '#F9F9F9',
+        surface: '#FFFFFF',
+    }
+}
+
+
+export default createVuetify({
+    components,
+    directives,
+    theme: {
+        defaultTheme: 'lightTheme',
+        themes: {
+            lightTheme,
+        }
+    },
+    defaults: {
+        VBtn: {
+            color: 'primary',
+            variant: 'flat',
+            rounded: 'lg'
+        },
+        VCard: {
+            rounded: 'lg',
+            elevation: 2
+        },
+        VTextField: {
+            variant: 'outlined',
+            density: 'comfortable'
+        }
+    }
+})
+
+```
 
 ---
 
@@ -946,107 +1004,6 @@ axios.interceptors.response.use(
 
 ---
 
-## Примеры использования
-
-### Пример 1: Создание нового пользователя через API
-
-```javascript
-// Регистрация
-const userData = {
-  username: 'new_user',
-  email: 'user@example.com',
-  password: 'securepassword123',
-  first_name: 'Иван',
-  last_name: 'Иванов',
-  phone: '+79001234567'
-}
-
-try {
-  const response = await axios.post('/auth/users/', userData)
-  console.log('Пользователь создан:', response.data)
-} catch (error) {
-  console.error('Ошибка регистрации:', error.response.data)
-}
-```
-
-### Пример 2: Получение списка услуг с фильтрацией
-
-```javascript
-// Получение услуг определенной категории
-async function getServicesByCategory(category) {
-  try {
-    const response = await axios.get('/api/services/', {
-      params: { category }
-    })
-    return response.data
-  } catch (error) {
-    console.error('Ошибка загрузки услуг:', error)
-    return []
-  }
-}
-
-// Использование
-const consultingServices = await getServicesByCategory('consulting')
-```
-
-### Пример 3: Работа с изображениями
-
-```javascript
-// Загрузка изображения для услуги
-async function uploadServiceImage(serviceId, file, options = {}) {
-  const formData = new FormData()
-  formData.append('service', serviceId)
-  formData.append('file', file)
-  formData.append('alt_text', options.altText || '')
-  formData.append('is_primary', options.isPrimary || false)
-  formData.append('display_order', options.displayOrder || 0)
-  
-  try {
-    const response = await axios.post('/api/admin/files/upload/', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    return response.data
-  } catch (error) {
-    console.error('Ошибка загрузки изображения:', error)
-    throw error
-  }
-}
-```
-
-### Пример 4: Защищённый запрос с обработкой ошибок
-
-```javascript
-async function getProtectedData() {
-  try {
-    // Токен автоматически добавляется через axios interceptor
-    const response = await axios.get('/api/orders/')
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      // Сервер ответил с кодом статуса вне диапазона 2xx
-      if (error.response.status === 401) {
-        // Неавторизован - перенаправление на логин
-        router.push('/login')
-      } else if (error.response.status === 403) {
-        // Нет прав доступа
-        alert('У вас нет прав для выполнения этого действия')
-      }
-    } else if (error.request) {
-      // Запрос был сделан, но ответ не получен
-      alert('Сервер не отвечает. Проверьте подключение.')
-    } else {
-      // Ошибка при настройке запроса
-      console.error('Ошибка запроса:', error.message)
-    }
-    throw error
-  }
-}
-```
-
----
-
 ## Чек-лист для развёртывания
 
 ### Бэкенд (Django)
@@ -1088,45 +1045,9 @@ yarn build
 
 ### Интеграция фронтенда и бэкенда
 
-**Вариант A: Раздельное развёртывание**
-
 1. Бэкенд: запуск через Gunicorn + Nginx на порту 8000
 2. Фронтенд: сборка через `npm run build`, раздача статики через Nginx на порту 80
 3. Настройка прокси в Nginx для `/api`, `/auth`, `/media`
-
-**Вариант B: Единый сервер (для разработки)**
-
-```nginx
-# nginx.conf
-server {
-    listen 80;
-    
-    # Статика фронтенда
-    location / {
-        root /path/to/frontend/brand_app/dist;
-        try_files $uri $uri/ /index.html;
-    }
-    
-    # API бэкенда
-    location /api/ {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-    
-    # Аутентификация
-    location /auth/ {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-    
-    # Медиа файлы
-    location /media/ {
-        alias /path/to/brand_manager/media/;
-    }
-}
-```
 
 ### Проверка работоспособности
 
@@ -1144,7 +1065,7 @@ server {
 
 ## Заключение
 
-Документация предоставляет полное руководство по развёртыванию и использованию фронтенд-части проекта "Сайт для продвижения личного бренда". Проект реализует все требования лабораторной работы:
+Документация предоставляет полное руководство по развёртыванию и использованию фронтенд-части проекта "Сайт для продвижения личного бренда". В результате выполнения лабораторной работы успешно реализована клиентская часть информационной системы администратора гостиницы на базе Vue 3 и Vuetify. :
 
 - Современный фронтенд на Vue.js 3  
 - Аутентификация через JWT (Djoser)  
@@ -1153,8 +1074,3 @@ server {
 - Интеграция с бэкендом через REST API  
 - Адаптивный дизайн через Vuetify  
 
-Для дальнейшего развития проекта можно добавить:
-- Тестирование компонентов (Vitest)
-- TypeScript для типизации
-- PWA функциональность
-- Уведомления в реальном времени (WebSockets)
