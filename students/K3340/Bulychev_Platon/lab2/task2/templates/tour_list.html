@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Tours{% endblock %}
+{% block content %}
+<h1>Tours</h1>
+{% for tour in tours %}
+<div class="card">
+    <h2><a href="{% url 'tour_detail' tour.pk %}">{{tour.name}}</a></h2>
+    <p>{{tour.agency}} · {{tour.country}}</p>
+    <p>{{tour.start_date}} — {{tour.end_date}} · {{tour.price}} ₽</p>
+</div>
+{% empty %}
+<p>No tours available</p>
+{% endfor %}
+{% endblock %}

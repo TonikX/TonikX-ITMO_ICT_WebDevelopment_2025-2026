@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owners</title>
+</head>
+<body>
+    <h1>Car Owners</h1>
+    <ul>
+        {% for owner in owners %}
+        <li><a href="{% url 'owner_detail' owner.pk %}">{{owner.last_name}} {{owner.first_name}}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'owner_create' %}">Add owner</a>
+</body>
+</html>

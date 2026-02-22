@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner</title>
+</head>
+<body>
+    <h1>Car Owner</h1>
+    <p>Username: {{owner.username}}</p>
+    <p>Имя: {{owner.first_name}}</p>
+    <p>Фамилия: {{owner.last_name}}</p>
+    <p>Email: {{owner.email}}</p>
+    <p>Паспорт: {{owner.passport_number}}</p>
+    <p>Адрес: {{owner.home_address}}</p>
+    <p>Национальность: {{owner.nationality}}</p>
+    <a href="{% url 'owner_list' %}">Back</a>
+</body>
+</html>
