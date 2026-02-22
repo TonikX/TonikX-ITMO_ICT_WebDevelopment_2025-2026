@@ -3024,16 +3024,20 @@ curl -X POST http://127.0.0.1:8000/auth/users/ \
     "phone": "+79001234567"
   }'
 ```
+Протестируем запрос:
+<img width="1870" height="944" alt="image" src="https://github.com/user-attachments/assets/3e875122-9146-46bd-902a-b5c6d1b1cd26" />
+<img width="1439" height="519" alt="image" src="https://github.com/user-attachments/assets/e62c0762-ba1d-41df-b63d-46aaa17895ec" />
+
 
 **Ответ:**
 ```json
 {
-  "id": 1,
-  "email": "user@example.com",
-  "username": "newuser",
-  "first_name": "Иван",
-  "last_name": "Иванов",
-  "phone": "+79001234567"
+    "id": 7,
+    "email": "user@example.com",
+    "first_name": "Иван",
+    "last_name": "Иванов",
+    "username": "newuser",
+    "phone": "79001234567"
 }
 ```
 
@@ -3043,16 +3047,20 @@ curl -X POST http://127.0.0.1:8000/auth/users/ \
 curl -X POST http://127.0.0.1:8000/auth/jwt/create/ \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "email": "newuser",
     "password": "securepassword123"
   }'
 ```
+Отправим запрос:
+<img width="1528" height="342" alt="image" src="https://github.com/user-attachments/assets/86fa29d6-2a35-42d2-8e1a-7a9e122abb50" />
+<img width="1420" height="471" alt="image" src="https://github.com/user-attachments/assets/c4a4cec0-43b1-4140-a6c3-54e35fcf5fa0" />
+
 
 **Ответ:**
 ```json
 {
-  "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
-  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl..."
 }
 ```
 
@@ -3061,21 +3069,73 @@ curl -X POST http://127.0.0.1:8000/auth/jwt/create/ \
 ```bash
 curl http://127.0.0.1:8000/api/services/
 ```
+Запрос через браузер
+<img width="1866" height="947" alt="image" src="https://github.com/user-attachments/assets/d01917a3-b50a-4705-867c-7dbe835edbe9" />
+
 
 **Ответ:**
 ```json
 [
-  {
-    "id": 1,
-    "name": "Консультация по личному бренду",
-    "description": "Индивидуальная консультация...",
-    "price": "5000.00",
-    "duration": 60,
-    "category": "consulting",
-    "is_active": true,
-    "created_at": "2026-02-16T10:00:00Z",
-    "primary_image": "/media/service_files/consultation.jpg"
-  }
+   {
+        "id": 6,
+        "name": "Курс по созданию личног бренда",
+        "description": "Курс по брендингу от создателя специальной методики: 15 личных консультаций, поэтапная разработка личного бренда, помощь со стартом.",
+        "price": "200000.00",
+        "duration": 3600,
+        "category": "Курс",
+        "primary_image": "http://127.0.0.1:8000/api/services/services/6/d01eeea9-da83-41c6-a97d-e2a122462bb5.jpeg",
+        "created_at": "2026-02-20T10:36:13.056489Z"
+    },
+    {
+        "id": 5,
+        "name": "Анализ конкурентов",
+        "description": "Глубокий анализ конкурентов в вашей нише с выявлением сильных и слабых сторон",
+        "price": "8000.00",
+        "duration": 60,
+        "category": "marketing",
+        "primary_image": "http://127.0.0.1:8000/api/services/services/5/5bcfc474-508b-48d9-a1f8-45600df70649.jpg",
+        "created_at": "2026-02-17T17:15:47.456032Z"
+    },
+    {
+        "id": 4,
+        "name": "Коучинг по карьерному росту",
+        "description": "Индивидуальный коучинг для достижения карьерных целей и профессионального развития",
+        "price": "12000.00",
+        "duration": 90,
+        "category": "coaching",
+        "primary_image": "http://127.0.0.1:8000/api/services/services/4/0f71ed9f-cb77-4d0f-bec6-9a2f7f60a9be.webp",
+        "created_at": "2026-02-17T17:15:42.421961Z"
+    },
+    {
+        "id": 3,
+        "name": "Фотосессия для профиля",
+        "description": "Профессиональная фотосессия для социальных сетей и профессионального профиля",
+        "price": "10000.00",
+        "duration": 90,
+        "category": "design",
+        "primary_image": null,
+        "created_at": "2026-02-17T17:15:42.409437Z"
+    },
+    {
+        "id": 2,
+        "name": "Создание контента для соцсетей",
+        "description": "Разработка контент-плана и создание постов для социальных сетей на 2 недели",
+        "price": "18000.00",
+        "duration": 150,
+        "category": "content",
+        "primary_image": null,
+        "created_at": "2026-02-17T17:15:42.391393Z"
+    },
+    {
+        "id": 1,
+        "name": "Премиум консультация по личному бренду",
+        "description": "Индивидуальная консультация по развитию личного бренда с анализом текущей ситуации и разработкой стратегии",
+        "price": "7000.00",
+        "duration": 60,
+        "category": "consulting",
+        "primary_image": "http://127.0.0.1:8000/media/service_files/consultation_main.jpg",
+        "created_at": "2026-02-17T17:15:42.371221Z"
+    }
 ]
 ```
 
@@ -3090,13 +3150,33 @@ curl -X POST http://127.0.0.1:8000/api/orders/ \
     "notes": "Хочу обсудить стратегию развития"
   }'
 ```
+<img width="1534" height="736" alt="image" src="https://github.com/user-attachments/assets/8c2c310f-91c7-4af4-9750-2cbc4ffcb6d0" />
+<img width="1501" height="321" alt="image" src="https://github.com/user-attachments/assets/f6a3ee22-9047-4f47-a748-0ab3d3fcf4bf" />
+
 
 **Ответ:**
 ```json
 {
-  "id": 1,
-  "service": 1,
-  "notes": "Хочу обсудить стратегию развития"
+    "id": 11,
+    "service": 2,
+    "service_name": "Создание контента для соцсетей",
+    "service_price": "18000.00",
+    "status": "new",
+    "created_at": "2026-02-22T16:50:54.480431Z",
+    "completed_at": null,
+    "comment_count": 0,
+    "notes": "Хочу обсудить стратегию развития",
+    "service_details": {
+        "id": 2,
+        "name": "Создание контента для соцсетей",
+        "description": "Разработка контент-плана и создание постов для социальных сетей на 2 недели",
+        "price": "18000.00",
+        "duration": 150,
+        "category": "content",
+        "primary_image": null,
+        "created_at": "2026-02-17T17:15:42.391393Z"
+    },
+    "visible_comments": []
 }
 ```
 
@@ -3106,20 +3186,42 @@ curl -X POST http://127.0.0.1:8000/api/orders/ \
 curl http://127.0.0.1:8000/api/orders/ \
   -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc..."
 ```
+<img width="1413" height="811" alt="image" src="https://github.com/user-attachments/assets/31a7f063-148b-44d7-9e76-38aa5e54bab4" />
+
 
 **Ответ:**
 ```json
 [
-  {
-    "id": 1,
-    "service": 1,
-    "service_name": "Консультация по личному бренду",
-    "service_price": "5000.00",
-    "status": "new",
-    "notes": "Хочу обсудить стратегию развития",
-    "created_at": "2026-02-16T11:00:00Z",
-    "updated_at": "2026-02-16T11:00:00Z"
-  }
+    {
+        "id": 12,
+        "service": 2,
+        "service_name": "Создание контента для соцсетей",
+        "service_price": "18000.00",
+        "status": "new",
+        "created_at": "2026-02-22T16:51:58.954041Z",
+        "completed_at": null,
+        "comment_count": 0
+    },
+    {
+        "id": 11,
+        "service": 2,
+        "service_name": "Создание контента для соцсетей",
+        "service_price": "18000.00",
+        "status": "new",
+        "created_at": "2026-02-22T16:50:54.480431Z",
+        "completed_at": null,
+        "comment_count": 0
+    },
+    {
+        "id": 9,
+        "service": 1,
+        "service_name": "Премиум консультация по личному бренду",
+        "service_price": "7000.00",
+        "status": "completed",
+        "created_at": "2026-02-19T17:50:08.728199Z",
+        "completed_at": "2026-02-20T22:30:58.278304Z",
+        "comment_count": 0
+    }
 ]
 ```
 
@@ -3138,6 +3240,11 @@ curl -X POST http://127.0.0.1:8000/api/admin/services/ \
     "is_active": true
   }'
 ```
+Отправка данных о заявке:
+<img width="1435" height="575" alt="image" src="https://github.com/user-attachments/assets/0b190c53-9788-4000-9d5c-6cb7e4ecf216" />
+Ответ:
+<img width="1429" height="550" alt="image" src="https://github.com/user-attachments/assets/fed6a04a-8ebb-485d-8f23-73330b9266f0" />
+
 
 ### 7. Изменение статуса заявки (админ)
 
@@ -3150,17 +3257,11 @@ curl -X PATCH http://127.0.0.1:8000/api/admin/orders/1/status/ \
     "comment": "Начинаю работу над заявкой"
   }'
 ```
+<img width="1596" height="934" alt="image" src="https://github.com/user-attachments/assets/47b1359b-11c9-44d5-b107-da210f39d4db" />
+<img width="1413" height="525" alt="image" src="https://github.com/user-attachments/assets/97bbbdaa-7e3c-400b-8ff3-18941de95da8" />
 
-### 8. Загрузка файла для услуги (админ)
-
-```bash
-curl -X POST http://127.0.0.1:8000/api/admin/files/upload/ \
-  -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc..." \
-  -F "service=1" \
-  -F "file=@/path/to/image.jpg" \
-  -F "alt_text=Изображение услуги" \
-  -F "is_primary=true"
-```
+Ответ:
+<img width="1422" height="603" alt="image" src="https://github.com/user-attachments/assets/452235ac-3d8d-423f-9f4c-c98b04b6c96b" />
 
 ---
 
