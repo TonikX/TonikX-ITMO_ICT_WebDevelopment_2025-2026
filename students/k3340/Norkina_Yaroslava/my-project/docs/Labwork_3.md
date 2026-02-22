@@ -873,8 +873,7 @@ print(f"Активных заявок администратора: {admin_activ
 # Пользователи с ролью "пользователь" и не пустым телефоном
 active_users = User.objects.filter(
     role=User.Role.USER,
-    phone__isnull=False,
-    phone__ne=''
+    phone__isnull=False
 )
 print(f"Активных пользователей с телефоном: {active_users.count()}")
 
@@ -883,6 +882,13 @@ week_ago = timezone.now() - timedelta(days=7)
 recent_orders = Order.objects.filter(created_at__gte=week_ago)
 print(f"Заявок за неделю: {recent_orders.count()}")
 ```
+Результат:
+
+<img width="1272" height="735" alt="image" src="https://github.com/user-attachments/assets/75d859f7-2396-4766-be84-04fff9bf4b8c" />
+
+<img width="1197" height="409" alt="image" src="https://github.com/user-attachments/assets/f389ed87-7161-42a6-b44e-270a8dd242c2" />
+
+
 
 #### Фильтрация по тексту
 
