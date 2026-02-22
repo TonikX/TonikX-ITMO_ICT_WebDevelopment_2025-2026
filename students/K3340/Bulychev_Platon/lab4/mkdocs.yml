@@ -1,0 +1,6 @@
+site_name: Bus Fleet Frontend Docs
+nav:
+  - Home: index.md
+  - Interfaces: interfaces.md
+theme:
+  name: readthedocs
