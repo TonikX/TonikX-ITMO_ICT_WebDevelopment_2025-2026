@@ -1096,11 +1096,15 @@ for stat in admin_comment_stats:
     print(f"  {stat['admin__username']}: {stat['comment_count']} комментариев")
 ```
 
+Вывод с группировкой:
+<img width="1154" height="812" alt="image" src="https://github.com/user-attachments/assets/8e22c47b-4f54-4236-9f73-370e69a844a4" />
+<img width="1194" height="762" alt="image" src="https://github.com/user-attachments/assets/a9038296-bbac-42ec-9441-fcda29e1fed9" />
+<img width="1101" height="502" alt="image" src="https://github.com/user-attachments/assets/6c0b617f-4288-4604-9b05-4efc0b83761b" />
+
+
 ---
 
-### Шаг 7: Обновление и удаление
-
-#### Обновление объектов
+### Обновление объектов
 
 ```python
 # Обновление статуса заявки (автоматически создается запись в истории)
@@ -1144,42 +1148,6 @@ print(f"Комментарий #{comment1.id} скрыт от пользоват
 review1.is_published = True
 review1.save()
 print(f"Отзыв опубликован: {review1.title}")
-```
-
-#### Удаление объектов
-
-```python
-# Удаление отзыва
-review_to_delete = Review.objects.filter(
-    user=user2,
-    service=service3
-).first()
-if review_to_delete:
-    review_id = review_to_delete.id
-    review_to_delete.delete()
-    print(f"Отзыв #{review_id} удален")
-
-# Мягкое удаление (деактивация услуги)
-service_to_deactivate = Service.objects.get(id=service5.id)
-service_to_deactivate.is_active = False
-service_to_deactivate.save()
-print(f"Услуга '{service_to_deactivate.name}' деактивирована")
-
-# Проверка, что деактивированная услуга не показывается в публичном списке
-active_count = Service.objects.filter(is_active=True).count()
-print(f"Активных услуг после деактивации: {active_count}")
-
-# Удаление комментария
-comment_to_delete = Comment.objects.filter(
-    order=order4
-).first()
-if comment_to_delete:
-    comment_id = comment_to_delete.id
-    comment_to_delete.delete()
-    print(f"Комментарий #{comment_id} удален")
-
-# Внимание: удаление пользователя с заявками вызовет ошибку из-за on_delete=PROTECT
-# Сначала нужно удалить или переназначить связанные объекты
 ```
 
 ---
