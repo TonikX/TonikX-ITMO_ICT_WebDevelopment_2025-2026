@@ -1149,6 +1149,10 @@ review1.is_published = True
 review1.save()
 print(f"Отзыв опубликован: {review1.title}")
 ```
+<img width="1050" height="427" alt="image" src="https://github.com/user-attachments/assets/ea58c6dc-7e61-493e-a32d-0b8353473027" />
+<img width="1246" height="569" alt="image" src="https://github.com/user-attachments/assets/36d988da-42de-439a-ab67-e5893ca58fd8" />
+<img width="974" height="384" alt="image" src="https://github.com/user-attachments/assets/fd0666e2-4efb-495f-8fcc-b9fd482dde39" />
+
 
 ---
 
