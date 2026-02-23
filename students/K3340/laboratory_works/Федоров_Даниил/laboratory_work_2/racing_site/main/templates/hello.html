@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приветствие</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .btn-custom {
+            margin: 10px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Добро пожаловать!</h1>
+    <p>Вы можете войти в свою учетную запись или зарегистрироваться, если у вас ее нет.</p>
+    <div>
+        <a href="{% url 'login' %}" class="btn btn-primary btn-custom">Войти</a>
+        <a href="{% url 'register' %}" class="btn btn-success btn-custom">Зарегистрироваться</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Гонки</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+{% if request.GET.q %}
+    <div class="alert alert-info">
+        Результаты поиска для: "<strong>{{ request.GET.q }}</strong>"
+        {% if races|length == 0 %}
+            - ничего не найдено
+        {% else %}
+            - найдено {{ races|length }} гонок
+        {% endif %}
+        <a href="{% url 'race_list' %}" class="float-end">Показать все гонки</a>
+    </div>
+{% endif %}
+    <div class="container mt-5">
+        <h1>Список гонок</h1>
+        {% if user.is_superuser %}
+        <a href="{% url 'race_create' %}" class="btn btn-primary mb-3">Добавить новую гонку</a>
+        {% endif %}
+        <div class="row mb-4">
+    <div class="col-md-6">
+        <form method="get" action="{% url 'race_list' %}">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control"
+                       placeholder="Поиск гонок..." value="{{ request.GET.q }}">
+                <button class="btn btn-outline-secondary" type="submit">Найти</button>
+            </div>
+        </form>
+    </div>
+</div>
+        <div class="list-group">
+            {% for race in races %}
+                <div class="list-group-item">
+                    <h5>{{ race.name }}</h5>
+                    <p><strong>Дата:</strong> {{ race.date }}</p>
+                    <p><strong>Место:</strong> {{ race.location }}</p>
+                    <p><strong>Статус:</strong> {% if race.has_occurred %}Прошла{% else %}Не состоялась{% endif %}</p>
+                    <a href="{% url 'race_detail' pk=race.pk %}" class="btn btn-info">Участники</a>
+
+
+                    {% if user.is_superuser %}
+                        <form method="POST" action="{% url 'race_delete' pk=race.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить эту гонку?')">Удалить</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>Нет гонок для отображения.</p>
+            {% endfor %}
+        </div>
+    </div>
+<div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-lg">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}"
+                       aria-label="Previous">&laquo;</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}"
+                       aria-label="Next">&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

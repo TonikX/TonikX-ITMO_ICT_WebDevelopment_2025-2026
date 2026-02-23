@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись нового владельца</title>
+</head>
+<body>
+    <h1>Добавить нового владельца</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить владельца</button>
+
+
+</body>
+</html>

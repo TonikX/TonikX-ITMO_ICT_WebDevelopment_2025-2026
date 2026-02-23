@@ -1,0 +1,39 @@
+site_name: Web-программирование
+site_author: Федоров Даниил 
+
+theme:
+  name: material
+  language: ru
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+
+plugins:
+  - glightbox
+
+nav:
+  - Главная: index.md
+  - LR1: 
+    - Задание 1: Lab1/Task_1.md
+    - Задание 2: Lab1/Task_2.md
+    - Задание 3: Lab1/Task_3.md
+    - Задание 4: Lab1/Task_4.md
+    - Задание 5: Lab1/Task_5.md
+  - LR2:
+    - Практическая часть: Lab2/Practice/practice.md
+    - Лабораторная : Lab2/Laboratory work/lab.md
+  - LR3:
+    - Практическая часть: Lab3/Practice/practice.md
+    - Лабораторная : Lab3/Laboratory work/lab.md
+  - LR4:
+    - Лабораторная : Lab4/Laboratory work/lab.md
+
