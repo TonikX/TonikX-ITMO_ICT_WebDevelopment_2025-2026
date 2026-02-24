@@ -1,0 +1,34 @@
+// Основные цвета
+$primary-color: #64B5F6; // Пастельный голубой
+$secondary-color: #81C784; // Пастельный зеленый
+$accent-color: #FFB74D; // Пастельный оранжевый
+$error-color: #EF5350;
+$warning-color: #FFCA28;
+$info-color: #29B6F6;
+$success-color: #66BB6A;
+
+// Фоновые цвета
+$background-light: #FAFAFA;
+$background-card: #FFFFFF;
+$background-hover: #F5F5F5;
+
+// Текстовые цвета
+$text-primary: #212121;
+$text-secondary: #757575;
+$text-disabled: #9E9E9E;
+
+// Границы и тени
+$border-color: #E0E0E0;
+$shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+// Переменные для Vuetify
+:root {
+  --v-theme-primary: #{$primary-color};
+  --v-theme-secondary: #{$secondary-color};
+  --v-theme-accent: #{$accent-color};
+  --v-theme-error: #{$error-color};
+  --v-theme-warning: #{$warning-color};
+  --v-theme-info: #{$info-color};
+  --v-theme-success: #{$success-color};
+}

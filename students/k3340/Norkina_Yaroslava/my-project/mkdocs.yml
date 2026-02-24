@@ -1,0 +1,19 @@
+site_name: Отчеты по вебу
+nav:
+  - Home: about.md
+  - Лабораторная №1: Labwork_1.md
+  - Лабораторная работа №2:
+    - Практическая часть: Practice_2.md
+    - Лабораторная: Labwork_2.md
+  - Лабораторная работа №3: 
+    - Практическая часть: Practice_3.md
+    - Лабораторная: Labwork_3.md
+  - Лабораторная работа №4: 
+      - Практическая часть: Practice_4.md
+      - Лабораторная: Labwork_4.md
+
+theme:
+  name: material
+  language: ru
+  toc:
+    depth: 4

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <style>
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background: #218838; }
+        .error { color: red; font-size: 0.9em; }
+    </style>
+</head>
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h2>Регистрация нового пользователя</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Логин:</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="error">{{ form.username.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.user_name.id_for_label }}">Имя пользователя:</label>
+            {{ form.user_name }}
+            {% if form.user_name.errors %}<div class="error">{{ form.user_name.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">Имя (необязательно):</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Фамилия (необязательно):</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            {% if form.email.errors %}<div class="error">{{ form.email.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Пароль:</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}<div class="error">{{ form.password1.errors }}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Подтверждение пароля:</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}<div class="error">{{ form.password2.errors }}</div>{% endif %}
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <br>
+    <a href="{% url 'trip_list_last_month' %}">← Назад</a>
+</body>
+{% endblock %}
+</html>

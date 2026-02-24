@@ -1,0 +1,1271 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Labwork_1/">
+      
+      
+        <link rel="next" href="../Labwork_2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Практическая часть - Отчеты по вебу</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Отчеты по вебу" class="md-header__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчеты по вебу
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Практическая часть
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Отчеты по вебу" class="md-nav__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчеты по вебу
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная №1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-django-web-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 1: Необходимо установить Django Web framework любым доступным способом.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 2.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 3: Необходимо заполнить таблицы данными средствами админ-панели.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 4:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Практическое задание 4:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viewspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создать в файле views.py (находится в папке приложения) представление (контроллер), который выводит из базы данных данные о владельце автомобиля.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 5: Работа с адресацией
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Practice_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №4
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №4
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Practice_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-django-web-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 1: Необходимо установить Django Web framework любым доступным способом.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 2.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 3: Необходимо заполнить таблицы данными средствами админ-панели.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 4:
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Практическое задание 4:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#viewspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Создать в файле views.py (находится в папке приложения) представление (контроллер), который выводит из базы данных данные о владельце автомобиля.
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Практическое задание 5: Работа с адресацией
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="1"><strong>Часть 1.</strong></h1>
+<h2 id="1-django-web-framework">Практическое задание 1: Необходимо установить Django Web framework любым доступным способом.</h2>
+<p>Установка Django Web framework средствами <strong>командной строки</strong> в
+виртуальном окружении Python.</p>
+<ol>
+<li>
+<p>Используя командную строку, создать папку для проекта и перейти в
+    нее.</p>
+</li>
+<li>
+<p>Создать среду окружения (имя среды можно задать произвольно -
+    tutorial-env):</p>
+</li>
+</ol>
+<p><img width="442" height="259" alt="image" src="https://github.com/user-attachments/assets/ed103e90-9fd0-4e79-a5ba-1f6287b5413a" /></p>
+<p>В результате создается каталог .venv</p>
+<ol>
+<li>Виртуальное окружение активировано:</li>
+</ol>
+<p><img width="974" height="126" alt="image" src="https://github.com/user-attachments/assets/6c2aaff1-9e3e-437e-ac3a-c7e315362e88" /></p>
+<p><img width="974" height="202" alt="image" src="https://github.com/user-attachments/assets/04e3b3a4-2714-4d38-b2aa-475f3534c246" /></p>
+<ol>
+<li>Установка Django</li>
+</ol>
+<p><img width="974" height="389" alt="image" src="https://github.com/user-attachments/assets/f1278d2c-ffea-40f9-96e1-6a33efeafe22" /></p>
+<ol>
+<li>Создать проект Django:</li>
+</ol>
+<hr />
+<p>django-admin startproject blogfspo</p>
+<hr />
+<p><img width="374" height="339" alt="image" src="https://github.com/user-attachments/assets/996bf1a2-c956-42bc-9402-ab7825660f54" /></p>
+<ol>
+<li>Создать приложение project_first_app:</li>
+</ol>
+<p><code>python manage.py startapp project_first_app</code></p>
+<p><img width="382" height="649" alt="image" src="https://github.com/user-attachments/assets/24ccec93-532e-4c82-b4bf-a3c54b443fbd" /></p>
+<h2 id="2">Практическое задание 2.</h2>
+<p><strong>Практическое задание 2.1: В проекте создать модель данных об автовладельцах в соответствии с рисунком 2.</strong></p>
+<p>Указание: Таблицы и атрибуты именовать только на латинице. </p>
+<p><img width="974" height="323" alt="image" src="https://github.com/user-attachments/assets/8f62238b-23ef-45f9-91db-9c8930aa054e" /></p>
+<p>Рисунок 2. Модель данных в проекте</p>
+<p><strong>Работа с моделями (Django 2)</strong></p>
+<ol>
+<li>Для описания моделей необходимо открыть файл models.py приложения и
+    создать все модели.</li>
+</ol>
+<p><img width="974" height="498" alt="image" src="https://github.com/user-attachments/assets/ecb99630-cefc-4d09-bd2a-428b15ad59fd" /></p>
+<ol>
+<li>В <strong>файл models.py</strong> добавлены модели, соответствующие ER-диаграмме.
+    Все модели используют <strong>Django ORM</strong></li>
+</ol>
+<p><img width="974" height="311" alt="image" src="https://github.com/user-attachments/assets/a8f483d6-5096-4ed1-9f5c-e2e3b1e57033" /></p>
+<ol>
+<li>Выполнены миграции</li>
+</ol>
+<p>Было добавлено приложение 'project_first_app' в settings.py для
+корректной работы миграций в проекте:</p>
+<p><img width="680" height="378" alt="image" src="https://github.com/user-attachments/assets/ba5de74f-bd7c-481b-abd8-6f5925c5e2c5" /></p>
+<p><code>python manage.py makemigrations</code></p>
+<p><code>python manage.py migrate</code></p>
+<p><img width="974" height="181" alt="image" src="https://github.com/user-attachments/assets/36a6d0b6-d5e1-4f8f-b8e4-2ec6d6b9ebc8" /></p>
+<p><img width="974" height="483" alt="image" src="https://github.com/user-attachments/assets/ac143e6c-0ba9-4004-8d2d-c8b9eaedc957" /></p>
+<p>Созданные миграции:</p>
+<p><img width="958" height="454" alt="image" src="https://github.com/user-attachments/assets/f5993343-68d4-4a2f-a8d3-489637d5c93c" /></p>
+<h2 id="3-"><strong>Практическое задание 3:</strong> Необходимо заполнить таблицы данными средствами админ-панели.</h2>
+<ol>
+<li>Зарегистрировать владельца авто в админ-панели.</li>
+</ol>
+<p><code>from .models import Owner</code></p>
+<p><code>admin.site.register(Owner)</code></p>
+<p><img width="974" height="271" alt="image" src="https://github.com/user-attachments/assets/b78a91a8-3280-4842-8c72-d640a60822f9" /></p>
+<ol>
+<li>Создать суперпользователя командой:</li>
+</ol>
+<p><code>python manage.py createsuperuser</code></p>
+<p><img width="974" height="329" alt="image" src="https://github.com/user-attachments/assets/630a573a-acdb-4678-9555-0c174e3aa49c" /></p>
+<ol>
+<li>Запустить сервер командой:</li>
+</ol>
+<hr />
+<p>python manage.py runserver</p>
+<hr />
+<p><img width="974" height="389" alt="image" src="https://github.com/user-attachments/assets/4749bbbc-a2d4-477d-beb6-66965c67c371" /></p>
+<ol>
+<li>Зайти в админ-панель по url-адресу (127.0.0.1:8000/admin/) и
+    добавить двух владельцев автомобилей, 4 автомобиля. Далее связать
+    каждого владельца минимум с тремя автомобилями, так, чтобы не было
+    пересечений по датам владения и продажи.</li>
+</ol>
+<p>Админ-панель:</p>
+<p><img width="974" height="297" alt="image" src="https://github.com/user-attachments/assets/9f3fe5d7-78d0-4d8f-b156-3ae5c7e4f5dd" /></p>
+<p><img width="974" height="334" alt="image" src="https://github.com/user-attachments/assets/85699964-d234-472c-a5f3-ef9242280158" /></p>
+<p><img width="868" height="322" alt="image" src="https://github.com/user-attachments/assets/57bd4a01-aa8f-4e47-9c98-3c48b471157e" /></p>
+<p><img width="866" height="392" alt="image" src="https://github.com/user-attachments/assets/9b36b0de-1fa8-4128-b351-84ac644f2bc2" /></p>
+<h2 id="4"><strong>Практическое задание 4:</strong></h2>
+<h3 id="viewspy">Создать в файле views.py (находится в папке приложения) представление (контроллер), который выводит из базы данных данные о владельце автомобиля.</h3>
+<ol>
+<li>Код представления</li>
+</ol>
+<p><img width="974" height="447" alt="image" src="https://github.com/user-attachments/assets/46b191cb-c477-4933-b280-905f912fdfef" /></p>
+<ol>
+<li>Создать страницу html-шаблона owner.html в папке templates (создать
+    папку templates в корне проекта, если ее нигде нет, далее в
+    контекстном меню папки создать html-файл). Страница должна содержать
+    отображение полей переданных из контроллера. Код страницы:</li>
+</ol>
+<p><img width="974" height="350" alt="image" src="https://github.com/user-attachments/assets/e00cc954-ddbe-493b-8cab-267767f5243a" /></p>
+<h2 id="5"><strong>Практическое задание 5:</strong> Работа с адресацией</h2>
+<ol>
+<li>Создать файл адресов urls.py в папке приложения (*_app) (пока
+    пустой). </li>
+</ol>
+<p><img width="315" height="373" alt="image" src="https://github.com/user-attachments/assets/cd2e034f-877d-4ce9-b4d4-07e7f73b0974" /></p>
+<ol>
+<li>Импортировать файл urls.py приложения в проект (модифицировать файл
+    urls.py в той папке, в которой хранится файл setting.py). Файл c
+    кодом в приложении:</li>
+</ol>
+<pre><code class="language-python">from django.urls import path
+
+from . import views
+
+
+
+urlpatterns = \[
+
+    path(\'owner/\&lt;int:owner_id\&gt;/\', views.owner_detail,
+    name=\'owner_detail\'),
+
+\]
+</code></pre>
+<p>В проекте:</p>
+<p><img width="974" height="414" alt="image" src="https://github.com/user-attachments/assets/c5503d1d-37d8-40ee-ba98-1808b94e76c0" /></p>
+<ol>
+<li>При переходе по ссылке <strong>"127.0.0.1:8000/owner/1"</strong> получаем данные
+    о водителе с id 1:</li>
+</ol>
+<p><img width="974" height="481" alt="image" src="https://github.com/user-attachments/assets/073064a1-54c4-40ad-a139-3f8cd9ed1d40" /></p>
+<h1 id="2_1"><em>Часть 2.</em></h1>
+<h2 id="_1"><strong>Практическое задание:</strong> Правильно настроить связь между автомобилем, владением и владельцем.</h2>
+<ol>
+<li>Для правильной настройки используется реализация связи «многие ко
+    многим» через класс Ownership</li>
+</ol>
+<p><img width="974" height="619" alt="image" src="https://github.com/user-attachments/assets/f24d4ef8-2b36-44bf-bbee-ea9d46c90c9d" /></p>
+<h2 id="2_2">**Практическое задание (по задаче 2): **</h2>
+<p>1. Реализовать вывод всех владельцев функционально. Добавить данные
+минимум от трех владельцах. Должны быть реализованы контроллер (views) и
+шаблоны (temlates).</p>
+<ul>
+<li>Создадим вывод всех владельцев функционально в файле views.py</li>
+</ul>
+<pre><code class="language-python">def owner_list(request):
+
+owners = Owner.objects.all()
+
+return render(request, \'owners/owner_list.html\', {\'owners\': owners})
+</code></pre>
+<ul>
+<li>Создадим страницу html с шаблоном для функции</li>
+</ul>
+<p><img width="906" height="342" alt="image" src="https://github.com/user-attachments/assets/3137eed5-aada-4551-be64-607d4cdf0481" /></p>
+<ul>
+<li>Получим страницу следующего содержания по ссылке
+    http://127.0.0.1:8000/owners/</li>
+</ul>
+<p><img width="974" height="207" alt="image" src="https://github.com/user-attachments/assets/0a337846-e2c7-4c26-9627-f333dbbfcdb2" /></p>
+<ul>
+<li>Добавлены еще водители</li>
+</ul>
+<p><img width="974" height="426" alt="image" src="https://github.com/user-attachments/assets/c3762346-8a98-495a-9738-6a23b10db6b6" /></p>
+<ul>
+<li>Посмотрим список владельцев</li>
+</ul>
+<p><img width="974" height="217" alt="image" src="https://github.com/user-attachments/assets/cdeccd41-ff23-4efd-a48f-40a3449d19c4" /></p>
+<p>2. Реализовать вывод всех автомобилей, вывод автомобиля по id,
+обновления на основе классов. Добавить данные минимум о трех
+автомобилях. Должны быть реализованы контроллер (views) и шаблоны
+(temlates).</p>
+<ul>
+<li>Добавим действия с отображением автомобилей, а также обновление
+    данных о них. Был изменен файл views.py</li>
+</ul>
+<p><img width="974" height="523" alt="image" src="https://github.com/user-attachments/assets/ec123b87-ab79-46c7-b3cc-1efbf8e6e00f" /></p>
+<ul>
+<li>Далее созданы шаблоны соответствующих страниц.</li>
+</ul>
+<p>/cars/car_list.html</p>
+<p><img width="974" height="523" alt="image" src="https://github.com/user-attachments/assets/eebfc8dd-a4b8-43c4-92c0-2002bed16d26" /></p>
+<p>/cars/car_detail.html</p>
+<p><img width="974" height="281" alt="image" src="https://github.com/user-attachments/assets/bd1cd59a-935d-4a0e-90b0-e018e63a7c89" /></p>
+<p>/cars/car_form.html</p>
+<p><img width="974" height="257" alt="image" src="https://github.com/user-attachments/assets/98c962a5-25cf-454c-831d-65955d4a21c7" /></p>
+<ul>
+<li>Получились следующие страницы</li>
+</ul>
+<p><img width="974" height="200" alt="image" src="https://github.com/user-attachments/assets/d6e64769-c247-4987-94a0-bc63ac8ddb8c" /></p>
+<p><img width="974" height="275" alt="image" src="https://github.com/user-attachments/assets/1a46493a-204f-4b36-add7-d24188924367" /></p>
+<p><img width="974" height="188" alt="image" src="https://github.com/user-attachments/assets/f947e91f-92f3-4d9f-a7e0-845414f8facf" /></p>
+<p><strong>Практическое задание (по задаче 3)</strong> </p>
+<p>1. Реализовать форму ввода всех владельцев функционально. Добавить
+данные минимум о <strong>еще</strong> трех владельцах. Должны быть реализованы форма
+(Form), контроллер (views) и шаблоны (temlates).</p>
+<ul>
+<li>Добавлена форма ввода владельца</li>
+</ul>
+<p><img width="974" height="349" alt="image" src="https://github.com/user-attachments/assets/563c8d8e-9b82-45b7-aaf0-a292c5bb670d" /></p>
+<ul>
+<li>Добавлен контроллер</li>
+</ul>
+<p><img width="974" height="547" alt="image" src="https://github.com/user-attachments/assets/2ab11fd8-9f7b-43af-be15-de730b680cb7" /></p>
+<ul>
+<li>
+<p>Создан шаблон /owners/owner_form.html</p>
+</li>
+<li>
+<p>Происходит успешное добавление владельца:</p>
+</li>
+</ul>
+<p><img width="974" height="395" alt="image" src="https://github.com/user-attachments/assets/802d9536-7b2c-47e1-9b84-65d5bf1956cf" /></p>
+<p><img width="974" height="230" alt="image" src="https://github.com/user-attachments/assets/dbc06516-c0db-4b59-8ac0-27bab2f114ed" /></p>
+<ul>
+<li>Были добавлены еще 3 владельца автомобилей</li>
+</ul>
+<p><img width="974" height="280" alt="image" src="https://github.com/user-attachments/assets/1fbcef55-dd23-4f43-8e09-3afce18a270b" /></p>
+<p>Которые корректно отображаются в режиме администратора:</p>
+<p><img width="974" height="502" alt="image" src="https://github.com/user-attachments/assets/4212effe-8b8f-48b5-829a-4dda665e11ab" /></p>
+<p>2. Реализовать форму ввода, обновления и удаления всех автомобилей на
+основе классов. Добавить данные минимум о <strong>еще</strong> трех автомобилях.
+Должны быть реализованы форма (Form), контроллер (views) и шаблоны
+(temlates).</p>
+<ul>
+<li>Добавление и удаление авто</li>
+</ul>
+<p><img width="974" height="453" alt="image" src="https://github.com/user-attachments/assets/ebb1a06b-326d-44a3-95e0-751eb2c21027" /></p>
+<ul>
+<li>Создан шаблон удаления для авто</li>
+</ul>
+<p>/cars/car_confirm_delete.html</p>
+<p><img width="974" height="419" alt="image" src="https://github.com/user-attachments/assets/21e227e6-5e2e-4082-9565-bc9611a4772f" /></p>
+<ul>
+<li>urls.py приложения:</li>
+</ul>
+<pre><code class="language-python">\# vehicles/urls.py
+
+from django.urls import path
+
+from . import views
+
+urlpatterns = \[
+
+    \# Владельцы --- функциональные представления
+
+    path(\'owners/\', views.owner_list, name=\'owner_list\'),
+
+    path(\'owners/create/\', views.owner_create, name=\'owner_create\'),
+
+    \# Автомобили --- классовые представления
+
+    path(\'cars/\', views.CarListView.as_view(), name=\'car_list\'),
+
+    path(\'cars/\&lt;int:pk\&gt;/\', views.CarDetailView.as_view(),
+name=\'car_detail\'),
+
+    path(\'cars/create/\', views.CarCreateView.as_view(),
+name=\'car_create\'),
+
+    path(\'cars/\&lt;int:pk\&gt;/update/\', views.CarUpdateView.as_view(),
+name=\'car_update\'),
+
+    path(\'cars/\&lt;int:pk\&gt;/delete/\', views.CarDeleteView.as_view(),
+name=\'car_delete\'),
+
+\]
+</code></pre>
+<ul>
+<li>Работоспособность удаления</li>
+</ul>
+<p><img width="974" height="221" alt="image" src="https://github.com/user-attachments/assets/8745f3ef-17a7-407c-9490-e9766ee84567" /></p>
+<p><img width="974" height="200" alt="image" src="https://github.com/user-attachments/assets/33d028e2-8252-42ab-b112-92fdf4f19c5e" /></p>
+<p><img width="974" height="364" alt="image" src="https://github.com/user-attachments/assets/914a0d64-8afd-4e57-9016-e97e065893da" /></p>
+<h1 id="3"><strong>Часть 3.</strong></h1>
+<p>Это стратегия использования новой модели пользователя, которая
+отнаследована от AbstractUser. Требует особой осторожности и изменения
+настроек в settings.py. В идеале должно быть сделано в начале проекта,
+так как будет существенно влиять на схему базы данных.</p>
+<h2 id="_2"><strong>Практическое задание:</strong></h2>
+<h3 id="_3">сделать "Владельца автомобиля" пользователем и расширить модель пользователя его атрибутами, так, чтобы о нем хранилась следующая информация:</h3>
+<ul>
+<li>
+<p>номер паспорта;</p>
+</li>
+<li>
+<p>домашний адрес;</p>
+</li>
+<li>
+<p>национальность. </p>
+</li>
+</ul>
+<p>Отобразить новые поля пользователя в Django Admin. Отредактировать код
+из предыдущих работ, так, чтобы выводилась информация о пользователях.</p>
+<p>Реализовать интерфейс создания пользователя с новыми атрибутами.</p>
+<ul>
+<li>В ходе выполнения практического задания применяется расширение
+    AbstractUser, которое используется для класса Owner, чтобы сделать
+    владельца автомобиля пользователем и позволить хранение
+    дополнительной информации о нем. Для начала создается расширенная
+    модель пользователя c новыми полями по заданию.</li>
+</ul>
+<p><img width="974" height="470" alt="image" src="https://github.com/user-attachments/assets/5f941ab5-eb7f-4ac4-a915-14affa5db0af" /></p>
+<ul>
+<li>Затем необходимо добавить переменную в файл settings.py</li>
+</ul>
+<pre><code class="language-python">\# AbstractUser class User
+
+AUTH_USER_MODEL = \'project_first_app.User\'
+</code></pre>
+<ul>
+<li>
+<p>Далее добавляем соответствующие изменения в models.py, где
+    необходимо сделать импорт настроек из settings.py и заменить
+    использование класса Owner на переменную settings.AUTH_USER_MODEL
+    (класс Owner удаляется)</p>
+</li>
+<li>
+<p>Также необходимо настроить администрирование нового класса:
+    admin.py. Кроме добавления класса из .models, создается специальный
+    класс CustomUserAdmin. Он нужен, чтобы новые поля отображались в
+    роли администратора, можно было создавать и редактировать
+    пользователей с этими полями, а также сохранялась вся стандартная
+    функциональность (UserAdmin),</p>
+</li>
+</ul>
+<pre><code class="language-python">from django.contrib import admin
+
+from django.contrib.auth.admin import UserAdmin
+
+from .models import User
+
+from .models import DriverLicense
+
+from .models import Car
+
+from .models import Ownership
+
+admin.site.register(DriverLicense)
+
+admin.site.register(Car)
+
+admin.site.register(Ownership)
+
+\@admin.register(User)
+
+class CustomUserAdmin(UserAdmin):
+
+    fieldsets = UserAdmin.fieldsets + (
+
+        (\'Личные данные\', {\'fields\': (\'birth_date\',)}),
+
+        (\'Паспортные данные\', {\'fields\': (\'passport_number\',
+\'home_address\', \'nationality\')}),
+
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+
+        (\'Личные данные\', {\'fields\': (\'first_name\', \'last_name\',
+\'birth_date\')}),
+
+        (\'Паспортные данные\', {\'fields\': (\'passport_number\',
+\'home_address\', \'nationality\')}),
+
+    )
+
+    list_display = (\'username\', \'first_name\', \'last_name\',
+\'birth_date\', \'passport_number\')
+</code></pre>
+<ul>
+<li>Следующим изменением в старом проекте будет удаление файла миграций,
+    базы данных и создание новых миграций.</li>
+</ul>
+<p><code>python manage.py makemigrations</code></p>
+<p><img width="974" height="119" alt="image" src="https://github.com/user-attachments/assets/1de85d2c-cb0f-4790-92ce-f6e96180b63e" /></p>
+<p><code>python manage.py migrate</code></p>
+<p><img width="974" height="405" alt="image" src="https://github.com/user-attachments/assets/c1222e92-9549-4469-b624-abdbcf54a21f" /></p>
+<p>Также заново создается суперпользователь</p>
+<p><code>python manage.py createsuperuser</code></p>
+<p><img width="974" height="217" alt="image" src="https://github.com/user-attachments/assets/558628a6-af27-44dc-9f49-058ea527d624" /></p>
+<ul>
+<li>Получилось запустить сервер и зайти как администратор:</li>
+</ul>
+<p><img width="974" height="317" alt="image" src="https://github.com/user-attachments/assets/6fcf38bc-5c73-45b8-a4d3-4cb695d7a2ab" /></p>
+<p>Необходимо добавить данные в базу, чтобы протестировать формы ввода и
+посмотра данных.</p>
+<p><img width="974" height="225" alt="image" src="https://github.com/user-attachments/assets/70fa1ba0-2143-4faa-807e-8a08ae28f567" /></p>
+<ul>
+<li>Последними шагами было отредактировать страницы вывода информации о
+    владельце (теперь пользователе), файла views.py и urls.py для
+    корректного отображения информации из нового класса базы данных. Был
+    получен следующий вывод информации о владельце автомобиля по его ID:
+<img width="974" height="386" alt="image" src="https://github.com/user-attachments/assets/d7a0114a-05f0-4391-8ecd-b6b41a62e834" /></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
