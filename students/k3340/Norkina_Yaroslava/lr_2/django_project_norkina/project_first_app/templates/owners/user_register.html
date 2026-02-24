@@ -1,0 +1,7 @@
+<h2>Регистрация нового владельца</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Зарегистрироваться</button>
+</form>
+<a href="{% url 'user_list' %}">Назад к списку</a>
