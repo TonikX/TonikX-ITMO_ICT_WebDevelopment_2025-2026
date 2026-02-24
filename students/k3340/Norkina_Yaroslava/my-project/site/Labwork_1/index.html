@@ -1,0 +1,1530 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../about/">
+      
+      
+        <link rel="next" href="../Practice_2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Лабораторная №1 - Отчеты по вебу</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Отчеты по вебу" class="md-header__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Отчеты по вебу
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Лабораторная №1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Отчеты по вебу" class="md-nav__button md-logo" aria-label="Отчеты по вебу" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Отчеты по вебу
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная №1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная №1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#no1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Лабораторная работа №1 «Работа с сокетами.»
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа №2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лабораторная работа №2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Practice_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая часть
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labwork_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#no1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Лабораторная работа №1 «Работа с сокетами.»
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">Отчет</h1>
+<h2 id="no1">Лабораторная работа №1 «<strong>Работа с сокетами.</strong>»</h2>
+<p>Цель: понимание того, как происходит сетевое взаимодействие различных
+сокетов, используемых при передаче данных.</p>
+<p>Программное обеспечение: Python 3.6+.</p>
+<p>Практические задания.</p>
+<p><strong>Задание 1:</strong></p>
+<p>Реализована клиентская и серверная части приложения.</p>
+<p>Клиент отправляет серверу сообщение «Hello, server», и оно должно
+отобразиться на стороне сервера.</p>
+<p>client.py:</p>
+<pre><code class="language-python">import socket
+
+\# Создаем сокет
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+\# Отправляем сообщение серверу
+
+client_socket.sendto(b\'Hello, server!\', (socket.gethostname(), 8080))
+
+\# Получаем ответ от сервера
+
+response, server_address = client_socket.recvfrom(1024)
+
+print(f\'Ответ от сервера: {response.decode()}\')
+
+\# Закрываем сокет
+
+client_socket.close()
+</code></pre>
+<p>В ответ сервер отправляет клиенту сообщение «Hello, client», которое
+должно отобразиться у клиента.</p>
+<p>server.py:</p>
+<pre><code class="language-python">import socket
+
+\# Создаем сокет
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+\# Привязываем сокет к адресу и порту
+
+server_socket.bind((socket.gethostname(), 8080))
+
+print(\&quot;Сервер запущен на порту 8080\...\&quot;)
+
+while True:
+
+    \# Получаем сообщение от клиента
+
+    request, client_address = server_socket.recvfrom(1024)
+
+    request = request.decode()
+
+    print(f\'Запрос от клиента {client_address}: {request}\')
+
+    \# Отправляем ответ клиенту
+
+    response = \'Hello, client!\'
+
+    server_socket.sendto(response.encode(), client_address)
+
+</code></pre>
+<p>Выполнены требования:</p>
+<ul>
+<li>
+<p>Обязательно использовать библиотеку socket.</p>
+</li>
+<li>
+<p>Реализовать с помощью протокола UDP: <strong>socket.SOCK_DGRAM</strong> -- тип
+    сокета, который используется для работы с протоколом UDP (User
+    Datagram Protocol) в сетевом программировании. UDP работает без
+    установления соединения, данные передаются в виде отдельных
+    сообщений (датаграмм). При этом используется семейство адресов IPv4
+    (AF_INET).</p>
+</li>
+</ul>
+<p>Демонстрация работы:</p>
+<p><img width="974" height="123" alt="image" src="https://github.com/user-attachments/assets/abb6d66d-ae95-41ee-a387-bb6fed5d33c2" /></p>
+<p>Запускаем клиента:</p>
+<p><img width="974" height="131" alt="image" src="https://github.com/user-attachments/assets/483c0e51-d385-4f4b-bc98-34d05261253f" /></p>
+<p><img width="974" height="140" alt="image" src="https://github.com/user-attachments/assets/68889c75-2306-45be-b817-5a5914ecab2d" /></p>
+<p><strong>Задание 2:</strong></p>
+<p>Реализована клиентская и серверная части приложения.</p>
+<ol>
+<li><strong>Вариант</strong> Теорема Пифагора.</li>
+</ol>
+<p>Клиент запрашивает выполнение математической операции, параметры которой
+(длины сторон прямоугольного треугольника) вводятся с клавиатуры.</p>
+<p>client.py:</p>
+<pre><code class="language-python">
+import socket
+
+\# Создаем сокет
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+\# Подключаемся к серверу
+
+client_socket.connect((socket.gethostname(), 8080))
+
+\# Считываем строку вида \&quot;a b\&quot; - длины сторон треугольника
+
+a=input().encode(\'utf-8\')
+
+\# Отправляем сообщение серверу
+
+client_socket.sendall(a)
+
+\# Получаем ответ от сервера
+
+response = client_socket.recv(1024)
+
+print(f\'Ответ от сервера: {response.decode()}\')
+
+\# Закрываем соединение
+
+client_socket.close()
+
+</code></pre>
+<p>Сервер обрабатывает данные и возвращает результат клиенту.</p>
+<p>server.py:</p>
+<pre><code class="language-python">import math
+
+import socket
+
+\# Создаем сокет
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+\# Привязываем сокет к адресу и порту
+
+server_socket.bind((socket.gethostname(), 8080))
+
+\# Начинаем слушать входящие подключения (ожидание клиентов)
+
+server_socket.listen(1)
+
+print(\&quot;Сервер запущен на порту 8080\...\&quot;)
+
+while True:
+
+    \# Принимаем соединение от клиента
+
+    client_connection, client_address = server_socket.accept()
+
+    print(f\'Подключение от {client_address}\')
+
+    \# Получаем сообщение от клиента
+
+    request = client_connection.recv(1024).decode()
+
+    a,b=request.split()
+
+    a=int(a)
+
+    b=int(b)
+
+    \# Отправляем ответ клиенту
+
+    response = str(math.sqrt(a\*\*2 + b\*\*2))
+
+    client_connection.sendall(response.encode())
+
+    \# Закрываем соединение
+
+    client_connection.close()
+</code></pre>
+<p><strong>Выполнены требования:</strong></p>
+<ul>
+<li>
+<p>Обязательно использовать библиотеку socket.</p>
+</li>
+<li>
+<p>Реализовать с помощью протокола TCP: socket.<strong>SOCK_STREAM</strong> -- это
+    тип сокета, который указывает на <strong>протокол TCP (Transmission
+    Control Protocol)</strong>. TCP-сокеты обеспечивают надёжную, упорядоченную
+    доставку данных. </p>
+</li>
+</ul>
+<p>Протестируем сервер:</p>
+<p><img width="974" height="138" alt="image" src="https://github.com/user-attachments/assets/122eb743-1daa-4ad6-9ee7-88b3150bc32c" /></p>
+<p>Запустим клиента:</p>
+<p><img width="974" height="130" alt="image" src="https://github.com/user-attachments/assets/4a4d4b25-5d5c-4815-b8ff-43fb561e55d5" /></p>
+<p>Получаем правильный ответ, соединение установлено.</p>
+<p><img width="490" height="92" alt="image" src="https://github.com/user-attachments/assets/a29b2d81-05ab-4de1-99ee-96ffcf9dfccf" /></p>
+<p><strong>Задание 3:</strong></p>
+<p>Реализована серверная часть приложения. Клиент подключается к серверу, и
+в ответ получает HTTP-сообщение, содержащее HTML-страницу, которуя
+сервер подгружает из файла index.html.</p>
+<p>server.py:</p>
+<pre><code class="language-python">import socket
+
+\# Параметры сервера
+
+HOST = \'localhost\'
+
+PORT = 8080
+
+\# Создаем сокет
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+server_socket.bind((HOST, PORT))
+
+server_socket.listen(5)
+
+print(f\&quot;HTTP сервер запущен на {HOST}:{PORT}\...\&quot;)
+
+\# Функция для чтения HTML-файла
+
+def load_html_file(filename):
+
+    try:
+
+        with open(filename, \'r\', encoding=\'utf-8\') as file:
+
+            return file.read()
+
+    except FileNotFoundError:
+
+        \# Если файл не найден, возвращаем текст ошибки 404
+
+        return \&quot;\&lt;h1\&gt;404 Not Found\&lt;/h1\&gt;\&lt;p\&gt;Файл index.html не
+найден.\&lt;/p\&gt;\&quot;
+
+while True:
+
+    client_connection, client_address = server_socket.accept()
+
+    print(f\'Подключение от {client_address}\')
+
+    request = client_connection.recv(1024).decode()
+
+    print(f\'Запрос клиента:\\n{request}\')
+
+    \# Загружаем содержимое index.html
+
+    html_content = load_html_file(\'index.html\')
+
+    \# Формируем HTTP-ответ
+
+    http_response = (
+
+        \&quot;HTTP/1.1 200 OK\\r\\n\&quot;
+
+        \&quot;Content-Type: text/html; charset=UTF-8\\r\\n\&quot;
+
+        f\&quot;Content-Length: {len(html_content)}\\r\\n\&quot;
+
+        \&quot;Connection: close\\r\\n\&quot;
+
+        \&quot;\\r\\n\&quot;
+
+        + html_content
+
+    )
+
+    client_connection.sendall(http_response.encode())
+
+    client_connection.close()
+</code></pre>
+<p><strong>Выполнены требования:</strong></p>
+<ul>
+<li>Обязательно использовать библиотеку socket.</li>
+</ul>
+<p>Запустим сервер:</p>
+<p><img width="974" height="57" alt="image" src="https://github.com/user-attachments/assets/3a645f37-90ac-4ac2-8bd2-4861b217bac4" /></p>
+<p><img width="974" height="304" alt="image" src="https://github.com/user-attachments/assets/8ee15d9b-dc9e-4d40-bc7a-c4431d1ffc0a" /></p>
+<p><strong>Задание 4:</strong></p>
+<p>Был реализован многопользовательский чат. Выполнены требования:</p>
+<ul>
+<li>
+<p>Обязательно использовать библиотеку socket.</p>
+</li>
+<li>
+<p>Для многопользовательского чата необходимо использовать
+    библиотеку threading.</p>
+</li>
+</ul>
+<p><strong>Реализация:</strong></p>
+<p>client.py:</p>
+<pre><code class="language-python">\# chat_client.py
+
+import socket
+
+import threading
+
+import sys
+
+def receive_messages(client_socket):
+
+    \&quot;\&quot;\&quot;Получает и выводит входящие сообщения\&quot;\&quot;\&quot;
+
+    while True:
+
+        try:
+
+            message = client_socket.recv(1024).decode(\'utf-8\')
+
+            if not message:
+
+                break
+
+            print(message)
+
+        except ConnectionResetError:
+
+            print(\&quot;\[!\] Соединение с сервером потеряно.\&quot;)
+
+            break
+
+        except OSError:
+
+            break  # Сокет закрыт
+
+def main():
+
+    HOST = \'localhost\'
+
+    PORT = 12345
+
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    try:
+
+        client.connect((HOST, PORT))
+
+        print(\&quot;\[\*\] Подключено к чату. Введите своё имя:\&quot;)
+
+        username = input().strip()
+
+        if not username:
+
+            username = \&quot;Anonymous\&quot;
+
+        \# Запускаем поток для получения сообщений
+
+        recv_thread = threading.Thread(target=receive_messages,
+args=(client,))
+
+        recv_thread.daemon = True
+
+        recv_thread.start()
+
+        print(f\&quot;\[+\] Привет, {username}! Вводите сообщения (Ctrl+C или
+exit для выхода):\&quot;)
+
+        while True:
+
+            try:
+
+                msg = input()
+
+                if msg.lower() == \'exit\':
+
+                    break
+
+                full_message = f\&quot;{username}: {msg}\&quot;
+
+                client.send(full_message.encode(\'utf-8\'))
+
+            except KeyboardInterrupt:
+
+                break
+
+    except ConnectionRefusedError:
+
+        print(\&quot;\[!\] Не удалось подключиться к серверу.\&quot;)
+
+    finally:
+
+        client.close()
+
+        print(\&quot;\[\*\] Отключено.\&quot;)
+
+if \_\_name\_\_ == \&quot;\_\_main\_\_\&quot;:
+
+    main()
+</code></pre>
+<p>server.py:</p>
+<pre><code class="language-python">\# chat_server.py
+
+import socket
+
+import threading
+
+\# Глобальный список подключённых клиентов: (client_socket, address)
+
+clients = \[\]
+
+clients_lock = threading.Lock()  # Для безопасного доступа из нескольких
+потоков
+
+def broadcast(message, sender_socket=None):
+
+    \&quot;\&quot;\&quot;Рассылает сообщение всем клиентам, кроме отправителя (если
+указан)\&quot;\&quot;\&quot;
+
+    with clients_lock:
+
+        for client_socket, \_ in clients\[:\]:  # Копия списка на случай
+удаления
+
+            if client_socket != sender_socket:
+
+                try:
+
+                    client_socket.send(message)
+
+                except Exception:
+
+                    \# Если клиент отключился --- удаляем его
+
+                    client_socket.close()
+
+                    clients\[:\] = \[(sock, addr) for sock, addr in
+clients if sock != client_socket\]
+
+def handle_client(client_socket, address):
+
+    \&quot;\&quot;\&quot;Обрабатывает одного клиента в отдельном потоке\&quot;\&quot;\&quot;
+
+    print(f\&quot;\[+\] Новое подключение: {address}\&quot;)
+
+    with clients_lock:
+
+        clients.append((client_socket, address))
+
+    try:
+
+        while True:
+
+            message = client_socket.recv(1024)
+
+            if not message:
+
+                break
+
+            print(f\&quot;\[{address}\] {message.decode(\'utf-8\',
+errors=\'replace\')}\&quot;)
+
+            broadcast(message, sender_socket=client_socket)
+
+    except ConnectionResetError:
+
+        pass
+
+    finally:
+
+        with clients_lock:
+
+            clients\[:\] = \[(sock, addr) for sock, addr in clients if
+sock != client_socket\]
+
+        client_socket.close()
+
+        print(f\&quot;\[-\] Клиент отключён: {address}\&quot;)
+
+def main():
+
+    HOST = \'localhost\'
+
+    PORT = 12345
+
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+    server.bind((HOST, PORT))
+
+    server.listen()
+
+    print(f\&quot;\[\*\] Сервер запущен на {HOST}:{PORT}\&quot;)
+
+    try:
+
+        while True:
+
+            client_socket, addr = server.accept()
+
+            thread = threading.Thread(target=handle_client,
+args=(client_socket, addr))
+
+            thread.daemon = True  # Поток завершится при выходе из main
+
+            thread.start()
+
+    except KeyboardInterrupt:
+
+        print(\&quot;\\n\[!\] Сервер остановлен.\&quot;)
+
+    finally:
+
+        server.close()
+
+if \_\_name\_\_ == \&quot;\_\_main\_\_\&quot;:
+
+    main()
+</code></pre>
+<ul>
+<li>
+<p>Протокол TCP: для TCP созданы клиентские подключения и обработка
+    сообщений от всех пользователей в потоках. Каждый клиент
+    подключается к серверу, и все сообщения автоматически рассылаются
+    остальным участникам чата.</p>
+</li>
+<li>
+<p>SOCK_STREAM -- использование <strong>TCP</strong></p>
+</li>
+<li>
+<p><code>client_socket, addr = server.accept()</code> -- выполняется трёхэтапное
+    рукопожатие TCP, создаётся новый сокет. Сервер принимает входящее
+    соединение.</p>
+</li>
+<li>
+<p><code>thread = threading.Thread(target=handle_client, args=(client_socket,
+    addr)); thread.start()</code> -- библиотека threading используется для
+    создания нового потока, чтобы не блокировать основной цикл сервера.</p>
+</li>
+<li>
+<p>Автоматическое удаление отключившихся клиентов при ошибках отправки.</p>
+</li>
+</ul>
+<p>Запустим сервер:</p>
+<p><img width="974" height="163" alt="image" src="https://github.com/user-attachments/assets/d415e8dd-abac-4909-866b-3a97e70e6d0d" /></p>
+<p>Создадим несколько клиентов и пользователей в чате:</p>
+<p><img width="974" height="162" alt="image" src="https://github.com/user-attachments/assets/6ae7be81-cd60-4852-9a71-63f443cc8ef3" /></p>
+<p><img width="974" height="180" alt="image" src="https://github.com/user-attachments/assets/b6e8680d-7bbc-4e68-8ac3-5f3b7917a855" /></p>
+<p><img width="974" height="156" alt="image" src="https://github.com/user-attachments/assets/ab132ebf-eb7e-43b9-8867-5bbd50e59250" /></p>
+<p><img width="974" height="222" alt="image" src="https://github.com/user-attachments/assets/2655b2e1-bd25-41ed-b89c-a3dbf494c9e7" /></p>
+<p>На сервере отображаются все сообщения:</p>
+<p><img width="759" height="382" alt="image" src="https://github.com/user-attachments/assets/89f50e8e-4c55-4440-974c-8775976e424b" /></p>
+<p><strong>Задание 5:</strong></p>
+<p>Написать простой веб-сервер для обработки GET и POST HTTP-запросов с
+помощью библиотеки socket в Python. Сервер должен:</p>
+<ul>
+<li>
+<p>Принять и записать информацию о дисциплине и оценке по дисциплине.</p>
+</li>
+<li>
+<p>Отдать информацию обо всех оценках по дисциплинам в виде
+    HTML-страницы.</p>
+</li>
+</ul>
+<p>Реализация:</p>
+<p>server.py:</p>
+<pre><code class="language-python">import json
+
+import socket
+
+import sys
+
+from email.parser import Parser
+
+from functools import lru_cache
+
+from urllib.parse import parse_qs, urlparse
+
+MAX_LINE = 64 \* 1024
+
+MAX_HEADERS = 100
+
+class MyHTTPServer:
+
+    def \_\_init\_\_(self, host, port, server_name):
+
+        self.\_host = host
+
+        self.\_port = port
+
+        self.\_server_name = server_name
+
+        self.\_grades = \[\]  # Список: \[{\'discipline\': \'\...\',
+\'grade\': \'\...\'}, \...\]
+
+    def serve_forever(self):
+
+        serv_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        serv_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+        try:
+
+            serv_sock.bind((self.\_host, self.\_port))
+
+            serv_sock.listen()
+
+            print(f\&quot;Сервер запущен:
+http://{self.\_host}:{self.\_port}/grades\&quot;)
+
+            while True:
+
+                conn, \_ = serv_sock.accept()
+
+                try:
+
+                    self.serve_client(conn)
+
+                except Exception as e:
+
+                    print(\'Ошибка при обработке клиента:\', e)
+
+        finally:
+
+            serv_sock.close()
+
+    def serve_client(self, conn):
+
+        try:
+
+            req = self.parse_request(conn)
+
+            resp = self.handle_request(req)
+
+            self.send_response(conn, resp)
+
+        except ConnectionResetError:
+
+            pass
+
+        except Exception as e:
+
+            self.send_error(conn, e)
+
+        finally:
+
+            if conn:
+
+                try:
+
+                    req.rfile.close()
+
+                except:
+
+                    pass
+
+                conn.close()
+
+    def parse_request(self, conn):
+
+        rfile = conn.makefile(\'rb\')
+
+        method, target, ver = self.parse_request_line(rfile)
+
+        headers = self.parse_headers(rfile)
+
+        host = headers.get(\'Host\')
+
+        if not host:
+
+            raise HTTPError(400, \'Bad Request\', \'Заголовок Host
+обязателен\')
+
+        if host not in (self.\_server_name,
+f\'{self.\_server_name}:{self.\_port}\'):
+
+            raise HTTPError(404, \'Not Found\')
+
+        return Request(method, target, ver, headers, rfile)
+
+    def parse_request_line(self, rfile):
+
+        raw = rfile.readline(MAX_LINE + 1)
+
+        if len(raw) \&gt; MAX_LINE:
+
+            raise HTTPError(400, \'Bad Request\', \'Слишком длинная
+строка запроса\')
+
+        req_line = str(raw, \'iso-8859-1\')
+
+        words = req_line.rstrip(\'\\r\\n\').split()
+
+        if len(words) != 3:
+
+            raise HTTPError(400, \'Bad Request\', \'Некорректная строка
+запроса\')
+
+        method, target, ver = words
+
+        if ver != \'HTTP/1.1\':
+
+            raise HTTPError(505, \'HTTP Version Not Supported\')
+
+        return method, target, ver
+
+    def parse_headers(self, rfile):
+
+        headers = \[\]
+
+        while True:
+
+            line = rfile.readline(MAX_LINE + 1)
+
+            if len(line) \&gt; MAX_LINE:
+
+                raise HTTPError(494, \'Request header too large\')
+
+            if line in (b\'\\r\\n\', b\'\\n\', b\'\'):
+
+                break
+
+            headers.append(line)
+
+            if len(headers) \&gt; MAX_HEADERS:
+
+                raise HTTPError(494, \'Too many headers\')
+
+        sheaders = b\'\'.join(headers).decode(\'iso-8859-1\')
+
+        return Parser().parsestr(sheaders)
+
+    def handle_request(self, req):
+
+        if req.path == \'/grades\' and req.method == \'POST\':
+
+            return self.handle_post_grade(req)
+
+        if req.path == \'/grades\' and req.method == \'GET\':
+
+            return self.handle_get_grades(req)
+
+        raise HTTPError(404, \'Not Found\')
+
+    def handle_post_grade(self, req):
+
+        discipline = req.query.get(\'discipline\', \[None\])\[0\]
+
+        grade = req.query.get(\'grade\', \[None\])\[0\]
+
+        if not discipline or not grade:
+
+            raise HTTPError(400, \'Bad Request\', \'Требуются параметры:
+discipline и grade\')
+
+        \# Опционально: проверка, что grade --- число от 1 до 5
+
+        try:
+
+            grade_int = int(grade)
+
+            if not (1 \&lt;= grade_int \&lt;= 5):
+
+                raise ValueError
+
+        except ValueError:
+
+            raise HTTPError(400, \'Bad Request\', \'Оценка должна быть
+целым числом от 1 до 5\')
+
+        self.\_grades.append({\'discipline\': discipline, \'grade\':
+grade_int})
+
+        return Response(204, \'Created\')
+
+    def handle_get_grades(self, req):
+
+        accept = req.headers.get(\'Accept\', \'\')
+
+        if \'text/html\' in accept:
+
+            contentType = \'text/html; charset=utf-8\'
+
+            body = \'\&lt;html\&gt;\&lt;head\&gt;\&lt;meta
+charset=\&quot;utf-8\&quot;\&gt;\&lt;title\&gt;Оценки\&lt;/title\&gt;\&lt;/head\&gt;\&lt;body\&gt;\'
+
+            body += \'\&lt;h2\&gt;Список оценок\&lt;/h2\&gt;\'
+
+            if self.\_grades:
+
+                body += \'\&lt;ul\&gt;\'
+
+                for item in self.\_grades:
+
+                    body +=
+f\'\&lt;li\&gt;\&lt;strong\&gt;{item\[\&quot;discipline\&quot;\]}:\&lt;/strong\&gt;
+{item\[\&quot;grade\&quot;\]}\&lt;/li\&gt;\'
+
+                body += \'\&lt;/ul\&gt;\'
+
+            else:
+
+                body += \'\&lt;p\&gt;Нет записей.\&lt;/p\&gt;\'
+
+            body += \'\&lt;hr\&gt;\&lt;a href=\&quot;/\&quot;\&gt;Обновить\&lt;/a\&gt;\'
+
+            body += \'\&lt;/body\&gt;\&lt;/html\&gt;\'
+
+        elif \'application/json\' in accept:
+
+            contentType = \'application/json; charset=utf-8\'
+
+            body = json.dumps(self.\_grades, ensure_ascii=False)
+
+        else:
+
+            return Response(406, \'Not Acceptable\')
+
+        body = body.encode(\'utf-8\')
+
+        headers = \[
+
+            (\'Content-Type\', contentType),
+
+            (\'Content-Length\', len(body))
+
+        \]
+
+        return Response(200, \'OK\', headers, body)
+
+    def send_response(self, conn, resp):
+
+        wfile = conn.makefile(\'wb\')
+
+        status_line = f\'HTTP/1.1 {resp.status} {resp.reason}\\r\\n\'
+
+        wfile.write(status_line.encode(\'iso-8859-1\'))
+
+        if resp.headers:
+
+            for key, value in resp.headers:
+
+                wfile.write(f\'{key}:
+{value}\\r\\n\'.encode(\'iso-8859-1\'))
+
+        wfile.write(b\'\\r\\n\')
+
+        if resp.body:
+
+            wfile.write(resp.body)
+
+        wfile.flush()
+
+        wfile.close()
+
+    def send_error(self, conn, err):
+
+        try:
+
+            status = err.status
+
+            reason = err.reason
+
+            body = (err.body or reason).encode(\'utf-8\')
+
+        except:
+
+            status = 500
+
+            reason = \'Internal Server Error\'
+
+            body = b\'Internal Server Error\'
+
+        headers = \[(\'Content-Length\', len(body))\]
+
+        resp = Response(status, reason, headers, body)
+
+        self.send_response(conn, resp)
+
+class Request:
+
+    def \_\_init\_\_(self, method, target, version, headers, rfile):
+
+        self.method = method
+
+        self.target = target
+
+        self.version = version
+
+        self.headers = headers
+
+        self.rfile = rfile
+
+    \@property
+
+    def path(self):
+
+        return self.url.path
+
+    \@property
+
+    \@lru_cache(maxsize=None)
+
+    def query(self):
+
+        return parse_qs(self.url.query)
+
+    \@property
+
+    \@lru_cache(maxsize=None)
+
+    def url(self):
+
+        return urlparse(self.target)
+
+    def body(self):
+
+        size = self.headers.get(\'Content-Length\')
+
+        if not size:
+
+            return None
+
+        return self.rfile.read(int(size))
+
+class Response:
+
+    def \_\_init\_\_(self, status, reason, headers=None, body=None):
+
+        self.status = status
+
+        self.reason = reason
+
+        self.headers = headers or \[\]
+
+        self.body = body
+
+class HTTPError(Exception):
+
+    def \_\_init\_\_(self, status, reason, body=None):
+
+        super()
+
+        self.status = status
+
+        self.reason = reason
+
+        self.body = body
+
+if \_\_name\_\_ == \'\_\_main\_\_\':
+
+    if len(sys.argv) != 4:
+
+        print(\&quot;Использование: python grade_server.py \&lt;host\&gt; \&lt;port\&gt;
+\&lt;server_name\&gt;\&quot;)
+
+        print(\&quot;Пример: python grade_server.py localhost 8080
+localhost\&quot;)
+
+        sys.exit(1)
+
+    host = sys.argv\[1\]
+
+    port = int(sys.argv\[2\])
+
+    name = sys.argv\[3\]
+
+    server = MyHTTPServer(host, port, name)
+
+    try:
+
+        server.serve_forever()
+
+    except KeyboardInterrupt:
+
+        print(\&quot;\\nСервер остановлен.\&quot;)
+</code></pre>
+<p><strong>Хранение данных происходит в</strong> оперативной памяти сервера в виде
+списка словарей, где каждый элемент -- это словарь с двумя ключами
+discipline и grade. Когда клиент отправляет данные, сервер обрабатывает
+их в методе handle_post_grade(): <strong>в нем извлекаются параметры с
+использованием</strong> класса Request, который парсит строку запроса, также
+используется parse_qs() из urllib.parse для разбора параметров. В
+результате отправки данных клиентом сервер сохраняет новый словарь вида
+{\'discipline\': [\'Математика\'], \'grade\': [\'5\']}. После
+происходит добавление в конец списка всех сохраненных словарей
+self._grades и возвращается ответ "204 No Content" (успешно, но без
+тела ответа) на запрос клиенту.</p>
+<p><strong>Как отдаётся информация обо всех оценках в виде HTML-страницы</strong></p>
+<p>Функция handle_get_grades(self, req) обрабатывает GET-запрос от клиента,
+смотрит на заголовок Accept в запросе и если клиент хочет text/html, то
+отдаёт HTML, если application/json -- отдаёт JSON. Далее <strong>строится
+страница:</strong></p>
+<ol>
+<li>
+<p>Базовая структура HTML с заголовком \&lt;title&gt;Оценки\&lt;/title&gt;</p>
+</li>
+<li>
+<p>Заголовок \&lt;h2&gt;Список оценок\&lt;/h2&gt;</p>
+</li>
+<li>
+<p>Создаётся ненумерованный список \&lt;ul&gt;, если есть оценки</p>
+</li>
+<li>
+<p>Для каждой оценки создаётся элемент \&lt;li&gt; в формате
+    «<strong>Дисциплина:</strong> оценка»</p>
+</li>
+<li>
+<p>Если оценок нет -- показывается сообщение \"Нет записей\"</p>
+</li>
+<li>
+<p>Создается ссылка для обновления страницы</p>
+</li>
+</ol>
+<p>После этого <strong>отправляется ответ клиенту со с</strong>татусом 200 OK,
+заголовками Content-Type и Content-Length и телом ответа (UTF-8).</p>
+<p>Запустим сервер:</p>
+<p><code>py MyHttpServer.py localhost 8080 localhost</code></p>
+<p><img width="974" height="90" alt="image" src="https://github.com/user-attachments/assets/c3755fae-c658-44a3-a449-44f059613b7a" /></p>
+<p>Добавим несколько дисциплин и оценок по предметам через командную
+строку:</p>
+<p><code>curl -X POST \"http://localhost:8080/grades?discipline=Web&amp;grade=4\"</code></p>
+<p><img width="974" height="260" alt="image" src="https://github.com/user-attachments/assets/b961c30f-b1d7-433f-bcd4-9b36c264fb1c" /></p>
+<p>Перейдем по ссылке <a href="http://localhost:8080/grades">http://localhost:8080/grades</a></p>
+<p><img width="974" height="178" alt="image" src="https://github.com/user-attachments/assets/ec83f778-7402-4288-9c72-aa64e94e80b2" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
