@@ -1,0 +1,16 @@
+site_name: Отчёты Мальцев Илья
+theme:
+  name: material
+  language: ru
+
+nav:
+  - Главная: index.md
+  - ЛР1:
+      - Задание 1: lr1/task1.md
+      - Задание 2: lr1/task2.md
+      - Задание 3: lr1/task3.md
+      - Задание 4: lr1/task4.md
+      - Задание 5: lr1/task5.md
+  - ЛР2: lr2/lab2.md
+  - ЛР3: lr3/lab3.md
+  - ЛР4: lr4/lab4.md

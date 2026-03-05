@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+<div class="container mt-5">
+    <h1 class="mb-4">Комментарии</h1>
+    <h2 class="mb-3">➕ Добавить комментарий</h2>
+    <form method="post" class="mb-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+    <h2 class="mb-3">Комментарии:</h2>
+    <ul class="list-group">
+        {% for review in reviews %}
+        <li class="list-group-item">
+            <strong>{{ review.author }}</strong> ({{ race.date_of_race }})
+            <br>
+            Тип комментария: {{ review.type }}
+            <br>
+            Оценка: {{ review.rate }}
+            <br>
+            {{ review.review }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

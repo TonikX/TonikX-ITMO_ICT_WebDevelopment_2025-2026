@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнал</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #5cb85c;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Журнал оценок</h1>
+    <form method="POST">
+        <label for="subject">Предмет:</label>
+        <input type="text" id="subject" name="subject" required>
+        <br>
+        <label for="grade">Оценка:</label>
+        <input type="text" id="grade" name="grade" required>
+        <br>
+        <button type="submit">Добавить оценку</button>
+    </form>
+
+    <h2>Журнал</h2>
+
+    <table border="1">
+        <tr>
+            <th>Предмет</th>
+            <th>Оценки</th>
+        </tr>
+        {{grades_rows}}
+    </table>
+
+    <p><i>{{message}}</i></p>
+
+</body>
+</html>

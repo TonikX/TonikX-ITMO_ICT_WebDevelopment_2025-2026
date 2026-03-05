@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    {% if request.user.is_authenticated %}
+    <h1 class="mb-4">➕ Регистрация гонщика</h1>
+    <form method="post" class="mb-3">
+        {% csrf_token %}
+        {{ racer_form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
