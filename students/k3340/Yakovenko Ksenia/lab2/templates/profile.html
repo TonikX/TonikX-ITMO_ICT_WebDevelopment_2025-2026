@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6 col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="text-center mb-4">
+          <div class="display-6 mb-2">👤</div>
+          <h1 class="h4 mb-0">{{ user.username }}</h1>
+          <div class="text-muted small">Профиль пользователя</div>
+        </div>
+        <hr>
+        <div class="mb-3"><strong>Имя пользователя:</strong><br>{{ user.username }}</div>
+        <div class="mb-3"><strong>Email:</strong><br>{% if user.email %}{{ user.email }}{% else %}<span class="text-muted">не указан</span>{% endif %}</div>
+        <div class="mb-3"><strong>Дата регистрации:</strong><br>{{ user.date_joined|date:"d.m.Y H:i" }}</div>
+        <div class="mb-4"><strong>Количество бронирований:</strong><br>{{ user.bookings.count }}</div>
+        <div class="d-grid gap-2">
+          <a href="{% url 'bookings:mine' %}" class="btn btn-primary">Мои бронирования</a>
+          {% if user.is_staff %}<a href="/admin/" class="btn btn-outline-secondary">Админка</a>{% endif %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger">Выйти из аккаунта</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Регистрация</h1>
+
+<form method="post" style="max-width: 520px;">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  {% for field in form %}
+    <div class="mb-3">
+      <label class="form-label">{{ field.label }}</label>
+      {{ field }}
+
+      {% if field.help_text %}
+        <div class="form-text">{{ field.help_text|safe }}</div>
+      {% endif %}
+
+      {% for error in field.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+  <button class="btn btn-success">Зарегистрироваться</button>
+</form>
+
+<p class="mt-3">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+{% endblock %}

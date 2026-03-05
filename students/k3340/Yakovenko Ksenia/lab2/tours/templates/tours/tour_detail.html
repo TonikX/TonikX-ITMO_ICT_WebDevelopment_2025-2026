@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ tour.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+  <div>
+    <h1 class="h3 mb-1">{{ tour.title }}</h1>
+    <div class="text-muted">{{ tour.country.name }} - {{ tour.agency.name }} - {{ tour.start_date }} - {{ tour.end_date }}</div>
+  </div>
+  <div class="text-end">
+    <div class="h4 mb-2">{{ tour.price }} €</div>
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'tours:book' tour.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-primary">Забронировать</button>
+      </form>
+      <div class="text-muted small mt-2">Подтверждение сделает администратор в админке.</div>
+    {% else %}
+      <a class="btn btn-primary" href="{% url 'login' %}?next={{ request.path|urlencode }}">Войти, чтобы забронировать</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="card"><div class="card-body">
+      <h2 class="h5">Описание</h2>
+      <p class="mb-0">{{ tour.description }}</p>
+    </div></div>
+
+    <div class="card mt-3"><div class="card-body">
+      <h2 class="h5">Условия оплаты</h2>
+      <p class="mb-0">{{ tour.payment_terms }}</p>
+    </div></div>
+
+    <div class="mt-4">
+      <h2 class="h5 mb-3">Отзывы</h2>
+      {% for r in tour.reviews.all %}
+        <div class="border rounded p-3 mb-2">
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div>
+              <strong>{{ r.author.username }}</strong>
+              <span class="text-muted small">- {{ r.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+            <span class="badge text-bg-success">{{ r.rating }}/10</span>
+          </div>
+          <div class="text-muted small mt-1">Даты тура в отзыве: {{ r.tour_start_date }} - {{ r.tour_end_date }}</div>
+          <p class="mb-0 mt-2">{{ r.text }}</p>
+        </div>
+      {% empty %}
+        <p class="text-muted">Пока нет отзывов.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card"><div class="card-body">
+      <h2 class="h5">Оставить отзыв</h2>
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'tours:review_create' tour.pk %}">
+          {% csrf_token %}
+          <div class="mb-2">
+            <label class="form-label">Текст</label>
+            {{ form.text }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Рейтинг (1-10)</label>
+            {{ form.rating }}
+          </div>
+          <button class="btn btn-outline-primary">Отправить</button>
+        </form>
+      {% else %}
+        <a class="btn btn-outline-primary" href="{% url 'login' %}?next={{ request.path|urlencode }}">Войти, чтобы оставить отзыв</a>
+      {% endif %}
+    </div></div>
+  </div>
+</div>
+{% endblock %}

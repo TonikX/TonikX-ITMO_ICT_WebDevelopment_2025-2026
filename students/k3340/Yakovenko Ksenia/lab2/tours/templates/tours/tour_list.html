@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Туры{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Туры</h1>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-sm-9">
+    <input type="text" name="q" class="form-control" placeholder="Поиск по названию, стране, агентству..." value="{{ q }}">
+  </div>
+  <div class="col-sm-3 d-grid">
+    <button class="btn btn-primary">Искать</button>
+  </div>
+</form>
+
+<div class="row g-3">
+  {% for tour in tours %}
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title mb-0">{{ tour.title }}</h5>
+            <span class="badge text-bg-secondary">{{ tour.country.name }}</span>
+          </div>
+          <div class="text-muted small mb-2">
+            Агентство: {{ tour.agency.name }}<br>
+            {{ tour.start_date }} - {{ tour.end_date }}
+          </div>
+          <p class="card-text">{{ tour.description|truncatechars:120 }}</p>
+          <div class="mt-auto d-flex justify-content-between align-items-center">
+            <strong>{{ tour.price }} €</strong>
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'tours:detail' tour.pk %}">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">Ничего не найдено.</p>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav class="mt-4">
+  <ul class="pagination flex-wrap">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}">←</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">←</span></li>
+    {% endif %}
+
+    {% for num in paginator.page_range %}
+      {% if num == page_obj.number %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}{% if q %}&q={{ q|urlencode }}{% endif %}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}">→</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">→</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

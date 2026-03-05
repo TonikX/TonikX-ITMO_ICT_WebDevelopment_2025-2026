@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'tours:list' %}">Tours</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{% url 'tours:list' %}">Туры</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'bookings:sales_by_country' %}">Продажи по странам</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'bookings:mine' %}">Мои брони</a></li>
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}" class="d-flex">
+              {% csrf_token %}
+              <button class="btn btn-outline-light btn-sm">Выйти</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+          <li class="nav-item"><a class="btn btn-success btn-sm ms-lg-2" href="{% url 'signup' %}">Регистрация</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
