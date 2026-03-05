@@ -1,0 +1,13 @@
+site_name: Web Labs Documentation
+nav:
+  - Home: index.md
+  - Lab 1:
+      - "Task 1": lr1/task1.md
+      - "Task 2": lr1/task2.md
+      - "Task 3": lr1/task3.md
+      - "Task 4": lr1/task4.md
+      - "Task 5": lr1/task5.md
+  - Lab 2:
+    - "Лабораторная работа": lr2/lab2.md
+theme:
+  name: readthedocs

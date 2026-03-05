@@ -1,0 +1,25 @@
+site_name: "Отчёты по Web-программированию - Сачук Алина"
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+
+nav:
+  - Главная: index.md
+  - ЛР1 Socket/HTTP:
+      - Задание 1: lr1/task1.md
+      - Задание 2: lr1/task2.md
+      - Задание 3: lr1/task3.md
+      - Задание 4: lr1/task4.md
+      - Задание 5: lr1/task5.md
+  - ЛР2 Django: lr2/lab2.md
+  - ЛР3 Backend: lr3/lab3.md
+  - ЛР4 Frontend: lr4/lab4.md

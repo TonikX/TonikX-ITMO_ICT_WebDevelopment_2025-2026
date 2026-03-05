@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-4">Отзывы о туре: {{ tour.name }}</h2>
+
+{% if user.is_authenticated %}
+    <div class="mb-3">
+        <a href="{% url 'create_review' tour_id=tour.id %}" class="btn btn-primary">Добавить отзыв</a>
+    </div>
+{% endif %}
+
+<div class="row">
+    {% for review in reviews %}
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ review.user.username }}</h5>
+                <p class="card-text">{{ review.text }}</p>
+                <p><strong>Оценка:</strong> {{ review.rating }}/10</p>
+                <p class="text-muted">Дата: {{ review.date_posted }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Пока нет отзывов об этом туре.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

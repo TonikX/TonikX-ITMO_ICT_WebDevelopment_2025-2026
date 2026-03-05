@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2 class="mb-4">Удаление бронирования</h2>
+
+    <div class="card shadow-sm p-4">
+        <h4>{{ reservation.tour.name }}</h4>
+        <p><strong>Страна:</strong> {{ reservation.tour.country }}</p>
+        <p><strong>Даты тура:</strong> {{ reservation.tour.start_date }} - {{ reservation.tour.end_date }}</p>
+
+        <p>Вы уверены, что хотите удалить бронирование этого тура?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="{% url 'reservations' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+
+{% endblock %}

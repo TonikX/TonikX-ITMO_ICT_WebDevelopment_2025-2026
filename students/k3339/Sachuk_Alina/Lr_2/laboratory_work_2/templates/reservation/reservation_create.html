@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2 class="mb-4">Забронировать тур</h2>
+
+    <div class="card shadow-sm p-4">
+        <h4>{{ tour.name }}</h4>
+        <p><strong>Страна:</strong> {{ tour.country }}</p>
+        <p><strong>Турагентство:</strong> {{ tour.agency.name }}</p>
+        <p><strong>Даты:</strong> {{ tour.start_date }} - {{ tour.end_date }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Забронировать</button>
+        </form>
+    </div>
+
+{% endblock %}

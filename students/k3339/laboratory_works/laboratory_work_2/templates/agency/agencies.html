@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="mb-4">Турагентства</h2>
+    <div class="row">
+        {% for agency in agencies %}
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ agency.name }}</h5>
+                        <p class="card-text">{{ agency.description }}</p>
+                        <p><strong>Email:</strong> {{ agency.contact_email }}<br>
+                            <strong>Телефон:</strong> {{ agency.phone }}</p>
+                        <a href="{% url 'agency_tours' agency.id %}" class="btn btn-primary">Посмотреть туры</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-4">Мои бронирования</h2>
+
+<div class="row">
+    {% for reservation in reservations %}
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ reservation.tour.name }}</h5>
+                <p class="card-text">
+                    <strong>Страна:</strong> {{ reservation.tour.country }} <br>
+                    <strong>Турагентство:</strong> {{ reservation.tour.agency.name }} <br>
+                    <strong>Дата начала:</strong> {{ reservation.tour.start_date }} <br>
+                    <strong>Дата окончания:</strong> {{ reservation.tour.end_date }} <br>
+                    <strong>Статус:</strong> <span class="badge bg-{% if reservation.status == 'approved' %}success{% elif reservation.status == 'pending' %}warning{% else %}danger{% endif %}">
+                        {{ reservation.get_status_display }}
+                    </span>
+                </p>
+                <a href="{% url 'reservation_delete' pk=reservation.id %}" class="btn btn-danger">Удалить</a>
+                {% if reservation.status == "approved" %}
+                    <a href="{% url 'create_review' tour_id=reservation.tour.id %}" class="btn btn-success">Оставить отзыв</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>У вас пока нет забронированных туров.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

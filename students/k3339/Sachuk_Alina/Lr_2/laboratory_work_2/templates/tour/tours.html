@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2 class="mb-4">Доступные туры</h2>
+
+    <form method="GET" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Поиск по названию..."
+                       value="{{ search_query }}">
+            </div>
+            <div class="col-md-4">
+                <select name="country" class="form-control">
+                    <option value="">Выберите страну</option>
+                    {% for country in countries %}
+                        <option value="{{ country }}"
+                                {% if country_filter == country %}selected{% endif %}>{{ country }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Применить</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for tour in tours %}
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tour.name }}</h5>
+                        <p class="card-text">{{ tour.description|truncatechars:100 }}</p>
+                        <p><strong>Страна:</strong> {{ tour.country }}</p>
+                        <p><strong>Даты:</strong> {{ tour.start_date }} - {{ tour.end_date }}</p>
+                        <a href="{% url 'reserve_tour' tour.id %}" class="btn btn-success">Забронировать</a>
+                        <a href="{% url 'tour_reviews' tour.id %}" class="btn btn-secondary">Отзывы</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>Туры не найдены.</p>
+        {% endfor %}
+    </div>
+
+    <nav class="mt-4">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active"><span
+                    class="page-link">{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span></li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+{% endblock %}

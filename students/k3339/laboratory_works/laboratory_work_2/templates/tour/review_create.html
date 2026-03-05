@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2 class="mb-4">Добавить отзыв к туру: {{ tour.name }}</h2>
+
+    <div class="card shadow-sm p-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Текст отзыва</label>
+                {{ form.text }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Оценка (1-10)</label>
+                {{ form.rating }}
+            </div>
+            <button type="submit" class="btn btn-success">Оставить отзыв</button>
+            <a href="{% url 'tour_reviews' tour_id=tour.id %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+
+{% endblock %}
