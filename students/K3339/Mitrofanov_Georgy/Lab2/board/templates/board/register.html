@@ -4,56 +4,50 @@
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-12 col-sm-10 col-md-6 col-lg-5">
-
-    <div class="card shadow-sm">
-      <div class="card-body p-4">
-        <h3 class="mb-3">Регистрация</h3>
-        <p class="text-muted mb-4">Создайте аккаунт ученика, чтобы сдавать задания.</p>
-
-        <form method="POST" novalidate>
-          {% csrf_token %}
-
-          {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-              {{ form.non_field_errors }}
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white text-center py-3">
+                <h3 class="mb-0">📝 Регистрация</h3>
             </div>
-          {% endif %}
-
-          {% for field in form %}
-            <div class="mb-3">
-              <label class="form-label" for="{{ field.id_for_label }}">
-                {{ field.label }}
-              </label>
-
-              {{ field }}
-
-              {% if field.errors %}
-                <div class="text-danger small mt-1">
-                  {{ field.errors|striptags }}
+            <div class="card-body p-4">
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control" required>
+                        <small class="text-muted">Только буквы и цифры</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password1" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Подтверждение пароля</label>
+                        <input type="password" name="password2" class="form-control" required>
+                    </div>
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            Проверьте правильность введенных данных
+                        </div>
+                    {% endif %}
+                    
+                    <button type="submit" class="btn btn-success w-100 py-2">
+                        Зарегистрироваться
+                    </button>
+                </form>
+                
+                <hr>
+                
+                <div class="text-center">
+                    <p class="mb-0">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
                 </div>
-              {% endif %}
-
-              {% if field.help_text %}
-                <div class="text-muted small">
-                  {{ field.help_text|safe }}
-                </div>
-              {% endif %}
             </div>
-          {% endfor %}
-
-          <button type="submit" class="btn btn-primary w-100">
-            Зарегистрироваться
-          </button>
-        </form>
-
-        <div class="text-center mt-3">
-          <span class="text-muted">Уже есть аккаунт?</span>
-          <a href="{% url 'login' %}">Войти</a>
         </div>
-      </div>
     </div>
-
-  </div>
 </div>
 {% endblock %}

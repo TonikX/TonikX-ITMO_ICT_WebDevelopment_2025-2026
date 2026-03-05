@@ -1,39 +1,59 @@
 {% extends "board/base.html" %}
 {% load grade_filters %}
 
-{% block title %}Оценки класса{% endblock %}
+{% block title %}Журнал успеваемости{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Оценки всех учеников</h2>
+<h2 class="mb-4">📚 Журнал класса</h2>
 
-<table class="table table-bordered table-striped shadow-sm">
-  <thead class="table-primary">
-    <tr>
-      <th>Ученик \ Задание</th>
-      {% for hw in homeworks %}
-        <th>{{ hw.subject }}<br><small>до {{ hw.due_date }}</small></th>
-      {% endfor %}
-    </tr>
-  </thead>
-
-  <tbody>
-    {% for st in students %}
-      <tr>
-        <td><b>{{ st.username }}</b></td>
-        {% for hw in homeworks %}
-          {% with sid=st.id|stringformat:"s" %}
-            {% with hid=hw.id|stringformat:"s" %}
-              {% with key=sid|add:":"|add:hid %}
-                {% with g=grade_map|get_grade:key %}
-                  <td>{% if g %}{{ g }}{% else %}-{% endif %}</td>
-                {% endwith %}
-              {% endwith %}
-            {% endwith %}
-          {% endwith %}
-        {% endfor %}
-      </tr>
-    {% empty %}
-      <tr><td colspan="2">Нет учеников</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr class="text-center">
+                <th style="min-width: 150px;">Ученик</th>
+                {% for hw in homeworks %}
+                    <th>
+                                        {{ hw.subject }}<br>
+                                        <small class="text-muted">до {{ hw.due_date|date:"d.m" }}</small>
+                                    </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for st in students %}
+                <tr>
+                    <td>
+                        <strong>{{ st.username }}</strong>
+                        {% if st.first_name %}
+                            <br><small>{{ st.first_name }} {{ st.last_name }}</small>
+                        {% endif %}
+                    </td>
+                    {% for hw in homeworks %}
+                        {% with sid=st.id|stringformat:"s" %}
+                            {% with hid=hw.id|stringformat:"s" %}
+                                {% with key=sid|add:":"|add:hid %}
+                                    {% with g=grade_map|get_grade:key %}
+                                        <td class="text-center align-middle">
+                                            {% if g %}
+                                                <span class="badge bg-success">{{ g }}</span>
+                                            {% else %}
+                                                <span class="text-muted">—</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ homeworks|length|add:1 }}" class="text-center p-4">
+                        В классе нет учеников
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

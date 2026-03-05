@@ -1,13 +1,44 @@
 {% extends "board/base.html" %}
-{% block title %}Сдача{% endblock %}
+{% block title %}Сдача задания{% endblock %}
+
 {% block content %}
-<h1>Сдача задания: {{ hw.subject }}</h1>
-
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Отправить</button>
-</form>
-
-<p><a href="{% url 'homework_detail' hw.id %}">Назад</a></p>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">📤 Сдача задания: {{ hw.subject }}</h4>
+            </div>
+            <div class="card-body">
+                
+                <div class="alert alert-info mb-4">
+                    <strong>Задание:</strong> {{ hw.task_text|truncatechars:200 }}
+                    <br>
+                    <a href="{% url 'homework_detail' hw.id %}" class="alert-link">
+                        Посмотреть полностью →
+                    </a>
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ваш ответ:</label>
+                        <textarea name="answer_text" class="form-control" rows="10" required>{{ form.answer_text.value|default:"" }}</textarea>
+                        <small class="text-muted">Опишите решение подробно</small>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'homework_detail' hw.id %}" class="btn btn-secondary">
+                            ← Назад
+                        </a>
+                        <button type="submit" class="btn btn-success px-4">
+                            ✅ Отправить на проверку
+                        </button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
