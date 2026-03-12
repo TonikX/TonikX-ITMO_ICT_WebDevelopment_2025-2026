@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Автопарк</title></head>
+<body>
+    <h1>Список всех автомобилей</h1>
+    <a href="{% url 'home' %}">Главная</a> | <a href="{% url 'car_create' %}">Зарегистрировать авто</a>
+    <table border="1">
+        <tr>
+            <th>Марка/Модель</th>
+            <th>Гос. номер</th>
+            <th>Действия</th>
+        </tr>
+        {% for car in object_list %}
+        <tr>
+            <td>{{ car.brand }} {{ car.model }}</td>
+            <td>{{ car.license_plate }}</td>
+            <td>
+                <a href="{% url 'car_detail' car.id %}">Просмотр</a> |
+                <a href="{% url 'car_update' car.id %}">Редактировать</a> |
+                <a href="{% url 'car_delete' car.id %}">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

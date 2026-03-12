@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Постояльцы за последний месяц</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style_guests.css' %}">
+
+</head>
+<body>
+
+<h1>Постояльцы за последний месяц</h1>
+
+<table>
+<tr>
+    <th>Пользователь</th>
+    <th>Отель</th>
+    <th>Номер</th>
+    <th>Период</th>
+</tr>
+{% for r in reservations %}
+<tr>
+    <td>{{ r.user }}</td>
+    <td>{{ r.room.hotel.name }}</td>
+    <td>{{ r.room.number }}</td>
+    <td>{{ r.date_from }} — {{ r.date_to }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4">Нет данных</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

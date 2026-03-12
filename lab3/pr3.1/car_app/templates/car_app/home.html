@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Главная страница</title></head>
+<body>
+    <h1>Добро пожаловать в систему управления автомобилями</h1>
+    <ul>
+        <li><a href="{% url 'owner_list' %}">Список владельцев</a></li>
+        <li><a href="{% url 'car_list' %}">Список автомобилей</a></li>
+        <li><a href="{% url 'admin:index' %}">Админка</a></li>
+    </ul>
+</body>
+</html>

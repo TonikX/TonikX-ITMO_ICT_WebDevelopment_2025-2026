@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Мои бронирования{% endblock %}
+{% block content %}
+<h1>Мои брони</h1>
+<table class="table">
+  <tr>
+    <th>Пользователь</th><th>Отель</th><th>Номер</th><th>Даты</th><th>Статус</th><th>Действия</th>
+  </tr>
+  {% for r in reservations %}
+  <tr>
+    <td>{{ r.user }}</td>
+    <td>{{ r.room.hotel.name }}</td>
+    <td>{{ r.room.number }}</td>
+    <td>{{ r.date_from }} — {{ r.date_to }}</td>
+    <td>{{ r.status }}</td>
+    <td>
+      {% if request.user.is_staff %}
+        <a class="btn btn-sm btn-success" href="{% url 'reservation_checkin' r.pk %}">Заселить</a>
+        <a class="btn btn-sm btn-warning" href="{% url 'reservation_checkout' r.pk %}">Выселить</a>
+      {% elif r.user == request.user %}
+        <a class="btn btn-sm btn-primary" href="{% url 'edit_reservation' r.pk %}">Изменить</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'cancel_reservation' r.pk %}">Отменить</a>
+        {% if r.status == 'checked_out' and not r.reviews.exists %}
+          <a class="btn btn-sm btn-success" href="{% url 'reservation_review' r.pk %}">Написать отзыв</a>
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  {% empty %}
+    <tr><td colspan="6">Нет бронирований</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

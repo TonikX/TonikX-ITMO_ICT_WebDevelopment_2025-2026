@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if editing %}Редактировать бронь{% else %}Создать бронь{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <h1>{{ room.hotel.name }} — комната {{ room.number }}</h1>
+
+  <div class="info p-3 mb-4 border rounded" style="background-color:#f8f9fa;">
+    Тип: {{ room.room_type.name }} <br>
+    Цена: {{ room.price }} <br>
+    Вместимость: {{ room.capacity }}
+  </div>
+
+  <h3>Бронирование</h3>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Забронировать</button>
+  </form>
+
+  <h3 class="mt-5">Отзывы</h3>
+
+  <ul class="list-unstyled">
+    {% for r in room.reviews.all %}
+    <li class="mb-2">
+      <strong>{{ r.user }}</strong> — {{ r.rating }}/10 <br>
+      {{ r.text }}
+    </li>
+    {% empty %}
+    <li>Нет отзывов</li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+{% endblock %}

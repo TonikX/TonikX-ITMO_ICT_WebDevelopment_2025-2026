@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Номера{% endblock %}
+{% block content %}
+<h1>Список номеров</h1>
+
+<form method="get" class="mb-3 d-flex gap-2">
+  <input class="form-control" type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+  <select name="type" class="form-select" style="max-width: 200px;">
+    <option value="">Все типы</option>
+    {% for t in room_types %}
+      <option value="{{ t.id }}" {% if request.GET.type == t.id|stringformat:'s' %}selected{% endif %}>{{ t.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-primary">Фильтр</button>
+</form>
+
+<div class="row">
+  {% for room in rooms %}
+  <div class="col-md-4">
+    <div class="hotel-card">
+      <h5>{{ room.hotel.name }}</h5>
+      <p>{{ room.room_type.name }} — {{ room.price }} ₽</p>
+      <a href="{% url 'room_detail' room.pk %}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="mt-3">
+  {% if is_paginated %}
+  <nav>
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Назад</a></li>
+      {% endif %}
+      <li class="page-item disabled"><span class="page-link">Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд →</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

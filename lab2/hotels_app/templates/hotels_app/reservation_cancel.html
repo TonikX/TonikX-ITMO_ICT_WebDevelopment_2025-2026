@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Отмена брони{% endblock %}
+{% block content %}
+<h1>Отмена бронирования</h1>
+<p>Вы действительно хотите удалить бронирование комнаты {{ reservation.room }} с {{ reservation.date_from }} по {{ reservation.date_to }}?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Да, удалить</button>
+  <a href="{% url 'my_reservations' %}">Отмена</a>
+</form>
+{% endblock %}

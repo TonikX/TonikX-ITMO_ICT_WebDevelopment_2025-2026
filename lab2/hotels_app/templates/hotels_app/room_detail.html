@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Комната</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style_room_registr.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>{{ room.hotel.name }} — комната {{ room.number }}</h1>
+
+<div class="info">
+Тип: {{ room.room_type.name }} <br>
+Цена: {{ room.price }} <br>
+Вместимость: {{ room.capacity }}
+</div>
+
+
+<form method="get" action="{% url 'create_reservation' %}">
+  <input type="hidden" name="room" value="{{ room.pk }}">
+  <button type="submit">Забронировать</button>
+</form>
+
+{% if review_reservation %}
+  <p class="mt-3">
+    <a class="btn btn-success" href="{% url 'reservation_review' review_reservation.pk %}">Написать отзыв о предыдущем бронировании</a>
+  </p>
+{% endif %}
+
+
+<h3>Отзывы</h3>
+
+<ul>
+{% for r in room.reviews.all %}
+<li>
+<strong>{{ r.user }}</strong> — {{ r.rating }}/10 <br>
+{{ r.text }}
+</li>
+{% empty %}
+<li>Нет отзывов</li>
+{% endfor %}
+</ul>
+
+
+
+
+</div>
+
+</body>
+</html>

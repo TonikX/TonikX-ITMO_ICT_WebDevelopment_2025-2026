@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Добавить отзыв{% endblock %}
+{% block content %}
+<h1>Добавить отзыв</h1>
+<p>Отель: {{ reservation.room.hotel.name }}<br>
+   Номер: {{ reservation.room.number }}<br>
+   Период: {{ reservation.date_from }} — {{ reservation.date_to }}</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary">Отправить отзыв</button>
+</form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ hotel.name }}{% endblock %}
+{% block content %}
+<h2>{{ hotel.name }}</h2>
+<p>{{ hotel.address }}</p>
+<p>{{ hotel.description }}</p>
+
+<h3 class="mt-4">Номера</h3>
+<ul>
+  {% for room in hotel.rooms.all %}
+    <li><a href="{% url 'room_detail' room.pk %}">Комната {{ room.number }}</a> — {{ room.price }} ₽</li>
+  {% endfor %}
+</ul>
+{% endblock %}

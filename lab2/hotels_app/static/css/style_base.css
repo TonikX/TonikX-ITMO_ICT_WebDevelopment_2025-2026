@@ -1,0 +1,24 @@
+body {
+  background: #f7fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+.hotel-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+}
+
+.navbar .nav-link {
+  transition: color 0.2s, transform 0.2s;
+}
+.navbar .nav-link:hover {
+  color: #0d6efd;
+  transform: translateY(-2px);
+  text-decoration: underline;
+}
+.navbar .nav-link:active {
+  color: #0a58ca;
+}

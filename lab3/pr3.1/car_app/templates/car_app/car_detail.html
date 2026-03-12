@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head><title>Информация об авто</title></head>
+<body>
+    <h1>{{ object.brand }} {{ object.model }}</h1>
+    <p><strong>Гос. номер:</strong> {{ object.license_plate }}</p>
+    <p><strong>Цвет:</strong> {{ object.color|default:"Не указан" }}</p>
+    <a href="{% url 'home' %}">Главная</a> | <a href="{% url 'car_list' %}">Вернуться к списку</a>
+</body>
+</html>
