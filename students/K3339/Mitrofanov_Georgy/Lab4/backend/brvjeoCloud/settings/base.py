@@ -295,3 +295,44 @@ ALLOWED_FILE_MIME_TYPES = [
     "video/mp4",
     "application/pdf",
 ]
+# CORS settings for Vue.js frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vite default port
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",   # your backend
+    "http://127.0.0.1:8000",
+]
+
+# Для разработки можно разрешить все (но потом убери)
+CORS_ALLOW_ALL_ORIGINS = False  # True - только для разработки
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Разрешаем все методы (GET, POST, PUT, DELETE, OPTIONS)
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+# Разрешаем нужные заголовки
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Добавляем фронтенд в CSRF доверенные источники
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
