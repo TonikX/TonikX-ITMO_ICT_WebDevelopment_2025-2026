@@ -5,6 +5,7 @@
       <v-spacer />
       <v-btn variant="text" to="/vacancies">Vacancies</v-btn>
       <v-btn variant="text" to="/applicants">Applicants</v-btn>
+      <v-btn variant="text" to="/applicants/manage">Manage Applicants</v-btn>
       <v-btn variant="text" to="/analytics">Analytics</v-btn>
       <v-divider vertical class="mx-2" />
       <v-btn variant="text" to="/login">Login</v-btn>

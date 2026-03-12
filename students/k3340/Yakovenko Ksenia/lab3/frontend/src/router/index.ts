@@ -7,6 +7,7 @@ import AnalyticsView from "../views/AnalyticsView.vue"
 import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import AccountView from "../views/AccountView.vue"
+import ManageApplicantsView from "../views/ManageApplicantsView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,7 @@ const router = createRouter({
     { path: "/login", component: LoginView },
     { path: "/register", component: RegisterView },
     { path: "/account", component: AccountView },
+      { path: "/applicants/manage", component: ManageApplicantsView },
   ],
 })
 
