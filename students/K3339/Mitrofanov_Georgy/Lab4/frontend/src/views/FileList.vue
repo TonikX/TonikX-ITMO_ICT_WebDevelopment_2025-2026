@@ -98,6 +98,7 @@ export default {
     // Если задана currentFolderId — запрашиваем содержимое папки,
     // иначе загружаем корневые файлы и папки.
     const load = async () => {
+      console.log('Loading folder:', currentFolderId.value)
       try {
         const resFiles = currentFolderId.value
           ? await api.get(`/folders/${currentFolderId.value}/content/`)
@@ -161,20 +162,39 @@ export default {
     }
 
     const openFolder = async folder => {
+      console.log('openFolder called with:', folder.id)
       currentFolderId.value = folder.id
       folderHistory.value.push(folder)
       searchQuery.value = ''
       await load()
+      console.log('currentFolderId after load:', currentFolderId.value)
     }
 
     const createFolder = async () => {
       const name = prompt('Folder name')
       if (!name) return
+      
       try {
-        await api.post('/folders/', { name, parent: currentFolderId.value })
-        await load()
+        const token = localStorage.getItem('token')
+        const response = await fetch('/api/folders/', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            name: name, 
+            parent: currentFolderId.value || null 
+          })
+        })
+        
+        if (response.ok) {
+          await load()
+        } else {
+          alert('Failed to create folder')
+        }
       } catch (e) {
-        snackbar.value = { show: true, message: 'Failed to create folder', color: 'error' }
+        alert('Failed to create folder')
       }
     }
 
@@ -238,18 +258,27 @@ export default {
       }
     }
 
-    const download = async f => {
+    const download = async (f) => {
       try {
-        const res = await api.get(`/files/${f.id}/download/`, { responseType: 'blob' })
-        const blob = new Blob([res.data], { type: res.headers['content-type'] })
-        const url = URL.createObjectURL(blob)
+        const token = localStorage.getItem('token')
+        const response = await fetch(`/api/files/${f.id}/download/`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (!response.ok) throw new Error('Download failed')
+        
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
         a.download = f.name
         document.body.appendChild(a)
         a.click()
         a.remove()
-        URL.revokeObjectURL(url)
+        window.URL.revokeObjectURL(url)
       } catch (e) {
         snackbar.value = { show: true, message: 'Failed to download file', color: 'error' }
       }

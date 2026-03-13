@@ -92,47 +92,56 @@ export default {
     };
 
     const uploadAll = async () => {
-      if (!uploadFiles.value.length) return;
-      console.log('uploadAll: currentFolderId =', props.currentFolderId, 'type:', typeof props.currentFolderId);
-      uploading.value = true;
-      uploadQueue.value = uploadFiles.value.map(f => ({ file: f, progress: 0, status: 'pending' }));
+  if (!uploadFiles.value.length) return;
+  console.log('uploadAll: currentFolderId =', props.currentFolderId, 'type:', typeof props.currentFolderId);
+  uploading.value = true;
+  uploadQueue.value = uploadFiles.value.map(f => ({ file: f, progress: 0, status: 'pending' }));
 
-      for (let item of uploadQueue.value) {
-        try {
-          const fd = new FormData();
-          fd.append('file', item.file);
-          if (props.currentFolderId) {
-            fd.append('folder', props.currentFolderId);
-            console.log('Added folder to FormData:', props.currentFolderId);
-          }
-
-          await api.post('/files/', fd, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress: e => {
-              item.progress = Math.round((e.loaded / e.total) * 100);
-            }
-          });
-
-          item.status = 'success';
-          item.progress = 100;
-        } catch (err) {
-          item.status = 'error';
-          console.error('Upload failed:', item.file.name, err);
-        }
+  for (let item of uploadQueue.value) {
+    try {
+      const fd = new FormData();
+      fd.append('file', item.file);
+      if (props.currentFolderId) {
+        fd.append('folder', props.currentFolderId);
+        console.log('Added folder to FormData:', props.currentFolderId);
       }
 
-      uploading.value = false;
-      emit('uploaded');
+      // 👇 ВАЖНО: берём токен прямо из localStorage
+      const token = localStorage.getItem('token')
+      
+      // 👇 Используем fetch вместо api, чтобы точно передать токен
+      const response = await fetch('/api/files/', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`  // ← токен ПРЯМО ЗДЕСЬ
+        },
+        body: fd
+      })
 
-      const allSuccess = uploadQueue.value.every(i => i.status === 'success');
-      if (allSuccess) {
-        setTimeout(() => {
-          show.value = false;
-          uploadFiles.value = [];
-          uploadQueue.value = [];
-        }, 1500);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
-    };
+
+      item.status = 'success';
+      item.progress = 100;
+    } catch (err) {
+      item.status = 'error';
+      console.error('Upload failed:', item.file.name, err);
+    }
+  }
+
+  uploading.value = false;
+  emit('uploaded');
+
+  const allSuccess = uploadQueue.value.every(i => i.status === 'success');
+  if (allSuccess) {
+    setTimeout(() => {
+      show.value = false;
+      uploadFiles.value = [];
+      uploadQueue.value = [];
+    }, 1500);
+  }
+};
 
     return { show, uploadFiles, uploadQueue, uploading, dragOver, handleDrop, uploadAll };
   }

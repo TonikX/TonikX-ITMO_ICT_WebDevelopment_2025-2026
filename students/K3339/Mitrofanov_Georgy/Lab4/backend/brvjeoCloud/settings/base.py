@@ -140,14 +140,14 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication", "rest_framework.authentication.SessionAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    'DEFAULT_THROTTLE_CLASSES': (
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '1/second',
-        'user': '10/second',
-    }
+    #'DEFAULT_THROTTLE_CLASSES': (
+    #   'rest_framework.throttling.AnonRateThrottle',
+    #   'rest_framework.throttling.UserRateThrottle'
+    #),
+    #'DEFAULT_THROTTLE_RATES': {
+    #   'anon': '1/second',
+    #   'user': '10/second',
+    #}
 }
 
 SIMPLE_JWT = {
@@ -232,16 +232,11 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 # Stores sessions in Redis cache using the default cache, with a one-week expiration.
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+# Используем файловое кэширование вместо Redis
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL", "redis://result:6379/0"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-        "TIMEOUT": 60*60*24*7,
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
 
@@ -297,8 +292,8 @@ ALLOWED_FILE_MIME_TYPES = [
 ]
 # CORS settings for Vue.js frontend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite default port
-    "http://127.0.0.1:5173",
+    "http://localhost:3000",  # Vite default port
+    "http://127.0.0.1:3000",
     "http://localhost:8000",   # your backend
     "http://127.0.0.1:8000",
 ]

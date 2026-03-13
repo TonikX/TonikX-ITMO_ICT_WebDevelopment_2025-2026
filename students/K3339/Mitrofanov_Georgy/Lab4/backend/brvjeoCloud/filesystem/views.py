@@ -22,11 +22,10 @@ from .serializers import FileSerializer, FolderSerializer
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
-    permission_classes = [IsOwner]
+    permission_classes = [IsOwner]  # ← вернул
 
     def get_queryset(self):
-        if not getattr(self.request, 'user', None) or self.request.user.is_anonymous:
-            return File.objects.none()
+        # Показываем только файлы текущего пользователя
         return File.objects.filter(owner=self.request.user, deleted_at__isnull=True)
     
     def perform_destroy(self, instance):
@@ -59,9 +58,8 @@ class FileViewSet(viewsets.ModelViewSet):
             if not folder:
                 return Response({'error': 'Folder not found'}, status=400)
 
-        # Создаем запись заранее → UUID уже есть
         file_obj = File(
-            owner=request.user,
+            owner=request.user,  # ← request.user
             name=uploaded_file.name,
             size=uploaded_file.size,
             mime_type=uploaded_file.content_type,
@@ -72,7 +70,7 @@ class FileViewSet(viewsets.ModelViewSet):
         file_obj.file = uploaded_file
         file_obj.save()
 
-        generate_preview.delay(str(file_obj.id))
+        # generate_preview.delay(str(file_obj.id))
 
         serializer = self.get_serializer(file_obj, context={'request': request})
         return Response(serializer.data, status=201)
@@ -130,13 +128,13 @@ class FileViewSet(viewsets.ModelViewSet):
         folder = None
         if folder_id:
             try:
-                folder = Folder.objects.get(pk=folder_id, owner=request.user)
+                folder = Folder.objects.get(pk=folder_id, owner=request.user)  # ← request.user
             except Folder.DoesNotExist:
                 return Response({'error': 'Folder not found'}, status=status.HTTP_400_BAD_REQUEST)
 
         for uploaded_file in files:
             file_obj = File.objects.create(
-                owner=request.user,
+                owner=request.user,  # ← request.user
                 name=uploaded_file.name,
                 size=uploaded_file.size,
                 mime_type=uploaded_file.content_type,
@@ -144,7 +142,7 @@ class FileViewSet(viewsets.ModelViewSet):
                 folder=folder
             )
             uploaded_files.append(file_obj)
-            generate_preview.delay(file_obj.id)
+            # generate_preview.delay(file_obj.id)
 
         serializer = self.get_serializer(uploaded_files, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -167,8 +165,6 @@ class FolderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwner]
 
     def get_queryset(self):
-        if not getattr(self.request, 'user', None) or self.request.user.is_anonymous:
-            return Folder.objects.none()
         return Folder.objects.filter(owner=self.request.user)
     
     def perform_create(self, serializer):
@@ -183,10 +179,12 @@ class FolderViewSet(viewsets.ModelViewSet):
     @action(detail=True)
     def content(self, request, pk=None):
         folder = self.get_object()
-        subfolders = Folder.objects.filter(parent=folder, owner=request.user)
-        files = File.objects.filter(owner=request.user, folder=folder, deleted_at__isnull=True)
+        subfolders = Folder.objects.filter(parent=folder, owner=request.user)  # ← добавил owner
+        files = File.objects.filter(folder=folder, owner=request.user, deleted_at__isnull=True)  # ← добавил owner
+        
         folder_serializer = FolderSerializer(subfolders, many=True, context={'request': request})
         file_serializer = FileSerializer(files, many=True, context={'request': request})
+        
         return Response({
             "folders": folder_serializer.data,
             "files": file_serializer.data

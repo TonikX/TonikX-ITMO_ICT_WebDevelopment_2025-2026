@@ -2,20 +2,19 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [vue()],
-  server: {
-    host: true,
-    port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://host.docker.internal:8082',
-        changeOrigin: true,
-      },
-      '/media': {
-        target: 'http://host.docker.internal:8080', // nginx, который раздаёт media
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/media/, '/media') // оставляем путь без изменений
-      }
+    plugins: [vue()],
+    server: {
+        host: true,
+        port: 3000,
+        proxy: {
+            '/api': {
+                target: 'http://127.0.0.1:8000',  // ← твой локальный бэкенд Django
+                changeOrigin: true,
+            },
+            '/media': {
+                target: 'http://127.0.0.1:8000',  // ← тоже на Django
+                changeOrigin: true,
+            }
+        }
     }
-  }
 })

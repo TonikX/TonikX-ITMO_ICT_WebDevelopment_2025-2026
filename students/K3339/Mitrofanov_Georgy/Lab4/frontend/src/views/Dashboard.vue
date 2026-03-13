@@ -34,10 +34,26 @@ export default {
     const showUpload = ref(false)
     const onSearch = () => {}
     const createFolder = async () => {
-      const name = prompt('Folder name')
-      if (!name) return
-      try { await api.post('/folders/', { name, parent: null }); alert('Folder created') }
-      catch (e) { alert('Failed to create folder') }
+     const name = prompt('Folder name')
+     if (!name) return
+     try {
+       const token = localStorage.getItem('token')
+       const response = await fetch('/api/folders/', {
+          method: 'POST',
+         headers: {
+           'Authorization': `Bearer ${token}`,
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({ name, parent: null })
+        })
+       if (response.ok) {
+          alert('Folder created')
+        } else {
+          alert('Failed to create folder')
+        }
+      } catch (e) {
+        alert('Failed to create folder')
+      }
     }
     const onUploaded = () => { alert('Upload finished'); }
     return { searchQuery, onSearch, showUpload, createFolder, onUploaded }

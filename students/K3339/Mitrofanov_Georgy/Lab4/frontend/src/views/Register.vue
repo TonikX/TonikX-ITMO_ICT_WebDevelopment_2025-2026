@@ -31,14 +31,29 @@ export default {
     const submit = async () => {
       error.value = null
       try {
-        await api.post('/auth/users/', { username: username.value, email: email.value, password: password.value })
-        const loginRes = await api.post('/auth/jwt/create/', { username: username.value, password: password.value })
+        console.log('Registering:', username.value)
+        const regRes = await api.post('/auth/users/', { 
+          username: username.value, 
+          email: email.value, 
+          password: password.value 
+        })
+        console.log('Register response:', regRes)
+        
+        console.log('Logging in:', username.value)
+        const loginRes = await api.post('/auth/jwt/create/', { 
+          username: username.value, 
+          password: password.value 
+        })
+        console.log('Login response:', loginRes)
+        
         if (loginRes.data.access) {
           localStorage.setItem('token', loginRes.data.access)
           api.setAuth(loginRes.data.access)
-          router.push({ name: 'file-list' })
+          router.push({ name: 'files' }) // или 'file-list'
         }
       } catch (e) {
+        console.error('Registration error:', e)
+        console.error('Error response:', e.response)
         const resp = e.response && e.response.data
         if (resp) {
           if (resp.detail) error.value = resp.detail
