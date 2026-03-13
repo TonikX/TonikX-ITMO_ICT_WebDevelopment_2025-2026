@@ -1,0 +1,92 @@
+{% extends "board/base.html" %}
+{% block title %}{{ hw.subject }}{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'homework_list' %}">Задания</a></li>
+        <li class="breadcrumb-item active">{{ hw.subject }}</li>
+    </ol>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">{{ hw.subject }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>👨‍🏫 Преподаватель:</strong> {{ hw.teacher }}</p>
+                <p><strong>📅 Дата выдачи:</strong> {{ hw.issued_date }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>⏰ Срок сдачи:</strong> {{ hw.due_date }}</p>
+                <p><strong>📆 Период:</strong> {{ hw.start_date }} → {{ hw.due_date }}</p>
+            </div>
+        </div>
+        
+        <div class="alert alert-secondary">
+            <h5>📝 Задание:</h5>
+            <p class="mb-0">{{ hw.task_text|linebreaks }}</p>
+        </div>
+        
+        {% if hw.penalties %}
+            <div class="alert alert-warning">
+                <strong>⚠️ Штрафы:</strong> {{ hw.penalties }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">📤 Моя работа</h4>
+        </div>
+        <div class="card-body">
+            {% if my_submission %}
+                <p><strong>📅 Дата сдачи:</strong> {{ my_submission.submitted_at }}</p>
+                <div class="alert alert-light border">
+                    <p><strong>✍️ Ваш ответ:</strong></p>
+                    <p>{{ my_submission.answer_text|linebreaks }}</p>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <p><strong>⭐ Оценка:</strong> 
+                            {% if my_submission.grade %}
+                                <span class="badge bg-success fs-6">{{ my_submission.grade }}/10</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Ещё не оценено</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="{% url 'submit_homework' hw.id %}" class="btn btn-primary">
+                            ✏️ Изменить ответ
+                        </a>
+                    </div>
+                </div>
+                
+                {% if my_submission.teacher_comment %}
+                    <div class="alert alert-info mt-3">
+                        <strong>💬 Комментарий учителя:</strong><br>
+                        {{ my_submission.teacher_comment }}
+                    </div>
+                {% endif %}
+                
+            {% else %}
+                <p class="text-muted">Вы ещё не сдали это задание.</p>
+                <a href="{% url 'submit_homework' hw.id %}" class="btn btn-success">
+                    📤 Сдать задание
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        🔐 <a href="{% url 'login' %}">Войдите</a>, чтобы сдавать задания.
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "board/base.html" %}
+{% load grade_filters %}
+
+{% block title %}Домашние задания{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📋 Список заданий</h2>
+    <span class="badge bg-primary">Всего: {{ homeworks|length }}</span>
+</div>
+
+<div class="row">
+    {% for hw in homeworks %}
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">{{ hw.subject }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        👨‍🏫 {{ hw.teacher }}<br>
+                        📅 до {{ hw.due_date }}
+                    </p>
+                    <p class="card-text">{{ hw.task_text|truncatechars:150 }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'homework_detail' hw.id %}" class="btn btn-outline-info btn-sm">
+                            Подробнее →
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                            {% with sub=my_submissions|get_item:hw.id %}
+                                {% if sub %}
+                                    <span class="badge bg-success">✅ Сдано</span>
+                                {% else %}
+                                    <span class="badge bg-warning">⏳ Не сдано</span>
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Пока нет домашних заданий. Зайдите позже.
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

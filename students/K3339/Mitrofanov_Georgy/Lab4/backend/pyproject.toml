@@ -1,0 +1,140 @@
+[project]
+name = "brvjeoCloud"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+dependencies = [
+    "celery>=5.5.3",
+    "django>=5.2.4",
+    "django-celery-beat>=2.8.1",
+    "django-celery-results>=2.6.0",
+    "django-cors-headers>=4.8.0",
+    "django-extensions>=4.1",
+    "django-permissions-policy>=4.26.0",
+    "django-redis>=6.0.0",
+    "djangorestframework>=3.16.0",
+    "djoser>=2.3.3",
+    "drf-yasg>=1.21.11",
+    "ffmpeg-python>=0.2.0",
+    "gunicorn>=23.0.0",
+    "pillow>=11.3.0",
+    "pre-commit>=4.2.0",
+    "psycopg2-binary>=2.9.10",
+    "pyopenssl>=25.1.0",
+    "pytest>=8.4.2",
+    "python-dotenv>=1.1.1",
+    "redis>=6.2.0",
+    "ruff>=0.14.3",
+    "tblib>=3.2.0",
+    "werkzeug>=3.1.3",
+    "whitenoise>=6.10.0",
+]
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pep8-naming
+    "N",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-bandit
+    "S",
+    # flake8-blind-except
+    "BLE",
+    # flake8-builtins
+    "A",
+    # flake8-django
+    "DJ",
+    # isort
+    "I",
+    # flake8-logging-format
+    "G",
+    # flake8-no-pep420
+    "INP",
+    # Ruff-specific rules
+    "RUF"
+]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "virtualenvs",
+]
+ignore = [
+  # Disable eradicate (commented code removal)
+  "ERA001",
+  # Disable Conflicting lint rules,
+  # see https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  "W191",
+  "E501",
+  "E111",
+  "E117",
+  "D206",
+  "D300",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "COM812",
+  "COM819",
+  "ISC001",
+  "ISC002",
+  # Disable unused `noqa` directive
+  "RUF100",
+]
+# Allow unused variables when underscore-prefixed:
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.pycodestyle]
+ignore-overlong-task-comments = true
+
+[tool.ruff.lint.isort]
+section-order = ["future", "standard-library", "django", "third-party", "first-party", "local-folder"]
+lines-after-imports = 2
+
+[tool.ruff.lint.isort.sections]
+# Group all Django imports into a separate section.
+"django" = ["django"]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore "E402", "F403", "F405" (import violations) in __init__.py files.
+# Ignore "S" (flake8-bandit) and "N802" (function name should be lowercase) in tests and docs.
+# Ignore "RUF" (Ruff-specific rules) and "I" (isort) in migrations.
+"__init__.py" = ["E402", "F403", "F405"]
+"**/{tests,docs}/*" = ["E402", "F403", "F405", "S", "N802"]
+"**/*test*.py" = ["E402", "F403", "F405", "S", "N802"]
+"**/{settings}/*" = ["E402", "F403", "F405"]
+"**/migrations/*" = ["RUF", "I"]
+"**/serializers.py" = ["RUF012"]
+"**/models.py" = ["RUF012"]
+"**/views.py" = ["RUF012"]
