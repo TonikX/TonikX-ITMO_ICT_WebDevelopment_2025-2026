@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="form-container" {% if book_id %}data-book-id="{{ book_id }}"{% endif %}>
+    <h1>{{ title }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div style="color: var(--danger-color); margin-top: 0.5rem;">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% if book_id %}
+                <a href="{% url 'book_detail' book_id %}" class="btn btn-secondary">Отмена</a>
+            {% else %}
+                <a href="{% url 'books_list' %}" class="btn btn-secondary">Отмена</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+{% if book_id %}
+<script>
+(function() {
+    var container = document.querySelector('.form-container[data-book-id]');
+    if (container) {
+        var bookId = container.getAttribute('data-book-id');
+        var bookField = document.getElementById('id_book');
+        if (bookField) bookField.value = bookId;
+    }
+})();
+</script>
+{% endif %}
+{% endblock %}

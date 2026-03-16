@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Закрепления книг - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>Закрепления книг</h1>
+    <a href="{% url 'assignment_create' %}" class="btn btn-primary">Закрепить книгу</a>
+</div>
+
+<div style="margin-bottom: 1rem;">
+    <a href="?is_returned=false" class="btn btn-sm {% if is_returned == 'false' %}btn-primary{% else %}btn-secondary{% endif %}">Активные</a>
+    <a href="?is_returned=true" class="btn btn-sm {% if is_returned == 'true' %}btn-primary{% else %}btn-secondary{% endif %}">Возвращенные</a>
+    <a href="?" class="btn btn-sm {% if not is_returned %}btn-primary{% else %}btn-secondary{% endif %}">Все</a>
+</div>
+
+<div class="table-container">
+    {% if assignments %}
+    <table>
+        <thead>
+            <tr>
+                <th>Книга</th>
+                <th>Читатель</th>
+                <th>Дата закрепления</th>
+                <th>Дата возврата</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td><a href="{% url 'book_detail' assignment.book.pk %}">{{ assignment.book.title }}</a></td>
+                <td><a href="{% url 'reader_detail' assignment.reader.pk %}">{{ assignment.reader.full_name }}</a></td>
+                <td>{{ assignment.assignment_date }}</td>
+                <td>{% if assignment.return_date %}{{ assignment.return_date }}{% else %}—{% endif %}</td>
+                <td>
+                    {% if assignment.is_returned %}
+                        <span style="color: var(--success-color);">Возвращена</span>
+                    {% else %}
+                        <span style="color: var(--danger-color);">На руках</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not assignment.is_returned %}
+                        <a href="{% url 'assignment_return' assignment.pk %}" class="btn btn-sm btn-primary">Вернуть</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">📋</div>
+        <p>Закрепления не найдены</p>
+        <a href="{% url 'assignment_create' %}" class="btn btn-primary">Создать первое закрепление</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

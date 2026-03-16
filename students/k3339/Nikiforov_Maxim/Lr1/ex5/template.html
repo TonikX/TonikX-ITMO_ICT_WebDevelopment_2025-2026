@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>система оценок</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .form-container { background: #f8f4f4; padding: 20px; border-radius: 5px; margin-bottom: 30px; font-size: 12px;}
+        .grades-container { background: #e8f4f8; padding: 20px; border-radius: 5px; }
+        input, button { padding: 8px; margin: 5px; }
+        button { background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .grade-item { background: white; padding: 10px; margin: 5px 0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>система учета оценок</h1>
+    
+    <div class="form-container">
+        <h2>добавить новую оценку</h2>
+        <form method="POST" action="/">
+            <div>
+                <label>дисциплина:</label><br>
+                <input type="text" name="subject" required placeholder="введите название дисциплины">
+            </div>
+            <div>
+                <label>оценка:</label><br>
+                <input type="text" name="grade" required placeholder="введите оценку">
+            </div>
+            <button type="submit">добавить оценку</button>
+        </form>
+    </div>
+    
+    <div class="grades-container">
+        <h2>Список оценок</h2>
+        {{grades}}
+    </div>
+</body>
+</html>
+

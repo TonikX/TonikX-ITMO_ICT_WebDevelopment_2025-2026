@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Списать книгу - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Списать книгу</h1>
+    <p>Вы уверены, что хотите списать книгу <strong>"{{ book.title }}"</strong>?</p>
+    <p>Это действие нельзя отменить.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Да, списать</button>
+            <a href="{% url 'book_detail' book.pk %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Вход в систему</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input type="text" name="username" id="username" class="form-control" required autofocus>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Войти</button>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Регистрация</a>
+            <a href="{% url 'index' %}" class="btn btn-secondary">На главную</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            Для работы с API используйте: <code>/auth/token/login/</code>
+        </p>
+    </div>
+</div>
+{% endblock %}

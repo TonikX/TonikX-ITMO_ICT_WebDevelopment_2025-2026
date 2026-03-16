@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Система управления библиотекой{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>📚 Библиотечная система</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'index' %}" class="nav-link">Главная</a>
+                <a href="{% url 'books_list' %}" class="nav-link">Книги</a>
+                <a href="{% url 'readers_list' %}" class="nav-link">Читатели</a>
+                <a href="{% url 'reading_rooms_list' %}" class="nav-link">Залы</a>
+                <a href="{% url 'assignments_list' %}" class="nav-link">Закрепления</a>
+                <a href="{% url 'librarian_operations' %}" class="nav-link">Операции</a>
+                <a href="/api/" class="nav-link">API</a>
+                <a href="/admin/" class="nav-link">Админ</a>
+                {% if user.is_authenticated %}
+                    <span class="nav-user">Пользователь: {{ user.username }}</span>
+                    <form action="/logout/" method="post" class="nav-logout-form" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link nav-link-button">Выход</button>
+                    </form>
+                {% else %}
+                    <a href="/login/" class="nav-link">Вход</a>
+                    <a href="/register/" class="nav-link">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Система управления библиотекой. Лабораторная работа 3.</p>
+        </div>
+    </footer>
+</body>
+</html>

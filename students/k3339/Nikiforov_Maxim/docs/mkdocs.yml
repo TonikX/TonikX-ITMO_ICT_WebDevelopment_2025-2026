@@ -1,0 +1,17 @@
+site_name: Lr Docs
+site_url: https://Ev0lu.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+theme:
+  name: material
+nav:
+  - Об авторе: about.md
+  - Главная: index.md
+  - Задание 1 (UDP эхо): ex1.md
+  - Задание 2 (TCP калькулятор): ex2.md
+  - Задание 3 (HTTP сервер): ex3.md
+  - Задание 4 (Чат): ex4.md
+  - Задание 5 (Оценки): ex5.md
+  - Лабораторная 2: lr2_documentation.md
+  - Лабораторная 3: lr3.md
+  - Лабораторная 4: lr4_interfaces.md
+
+

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ room.name }} - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>{{ room.name }} ({{ room.number }})</h1>
+    <a href="{% url 'reading_room_edit' room.pk %}" class="btn btn-secondary">Редактировать</a>
+</div>
+
+<div class="detail-card">
+    <div class="detail-row">
+        <div class="detail-label">Номер зала:</div>
+        <div class="detail-value">{{ room.number }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Название:</div>
+        <div class="detail-value">{{ room.name }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Вместимость:</div>
+        <div class="detail-value">{{ room.capacity }} человек</div>
+    </div>
+</div>
+
+<h2>Читатели в зале</h2>
+<div class="table-container">
+    {% if readers %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер билета</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Дата регистрации</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in readers %}
+            <tr>
+                <td>{{ reader.ticket_number }}</td>
+                <td><a href="{% url 'reader_detail' reader.pk %}">{{ reader.full_name }}</a></td>
+                <td>{{ reader.phone_number }}</td>
+                <td>{{ reader.registration_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>В зале нет читателей</p>
+    </div>
+    {% endif %}
+</div>
+
+<h2>Книги в зале</h2>
+<div class="table-container">
+    {% if book_copies %}
+    <table>
+        <thead>
+            <tr>
+                <th>Книга</th>
+                <th>Шифр</th>
+                <th>Количество экземпляров</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for copy in book_copies %}
+            <tr>
+                <td><a href="{% url 'book_detail' copy.book.pk %}">{{ copy.book.title }}</a></td>
+                <td>{{ copy.book.code }}</td>
+                <td>{{ copy.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>В зале нет книг</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Исключить старых читателей - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Исключить старых читателей</h1>
+    <p>Эта операция исключит всех читателей, которые:</p>
+    <ul>
+        <li>Записаны в библиотеку более года назад</li>
+        <li>Не прошли перерегистрацию</li>
+        <li>В настоящее время активны</li>
+    </ul>
+    <p><strong>Внимание:</strong> Это действие нельзя отменить!</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Выполнить операцию</button>
+            <a href="{% url 'librarian_operations' %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

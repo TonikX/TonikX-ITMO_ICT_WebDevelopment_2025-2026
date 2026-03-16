@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Читатели с редкими книгами - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<h1>Читатели с книгами, количество экземпляров которых не превышает 2</h1>
+
+<div class="table-container">
+    {% if readers %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер билета</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Читальный зал</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in readers %}
+            <tr>
+                <td>{{ reader.ticket_number }}</td>
+                <td><a href="{% url 'reader_detail' reader.pk %}">{{ reader.full_name }}</a></td>
+                <td>{{ reader.phone_number }}</td>
+                <td>{% if reader.reading_room %}{{ reader.reading_room.name }}{% else %}—{% endif %}</td>
+                <td>
+                    <a href="{% url 'reader_detail' reader.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>Таких читателей не найдено</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

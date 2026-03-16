@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Месячный отчет - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<h1>Месячный отчет</h1>
+
+<form method="get" style="margin-bottom: 2rem;">
+    <div style="display: flex; gap: 1rem; align-items: center;">
+        <label>Месяц:</label>
+        <input type="number" name="month" value="{{ month }}" min="1" max="12" class="form-control" style="width: 100px;">
+        <label>Год:</label>
+        <input type="number" name="year" value="{{ year }}" min="2000" max="2100" class="form-control" style="width: 150px;">
+        <button type="submit" class="btn btn-primary">Показать отчет</button>
+    </div>
+</form>
+
+<div class="detail-card">
+    <h2>Общая статистика за {{ month }}/{{ year }}</h2>
+    <div class="detail-row">
+        <div class="detail-label">Новых читателей:</div>
+        <div class="detail-value">{{ total_new_readers }}</div>
+    </div>
+</div>
+
+<h2>Статистика по дням</h2>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Книг в фонде</th>
+                <th>Читателей</th>
+                <th>Новых читателей</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in daily_stats %}
+            <tr>
+                <td>{{ day.date|date:"d.m.Y" }}</td>
+                <td>{{ day.books_count }}</td>
+                <td>{{ day.readers_count }}</td>
+                <td>{{ day.new_readers_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2>Статистика по залам</h2>
+{% for day in daily_stats %}
+    {% if day.rooms_stats %}
+    <h3>{{ day.date|date:"d.m.Y" }}</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Зал</th>
+                    <th>Книг</th>
+                    <th>Читателей</th>
+                    <th>Новых читателей</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room_stat in day.rooms_stats %}
+                <tr>
+                    <td>{{ room_stat.room.name }}</td>
+                    <td>{{ room_stat.books_count }}</td>
+                    <td>{{ room_stat.readers_count }}</td>
+                    <td>{{ room_stat.new_readers_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ reader.full_name }} - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>{{ reader.full_name }}</h1>
+    <div>
+        <a href="{% url 'reader_edit' reader.pk %}" class="btn btn-secondary">Редактировать</a>
+        <a href="{% url 'assignment_create' %}?reader={{ reader.pk }}" class="btn btn-primary">Закрепить книгу</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-row">
+        <div class="detail-label">Номер читательского билета:</div>
+        <div class="detail-value">{{ reader.ticket_number }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Паспорт:</div>
+        <div class="detail-value">{{ reader.passport_number }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Дата рождения:</div>
+        <div class="detail-value">{{ reader.birth_date }} ({{ reader.age }} лет)</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Адрес:</div>
+        <div class="detail-value">{{ reader.address }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Телефон:</div>
+        <div class="detail-value">{{ reader.phone_number }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Образование:</div>
+        <div class="detail-value">{{ reader.get_education_display }}{% if reader.has_degree %} (ученая степень){% endif %}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Читальный зал:</div>
+        <div class="detail-value">{% if reader.reading_room %}{{ reader.reading_room.name }} ({{ reader.reading_room.number }}){% else %}Не закреплен{% endif %}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Дата регистрации:</div>
+        <div class="detail-value">{{ reader.registration_date }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">Статус:</div>
+        <div class="detail-value">
+            {% if reader.is_active %}
+                <span style="color: var(--success-color);">Активен</span>
+            {% else %}
+                <span style="color: var(--danger-color);">Неактивен</span>
+                {% if reader.unregistration_date %}
+                    (выписан {{ reader.unregistration_date }})
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<h2>Закрепленные книги</h2>
+<div class="table-container">
+    {% if assignments %}
+    <table>
+        <thead>
+            <tr>
+                <th>Книга</th>
+                <th>Шифр</th>
+                <th>Дата закрепления</th>
+                <th>Дней с момента закрепления</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td><a href="{% url 'book_detail' assignment.book.pk %}">{{ assignment.book.title }}</a></td>
+                <td>{{ assignment.book.code }}</td>
+                <td>{{ assignment.assignment_date }}</td>
+                <td>
+                    {% if assignment.days_since_assignment %}
+                        {% if assignment.days_since_assignment > 30 %}
+                            <span style="color: var(--danger-color); font-weight: bold;">{{ assignment.days_since_assignment }} дней</span>
+                        {% else %}
+                            {{ assignment.days_since_assignment }} дней
+                        {% endif %}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'assignment_return' assignment.pk %}" class="btn btn-sm btn-primary">Вернуть</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>У читателя нет закрепленных книг</p>
+        <a href="{% url 'assignment_create' %}?reader={{ reader.pk }}" class="btn btn-primary">Закрепить книгу</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

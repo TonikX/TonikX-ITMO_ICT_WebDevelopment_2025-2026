@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация - Доска заданий{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="fas fa-user-plus"></i> Регистрация</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Имя пользователя</label>
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="Введите имя пользователя">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Введите email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Введите пароль">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirm" class="form-label">Подтвердите пароль</label>
+                        <input type="password" class="form-control" id="password_confirm" name="password_confirm" required placeholder="Повторите пароль">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">Зарегистрироваться</button>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-muted">Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

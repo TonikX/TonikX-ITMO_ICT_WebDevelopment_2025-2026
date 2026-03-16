@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика по образованию - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<h1>Статистика по образованию читателей</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value">{{ stats.primary }}</div>
+        <div class="stat-label">Начальное образование</div>
+        <div style="margin-top: 0.5rem; font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">
+            {{ stats.primary_percent }}%
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-value">{{ stats.secondary }}</div>
+        <div class="stat-label">Среднее образование</div>
+        <div style="margin-top: 0.5rem; font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">
+            {{ stats.secondary_percent }}%
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-value">{{ stats.higher }}</div>
+        <div class="stat-label">Высшее образование</div>
+        <div style="margin-top: 0.5rem; font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">
+            {{ stats.higher_percent }}%
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">👨‍🎓</div>
+        <div class="stat-value">{{ stats.degree }}</div>
+        <div class="stat-label">Ученая степень</div>
+        <div style="margin-top: 0.5rem; font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">
+            {{ stats.degree_percent }}%
+        </div>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-row">
+        <div class="detail-label">Всего активных читателей:</div>
+        <div class="detail-value" style="font-size: 1.5rem; font-weight: bold;">{{ stats.total }}</div>
+    </div>
+</div>
+{% endblock %}

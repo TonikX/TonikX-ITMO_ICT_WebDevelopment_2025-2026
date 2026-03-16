@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Читатели - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>Читатели</h1>
+    <a href="{% url 'reader_create' %}" class="btn btn-primary">Зарегистрировать читателя</a>
+</div>
+
+<form method="get" class="search-form">
+    <input type="text" name="search" class="form-control" placeholder="Поиск по ФИО, номеру билета, паспорту..." value="{{ search }}">
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+<div class="table-container">
+    {% if readers %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер билета</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Образование</th>
+                <th>Читальный зал</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in readers %}
+            <tr>
+                <td>{{ reader.ticket_number }}</td>
+                <td><a href="{% url 'reader_detail' reader.pk %}">{{ reader.full_name }}</a></td>
+                <td>{{ reader.phone_number }}</td>
+                <td>{{ reader.get_education_display }}{% if reader.has_degree %} (ученая степень){% endif %}</td>
+                <td>{% if reader.reading_room %}{{ reader.reading_room.name }}{% else %}—{% endif %}</td>
+                <td>
+                    {% if reader.is_active %}
+                        <span style="color: var(--success-color);">Активен</span>
+                    {% else %}
+                        <span style="color: var(--danger-color);">Неактивен</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'reader_detail' reader.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                    <a href="{% url 'reader_edit' reader.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">👥</div>
+        <p>Читатели не найдены</p>
+        <a href="{% url 'reader_create' %}" class="btn btn-primary">Зарегистрировать первого читателя</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

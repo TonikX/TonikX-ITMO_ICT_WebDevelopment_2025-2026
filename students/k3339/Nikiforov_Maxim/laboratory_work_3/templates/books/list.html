@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Книги - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>Книги</h1>
+    <a href="{% url 'book_create' %}" class="btn btn-primary">Добавить книгу</a>
+</div>
+
+<form method="get" class="search-form">
+    <input type="text" name="search" class="form-control" placeholder="Поиск по названию, автору, шифру..." value="{{ search }}">
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+<div class="table-container">
+    {% if books %}
+    <table>
+        <thead>
+            <tr>
+                <th>Шифр</th>
+                <th>Название</th>
+                <th>Автор(ы)</th>
+                <th>Издательство</th>
+                <th>Год</th>
+                <th>Раздел</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.code }}</td>
+                <td><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></td>
+                <td>{{ book.authors }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.publication_year }}</td>
+                <td>{{ book.section }}</td>
+                <td>
+                    <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                    <a href="{% url 'book_edit' book.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">📚</div>
+        <p>Книги не найдены</p>
+        <a href="{% url 'book_create' %}" class="btn btn-primary">Добавить первую книгу</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

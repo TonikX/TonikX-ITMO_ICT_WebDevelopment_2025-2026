@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Читальные залы - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1>Читальные залы</h1>
+    <a href="{% url 'reading_room_create' %}" class="btn btn-primary">Создать зал</a>
+</div>
+
+<div class="table-container">
+    {% if rooms %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Название</th>
+                <th>Вместимость</th>
+                <th>Читателей</th>
+                <th>Книг</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.number }}</td>
+                <td><a href="{% url 'reading_room_detail' room.pk %}">{{ room.name }}</a></td>
+                <td>{{ room.capacity }}</td>
+                <td>{{ room.readers_count|default:0 }}</td>
+                <td>{{ room.books_count|default:0 }}</td>
+                <td>
+                    <a href="{% url 'reading_room_detail' room.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                    <a href="{% url 'reading_room_edit' room.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">🏛️</div>
+        <p>Читальные залы не найдены</p>
+        <a href="{% url 'reading_room_create' %}" class="btn btn-primary">Создать первый зал</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

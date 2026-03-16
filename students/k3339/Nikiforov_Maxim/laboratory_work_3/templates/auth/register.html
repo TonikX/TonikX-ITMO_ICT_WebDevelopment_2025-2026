@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация - Система управления библиотекой{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Регистрация</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input type="text" name="username" id="username" class="form-control" required autofocus>
+            <small style="color: var(--text-secondary);">Только буквы, цифры и символы @/./+/-/_</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+            <small style="color: var(--text-secondary);">Минимум 8 символов</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="password_retype">Подтверждение пароля</label>
+            <input type="password" name="password_retype" id="password_retype" class="form-control" required>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <a href="{% url 'login' %}" class="btn btn-secondary">Уже есть аккаунт?</a>
+            <a href="{% url 'index' %}" class="btn btn-secondary">На главную</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
