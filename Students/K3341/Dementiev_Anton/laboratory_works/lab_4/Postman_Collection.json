@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "printing-house-api",
+		"name": "Printing House API",
+		"description": "API для системы распределения газет по почтовым отделениям",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Аутентификация",
+			"item": [
+				{
+					"name": "Регистрация пользователя",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\",\n    \"password_retype\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/users/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "users", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение токена",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.auth_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/token/login/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "token", "login", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Текущий пользователь",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/users/me/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "users", "me", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Газеты",
+			"item": [
+				{
+					"name": "Список всех газет",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Детали газеты",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", "1", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Газета с вложенными объектами (many-to-many)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/1/full_detail/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", "1", "full_detail", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "По каким адресам печатаются газеты",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/by_name/?name=Городские вести",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", "by_name", ""],
+							"query": [
+								{
+									"key": "name",
+									"value": "Городские вести"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Справка об индексе и цене (по ID)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/info/?id=1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", "info", ""],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Справка об индексе и цене (по имени)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/info/?name=Городские вести",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", "info", ""],
+							"query": [
+								{
+									"key": "name",
+									"value": "Городские вести"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создать газету",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Новая газета\",\n    \"publication_index\": \"NG-999\",\n    \"editor_first_name\": \"Имя\",\n    \"editor_last_name\": \"Фамилия\",\n    \"editor_middle_name\": \"Отчество\",\n    \"price_per_copy\": \"30.00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/newspapers/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "newspapers", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Типографии",
+			"item": [
+				{
+					"name": "Список всех типографий",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/printing-houses/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "printing-houses", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Детали типографии",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/printing-houses/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "printing-houses", "1", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Типография с вложенными тиражами (one-to-many)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/printing-houses/1/full_detail/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "printing-houses", "1", "full_detail", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Редактор газеты с самым большим тиражом",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/printing-houses/1/largest_circulation_editor/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "printing-houses", "1", "largest_circulation_editor", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Отчет о работе типографий",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/printing-houses/report/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "printing-houses", "report", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Почтовые отделения",
+			"item": [
+				{
+					"name": "Список всех почтовых отделений",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/post-offices/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "post-offices", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Детали почтового отделения",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/post-offices/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "post-offices", "1", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Почтовое отделение с вложенными распределениями (one-to-many)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/post-offices/1/full_detail/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "post-offices", "1", "full_detail", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Почтовые отделения для газет дороже указанной цены",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/post-offices/by_price/?min_price=30.00",
+							"host": ["{{base_url}}"],
+							"path": ["api", "post-offices", "by_price", ""],
+							"query": [
+								{
+									"key": "min_price",
+									"value": "30.00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Газеты с количеством меньше заданного",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/post-offices/low_quantity/?max_quantity=200",
+							"host": ["{{base_url}}"],
+							"path": ["api", "post-offices", "low_quantity", ""],
+							"query": [
+								{
+									"key": "max_quantity",
+									"value": "200"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Распределения",
+			"item": [
+				{
+					"name": "Список всех распределений",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distributions/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distributions", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Детали распределения",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distributions/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distributions", "1", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Куда поступает газета по адресу (по ID газеты)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distributions/by_newspaper_and_address/?newspaper_id=1&address=Промышленная",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distributions", "by_newspaper_and_address", ""],
+							"query": [
+								{
+									"key": "newspaper_id",
+									"value": "1"
+								},
+								{
+									"key": "address",
+									"value": "Промышленная"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Куда поступает газета по адресу (по имени газеты)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/distributions/by_newspaper_and_address/?newspaper_name=Городские вести&address=Промышленная",
+							"host": ["{{base_url}}"],
+							"path": ["api", "distributions", "by_newspaper_and_address", ""],
+							"query": [
+								{
+									"key": "newspaper_name",
+									"value": "Городские вести"
+								},
+								{
+									"key": "address",
+									"value": "Промышленная"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+
