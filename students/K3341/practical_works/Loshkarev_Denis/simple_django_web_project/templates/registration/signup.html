@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0">
+            <div class="card-header bg-dark text-white p-4 text-center">
+                <h3 class="mb-0">Регистрация гонщика</h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Создать аккаунт</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-light p-3 text-center">
+                <p class="mb-0 small">Уже зарегистрированы? <a href="{% url 'login' %}" class="text-decoration-none">Войти в систему</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .errorlist { list-style: none; padding: 0; color: #dc3545; font-size: 0.875em; }
+</style>
+{% endblock %}

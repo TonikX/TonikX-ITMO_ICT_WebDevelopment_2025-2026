@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Список автогонок</h2>
+<div class="list-group">
+    {% for race in races %}
+        <a href="{% url 'race_detail' race.id %}" class="list-group-item list-group-item-action">
+            {{ race.title }} — {{ race.date|date:"d.m.Y H:i" }} ({{ race.location }})
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-danger">
+    <h3>Отмена регистрации</h3>
+    <p>Вы уверены, что хотите отозвать свою заявку на гонку <strong>{{ object.race.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, отозвать заявку</button>
+        <a href="{% url 'race_detail' object.race.id %}" class="btn btn-secondary">Нет, оставить</a>
+    </form>
+</div>
+{% endblock %}

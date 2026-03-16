@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Редактирование данных участника</h2>
+<div class="card p-4 shadow-sm">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <a href="{% url 'race_detail' object.race.id %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

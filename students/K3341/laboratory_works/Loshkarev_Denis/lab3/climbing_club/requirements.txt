@@ -1,0 +1,6 @@
+Django==4.2
+djangorestframework==3.14.0
+psycopg2-binary==2.9.6
+djoser==2.2.0
+drf-spectacular==0.26.3
+django-filter==23.2
