@@ -1,0 +1,18 @@
+<!-- Пагинация -->
+{% if is_paginated %}
+<div class="pagination {{ pagination_class }}">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">Первая</a>
+    <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+
+    <span class="current-page">
+        <strong>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</strong>
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+</div>
+{% endif %}

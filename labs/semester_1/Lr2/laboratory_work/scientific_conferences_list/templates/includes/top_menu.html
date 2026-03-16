@@ -1,0 +1,12 @@
+<table class="menu-table {{ menu_class }}">
+    <tr>
+        <td>
+            <strong>Username:</strong> 
+            {{ user.username }}{% if user.is_superuser %} <i>(админ)</i>{% endif %}
+        </td>
+        <td><a href="{% url 'conferences_list' %}">Список конференций</a></td>
+        <td><a href="/admin/">Админ-панель</a></td>
+        <td><a href="{% url 'user_detail' user.id %}">Профиль</a></td>
+        <td><a href="{% url 'logout' %}">Выйти</a></td>
+    </tr>
+</table>

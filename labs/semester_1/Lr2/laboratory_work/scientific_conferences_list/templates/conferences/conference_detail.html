@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ conference.name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    {% include "includes/top_menu.html" with menu_class="mb-20" %}
+
+    <a href="{% url 'conferences_list' %}">← К списку конференций</a>
+
+    <h1 class="mt-15">{{ conference.name }}</h1>
+
+    <a href="{% url 'register_presentation' conference.pk %}" class="blue-button mt-15">
+        Зарегистрировать своё выступление
+    </a>
+
+    {% if user_presentations %}
+    <br>
+    <div class="card mt-20">
+        <h2>Мои выступления:</h2>
+        {% for presentation in user_presentations %}
+            <p class="mt-20"><strong>{{presentation.title}}</strong></p>
+            <div class="flex">
+                <a href="">Подробнее</a>
+                <a href="{% url 'edit_presentation' conference_id=conference.id presentation_id=presentation.id %}">
+                    Изменить
+                </a>
+                <a href="{% url 'cancel_presentation' conference_id=conference.id presentation_id=presentation.id %}">
+                    Удалить
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Список выступлений:</h2>
+        <a href="{% url 'presentations_list' conference.id %}">Все выступления</a>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Отзывы о конференции:</h2>
+        <div class="flex">
+            <a href="{% url 'reviews_list' conference_id=conference.id %}">Все отзывы</a>
+            <a href="">Мои отзывы</a>
+            <a href="{% url 'add_review' conference.id %}">Добавить отзыв</a>
+        </div>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Даты проведения:</h2>
+        <p>{{ conference.start_date }} - {{ conference.end_date }}</p>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Место проведения:</h2>
+        <p>{{ conference.venue_name | default:"Не указано" }}</p>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Описание:</h2>
+        <p>{{ conference.description | default:"Не указано" }}</p>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Темы:</h2>
+        <p>{{ conference.topics | default:"Не указаны" }}</p>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Условия участия:</h2>
+        <p>{{ conference.participation_conditions | default:"Не указаны" }}</p>
+    </div>
+
+    <br>
+    <div class="card mt-15 lh16">
+        <h2>Описание места проведения:</h2>
+        <p>{{ conference.venue_description | default:"Не указано" }}</p>
+    </div>
+</body>
+</html>

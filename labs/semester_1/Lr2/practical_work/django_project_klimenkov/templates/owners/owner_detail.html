@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автовладельце</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+    <a href="{% url 'owners_list' %}" class="back-button">← Назад к списку автовладельцев</a>
+    <h1>Информация об автовладельце</h1>
+    <div class="detail-card">
+        <p><strong>ID:</strong> {{ owner.id }}</p>
+        <p><strong>Username:</strong> {{ owner.username }}</p>
+        <p><strong>Имя:</strong> {{ owner.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ owner.last_name }}</p>
+        <p><strong>Дата рождения:</strong> {{ owner.birth_date }}</p>
+        <p><strong>Номер паспорта:</strong> {{ owner.passport_number }}</p>
+        <p><strong>Адрес:</strong> {{ owner.address }}</p>
+        <p><strong>Национальность:</strong> {{ owner.nationality }}</p>
+    </div>
+</body>
+</html>

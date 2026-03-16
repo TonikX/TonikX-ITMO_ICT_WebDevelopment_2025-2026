@@ -1,0 +1,32 @@
+# Работа с venv:
+python3 -m venv .venv
+source .venv/bin/activate
+deactivate
+
+# Установка Django:
+pip install django
+
+# Запуск сервера:
+python3 manage.py runserver
+
+# Адрес веб-приложения на localhost:
+http://127.0.0.1:8000/
+
+# Админ-панель:
+http://127.0.0.1:8000/admin/
+
+# Создание суперпользователя:
+python3 manage.py createsuperuser
+
+# Данные суперпользователя:
+Username: admin
+Password: 12345
+
+# Миграция БД:
+python3 manage.py makemigrations <название_приложения>
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+# Тестовый пользователь:
+Username: test
+Password: pQK-96X-PzU-wQf

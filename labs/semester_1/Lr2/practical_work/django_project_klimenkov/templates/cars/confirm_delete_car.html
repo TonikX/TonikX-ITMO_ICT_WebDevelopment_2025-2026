@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение удаления</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+    <h1>Подтверждение удаления</h1>
+    
+    <div class="form">
+        <p>Вы уверены, что хотите удалить автомобиль?</p>
+        <p><strong>{{ car.model }} ({{ car.license_plate }}) (ID: {{ car.car_id }})</strong></p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="buttons">
+                <button type="submit" class="delete">Да, удалить</button>
+                <a href="{% url 'cars_list' %}">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

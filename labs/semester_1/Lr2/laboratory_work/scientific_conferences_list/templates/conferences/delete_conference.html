@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Удаление конференции "{{ conference.name }}"</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    {% include "includes/top_menu.html" %}
+
+    <h1 class="mt-15">Удалить конференцию "{{ conference.name }}"?</h1>
+
+    <div class="card mt-15 lh16">
+    <p><strong>Конференция:</strong> {{ conference.name }}</p>
+    <p><strong>Даты:</strong> {{ conference.start_date }} - {{ conference.end_date }}</p>
+    <p><strong>Место:</strong> {{ conference.venue_name }}</p>
+    </div>
+
+    <br>
+    <form method="post" class="form mt-15">
+        {% csrf_token %}
+        <div class="flex">
+            <button type="submit">Удалить</button>
+            <a href="javascript:history.back()">Отмена</a>
+        </div>
+    </form>
+</body>
+</html>

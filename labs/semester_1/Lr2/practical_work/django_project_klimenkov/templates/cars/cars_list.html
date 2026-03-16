@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список автомобилей</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+    <div class="nav-menu">
+        <a href="{% url 'owners_list' %}">Список автовладельцев</a>
+        <p><strong>Список автомобилей</strong></p>
+        <a href="/admin">Админ-панель</a>
+    </div>
+
+    <h1>Список автомобилей</h1>
+
+    <a href="{% url 'create_car' %}" class="create-button">Добавить автомобиль</a>
+    
+    {% if cars %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Модель</th>
+                    <th>Гос. номер</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car.car_id }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.license_plate }}</td>
+                    <td>
+                        <a href="{% url 'car_detail' car.car_id %}">
+                            Подробнее
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_car' car.car_id %}">
+                            Изменить
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_car' car.car_id %}" class="delete">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Автомобили не найдены.</p>
+    {% endif %}
+</body>
+</html>

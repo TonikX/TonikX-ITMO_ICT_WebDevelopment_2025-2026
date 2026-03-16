@@ -1,0 +1,14 @@
+# Установка Django и Django REST Framework:
+pip install django
+pip install djangorestframework
+
+# Запуск сервера:
+python3 manage.py runserver
+
+# Миграция БД:
+python3 manage.py makemigrations warriors_app
+python3 manage.py migrate
+
+# URLs:
+http://127.0.0.1:8000/war/warriors/
+http://127.0.0.1:8000/war/skills/

@@ -1,0 +1,10 @@
+# Запуск mkdocs:
+mkdocs serve
+
+# Адрес mkdocs serve:
+http://127.0.0.1:8000/ITMO_ICT_WebDevelopment_2024-2025/
+
+# Работа .venv:
+python3 -m venv .venv
+source .venv/bin/activate
+deactivate

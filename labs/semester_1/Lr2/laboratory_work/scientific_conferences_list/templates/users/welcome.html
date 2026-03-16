@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Список научных конференций</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <h1>Список научных конференций</h1>
+    <div class="welcome">
+        <a href="{% url 'login' %}" class="blue-button mt-20">Войти</a>
+        </br>
+        <a href="{% url 'signup' %}" class="blue-button mt-20">Регистрация</a>
+        </br>
+        <a href="/admin/" class="blue-button mt-20">Админ-панель</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация об автомобиле</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+    <a href="{% url 'cars_list' %}" class="back-button">← Назад к списку автомобилей</a>
+
+    <h1>Информация об автомобиле</h1>
+    
+    <div class="detail-card">
+        <p><strong>ID:</strong> {{ car.car_id }}</p>
+        <p><strong>Модель:</strong> {{ car.model }}</p>
+        <p><strong>Государственный номер:</strong> {{ car.license_plate }}</p>
+        <p><strong>Цвет:</strong> {{ car.color|default:"Не указан" }}</p>
+    </div>
+</body>
+</html>

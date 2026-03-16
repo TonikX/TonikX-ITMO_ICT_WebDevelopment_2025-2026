@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Изменить автомобиль</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+    
+    <h1>Изменить автомобиль: {{ car.model }} ({{ car.license_plate }}) (ID: {{ car.car_id }})</h1>
+    
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons">
+            <button type="submit">Сохранить</button>
+            <a href="{% url 'cars_list' %}">Отмена</a>
+        </div>
+    </form>
+</body>
+</html>

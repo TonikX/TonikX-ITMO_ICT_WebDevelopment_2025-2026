@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Выход из аккаунта</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <h1>Выйти из аккаунта?</h1>
+    <form action="{% url 'logout_perform' %}" method="post" class="form mt-15">
+        {% csrf_token %}
+        <div class="flex">
+            <button type="submit">Выйти</button>
+            <a href="javascript:history.back()">Отмена</a>
+        </div>
+    </form>
+</body>
+</html>

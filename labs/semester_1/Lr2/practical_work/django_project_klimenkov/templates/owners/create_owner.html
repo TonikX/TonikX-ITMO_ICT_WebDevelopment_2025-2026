@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить автовладельца</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+</head>
+<body>
+
+    <h1>Добавить автовладельца</h1>
+    
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons">
+            <button type="submit">Добавить</button>
+            <a href="{% url 'owners_list' %}">Отмена</a>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Профиль пользователя {{ user }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    {% include "includes/top_menu.html" %}
+
+    <h1 class="mt-15">Профиль пользователя {{ user }}</h1>
+
+    <div class="card mt-15 lh16">
+        {% if user.is_superuser %}
+        <i>(Данный пользователь является админом)</i>
+        {% endif %}
+        <p><strong>Username:</strong> {{user.username}}</p>
+        <p><strong>Имя:</strong> {{user.first_name}}</p>
+        <p><strong>Фамилия:</strong> {{user.last_name}}</p>
+    </div>
+
+    <br>
+    <div class="card mt-10">
+        <a href="{% url 'edit_user' user.id %}">Изменить данные профиля</a>
+    </div>
+</body>
+</html>

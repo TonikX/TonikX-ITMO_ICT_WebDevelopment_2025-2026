@@ -1,0 +1,150 @@
+/* === ОБЩИЕ СТИЛИ === */
+
+:root {
+    --background-color: rgb(255, 255, 255);
+    --black: rgb(30, 30, 30);
+    --light-blue-1: rgb(215, 215, 254);
+    --light-blue-2: rgb(184, 184, 255);
+    --blue: rgb(0, 0, 88);
+    --active-blue: rgb(94, 0, 111);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--black);
+    background-color: var(--background-color);
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+a {
+    color: var(--blue);
+}
+
+a:hover {
+    color: var(--active-blue);
+}
+
+.card {
+    display: inline-block;
+    border: 1px solid var(--black);
+    padding: 15px;
+}
+
+.flex {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.lh16 {
+    line-height: 1.6;
+}
+
+/* === ВЕРХНЕЕ МЕНЮ === */
+
+.menu-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.menu-table td {
+    padding: 15px;
+    border: 1px solid var(--black);
+}
+
+/* === ОТСТУПЫ === */
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* === КНОПКИ === */
+
+a.blue-button {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--black);
+    border: 1px solid var(--black);
+    padding: 10px;
+    background-color: var(--light-blue-1);
+}
+
+a.blue-button:hover {
+    background-color: var(--light-blue-2);
+    color: var(--blue);
+    border-color: var(--blue);
+}
+
+/* === ФОРМЫ === */
+
+.form {
+    display: inline-block;
+    border: 1px solid var(--black);
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.form input {
+    padding: 5px;
+    margin: 10px 5px;
+}
+
+.form .buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.form button {
+    padding: 10px;
+}
+
+/* === conferences_list === */
+
+.conference-card {
+    display: inline-block;
+    width: 700px;
+    border: 1px solid var(--black);
+    padding: 10px;
+    line-height: 1.6;
+}
+
+/* === welcome === */
+
+.welcome {
+    line-height: 1.6;
+}
+
+.welcome a {
+    text-align: center;
+    width: 200px;
+}
