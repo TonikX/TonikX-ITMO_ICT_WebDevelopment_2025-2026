@@ -1,0 +1,106 @@
+[
+  {
+    "model": "lab3_app.room",
+    "pk": 1,
+    "fields": {
+      "number": 101,
+      "price": "3500.00",
+      "room_type": "single",
+      "floor": 1,
+      "phone": "+7-900-000-01-01"
+    }
+  },
+  {
+    "model": "lab3_app.room",
+    "pk": 2,
+    "fields": {
+      "number": 102,
+      "price": "4200.00",
+      "room_type": "tuple",
+      "floor": 1,
+      "phone": "+7-900-000-01-02"
+    }
+  },
+  {
+    "model": "lab3_app.room",
+    "pk": 3,
+    "fields": {
+      "number": 201,
+      "price": "5500.00",
+      "room_type": "triple",
+      "floor": 2,
+      "phone": "+7-900-000-02-01"
+    }
+  },
+  {
+    "model": "lab3_app.client",
+    "pk": 1,
+    "fields": {
+      "passport_number": "4010 123456",
+      "first_name": "иван",
+      "last_name": "иванов",
+      "middle_name": "иванович",
+      "city_of_origin": "москва",
+      "check_in_date": "2026-03-01",
+      "check_out_date": "2026-03-05",
+      "room": 1
+    }
+  },
+  {
+    "model": "lab3_app.client",
+    "pk": 2,
+    "fields": {
+      "passport_number": "4010 654321",
+      "first_name": "мария",
+      "last_name": "петрова",
+      "middle_name": "",
+      "city_of_origin": "санкт-петербург",
+      "check_in_date": "2026-03-03",
+      "check_out_date": "2026-03-10",
+      "room": 2
+    }
+  },
+  {
+    "model": "lab3_app.employee",
+    "pk": 1,
+    "fields": {
+      "first_name": "алексей",
+      "last_name": "смирнов",
+      "middle_name": "сергеевич",
+      "add_date": "2025-01-10",
+      "delete_date": null,
+      "dismissed": false
+    }
+  },
+  {
+    "model": "lab3_app.employee",
+    "pk": 2,
+    "fields": {
+      "first_name": "анна",
+      "last_name": "сидорова",
+      "middle_name": "",
+      "add_date": "2025-05-01",
+      "delete_date": null,
+      "dismissed": false
+    }
+  },
+  {
+    "model": "lab3_app.cleaningschedule",
+    "pk": 1,
+    "fields": {
+      "employee": 1,
+      "day_of_week": 1,
+      "floor": 1
+    }
+  },
+  {
+    "model": "lab3_app.cleaningschedule",
+    "pk": 2,
+    "fields": {
+      "employee": 2,
+      "day_of_week": 3,
+      "floor": 2
+    }
+  }
+]
+

@@ -1,0 +1,160 @@
+/* === Общий стиль === */
+body {
+  background-color: #f8f9fa;
+  color: #212529;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* === Заголовки === */
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: #1f2933;
+  margin-bottom: 0.8rem;
+}
+
+/* === Навбар === */
+.navbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  color: #111 !important;
+}
+
+.navbar-brand:hover {
+  color: #2563eb !important;
+}
+
+/* === Кнопки === */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+
+/* Основная */
+.btn-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Успешная */
+.btn-success {
+  background-color: #16a34a;
+  border-color: #16a34a;
+}
+
+.btn-success:hover {
+  background-color: #15803d;
+  border-color: #15803d;
+}
+
+/* Вторичная */
+.btn-secondary {
+  background-color: #e5e7eb;
+  border-color: #e5e7eb;
+  color: #111;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+/* Outline */
+.btn-outline-primary {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.btn-outline-primary:hover {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+/* === Карточки === */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* === Таблицы === */
+.table {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.table thead th {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* === Формы === */
+input, select, textarea {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  transition: border 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: none;
+}
+
+/* === Блок отзывов === */
+.review-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.review-card strong {
+  font-weight: 600;
+}
+
+.review-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.review-text {
+  font-size: 0.95rem;
+}
+
+/* === Сообщение "нет отзывов" === */
+.no-reviews {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* === Выравнивание кнопок в таблице === */
+.table .btn {
+  min-width: 100px;
+  margin-right: 4px;
+}

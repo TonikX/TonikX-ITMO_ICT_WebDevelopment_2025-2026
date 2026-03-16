@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ hotel.name }}{% endblock %}
+{% block content %}
+<h1>{{ hotel.name }}</h1>
+<p>{{ hotel.description }}</p>
+<p><b>Адрес:</b> {{ hotel.address }}</p>
+
+{% if hotel.amenities.exists %}
+<h5 class="mt-4">Услуги:</h5>
+<ul class="list-inline">
+  {% for amenity in hotel.amenities.all %}
+    <li class="list-inline-item badge bg-info text-dark p-2 m-1">{{ amenity.name }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="text-muted">Услуги не указаны.</p>
+{% endif %}
+
+<h4>Номера</h4>
+<table class="table">
+  <thead><tr><th>Номер</th><th>Тип</th><th>Вместимость</th><th>Цена</th><th></th></tr></thead>
+  <tbody>
+  {% for room in rooms %}
+    <tr>
+      <td>{{ room.number }}</td>
+      <td>{{ room.room_type.name }}</td>
+      <td>{{ room.room_type.capacity }}</td>
+      <td>{{ room.room_type.price }}</td>
+      <td>
+        <a class="btn btn-sm btn-success" href="{% url 'reserve_room' room.id %}">Забронировать</a>
+        <a class="btn btn-sm btn-secondary" href="{% url 'write_review' room.id %}">Оставить отзыв</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="5">Нет номеров</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h4 class="review-title">Отзывы гостей</h4>
+<div>
+  {% if reviews %}
+    {% for review in reviews %}
+      <div class="review-card">
+        <strong>{{ review.user.username }}</strong> — оценка: {{ review.rating }}/10
+        <div class="review-meta">
+          Период проживания: {{ review.period_from }} — {{ review.period_to }}
+        </div>
+        <div class="review-text">{{ review.text }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-reviews">Отзывов пока нет.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

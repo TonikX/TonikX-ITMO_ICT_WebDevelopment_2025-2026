@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5" style="max-width:400px">
+  <h2>Вход</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary w-100 mt-2">Войти</button>
+  </form>
+  <p class="mt-3">Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрируйтесь</a></p>
+</div>
+{% endblock %}
