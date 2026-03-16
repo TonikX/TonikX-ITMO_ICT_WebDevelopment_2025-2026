@@ -1,0 +1,57 @@
+username,race_title,team_name,car_description,result_place,race_time
+verstappen,Гран-при Бахрейна (Ф1),Red Bull,RB19,1,01:33:56
+perez,Гран-при Бахрейна (Ф1),Red Bull,RB19,2,01:34:08
+alonso,Гран-при Бахрейна (Ф1),Aston Martin,AMR23,3,01:34:34
+sainz,Гран-при Бахрейна (Ф1),Ferrari,SF-23,4,01:34:44
+hamilton,Гран-при Бахрейна (Ф1),Mercedes,W14,5,01:34:47
+stroll,Гран-при Бахрейна (Ф1),Aston Martin,AMR23,6,01:35:00
+russell,Гран-при Бахрейна (Ф1),Mercedes,W14,7,01:35:10
+leclerc,Гран-при Бахрейна (Ф1),Ferrari,SF-23,8,01:35:20
+norris,Гран-при Бахрейна (Ф1),McLaren,MCL60,9,01:35:30
+piastri,Гран-при Бахрейна (Ф1),McLaren,MCL60,10,01:35:45
+verstappen,Гран-при Монако (Ф1),Red Bull,RB19,1,01:48:51
+alonso,Гран-при Монако (Ф1),Aston Martin,AMR23,2,01:49:19
+ocon,Гран-при Монако (Ф1),Alpine,A523,3,01:49:28
+hamilton,Гран-при Монако (Ф1),Mercedes,W14,4,01:49:30
+russell,Гран-при Монако (Ф1),Mercedes,W14,5,01:49:35
+leclerc,Гран-при Монако (Ф1),Ferrari,SF-23,6,01:50:01
+gasly,Гран-при Монако (Ф1),Alpine,A523,7,01:50:05
+sainz,Гран-при Монако (Ф1),Ferrari,SF-23,8,01:50:10
+norris,Гран-при Монако (Ф1),McLaren,MCL60,9,01:50:15
+piastri,Гран-при Монако (Ф1),McLaren,MCL60,10,01:50:20
+verstappen,Гран-при Великобритании (Ф1),Red Bull,RB19,1,01:25:16
+norris,Гран-при Великобритании (Ф1),McLaren,MCL60,2,01:25:19
+hamilton,Гран-при Великобритании (Ф1),Mercedes,W14,3,01:25:22
+piastri,Гран-при Великобритании (Ф1),McLaren,MCL60,4,01:25:28
+russell,Гран-при Великобритании (Ф1),Mercedes,W14,5,01:25:30
+perez,Гран-при Великобритании (Ф1),Red Bull,RB19,6,01:25:35
+alonso,Гран-при Великобритании (Ф1),Aston Martin,AMR23,7,01:25:40
+albon,Гран-при Великобритании (Ф1),Williams,FW45,8,01:25:45
+leclerc,Гран-при Великобритании (Ф1),Ferrari,SF-23,9,01:25:50
+sainz,Гран-при Великобритании (Ф1),Ferrari,SF-23,10,01:25:55
+verstappen,Гран-при Италии (Ф1),Red Bull,RB19,1,01:13:41
+perez,Гран-при Италии (Ф1),Red Bull,RB19,2,01:13:47
+sainz,Гран-при Италии (Ф1),Ferrari,SF-23,3,01:13:50
+leclerc,Гран-при Италии (Ф1),Ferrari,SF-23,4,01:13:52
+russell,Гран-при Италии (Ф1),Mercedes,W14,5,01:13:58
+hamilton,Гран-при Италии (Ф1),Mercedes,W14,6,01:14:10
+albon,Гран-при Италии (Ф1),Williams,FW45,7,01:14:15
+norris,Гран-при Италии (Ф1),McLaren,MCL60,8,01:14:20
+alonso,Гран-при Италии (Ф1),Aston Martin,AMR23,9,01:14:30
+bottas,Гран-при Италии (Ф1),Alfa Romeo,C43,10,01:14:40
+verstappen,Гран-при Абу-Даби (Ф1),Red Bull,RB19,1,01:27:02
+leclerc,Гран-при Абу-Даби (Ф1),Ferrari,SF-23,2,01:27:20
+russell,Гран-при Абу-Даби (Ф1),Mercedes,W14,3,01:27:22
+perez,Гран-при Абу-Даби (Ф1),Red Bull,RB19,4,01:27:25
+norris,Гран-при Абу-Даби (Ф1),McLaren,MCL60,5,01:27:30
+piastri,Гран-при Абу-Даби (Ф1),McLaren,MCL60,6,01:27:35
+alonso,Гран-при Абу-Даби (Ф1),Aston Martin,AMR23,7,01:27:40
+tsunoda,Гран-при Абу-Даби (Ф1),AlphaTauri,AT04,8,01:27:45
+hamilton,Гран-при Абу-Даби (Ф1),Mercedes,W14,9,01:27:50
+stroll,Гран-при Абу-Даби (Ф1),Aston Martin,AMR23,10,01:27:55
+fuoco,24 часа Ле-Мана,Ferrari AF Corse,499P,1,24:00:00
+molina,24 часа Ле-Мана,Ferrari AF Corse,499P,1,24:00:00
+nielsen,24 часа Ле-Мана,Ferrari AF Corse,499P,1,24:00:00
+buemi,24 часа Ле-Мана,Toyota Gazoo,GR010 Hybrid,2,24:00:01
+hartley,24 часа Ле-Мана,Toyota Gazoo,GR010 Hybrid,2,24:00:01
+hirakawa,24 часа Ле-Мана,Toyota Gazoo,GR010 Hybrid,2,24:00:01
