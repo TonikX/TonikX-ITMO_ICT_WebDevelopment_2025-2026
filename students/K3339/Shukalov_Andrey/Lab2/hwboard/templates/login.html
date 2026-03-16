@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #ffd166;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.5);
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(to right, #ffd166, #ffb347);
+            color: #1d2671;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffda7f, #ffc166);
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .links a {
+            color: #ffd166;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+            color: #ffda7f;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #c33764;
+            font-weight: 500;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+            border-left: 4px solid #c33764;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            border-left-color: #28a745;
+        }
+
+        .alert-info {
+            background: rgba(23, 162, 184, 0.9);
+            color: white;
+            border-left-color: #17a2b8;
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.9);
+            color: #333;
+            border-left-color: #ffc107;
+        }
+
+        .error-message {
+            margin-top: 5px;
+            color: #ff6b6b;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ffd166;
+            cursor: pointer;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle .toggle-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .password-toggle .toggle-icon:hover {
+            color: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #ffd166;
+            transform: translateX(-3px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .form-control {
+                padding: 12px 15px;
+            }
+
+            .btn {
+                padding: 16px;
+                font-size: 18px;
+            }
+        }
+
+        .features {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            color: #ffd166;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Школа</h1>
+            <p>Электронный дневник</p>
+        </div>
+
+        <h2>Вход в систему</h2>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.errors %}
+        <div class="alert alert-warning">
+            ❌ Неправильное имя пользователя или пароль. Попробуйте снова.
+        </div>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <div class="alert alert-info">
+                ⚠️ У вашего аккаунта нет доступа к этой странице.
+                Чтобы продолжить, войдите с учетной записью, у которой есть доступ.
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                🔒 Для просмотра этой страницы необходимо войти в систему.
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <div class="form-group">
+                <label for="id_username" class="form-label">Имя пользователя или Email</label>
+                <input type="text" name="username" class="form-control" required id="id_username"
+                       placeholder="Введите логин или email" autocomplete="username"
+                       value="{{ form.username.value|default:'' }}">
+                {% if form.username.errors %}
+                <div class="error-message">
+                    {{ form.username.errors }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password" class="form-label">Пароль</label>
+                <div class="password-toggle">
+                    <input type="password" name="password" class="form-control" required id="id_password"
+                           placeholder="Введите пароль" autocomplete="current-password">
+                    <span class="toggle-icon" onclick="togglePassword()">👁️</span>
+                </div>
+                {% if form.password.errors %}
+                <div class="error-message">
+                    {{ form.password.errors }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" name="remember" id="id_remember">
+                <label for="id_remember">Запомнить меня</label>
+            </div>
+
+            <button type="submit" class="btn" id="login-btn">
+                🔑 Войти в систему
+            </button>
+        </form>
+
+        <div class="links">
+            <a href="{% url 'register' %}">📝 Нет аккаунта? Зарегистрироваться</a>
+            <a href="#" onclick="showPasswordReset()">🔓 Забыли пароль?</a>
+            <a href="/admin/" target="_blank">⚙️ Войти как администратор</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">📚</span>
+                <span>Просмотр оценок и заданий</span>
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← Вернуться на главную</a>
+    </div>
+
+    <!-- Модальное окно для восстановления пароля -->
+    <div id="password-reset-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 90%;">
+            <h3 style="color: #333; margin-bottom: 20px;">Восстановление пароля</h3>
+            <p style="color: #666; margin-bottom: 20px;">Для восстановления пароля обратитесь к администратору системы.</p>
+            <button onclick="hidePasswordReset()" style="padding: 10px 20px; background: #c33764; color: white; border: none; border-radius: 10px; cursor: pointer;">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('id_password');
+            const toggleIcon = document.querySelector('.toggle-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '👁️‍🗨️';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        function showPasswordReset() {
+            document.getElementById('password-reset-modal').style.display = 'flex';
+        }
+
+        function hidePasswordReset() {
+            document.getElementById('password-reset-modal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автофокус на поле логина
+            const usernameInput = document.getElementById('id_username');
+            if (usernameInput) {
+                usernameInput.focus();
+            }
+
+            // Анимация кнопки при ошибке
+            const form = document.querySelector('form');
+            const loginBtn = document.getElementById('login-btn');
+
+            form.addEventListener('submit', function(e) {
+                // Если есть ошибки, добавить анимацию
+                if (document.querySelector('.alert-warning')) {
+                    loginBtn.classList.add('shake');
+                    setTimeout(() => {
+                        loginBtn.classList.remove('shake');
+                    }, 500);
+                }
+            });
+
+            // Закрытие модального окна по клику вне его
+            const modal = document.getElementById('password-reset-modal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hidePasswordReset();
+                }
+            });
+
+            // Сохранение логина в localStorage
+            const rememberCheckbox = document.getElementById('id_remember');
+            const savedUsername = localStorage.getItem('remembered_username');
+
+            if (savedUsername && usernameInput) {
+                usernameInput.value = savedUsername;
+                rememberCheckbox.checked = true;
+            }
+
+            // При отправке формы сохраняем логин если чекбокс отмечен
+            form.addEventListener('submit', function() {
+                if (rememberCheckbox.checked && usernameInput.value) {
+                    localStorage.setItem('remembered_username', usernameInput.value);
+                } else {
+                    localStorage.removeItem('remembered_username');
+                }
+            });
+
+            // Показ/скрытие пароля по Ctrl+H
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'h') {
+                    e.preventDefault();
+                    togglePassword();
+                }
+            });
+        });
+
+        // Автозаполнение демо-данных для тестирования
+        function fillDemoCredentials(role) {
+            const usernameInput = document.getElementById('id_username');
+            const passwordInput = document.getElementById('id_password');
+
+            if (role === 'student') {
+                usernameInput.value = 'ivanov_student';
+                passwordInput.value = 'student123';
+            } else if (role === 'teacher') {
+                usernameInput.value = 'petrov_teacher';
+                passwordInput.value = 'teacher123';
+            }
+
+            // Фокус на пароле после заполнения
+            passwordInput.focus();
+        }
+    </script>
+</body>
+</html>

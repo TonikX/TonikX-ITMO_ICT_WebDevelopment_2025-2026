@@ -1,0 +1,14 @@
+site_name: ITMO ICT WebDevelopment 2025-2026
+nav:
+  - Главная: index.md
+  - Лабораторная 1: Lab1.md
+  - Лабораторная 2: Lab2.md
+  - Лабораторная 3: Lab3.md
+  - Лабораторная 4: Lab4.md
+theme:
+  name: material
+  language: ru
+  features:
+    - toc.integrate: false
+repo_url: https://github.com/brokenken/TonikX-ITMO_ICT_WebDevelopment_2025-2026.git
+repo_name: GitHub
