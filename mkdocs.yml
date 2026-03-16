@@ -1,0 +1,54 @@
+site_name: Лабораторные работы по веб-программированию
+site_url: https://viktoriaskk.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/
+site_description: Документация по лабораторным работам по Web-программированию
+site_author: Скоблилова Виктория
+copyright: Скоблилова Виктория, @vviktoriask, 2025
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+      primary: teal
+      accent: purple
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+      primary: teal
+      accent: lime
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа 1: lr1/index.md
+  - Лабораторная работа 2:
+    - Введение: lr2/index.md
+    - Структура проекта: lr2/structure.md
+    - Модели данных: lr2/models.md
+    - Бизнес-логика: lr2/business-logic.md
+    - Представления и шаблоны: lr2/views.md
+    - Инструкция по запуску: lr2/installation.md
+    - Выводы: lr2/conclusion.md
+  - Лабораторная работа 3:
+    - Описание: lr3/index.md
+    - Практическая работа 1: lr3/pr1.md
+    - Практическая работа 2: lr3/pr2.md
+    - Лабораторная работа: lr3/lr.md
+  - Лабораторная работа 4: lr4/index.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - codehilite
+  - extra
+  - toc:
+      permalink: true

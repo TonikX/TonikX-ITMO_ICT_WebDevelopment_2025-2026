@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои регистрации - Табло победителей{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{% if is_admin %}Все регистрации на гонки{% else %}Мои регистрации на гонки{% endif %}</h1>
+    {% if is_admin %}
+        <span class="badge bg-danger fs-6">РЕЖИМ АДМИНИСТРАТОРА</span>
+    {% endif %}
+</div>
+
+<!-- Форма поиска и сортировки -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" 
+                       placeholder="{% if is_admin %}Поиск по гонке, месту или водителю...{% else %}Поиск по гонке или месту...{% endif %}" 
+                       value="{{ search_query }}">
+            </div>
+            <div class="col-md-4">
+                <select name="sort" class="form-select">
+                    <option value="-created_at" {% if current_sort == '-created_at' %}selected{% endif %}>Новые регистрации</option>
+                    <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Старые регистрации</option>
+                    <option value="-race__date" {% if current_sort == '-race__date' %}selected{% endif %}>Дата гонки (новые)</option>
+                    <option value="race__date" {% if current_sort == 'race__date' %}selected{% endif %}>Дата гонки (старые)</option>
+                    <option value="race__title" {% if current_sort == 'race__title' %}selected{% endif %}>Название гонки (А-Я)</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">🔍 Найти</button>
+            </div>
+            {% if search_query %}
+                <div class="col-12">
+                    <a href="{% url 'registration_list' %}" class="btn btn-secondary btn-sm">✕ Сбросить фильтры</a>
+                    <span class="text-muted ms-2">Найдено: {{ page_obj.paginator.count }}</span>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if registrations %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    {% if is_admin %}<th>Водитель</th>{% endif %}
+                    <th>Гонка</th>
+                    <th>Дата гонки</th>
+                    <th>Место</th>
+                    <th>Номер машины</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                    <tr>
+                        {% if is_admin %}
+                            <td>
+                                <strong>{{ reg.driver.full_name }}</strong>
+                                <br><small class="text-muted">{{ reg.driver.user.username }}</small>
+                            </td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url 'race_detail' reg.race.pk %}">{{ reg.race.title }}</a>
+                        </td>
+                        <td>{{ reg.race.date|date:"d.m.Y" }}</td>
+                        <td>{{ reg.race.location }}</td>
+                        <td>
+                            {% if reg.car_number %}
+                                <span class="badge bg-dark">#{{ reg.car_number }}</span>
+                            {% else %}
+                                <span class="text-muted">Не назначен</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'registration_update' reg.pk %}" class="btn btn-sm btn-primary">Редактировать</a>
+                            <a href="{% url 'registration_delete' reg.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page=1">Первая</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}">‹ Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Первая</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">‹ Назад</span>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}">Вперед ›</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Последняя</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Вперед ›</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Последняя</span>
+                    </li>
+                {% endif %}
+            </ul>
+            <p class="text-center text-muted">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} 
+                (всего {{ page_obj.paginator.count }})
+            </p>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        {% if search_query %}
+            По запросу "{{ search_query }}" ничего не найдено. <a href="{% url 'registration_list' %}">Показать все регистрации</a>
+        {% else %}
+            У вас пока нет регистраций на гонки.
+            <a href="{% url 'race_list' %}" class="alert-link">Просмотреть доступные гонки</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
+

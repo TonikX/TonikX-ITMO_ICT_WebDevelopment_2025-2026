@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление регистрации - Табло победителей{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'registration_list' %}" class="btn btn-secondary btn-sm">&larr; К списку регистраций</a>
+</div>
+
+<h1>Удаление регистрации</h1>
+
+<div class="card">
+    <div class="card-body">
+        <p>Вы уверены, что хотите удалить регистрацию на гонку <strong>{{ object.race.title }}</strong>?</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="{% url 'registration_list' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

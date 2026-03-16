@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Редактирование комментария - Табло победителей{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'race_detail' object.race.pk %}" class="btn btn-secondary btn-sm">&larr; К гонке</a>
+</div>
+
+<h1>Редактирование комментария</h1>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Гонка:</strong> {{ object.race.title }}</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'race_detail' object.race.pk %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

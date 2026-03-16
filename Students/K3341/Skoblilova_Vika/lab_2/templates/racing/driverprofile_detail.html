@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Мой профиль - Табло победителей{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Профиль водителя</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ profile.full_name }}</h5>
+        <p class="card-text">
+            <strong>Пользователь:</strong> {{ profile.user.username }}<br>
+            <strong>Класс водителя:</strong> {{ profile.get_driver_class_display }}<br>
+            <strong>Опыт:</strong> {{ profile.experience_years }} лет<br>
+            {% if profile.team %}
+                <strong>Команда:</strong> {{ profile.team.name }}<br>
+            {% endif %}
+            {% if profile.car_description %}
+                <strong>Автомобиль:</strong> {{ profile.car_description }}<br>
+            {% endif %}
+        </p>
+        
+        {% if profile.bio %}
+            <h6 class="mt-3">Биография:</h6>
+            <p>{{ profile.bio|linebreaks }}</p>
+        {% endif %}
+        
+        <a href="{% url 'driverprofile_update' %}" class="btn btn-primary">Редактировать профиль</a>
+    </div>
+</div>
+{% endblock %}
+
