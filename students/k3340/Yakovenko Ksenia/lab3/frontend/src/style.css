@@ -1,0 +1,25 @@
+/* FIX: Vuetify data-table footer pagination buttons invisible */
+.v-data-table .v-data-footer,
+.v-data-table .v-data-footer * {
+  color: #222 !important;
+}
+
+.v-data-table .v-data-footer .v-btn,
+.v-data-table .v-data-footer .v-btn * {
+  color: #222 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.v-data-table .v-data-footer .v-icon {
+  color: #222 !important;
+  opacity: 1 !important;
+}
+
+/* FIX: v-pagination (if you use it anywhere) */
+.v-pagination .v-btn,
+.v-pagination .v-btn * {
+  color: #222 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
