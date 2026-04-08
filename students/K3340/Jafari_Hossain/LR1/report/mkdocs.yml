@@ -1,0 +1,5 @@
+site_name: My Docs
+nav:
+ - Lab1: LR1.md
+theme:
+ name: material
