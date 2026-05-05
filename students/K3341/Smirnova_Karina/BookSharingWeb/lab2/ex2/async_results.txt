@@ -1,0 +1,200 @@
+URL: https://www.gutenberg.org/ebooks/2701
+book.user_id: 1
+book.title: Moby Dick; Or, The Whale
+book.author: Herman Melville
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Moby Dick; Or, The Whale" by Herman Melville is an epic novel published in 1851. Sailor Ishmael narrates the obsessive quest of Captain Ahab, who commands the whaling ship Pequod in pursuit of Moby Dick, a giant white sperm whale that destroyed his leg. Ahab's monomaniacal hunt for vengeance drives the ship and its diverse crew across the world's oceans, blending realistic whaling details with profound explorations of good, evil, fate, and human nature in this cornerstone of American literature. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/84
+book.user_id: 1
+book.title: Frankenstein; or, the modern prometheus
+book.author: Mary Wollstonecraft Shelley
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Frankenstein; Or, The Modern Prometheus" by Mary Wollstonecraft Shelley is a Gothic novel published in 1818. It tells the story of Victor Frankenstein, a young scientist who creates a living creature from assembled body parts in an unorthodox experiment. When the creature awakens, Victor flees in horror, abandoning his creation. The conscious being must navigate a world that fears him, learning language and seeking connection, only to face repeated rejection. Embittered and alone, the creature confronts his creator with a desperate request that will set both on a dark path of vengeance and tragedy. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1342
+book.user_id: 1
+book.title: Pride and Prejudice
+book.author: Jane Austen
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Pride and Prejudice" by Jane Austen is a novel published in 1813. It follows Elizabeth Bennet, who must learn to see past first impressions and hasty judgments. With five daughters and an estate that can only pass to male heirs, the Bennet family faces financial pressure to marry well. When wealthy Mr. Darcy arrives in their countryside neighborhood, his pride and Elizabeth's prejudice set the stage for misunderstandings, hidden truths, and unexpected revelations about character and love. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/11
+book.user_id: 1
+book.title: Alice's Adventures in Wonderland
+book.author: Lewis Carroll
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Alice's Adventures in Wonderland" by Lewis Carroll is a children's novel published in 1865. When a curious girl named Alice spots a White Rabbit with a pocket watch, she tumbles down a rabbit hole into an extraordinary fantasy world filled with peculiar anthropomorphic creatures. This pioneering work of literary nonsense plays with logic and language, creating a whimsical tale that delights both children and adults. Illustrated by John Tenniel, it helped transform children's literature from didactic instruction to pure entertainment. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1661
+book.user_id: 1
+book.title: The Adventures of Sherlock Holmes
+book.author: Arthur Conan Doyle
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Adventures of Sherlock Holmes" by Arthur Conan Doyle is a collection of short stories first published in 1892. These twelve tales feature the legendary consulting detective Sherlock Holmes and his companion Dr. Watson, narrated from Watson's perspective. Each mystery explores social injustices while showcasing Holmes's brilliant deductive methods and unconventional approach to justice. The stories introduce memorable characters and cases that have captivated readers for over a century, establishing Holmes as one of literature's most enduring detectives. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/98
+book.user_id: 1
+book.title: A Tale of Two Cities
+book.author: Charles Dickens
+book.status: ACTIVE
+book.condition: NEW
+book.description: "A Tale of Two Cities" by Charles Dickens is a historical novel published in 1859. Set in London and Paris during the tumultuous French Revolution, it follows Dr. Alexandre Manette after his mysterious 18-year imprisonment in the Bastille and his reunion with his daughter Lucie. Their lives become entangled with a French aristocrat fleeing his heritage and a dissolute English lawyer who harbors secret devotion. Against the backdrop of revolutionary terror and violence, personal sacrifices and hidden connections shape their intertwined fates. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/74
+book.user_id: 1
+book.title: The Adventures of Tom Sawyer, Complete
+book.author: Mark Twain
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Adventures of Tom Sawyer, Complete" by Mark Twain is a novel published in 1876 about a mischievous boy growing up along the Mississippi River in the 1830s-1840s. Tom Sawyer and his friend Huckleberry Finn navigate childhood adventures that take increasingly dangerous turns when they witness a murder in a graveyard. Sworn to secrecy and living in fear, the boys must decide whether to speak the truth as an innocent man faces trial, while a vengeful killer remains free. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1952
+book.user_id: 1
+book.title: The Yellow Wallpaper
+book.author: Charlotte Perkins Gilman
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Yellow Wallpaper" by Charlotte Perkins Gilman is a short story published in January 1892. This landmark work of feminist literature and horror fiction follows a woman confined to a nursery by her physician husband as treatment for "temporary nervous depression." Forbidden from working or writing, she documents her experience through secret journal entries. With nothing to occupy her mind but the room's disturbing yellow wallpaper, she descends into madness, becoming obsessed with its strange patterns and the figures she perceives within it. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/5200
+book.user_id: 1
+book.title: Metamorphosis
+book.author: Franz Kafka
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Metamorphosis" by Franz Kafka is a novella published in 1915. It tells the story of Gregor Samsa, a traveling salesman who wakes one morning to find himself inexplicably transformed into a monstrous insect. Trapped in his room and unable to work, Gregor struggles to adjust to his new body while his horrified family grapples with the burden of his existence. As Gregor adapts to his condition, the relationships within his household shift in unexpected and devastating ways. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1080
+book.user_id: 1
+book.title: A Modest Proposal
+book.author: Jonathan Swift
+book.status: ACTIVE
+book.condition: NEW
+book.description: "A Modest Proposal" by Jonathan Swift is a satirical essay written and published in 1729. The work shockingly suggests that Ireland's poor could solve their economic troubles by selling their children as food to the wealthy. Through sustained irony and deadpan humor, Swift uses this outrageous premise to mock hostile attitudes toward the poor and expose the dehumanizing policies of British colonial rule. The essay remains celebrated for its dark wit and biting social commentary. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1400
+book.user_id: 1
+book.title: Great Expectations
+book.author: Charles Dickens
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Great Expectations" by Charles Dickens is a novel first published serially from 1860 to 1861. The story follows Pip, a young orphan living with his sister and her blacksmith husband on England's coastal marshes. After a terrifying encounter with an escaped convict and strange visits to the bitter Miss Havisham and her cold adopted daughter Estella, Pip's life transforms when he mysteriously receives a fortune from an unknown benefactor. This bildungsroman explores wealth and poverty, love and rejection, through vivid characters and dramatic scenes that have captivated readers for generations. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/23
+book.user_id: 1
+book.title: Narrative of the Life of Frederick Douglass, an American Slave
+book.author: Frederick Douglass
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Narrative of the Life of Frederick Douglass, an American Slave" by Frederick Douglass is a memoir written in 1845. This powerful firsthand account chronicles Douglass's experiences in bondage and his determination to gain freedom. From his early separation from his mother to brutal physical abuse under various masters, Douglass recounts the dehumanizing realities of slavery. His secret pursuit of literacy becomes a turning point, opening his mind to the possibility of escape and fueling his journey toward liberation and self-determination. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1513
+book.user_id: 1
+book.title: Romeo and Juliet
+book.author: William Shakespeare
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Romeo and Juliet" by William Shakespeare is a tragedy written between 1591 and 1595. Two young lovers from feuding Italian families meet and fall secretly in love in Verona. Their forbidden romance leads them to marry in secret with a friar's help, hoping to unite their warring households. But family hatred, violent duels, and tragic misunderstandings threaten to destroy their bond. This tale of star-crossed lovers has become the archetypal story of young love and remains one of Shakespeare's most frequently performed plays. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/174
+book.user_id: 1
+book.title: The Picture of Dorian Gray
+book.author: Oscar Wilde
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Picture of Dorian Gray" by Oscar Wilde is a philosophical fiction and Gothic horror novel published in 1890. When a beautiful young man wishes that his portrait would age instead of himself, his desire becomes terrifyingly real. As Dorian pursues a life of pleasure and moral corruption, he remains eternally youthful while his painted image transforms into a horrifying record of his sins. Wilde explores beauty, morality, and the dangerous influence of hedonistic philosophy in this tale of vanity and its consequences. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/55
+book.user_id: 1
+book.title: The Wonderful Wizard of Oz
+book.author: L. Frank (Lyman Frank) Baum
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Wonderful Wizard of Oz" by L. Frank Baum is a children's novel written in 1900. When a cyclone sweeps young Dorothy and her dog Toto from Kansas to the magical Land of Oz, she discovers only one way home: she must destroy the Wicked Witch of the West. Joined by a Scarecrow seeking brains, a Tin Woodman wanting a heart, and a Cowardly Lion desiring courage, Dorothy follows the yellow brick road to seek help from the mysterious Wizard of Oz. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/46
+book.user_id: 1
+book.title: A Christmas Carol in Prose; Being a Ghost Story of Christmas
+book.author: Charles Dickens
+book.status: ACTIVE
+book.condition: NEW
+book.description: "A Christmas Carol in Prose; Being a Ghost Story of Christmas" by Charles Dickens is a novella published in 1843. It tells the story of Ebenezer Scrooge, a greedy miser who despises Christmas. Through supernatural visits from four ghosts—Jacob Marley and the spirits of Christmas Past, Present, and Future—Scrooge undergoes a profound transformation. This beloved tale has become one of Dickens's most famous works, adapted countless times across virtually every medium and performance genre since its publication. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/64317
+book.user_id: 1
+book.title: The Great Gatsby
+book.author: F. Scott (Francis Scott) Fitzgerald
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Great Gatsby" by F. Scott Fitzgerald is a novel published in 1925. Set in the Jazz Age on Long Island, it follows narrator Nick Carraway as he becomes drawn into the world of his mysterious neighbor, Jay Gatsby, a wealthy millionaire who throws extravagant parties. Gatsby harbors an obsession with reuniting with Daisy Buchanan, a woman from his past now married to the affluent Tom. The story captures the glamour, excess, and moral complexities of 1920s America. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/4300
+book.user_id: 1
+book.title: Ulysses
+book.author: James Joyce
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Ulysses" by James Joyce is a modernist novel published in 1922. It chronicles one day in Dublin—June 16, 1904—following three characters whose experiences mirror Homer's Odyssey. Leopold Bloom parallels Odysseus, his wife Molly echoes Penelope, and Stephen Dedalus reflects Telemachus. Through experimental prose styles and stream of consciousness technique, Joyce explores themes of identity, Irish life, and human consciousness. The novel's complexity, literary allusions, and revolutionary approach to depicting thought have made it one of modernism's most celebrated and debated works. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/1232
+book.user_id: 1
+book.title: The Prince
+book.author: Niccolò Machiavelli
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Prince" by Niccolò Machiavelli is a political treatise written in 1513 and published in 1532. Presented as an instruction guide for new rulers, this controversial work suggests that immoral acts may be necessary to achieve political power and glory. Written in vernacular Italian rather than Latin, it breaks from traditional advice literature by focusing on practical effectiveness over abstract ideals. Its worldview challenged dominant Catholic doctrines of the time, making "Machiavellian" synonymous with political cunning and contributing to modern negative connotations of politics itself. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/2600
+book.user_id: 1
+book.title: War and Peace
+book.author: Leo Tolstoy
+book.status: ACTIVE
+book.condition: NEW
+book.description: "War and Peace" by graf Leo Tolstoy is a literary work published in 1869. Set during the Napoleonic Wars, it chronicles the French invasion of Russia through five interlocking narratives following different Russian aristocratic families. The work blends fictional storytelling with philosophical discussions about history, war, and power. Tolstoy himself hesitated to classify it, saying it is "not a novel, even less is it a poem, and still less a historical chronicle." It remains one of the most praised classics of world literature. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/30601
+book.user_id: 1
+book.title: How to analyze people on sight through the science of human analysis : the…
+book.author: Elsie Lincoln Benedict
+book.status: ACTIVE
+book.condition: NEW
+book.description: "How to Analyze People on Sight" by Elsie Lincoln Benedict and Ralph Paine Benedict is a guide on human analysis written in the early 20th century. The book explores the idea that people's physical characteristics provide insight into their personality types and behaviors, introducing a system to help readers classify individuals into five main human types. It aims to help readers understand themselves and others better, enhancing interpersonal relationships and personal success. The opening of the book emphasizes the importance of self-understanding and understanding others in navigating the complexities of human interaction. The authors discuss the connection between one's physical attributes and inherent personality traits, likening human beings to cars in terms of their capabilities and potential. By recognizing and adapting to the diverse types of people in their lives, readers are encouraged to learn how to foster cooperation and success in both personal and professional settings. The groundwork is laid for a detailed exploration of the five distinct types, starting with the Alimentive type, described as "The Enjoyer." (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/768
+book.user_id: 1
+book.title: Wuthering Heights
+book.author: Emily Brontë
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Wuthering Heights" by Emily Brontë is a novel published in 1847. Set on the Yorkshire moors, it follows two landowning families and their turbulent relationships with Heathcliff, a mysterious foster son. Driven by obsessive love, possession, and revenge that spans generations, the story unfolds through dark passion and cruelty. This Gothic tale challenged Victorian morality with its depictions of abuse and class conflict, ultimately becoming a cornerstone of English literature despite its initially polarized reception. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/158
+book.user_id: 1
+book.title: Emma
+book.author: Jane Austen
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Emma" by Jane Austen is a novel published in December 1815. Set in the village of Highbury, it follows Emma Woodhouse, a privileged young woman who fancies herself a matchmaker. Confident in her abilities, Emma meddles in the romantic lives of those around her, particularly her new friend Harriet Smith. But her misguided interventions lead to misunderstandings, hurt feelings, and unexpected revelations. Through a series of social missteps and romantic entanglements, Emma must confront her own blindness about matters of the heart. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/35
+book.user_id: 1
+book.title: The Time Machine
+book.author: H. G. (Herbert George) Wells
+book.status: ACTIVE
+book.condition: NEW
+book.description: "The Time Machine" by H. G. Wells is a science fiction novella published in 1895. A Victorian scientist known as the Time Traveller journeys to the year 802,701, where he discovers humanity has evolved into two distinct species: the childlike Eloi and the savage Morlocks. This groundbreaking work popularized the concept of time travel and coined the term "time machine." Wells crafts a haunting vision of the future that explores class divisions and social inequality, taking readers on an unforgettable adventure through time's darkest possibilities. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------
+URL: https://www.gutenberg.org/ebooks/2554
+book.user_id: 1
+book.title: Crime and Punishment
+book.author: Fyodor Dostoyevsky
+book.status: ACTIVE
+book.condition: NEW
+book.description: "Crime and Punishment" by Fyodor Dostoevsky is a novel published in 1866. It follows Rodion Raskolnikov, an impoverished former law student in Saint Petersburg who plans to murder an unscrupulous pawnbroker. He convinces himself that certain crimes are justifiable if committed by "extraordinary" men pursuing higher goals. Once the deed is done, however, he is consumed by confusion, paranoia, and guilt as his theoretical justifications crumble and he faces the internal and external consequences of his actions. (This is an automatically generated summary.) ...  Show Less
+------------------------------------------------------------

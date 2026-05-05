@@ -1,0 +1,17 @@
+site_name: BookSharingWeb — отчёт
+theme:
+  name: material
+  language: ru
+
+nav:
+  - ЛР1:
+      - Задание: lr1/report.md
+      - Практика:
+          - Практика 1: lr1/practice/p1.md
+          - Практика 2: lr1/practice/p2.md
+          - Практика 3: lr1/practice/p3.md
+          - Дополнительное задание: lr1/practice/dop.md
+  - ЛР2:
+      - Отчёт: lr2/report.md
+  - ЛР3:
+      - Отчёт: lr3/report.md

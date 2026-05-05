@@ -1,0 +1,68 @@
+services:
+  db:
+    image: postgres:15
+    container_name: booksharing_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booksharing
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  migrate:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "alembic upgrade head"
+
+  seed:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      - migrate
+    command: sh -c "python seed_user.py"
+
+  redis:
+    image: redis:7-alpine
+    container_name: booksharing_redis
+    ports:
+      - "6379:6379"
+
+  main_app:
+    build: .
+    container_name: booksharing_main
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - seed
+
+  celery_worker:
+    build: .
+    container_name: booksharing_celery
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
+      - migrate
+      - seed
+    command: celery -A celery_app.celery_app worker --loglevel=info
+
+volumes:
+  pgdata:
