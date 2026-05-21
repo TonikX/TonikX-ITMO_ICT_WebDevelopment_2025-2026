@@ -29,6 +29,10 @@ nav:
       - Практика 1.1 — Базовый FastAPI: lab1_sem2/docs/practice1.md
       - Практика 1.2 — SQLModel + PostgreSQL: lab1_sem2/docs/practice2.md
       - Практика 1.3 — Alembic + JWT: lab1_sem2/docs/practice3.md
+  - Лабораторная работа №2 (2 семестр) — Потоки/процессы/async:
+      - Главная: lab2_sem2/docs/index.md
+      - Задание 1 — Сумма 1..N: lab2_sem2/docs/task1.md
+      - Задание 2 — Параллельный парсер: lab2_sem2/docs/task2.md
   - Лабораторная работа №3 (2 семестр) — Docker + Celery:
       - Главная: lab3_sem2/docs/index.md
       - Подзадача 1 — Docker: lab3_sem2/docs/subtask1.md
