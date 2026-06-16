@@ -1,0 +1,69 @@
+site_name: Лабораторные работы
+site_description: Отчёт по лабораторным работам по разработке серверного приложения на FastAPI
+site_author: Pulse Team
+
+repo_name: pulse-labs-report
+repo_url: https://github.com/your-org/your-repo
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Тёмная тема
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Светлая тема
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+
+plugins:
+  - search:
+      lang: ru
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - def_list
+  - footnotes
+
+nav:
+  - Главная: index.md
+  - Лабораторная 1 — FastAPI: lab1-fastapi.md
+  - Лабораторная 2 — Асинхронность: lab2-async.md
+  - Лабораторная 3 — Docker и очереди: lab3-docker.md
+
+extra:
+  social: []
+  generator: false
+
+copyright: Лабораторные работы · Pulse Platform
