@@ -1,0 +1,41 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Удаление регистрации{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-trash"></i> Удаление регистрации</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    Вы уверены, что хотите отменить регистрацию?
+                </div>
+                
+                <h5>{{ registration.conference.title }}</h5>
+                <p class="text-muted">
+                    <i class="bi bi-calendar"></i> Дата регистрации: {{ registration.registration_date|date:"d.m.Y" }}<br>
+                    {% if registration.theme %}
+                        <i class="bi bi-journal-text"></i> Тема доклада: {{ registration.theme }}
+                    {% endif %}
+                </p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Да, удалить
+                        </button>
+                        <a href="{% url 'conference_detail' registration.conference.id %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Нет, отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о владельце</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .info-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .info-section h2 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .field {
+            margin: 10px 0;
+        }
+        .field strong {
+            color: #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .no-data {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Информация о владельце автомобиля</h1>
+        
+        <div class="info-section">
+            <h2>Личная информация</h2>
+            <div class="field">
+                <strong>Имя пользователя:</strong> {{ owner.username }}
+            </div>
+            <div class="field">
+                <strong>Email:</strong> {{ owner.email }}
+            </div>
+            <div class="field">
+                <strong>Имя:</strong> {{ owner.first_name }}
+            </div>
+            <div class="field">
+                <strong>Фамилия:</strong> {{ owner.last_name }}
+            </div>
+            <div class="field">
+                <strong>Номер паспорта:</strong> {{ owner.passport_number|default:"Не указан" }}
+            </div>
+            <div class="field">
+                <strong>Национальность:</strong> {{ owner.nationality|default:"Не указана" }}
+            </div>
+            <div class="field">
+                <strong>Дата рождения:</strong> {{ owner.birth_date|default:"Не указана" }}
+            </div>
+            <div class="field">
+                <strong>Домашний адрес:</strong> {{ owner.home_address|default:"Не указан" }}
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Водительские удостоверения</h2>
+            {% if licenses %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Номер удостоверения</th>
+                            <th>Тип</th>
+                            <th>Дата выдачи</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for license in licenses %}
+                        <tr>
+                            <td>{{ license.license_number }}</td>
+                            <td>{{ license.get_license_type_display }}</td>
+                            <td>{{ license.issue_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">У владельца нет водительских удостоверений</p>
+            {% endif %}
+        </div>
+
+        <div class="info-section">
+            <h2>Автомобили</h2>
+            {% if ownerships %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Марка</th>
+                            <th>Модель</th>
+                            <th>Цвет</th>
+                            <th>Гос. номер</th>
+                            <th>Дата начала владения</th>
+                            <th>Дата окончания владения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ownership in ownerships %}
+                        <tr>
+                            <td>{{ ownership.car.brand }}</td>
+                            <td>{{ ownership.car.model }}</td>
+                            <td>{{ ownership.car.color }}</td>
+                            <td>{{ ownership.car.state_number }}</td>
+                            <td>{{ ownership.start_date }}</td>
+                            <td>{{ ownership.end_date|default:"В настоящее время" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">У владельца нет автомобилей</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

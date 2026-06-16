@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Задания - Доска домашних заданий{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-list-task"></i> Список заданий</h2>
+            {% if user.is_authenticated and user.role in 'teacher,admin' %}
+                <a href="{% url 'assignment_create' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Создать задание
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Search Form -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="search-form">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Поиск</label>
+                    <input type="text" class="form-control" id="search" name="search" 
+                           value="{{ request.GET.search }}" placeholder="Поиск по названию или описанию...">
+                </div>
+                <div class="col-md-3">
+                    <label for="subject" class="form-label">Предмет</label>
+                    <select class="form-select" id="subject" name="subject">
+                        <option value="">Все предметы</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}" 
+                                    {% if request.GET.subject == subject.id|stringformat:"s" %}selected{% endif %}>
+                                {{ subject.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Статус</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="">Все задания</option>
+                        <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Активные</option>
+                        <option value="overdue" {% if request.GET.status == 'overdue' %}selected{% endif %}>Просроченные</option>
+                        {% if user.is_authenticated and user.role == 'student' %}
+                            <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Выполненные</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Найти
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Assignments List -->
+<div class="row">
+    {% for assignment in assignments %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card assignment-card h-100 {% if assignment.is_overdue %}overdue{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title">
+                            <a href="{% url 'assignment_detail' assignment.pk %}" class="text-decoration-none">
+                                {{ assignment.title }}
+                            </a>
+                        </h5>
+                        <span class="badge bg-primary">{{ assignment.max_points }} баллов</span>
+                    </div>
+                    
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-book"></i> {{ assignment.subject.name }}
+                    </p>
+                    
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-person"></i> {{ assignment.teacher.get_full_name|default:assignment.teacher.username }}
+                    </p>
+                    
+                    <p class="card-text text-truncate-3">
+                        {{ assignment.description }}
+                    </p>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar"></i> 
+                            Срок: {{ assignment.due_date|date:"d.m.Y H:i" }}
+                        </small>
+                        {% if assignment.is_overdue %}
+                            <br><small class="text-danger">
+                                <i class="bi bi-exclamation-triangle"></i> Просрочено
+                            </small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="assignment-status {% if assignment.is_overdue %}overdue{% else %}active{% endif %}">
+                            {% if assignment.is_overdue %}Просрочено{% else %}Активно{% endif %}
+                        </span>
+                        
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'assignment_detail' assignment.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Подробнее
+                            </a>
+                            {% if user.is_authenticated and user.role == 'student' %}
+                                <a href="{% url 'submit_assignment' assignment.pk %}" class="btn btn-sm btn-success">
+                                    <i class="bi bi-send"></i> Сдать
+                                </a>
+                            {% endif %}
+                            {% if user.is_authenticated and user.role in 'teacher,admin' and assignment.teacher == user or user.role == 'admin' %}
+                                <a href="{% url 'assignment_update' assignment.pk %}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <h4 class="text-muted mt-3">Задания не найдены</h4>
+                <p class="text-muted">Попробуйте изменить параметры поиска</p>
+                {% if user.is_authenticated and user.role in 'teacher,admin' %}
+                    <a href="{% url 'assignment_create' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Создать первое задание
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+    <nav aria-label="Навигация по страницам" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.subject %}subject={{ request.GET.subject }}&{% endif %}{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page=1">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.subject %}subject={{ request.GET.subject }}&{% endif %}{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.previous_page_number }}">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.subject %}subject={{ request.GET.subject }}&{% endif %}{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ num }}">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.subject %}subject={{ request.GET.subject }}&{% endif %}{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.next_page_number }}">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}{% if request.GET.subject %}subject={{ request.GET.subject }}&{% endif %}{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.paginator.num_pages }}">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-submit form on status change
+    document.getElementById('status').addEventListener('change', function() {
+        this.form.submit();
+    });
+    
+    // Auto-submit form on subject change
+    document.getElementById('subject').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
+{% endblock %}

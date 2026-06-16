@@ -1,0 +1,105 @@
+site_name: "Отчёт по лабораторным работам"
+site_description: "Все лабораторные работы по предмету Web Development 2025-2026"
+site_author: "Кутуков Даниил"
+site_url: "https://dfgion.github.io/TonikX-ITMO_ICT_WebDevelopment_2025-2026/"
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Переключить на темную тему
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Переключить на светлую тему
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+repo_url: https://github.com/TonikX/ITMO_ICT_WebDevelopment_2025-2026
+repo_name: ITMO WebDev 2025-2026
+
+nav:
+  - Главная: index.md
+  - Лабораторная работа 1:
+    - Обзор: lr1/index.md
+    - Задание 1: lr1/task1.md
+    - Задание 2: lr1/task2.md
+    - Задание 3: lr1/task3.md
+    - Задание 4: lr1/task4.md
+    - Задание 5: lr1/task5.md
+  - Лабораторная работа 2:
+    - Обзор: lr2/index.md
+    - Доска домашних заданий:
+      - Обзор: lr2/homework_board/index.md
+      - Модели данных: lr2/homework_board/models.md
+      - Представления: lr2/homework_board/views.md
+      - Формы: lr2/homework_board/forms.md
+      - URL маршруты: lr2/homework_board/urls.md
+      - Шаблоны: lr2/homework_board/templates.md
+      - Настройка: lr2/homework_board/setup.md
+    - Учебный проект:
+      - Обзор: lr2/tutorial/index.md
+      - Модели данных: lr2/tutorial/models.md
+      - Представления: lr2/tutorial/views.md
+      - Формы: lr2/tutorial/forms.md
+      - URL маршруты: lr2/tutorial/urls.md
+      - Шаблоны: lr2/tutorial/templates.md
+      - Настройка: lr2/tutorial/setup.md
+  - Лабораторная работа 3:
+    - Обзор: lr3/index.md
+    - Система управления колледжем: lr3/college_system.md
+    - Практическая работа 3.1: lr3/pr3_1.md
+    - Практическая работа 3.2: lr3/pr3_2.md
+  - Лабораторная работа 4:
+    - Обзор: lr4/index.md
+    - Vue.js приложение: lr4/college_app.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - meta
+
+plugins:
+  - search
+  - mermaid2
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/TonikX/ITMO_ICT_WebDevelopment_2025-2026

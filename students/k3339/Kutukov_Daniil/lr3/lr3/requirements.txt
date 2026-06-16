@@ -1,0 +1,5 @@
+Django>=5.0,<6.0
+djangorestframework>=3.14,<4.0
+djoser>=2.2,<3.0
+mkdocs>=1.5,<2.0
+mkdocs-material>=9.0,<10.0

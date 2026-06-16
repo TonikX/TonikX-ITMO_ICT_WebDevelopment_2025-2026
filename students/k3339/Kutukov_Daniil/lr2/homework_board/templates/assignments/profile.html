@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="bi bi-person-circle me-2"></i>
+                        Профиль пользователя: {{ user.get_full_name|default:user.username }}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Информация о пользователе</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Имя пользователя:</strong></td>
+                                    <td>{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>{{ user.email|default:"Не указан" }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Имя:</strong></td>
+                                    <td>{{ user.first_name|default:"Не указано" }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Фамилия:</strong></td>
+                                    <td>{{ user.last_name|default:"Не указана" }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Дата регистрации:</strong></td>
+                                    <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Последний вход:</strong></td>
+                                    <td>{{ user.last_login|date:"d.m.Y H:i"|default:"Никогда" }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Статистика</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body text-center">
+                                            <h4>{{ total_submissions }}</h4>
+                                            <p class="mb-0">Всего сдач</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card bg-success text-white">
+                                        <div class="card-body text-center">
+                                            <h4>{{ total_grades }}</h4>
+                                            <p class="mb-0">Оценок получено</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if subject_stats %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-graph-up me-2"></i>
+                        Статистика по предметам
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Предмет</th>
+                                    <th>Всего заданий</th>
+                                    <th>Сдано</th>
+                                    <th>Оценено</th>
+                                    <th>Средний балл</th>
+                                    <th>Процент сдачи</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject, stats in subject_stats.items %}
+                                <tr>
+                                    <td><strong>{{ subject }}</strong></td>
+                                    <td>{{ stats.total_assignments }}</td>
+                                    <td>
+                                        <span class="badge bg-info">{{ stats.submitted }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">{{ stats.graded }}</span>
+                                    </td>
+                                    <td>
+                                        {% if stats.avg_grade > 0 %}
+                                            <span class="badge bg-primary">{{ stats.avg_grade }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if stats.total_assignments > 0 %}
+                                            {% widthratio stats.submitted stats.total_assignments 100 %}%
+                                        {% else %}
+                                            0%
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-list-check me-2"></i>
+                        Последние сдачи
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if user_submissions %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Задание</th>
+                                        <th>Предмет</th>
+                                        <th>Дата сдачи</th>
+                                        <th>Статус</th>
+                                        <th>Оценка</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for submission in user_submissions|slice:":10" %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'assignment_detail' submission.assignment.pk %}">
+                                                {{ submission.assignment.title }}
+                                            </a>
+                                        </td>
+                                        <td>{{ submission.assignment.subject.name }}</td>
+                                        <td>
+                                            {% if submission.submitted_at %}
+                                                {{ submission.submitted_at|date:"d.m.Y H:i" }}
+                                            {% else %}
+                                                <span class="text-muted">Не сдано</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if submission.submitted_at %}
+                                                <span class="badge bg-success">Сдано</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">В работе</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if submission.grade %}
+                                                <span class="badge bg-primary">{{ submission.grade.points }}</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if user_submissions.count > 10 %}
+                            <div class="text-center mt-3">
+                                <a href="{% url 'my_submissions' %}" class="btn btn-outline-primary">
+                                    Показать все сдачи
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="bi bi-inbox display-4"></i>
+                            <p class="mt-3">У вас пока нет сдач заданий</p>
+                            <a href="{% url 'assignment_list' %}" class="btn btn-primary">
+                                Посмотреть доступные задания
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
