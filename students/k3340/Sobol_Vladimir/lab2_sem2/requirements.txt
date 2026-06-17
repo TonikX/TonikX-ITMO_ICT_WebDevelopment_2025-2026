@@ -1,0 +1,4 @@
+requests>=2.31
+beautifulsoup4>=4.12
+aiohttp>=3.9
+sqlmodel>=0.0.16

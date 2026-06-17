@@ -1,0 +1,11 @@
+fastapi[all]==0.115.6
+uvicorn[standard]==0.32.1
+sqlmodel==0.0.22
+psycopg2-binary==2.9.10
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+pyjwt==2.10.1
+requests==2.32.3
+beautifulsoup4==4.12.3
+celery[redis]==5.4.0
+redis==5.2.1
